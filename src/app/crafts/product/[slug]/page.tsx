@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { CRAFT_PRODUCTS, getCraftBySlug } from '@/lib/crafts-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 import TryWithSIModal from '@/components/crafts/TryWithSIModal'
+import ProductViewer3D, { ModelType } from '@/components/3d/ProductViewer3D'
 
 export default function CraftProductDetailPage() {
   const params = useParams()
@@ -21,6 +22,20 @@ export default function CraftProductDetailPage() {
   const [quantity, setQuantity] = useState(1)
   const [addedToast, setAddedToast] = useState(false)
   const [siModalOpen, setSiModalOpen] = useState(false)
+  const [viewer3DOpen, setViewer3DOpen] = useState(false)
+
+  const is3DSupported =
+    product.category === 'home-heritage' ||
+    product.category === 'heritage-gifting' ||
+    product.slug.includes('box') ||
+    product.slug.includes('walnut') ||
+    product.slug.includes('papier')
+
+  const craftModelType: ModelType = product.slug.includes('walnut')
+    ? 'walnut-chest'
+    : product.slug.includes('papier')
+    ? 'papier-mache'
+    : 'gift-box'
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
@@ -184,6 +199,30 @@ export default function CraftProductDetailPage() {
                   className="w-full py-2.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-lg font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
                 >
                   Launch Try with SI →
+                </button>
+              </div>
+            )}
+
+            {/* 3D Craft & Packaging Inspection Callout */}
+            {is3DSupported && (
+              <div className="p-4 rounded-xl bg-white border border-[#C9A45C]/50 space-y-3 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🏛️</span>
+                    <span className="font-serif font-bold text-sm text-[#17233B]">3D Artisan Inspection</span>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-[#176B68] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    360° PBR
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-600 font-light leading-relaxed">
+                  Inspect the handcrafted woodwork, brass latches, or lacquered gold leaf detailing from every angle in real-time 3D.
+                </p>
+                <button
+                  onClick={() => setViewer3DOpen(true)}
+                  className="w-full py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2"
+                >
+                  <span>Inspect in 3D View →</span>
                 </button>
               </div>
             )}
@@ -375,6 +414,16 @@ export default function CraftProductDetailPage() {
         isOpen={siModalOpen}
         onClose={() => setSiModalOpen(false)}
         initialProduct={product}
+      />
+
+      {/* 3D Craft & Keepsake Viewer */}
+      <ProductViewer3D
+        isOpen={viewer3DOpen}
+        onClose={() => setViewer3DOpen(false)}
+        productName={product.name}
+        modelType={craftModelType}
+        price={product.price}
+        onAddToCart={handleAddToCart}
       />
     </main>
   )

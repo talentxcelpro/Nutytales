@@ -2,11 +2,15 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import HomepageHero3D from '@/components/3d/HomepageHero3D'
 
 export default function Hero() {
   return (
     <section className="relative min-h-[75vh] lg:min-h-[82vh] flex items-center bg-[#F7F2E8] pt-24 pb-16 lg:py-0 overflow-hidden border-b border-[#17233B]/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      {/* Progressive 3D Ambient WebGL Layer */}
+      <HomepageHero3D />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column (45%) */}
           <div className="lg:col-span-5 space-y-6 lg:pr-6">

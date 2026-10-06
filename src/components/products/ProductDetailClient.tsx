@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import ProductViewer3D, { ModelType } from '@/components/3d/ProductViewer3D'
 
 interface ProductDetailClientProps {
   product: Product
@@ -17,6 +18,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const [selectedTierIndex, setSelectedTierIndex] = useState(0) // 5kg default
   const [quantity, setQuantity] = useState(1)
   const [addedMessage, setAddedMessage] = useState('')
+  const [viewer3DOpen, setViewer3DOpen] = useState(false)
+
+  const modelType: ModelType =
+    product.slug.includes('box') || product.slug.includes('hamper')
+      ? 'gift-box'
+      : product.slug.includes('walnut')
+      ? 'walnut-chest'
+      : product.slug.includes('saffron') || product.slug.includes('honey')
+      ? 'papier-mache'
+      : 'pouch'
 
   const currentVariant = product.variants[selectedVariantIndex] || product.variants[0]
   const currentTier = product.b2bTiers[selectedTierIndex] || product.b2bTiers[0]
@@ -86,6 +97,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </span>
           </div>
         </div>
+
+        {/* 3D Interactive Inspection Trigger */}
+        <button
+          type="button"
+          onClick={() => setViewer3DOpen(true)}
+          className="w-full py-3 px-4 rounded-2xl bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all group"
+        >
+          <span className="w-2 h-2 rounded-full bg-[#C9A45C] group-hover:scale-125 transition-transform" />
+          <span>View Packaging in 3D (360° PBR)</span>
+        </button>
 
         {/* Origin & Trust Strip */}
         <div className="bg-white p-4 rounded-2xl border border-stone-200 space-y-2 text-xs text-stone-600">
@@ -327,6 +348,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           </p>
         </div>
       </div>
+
+      {/* 3D Product & Packaging Inspection Modal */}
+      <ProductViewer3D
+        isOpen={viewer3DOpen}
+        onClose={() => setViewer3DOpen(false)}
+        productName={product.name}
+        modelType={modelType}
+        price={unitPrice}
+        onAddToCart={handleAddToCart}
+      />
     </div>
   )
 }

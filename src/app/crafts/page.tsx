@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CRAFT_PRODUCTS, CRAFT_CATEGORIES, CraftProduct } from '@/lib/crafts-data'
 import TryWithSIModal from '@/components/crafts/TryWithSIModal'
+import KashmirStory4D from '@/components/crafts/KashmirStory4D'
 
 export default function CraftsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -191,6 +192,9 @@ export default function CraftsPage() {
             </button>
           ))}
         </div>
+
+        {/* 4D-Style Cinematic Kashmir Narrative */}
+        <KashmirStory4D />
       </section>
 
       {/* ── 4. Main Fall / Winter 2026 Collection Showcase ───────────────────────── */}

@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const geistSans = Geist({
@@ -195,6 +196,9 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+
+        {/* ── Global SI Intelligent Concierge Assistant ── */}
+        <SIFloatingAssistant />
       </body>
     </html>
   );
