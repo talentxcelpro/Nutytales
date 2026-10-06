@@ -8,8 +8,10 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const NAV_LINKS = [
   { label: 'Shop', href: '/shop' },
-  { label: 'Wholesale', href: '/wholesale-dry-fruits' },
-  { label: 'Corporate Gifting', href: '/corporate-gifting' },
+  { label: 'Business Supply', href: '/business-supply' },
+  { label: 'Gifting', href: '/gifting' },
+  { label: 'Weddings', href: '/weddings', badge: 'Bespoke' },
+  { label: 'Crafts', href: '/crafts', badge: "FW '26" },
   { label: 'Stays', href: '/stays' },
   { label: 'Travel', href: '/travel/kashmir' },
 ]
@@ -46,7 +48,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo Left */}
-            <Link href="/" className="flex items-center gap-3.5 group">
+            <Link href="/" className="flex items-center gap-3.5 group flex-shrink-0">
               <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-[#17233B]/10 bg-white p-0.5 flex-shrink-0 shadow-sm">
                 <Image
                   src="/images/logo.jpg"
@@ -62,46 +64,47 @@ export default function Navbar() {
                   Nutty Tales
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#704B32] font-medium mt-1">
-                  Wholesome Nutty Delights
+                  Taste · Gift · Wear · Stay · Explore
                 </span>
               </div>
             </Link>
 
             {/* Navigation Center */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden xl:flex items-center space-x-6">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-xs uppercase tracking-widest font-semibold transition-colors py-1 relative ${
+                  className={`text-[11px] uppercase tracking-widest font-semibold transition-colors py-1 relative flex items-center gap-1.5 ${
                     isActive(link.href)
                       ? 'text-[#176B68] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#176B68]'
                       : 'text-[#17233B]/80 hover:text-[#176B68]'
                   }`}
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  {link.badge && (
+                    <span className="bg-[#C9A45C] text-[#17233B] text-[8px] px-1.5 py-0.2 rounded font-extrabold uppercase tracking-normal">
+                      {link.badge}
+                    </span>
+                  )}
                 </Link>
               ))}
             </nav>
 
             {/* Actions Right */}
-            <div className="hidden md:flex items-center space-x-6 text-xs uppercase tracking-wider font-semibold text-[#17233B]">
+            <div className="hidden md:flex items-center space-x-4 text-xs uppercase tracking-wider font-semibold text-[#17233B]">
               <Link
-                href="/bulk-quote"
-                className="text-[#704B32] hover:text-[#176B68] transition-colors"
+                href="/crafts/try-with-si"
+                className="text-[#704B32] hover:text-[#176B68] transition-colors flex items-center gap-1"
+                title="Try on clothing with SI"
               >
-                Bulk Quote
-              </Link>
-              <Link
-                href="/business"
-                className="text-[#704B32] hover:text-[#176B68] transition-colors"
-              >
-                B2B Account
+                <span>✨</span>
+                <span>Try with SI</span>
               </Link>
               <Link
                 href="/cart"
-                className="text-base text-[#17233B] hover:text-[#176B68] transition-colors"
-                aria-label="Cart"
+                className="text-base text-[#17233B] hover:text-[#176B68] transition-colors px-1"
+                aria-label="Shopping Basket"
               >
                 🛒
               </Link>
@@ -109,15 +112,15 @@ export default function Navbar() {
                 href={`https://wa.me/${whatsappPhone}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-[#176B68] hover:bg-[#125350] text-white rounded-md text-[11px] font-semibold tracking-wider uppercase transition-colors"
+                className="px-3.5 py-2 bg-[#176B68] hover:bg-[#125350] text-white rounded-md text-[11px] font-semibold tracking-wider uppercase transition-colors whitespace-nowrap"
               >
                 +91 9717161809
               </a>
             </div>
 
             {/* Mobile Toggle */}
-            <div className="flex items-center gap-3 md:hidden">
-              <Link href="/cart" className="text-xl" aria-label="Cart">
+            <div className="flex items-center gap-3 xl:hidden">
+              <Link href="/cart" className="text-xl" aria-label="Shopping Basket">
                 🛒
               </Link>
               <button
@@ -133,28 +136,39 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileOpen && (
-          <div className="md:hidden bg-[#F7F2E8] border-b border-[#17233B]/10 px-6 py-6 space-y-4">
+          <div className="xl:hidden bg-[#F7F2E8] border-b border-[#17233B]/10 px-6 py-6 space-y-4 shadow-xl">
             <nav className="space-y-3 text-sm font-semibold tracking-wide text-[#17233B]">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
+                  className="flex items-center justify-between py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  {link.badge && (
+                    <span className="bg-[#C9A45C] text-[#17233B] text-[9px] px-2 py-0.5 rounded font-extrabold uppercase">
+                      {link.badge}
+                    </span>
+                  )}
                 </Link>
               ))}
+              <Link
+                href="/crafts/try-with-si"
+                className="block py-2 border-b border-[#17233B]/5 text-[#176B68] font-bold"
+              >
+                ✨ Try with SI Studio
+              </Link>
+              <Link
+                href="/wholesale-dry-fruits"
+                className="block py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
+              >
+                Wholesale Portal
+              </Link>
               <Link
                 href="/bulk-quote"
                 className="block py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
               >
                 Request Bulk Quote
-              </Link>
-              <Link
-                href="/business"
-                className="block py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
-              >
-                Business Account
               </Link>
             </nav>
             <div className="pt-2">
@@ -171,12 +185,12 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Floating subtle WhatsApp icon */}
+      {/* Floating subtle WhatsApp button */}
       <a
         href={`https://wa.me/${whatsappPhone}`}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="WhatsApp"
+        aria-label="WhatsApp Concierge"
         className="fixed bottom-6 right-6 z-50 w-13 h-13 bg-[#176B68] hover:bg-[#125350] text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 border border-white/40"
       >
         <span className="text-xl">💬</span>

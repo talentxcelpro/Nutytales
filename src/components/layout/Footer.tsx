@@ -4,46 +4,45 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/con
 
 const FOOTER_COLS = [
   {
-    title: 'Collection',
+    title: 'Foods & Dry Fruits',
     links: [
-      { label: 'All Dry Fruits', href: '/shop' },
-      { label: 'California & Kashmir Almonds', href: '/shop?category=almonds' },
-      { label: 'W180 & W240 Cashews', href: '/shop?category=cashews' },
-      { label: 'Kashmiri Snow Walnuts', href: '/shop?category=walnuts' },
-      { label: 'Mithila Phool Makhana', href: '/makhana' },
-      { label: 'Iranian & Afghan Pistachios', href: '/shop?category=pistachios' },
+      { label: 'All Dry Fruits & Foods', href: '/shop' },
+      { label: 'Kashmiri Kagzi & Mamra Badam', href: '/shop?category=almonds' },
+      { label: 'Kashmiri Kagzi Akhrot (Walnuts)', href: '/shop?category=walnuts' },
+      { label: 'Pure Mongra Saffron (Pampore & Iran)', href: '/shop?category=saffron' },
+      { label: 'Kashmiri Acacia & Sidr Honey', href: '/shop?category=honey' },
+      { label: 'Mithila Phool Makhana Jumbo', href: '/makhana' },
+    ],
+  },
+  {
+    title: "Crafts & Heritage (FW '26)",
+    links: [
+      { label: 'Fall / Winter 2026 Lookbook', href: '/crafts' },
+      { label: 'Try with SI — Virtual Drape', href: '/crafts/try-with-si' },
+      { label: 'Kani & Sozni Pashmina Shawls', href: '/crafts/kashmir/shawls' },
+      { label: 'Kashmiri Pure Wool Pherans', href: '/crafts/kashmir/pherans' },
+      { label: 'Fine Cashmere & Merino Stoles', href: '/crafts/kashmir/stoles' },
+      { label: 'Aari Velvet Long Coats & Jackets', href: '/crafts/kashmir/jackets-coats' },
+      { label: 'Carved Walnut Wood & Papier-Mâché', href: '/crafts/kashmir' },
     ],
   },
   {
     title: 'Wholesale & B2B',
     links: [
-      { label: 'Commercial Sourcing Portal', href: '/wholesale-dry-fruits' },
+      { label: 'Commercial Dry Fruit Sourcing', href: '/wholesale-dry-fruits' },
       { label: 'Noida Central Procurement Hub', href: '/wholesale-dry-fruits/noida' },
-      { label: 'Kashmir / Srinagar Distribution', href: '/wholesale-dry-fruits/kashmir' },
+      { label: 'Srinagar / Kashmir Distribution', href: '/wholesale-dry-fruits/kashmir' },
       { label: 'Patna / Bihar Distribution', href: '/wholesale-dry-fruits/patna' },
       { label: 'Request Bulk Quote (RFQ)', href: '/bulk-quote' },
-      { label: 'B2B Account Registration', href: '/business' },
     ],
   },
   {
-    title: 'Corporate Gifting',
+    title: 'Gifting, Stays & Travel',
     links: [
-      { label: 'Diwali 2026 Collection', href: '/corporate-gifting' },
-      { label: 'Employee Gift Hampers', href: '/corporate-gifting' },
-      { label: 'Client & Executive Boxes', href: '/corporate-gifting' },
-      { label: 'Handcrafted Wooden Chests', href: '/corporate-gifting' },
-      { label: 'Custom Logo Branding', href: '/corporate-gifting' },
-      { label: 'Corporate Quote Request', href: '/corporate-gifting#request-quote' },
-    ],
-  },
-  {
-    title: 'Stays & Travel',
-    links: [
-      { label: 'Nutty Tales Stays Overview', href: '/stays' },
-      { label: 'Kashmir Valley Orchard Stay', href: '/stays/kashmir' },
-      { label: 'Noida Executive Retreat', href: '/stays/noida' },
-      { label: 'Patna Heritage Comfort Stay', href: '/stays/patna' },
-      { label: 'Curated Kashmir Tours', href: '/travel/kashmir' },
+      { label: 'Corporate & Diwali 2026 Gifting', href: '/corporate-gifting' },
+      { label: 'Kashmir Heritage Keepsake Boxes', href: '/crafts' },
+      { label: 'Boutique Stays (Srinagar, Noida, Patna)', href: '/stays' },
+      { label: 'Curated Kashmir Tours & Packages', href: '/travel/kashmir' },
       { label: 'Saffron & Walnut Orchard Walks', href: '/stays' },
     ],
   },
@@ -74,13 +73,13 @@ export default function Footer() {
                   Nutty Tales
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#C9A45C] font-semibold block">
-                  Wholesome Nutty Delights
+                  Taste · Stay · Explore · Discover
                 </span>
               </div>
             </Link>
 
             <p className="text-xs text-stone-300 leading-relaxed max-w-sm font-normal">
-              An integrated gourmet dry-fruit commerce and boutique hospitality network. Connecting the orchards of Kashmir, the Makhana ponds of Bihar, and central procurement in Delhi NCR.
+              An integrated gourmet dry-fruit commerce, luxury Himalayan crafts, and boutique hospitality network. Connecting the orchards &amp; loom clusters of Kashmir, the Makhana ponds of Bihar, and central procurement in Noida, Delhi NCR.
             </p>
 
             <div className="pt-2 text-xs text-stone-300 space-y-1">
@@ -94,24 +93,24 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-[#C9A45C] hover:underline font-semibold"
                 >
-                  💬 WhatsApp / Call: +91 9717161809
+                  💬 WhatsApp Concierge: +91 9717161809
                 </a>
               </p>
             </div>
           </div>
 
-          {/* Navigation Columns (4 cols) */}
+          {/* Nav Columns (4 cols) */}
           {FOOTER_COLS.map((col, idx) => (
-            <div key={idx} className="space-y-3">
-              <h4 className="text-xs uppercase tracking-widest font-semibold text-[#C9A45C]">
+            <div key={idx} className="space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#C9A45C]">
                 {col.title}
               </h4>
-              <ul className="space-y-2 text-xs">
-                {col.links.map((link, i) => (
-                  <li key={i}>
+              <ul className="space-y-2.5 text-xs text-stone-300">
+                {col.links.map((link) => (
+                  <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-stone-300 hover:text-white transition-colors"
+                      className="hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -121,25 +120,26 @@ export default function Footer() {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Bottom Compliance Bar */}
-      <div className="border-t border-white/10 bg-[#0F1726] py-6 text-xs text-stone-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {currentYear} Nutty Tales. All rights reserved.</p>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-stone-400">
-            <span className="text-[#C9A45C] font-semibold">
-              FSSAI Lic. {FSSAI_NUMBER}
-            </span>
-            <span>•</span>
-            <span>GST Tax Invoices</span>
-            <span>•</span>
-            <Link href="/privacy" className="hover:text-white">
+        {/* Bottom Bar */}
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
+          <div className="flex flex-wrap items-center gap-6">
+            <span>© {currentYear} Nutty Tales Private Limited. All rights reserved.</span>
+            <span>FSSAI Reg. No. {FSSAI_NUMBER}</span>
+            <span>Govt. J&amp;K GI Tag Authenticity Certified</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <span>•</span>
-            <Link href="/terms" className="hover:text-white">
-              Terms &amp; Conditions
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/shipping" className="hover:text-white transition-colors">
+              Insured Shipping
+            </Link>
+            <Link href="/sitemap.xml" className="hover:text-white transition-colors">
+              Sitemap
             </Link>
           </div>
         </div>

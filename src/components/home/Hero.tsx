@@ -25,7 +25,7 @@ export default function Hero() {
                 thoughtfully sourced.
               </h1>
               <p className="text-sm sm:text-base text-[#17233B]/80 max-w-md font-normal leading-relaxed">
-                Premium dry fruits for everyday indulgence, wholesale supply, and thoughtful gifting. From California and Kashmir to your home.
+                Premium dry fruits for everyday indulgence, B2B business supply, and bespoke wedding gifting. From California and Kashmir to your home.
               </p>
             </div>
 
@@ -39,32 +39,39 @@ export default function Hero() {
                 Shop Dry Fruits
               </Link>
               <Link
-                href="/wholesale-dry-fruits"
+                href="/business-supply"
                 style={{ borderColor: '#17233B', color: '#17233B' }}
                 className="px-7 py-3.5 border-2 border-[#17233B] text-[#17233B] hover:bg-[#17233B] hover:text-white text-xs uppercase tracking-widest font-semibold rounded-lg transition-all duration-200 inline-block"
               >
-                Wholesale
+                Business Supply
               </Link>
             </div>
 
-            {/* Subtle third option for Stays */}
-            <div className="pt-2">
+            {/* Subtle discovery options */}
+            <div className="pt-2 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs tracking-wider uppercase font-semibold text-[#176B68]">
               <Link
-                href="/stays"
-                className="inline-flex items-center gap-1.5 text-xs tracking-wider uppercase font-semibold text-[#176B68] hover:text-[#214B39] transition-colors"
+                href="/weddings"
+                className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors"
               >
-                <span>Explore Nutty Tales Stays</span>
+                <span>💍 Weddings &amp; Custom Hampers</span>
+                <span className="text-sm">→</span>
+              </Link>
+              <Link
+                href="/crafts"
+                className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors"
+              >
+                <span>❄️ Kashmir Crafts (Try with SI)</span>
                 <span className="text-sm">→</span>
               </Link>
             </div>
 
             {/* Micro Trust Strip */}
-            <div className="pt-6 border-t border-[#17233B]/10 flex items-center gap-6 text-[11px] uppercase tracking-wider text-[#704B32] font-medium">
-              <span>FSSAI Certified</span>
+            <div className="pt-6 border-t border-[#17233B]/10 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-wider text-[#704B32] font-medium">
+              <span>PAN-INDIA DELIVERY</span>
               <span className="text-stone-300">•</span>
-              <span>GST Invoices</span>
+              <span>MULTI-CITY FULFILMENT</span>
               <span className="text-stone-300">•</span>
-              <span>Pan-India Supply</span>
+              <span>FSSAI CERTIFIED</span>
             </div>
           </div>
 
@@ -82,7 +89,7 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Inset floating cards with real Nutty Tales packaging */}
+              {/* Inset floating strip with real Nutty Tales packaging */}
               <div className="absolute bottom-4 left-4 right-4 bg-[#F7F2E8]/95 backdrop-blur-md p-3.5 rounded-xl border border-[#17233B]/10 shadow-sm flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
