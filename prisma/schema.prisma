@@ -1,0 +1,1063 @@
+// This is your Prisma schema file for NuttyTales.com
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ==============================================================
+// ENUMS
+// ==============================================================
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  PROCUREMENT
+  INVENTORY_MANAGER
+  B2B_SALES
+  KASHMIR_SALES
+  PATNA_SALES
+  CUSTOMER_SUPPORT
+  CUSTOMER
+  SUPPLIER
+}
+
+enum BusinessType {
+  WHOLESALER
+  RETAILER
+  SUPERMARKET
+  BAKERY
+  HOTEL
+  RESTAURANT
+  SWEET_SHOP
+  MANUFACTURER
+  DISTRIBUTOR
+  CORPORATE_BUYER
+  CATERER
+  GIFTING_COMPANY
+  OTHER
+}
+
+enum LocationCode {
+  NOIDA
+  SRINAGAR
+  PATNA
+  OTHER
+}
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PAID
+  PROCESSING
+  PACKED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIAL
+}
+
+enum PaymentMethod {
+  UPI
+  CARD
+  NET_BANKING
+  WALLET
+  COD
+  BANK_TRANSFER
+  CREDIT_TERMS
+}
+
+enum QuoteStatus {
+  PENDING
+  REVIEWING
+  SENT
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CONVERTED
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  QUOTE_SENT
+  NEGOTIATION
+  WON
+  LOST
+  REPEAT_CUSTOMER
+}
+
+enum StockStatus {
+  IN_STOCK
+  LOW_STOCK
+  OUT_OF_STOCK
+  DISCONTINUED
+  COMING_SOON
+}
+
+enum CreditStatus {
+  NONE
+  REQUESTED
+  APPROVED
+  SUSPENDED
+}
+
+enum SampleStatus {
+  REQUESTED
+  APPROVED
+  SHIPPED
+  DELIVERED
+  FEEDBACK_RECEIVED
+  CONVERTED
+}
+
+// ==============================================================
+// USER & AUTH
+// ==============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  phone         String?
+  phoneVerified Boolean   @default(false)
+  image         String?
+  passwordHash  String?
+  role          Role      @default(CUSTOMER)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  accounts        Account[]
+  sessions        Session[]
+  businessAccount BusinessAccount?
+  addresses       Address[]
+  orders          Order[]
+  cart            Cart?
+  quotes          Quote[]
+  reviews         Review[]
+  leads           Lead[]
+  supportTickets  SupportTicket[]
+  notifications   Notification[]
+  auditLogs       AuditLog[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ==============================================================
+// BUSINESS ACCOUNT (B2B)
+// ==============================================================
+
+model BusinessAccount {
+  id                  String       @id @default(cuid())
+  userId              String       @unique
+  businessName        String
+  ownerName           String
+  businessType        BusinessType
+  gstin               String?
+  fssaiNumber         String?
+  panNumber           String?
+  city                String
+  state               String
+  expectedMonthlyQty  Float?       // kg per month
+  categoriesOfInterest String[]
+  isVerified          Boolean      @default(false)
+  isApproved          Boolean      @default(false)
+  approvedAt          DateTime?
+  approvedBy          String?
+  notes               String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  // B2B Credit
+  creditLimit    Float        @default(0)
+  creditDays     Int          @default(0)
+  creditUsed     Float        @default(0)
+  creditStatus   CreditStatus @default(NONE)
+  creditApprovedBy String?
+  creditApprovedAt DateTime?
+
+  // CRM
+  leadStatus     LeadStatus   @default(NEW)
+  salesOwner     String?
+  location       LocationCode @default(NOIDA)
+  lastContactAt  DateTime?
+
+  user             User              @relation(fields: [userId], references: [id])
+  orders           Order[]
+  quotes           Quote[]
+  customerPrices   CustomerPrice[]
+  sampleRequests   SampleRequest[]
+
+  @@map("business_accounts")
+}
+
+// ==============================================================
+// ADDRESSES
+// ==============================================================
+
+model Address {
+  id         String  @id @default(cuid())
+  userId     String
+  label      String? // Home, Office, Warehouse
+  name       String
+  phone      String
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  pincode    String
+  country    String  @default("India")
+  isDefault  Boolean @default(false)
+  createdAt  DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id])
+  shippingOrders Order[] @relation("ShippingAddress")
+  billingOrders  Order[] @relation("BillingAddress")
+
+  @@map("addresses")
+}
+
+// ==============================================================
+// LOCATIONS & WAREHOUSES
+// ==============================================================
+
+model Location {
+  id          String       @id @default(cuid())
+  code        LocationCode @unique
+  name        String
+  city        String
+  state       String
+  isActive    Boolean      @default(true)
+
+  // Compliance
+  gstin           String?
+  fssaiNumber     String?
+  fssaiExpiry     DateTime?
+  address         String?
+
+  // Contacts (admin-configurable)
+  phoneSales      String?
+  phoneSupport    String?
+  whatsapp        String?
+  email           String?
+
+  warehouses Warehouse[]
+
+  @@map("locations")
+}
+
+model Warehouse {
+  id          String   @id @default(cuid())
+  locationId  String
+  name        String
+  address     String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  location   Location    @relation(fields: [locationId], references: [id])
+  inventory  Inventory[]
+  shipments  Shipment[]
+
+  @@map("warehouses")
+}
+
+// ==============================================================
+// CATEGORIES
+// ==============================================================
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  parentId    String?
+  image       String?
+  isActive    Boolean    @default(true)
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+  products Product[]
+
+  @@map("categories")
+}
+
+// ==============================================================
+// PRODUCTS
+// ==============================================================
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  sku         String   @unique
+  categoryId  String
+  description String?  @db.Text
+  shortDesc   String?
+
+  // Product Details
+  origin      String?  // California, Afghanistan, Iran, India, Kashmir, Bihar
+  grade       String?  // Premium, Standard, etc.
+  brand       String?
+
+  // Nutritional / Compliance
+  ingredients     String?  @db.Text
+  nutritionInfo   Json?    // per 100g
+  allergenInfo    String?
+  storageInstructions String?
+  shelfLifeDays   Int?
+  fssaiInfo       String?
+
+  // Specs
+  attributes  Json?    // flexible key-value
+
+  // GST
+  gstPercent  Float    @default(5)
+
+  // Status
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  category    Category         @relation(fields: [categoryId], references: [id])
+  variants    ProductVariant[]
+  images      ProductImage[]
+  inventory   Inventory[]
+  reviews     Review[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  quoteItems  QuoteItem[]
+  supplierProducts SupplierProduct[]
+  customerPrices   CustomerPrice[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  name        String   // "250g", "500g", "1kg", "5kg", "10kg", "25kg"
+  sku         String   @unique
+  weightGrams Int      // in grams — 250, 500, 1000, 5000, 25000
+  packType    String?  // Pouch, Box, Bag, Sack
+
+  // Pricing
+  retailPrice Float    // B2C price (MRP)
+  b2bPrice    Float?   // Base B2B price (may be overridden by tiers)
+  costPrice   Float?   // Internal cost (never exposed to customers)
+  mrp         Float?   // Maximum Retail Price
+
+  // Quantity tiers
+  moq         Float    @default(1) // minimum order quantity (in this unit)
+
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product     Product          @relation(fields: [productId], references: [id])
+  priceTiers  B2bPriceTier[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  quoteItems  QuoteItem[]
+
+  @@map("product_variants")
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("product_images")
+}
+
+// ==============================================================
+// B2B PRICE TIERS (quantity-break pricing)
+// ==============================================================
+
+model B2bPriceTier {
+  id        String  @id @default(cuid())
+  variantId String
+  minQty    Float   // minimum quantity (kg or units)
+  maxQty    Float?  // null = unlimited
+  price     Float   // price per kg (or per unit)
+  label     String? // "Tier 1", "Tier 2" etc.
+
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@map("b2b_price_tiers")
+}
+
+// ==============================================================
+// CUSTOMER-SPECIFIC PRICES (negotiated)
+// ==============================================================
+
+model CustomerPrice {
+  id               String  @id @default(cuid())
+  businessAccountId String
+  productId        String
+  price            Float
+  effectiveFrom    DateTime @default(now())
+  effectiveTo      DateTime?
+  approvedBy       String?
+  notes            String?
+
+  businessAccount BusinessAccount @relation(fields: [businessAccountId], references: [id])
+  product         Product         @relation(fields: [productId], references: [id])
+
+  @@unique([businessAccountId, productId])
+  @@map("customer_prices")
+}
+
+// ==============================================================
+// INVENTORY
+// ==============================================================
+
+model Inventory {
+  id            String      @id @default(cuid())
+  productId     String
+  warehouseId   String
+  variantSku    String?
+  
+  available     Float       @default(0) // kg available
+  reserved      Float       @default(0) // kg in open orders
+  incoming      Float       @default(0) // kg on purchase orders
+  
+  reorderPoint  Float?
+  reorderQty    Float?
+  
+  batchNumber   String?
+  expiryDate    DateTime?
+  
+  lastUpdated   DateTime    @default(now()) @updatedAt
+
+  product   Product   @relation(fields: [productId], references: [id])
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@unique([productId, warehouseId])
+  @@map("inventory")
+}
+
+model InventoryMovement {
+  id          String   @id @default(cuid())
+  productId   String
+  warehouseId String
+  type        String   // IN, OUT, RESERVED, RELEASED, ADJUSTMENT
+  quantity    Float
+  reference   String?  // Order ID, Purchase Order ID
+  notes       String?
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  @@map("inventory_movements")
+}
+
+// ==============================================================
+// SUPPLIERS
+// ==============================================================
+
+model Supplier {
+  id           String   @id @default(cuid())
+  name         String
+  company      String?
+  city         String
+  state        String
+  phone        String?
+  email        String?
+  gstin        String?
+  fssaiNumber  String?
+  panNumber    String?
+  origin       String?  // Where they source from
+  paymentTerms String?
+  leadTimeDays Int?
+  rating       Float?   // 1-5 internal rating
+  qualityScore Float?   // 0-100
+  isActive     Boolean  @default(true)
+  notes        String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  products SupplierProduct[]
+
+  @@map("suppliers")
+}
+
+model SupplierProduct {
+  id           String   @id @default(cuid())
+  supplierId   String
+  productId    String
+  purchasePrice Float
+  moq          Float    // minimum order qty kg
+  freightCost  Float?
+  gstPercent   Float    @default(5)
+  landedCost   Float?   // computed
+  priceDate    DateTime @default(now())
+  notes        String?
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
+
+  @@map("supplier_products")
+}
+
+// ==============================================================
+// CART
+// ==============================================================
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  location  LocationCode?
+  updatedAt DateTime   @updatedAt
+
+  user  User       @relation(fields: [userId], references: [id])
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  productId String
+  variantId String
+  quantity  Float   @default(1)
+  isB2B     Boolean @default(false)
+  addedAt   DateTime @default(now())
+
+  cart    Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product        @relation(fields: [productId], references: [id])
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@unique([cartId, variantId])
+  @@map("cart_items")
+}
+
+// ==============================================================
+// ORDERS
+// ==============================================================
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique // NT-2026-000001
+  userId          String
+  businessAccountId String?
+
+  // Addresses
+  shippingAddressId String?
+  billingAddressId  String?
+
+  // Status
+  status          OrderStatus   @default(NEW)
+  paymentStatus   PaymentStatus @default(PENDING)
+
+  // Amounts (in INR)
+  subtotal        Float
+  shippingAmount  Float         @default(0)
+  discountAmount  Float         @default(0)
+  gstAmount       Float
+  totalAmount     Float
+
+  // Location routing
+  fulfilmentLocation LocationCode?
+  warehouseId        String?
+
+  // B2B
+  isB2B           Boolean  @default(false)
+  poNumber        String?
+  gstinBuyer      String?
+  paymentMethod   PaymentMethod?
+  paymentTermsDays Int?
+
+  // Tracking
+  notes           String?
+  source          String?  // organic, direct, b2b-quote, etc.
+  landingPage     String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  confirmedAt     DateTime?
+  deliveredAt     DateTime?
+
+  user            User            @relation(fields: [userId], references: [id])
+  businessAccount BusinessAccount? @relation(fields: [businessAccountId], references: [id])
+  shippingAddress Address?        @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddress  Address?        @relation("BillingAddress", fields: [billingAddressId], references: [id])
+  items           OrderItem[]
+  payments        Payment[]
+  shipments       Shipment[]
+  invoice         Invoice?
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  productId String
+  variantId String
+  productName String // snapshot
+  variantName String // snapshot
+  quantity  Float
+  unitPrice Float
+  gstPercent Float  @default(5)
+  gstAmount Float
+  totalAmount Float
+
+  order   Order          @relation(fields: [orderId], references: [id])
+  product Product        @relation(fields: [productId], references: [id])
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@map("order_items")
+}
+
+// ==============================================================
+// PAYMENTS
+// ==============================================================
+
+model Payment {
+  id              String        @id @default(cuid())
+  orderId         String
+  amount          Float
+  currency        String        @default("INR")
+  method          PaymentMethod
+  status          PaymentStatus @default(PENDING)
+
+  // Gateway fields (Razorpay)
+  gatewayOrderId  String?
+  gatewayPaymentId String?
+  gatewaySignature String?
+
+  // Bank Transfer
+  bankReference   String?
+  transferDate    DateTime?
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  verifiedAt      DateTime?     // server-side verification timestamp
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
+}
+
+// ==============================================================
+// SHIPMENTS
+// ==============================================================
+
+model Shipment {
+  id           String   @id @default(cuid())
+  orderId      String
+  warehouseId  String
+  carrier      String?
+  trackingNumber String?
+  status       String   @default("PENDING") // PENDING, DISPATCHED, IN_TRANSIT, DELIVERED
+  estimatedDelivery DateTime?
+  deliveredAt  DateTime?
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  order     Order     @relation(fields: [orderId], references: [id])
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@map("shipments")
+}
+
+// ==============================================================
+// QUOTES / RFQ
+// ==============================================================
+
+model Quote {
+  id               String      @id @default(cuid())
+  quoteNumber      String      @unique // NTQT-2026-000001
+  userId           String
+  businessAccountId String?
+
+  status           QuoteStatus @default(PENDING)
+  location         LocationCode?
+
+  // Contact
+  businessName     String
+  contactPerson    String
+  phone            String
+  email            String
+  gstin            String?
+  deliveryLocation String?
+  requiredByDate   DateTime?
+  additionalNotes  String?
+
+  // Quote response (admin fills)
+  subtotal         Float?
+  freightAmount    Float?
+  gstAmount        Float?
+  totalAmount      Float?
+  validUntil       DateTime?
+  adminNotes       String?
+  salesOwner       String?
+
+  // Margin control
+  minMarginPercent Float?
+  requiresApproval Boolean @default(false)
+  approvedBy       String?
+
+  // Conversion
+  convertedToOrderId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sentAt    DateTime?
+  acceptedAt DateTime?
+  expiredAt DateTime?
+
+  user            User             @relation(fields: [userId], references: [id])
+  businessAccount BusinessAccount? @relation(fields: [businessAccountId], references: [id])
+  items           QuoteItem[]
+
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id        String @id @default(cuid())
+  quoteId   String
+  productId String
+  variantId String?
+  productName String
+  quantity  Float
+  unit      String  @default("kg") // kg, units
+  requestedPrice Float?
+  quotedPrice    Float?
+  gstPercent     Float?
+  notes     String?
+
+  quote   Quote          @relation(fields: [quoteId], references: [id])
+  product Product        @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@map("quote_items")
+}
+
+// ==============================================================
+// INVOICES
+// ==============================================================
+
+model Invoice {
+  id            String   @id @default(cuid())
+  invoiceNumber String   @unique // NTINV-2026-000001
+  orderId       String   @unique
+
+  // Seller
+  sellerName    String   @default("Nutty Tales")
+  sellerAddress String?
+  sellerGstin   String?
+  sellerFssai   String?  // 22724441000048
+
+  // Buyer
+  buyerName     String
+  buyerAddress  String?
+  buyerGstin    String?
+
+  amount        Float
+  gstAmount     Float
+  totalAmount   Float
+  issuedAt      DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("invoices")
+}
+
+// ==============================================================
+// REVIEWS
+// ==============================================================
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  orderId   String?
+  rating    Int      // 1-5
+  title     String?
+  body      String?  @db.Text
+  isVerified Boolean @default(false) // verified purchase
+  isApproved Boolean @default(false) // admin moderated
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([productId, userId])
+  @@map("reviews")
+}
+
+// ==============================================================
+// LEADS & CRM
+// ==============================================================
+
+model Lead {
+  id          String       @id @default(cuid())
+  userId      String?
+  name        String
+  email       String?
+  phone       String
+  businessName String?
+  city        String?
+  state       String?
+  location    LocationCode?
+  gstin       String?
+  productsNeeded String[]
+  monthlyVolume Float?
+  message     String?
+  source      String?      // google-organic, whatsapp, direct
+  landingPage String?
+  status      LeadStatus   @default(NEW)
+  salesOwner  String?
+  notes       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("leads")
+}
+
+// ==============================================================
+// BLOG / CONTENT
+// ==============================================================
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String   @db.Text
+  coverImage  String?
+  author      String?
+  tags        String[]
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  @@map("blog_posts")
+}
+
+// ==============================================================
+// SEO METADATA (CMS-controlled)
+// ==============================================================
+
+model SeoMetadata {
+  id          String  @id @default(cuid())
+  path        String  @unique // /wholesale-dry-fruits/kashmir
+  title       String
+  description String
+  keywords    String?
+  ogTitle     String?
+  ogDescription String?
+  ogImage     String?
+  canonical   String?
+  noIndex     Boolean @default(false)
+  structuredData Json?
+  updatedAt   DateTime @updatedAt
+
+  @@map("seo_metadata")
+}
+
+// ==============================================================
+// COMPLIANCE & DOCUMENTS
+// ==============================================================
+
+model FssaiRecord {
+  id          String   @id @default(cuid())
+  locationId  String?
+  licenseNumber String
+  businessName String
+  address     String?
+  licenseType String?  // Registration, License
+  category    String?  // Manufacturer, Trader, Wholesaler etc.
+  effectiveDate DateTime?
+  expiryDate  DateTime?
+  isActive    Boolean  @default(true)
+  documents   String[] // file URLs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("fssai_records")
+}
+
+model ComplianceDocument {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // FSSAI, GST, PAN, BUSINESS_REG, SUPPLIER_CERT
+  url         String
+  locationId  String?
+  isPublic    Boolean  @default(false)
+  expiryDate  DateTime?
+  uploadedBy  String?
+  createdAt   DateTime @default(now())
+
+  @@map("compliance_documents")
+}
+
+// ==============================================================
+// SAMPLE REQUESTS
+// ==============================================================
+
+model SampleRequest {
+  id               String        @id @default(cuid())
+  businessAccountId String
+  products         String[]
+  status           SampleStatus  @default(REQUESTED)
+  adminNotes       String?
+  shippedAt        DateTime?
+  deliveredAt      DateTime?
+  feedback         String?
+  convertedToBuyer Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+
+  businessAccount BusinessAccount @relation(fields: [businessAccountId], references: [id])
+
+  @@map("sample_requests")
+}
+
+// ==============================================================
+// SUPPORT
+// ==============================================================
+
+model SupportTicket {
+  id        String   @id @default(cuid())
+  userId    String?
+  orderId   String?
+  subject   String
+  message   String   @db.Text
+  status    String   @default("OPEN") // OPEN, IN_PROGRESS, RESOLVED, CLOSED
+  priority  String   @default("NORMAL")
+  assignedTo String?
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("support_tickets")
+}
+
+// ==============================================================
+// NOTIFICATIONS
+// ==============================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  type      String   // ORDER, QUOTE, SYSTEM, PROMO
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+// ==============================================================
+// AUDIT LOG
+// ==============================================================
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String   // LOGIN, PRICE_CHANGE, ORDER_UPDATE, QUOTE_SENT, etc.
+  entity     String?  // Product, Order, Quote, etc.
+  entityId   String?
+  oldValue   Json?
+  newValue   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
