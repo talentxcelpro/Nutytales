@@ -52,11 +52,11 @@ const nextConfig: NextConfig = {
   // ── Redirects ──────────────────────────────────────────────────────────────
   async redirects() {
     return [
-      // www → non-www canonical redirect
+      // Fallback redirect if accessed via www.nuttytales.com typo
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.nuttytales.com" }],
-        destination: "https://nuttytales.com/:path*",
+        destination: "https://www.nutytales.com/:path*",
         permanent: true,
       },
     ];
