@@ -18,19 +18,19 @@ const CATEGORIES = [
     name: 'Walnuts',
     slug: 'walnuts',
     origin: 'Kashmiri Snow Kernels',
-    image: '/images/crystal-gold-nut-bowls.jpg',
+    image: '/images/walnuts-pouch-250g.jpg',
   },
   {
     name: 'Makhana',
     slug: 'makhana',
     origin: 'Mithila Grade A & Jumbo',
-    image: '/images/hero-lifestyle-bowl.png',
+    image: '/images/makhana-pouch-250g.jpg',
   },
   {
     name: 'Pistachios',
     slug: 'pistachios',
     origin: 'Iranian Akbari & Afghan',
-    image: '/images/luxury-teal-gift-box.jpg',
+    image: '/images/pistachios-pouch-250g.jpg',
   },
   {
     name: 'Gift Boxes',
