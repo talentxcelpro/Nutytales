@@ -1,110 +1,237 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CRAFT_PRODUCTS, CRAFT_CATEGORIES, CraftProduct } from '@/lib/crafts-data'
+import {
+  CLOTHING_PRODUCTS,
+  PRODUCT_CATEGORY_TILES,
+  ClothingProduct,
+  AVAILABLE_COLOURS,
+} from '@/lib/clothing-data'
+import ClothingNavbarStrip from '@/components/crafts/ClothingNavbarStrip'
+import ClothingFilterBar, { FilterState } from '@/components/crafts/ClothingFilterBar'
+import ClothingProductCard from '@/components/crafts/ClothingProductCard'
+import QuickAddModal from '@/components/crafts/QuickAddModal'
+import SizeGuideModal from '@/components/crafts/SizeGuideModal'
+import GarmentViewer3DModal from '@/components/crafts/GarmentViewer3DModal'
 import TryWithSIModal from '@/components/crafts/TryWithSIModal'
-import KashmirStory4D from '@/components/crafts/KashmirStory4D'
+import { CRAFT_PRODUCTS } from '@/lib/crafts-data'
 
 export default function CraftsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  // ── State for Modals & Overlays ─────────────────────────────────────────────
+  const [selectedProductForQuickAdd, setSelectedProductForQuickAdd] = useState<ClothingProduct | null>(null)
+  const [selectedProductFor3D, setSelectedProductFor3D] = useState<ClothingProduct | null>(null)
   const [siModalOpen, setSiModalOpen] = useState(false)
-  const [activeSiProduct, setActiveSiProduct] = useState<CraftProduct | undefined>(undefined)
+  const [activeSiProduct, setActiveSiProduct] = useState<ClothingProduct | undefined>(undefined)
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
 
-  const openTryWithSi = (product?: CraftProduct) => {
+  // ── Filters & Search State ──────────────────────────────────────────────────
+  const [activeCollection, setActiveCollection] = useState<string>('new-arrivals')
+  const [filters, setFilters] = useState<FilterState>({
+    search: '',
+    gender: '',
+    subCategory: '',
+    size: '',
+    colour: '',
+    material: '',
+    craft: '',
+    warmth: '',
+    occasion: '',
+    inStockOnly: false,
+    sortBy: 'featured',
+  })
+
+  // ── Filtered & Sorted Product Set ───────────────────────────────────────────
+  const filteredProducts = useMemo(() => {
+    let result = [...CLOTHING_PRODUCTS]
+
+    // Collection filter
+    if (activeCollection === 'new-arrivals') {
+      result = result.filter((p) => p.isNew)
+    } else if (activeCollection === 'bestsellers') {
+      result = result.filter((p) => p.isBestseller)
+    } else if (activeCollection === 'fall-winter-2026') {
+      result = result.filter((p) => p.isFallWinter2026)
+    } else if (activeCollection === 'craft-collection') {
+      result = result.filter((p) => p.provenance.giTagCertified)
+    } else if (activeCollection === 'gifting') {
+      result = result.filter((p) => p.primaryCategory === 'heritage-home' || p.tags.includes('gifting'))
+    }
+
+    // Search query
+    if (filters.search) {
+      const q = filters.search.toLowerCase()
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.craft.toLowerCase().includes(q) ||
+          p.material.toLowerCase().includes(q) ||
+          p.subCategory.toLowerCase().includes(q) ||
+          p.colorOptions.some((c) => c.name.toLowerCase().includes(q))
+      )
+    }
+
+    // Gender
+    if (filters.gender) {
+      result = result.filter((p) => p.gender === filters.gender || p.gender === 'unisex')
+    }
+
+    // Subcategory
+    if (filters.subCategory) {
+      result = result.filter((p) => p.subCategory === filters.subCategory)
+    }
+
+    // Size
+    if (filters.size) {
+      result = result.filter((p) => p.sizes.includes(filters.size) || p.sizes.includes('Free Size'))
+    }
+
+    // Colour
+    if (filters.colour) {
+      result = result.filter((p) =>
+        p.colorOptions.some((c) => c.name.toLowerCase().includes(filters.colour.toLowerCase()))
+      )
+    }
+
+    // Material
+    if (filters.material) {
+      result = result.filter((p) => p.material.toLowerCase().includes(filters.material.toLowerCase()))
+    }
+
+    // Craft
+    if (filters.craft) {
+      result = result.filter((p) => p.craft.toLowerCase().includes(filters.craft.toLowerCase()))
+    }
+
+    // Warmth
+    if (filters.warmth) {
+      result = result.filter((p) => p.warmthRating.startsWith(filters.warmth.split(' ')[0]))
+    }
+
+    // Occasion
+    if (filters.occasion) {
+      result = result.filter((p) => p.occasion === filters.occasion)
+    }
+
+    // In Stock
+    if (filters.inStockOnly) {
+      result = result.filter((p) => p.stockStatus === 'IN_STOCK')
+    }
+
+    // Sorting
+    if (filters.sortBy === 'newest') {
+      result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
+    } else if (filters.sortBy === 'bestselling') {
+      result.sort((a, b) => (b.isBestseller ? 1 : 0) - (a.isBestseller ? 1 : 0))
+    } else if (filters.sortBy === 'price-asc') {
+      result.sort((a, b) => a.price - b.price)
+    } else if (filters.sortBy === 'price-desc') {
+      result.sort((a, b) => b.price - a.price)
+    }
+
+    return result
+  }, [filters, activeCollection])
+
+  // Extract available subcategories from current pool
+  const currentSubcategories = useMemo(() => {
+    const set = new Set<string>()
+    CLOTHING_PRODUCTS.forEach((p) => set.add(p.subCategory))
+    return Array.from(set)
+  }, [])
+
+  const handleOpenTryWithSi = (product?: ClothingProduct) => {
     setActiveSiProduct(product)
     setSiModalOpen(true)
   }
 
-  const filteredProducts =
-    selectedCategory === 'all'
-      ? CRAFT_PRODUCTS
-      : CRAFT_PRODUCTS.filter((p) => p.category === selectedCategory)
-
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-20">
-      {/* ── 1. Hero Editorial Lookbook Banner ──────────────────────────────────────── */}
-      <section className="relative w-full bg-[#17233B] text-[#FAF6EE] overflow-hidden border-b border-[#C9A45C]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Brand Content */}
-            <div className="lg:col-span-5 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[11px] font-bold tracking-widest uppercase">
-                <span>✦</span> Fall / Winter 2026 Collection
+      {/* ── 1. Hero Kashmir Fashion Campaign ───────────────────────────────────── */}
+      <section className="relative w-full bg-[#17233B] text-white py-14 sm:py-20 border-b border-[#C9A45C]/20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Headline & Direct CTAs */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[10px] font-extrabold tracking-widest uppercase">
+                <span>✦</span> FALL / WINTER 2026 COLLECTION
               </div>
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Nutty Tales Crafts & Heritage
+                  Nutty Tales Crafts &amp; Heritage
                 </span>
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08]">
-                  Kashmir to the World
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
+                  Kashmir to the World.
                 </h1>
-                <p className="font-serif italic text-lg sm:text-xl text-[#FAF6EE]/80">
-                  Timeless Craftsmanship. Modern Style. A Warmer Tomorrow.
+                <p className="font-serif italic text-lg sm:text-xl text-stone-200">
+                  Pherans. Shawls. Jackets. Winter Wear. Crafted with character.
                 </p>
               </div>
 
-              <p className="text-xs sm:text-sm text-[#FAF6EE]/75 leading-relaxed font-light max-w-lg">
-                Shawls, stoles, pherans, and coats woven from the finest Himalayan natural fibres.
-                Handcrafted by master artisan guilds in the valleys of Kashmir with verified
-                single-origin provenance and GI authenticity.
+              <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-xl">
+                Real Himalayan winter luxury woven on centuries-old looms. Micro-velvet, pure sheep wool, and hand-spun Changthangi Pashmina with verified single-origin provenance and GI certification.
               </p>
 
-              {/* CTAs */}
+              {/* Direct Department CTAs */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  href="/crafts/women"
+                  className="px-7 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg hover:scale-[1.02]"
+                >
+                  Shop Women →
+                </Link>
+                <Link
+                  href="/crafts/men"
+                  className="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-xs uppercase tracking-wider border border-white/20 transition-colors"
+                >
+                  Shop Men →
+                </Link>
                 <button
-                  onClick={() => openTryWithSi()}
-                  className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg flex items-center gap-2 hover:scale-[1.02]"
+                  type="button"
+                  onClick={() => handleOpenTryWithSi()}
+                  className="px-5 py-3.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-1.5"
                 >
-                  <span className="text-sm">✨</span>
-                  <span>Try with SI — Virtual Drape</span>
+                  <span>✨ Try with SI</span>
                 </button>
-                <a
-                  href="#collection"
-                  className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold text-xs uppercase tracking-wider border border-white/20 transition-colors"
-                >
-                  Explore Collection ↓
-                </a>
               </div>
 
-              {/* Badges */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-white/10 text-[10px] uppercase tracking-wider text-stone-300 font-medium">
+              {/* Provenance Trust Badges */}
+              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10 text-[10px] uppercase tracking-wider text-stone-300 font-medium">
                 <div>
-                  <span className="text-stone-400 block text-xs">🏛️</span> Authentic Craftsmanship
+                  <span className="text-[#C9A45C] block text-xs font-bold">🏛️ GI Certified</span>
+                  Authentic Valley Weaves
                 </div>
                 <div>
-                  <span className="text-stone-400 block text-xs">🌿</span> Premium Natural Fibres
+                  <span className="text-[#C9A45C] block text-xs font-bold">🌾 Pure Fibres</span>
+                  Changthangi &amp; Merino Wool
                 </div>
                 <div>
-                  <span className="text-stone-400 block text-xs">🤝</span> Artisan Communities
-                </div>
-                <div>
-                  <span className="text-stone-400 block text-xs">📦</span> Pan-India & Global Delivery
+                  <span className="text-[#C9A45C] block text-xs font-bold">📦 Insured Freight</span>
+                  Pan-India &amp; Global Delivery
                 </div>
               </div>
             </div>
 
-            {/* Right Cinematic Lookbook Imagery */}
-            <div className="lg:col-span-7 relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/15 aspect-[16/10] w-full">
+            {/* Right ONE Strong Kashmir Fashion Campaign Image */}
+            <div className="lg:col-span-6">
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden border border-white/15 shadow-2xl group">
                 <Image
                   src="/images/campaign-wear-the-story.jpg"
                   alt="Nutty Tales Crafts & Heritage Fall Winter 2026 Lookbook - Wear the story"
                   fill
                   priority
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#17233B]/70 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white text-xs flex items-center justify-between">
-                  <span className="font-serif italic text-stone-200">
-                    Warmth that carries a story — Dal Lake & Srinagar Valleys
+                <div className="absolute inset-0 bg-gradient-to-t from-[#10192A]/80 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 bg-[#10192A]/85 backdrop-blur-md p-4 rounded-2xl border border-white/10 space-y-1">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                    ✦ The Artisan to Wardrobe Promise
                   </span>
-                  <span className="bg-[#17233B]/80 px-2.5 py-1 rounded text-[10px] tracking-wider uppercase font-bold border border-white/20">
-                    FW &apos;26 Editorial
-                  </span>
+                  <p className="text-xs text-stone-200 font-light leading-snug">
+                    Every piece is crafted by verified cooperative guilds across Zadibal, Kanihama and Charar-i-Sharief.
+                  </p>
                 </div>
               </div>
             </div>
@@ -112,436 +239,408 @@ export default function CraftsPage() {
         </div>
       </section>
 
-      {/* ── 2. "Try With SI" Interactive Feature Callout ─────────────────────────── */}
-      <section className="bg-[#FAF6EE] py-10 border-b border-[#17233B]/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-[#17233B] via-[#102334] to-[#176B68] rounded-2xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl border border-[#C9A45C]/30">
-            <div className="space-y-2 text-center md:text-left max-w-2xl">
-              <div className="inline-flex items-center gap-2 bg-[#C9A45C] text-[#17233B] px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-widest">
-                <span>🤖 AI Styling Engine</span>
-              </div>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                Nutty Tales — Try with SI
-              </h2>
-              <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-light">
-                See how each handcrafted Pheran, Pashmina Shawl, Stole, or Velvet Coat looks before you buy.
-                Compare cuts, draping styles, embroidery palettes, and ask SI:
-                <span className="italic text-[#C9A45C]"> &ldquo;What should I wear in Gulmarg this December?&rdquo;</span>
-              </p>
-            </div>
+      {/* ── 2. Primary Clothing Navigation Strip ──────────────────────────────── */}
+      <ClothingNavbarStrip
+        onSearchChange={(val) => setFilters((prev) => ({ ...prev, search: val }))}
+        activeCollection={activeCollection}
+        onSelectCollection={(col) => setActiveCollection(col)}
+      />
 
-            <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-              <button
-                onClick={() => openTryWithSi()}
-                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:scale-105"
-              >
-                Launch Try-On Studio →
-              </button>
-              <Link
-                href="/crafts/try-with-si"
-                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-xs uppercase tracking-wider border border-white/20 text-center transition-colors"
-              >
-                Style Advisor Guide
-              </Link>
-            </div>
+      {/* ── 3. Shop by Category (Product/Clothing Images — NOT Models Everywhere) ─ */}
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200 pb-4">
+          <div>
+            <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold block">
+              Curated Wardrobe Departments
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] mt-1">
+              Shop by Category
+            </h2>
+            <p className="text-xs text-stone-600 mt-0.5">
+              Folded garments, loom textures, and tailored outerwear presented in clean studio light.
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* ── 3. Visual Categories Grid (6 Cards from Campaign) ────────────────────── */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-          <span className="text-xs uppercase tracking-[0.2em] text-[#704B32] font-semibold">
-            Curated Wardrobe & Traditions
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            Explore by Category
-          </h2>
-          <p className="text-xs sm:text-sm text-[#17233B]/70 font-light">
-            Each category represents generations of artisanal mastery, natural Himalayan fibres, and time-tested warmth.
-          </p>
+          <Link
+            href="/crafts/pherans"
+            className="text-xs font-bold text-[#176B68] hover:underline uppercase tracking-wider flex-shrink-0"
+          >
+            Explore All Categories →
+          </Link>
         </div>
 
+        {/* Category Tiles Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
-          {CRAFT_CATEGORIES.slice(0, 6).map((cat) => (
-            <button
-              key={cat.slug}
-              onClick={() => {
-                setSelectedCategory(cat.slug)
-                const el = document.getElementById('collection')
-                el?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="group text-left bg-white rounded-xl overflow-hidden border border-[#17233B]/10 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
+          {PRODUCT_CATEGORY_TILES.map((tile) => (
+            <Link
+              key={tile.slug}
+              href={tile.href}
+              className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-xs hover:shadow-xl transition-all duration-300"
             >
-              <div className="relative aspect-[4/5] w-full bg-stone-100 overflow-hidden">
+              <div className="relative aspect-square w-full bg-[#FAF6EE] overflow-hidden">
                 <Image
-                  src={cat.image}
-                  alt={cat.label}
+                  src={tile.image}
+                  alt={tile.label}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <h3 className="font-serif text-base font-bold leading-tight group-hover:text-[#C9A45C] transition-colors">
-                    {cat.label}
-                  </h3>
-                  <p className="text-[10px] text-stone-200 truncate mt-0.5">{cat.sub}</p>
-                </div>
               </div>
-            </button>
+              <div className="p-3 text-center space-y-0.5">
+                <h3 className="font-serif font-bold text-xs sm:text-sm text-[#17233B] group-hover:text-[#176B68] transition-colors">
+                  {tile.label}
+                </h3>
+                <p className="text-[10px] text-stone-500 truncate">{tile.sub}</p>
+              </div>
+            </Link>
           ))}
         </div>
-
-        {/* 4D-Style Cinematic Kashmir Narrative */}
-        <KashmirStory4D />
       </section>
 
-      {/* ── 4. Main Fall / Winter 2026 Collection Showcase ───────────────────────── */}
-      <section id="collection" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#17233B]/10 pb-6 mb-10">
+      {/* ── 4. Main Product Catalog & Filter Section ───────────────────────────── */}
+      <section id="catalog" className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-stone-200 pb-3">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#176B68]">
-              Fall / Winter 2026
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#17233B] mt-1">
-              The Heritage Wardrobe
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+              {activeCollection === 'new-arrivals'
+                ? 'New Arrivals (Fall / Winter 2026)'
+                : activeCollection === 'bestsellers'
+                ? 'Bestselling Heritage Classics'
+                : activeCollection === 'fall-winter-2026'
+                ? 'Fall / Winter 2026 Curated Selection'
+                : activeCollection === 'craft-collection'
+                ? 'GI Certified Craft Collection'
+                : 'Heritage Gifting & Keepsakes'}
             </h2>
+            <p className="text-xs text-stone-500 mt-0.5">
+              Showing {filteredProducts.length} pieces · Discover, compare, select sizes, and inspect in 3D.
+            </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2 text-xs">
+          <button
+            type="button"
+            onClick={() => setSizeGuideOpen(true)}
+            className="text-xs font-bold text-[#176B68] hover:underline flex items-center gap-1 self-start sm:self-auto"
+          >
+            <span>📏</span>
+            <span>Size &amp; Fit Guide</span>
+          </button>
+        </div>
+
+        {/* Filter and Sort Toolbar */}
+        <ClothingFilterBar
+          filters={filters}
+          onFilterChange={setFilters}
+          totalCount={filteredProducts.length}
+          availableSubcategories={currentSubcategories}
+        />
+
+        {/* ── 4-Column Product Grid (Desktop: 4, Tablet: 3, Mobile: 2) ───────── */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 pt-4">
+            {filteredProducts.map((product) => (
+              <ClothingProductCard
+                key={product.id}
+                product={product}
+                onQuickAdd={(p) => setSelectedProductForQuickAdd(p)}
+                onTryWithSi={(p) => handleOpenTryWithSi(p)}
+                onOpen3D={(p) => setSelectedProductFor3D(p)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="py-16 text-center bg-white rounded-3xl border border-stone-200 space-y-3">
+            <span className="text-3xl block">🔍</span>
+            <h3 className="font-serif font-bold text-lg text-[#17233B]">
+              No garments matched your filter criteria
+            </h3>
+            <p className="text-xs text-stone-500 max-w-md mx-auto">
+              Try resetting your filters or search query to browse our complete collection.
+            </p>
             <button
-              onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 rounded-full font-semibold transition-colors ${
-                selectedCategory === 'all'
-                  ? 'bg-[#17233B] text-white'
-                  : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-50'
-              }`}
+              type="button"
+              onClick={() =>
+                setFilters({
+                  search: '',
+                  gender: '',
+                  subCategory: '',
+                  size: '',
+                  colour: '',
+                  material: '',
+                  craft: '',
+                  warmth: '',
+                  occasion: '',
+                  inStockOnly: false,
+                  sortBy: 'featured',
+                })
+              }
+              className="px-5 py-2.5 bg-[#17233B] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
             >
-              All Items ({CRAFT_PRODUCTS.length})
+              Reset All Filters
             </button>
-            {CRAFT_CATEGORIES.map((cat) => (
+          </div>
+        )}
+      </section>
+
+      {/* ── 5. Fall / Winter 2026 Seasonal Colour Story Banner ─────────────────── */}
+      <section className="py-16 bg-[#17233B] text-white border-y border-stone-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="max-w-3xl space-y-2">
+            <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">
+              Seasonal Palette
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold">
+              Fall / Winter 2026: Kashmir to the World
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
+              Our 2026 palette draws directly from the changing valley: deep crimson madder root, pine-covered slopes of Gulmarg, Dal Lake midnight reflections, and warm Himalayan ivory.
+            </p>
+          </div>
+
+          {/* 8-Colour Swatch Strip */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            {AVAILABLE_COLOURS.slice(0, 8).map((col) => (
               <button
-                key={cat.slug}
-                onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-3 py-1.5 rounded-full font-semibold transition-colors ${
-                  selectedCategory === cat.slug
-                    ? 'bg-[#17233B] text-white'
-                    : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-50'
-                }`}
+                key={col.name}
+                type="button"
+                onClick={() => setFilters((prev) => ({ ...prev, colour: col.name }))}
+                className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 text-center space-y-2 transition-all group"
               >
-                {cat.label}
+                <div
+                  className="w-10 h-10 rounded-full mx-auto border-2 border-white/20 shadow-md group-hover:scale-110 transition-transform"
+                  style={{ backgroundColor: col.hex }}
+                />
+                <span className="font-bold text-xs text-white block truncate">{col.name}</span>
+                <span className="text-[10px] text-stone-400 block uppercase font-mono">{col.hex}</span>
               </button>
             ))}
           </div>
         </div>
-
-        {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-white rounded-2xl overflow-hidden border border-[#17233B]/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-            >
-              <div>
-                {/* Image Container */}
-                <div className="relative aspect-[4/5] w-full bg-stone-100 overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
-
-                  {/* Top Badges */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                    <span className="bg-[#17233B]/90 backdrop-blur-sm text-white px-2.5 py-1 rounded text-[10px] uppercase font-bold tracking-wider">
-                      {product.provenance.craftTradition}
-                    </span>
-                    {product.provenance.giTagCertified && (
-                      <span className="bg-[#C9A45C] text-[#17233B] px-2 py-0.5 rounded text-[9px] uppercase font-extrabold tracking-wider w-max shadow-sm">
-                        GI Certified
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-white/90 backdrop-blur-sm text-[#704B32] px-2 py-1 rounded text-[10px] font-semibold">
-                      {product.warmthRating.split(' ')[0]}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 space-y-3">
-                  <div className="flex items-center justify-between text-[11px] text-[#704B32] font-semibold">
-                    <span className="uppercase tracking-wider">{product.provenance.origin}</span>
-                    <span>{product.provenance.artisanHours} hrs handcraft</span>
-                  </div>
-
-                  <Link href={`/crafts/product/${product.slug}`}>
-                    <h3 className="font-serif text-lg font-bold text-[#17233B] group-hover:text-[#176B68] transition-colors line-clamp-1">
-                      {product.name}
-                    </h3>
-                  </Link>
-
-                  <p className="text-xs text-[#17233B]/70 leading-relaxed font-light line-clamp-2">
-                    {product.shortDesc}
-                  </p>
-
-                  <div className="pt-2 flex items-baseline justify-between">
-                    <div>
-                      <span className="text-lg font-bold text-[#17233B]">
-                        ₹{product.price.toLocaleString('en-IN')}
-                      </span>
-                      {product.mrp > product.price && (
-                        <span className="ml-2 text-xs text-stone-400 line-through">
-                          ₹{product.mrp.toLocaleString('en-IN')}
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[11px] text-emerald-700 font-semibold">
-                      In Stock · Free Insured Shipping
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Actions Footer */}
-              <div className="p-6 pt-0 space-y-2">
-                {product.tryWithSiSupported ? (
-                  <button
-                    onClick={() => openTryWithSi(product)}
-                    className="w-full py-2.5 bg-[#C9A45C]/15 hover:bg-[#C9A45C]/25 text-[#704B32] border border-[#C9A45C]/40 rounded-xl text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <span>✨ Try with SI</span>
-                  </button>
-                ) : (
-                  <Link
-                    href={`/crafts/product/${product.slug}`}
-                    className="block w-full py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-center rounded-xl text-xs font-semibold tracking-wider uppercase transition-colors"
-                  >
-                    View Details & Heritage
-                  </Link>
-                )}
-
-                <Link
-                  href={`/crafts/product/${product.slug}`}
-                  className="block w-full py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white text-center rounded-xl text-xs font-bold tracking-wider uppercase transition-colors shadow-sm"
-                >
-                  Order / View Piece →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
-      {/* ── 4B. Fall / Winter 2026 Editorial Campaigns (Women & Men) ──────────────── */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      {/* ── 6. Shop Departments Portals: Men, Women, Kids ─────────────────────── */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
-            Editorial Lookbook Collections
+            Storefront Portals
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            From Our Artisans to Your Wardrobe
+            Explore by Wardrobe
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 font-light">
-            Explore authentic Kashmiri silhouettes crafted from pure Changthangi cashmere, Himalayan tweed, and rich velvet.
+            Dedicated shopping environments tailored to men, women, and family winter sets.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Women's Campaign Card: Wear the Story */}
-          <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-xl flex flex-col group">
-            <div className="relative aspect-[4/5] w-full bg-stone-900 overflow-hidden">
-              <Image
-                src="/images/campaign-wear-the-story.jpg"
-                alt="Nutty Tales Crafts & Heritage - Wear the story campaign"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Women's Storefront */}
+          <Link
+            href="/crafts/women"
+            className="group relative rounded-3xl overflow-hidden border border-stone-200 shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/5] flex flex-col justify-end p-6 sm:p-8"
+          >
+            <Image
+              src="/images/campaign-wear-the-story.jpg"
+              alt="Women's Kashmir Collection"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#10192A] via-[#10192A]/40 to-transparent" />
+            <div className="relative z-10 space-y-2 text-white">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+                Women's Collection
+              </span>
+              <h3 className="font-serif text-2xl font-bold">
+                Pherans, Capes &amp; Shawls
+              </h3>
+              <p className="text-xs text-stone-300 font-light leading-snug">
+                Silk velvet Tilla pherans, Aari capes, and heirloom Kani Pashmina shawls.
+              </p>
+              <span className="inline-block text-xs font-bold text-[#C9A45C] group-hover:underline pt-1">
+                Explore Women's Storefront →
+              </span>
             </div>
-            <div className="p-6 sm:p-8 space-y-4 flex-1 flex flex-col justify-between">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#176B68] block">
-                  Women&apos;s Heritage Collection · FW &apos;26
-                </span>
-                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
-                  Wear the story.
-                </h3>
-                <p className="text-xs text-stone-600 leading-relaxed font-light">
-                  Exquisite shawls, pherans, capes, velvet coats, and winter wear crafted by master artisans in the Kashmir Valley. Inspired by a land of unmatched beauty and timeless grace.
-                </p>
-              </div>
+          </Link>
 
-              <div className="pt-2 flex flex-wrap gap-3">
+          {/* Men's Storefront */}
+          <Link
+            href="/crafts/men"
+            className="group relative rounded-3xl overflow-hidden border border-stone-200 shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/5] flex flex-col justify-end p-6 sm:p-8"
+          >
+            <Image
+              src="/images/campaign-mens-style-story.jpg"
+              alt="Men's Kashmir Collection"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#10192A] via-[#10192A]/40 to-transparent" />
+            <div className="relative z-10 space-y-2 text-white">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+                Men's Collection
+              </span>
+              <h3 className="font-serif text-2xl font-bold">
+                Tweed Pherans &amp; Overcoats
+              </h3>
+              <p className="text-xs text-stone-300 font-light leading-snug">
+                Heavyweight tweed pherans, Kani-accented coats, and reversible Pashmina mufflers.
+              </p>
+              <span className="inline-block text-xs font-bold text-[#C9A45C] group-hover:underline pt-1">
+                Explore Men's Storefront →
+              </span>
+            </div>
+          </Link>
+
+          {/* Kids & Family Storefront */}
+          <Link
+            href="/crafts/kids"
+            className="group relative rounded-3xl overflow-hidden border border-stone-200 shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/5] flex flex-col justify-end p-6 sm:p-8"
+          >
+            <Image
+              src="/images/crafts-pherans.jpg"
+              alt="Kids & Family Collection"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#10192A] via-[#10192A]/40 to-transparent" />
+            <div className="relative z-10 space-y-2 text-white">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+                Kids &amp; Family
+              </span>
+              <h3 className="font-serif text-2xl font-bold">
+                Little Pherans &amp; Sets
+              </h3>
+              <p className="text-xs text-stone-300 font-light leading-snug">
+                Cotton-lined anti-itch children's wool pherans and coordinated Mother-Daughter sets.
+              </p>
+              <span className="inline-block text-xs font-bold text-[#C9A45C] group-hover:underline pt-1">
+                Explore Kids &amp; Family →
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── 7. Craft Stories: Aari, Sozni, Tilla, Kani, Pashmina ───────────────── */}
+      <section className="py-20 bg-white border-y border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
+              Provenance &amp; Technique
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
+              The Five Masters of Kashmir Textile
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 font-light">
+              We document verified craft methods. No unverified claims; only authentic living heritage.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {[
+              {
+                title: 'Tilla Dozi',
+                sub: 'Metallic Gold Needlework',
+                desc: 'Pointed steel needles anchor real silver & gold-gilded metallic threads onto heavy velvet and wool canvasses.',
+                origin: 'Zadibal, Downtown Srinagar',
+              },
+              {
+                title: 'Sozni Needlework',
+                sub: 'Micro-Stitch Embroidery',
+                desc: 'Executed with needles as fine as horsehair, inserting shaded silk floss into intricate floral medallions.',
+                origin: 'Pampore & Downtown Srinagar',
+              },
+              {
+                title: 'Aari Hookwork',
+                sub: 'Chain-Stitch Floral Vines',
+                desc: 'Continuous interlocking chain-stitches applied using a notched awl hook, outlining wild Himalayan foliage.',
+                origin: 'Charar-i-Sharief & Budgam',
+              },
+              {
+                title: 'Kani Weave',
+                sub: 'Wooden Bobbin Handloom',
+                desc: 'Guided by coded poetic Talim scripts, tiny eyeless walnut bobbins interlock colors directly across the warp.',
+                origin: 'Kanihama Weavers Colony',
+              },
+              {
+                title: 'Changthangi Pashmina',
+                sub: '14.5-Micron Pure Underfleece',
+                desc: 'Combed gently from high-altitude goats living at 14,000 feet, spun on wooden charkhas without harsh chemicals.',
+                origin: 'Changthang & Kashmir Valley',
+              },
+            ].map((c, i) => (
+              <div
+                key={i}
+                className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2.5 flex flex-col justify-between"
+              >
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#176B68]">
+                    0{i + 1}
+                  </span>
+                  <h4 className="font-serif font-bold text-base text-[#17233B]">{c.title}</h4>
+                  <span className="text-[10px] font-semibold text-[#704B32] block">{c.sub}</span>
+                  <p className="text-xs text-stone-600 font-light leading-relaxed">{c.desc}</p>
+                </div>
+                <div className="pt-3 border-t border-stone-200 text-[10px] text-stone-500">
+                  Origin: <strong className="text-[#17233B]">{c.origin}</strong>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. Try with SI Interactive Concierge Feature Spotlight ─────────────── */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-br from-[#17233B] via-[#102334] to-[#176B68] rounded-3xl p-8 sm:p-14 text-white shadow-2xl space-y-8 border border-[#C9A45C]/30">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-flex items-center gap-2 bg-[#C9A45C] text-[#17233B] px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest">
+                <span>✨</span> TRY WITH SI — STYLING &amp; DRAPE CONCIERGE
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+                Not sure how a Pheran or Pashmina looks on you?
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-200 font-light leading-relaxed max-w-2xl">
+                SI helps you discover the perfect silhouette: pick your occasion (wedding, travel, daily), style preferences, and height. SI simulates the drape, recommends matching stoles, and guides sizing.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => openTryWithSi()}
-                  className="flex-1 py-3 px-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md text-center"
+                  onClick={() => handleOpenTryWithSi()}
+                  className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
                 >
-                  ✨ Virtual Drape with SI
+                  Launch SI Styling Studio →
                 </button>
                 <Link
-                  href="/crafts/kashmir/shawls"
-                  className="flex-1 py-3 px-4 bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-sm text-center"
+                  href="/crafts/pherans"
+                  className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-white/20 transition-colors"
                 >
-                  Shop Shawls &amp; Pherans →
+                  Browse Ready Pherans
                 </Link>
               </div>
             </div>
-          </div>
 
-          {/* Men's Campaign Card: Style with a Story */}
-          <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-xl flex flex-col group">
-            <div className="relative aspect-[4/5] w-full bg-stone-900 overflow-hidden">
-              <Image
-                src="/images/campaign-mens-style-story.jpg"
-                alt="Nutty Tales Crafts & Heritage - Style with a story campaign"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            <div className="p-6 sm:p-8 space-y-4 flex-1 flex flex-col justify-between">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
-                  Men&apos;s Heritage &amp; Winter Wear · FW &apos;26
-                </span>
-                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
-                  Style with a story.
-                </h3>
-                <p className="text-xs text-stone-600 leading-relaxed font-light">
-                  Authentic, refined, and timeless. Men&apos;s tweed overcoats, hand-woven mufflers, knitwear, and winter essentials crafted from mountain warmth for modern living.
-                </p>
-              </div>
-
-              <div className="pt-2 flex flex-wrap gap-3">
-                <Link
-                  href="/crafts/kashmir/jackets-coats"
-                  className="flex-1 py-3 px-4 bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-sm text-center"
-                >
-                  View Coats &amp; Tweed →
-                </Link>
-                <Link
-                  href="/crafts/kashmir/pherans"
-                  className="flex-1 py-3 px-4 bg-[#FAF6EE] hover:bg-stone-200 border border-stone-300 text-[#17233B] text-xs font-bold uppercase tracking-wider rounded-xl transition-colors text-center"
-                >
-                  Explore Men&apos;s Pherans →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Three Editorial Stories (From the Campaign Banner) ────────────────── */}
-      <section className="py-20 bg-[#F0EBE1] border-t border-b border-[#17233B]/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* 1. Handcrafted in Kashmir */}
-            <div className="bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between group">
-              <div className="relative aspect-[16/9] w-full bg-stone-100">
-                <Image
-                  src="/images/crafts-artisan-hands.jpg"
-                  alt="Artisan hands stitching sozni needlework"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                    Living Heritage
-                  </span>
-                  <h3 className="font-serif text-xl font-bold text-[#17233B] mt-1">
-                    Handcrafted in Kashmir
-                  </h3>
-                  <p className="text-xs text-[#17233B]/70 leading-relaxed font-light mt-2">
-                    Preserving centuries-old traditions, supporting artisan guilds, and sustaining weaving
-                    families in Kanihama, Zadibal, and Downtown Srinagar.
-                  </p>
+            <div className="lg:col-span-4 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 space-y-3 text-xs">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                SI Styling Capabilities:
+              </span>
+              <div className="space-y-2 text-stone-200">
+                <div className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Harmonious Shawl &amp; Pheran Pairing</span>
                 </div>
-                <div className="pt-4">
-                  <Link
-                    href="/crafts/kashmir"
-                    className="text-xs font-bold tracking-wider uppercase text-[#176B68] hover:text-[#214B39] inline-flex items-center gap-1"
-                  >
-                    Learn Our Story →
-                  </Link>
+                <div className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Temperature &amp; Sub-Zero Destination Advice</span>
                 </div>
-              </div>
-            </div>
-
-            {/* 2. From Kashmir With Love */}
-            <div className="bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between group">
-              <div className="relative aspect-[16/9] w-full bg-stone-100">
-                <Image
-                  src="/images/crafts-kashmir-landscape.jpg"
-                  alt="Dal Lake houseboats and snow-clad Himalayan mountain peaks"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                    Valley to Wardrobe
-                  </span>
-                  <h3 className="font-serif text-xl font-bold text-[#17233B] mt-1">
-                    From Kashmir, With Love
-                  </h3>
-                  <p className="text-xs text-[#17233B]/70 leading-relaxed font-light mt-2">
-                    Authentic crafts. Pure natural mountain fibres. A more meaningful, timeless wardrobe
-                    that keeps you warm across cold winters and carries a story across generations.
-                  </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Roomy Silhouette vs. Slim Fit Guidance</span>
                 </div>
-                <div className="pt-4">
-                  <Link
-                    href="/crafts/kashmir"
-                    className="text-xs font-bold tracking-wider uppercase text-[#176B68] hover:text-[#214B39] inline-flex items-center gap-1"
-                  >
-                    Explore Kashmir Crafts →
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Corporate & Festive Gifting */}
-            <div className="bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between group">
-              <div className="relative aspect-[16/9] w-full bg-stone-100">
-                <Image
-                  src="/images/crafts-gifting-box.jpg"
-                  alt="Nutty Tales Crafts and Heritage corporate luxury gift box"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                    Prestige Keepsakes
-                  </span>
-                  <h3 className="font-serif text-xl font-bold text-[#17233B] mt-1">
-                    Corporate & Festive Gifting
-                  </h3>
-                  <p className="text-xs text-[#17233B]/70 leading-relaxed font-light mt-2">
-                    Custom hampers pairing pure Cashmere stoles with handcrafted papier-mâché boxes,
-                    Pampore saffron, and single-origin Kashmiri walnuts.
-                  </p>
-                </div>
-                <div className="pt-4">
-                  <Link
-                    href="/corporate-gifting"
-                    className="text-xs font-bold tracking-wider uppercase text-[#176B68] hover:text-[#214B39] inline-flex items-center gap-1"
-                  >
-                    Request a Corporate Quote →
-                  </Link>
+                <div className="flex items-center gap-2">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Direct 1-Click Addition to Shopping Bag</span>
                 </div>
               </div>
             </div>
@@ -549,65 +648,40 @@ export default function CraftsPage() {
         </div>
       </section>
 
-      {/* ── 6. The Ecosystem Bridge (Taste • Stay • Explore • Discover) ──────────── */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-        <div className="max-w-3xl mx-auto space-y-3">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-semibold">
-            The Nutty Tales Journey
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            Taste it. Stay there. Explore it. Bring its stories home.
-          </h2>
-          <p className="text-xs sm:text-sm text-[#17233B]/70 leading-relaxed font-light">
-            Stay at our Srinagar mountain retreat, taste single-origin Kagzi walnuts & saffron harvested
-            from surrounding terraces, and drape yourself in heirlooms woven by local master artisans.
-          </p>
-        </div>
+      {/* ── Modals: Quick Add, Size Guide, 3D Garment Inspector, Try With SI ──── */}
+      <QuickAddModal
+        product={selectedProductForQuickAdd}
+        isOpen={Boolean(selectedProductForQuickAdd)}
+        onClose={() => setSelectedProductForQuickAdd(null)}
+        onOpenSizeGuide={() => {
+          setSelectedProductForQuickAdd(null)
+          setSizeGuideOpen(true)
+        }}
+      />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
-          <Link
-            href="/shop"
-            className="p-6 rounded-xl bg-white border border-stone-200 hover:border-[#176B68] transition-colors"
-          >
-            <span className="text-2xl block mb-2">🌰</span>
-            <h4 className="font-serif font-bold text-base text-[#17233B]">Taste Foods</h4>
-            <p className="text-xs text-stone-500 mt-1">Dry fruits, saffron, raw honey, and makhana.</p>
-          </Link>
+      <SizeGuideModal
+        isOpen={sizeGuideOpen}
+        onClose={() => setSizeGuideOpen(false)}
+      />
 
-          <Link
-            href="/corporate-gifting"
-            className="p-6 rounded-xl bg-white border border-stone-200 hover:border-[#176B68] transition-colors"
-          >
-            <span className="text-2xl block mb-2">🎁</span>
-            <h4 className="font-serif font-bold text-base text-[#17233B]">Gift Hampers</h4>
-            <p className="text-xs text-stone-500 mt-1">Diwali corporate & heritage luxury boxes.</p>
-          </Link>
+      <GarmentViewer3DModal
+        product={selectedProductFor3D}
+        isOpen={Boolean(selectedProductFor3D)}
+        onClose={() => setSelectedProductFor3D(null)}
+        onAddToCart={(p) => {
+          setSelectedProductFor3D(null)
+          setSelectedProductForQuickAdd(p)
+        }}
+      />
 
-          <Link
-            href="/stays"
-            className="p-6 rounded-xl bg-white border border-stone-200 hover:border-[#176B68] transition-colors"
-          >
-            <span className="text-2xl block mb-2">🏡</span>
-            <h4 className="font-serif font-bold text-base text-[#17233B]">Stay Retreas</h4>
-            <p className="text-xs text-stone-500 mt-1">Boutique properties in Srinagar, Noida & Patna.</p>
-          </Link>
-
-          <Link
-            href="/crafts"
-            className="p-6 rounded-xl bg-white border border-[#176B68] ring-1 ring-[#176B68] transition-colors"
-          >
-            <span className="text-2xl block mb-2">🧣</span>
-            <h4 className="font-serif font-bold text-base text-[#17233B]">Discover Crafts</h4>
-            <p className="text-xs text-stone-500 mt-1">Shawls, pherans, stoles & walnut wood.</p>
-          </Link>
-        </div>
-      </section>
-
-      {/* Global Try with SI Modal */}
       <TryWithSIModal
         isOpen={siModalOpen}
         onClose={() => setSiModalOpen(false)}
-        initialProduct={activeSiProduct}
+        initialProduct={
+          activeSiProduct
+            ? CRAFT_PRODUCTS.find((p) => p.slug === activeSiProduct.slug)
+            : undefined
+        }
       />
     </main>
   )

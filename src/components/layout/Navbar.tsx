@@ -72,24 +72,55 @@ export default function Navbar() {
 
             {/* Navigation Center */}
             <nav className="hidden xl:flex items-center space-x-6">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-[11px] uppercase tracking-widest font-semibold transition-colors py-1 relative flex items-center gap-1.5 ${
-                    isActive(link.href)
-                      ? 'text-[#176B68] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#176B68]'
-                      : 'text-[#17233B]/80 hover:text-[#176B68]'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {link.badge && (
-                    <span className="bg-[#C9A45C] text-[#17233B] text-[8px] px-1.5 py-0.2 rounded font-extrabold uppercase tracking-normal">
-                      {link.badge}
-                    </span>
-                  )}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const isCrafts = link.href === '/crafts'
+                return (
+                  <div key={link.href} className="relative group">
+                    <Link
+                      href={link.href}
+                      className={`text-[11px] uppercase tracking-widest font-semibold transition-colors py-1 relative flex items-center gap-1.5 ${
+                        isActive(link.href)
+                          ? 'text-[#176B68] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-[#176B68]'
+                          : 'text-[#17233B]/80 hover:text-[#176B68]'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      {link.badge && (
+                        <span className="bg-[#C9A45C] text-[#17233B] text-[8px] px-1.5 py-0.2 rounded font-extrabold uppercase tracking-normal">
+                          {link.badge}
+                        </span>
+                      )}
+                    </Link>
+
+                    {/* Crafts & Heritage Clothing Mega Dropdown */}
+                    {isCrafts && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                        <div className="bg-white rounded-2xl p-5 shadow-2xl border border-stone-200 w-80 space-y-3">
+                          <div className="flex items-center justify-between border-b border-stone-100 pb-2">
+                            <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
+                              Fall / Winter 2026 Collection
+                            </span>
+                            <span className="text-[9px] font-extrabold bg-[#C9A45C] text-[#17233B] px-1.5 py-0.2 rounded">
+                              FW '26
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                            <Link href="/crafts/women" className="text-stone-700 hover:text-[#176B68] font-bold">Women</Link>
+                            <Link href="/crafts/men" className="text-stone-700 hover:text-[#176B68] font-bold">Men</Link>
+                            <Link href="/crafts/kids" className="text-stone-700 hover:text-[#176B68] font-bold">Kids &amp; Family</Link>
+                            <Link href="/crafts/pherans" className="text-stone-700 hover:text-[#176B68] font-bold">Pherans</Link>
+                            <Link href="/crafts/shawls-stoles" className="text-stone-700 hover:text-[#176B68] font-bold">Shawls &amp; Stoles</Link>
+                            <Link href="/crafts/jackets-coats" className="text-stone-700 hover:text-[#176B68] font-bold">Jackets &amp; Coats</Link>
+                            <Link href="/crafts/winter-wear" className="text-stone-700 hover:text-[#176B68] font-bold">Winter Wear</Link>
+                            <Link href="/crafts/accessories" className="text-stone-700 hover:text-[#176B68] font-bold">Accessories</Link>
+                            <Link href="/crafts/heritage-home" className="text-stone-700 hover:text-[#176B68] font-bold col-span-2 pt-1 border-t border-stone-100">Heritage Home &amp; Keepsakes →</Link>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </nav>
 
             {/* Actions Right */}
@@ -137,21 +168,35 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileOpen && (
-          <div className="xl:hidden bg-[#F7F2E8] border-b border-[#17233B]/10 px-6 py-6 space-y-4 shadow-xl">
+          <div className="xl:hidden bg-[#F7F2E8] border-b border-[#17233B]/10 px-6 py-6 space-y-4 shadow-xl max-h-[85vh] overflow-y-auto">
             <nav className="space-y-3 text-sm font-semibold tracking-wide text-[#17233B]">
               {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="flex items-center justify-between py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
-                >
-                  <span>{link.label}</span>
-                  {link.badge && (
-                    <span className="bg-[#C9A45C] text-[#17233B] text-[9px] px-2 py-0.5 rounded font-extrabold uppercase">
-                      {link.badge}
-                    </span>
+                <div key={link.href} className="space-y-1">
+                  <Link
+                    href={link.href}
+                    className="flex items-center justify-between py-2 border-b border-[#17233B]/5 hover:text-[#176B68]"
+                  >
+                    <span>{link.label}</span>
+                    {link.badge && (
+                      <span className="bg-[#C9A45C] text-[#17233B] text-[9px] px-2 py-0.5 rounded font-extrabold uppercase">
+                        {link.badge}
+                      </span>
+                    )}
+                  </Link>
+
+                  {link.href === '/crafts' && (
+                    <div className="grid grid-cols-2 gap-2 pl-3 py-1.5 text-xs text-stone-600 border-b border-[#17233B]/5 font-normal">
+                      <Link href="/crafts/women" className="hover:text-[#176B68]">• Women</Link>
+                      <Link href="/crafts/men" className="hover:text-[#176B68]">• Men</Link>
+                      <Link href="/crafts/kids" className="hover:text-[#176B68]">• Kids &amp; Family</Link>
+                      <Link href="/crafts/pherans" className="hover:text-[#176B68]">• Pherans</Link>
+                      <Link href="/crafts/shawls-stoles" className="hover:text-[#176B68]">• Shawls &amp; Stoles</Link>
+                      <Link href="/crafts/jackets-coats" className="hover:text-[#176B68]">• Jackets &amp; Coats</Link>
+                      <Link href="/crafts/winter-wear" className="hover:text-[#176B68]">• Winter Wear</Link>
+                      <Link href="/crafts/accessories" className="hover:text-[#176B68]">• Accessories</Link>
+                    </div>
                   )}
-                </Link>
+                </div>
               ))}
               <Link
                 href="/crafts/try-with-si"
