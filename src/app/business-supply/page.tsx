@@ -166,9 +166,30 @@ export default function BusinessSupplyPage() {
             </div>
 
             {/* Right Graphic Overview Card */}
-            <div className="lg:col-span-5">
-              <div className="bg-[#10192A] rounded-3xl p-6 sm:p-8 border border-white/15 space-y-6 shadow-2xl">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <div className="lg:col-span-5 space-y-6">
+              {/* Campaign Poster Card */}
+              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/20 shadow-2xl group">
+                <Image
+                  src="/images/campaign-good-food-story.jpg"
+                  alt="Good Food Has A Story — Nutty Tales Business Supply"
+                  fill
+                  priority
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#10192A] via-transparent to-transparent opacity-60" />
+                <div className="absolute bottom-4 left-4 right-4 bg-[#10192A]/90 backdrop-blur-md p-4 rounded-2xl border border-white/10 space-y-1">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                    🏭 Thoughtfully Sourced · Responsibly Supplied
+                  </span>
+                  <p className="text-xs text-stone-200 font-light leading-snug">
+                    Whole tree nuts, mechanical cuts &amp; recurring freight contracts across 15+ Indian commercial sectors.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-[#10192A] rounded-3xl p-6 sm:p-7 border border-white/15 space-y-5 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <span className="text-xs uppercase font-bold tracking-wider text-[#C9A45C]">
                     Recurring Supply Contract
                   </span>
@@ -177,7 +198,7 @@ export default function BusinessSupplyPage() {
                   </span>
                 </div>
 
-                <div className="space-y-3 text-xs">
+                <div className="space-y-2.5 text-xs">
                   <div className="flex justify-between text-stone-300">
                     <span>Batch Quality Assurance:</span>
                     <span className="font-bold text-white">COA + NABL Lab Passed</span>
@@ -201,7 +222,7 @@ export default function BusinessSupplyPage() {
                 </div>
 
                 {/* Banner Callout for Founder Program */}
-                <div className="p-4 bg-gradient-to-r from-[#176B68]/30 to-[#C9A45C]/20 rounded-xl border border-[#C9A45C]/30 text-xs text-stone-200 space-y-1.5">
+                <div className="p-3.5 bg-gradient-to-r from-[#176B68]/30 to-[#C9A45C]/20 rounded-xl border border-[#C9A45C]/30 text-xs text-stone-200 space-y-1">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
                     🚀 Launching a New Venture?
                   </span>

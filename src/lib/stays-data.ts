@@ -48,11 +48,11 @@ export const STAY_PROPERTIES: StayProperty[] = [
     state: 'Jammu & Kashmir',
     tagline: 'Private walnut & apple orchard beneath the Zabarwan range',
     locationNote: 'Harwan / Dachigam Road, 15 mins from Dal Lake & Shalimar Bagh',
-    featuredImage: '/images/crafts-kashmir-landscape.jpg',
+    featuredImage: '/images/campaign-stay-in-the-story.jpg',
     galleryImages: [
+      '/images/campaign-stay-in-the-story.jpg',
       '/images/crafts-kashmir-landscape.jpg',
       '/images/brand-showcase-collage.jpg',
-      '/images/crafts-winter-hero.jpg',
     ],
     propertyAmenities: [
       'Private 4-Acre Walnut Orchard',

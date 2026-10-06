@@ -90,8 +90,8 @@ export default function CraftsPage() {
             <div className="lg:col-span-7 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/15 aspect-[16/10] w-full">
                 <Image
-                  src="/images/crafts-winter-hero.jpg"
-                  alt="Nutty Tales Crafts & Heritage Fall Winter 2026 Lookbook"
+                  src="/images/campaign-wear-the-story.jpg"
+                  alt="Nutty Tales Crafts & Heritage Fall Winter 2026 Lookbook - Wear the story"
                   fill
                   priority
                   className="object-cover"
@@ -337,6 +337,106 @@ export default function CraftsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── 4B. Fall / Winter 2026 Editorial Campaigns (Women & Men) ──────────────── */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
+            Editorial Lookbook Collections
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
+            From Our Artisans to Your Wardrobe
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600 font-light">
+            Explore authentic Kashmiri silhouettes crafted from pure Changthangi cashmere, Himalayan tweed, and rich velvet.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Women's Campaign Card: Wear the Story */}
+          <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-xl flex flex-col group">
+            <div className="relative aspect-[4/5] w-full bg-stone-900 overflow-hidden">
+              <Image
+                src="/images/campaign-wear-the-story.jpg"
+                alt="Nutty Tales Crafts & Heritage - Wear the story campaign"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <div className="p-6 sm:p-8 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#176B68] block">
+                  Women&apos;s Heritage Collection · FW &apos;26
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
+                  Wear the story.
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed font-light">
+                  Exquisite shawls, pherans, capes, velvet coats, and winter wear crafted by master artisans in the Kashmir Valley. Inspired by a land of unmatched beauty and timeless grace.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => openTryWithSi()}
+                  className="flex-1 py-3 px-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md text-center"
+                >
+                  ✨ Virtual Drape with SI
+                </button>
+                <Link
+                  href="/crafts/kashmir/shawls"
+                  className="flex-1 py-3 px-4 bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-sm text-center"
+                >
+                  Shop Shawls &amp; Pherans →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Men's Campaign Card: Style with a Story */}
+          <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-xl flex flex-col group">
+            <div className="relative aspect-[4/5] w-full bg-stone-900 overflow-hidden">
+              <Image
+                src="/images/campaign-mens-style-story.jpg"
+                alt="Nutty Tales Crafts & Heritage - Style with a story campaign"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <div className="p-6 sm:p-8 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  Men&apos;s Heritage &amp; Winter Wear · FW &apos;26
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
+                  Style with a story.
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed font-light">
+                  Authentic, refined, and timeless. Men&apos;s tweed overcoats, hand-woven mufflers, knitwear, and winter essentials crafted from mountain warmth for modern living.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-3">
+                <Link
+                  href="/crafts/kashmir/jackets-coats"
+                  className="flex-1 py-3 px-4 bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-sm text-center"
+                >
+                  View Coats &amp; Tweed →
+                </Link>
+                <Link
+                  href="/crafts/kashmir/pherans"
+                  className="flex-1 py-3 px-4 bg-[#FAF6EE] hover:bg-stone-200 border border-stone-300 text-[#17233B] text-xs font-bold uppercase tracking-wider rounded-xl transition-colors text-center"
+                >
+                  Explore Men&apos;s Pherans →
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
