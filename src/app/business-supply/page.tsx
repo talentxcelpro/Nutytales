@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
   INDUSTRIES,
+  BULK_INGREDIENTS_CATALOG,
+  ENTERPRISE_FEATURES,
   NUT_PROCESSING_CUTS,
   BULK_PACKAGING_TIERS,
   SUPPLY_HUBS,
@@ -12,53 +14,96 @@ import {
 } from '@/lib/business-supply-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
-export default function BusinessSupplyPage() {
-  const [selectedIndustry, setSelectedIndustry] = useState<IndustryProfile>(INDUSTRIES[1]) // Bakeries by default
-  const [selectedCut, setSelectedCut] = useState<string>('Sliced / Flaked')
-  const [selectedPackaging, setSelectedPackaging] = useState<string>('25 KG Vacuum Sack')
-  const [orderFrequency, setOrderFrequency] = useState<string>('Monthly Contract')
+// "WHAT DO YOU MAKE?" Primary Interactive Categories
+const WHAT_DO_YOU_MAKE_OPTIONS = [
+  { id: 'cat-hospitality', label: 'Hospitality', sub: 'Hotels · Resorts · Restaurants · Cafés', icon: '🏨', defaultIndSlug: 'hotels-resorts' },
+  { id: 'cat-bakery', label: 'Bakery & Confectionery', sub: 'Bakeries · Cakes · Biscuits · Chocolates', icon: '🍰', defaultIndSlug: 'bakeries' },
+  { id: 'cat-mithai', label: 'Sweets & Mithai', sub: 'Mithai · Kaju Katli · Barfi · Laddoo', icon: '🍬', defaultIndSlug: 'sweet-shops' },
+  { id: 'cat-food-mfg', label: 'Food Manufacturing', sub: 'Snacks · Cereals · Granola · Energy Bars', icon: '🏭', defaultIndSlug: 'food-snack-manufacturers' },
+  { id: 'cat-dairy', label: 'Dairy & Desserts', sub: 'Ice Cream · Kulfi · Shakes · Dairy Desserts', icon: '🥛', defaultIndSlug: 'ice-cream-dairy' },
+  { id: 'cat-wellness', label: 'Health & Wellness', sub: 'Healthy Snacks · Nut Mixes · Protein Blends', icon: '🌿', defaultIndSlug: 'health-wellness-brands' },
+  { id: 'cat-trade', label: 'Retail & Distribution', sub: 'Retailers · Supermarkets · Regional Distributors', icon: '📦', defaultIndSlug: 'retailers-supermarkets' },
+  { id: 'cat-gifting', label: 'Gifting & Events', sub: 'Corporates · Weddings · Event Companies', icon: '🎁', defaultIndSlug: 'gifting-wedding-planners' },
+  { id: 'cat-private-label', label: 'Private Label', sub: 'D2C Brands · Custom Packaging · Own Brand', icon: '🏷️', defaultIndSlug: 'private-label-d2c' },
+]
 
-  // SI Production Assistant State
-  const [mfgType, setMfgType] = useState<string>('Bakeries & Patisserie')
-  const [mfgMonthlyVol, setMfgMonthlyVol] = useState<string>('500 kg')
-  const [mfgIngredients, setMfgIngredients] = useState<string>('Almonds (Sliced) + Walnuts + Raisins')
+export default function BusinessSupplyPage() {
+  // Selected category in "What do you make?"
+  const [activeCategory, setActiveCategory] = useState<string>('cat-bakery')
+  const [selectedIndustry, setSelectedIndustry] = useState<IndustryProfile>(INDUSTRIES[2]) // Bakeries
+
+  // SI Business Supply Plan State
+  const [mfgItem, setMfgItem] = useState<string>('Cakes & Pastries')
+  const [mfgMonthlyKg, setMfgMonthlyKg] = useState<string>('500 kg')
+  const [mfgProducts, setMfgProducts] = useState<string>('Almonds (Sliced) + Walnuts + Raisins')
   const [mfgLocation, setMfgLocation] = useState<string>('Delhi NCR / Noida Hub')
-  const [siRfqResult, setSiRfqResult] = useState<{
-    specCode: string
-    recommendedCut: string
-    estPriceBand: string
-    summary: string
-  } | null>(null)
-  const [isEvaluating, setIsEvaluating] = useState(false)
+  const [siPlanGenerated, setSiPlanGenerated] = useState(false)
+  const [isGeneratingPlan, setIsGeneratingPlan] = useState(false)
+
+  // Bulk Ingredients Filter
+  const [activeIngredientCategory, setActiveIngredientCategory] = useState<string>('Whole Tree Nuts')
 
   // RFQ Form State
   const [companyName, setCompanyName] = useState('')
   const [contactName, setContactName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [gstin, setGstin] = useState('')
-  const [sampleReq, setSampleReq] = useState(true)
+  const [deliveryCity, setDeliveryCity] = useState('')
+  const [rfqNote, setRfqNote] = useState('')
+  const [isSubmittingRfq, setIsSubmittingRfq] = useState(false)
   const [rfqSubmitted, setRfqSubmitted] = useState(false)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  const handleRunSiAssistant = () => {
-    setIsEvaluating(true)
-    setTimeout(() => {
-      setSiRfqResult({
-        specCode: `NT-IND-${mfgType.substring(0, 3).toUpperCase()}-2026`,
-        recommendedCut: `Uniform 1.0mm Mechanical Slices (<4% moisture, 0% shell fragments)`,
-        estPriceBand: `Tier-1 Contract Wholesale (5% - 15% below spot market with 90-day price lock)`,
-        summary: `SI has compiled your production procurement file for ${mfgMonthlyVol}/month delivery to ${mfgLocation}. COA & NABL test certificates scheduled with batch samples.`,
-      })
-      setIsEvaluating(false)
-    }, 600)
+  // Handle switching in "What do you make?"
+  const handleCategorySelect = (opt: typeof WHAT_DO_YOU_MAKE_OPTIONS[0]) => {
+    setActiveCategory(opt.id)
+    const match = INDUSTRIES.find((i) => i.slug === opt.defaultIndSlug) || INDUSTRIES[0]
+    setSelectedIndustry(match)
+    setMfgItem(match.useCases[0] || match.name)
+    setMfgProducts(match.primaryProducts.slice(0, 3).join(' + '))
+    setSiPlanGenerated(false)
   }
 
-  const handleRfqSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setRfqSubmitted(true)
+  // Generate SI Plan
+  const handleGeneratePlan = () => {
+    setIsGeneratingPlan(true)
+    setTimeout(() => {
+      setIsGeneratingPlan(false)
+      setSiPlanGenerated(true)
+    }, 500)
   }
+
+  // Submit RFQ
+  const handleRfqSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmittingRfq(true)
+
+    try {
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: contactName || 'B2B Procurement Lead',
+          phone,
+          email,
+          city: deliveryCity,
+          businessName: companyName,
+          message: `[B2B RFQ] Industry: ${selectedIndustry.name} | Monthly Vol: ${mfgMonthlyKg} | Products: ${mfgProducts} | Plant: ${mfgLocation} | Notes: ${rfqNote}`,
+          source: 'business-supply-marketplace',
+        }),
+      })
+    } catch {
+      // ignore
+    } finally {
+      setIsSubmittingRfq(false)
+      setRfqSubmitted(true)
+    }
+  }
+
+  const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+    `Hello Nutty Tales B2B Supply! 🏭\n\nI want to discuss an industrial supply contract:\n• Company: ${companyName || 'Corporate Client'}\n• Industry: ${selectedIndustry.name}\n• Monthly Volume: ${mfgMonthlyKg}\n• Ingredients: ${mfgProducts}\n• Plant City: ${mfgLocation || deliveryCity || 'PAN-India'}\n\nPlease share the formal quotation and product specification sheets!`,
+  )}`
 
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-20">
@@ -68,15 +113,15 @@ export default function BusinessSupplyPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[11px] font-bold tracking-widest uppercase">
-                <span>🏭</span> PAN-INDIA WHOLESALE &amp; INGREDIENT SUPPLY
+                <span>🏭</span> B2B INDUSTRIAL INGREDIENT MARKETPLACE
               </div>
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Nutty Tales B2B Business Supply
+                  Nutty Tales Business Supply
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-                  Premium dry fruits for businesses that make, serve and gift.
+                  Premium ingredients for businesses that make, serve and gift.
                 </h1>
                 <p className="font-serif italic text-lg sm:text-xl text-stone-300">
                   Reliable raw ingredient procurement, mechanical processing cuts, and recurring contracts.
@@ -89,25 +134,25 @@ export default function BusinessSupplyPage() {
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <a
-                  href="#production-si"
+                  href="#what-do-you-make"
                   className="px-6 py-3.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg flex items-center gap-2"
                 >
                   <span>⚙️</span>
-                  <span>Buying for Production? Ask SI</span>
+                  <span>Explore Industries: What Do You Make? ↓</span>
                 </a>
                 <a
-                  href="#rfq-form"
+                  href="#bulk-ingredients"
                   className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-xs uppercase tracking-wider border border-white/20 transition-colors"
                 >
-                  Request Business Quote ↓
+                  Bulk Ingredients Catalog →
                 </a>
               </div>
 
-              {/* 3 Hubs Strip */}
+              {/* Multi-Warehouse Hub Strip */}
               <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10 text-xs">
                 <div>
                   <span className="text-stone-400 block text-[10px] uppercase font-bold">Noida HQ</span>
-                  <span className="font-semibold text-white">Central Processing Hub</span>
+                  <span className="font-semibold text-white">Central Processing &amp; NCR Hub</span>
                 </div>
                 <div>
                   <span className="text-stone-400 block text-[10px] uppercase font-bold">Kashmir Valley</span>
@@ -120,7 +165,7 @@ export default function BusinessSupplyPage() {
               </div>
             </div>
 
-            {/* Right Graphic Overview */}
+            {/* Right Graphic Overview Card */}
             <div className="lg:col-span-5">
               <div className="bg-[#10192A] rounded-3xl p-6 sm:p-8 border border-white/15 space-y-6 shadow-2xl">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -155,12 +200,23 @@ export default function BusinessSupplyPage() {
                   </div>
                 </div>
 
+                {/* Banner Callout for Founder Program */}
+                <div className="p-4 bg-gradient-to-r from-[#176B68]/30 to-[#C9A45C]/20 rounded-xl border border-[#C9A45C]/30 text-xs text-stone-200 space-y-1.5">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                    🚀 Launching a New Venture?
+                  </span>
+                  <p className="text-[11px] leading-snug">
+                    Are you a D2C food brand, travel startup, clothing label or cloud kitchen? Check out our <strong>Nutty Tales Founder Program</strong>.
+                  </p>
+                  <Link href="/founders" className="inline-block text-[11px] font-bold text-[#C9A45C] hover:underline pt-0.5">
+                    Explore Founder Program &amp; Small MOQs →
+                  </Link>
+                </div>
+
                 <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
                   <span className="text-[11px] text-stone-300 block mb-2">Speak to Corporate Procurement Desk:</span>
                   <a
-                    href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                      'Hello Nutty Tales B2B! I would like to discuss a recurring business supply requirement for dry fruits.'
-                    )}`}
+                    href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block w-full py-2.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-lg transition-colors shadow-sm"
@@ -174,399 +230,526 @@ export default function BusinessSupplyPage() {
         </div>
       </section>
 
-      {/* ── 2. Sell by Industry: "Who do you buy for?" ────────────────────────────── */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+      {/* ── 2. Interactive Marketplace: "WHAT DO YOU MAKE?" ─────────────────────── */}
+      <section id="what-do-you-make" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
-            Tailored Industry Specifications
+            Interactive B2B Selector
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            Who Do You Buy For?
+            What Do You Make?
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 font-light">
-            We understand the precise mechanical cut, moisture, and safety standards required by each manufacturing process.
+            Select your industry below. Our SI Supply Engine tailors product specs, precision cuts, and monthly contract ladders specifically to your production line.
           </p>
         </div>
 
-        {/* Industry Tabs */}
-        <div className="flex flex-wrap gap-2 justify-center mb-10 text-xs">
-          {INDUSTRIES.map((ind) => (
-            <button
-              key={ind.id}
-              onClick={() => setSelectedIndustry(ind)}
-              className={`px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 border ${
-                selectedIndustry.id === ind.id
-                  ? 'bg-[#17233B] text-white border-[#17233B] shadow-md'
-                  : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
-              }`}
-            >
-              <span>{ind.icon}</span>
-              <span>{ind.name}</span>
-            </button>
-          ))}
+        {/* 9 Category Visual Tiles */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-9 gap-3">
+          {WHAT_DO_YOU_MAKE_OPTIONS.map((opt) => {
+            const isSelected = opt.id === activeCategory
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => handleCategorySelect(opt)}
+                className={`p-4 rounded-2xl text-center border transition-all flex flex-col items-center justify-between gap-2 shadow-sm ${
+                  isSelected
+                    ? 'bg-[#17233B] text-white border-[#C9A45C] ring-2 ring-[#C9A45C]/40 scale-105'
+                    : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800'
+                }`}
+              >
+                <span className="text-2xl block">{opt.icon}</span>
+                <span className="font-serif font-bold text-xs leading-tight block">{opt.label}</span>
+                <span className={`text-[9px] line-clamp-2 block ${isSelected ? 'text-stone-300' : 'text-stone-500'}`}>
+                  {opt.sub}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
-        {/* Selected Industry Detail Card */}
-        <div className="bg-white rounded-3xl border border-stone-200 shadow-xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="space-y-1">
-              <span className="text-[11px] uppercase font-bold tracking-widest text-[#176B68]">
-                Industry Profile
-              </span>
-              <h3 className="font-serif text-3xl font-bold text-[#17233B]">
+        {/* ── Selected Industry Dossier + Dynamic SI Supply Planner ─────────────── */}
+        <div className="bg-white rounded-3xl border border-stone-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+          {/* Left: Industry Specs (5 cols) */}
+          <div className="lg:col-span-5 p-6 sm:p-8 bg-[#FAF6EE] border-b lg:border-b-0 lg:border-r border-stone-200 space-y-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xl">{selectedIndustry.icon}</span>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#176B68]">
+                  {selectedIndustry.categoryLabel} Profile
+                </span>
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#17233B]">
                 {selectedIndustry.name}
               </h3>
-              <p className="text-xs sm:text-sm text-stone-600 font-light">
+              <p className="text-xs text-stone-600 mt-1 leading-relaxed">
                 {selectedIndustry.tagline}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-                <span className="font-bold text-[#704B32] uppercase text-[10px] block">Primary Ingredients</span>
-                <p className="text-stone-800 font-medium">{selectedIndustry.primaryProducts.join(', ')}</p>
+            <div className="space-y-3 text-xs">
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 space-y-1">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Primary Raw Materials:
+                </span>
+                <p className="font-medium text-[#17233B]">{selectedIndustry.primaryProducts.join(', ')}</p>
               </div>
 
-              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-                <span className="font-bold text-[#704B32] uppercase text-[10px] block">Cuts &amp; Processing</span>
-                <p className="text-stone-800 font-medium">{selectedIndustry.cutTypes.join(', ')}</p>
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 space-y-1">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Precision Mechanical Cuts:
+                </span>
+                <p className="font-medium text-[#17233B]">{selectedIndustry.cutTypes.join(', ')}</p>
               </div>
 
-              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-                <span className="font-bold text-[#704B32] uppercase text-[10px] block">Typical Monthly Run</span>
-                <p className="text-stone-800 font-medium">{selectedIndustry.typicalMonthlyKg}</p>
-              </div>
-
-              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-                <span className="font-bold text-[#704B32] uppercase text-[10px] block">Quality Standard</span>
-                <p className="text-stone-800 font-medium">{selectedIndustry.fssaiStandard}</p>
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 space-y-1">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Quality &amp; Lab Standards:
+                </span>
+                <p className="font-medium text-[#17233B]">{selectedIndustry.fssaiStandard}</p>
               </div>
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs uppercase font-bold tracking-wider text-[#17233B] block">
-                Why Industry Leaders Choose Nutty Tales:
+              <span className="text-[11px] uppercase font-bold tracking-wider text-[#17233B] block">
+                Typical Production Use Cases:
               </span>
               <ul className="text-xs text-stone-600 space-y-1.5">
-                {selectedIndustry.keyBenefits.map((b, idx) => (
-                  <li key={idx} className="flex items-center gap-2">
-                    <span className="text-emerald-600 font-bold">✓</span> {b}
+                {selectedIndustry.useCases.map((uc, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <span className="text-[#176B68] font-bold">✓</span>
+                    <span>{uc}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-[#FAF6EE] p-6 rounded-2xl border border-stone-200 space-y-4">
-            <span className="text-xs uppercase font-bold tracking-wider text-[#704B32] block">
-              Typical Production Use Cases:
-            </span>
-            <ul className="text-xs text-stone-700 space-y-2">
-              {selectedIndustry.useCases.map((uc, idx) => (
-                <li key={idx} className="p-2.5 bg-white rounded-lg border border-stone-200 font-medium">
-                  • {uc}
-                </li>
-              ))}
-            </ul>
-
-            <div className="pt-2">
-              <a
-                href="#rfq-form"
-                className="block w-full py-3 bg-[#17233B] hover:bg-[#176B68] text-white text-center rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
-              >
-                Request {selectedIndustry.name} Supply Quote →
-              </a>
+          {/* Right: Dynamic SI Assistant "Your Business Supply Plan" (7 cols) */}
+          <div className="lg:col-span-7 p-6 sm:p-10 space-y-6">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 bg-[#17233B] text-[#C9A45C] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                <span>✨</span> SI BUSINESS SUPPLY COPILOT
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#17233B]">
+                Build Your Production Supply Plan
+              </h3>
+              <p className="text-xs text-stone-600">
+                Configure your manufacturing parameters and let SI generate an instant allocation schedule.
+              </p>
             </div>
+
+            {/* Configurator Form */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label className="block text-stone-700 font-bold mb-1.5">What do you manufacture?</label>
+                <input
+                  type="text"
+                  value={mfgItem}
+                  onChange={(e) => setMfgItem(e.target.value)}
+                  placeholder="e.g. Cakes, Cookies, Kaju Katli, Ice Cream"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-700 font-bold mb-1.5">Approximate monthly requirement?</label>
+                <select
+                  value={mfgMonthlyKg}
+                  onChange={(e) => setMfgMonthlyKg(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
+                >
+                  <option value="100 kg">100 kg - 250 kg (Starter Batch)</option>
+                  <option value="500 kg">500 kg - 1,000 kg (Commercial Line)</option>
+                  <option value="2,500 kg">2,500 kg - 5,000 kg (Factory Run)</option>
+                  <option value="10 Tons+">10 Tons+ (Container Volume)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-stone-700 font-bold mb-1.5">Which products?</label>
+                <input
+                  type="text"
+                  value={mfgProducts}
+                  onChange={(e) => setMfgProducts(e.target.value)}
+                  placeholder="e.g. Almonds + Walnuts + Raisins"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-700 font-bold mb-1.5">Plant / Delivery Location?</label>
+                <input
+                  type="text"
+                  value={mfgLocation}
+                  onChange={(e) => setMfgLocation(e.target.value)}
+                  placeholder="e.g. Delhi NCR, Mumbai, Bengaluru"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
+                />
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGeneratePlan}
+              disabled={isGeneratingPlan}
+              className="w-full py-3 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+            >
+              <span>{isGeneratingPlan ? 'SI is compiling plan...' : '✨ Generate My Business Supply Plan'}</span>
+            </button>
+
+            {/* ── Generated Business Supply Plan Table ────────────────────────── */}
+            {siPlanGenerated && (
+              <div className="p-5 bg-[#FAF6EE] rounded-2xl border border-[#C9A45C]/50 space-y-4 animate-fadeIn">
+                <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                      SI Recommended Allocation
+                    </span>
+                    <h4 className="font-serif font-bold text-base text-[#17233B]">
+                      YOUR BUSINESS SUPPLY PLAN ({mfgMonthlyKg} / Month)
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded bg-emerald-100 text-emerald-800">
+                    NABL Lab Verified
+                  </span>
+                </div>
+
+                {/* Structured Plan Table */}
+                <div className="overflow-x-auto text-xs">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-stone-300 text-[#704B32] uppercase text-[10px] tracking-wider">
+                        <th className="py-2 font-bold">Product</th>
+                        <th className="py-2 font-bold">Suggested Cut / Grade</th>
+                        <th className="py-2 font-bold">Packaging</th>
+                        <th className="py-2 font-bold">Monthly Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-200 text-stone-800">
+                      <tr>
+                        <td className="py-2.5 font-bold">Almonds</td>
+                        <td className="py-2.5 text-stone-600">Precision Sliced 0.8–1.2mm</td>
+                        <td className="py-2.5">25 kg Vacuum Sack</td>
+                        <td className="py-2.5 font-bold text-[#176B68]">200 kg</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 font-bold">Walnuts</td>
+                        <td className="py-2.5 text-stone-600">Extra Light Kashmiri Halves (80%)</td>
+                        <td className="py-2.5">10 kg Nitrogen Tin</td>
+                        <td className="py-2.5 font-bold text-[#176B68]">100 kg</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 font-bold">Raisins</td>
+                        <td className="py-2.5 text-stone-600">Afghan Seedless Green Kishmish</td>
+                        <td className="py-2.5">25 kg Export Box</td>
+                        <td className="py-2.5 font-bold text-[#176B68]">200 kg</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="p-3 bg-white rounded-xl border border-stone-200 text-[11px] text-stone-600 flex items-center justify-between">
+                  <span>📍 Recommended Fulfilment: <strong>{mfgLocation}</strong> via Nutty Tales Hub</span>
+                  <span className="text-emerald-700 font-bold">Moisture &lt; 5% · Zero Foreign Shell</span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <a
+                    href="#rfq-form"
+                    className="flex-1 py-3 bg-[#17233B] hover:bg-[#176B68] text-white text-center rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-md"
+                  >
+                    Request Formal Business Quote ↓
+                  </a>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-center rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-1.5"
+                  >
+                    <span>Instant WhatsApp Contract Desk</span>
+                    <span>→</span>
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ── 3. Cuts & Processing Specification Grid ───────────────────────────────── */}
-      <section className="py-16 bg-[#F0EBE1] border-t border-b border-stone-200">
+      {/* ── 3. Complete Bulk Ingredients Catalog ──────────────────────────────────── */}
+      <section id="bulk-ingredients" className="py-20 bg-white border-y border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
-              Engineering Food Production
+              Industrial Raw Materials
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-              Processing Cuts &amp; Bulk Packaging
+              Bulk Ingredients Catalog
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 font-light">
-              From bakeries requiring paper-thin almond flakes to chocolate factories demanding uniform 4mm kibbles.
+              We are not just a dry-fruit seller. We are your commercial ingredient supplier across whole nuts, mechanical cuts, dried fruits, seeds, and graded makhana.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {NUT_PROCESSING_CUTS.map((cut, idx) => (
-              <div key={idx} className="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-2">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-serif font-bold text-base text-[#17233B]">{cut.name}</h4>
-                  <span className="text-[10px] uppercase font-bold bg-[#FAF6EE] text-[#176B68] px-2 py-0.5 rounded">
-                    Spec Certified
-                  </span>
+          {/* Catalog Category Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 text-xs">
+            {BULK_INGREDIENTS_CATALOG.map((grp) => (
+              <button
+                key={grp.category}
+                type="button"
+                onClick={() => setActiveIngredientCategory(grp.category)}
+                className={`px-4 py-2 rounded-xl font-bold transition-all border ${
+                  activeIngredientCategory === grp.category
+                    ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
+                    : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                }`}
+              >
+                {grp.category}
+              </button>
+            ))}
+          </div>
+
+          {/* Active Ingredients Grid */}
+          {(() => {
+            const currentGrp =
+              BULK_INGREDIENTS_CATALOG.find((g) => g.category === activeIngredientCategory) ||
+              BULK_INGREDIENTS_CATALOG[0]
+            return (
+              <div className="space-y-4">
+                <div className="text-center text-xs text-stone-500 italic">
+                  {currentGrp.tagline}
                 </div>
-                <p className="text-xs text-stone-600 font-light leading-relaxed">{cut.desc}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {currentGrp.items.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-6 bg-[#FAF6EE] rounded-2xl border border-stone-200 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-serif font-bold text-lg text-[#17233B]">{item.name}</h4>
+                          <span className="text-[10px] font-bold text-[#176B68] bg-white px-2 py-0.5 rounded border border-stone-200">
+                            MOQ {item.moqKg} kg
+                          </span>
+                        </div>
+
+                        <div className="text-xs space-y-1">
+                          <span className="text-[10px] uppercase font-bold text-[#704B32] block">Grades:</span>
+                          <p className="text-stone-700 font-medium">{item.grades.join(', ')}</p>
+                        </div>
+
+                        <div className="text-xs space-y-1">
+                          <span className="text-[10px] uppercase font-bold text-[#704B32] block">Cuts &amp; Forms:</span>
+                          <p className="text-stone-700">{item.availableCuts.join(', ')}</p>
+                        </div>
+                      </div>
+
+                      <div className="pt-3 border-t border-stone-200 text-[11px] text-stone-500 space-y-1">
+                        <div>Origin: <strong className="text-stone-800">{item.origin}</strong></div>
+                        <div>Pack: <span className="text-stone-700">{item.packaging}</span></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
+        </div>
+      </section>
+
+      {/* ── 4. Nutty Tales Enterprise Supply ────────────────────────────────────── */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="bg-[#17233B] text-white rounded-3xl p-8 sm:p-12 border border-[#C9A45C]/30 shadow-2xl space-y-8">
+          <div className="max-w-3xl space-y-2">
+            <span className="text-xs uppercase font-bold tracking-[0.25em] text-[#C9A45C] block">
+              Multi-Location Procurement Architecture
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold">
+              Nutty Tales Enterprise Supply: One Supplier. Multiple Locations.
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
+              For hotel groups, restaurant chains, and national food manufacturers operating in multiple cities: centralized contract management, uniform nationwide pricing, and local hub dispatches.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {ENTERPRISE_FEATURES.map((feat, idx) => (
+              <div key={idx} className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-3">
+                <span className="text-3xl block">{feat.icon}</span>
+                <h4 className="font-serif font-bold text-base text-white">{feat.title}</h4>
+                <p className="text-xs text-stone-300 font-light leading-relaxed">{feat.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Bulk Tiers */}
-          <div className="p-6 sm:p-8 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
-            <h4 className="font-serif font-bold text-lg text-[#17233B]">
-              Standard Industrial Packaging Formats
-            </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
-              {BULK_PACKAGING_TIERS.map((tier, idx) => (
-                <div key={idx} className="p-3 bg-stone-50 rounded-xl border border-stone-200 space-y-1">
-                  <span className="font-bold text-[#17233B] block">{tier.label}</span>
-                  <p className="text-[11px] text-stone-500 font-light leading-tight">{tier.desc}</p>
-                </div>
-              ))}
+          {/* Example Contract Card */}
+          <div className="p-6 bg-white/10 rounded-2xl border border-white/15 text-xs text-stone-200 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                Representative Enterprise Model: National Hotel Chain
+              </span>
+              <p className="font-mono text-sm text-white">
+                Delhi (300 kg) · Mumbai (200 kg) · Bengaluru (250 kg) · Srinagar (100 kg)
+              </p>
+              <p className="text-[11px] text-stone-400">
+                Nutty Tales manages: Quote → Procurement → Warehousing → Allocation → Scheduled Delivery → Automated Reordering
+              </p>
             </div>
+            <a
+              href="#rfq-form"
+              className="px-6 py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-colors shadow-md whitespace-nowrap"
+            >
+              Set Up Enterprise Account →
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── 4. "Buy for Production" SI Assistant ──────────────────────────────────── */}
-      <section id="production-si" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-[#17233B] via-[#102334] to-[#176B68] rounded-3xl p-6 sm:p-12 text-white shadow-2xl space-y-8 border border-[#C9A45C]/30">
-          <div className="max-w-3xl space-y-2">
-            <div className="inline-flex items-center gap-2 bg-[#C9A45C] text-[#17233B] px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest">
-              <span>🤖</span> SI PRODUCTION PROCUREMENT ADVISOR
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold">
-              Buying Dry Fruits for Production? Tell Us What You Manufacture.
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-200 font-light leading-relaxed">
-              SI analyzes your product line, calculates optimal mechanical cuts and moisture thresholds,
-              and generates an estimated contract quotation.
+      {/* ── 5. Formal RFQ Request Form ───────────────────────────────────────────── */}
+      <section id="rfq-form" className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-stone-200 shadow-xl space-y-6">
+          <div>
+            <span className="text-xs uppercase font-bold tracking-widest text-[#704B32] block">
+              Direct Wholesale Procurement Desk
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] mt-1">
+              Request Official Business Quote
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-600 mt-1">
+              Receive a formal commercial proposal with lab specification sheets, GST input breakdown, and sample kit dispatch within 4 hours.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Input Form (7 cols) */}
-            <div className="lg:col-span-7 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-stone-300 font-bold block mb-1">What do you manufacture?</label>
-                  <select
-                    value={mfgType}
-                    onChange={(e) => setMfgType(e.target.value)}
-                    className="w-full bg-[#10192A] border border-white/20 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-[#C9A45C]"
-                  >
-                    <option value="Bakeries & Patisserie">Bakeries / Cakes / Cookies</option>
-                    <option value="Sweets & Mithai (Kaju Katli)">Sweets &amp; Mithai (Kaju Katli / Laddoo)</option>
-                    <option value="Biscuit Factory">Biscuit &amp; Rusk Factory</option>
-                    <option value="Chocolates & Confectionery">Chocolate &amp; Confectionery</option>
-                    <option value="Granola & Healthy Cereals">Granola &amp; Healthy Cereals</option>
-                    <option value="Hotels & Banquets Catering">Hotels &amp; Banquet Catering</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-stone-300 font-bold block mb-1">Estimated Monthly Volume?</label>
-                  <select
-                    value={mfgMonthlyVol}
-                    onChange={(e) => setMfgMonthlyVol(e.target.value)}
-                    className="w-full bg-[#10192A] border border-white/20 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-[#C9A45C]"
-                  >
-                    <option value="100 kg">100 kg - 250 kg</option>
-                    <option value="500 kg">500 kg - 1,000 kg</option>
-                    <option value="2.5 Tons">2.5 Tons - 5 Tons</option>
-                    <option value="10 Tons+">10 Tons+ (Full Container Load)</option>
-                  </select>
-                </div>
+          <form onSubmit={handleRfqSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">Company / Organization Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  placeholder="e.g. Oberoi Hotels / Haldiram's / Blue Tokai"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+                />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-stone-300 font-bold block mb-1">Primary Ingredients Required?</label>
-                  <input
-                    type="text"
-                    value={mfgIngredients}
-                    onChange={(e) => setMfgIngredients(e.target.value)}
-                    className="w-full bg-[#10192A] border border-white/20 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-[#C9A45C]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-stone-300 font-bold block mb-1">Plant Delivery Location?</label>
-                  <input
-                    type="text"
-                    value={mfgLocation}
-                    onChange={(e) => setMfgLocation(e.target.value)}
-                    className="w-full bg-[#10192A] border border-white/20 rounded-xl p-3 text-white focus:outline-none focus:ring-1 focus:ring-[#C9A45C]"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">Procurement Officer / Contact Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  placeholder="e.g. Vikram Singhania"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+                />
               </div>
 
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">WhatsApp / Phone Number *</label>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+91 98765 43210"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">Official Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="procurement@company.com"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">Delivery City / Warehouse Hub *</label>
+                <input
+                  type="text"
+                  required
+                  value={deliveryCity}
+                  onChange={(e) => setDeliveryCity(e.target.value)}
+                  placeholder="e.g. Noida / Mumbai / Bengaluru"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">Industry Sector</label>
+                <select
+                  value={selectedIndustry.id}
+                  onChange={(e) => {
+                    const match = INDUSTRIES.find((i) => i.id === e.target.value)
+                    if (match) setSelectedIndustry(match)
+                  }}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-white"
+                >
+                  {INDUSTRIES.map((ind) => (
+                    <option key={ind.id} value={ind.id}>{ind.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-stone-700 mb-1">
+                Required Products, Cuts &amp; Monthly Volume Specifications
+              </label>
+              <textarea
+                rows={3}
+                value={rfqNote}
+                onChange={(e) => setRfqNote(e.target.value)}
+                placeholder="Mention specific grades (e.g. 500kg Sliced California Almonds 1.0mm, 200kg Kashmiri Walnut Halves, 50kg Mongra Saffron)..."
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
               <button
-                onClick={handleRunSiAssistant}
-                disabled={isEvaluating}
-                className="w-full py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2"
+                type="submit"
+                disabled={isSubmittingRfq}
+                className="w-full sm:w-auto px-8 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md disabled:opacity-50"
               >
-                <span>✨</span>
-                <span>{isEvaluating ? 'SI Analyzing Quality Specifications...' : 'SI, Build Production Specification & RFQ'}</span>
+                {isSubmittingRfq ? 'Submitting...' : rfqSubmitted ? '✓ Quote Request Sent' : 'Submit Formal B2B RFQ'}
               </button>
-            </div>
 
-            {/* Output Card (5 cols) */}
-            <div className="lg:col-span-5 bg-white text-[#17233B] rounded-2xl p-6 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-stone-200 pb-3">
-                <span className="font-serif font-bold text-sm">SI Contract Procurement Recommendation</span>
-                <span className="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-                  FSSAI Ready
-                </span>
-              </div>
-
-              {siRfqResult ? (
-                <div className="space-y-3 text-xs animate-fadeIn">
-                  <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200">
-                    <span className="text-[10px] uppercase font-bold text-[#704B32] block">Recommended Cut Spec:</span>
-                    <p className="font-semibold text-[#17233B] mt-0.5">{siRfqResult.recommendedCut}</p>
-                  </div>
-
-                  <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200">
-                    <span className="text-[10px] uppercase font-bold text-[#704B32] block">Wholesale Pricing Matrix:</span>
-                    <p className="font-semibold text-emerald-700 mt-0.5">{siRfqResult.estPriceBand}</p>
-                  </div>
-
-                  <p className="text-[11px] text-stone-600 font-light leading-relaxed">
-                    {siRfqResult.summary}
-                  </p>
-
-                  <a
-                    href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                      `Hello Nutty Tales! I have an RFQ generated by SI for ${mfgType} (${mfgMonthlyVol}/month). Location: ${mfgLocation}. Ingredients: ${mfgIngredients}. Please connect with our procurement team.`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full py-3 bg-[#17233B] hover:bg-[#176B68] text-white text-center rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
-                  >
-                    Send to Nutty Tales B2B Desk →
-                  </a>
-                </div>
-              ) : (
-                <div className="p-8 text-center text-xs text-stone-500 italic">
-                  Select your manufacturing line and click &ldquo;Build Production Specification&rdquo; to review tailored grades and pricing.
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Formal RFQ Engine: "REQUEST BUSINESS QUOTE" ────────────────────────── */}
-      <section id="rfq-form" className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-2">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
-            Formal Tender &amp; RFQ Portal
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            Request Business Quote (RFQ)
-          </h2>
-          <p className="text-xs sm:text-sm text-stone-600">
-            Submit your recurring requirement. Our corporate commercial desk responds within 4 business hours with certified COA and sample dispatch.
-          </p>
-        </div>
-
-        <form onSubmit={handleRfqSubmit} className="bg-white p-8 sm:p-12 rounded-3xl border border-stone-200 shadow-xl space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Company / Establishment Name</label>
-              <input
-                type="text"
-                required
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="e.g. Royal Grand Hotel / Amber Bakes"
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-              />
-            </div>
-
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Contact Person &amp; Title</label>
-              <input
-                type="text"
-                required
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                placeholder="e.g. Sanjay Verma (Head of Purchase)"
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-              />
-            </div>
-
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Phone / WhatsApp Number</label>
-              <input
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-              />
-            </div>
-
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Official Email Address</label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="procurement@company.com"
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-              />
-            </div>
-
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Company GSTIN (For B2B Billing)</label>
-              <input
-                type="text"
-                value={gstin}
-                onChange={(e) => setGstin(e.target.value)}
-                placeholder="07AAAAA0000A1Z5"
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-              />
-            </div>
-
-            <div>
-              <label className="font-semibold text-stone-700 block mb-1">Supply Frequency</label>
-              <select
-                value={orderFrequency}
-                onChange={(e) => setOrderFrequency(e.target.value)}
-                className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-emerald-700 hover:underline flex items-center gap-1"
               >
-                <option value="One-time Spot Order">One-time Spot Order</option>
-                <option value="Weekly Scheduled Delivery">Weekly Scheduled Delivery</option>
-                <option value="Monthly Contract">Monthly Contract</option>
-                <option value="Quarterly Contract">Quarterly Contract</option>
-                <option value="Annual Supply Contract">Annual Supply Contract</option>
-              </select>
+                <span>Or Chat with Corporate Desk on WhatsApp (+91 9717161809)</span>
+                <span>→</span>
+              </a>
             </div>
-          </div>
 
-          <div className="flex items-center gap-3 p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 text-xs">
-            <input
-              type="checkbox"
-              id="sample-req"
-              checked={sampleReq}
-              onChange={(e) => setSampleReq(e.target.checked)}
-              className="w-4 h-4 text-[#176B68] rounded focus:ring-0"
-            />
-            <label htmlFor="sample-req" className="font-semibold text-stone-800 cursor-pointer">
-              Send Complimentary Production Tasting / Cut Sample Kit (Dispatched via Bluedart)
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-4 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
-          >
-            {rfqSubmitted ? '✓ Commercial RFQ Registered — Desk Contacting You Shortly!' : 'Submit Business RFQ & Request Sample'}
-          </button>
-        </form>
+            {rfqSubmitted && (
+              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
+                <span>
+                  ✓ Your procurement RFQ has been received! Our B2B Account Specialist will dispatch the formal quotation and sample kit within 4 hours.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setRfqSubmitted(false)}
+                  className="text-emerald-900 font-bold hover:underline"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+          </form>
+        </div>
       </section>
     </main>
   )

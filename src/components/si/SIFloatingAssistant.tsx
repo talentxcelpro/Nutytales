@@ -258,16 +258,28 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
+  if (pathname.startsWith('/founders')) {
+    return {
+      greeting:
+        'Welcome to the Nutty Tales Founder Program. I am SI Founder Copilot. Tell me what venture you are launching (D2C, travel, clothing, bakery, hospitality) and I will calculate your landed costs, starter MOQs, and launch roadmap.',
+      actions: [
+        { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
+        { label: 'Apply for Founder Program', href: '/founders#apply' },
+      ],
+      quickPrompts: ['D2C dry fruit launch', 'Travel agency supply', 'Starter MOQ terms', 'Private label packaging'],
+    }
+  }
+
   if (pathname.startsWith('/business-supply')) {
     return {
       greeting:
         'Sourcing ingredients for hotels, commercial bakeries, or mithai chains? I can quote bulk cut specifications (sliced, slivered, nut flour) with laboratory moisture & oil parameters.',
       actions: [
-        { label: 'Create B2B RFQ', href: '/business-supply' },
-        { label: 'Request Lab Sample Kit', onClick: () => {} },
-        { label: 'Almond Slice Specs', onClick: () => {} },
+        { label: 'What Do You Make?', href: '/business-supply#what-do-you-make' },
+        { label: 'Bulk Ingredients Catalog', href: '/business-supply#bulk-ingredients' },
+        { label: 'Create B2B RFQ', href: '/business-supply#rfq-form' },
       ],
-      quickPrompts: ['Bakery almond slices', '500kg wholesale quote', 'FSSAI lab reports'],
+      quickPrompts: ['Bakery almond slices', '500kg wholesale quote', 'FSSAI lab reports', 'Enterprise multi-location'],
     }
   }
 
@@ -336,6 +348,18 @@ function generateSIResponse(query: string, pathname: string): ChatMessage {
       sender: 'si',
       text: 'For weddings, we offer our 6-step configurator: Occasion, Budget Tier (₹500 to ₹5,000+), Contents, Packaging (Rigid, Wood, Potli), Monogram foil stamping, and Multi-City PAN-India dispatch.',
       actions: [{ label: 'Design Your Wedding Hamper', href: '/weddings' }],
+    }
+  }
+
+  if (q.includes('founder') || q.includes('startup') || q.includes('private label') || q.includes('d2c') || q.includes('moq')) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: 'The Nutty Tales Founder Program provides complete commercial infrastructure for startups: bulk ingredient sourcing at origin rates, small starter MOQs, turnkey private-label pouching, travel inventory access, and multi-hub fulfilment across Noida, Patna & Kashmir.',
+      actions: [
+        { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
+        { label: 'Apply for Founder Program', href: '/founders#apply' },
+      ],
     }
   }
 

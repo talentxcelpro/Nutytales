@@ -9,6 +9,7 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 const NAV_LINKS = [
   { label: 'Shop', href: '/shop' },
   { label: 'Business Supply', href: '/business-supply' },
+  { label: 'Founders', href: '/founders', badge: 'Program' },
   { label: 'Gifting', href: '/gifting' },
   { label: 'Weddings', href: '/weddings', badge: 'Bespoke' },
   { label: 'Crafts', href: '/crafts', badge: "FW '26" },
