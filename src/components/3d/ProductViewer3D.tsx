@@ -549,6 +549,11 @@ export default function ProductViewer3D({
   const autoRotateRef = useRef(true)
   autoRotateRef.current = autoRotate
   const [addedNotice, setAddedNotice] = useState(false)
+  const controlsRef = useRef<{
+    setFront: () => void
+    setBack: () => void
+    reset: () => void
+  } | null>(null)
 
   useEffect(() => {
     setCapabilities(detect3DCapabilities())
@@ -565,8 +570,32 @@ export default function ProductViewer3D({
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0xf7f2e8)
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100)
-    camera.position.set(0, 1.2, 3.2)
+    // Calculate model-specific framing parameters so model is perfectly centered and large
+    let targetY = 0.035
+    let initCamY = 0.08
+    let initCamZ = 2.45
+    let groundY = -0.83
+
+    if (modelType === 'gift-box') {
+      targetY = -0.05
+      initCamY = 0.65
+      initCamZ = 2.2
+      groundY = -0.51
+    } else if (modelType === 'walnut-chest') {
+      targetY = -0.05
+      initCamY = 0.65
+      initCamZ = 2.2
+      groundY = -0.46
+    } else if (modelType === 'papier-mache') {
+      targetY = 0
+      initCamY = 0.55
+      initCamZ = 2.0
+      groundY = -0.34
+    }
+
+    const camera = new THREE.PerspectiveCamera(44, width / height, 0.1, 100)
+    camera.position.set(0, initCamY, initCamZ)
+    camera.lookAt(0, targetY, 0)
 
     const renderer = new THREE.WebGLRenderer({ antialias: capabilities?.tier !== 'LOW', alpha: true })
     renderer.setSize(width, height)
@@ -577,14 +606,14 @@ export default function ProductViewer3D({
     container.appendChild(renderer.domElement)
 
     // ── Lighting Rig ───────────────────────────────────────────────────────────
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.05)
     scene.add(ambientLight)
 
-    const dirLight1 = new THREE.DirectionalLight(0xfff5e6, 2.0)
-    dirLight1.position.set(3, 5, 3.5)
+    const dirLight1 = new THREE.DirectionalLight(0xfff5e6, 2.2)
+    dirLight1.position.set(3, 4.5, 3.5)
     scene.add(dirLight1)
 
-    const dirLight2 = new THREE.DirectionalLight(0xddeeff, 1.0)
+    const dirLight2 = new THREE.DirectionalLight(0xddeeff, 1.2)
     dirLight2.position.set(-3, 2, -2.5)
     scene.add(dirLight2)
 
@@ -593,9 +622,34 @@ export default function ProductViewer3D({
     const planeMat = new THREE.ShadowMaterial({ opacity: 0.15 })
     const plane = new THREE.Mesh(planeGeo, planeMat)
     plane.rotation.x = -Math.PI / 2
-    plane.position.y = -0.7
+    plane.position.y = groundY
     plane.receiveShadow = true
     scene.add(plane)
+
+    // Soft grounded contact shadow under model (anchors pouch realistically across all devices)
+    const shadowCanvas = document.createElement('canvas')
+    shadowCanvas.width = 256
+    shadowCanvas.height = 256
+    const sCtx = shadowCanvas.getContext('2d')
+    if (sCtx) {
+      const sGrad = sCtx.createRadialGradient(128, 128, 15, 128, 128, 120)
+      sGrad.addColorStop(0, 'rgba(0, 0, 0, 0.35)')
+      sGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.12)')
+      sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+      sCtx.fillStyle = sGrad
+      sCtx.fillRect(0, 0, 256, 256)
+    }
+    const contactShadowTex = new THREE.CanvasTexture(shadowCanvas)
+    const contactShadowGeo = new THREE.PlaneGeometry(1.6, 0.75)
+    const contactShadowMat = new THREE.MeshBasicMaterial({
+      map: contactShadowTex,
+      transparent: true,
+      depthWrite: false,
+    })
+    const contactShadow = new THREE.Mesh(contactShadowGeo, contactShadowMat)
+    contactShadow.rotation.x = -Math.PI / 2
+    contactShadow.position.y = groundY + 0.005
+    scene.add(contactShadow)
 
     // ── Procedural PBR Model Construction ──────────────────────────────────────
     const rootGroup = new THREE.Group()
@@ -786,7 +840,7 @@ export default function ProductViewer3D({
       prevMouseY = clientY
 
       rootGroup.rotation.y += deltaX * 0.01
-      rootGroup.rotation.x = Math.max(-0.6, Math.min(0.6, rootGroup.rotation.x + deltaY * 0.008))
+      rootGroup.rotation.x = Math.max(-0.35, Math.min(0.35, rootGroup.rotation.x + deltaY * 0.007))
     }
 
     const onPointerUp = () => {
@@ -795,7 +849,29 @@ export default function ProductViewer3D({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      camera.position.z = Math.max(1.8, Math.min(5.0, camera.position.z + e.deltaY * 0.003))
+      camera.position.z = Math.max(1.5, Math.min(3.8, camera.position.z + e.deltaY * 0.0025))
+      camera.lookAt(0, targetY, 0)
+    }
+
+    // Expose quick snap view methods to UI buttons
+    controlsRef.current = {
+      setFront: () => {
+        autoRotateRef.current = false
+        setAutoRotate(false)
+        rootGroup.rotation.set(0, 0, 0)
+      },
+      setBack: () => {
+        autoRotateRef.current = false
+        setAutoRotate(false)
+        rootGroup.rotation.set(0, Math.PI, 0)
+      },
+      reset: () => {
+        autoRotateRef.current = false
+        setAutoRotate(false)
+        rootGroup.rotation.set(0, 0, 0)
+        camera.position.set(0, initCamY, initCamZ)
+        camera.lookAt(0, targetY, 0)
+      },
     }
 
     const domEl = renderer.domElement
@@ -833,6 +909,7 @@ export default function ProductViewer3D({
 
     // ── Cleanup and Resource Disposal ─────────────────────────────────────────
     return () => {
+      controlsRef.current = null
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', handleResize)
       domEl.removeEventListener('mousedown', onPointerDown)
@@ -896,21 +973,43 @@ export default function ProductViewer3D({
         </div>
 
         {/* 3D Canvas Viewport */}
-        <div className="relative w-full h-[380px] sm:h-[460px] bg-[#F7F2E8] overflow-hidden cursor-grab active:cursor-grabbing">
+        <div className="relative w-full h-[400px] sm:h-[480px] bg-[#F7F2E8] overflow-hidden cursor-grab active:cursor-grabbing select-none">
           <div ref={mountRef} className="w-full h-full" />
 
           {/* Floating Canvas Overlay Instructions */}
           <div className="absolute top-4 left-4 bg-[#17233B]/85 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-[10px] font-semibold flex items-center gap-2 border border-white/15 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Drag to rotate 360° · Front &amp; Back Inspection · Scroll to zoom</span>
+            <span className="hidden sm:inline">Drag to rotate 360° · Front &amp; Back Inspection · Scroll to zoom</span>
+            <span className="sm:hidden">Drag to rotate 360° · Pinch/scroll to zoom</span>
           </div>
 
-          <div className="absolute top-4 right-4 flex items-center gap-2">
+          <div className="absolute top-4 right-4 flex items-center gap-1.5 sm:gap-2">
+            <button
+              onClick={() => controlsRef.current?.setFront()}
+              className="bg-white/90 hover:bg-white text-[#17233B] text-[11px] font-bold px-2.5 py-1.5 rounded-full border border-stone-200 shadow-sm transition-colors"
+              title="Snap to Front View"
+            >
+              Front
+            </button>
+            <button
+              onClick={() => controlsRef.current?.setBack()}
+              className="bg-white/90 hover:bg-white text-[#17233B] text-[11px] font-bold px-2.5 py-1.5 rounded-full border border-stone-200 shadow-sm transition-colors"
+              title="Snap to Back Nutrition & Certifications"
+            >
+              Back
+            </button>
+            <button
+              onClick={() => controlsRef.current?.reset()}
+              className="bg-white/90 hover:bg-white text-[#17233B] text-[11px] font-bold px-2.5 py-1.5 rounded-full border border-stone-200 shadow-sm transition-colors hidden sm:inline-block"
+              title="Reset View"
+            >
+              Reset
+            </button>
             <button
               onClick={() => setAutoRotate(!autoRotate)}
-              className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-[#17233B] border border-stone-200 shadow-sm hover:bg-white transition-colors"
+              className="bg-white/90 hover:bg-white px-3 py-1.5 rounded-full text-[11px] font-semibold text-[#17233B] border border-stone-200 shadow-sm transition-colors"
             >
-              {autoRotate ? '⏸ Pause Spin' : '▶ Auto Spin'}
+              {autoRotate ? '⏸ Pause' : '▶ Spin'}
             </button>
           </div>
         </div>
