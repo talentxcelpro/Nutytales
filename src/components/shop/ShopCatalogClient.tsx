@@ -548,12 +548,69 @@ export default function ShopCatalogClient({
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-                {sortedProducts.map((prod) => (
-                  <ShopProductCard
-                    key={prod.id}
-                    product={prod}
-                    onQuickView={(p) => setQuickViewProduct(p)}
-                  />
+                {sortedProducts.map((prod, idx) => (
+                  <React.Fragment key={prod.id}>
+                    <ShopProductCard
+                      product={prod}
+                      onQuickView={(p) => setQuickViewProduct(p)}
+                    />
+
+                    {/* Editorial Breakout #1: Saffron Terroir Spotlight (rendered after 3rd item when looking at all) */}
+                    {idx === 2 && selectedCategory === 'all' && (
+                      <div className="bg-[#FAF5ED] rounded-3xl border border-[#EAE3D5] p-6 sm:p-7 flex flex-col justify-between text-[#17233B] relative overflow-hidden group">
+                        <div className="space-y-3 relative z-10">
+                          <span className="text-[10px] font-semibold uppercase tracking-widest text-[#B8934A] block">
+                            Terroir Spotlight · Pampore Plateau
+                          </span>
+                          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[#17233B] leading-snug">
+                            The Saffron Soils of Karewa
+                          </h3>
+                          <p className="text-xs text-[#7A6D5E] font-light leading-relaxed">
+                            Glacial-alluvial clay at 1,600m altitude imparts Nutty Tales Mongra Saffron with over 300% the natural crocin color index of commercial market grades.
+                          </p>
+                        </div>
+                        <div className="pt-6 relative z-10 border-t border-[#EAE3D5]">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedCategory('saffron')}
+                            className="text-xs font-semibold uppercase tracking-wider text-[#17233B] hover:text-[#176B68] flex items-center gap-1"
+                          >
+                            <span>Explore Saffron Harvest</span>
+                            <span>→</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Editorial Breakout #2: The Connoisseur Morning Ritual (rendered after 6th item) */}
+                    {idx === 5 && selectedCategory === 'all' && (
+                      <div className="bg-[#FAF5ED] rounded-3xl border border-[#EAE3D5] p-6 sm:p-7 flex flex-col justify-between text-[#17233B] relative overflow-hidden group">
+                        <div className="space-y-3 relative z-10">
+                          <span className="text-[10px] font-semibold uppercase tracking-widest text-[#B8934A] block">
+                            Ayurvedic Connoisseur Ritual
+                          </span>
+                          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[#17233B] leading-snug">
+                            The Himalayan Morning Pair
+                          </h3>
+                          <p className="text-xs text-[#7A6D5E] font-light leading-relaxed">
+                            5 water-soaked Kashmiri Mamra almonds paired with a spoonful of raw Acacia honey provides lasting mental acuity and natural morning vitality.
+                          </p>
+                        </div>
+                        <div className="pt-6 relative z-10 border-t border-[#EAE3D5]">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedCategory('almonds')
+                            }}
+                            className="text-xs font-semibold uppercase tracking-wider text-[#17233B] hover:text-[#176B68] flex items-center gap-1"
+                          >
+                            <span>View Kashmiri Mamra</span>
+                            <span>→</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             )}

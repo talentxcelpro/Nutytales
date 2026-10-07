@@ -27,6 +27,15 @@ export interface NutritionInfo {
   sodium?: number
 }
 
+export interface SensoryProfile {
+  tastingNotes: string[]
+  altitude?: string
+  harvestSeason?: string
+  oilIndex?: string
+  crunchScore?: number
+  secondaryImage?: string
+}
+
 export interface Product {
   id: string
   name: string
@@ -45,6 +54,7 @@ export interface Product {
   stockStatus: StockStatus
   image?: string
   images?: string[]
+  sensory?: SensoryProfile
   isFeatured: boolean
   shelfLifeMonths: number
   storage: string
@@ -93,6 +103,14 @@ export const PRODUCTS: Product[] = [
     b2bTiers: buildTiers(890),
     stockStatus: 'IN_STOCK',
     image: '/images/almonds-pouch-250g.jpg',
+    sensory: {
+      tastingNotes: ['Crisp Snap', 'Toasted Sweetness', 'Mild Almond Cream'],
+      altitude: 'San Joaquin Valley, California',
+      harvestSeason: 'Late Summer 2025',
+      oilIndex: '46% Natural Healthy Fats',
+      crunchScore: 5,
+      secondaryImage: '/images/mamra-kernels-macro.jpg',
+    },
     isFeatured: true,
     shelfLifeMonths: 12,
     storage: 'Store in a cool, dry place below 25°C. Refrigerate after opening.',
@@ -117,6 +135,14 @@ export const PRODUCTS: Product[] = [
     b2bTiers: buildTiers(1950),
     stockStatus: 'IN_STOCK',
     image: '/images/mamra-almonds-pouch-250g.jpg',
+    sensory: {
+      tastingNotes: ['Rich Cold-Pressed Butter', 'Subtle Pine Honey', 'Dense Crunch'],
+      altitude: '1,650m (Pulwama Valley)',
+      harvestSeason: 'Autumn 2025 Reserve',
+      oilIndex: '52% Natural Oils (Rare High)',
+      crunchScore: 5,
+      secondaryImage: '/images/mamra-kernels-macro.jpg',
+    },
     isFeatured: true,
     shelfLifeMonths: 18,
     storage: 'Store in an airtight container in a cool, dry place. Best kept refrigerated.',
@@ -191,6 +217,14 @@ export const PRODUCTS: Product[] = [
     b2bTiers: buildTiers(980),
     stockStatus: 'IN_STOCK',
     image: '/images/cashews-pouch-250g.jpg',
+    sensory: {
+      tastingNotes: ['Velvety Sweet Cream', 'Silky Melt', 'Subtle Cashew Fruit'],
+      altitude: 'Coastal Karnataka & Goa',
+      harvestSeason: 'Spring 2025 Crop',
+      oilIndex: '48% Natural Fats',
+      crunchScore: 4,
+      secondaryImage: '/images/cashews-walnuts-macro.jpg',
+    },
     isFeatured: true,
     shelfLifeMonths: 12,
     storage: 'Store in a cool, dry place. Refrigerate in warm climates.',
@@ -265,6 +299,14 @@ export const PRODUCTS: Product[] = [
     b2bTiers: buildTiers(630),
     stockStatus: 'IN_STOCK',
     image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+    sensory: {
+      tastingNotes: ['Snow-White Flesh', 'Zero Bitterness', 'Buttery Walnut Finish'],
+      altitude: '1,800m (Anantnag & Shopian)',
+      harvestSeason: 'Autumn 2025 Fresh Harvest',
+      oilIndex: '65% Omega-3 Rich Natural Fats',
+      crunchScore: 4,
+      secondaryImage: '/images/cashews-walnuts-macro.jpg',
+    },
     isFeatured: true,
     shelfLifeMonths: 12,
     storage: 'Store in a cool, dry place. Keep away from strong odours.',
@@ -802,6 +844,14 @@ export const PRODUCTS: Product[] = [
     ],
     stockStatus: 'IN_STOCK',
     image: '/images/saffron-jar-5g.jpg',
+    sensory: {
+      tastingNotes: ['Honeyed Hay & Warm Earth', 'Intense Crimson Bloom', 'Mild Bittersweet Spice'],
+      altitude: '1,600m (Karewa Plateau, Pampore)',
+      harvestSeason: 'October 2025 Hand-Plucked',
+      oilIndex: 'Grade 1 Stigma (100% Pure Crocin)',
+      crunchScore: 5,
+      secondaryImage: '/images/saffron-threads-macro.jpg',
+    },
     isFeatured: true,
     shelfLifeMonths: 24,
     storage: 'Store in a cool, dark place away from direct sunlight.',

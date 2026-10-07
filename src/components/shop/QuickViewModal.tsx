@@ -19,6 +19,7 @@ export default function QuickViewModal({
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
+  const [activeTab, setActiveTab] = useState<'pack' | 'raw'>('pack')
 
   if (!isOpen || !product) return null
 
@@ -28,6 +29,9 @@ export default function QuickViewModal({
   const totalPrice = unitPrice * quantity
   const mrp = currentVariant.mrp || Math.round(unitPrice * 1.15)
   const savings = mrp > unitPrice ? mrp - unitPrice : 0
+
+  const primaryImage = product.image || '/images/almonds-pouch-250g.jpg'
+  const secondaryImage = product.sensory?.secondaryImage
 
   const handleAddToCart = () => {
     try {
@@ -41,7 +45,7 @@ export default function QuickViewModal({
         unitPrice,
         quantity,
         totalPrice,
-        image: product.image,
+        image: primaryImage,
       }
       existing.push(item)
       localStorage.setItem('nt_cart', JSON.stringify(existing))
@@ -59,89 +63,132 @@ export default function QuickViewModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-fadeIn"
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl border border-stone-200 my-auto animate-fadeIn"
+        className="relative bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl border border-[#EAE3D5] my-auto animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-lg transition-colors"
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-[#17233B] flex items-center justify-center font-bold text-sm shadow-xs border border-[#EAE3D5] transition-colors"
           aria-label="Close modal"
         >
           ✕
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left: HD Product Presentation Canvas */}
-          <div className="relative bg-[#FAF6EE] p-8 flex flex-col items-center justify-center min-h-[380px] md:min-h-[500px]">
-            {product.image ? (
-              <div className="relative w-full h-[320px] md:h-[420px]">
+          {/* ── Left: Dual-Angle Photography Stage ── */}
+          <div className="relative bg-[#FAF5ED] p-6 sm:p-8 flex flex-col justify-between min-h-[380px] md:min-h-[520px]">
+            {/* View Switcher Tabs */}
+            <div className="flex items-center gap-2 z-10">
+              <button
+                type="button"
+                onClick={() => setActiveTab('pack')}
+                className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                  activeTab === 'pack'
+                    ? 'bg-[#17233B] text-white shadow-xs'
+                    : 'bg-white/80 text-[#5C4F41] border border-[#EAE3D5]'
+                }`}
+              >
+                Studio Pouch
+              </button>
+              {secondaryImage && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('raw')}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+                    activeTab === 'raw'
+                      ? 'bg-[#17233B] text-white shadow-xs'
+                      : 'bg-white/80 text-[#5C4F41] border border-[#EAE3D5]'
+                  }`}
+                >
+                  Raw Kernel Macro
+                </button>
+              )}
+            </div>
+
+            {/* Image Canvas */}
+            <div className="relative w-full h-[300px] md:h-[380px] my-auto flex items-center justify-center">
+              {activeTab === 'pack' ? (
                 <Image
-                  src={product.image}
+                  src={primaryImage}
                   alt={product.name}
                   fill
                   quality={95}
                   priority
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-contain p-4 drop-shadow-md hover:scale-105 transition-transform duration-500"
+                  className="object-contain p-4 drop-shadow-xs"
                 />
-              </div>
-            ) : (
-              <div className="text-stone-400 text-center">
-                <span className="text-6xl">🥜</span>
-                <p className="text-xs uppercase font-bold mt-2">Nutty Tales Harvest</p>
-              </div>
-            )}
-
-            {/* Badges */}
-            <div className="absolute top-6 left-6 flex flex-col gap-1.5 pointer-events-none">
-              <span className="bg-[#17233B] text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                {product.origin.split(',')[0]}
-              </span>
-              <span className="bg-[#C9A45C] text-[#17233B] px-3 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider uppercase">
-                {product.grade}
-              </span>
+              ) : (
+                secondaryImage && (
+                  <Image
+                    src={secondaryImage}
+                    alt={`${product.name} raw macro`}
+                    fill
+                    quality={95}
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover rounded-2xl"
+                  />
+                )
+              )}
             </div>
 
-            <p className="text-[11px] text-stone-500 mt-2 font-medium">
-              100% Studio Uncropped HD Packaging
-            </p>
+            {/* Terroir / Provenance Capsule */}
+            <div className="flex items-center justify-between text-[11px] text-[#7A6D5E] border-t border-[#EAE3D5] pt-3 z-10">
+              <span>{product.origin}</span>
+              {product.sensory?.altitude && (
+                <span className="font-mono text-[#17233B] font-semibold">
+                  🏔️ {product.sensory.altitude}
+                </span>
+              )}
+            </div>
           </div>
 
-          {/* Right: Commerce & Specification Panel */}
+          {/* ── Right: Sensory & Commerce Details ── */}
           <div className="p-6 sm:p-8 flex flex-col justify-between space-y-5">
             <div>
-              {/* Category & Status */}
-              <div className="flex items-center justify-between text-xs font-semibold text-[#704B32] mb-1.5">
-                <span className="uppercase tracking-wider">{product.category}</span>
-                <span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 text-[11px] font-bold">
-                  ✓ Ready for Dispatch
+              {/* Category & Grade */}
+              <div className="flex items-center justify-between text-xs font-medium text-[#8C7E70] uppercase tracking-wider mb-1">
+                <span>{product.category}</span>
+                <span className="text-[#B8934A] font-semibold">
+                  {product.sensory?.harvestSeason || product.grade}
                 </span>
               </div>
 
               {/* Title */}
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] leading-tight">
+              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#17233B] leading-tight">
                 {product.name}
               </h2>
 
-              {/* Reviews & Origin */}
-              <div className="flex items-center gap-3 text-xs text-stone-600 mt-2">
-                <span className="text-amber-500 font-bold">★★★★★</span>
-                <span className="font-semibold">4.9 (120+ verified reviews)</span>
-                <span>•</span>
-                <span className="text-[#176B68] font-bold">FSSAI Certified</span>
-              </div>
+              {/* Sommelier Tasting Notes */}
+              {product.sensory?.tastingNotes && product.sensory.tastingNotes.length > 0 && (
+                <div className="pt-2">
+                  <span className="text-[10px] uppercase tracking-widest text-[#8C7E70] font-semibold block mb-1">
+                    Sommelier Tasting Notes:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.sensory.tastingNotes.map((note) => (
+                      <span
+                        key={note}
+                        className="px-2.5 py-0.5 rounded-full bg-[#FAF5ED] text-[#704B32] text-xs font-medium border border-[#EAE3D5]"
+                      >
+                        ✦ {note}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-              {/* Pricing */}
-              <div className="mt-4 p-4 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-baseline justify-between">
+              {/* Pricing Capsule */}
+              <div className="mt-4 p-4 rounded-2xl bg-[#FAF5ED]/50 border border-[#EAE3D5] flex items-baseline justify-between">
                 <div>
                   <div className="flex items-baseline gap-2.5">
-                    <span className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                    <span className="font-serif text-2xl sm:text-3xl font-semibold text-[#17233B]">
                       ₹{unitPrice.toLocaleString('en-IN')}
                     </span>
                     {mrp > unitPrice && (
@@ -150,34 +197,34 @@ export default function QuickViewModal({
                       </span>
                     )}
                   </div>
-                  <span className="text-[11px] text-stone-500">
-                    Net Weight: {currentVariant.label} · Inclusive of all taxes
+                  <span className="text-[11px] text-[#7A6D5E]">
+                    Net Weight: {currentVariant.label} · Tax Included
                   </span>
                 </div>
 
                 {savings > 0 && (
-                  <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  <span className="bg-emerald-800 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">
                     Save ₹{savings}
                   </span>
                 )}
               </div>
 
-              {/* Pack Size Selector */}
+              {/* Tactile Pack Size Selector */}
               {product.variants.length > 0 && (
                 <div className="mt-4">
-                  <span className="text-xs font-bold uppercase tracking-wider text-stone-600 block mb-2">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8C7E70] block mb-2">
                     Select Pack Size:
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex rounded-full bg-[#FAF5ED] p-1 border border-[#EAE3D5]">
                     {product.variants.map((v, idx) => (
                       <button
                         key={`${v.label}-${idx}`}
                         type="button"
                         onClick={() => setSelectedVariantIdx(idx)}
-                        className={`py-2 px-4 rounded-xl text-xs font-bold transition-all border ${
+                        className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all text-center ${
                           selectedVariantIdx === idx
-                            ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
-                            : 'bg-white text-stone-700 border-stone-200 hover:border-stone-400'
+                            ? 'bg-[#17233B] text-white shadow-xs'
+                            : 'text-[#6B6055] hover:text-[#17233B]'
                         }`}
                       >
                         {v.label} — ₹{v.retailPrice}
@@ -188,81 +235,77 @@ export default function QuickViewModal({
               )}
 
               {/* Short Description */}
-              <p className="text-xs text-stone-600 leading-relaxed mt-4 line-clamp-3">
-                {product.shortDesc}
+              <p className="text-xs text-[#7A6D5E] font-light leading-relaxed mt-4 line-clamp-3">
+                {product.longDesc.split('\n\n')[0] || product.shortDesc}
               </p>
 
-              {/* Nutrition Highlights */}
-              {product.nutrition && (
-                <div className="grid grid-cols-4 gap-2 mt-4 pt-3 border-t border-stone-100 text-center">
-                  <div className="bg-white p-2 rounded-xl border border-stone-100">
-                    <span className="block text-[10px] text-stone-400 uppercase">Protein</span>
-                    <span className="text-xs font-bold text-[#17233B]">{product.nutrition.protein}g</span>
-                  </div>
-                  <div className="bg-white p-2 rounded-xl border border-stone-100">
-                    <span className="block text-[10px] text-stone-400 uppercase">Fiber</span>
-                    <span className="text-xs font-bold text-[#17233B]">{product.nutrition.fiber}g</span>
-                  </div>
-                  <div className="bg-white p-2 rounded-xl border border-stone-100">
-                    <span className="block text-[10px] text-stone-400 uppercase">Good Fats</span>
-                    <span className="text-xs font-bold text-[#17233B]">{product.nutrition.fat}g</span>
-                  </div>
-                  <div className="bg-white p-2 rounded-xl border border-stone-100">
-                    <span className="block text-[10px] text-stone-400 uppercase">Calories</span>
-                    <span className="text-xs font-bold text-[#17233B]">{product.nutrition.calories}</span>
-                  </div>
+              {/* Lab Purity Highlights */}
+              <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-[#F0EBE1] text-center text-xs">
+                <div className="bg-[#FAF5ED]/50 p-2 rounded-xl border border-[#EAE3D5]">
+                  <span className="block text-[10px] text-[#8C7E70] uppercase">Oil Index</span>
+                  <span className="font-semibold text-[#17233B]">
+                    {product.sensory?.oilIndex?.split(' ')[0] || 'Natural'}
+                  </span>
                 </div>
-              )}
+                <div className="bg-[#FAF5ED]/50 p-2 rounded-xl border border-[#EAE3D5]">
+                  <span className="block text-[10px] text-[#8C7E70] uppercase">Moisture</span>
+                  <span className="font-semibold text-[#17233B]">&lt; 4.8% Sealed</span>
+                </div>
+                <div className="bg-[#FAF5ED]/50 p-2 rounded-xl border border-[#EAE3D5]">
+                  <span className="block text-[10px] text-[#8C7E70] uppercase">Purity</span>
+                  <span className="font-semibold text-[#17233B]">100% Unbleached</span>
+                </div>
+              </div>
             </div>
 
-            {/* Stepper + Add to Cart + Full Details Link */}
-            <div className="space-y-3 pt-3 border-t border-stone-200">
+            {/* Stepper + Add to Cart */}
+            <div className="space-y-3 pt-3 border-t border-[#EAE3D5]">
               <div className="flex items-center gap-3">
                 {/* Quantity */}
-                <div className="flex items-center border border-stone-300 rounded-xl bg-white px-1">
+                <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
                   <button
                     type="button"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-9 h-11 flex items-center justify-center font-bold text-stone-600 hover:text-black"
+                    className="w-9 h-11 flex items-center justify-center font-semibold text-[#5C4F41] hover:text-[#17233B]"
                   >
                     −
                   </button>
-                  <span className="w-8 text-center font-bold text-sm text-[#17233B]">
+                  <span className="w-8 text-center font-medium text-sm text-[#17233B]">
                     {quantity}
                   </span>
                   <button
                     type="button"
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-9 h-11 flex items-center justify-center font-bold text-stone-600 hover:text-black"
+                    className="w-9 h-11 flex items-center justify-center font-semibold text-[#5C4F41] hover:text-[#17233B]"
                   >
                     +
                   </button>
                 </div>
 
-                {/* Add to Basket button */}
+                {/* Add to Basket */}
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className={`flex-1 py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 ${
+                  className={`flex-1 py-3 px-6 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-2 ${
                     isAdded
                       ? 'bg-emerald-700 text-white'
-                      : 'bg-[#17233B] hover:bg-[#176B68] text-white'
+                      : 'bg-[#17233B] hover:bg-[#1E5E58] text-white'
                   }`}
                 >
-                  <span>{isAdded ? '✓ Added to Cart!' : '🛒 Add to Basket'}</span>
+                  <span>{isAdded ? '✓ Added to Basket' : 'Add to Basket'}</span>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
+              <div className="flex items-center justify-between text-xs text-[#8C7E70] pt-1">
                 <Link
                   href={`/shop/${product.slug}`}
                   onClick={onClose}
-                  className="font-bold text-[#176B68] hover:underline flex items-center gap-1"
+                  className="font-medium text-[#176B68] hover:underline flex items-center gap-1"
                 >
-                  <span>View Complete Specs, B2B Tiers &amp; 3D</span>
+                  <span>View Complete Culinary Dossier</span>
                   <span>→</span>
                 </Link>
-                <span>Free Pan-India Delivery on ₹1,999+</span>
+                <span>Free Express Pan-India Delivery</span>
               </div>
             </div>
           </div>
