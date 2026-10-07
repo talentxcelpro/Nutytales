@@ -1,6 +1,7 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import LiveStaysDiscovery from '@/components/stays/LiveStaysDiscovery'
+import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export const metadata: Metadata = {
   title: 'Nuty Tales Stays & Travel | Srinagar, Noida & Patna Properties',
@@ -63,8 +64,13 @@ export default function StaysPage() {
       </section>
 
       {/* ── 2. Live Dynamic Stays Discovery Engine ───────────────────────────────── */}
-      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="booking-engine" className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <LiveStaysDiscovery />
+
+        <SourcingRequestBanner
+          vertical="stays"
+          contextText="Planning a private orchard buyout, corporate offsite, VIP high-level delegation, or bespoke Kashmir valley retreat?"
+        />
       </section>
 
       {/* ── 3. The Ecosystem Loop: Taste & Stay ──────────────────────────────────── */}

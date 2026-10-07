@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -10,6 +10,7 @@ import {
   WeddingOccasion,
 } from '@/lib/weddings-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export default function WeddingsPage() {
   // Hamper Builder States
@@ -605,50 +606,97 @@ export default function WeddingsPage() {
           </div>
 
           <div className="bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 shadow-lg space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div>
-                <label className="font-semibold text-stone-700 block mb-1">Your Full Name</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Radhika Sharma"
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-                />
-              </div>
-              <div>
-                <label className="font-semibold text-stone-700 block mb-1">WhatsApp / Phone Number</label>
-                <input
-                  type="tel"
-                  placeholder="+91 98765 43210"
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-                />
-              </div>
-              <div>
-                <label className="font-semibold text-stone-700 block mb-1">Wedding City / Destination</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Udaipur, Delhi NCR, Goa, Kashmir"
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-                />
-              </div>
-              <div>
-                <label className="font-semibold text-stone-700 block mb-1">Approx. Hamper Count</label>
-                <input
-                  type="number"
-                  placeholder="e.g. 150"
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
-                />
-              </div>
-            </div>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault()
+                const form = e.currentTarget
+                const name = (form.elements.namedItem('cName') as HTMLInputElement)?.value
+                const phone = (form.elements.namedItem('cPhone') as HTMLInputElement)?.value
+                const city = (form.elements.namedItem('cCity') as HTMLInputElement)?.value
+                const count = (form.elements.namedItem('cCount') as HTMLInputElement)?.value
+                if (!phone) return
 
-            <div className="pt-2">
-              <button
-                onClick={() => setInquirySent(true)}
-                className="w-full py-4 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
-              >
-                {inquirySent ? '✓ Consultation Request Received — Stylist Contacting You!' : 'Request Wedding Consultation & Sample Box'}
-              </button>
-            </div>
+                try {
+                  await fetch('/api/opportunities', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      type: 'wedding_inquiry',
+                      vertical: 'weddings',
+                      customerName: name,
+                      customerPhone: phone,
+                      deliveryCity: city,
+                      quantity: `${count || 100} Hampers`,
+                      itemOrService: `Custom Wedding Favours & Consultation (${city || 'India'})`,
+                      source: 'weddings-consultation-form',
+                    }),
+                  })
+                  setInquirySent(true)
+                } catch {
+                  setInquirySent(true)
+                }
+              }}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label className="font-semibold text-stone-700 block mb-1">Your Full Name *</label>
+                  <input
+                    name="cName"
+                    type="text"
+                    required
+                    placeholder="e.g. Radhika Sharma"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
+                  />
+                </div>
+                <div>
+                  <label className="font-semibold text-stone-700 block mb-1">WhatsApp / Phone Number *</label>
+                  <input
+                    name="cPhone"
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
+                  />
+                </div>
+                <div>
+                  <label className="font-semibold text-stone-700 block mb-1">Wedding City / Destination</label>
+                  <input
+                    name="cCity"
+                    type="text"
+                    placeholder="e.g. Udaipur, Delhi NCR, Goa, Kashmir"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
+                  />
+                </div>
+                <div>
+                  <label className="font-semibold text-stone-700 block mb-1">Approx. Hamper Count</label>
+                  <input
+                    name="cCount"
+                    type="number"
+                    placeholder="e.g. 150"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#176B68]"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
+                >
+                  {inquirySent ? '✓ Consultation Request Received — Senior Stylist Assigned!' : 'Request Wedding Consultation & Sample Box'}
+                </button>
+              </div>
+            </form>
           </div>
+        </div>
+
+        {/* Universal Sourcing Request Banner */}
+        <div className="pt-8">
+          <SourcingRequestBanner
+            vertical="weddings"
+            contextText="Looking for bespoke silver carafes, embroidered Kashmiri velvet trousseau trunks, or destination hotel room-drop amenities?"
+          />
         </div>
       </section>
     </main>

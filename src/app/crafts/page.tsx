@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -17,12 +17,15 @@ import SizeGuideModal from '@/components/crafts/SizeGuideModal'
 import GarmentViewer3DModal from '@/components/crafts/GarmentViewer3DModal'
 import TryWithSIModal from '@/components/crafts/TryWithSIModal'
 import { CRAFT_PRODUCTS } from '@/lib/crafts-data'
+import DemandCaptureModal from '@/components/demand/DemandCaptureModal'
+import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export default function CraftsPage() {
   // ── State for Modals & Overlays ─────────────────────────────────────────────
   const [selectedProductForQuickAdd, setSelectedProductForQuickAdd] = useState<ClothingProduct | null>(null)
   const [selectedProductFor3D, setSelectedProductFor3D] = useState<ClothingProduct | null>(null)
   const [siModalOpen, setSiModalOpen] = useState(false)
+  const [b2bQuoteOpen, setB2bQuoteOpen] = useState(false)
   const [activeSiProduct, setActiveSiProduct] = useState<ClothingProduct | undefined>(undefined)
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
 
@@ -193,6 +196,13 @@ export default function CraftsPage() {
                   className="px-5 py-3.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-1.5"
                 >
                   <span>✨ Try with SI</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setB2bQuoteOpen(true)}
+                  className="px-5 py-3.5 bg-white/10 hover:bg-white/20 text-[#C9A45C] border border-[#C9A45C]/40 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-1.5"
+                >
+                  <span>🏛️ Wholesale / Export RFQ</span>
                 </button>
               </div>
 
@@ -648,6 +658,14 @@ export default function CraftsPage() {
         </div>
       </section>
 
+      {/* ── Sourcing Request Engine ────────────────────────────────────────── */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SourcingRequestBanner
+          vertical="crafts"
+          contextText="Looking for bespoke GI-tagged Kani Pashmina shawls, boutique hotel wool throws, export-grade silk rugs, or bulk festive pherans?"
+        />
+      </section>
+
       {/* ── Modals: Quick Add, Size Guide, 3D Garment Inspector, Try With SI ──── */}
       <QuickAddModal
         product={selectedProductForQuickAdd}
@@ -682,6 +700,14 @@ export default function CraftsPage() {
             ? CRAFT_PRODUCTS.find((p) => p.slug === activeSiProduct.slug)
             : undefined
         }
+      />
+
+      <DemandCaptureModal
+        isOpen={b2bQuoteOpen}
+        onClose={() => setB2bQuoteOpen(false)}
+        defaultVertical="crafts"
+        title="Wholesale & Export Craft Procurement"
+        subtitle="Direct sourcing from certified Kashmiri master artisans and handloom cooperatives. We structure minimum order quantities, GI authenticity documents, and insured international air freight."
       />
     </main>
   )

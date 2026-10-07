@@ -1,5 +1,11 @@
-﻿import Image from 'next/image'
+'use client'
+
+import React, { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
+import DemandCaptureModal from '@/components/demand/DemandCaptureModal'
+import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
+import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const GIFTING_VERTICALS = [
   {
@@ -41,6 +47,9 @@ const GIFTING_VERTICALS = [
 ]
 
 export default function GiftingPage() {
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false)
+  const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
+
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -62,16 +71,24 @@ export default function GiftingPage() {
               <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
                 Whether celebrating a grand Indian wedding, rewarding corporate teams for Diwali 2026,
                 or honoring relationships with authentic Kashmiri heirlooms — Nuty Tales designs,
-                custom-packages, and delivers across India.
+                custom-packages, and delivers across India, the UAE, and global corridors.
               </p>
             </div>
 
-            <Link
-              href="/weddings"
-              className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-md flex-shrink-0"
-            >
-              💍 Plan Wedding Gifting →
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => setQuoteModalOpen(true)}
+                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-md flex-shrink-0"
+              >
+                ⚡ Get Bulk Gifting Quote
+              </button>
+              <Link
+                href="/weddings"
+                className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-md flex-shrink-0"
+              >
+                💍 Wedding Gifting →
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -104,18 +121,38 @@ export default function GiftingPage() {
                 </div>
               </div>
 
-              <div className="p-8 pt-0">
+              <div className="p-8 pt-0 flex gap-3">
                 <Link
                   href={g.link}
                   className="inline-flex items-center gap-2 py-3 px-6 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
                 >
                   {g.cta}
                 </Link>
+                <button
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="py-3 px-4 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-colors"
+                >
+                  Request Proposal
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Sourcing Banner */}
+        <SourcingRequestBanner
+          vertical="gifting"
+          contextText="Need custom logo-embossed leatherette trunks, silver carafes, multi-city recipient uploads, or custom-roast dry fruit curation for your brand?"
+        />
       </div>
+
+      <DemandCaptureModal
+        isOpen={quoteModalOpen}
+        onClose={() => setQuoteModalOpen(false)}
+        defaultVertical="gifting"
+        title="Request Corporate &amp; Bulk Gifting Proposal"
+        subtitle="Share your target quantity, per-box budget, and delivery timeline. Our corporate gifting studio will dispatch physical samples and formal quotation within 4 hours."
+      />
     </main>
   )
 }
