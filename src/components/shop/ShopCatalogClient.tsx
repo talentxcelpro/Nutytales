@@ -179,111 +179,49 @@ export default function ShopCatalogClient({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-24">
-        {/* ── 2. Editorial Header with Generous Breathing Room ── */}
-        <header className="mb-10 text-center max-w-3xl mx-auto space-y-3">
-          <nav className="flex items-center justify-center gap-2 text-xs text-[#8C7E70] uppercase tracking-widest font-medium">
-            <Link href="/" className="hover:text-[#17233B] transition-colors">
-              Home
-            </Link>
-            <span>/</span>
-            <span className="text-[#17233B] font-semibold">Collection</span>
-          </nav>
-
-          <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#17233B] tracking-tight leading-tight">
-            The Pure Harvest Collection
-          </h1>
-
-          <p className="text-sm sm:text-base text-[#6B6055] font-light leading-relaxed max-w-2xl mx-auto">
-            Pure, hand-graded dry fruits, royal saffron, and wild forest honey sourced directly
-            from high-altitude Kashmiri valleys and certified grower estates.
-          </p>
-
-          <div className="pt-2 flex items-center justify-center gap-6 text-xs text-[#7A6D5E]">
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#B8934A]">✦</span> 100% Origin Certified
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#B8934A]">✦</span> Vacuum Fresh Sealed
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#B8934A]">✦</span> Dispatch within 24h
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-20">
+        {/* ── Compact Header & Main Controls Strip ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D5]">
+          {/* Breadcrumb + Title + Count */}
+          <div className="flex items-baseline gap-2.5">
+            <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#17233B] tracking-tight">
+              Harvest Collection
+            </h1>
+            <span className="text-xs text-[#8C7E70] font-normal">
+              ({sortedProducts.length} items)
             </span>
           </div>
-        </header>
 
-        {/* ── 3. Clean, Understated Category Filter Bar ── */}
-        <div className="mb-8 border-b border-[#EAE3D5] pb-4">
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide items-center justify-start sm:justify-center">
-            <button
-              type="button"
-              onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-full text-xs tracking-wider uppercase font-semibold transition-all whitespace-nowrap ${
-                selectedCategory === 'all'
-                  ? 'bg-[#17233B] text-white shadow-xs'
-                  : 'bg-white text-[#6B6055] hover:text-[#17233B] border border-[#EAE3D5] hover:border-[#B8934A]'
-              }`}
-            >
-              All Harvest ({products.length})
-            </button>
-
-            {PRODUCT_CATEGORIES.map((cat) => {
-              const count = products.filter(
-                (p) => p.categorySlug === cat.slug
-              ).length
-              const isSelected = selectedCategory === cat.slug
-              return (
+          {/* Inline Search + Sort + Mobile Filters */}
+          <div className="flex items-center gap-2.5 text-xs">
+            {/* Search Input */}
+            <div className="relative w-44 sm:w-60">
+              <span className="absolute inset-y-0 left-2.5 flex items-center text-[#9E9182] text-xs">
+                🔍
+              </span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search almonds, saffron..."
+                className="w-full pl-7 pr-3 py-1.5 text-xs rounded-full bg-white border border-[#EAE3D5] focus:outline-hidden focus:border-[#17233B] text-[#17233B] placeholder-[#9E9182]"
+              />
+              {searchQuery && (
                 <button
-                  key={cat.slug}
                   type="button"
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-xs tracking-wider uppercase font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                    isSelected
-                      ? 'bg-[#17233B] text-white shadow-xs'
-                      : 'bg-white text-[#6B6055] hover:text-[#17233B] border border-[#EAE3D5] hover:border-[#B8934A]'
-                  }`}
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-2 text-[#9E9182] hover:text-[#17233B] text-xs"
                 >
-                  <span>{cat.name}</span>
-                  {count > 0 && (
-                    <span className="opacity-60 text-[10px]">({count})</span>
-                  )}
+                  ✕
                 </button>
-              )
-            })}
-          </div>
-        </div>
+              )}
+            </div>
 
-        {/* ── 4. Refined Toolbar (Search + Counts + Sort) ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-[#EAE3D5]/60 text-xs">
-          {/* Search Input */}
-          <div className="relative w-full sm:w-80">
-            <span className="absolute inset-y-0 left-3 flex items-center text-[#9E9182]">
-              🔍
-            </span>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search almonds, saffron, walnuts..."
-              className="w-full pl-9 pr-4 py-2 text-xs rounded-full bg-white border border-[#EAE3D5] focus:outline-hidden focus:border-[#17233B] text-[#17233B] placeholder-[#9E9182] transition-colors"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-3 text-[#9E9182] hover:text-[#17233B] text-xs font-bold"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Counts & Controls */}
-          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
+            {/* Mobile Filter Button */}
             <button
               type="button"
               onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-              className="lg:hidden flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#EAE3D5] bg-white text-xs font-semibold text-[#17233B]"
+              className="lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-full border border-[#EAE3D5] bg-white text-xs font-semibold text-[#17233B]"
             >
               <span>Filters</span>
               {activeFiltersCount > 0 && (
@@ -293,25 +231,52 @@ export default function ShopCatalogClient({
               )}
             </button>
 
-            <span className="text-[#8C7E70] text-xs font-normal">
-              Showing <strong className="text-[#17233B] font-semibold">{sortedProducts.length}</strong> items
-            </span>
-
-            {/* Sort Dropdown */}
-            <div className="flex items-center gap-2">
-              <span className="text-[#8C7E70] hidden sm:inline">Sort:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="text-xs font-medium bg-white border border-[#EAE3D5] rounded-full px-3.5 py-2 text-[#17233B] focus:outline-hidden focus:border-[#17233B] cursor-pointer"
-              >
-                <option value="featured">Featured Curations</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name-asc">Name: A to Z</option>
-              </select>
-            </div>
+            {/* Sort Select */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="text-xs font-medium bg-white border border-[#EAE3D5] rounded-full px-3 py-1.5 text-[#17233B] focus:outline-hidden focus:border-[#17233B] cursor-pointer"
+            >
+              <option value="featured">Featured Curations</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
           </div>
+        </div>
+
+        {/* ── Compact Category Filter Strip (Low-Profile Pills) ── */}
+        <div className="py-2.5 mb-5 border-b border-[#EAE3D5]/60 overflow-x-auto scrollbar-hide flex gap-1.5 items-center">
+          <button
+            type="button"
+            onClick={() => setSelectedCategory('all')}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+              selectedCategory === 'all'
+                ? 'bg-[#17233B] text-white shadow-2xs'
+                : 'bg-white text-[#6B6055] hover:text-[#17233B] border border-[#EAE3D5]'
+            }`}
+          >
+            All ({products.length})
+          </button>
+          {PRODUCT_CATEGORIES.map((cat) => {
+            const count = products.filter((p) => p.categorySlug === cat.slug).length
+            const isSelected = selectedCategory === cat.slug
+            return (
+              <button
+                key={cat.slug}
+                type="button"
+                onClick={() => setSelectedCategory(cat.slug)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1 ${
+                  isSelected
+                    ? 'bg-[#17233B] text-white shadow-2xs'
+                    : 'bg-white text-[#6B6055] hover:text-[#17233B] border border-[#EAE3D5]'
+                }`}
+              >
+                <span>{cat.name}</span>
+                {count > 0 && <span className="opacity-60 text-[10px]">({count})</span>}
+              </button>
+            )
+          })}
         </div>
 
         {/* ── 5. Active Filters Chips ── */}

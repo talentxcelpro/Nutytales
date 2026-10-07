@@ -5,6 +5,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
+import { AuthProvider } from "@/context/AuthContext";
+import AuthModal from "@/components/auth/AuthModal";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const geistSans = Geist({
@@ -190,15 +192,16 @@ export default function RootLayout({
           </noscript>
         )}
 
-        {/* ── Page content ── */}
-        <Navbar />
-        <div className="flex-1">
-          {children}
-        </div>
-        <Footer />
-
-        {/* ── Global SI Intelligent Concierge Assistant ── */}
-        <SIFloatingAssistant />
+        {/* ── Page content with Firebase + Supabase Auth ── */}
+        <AuthProvider>
+          <Navbar />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+          <SIFloatingAssistant />
+          <AuthModal />
+        </AuthProvider>
       </body>
     </html>
   );

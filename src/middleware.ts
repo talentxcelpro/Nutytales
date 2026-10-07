@@ -9,8 +9,9 @@ const API_ADMIN_ROUTE = /^\/api\/admin(\/.*)?$/
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Check for session token in cookies (NextAuth / Auth.js)
+  // Check for session token in cookies (Firebase Auth nt_uid or NextAuth fallback)
   const token =
+    request.cookies.get('nt_uid')?.value ||
     request.cookies.get('authjs.session-token')?.value ||
     request.cookies.get('__Secure-authjs.session-token')?.value ||
     request.cookies.get('next-auth.session-token')?.value ||

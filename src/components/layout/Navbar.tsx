@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import { useAuth } from '@/context/AuthContext'
 
 import CartDrawer from '@/components/cart/CartDrawer'
 
@@ -20,6 +21,7 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
+  const { user, profile, openAuthModal, logout } = useAuth()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [cartCount, setCartCount] = useState(0)
@@ -156,6 +158,47 @@ export default function Navbar() {
                 <span>Try with SI</span>
               </Link>
 
+              {/* User Profile / Sign In */}
+              {user ? (
+                <div className="relative group">
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 py-1.5 px-3 rounded-full bg-stone-100 hover:bg-stone-200 text-[#17233B] text-[11px] font-bold normal-case transition-colors"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px]">
+                      {profile?.name ? profile.name[0].toUpperCase() : '👤'}
+                    </span>
+                    <span className="max-w-[90px] truncate">
+                      {profile?.name || user.displayName || user.phoneNumber || 'Account'}
+                    </span>
+                    <span className="text-[9px]">▾</span>
+                  </button>
+                  <div className="absolute right-0 top-full pt-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
+                    <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-48 space-y-1 text-xs">
+                      <div className="px-2 py-1 border-b border-stone-100">
+                        <p className="font-bold text-[#17233B] truncate">{profile?.name || 'Nutty Tales Member'}</p>
+                        <p className="text-[10px] text-stone-500 truncate">{user.email || user.phoneNumber}</p>
+                      </div>
+                      <button
+                        onClick={logout}
+                        className="w-full text-left px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50 font-semibold"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={openAuthModal}
+                  className="py-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-[#17233B] hover:text-[#176B68] flex items-center gap-1.5 transition-colors"
+                >
+                  <span>👤</span>
+                  <span>Sign In</span>
+                </button>
+              )}
+
               {/* Shopping Basket Button with Live Counter */}
               <button
                 type="button"
@@ -259,6 +302,38 @@ export default function Navbar() {
               >
                 Request Bulk Quote
               </Link>
+
+              {/* Mobile Auth button */}
+              {user ? (
+                <div className="py-2.5 border-b border-[#17233B]/10 flex items-center justify-between">
+                  <div>
+                    <span className="block text-xs font-bold text-[#17233B]">
+                      {profile?.name || user.displayName || 'Member'}
+                    </span>
+                    <span className="block text-[11px] text-stone-500">
+                      {user.email || user.phoneNumber}
+                    </span>
+                  </div>
+                  <button
+                    onClick={logout}
+                    className="text-xs font-bold text-red-600 hover:underline"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false)
+                    openAuthModal()
+                  }}
+                  className="w-full text-left py-2.5 border-b border-[#17233B]/10 text-xs font-bold uppercase tracking-wider text-[#17233B] hover:text-[#176B68] flex items-center gap-2"
+                >
+                  <span>👤</span>
+                  <span>Sign In / Register</span>
+                </button>
+              )}
             </nav>
             <div className="pt-2">
               <a
