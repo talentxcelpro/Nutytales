@@ -21,10 +21,17 @@ if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, 'utf8');
   for (const line of envContent.split('\n')) {
     const trimmed = line.trim();
-    if (trimmed.startsWith('FIREBASE_CLIENT_EMAIL=')) {
+    if (trimmed.startsWith('GSC_CLIENT_EMAIL=')) {
       clientEmail = trimmed.split('=', 2)[1].replace(/^["']|["']$/g, '').trim();
     }
-    if (trimmed.startsWith('FIREBASE_PRIVATE_KEY=')) {
+    if (trimmed.startsWith('GSC_PRIVATE_KEY=')) {
+      let rawKey = trimmed.substring('GSC_PRIVATE_KEY='.length).replace(/^["']|["']$/g, '');
+      privateKey = rawKey.replace(/\\n/g, '\n');
+    }
+    if (!clientEmail && trimmed.startsWith('FIREBASE_CLIENT_EMAIL=')) {
+      clientEmail = trimmed.split('=', 2)[1].replace(/^["']|["']$/g, '').trim();
+    }
+    if (!privateKey && trimmed.startsWith('FIREBASE_PRIVATE_KEY=')) {
       let rawKey = trimmed.substring('FIREBASE_PRIVATE_KEY='.length).replace(/^["']|["']$/g, '');
       privateKey = rawKey.replace(/\\n/g, '\n');
     }
@@ -32,7 +39,7 @@ if (fs.existsSync(envPath)) {
 }
 
 if (!clientEmail || !privateKey) {
-  console.error('❌ Could not find FIREBASE_CLIENT_EMAIL or FIREBASE_PRIVATE_KEY in .env.local');
+  console.error('❌ Could not find GSC_CLIENT_EMAIL or FIREBASE_CLIENT_EMAIL in .env.local');
   process.exit(1);
 }
 
@@ -128,7 +135,10 @@ async function main() {
     const listRes = await fetch(
       `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/sitemaps`,
       {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'X-Goog-User-Project': 'nuty-tales',
+        },
       }
     );
 
@@ -145,14 +155,17 @@ async function main() {
     }
     console.log('');
 
-    console.log('3. Submitting all 7 business sitemaps...');
+    console.log('4. Submitting all 7 business sitemaps...');
     for (const smUrl of SITEMAPS_TO_SUBMIT) {
       const encodedSm = encodeURIComponent(smUrl);
       const submitRes = await fetch(
         `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/sitemaps/${encodedSm}`,
         {
           method: 'PUT',
-          headers: { Authorization: `Bearer ${accessToken}` },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'X-Goog-User-Project': 'nuty-tales',
+          },
         }
       );
 
