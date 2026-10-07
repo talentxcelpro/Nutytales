@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Product } from '@/lib/products-data'
 
 interface ShopProductCardProps {
@@ -14,6 +15,7 @@ export default function ShopProductCard({
   product,
   onQuickView,
 }: ShopProductCardProps) {
+  const router = useRouter()
   // Default to 1kg or highest variant if available, else first variant
   const defaultIdx = product.variants.length > 2 ? 2 : 0
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(defaultIdx)
@@ -55,6 +57,7 @@ export default function ShopProductCard({
   const unitPrice = currentVariant.retailPrice
   const totalPrice = unitPrice * quantity
   const mrp = currentVariant.mrp || Math.round(unitPrice * 1.15)
+  const savings = mrp > unitPrice ? mrp - unitPrice : 0
   const discountPercent =
     mrp > unitPrice ? Math.round(((mrp - unitPrice) / mrp) * 100) : 0
 
@@ -87,8 +90,35 @@ export default function ShopProductCard({
     }
   }
 
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    try {
+      const existing = JSON.parse(localStorage.getItem('nt_cart') || '[]')
+      const item = {
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        mode: 'retail',
+        sizeLabel: currentVariant.label,
+        unitPrice,
+        quantity,
+        totalPrice,
+        image: product.image,
+      }
+      existing.push(item)
+      localStorage.setItem('nt_cart', JSON.stringify(existing))
+      window.dispatchEvent(new Event('nt_cart_updated'))
+      // Direct jump to checkout
+      router.push('/checkout')
+    } catch {
+      router.push('/cart')
+    }
+  }
+
   return (
-    <div className="group bg-white rounded-2xl border border-stone-200/90 hover:border-[#176B68]/60 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative">
+    <div className="group bg-white rounded-2xl border border-stone-200/90 hover:border-[#176B68]/60 shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative">
       {/* ── TOP IMAGE CONTAINER (Uncropped HD Packaging, Ivory Studio) ── */}
       <div className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF6EE] p-4 flex items-center justify-center overflow-hidden">
         <Link
@@ -131,7 +161,7 @@ export default function ShopProductCard({
           </span>
         </div>
 
-        {/* Top Right Wishlist & Rating */}
+        {/* Top Right Wishlist & Urgency */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5 z-10">
           <button
             type="button"
@@ -148,6 +178,14 @@ export default function ShopProductCard({
           </span>
         </div>
 
+        {/* Scarcity Ticker on image */}
+        <div className="absolute bottom-3 left-3 pointer-events-none z-10 group-hover:opacity-0 transition-opacity">
+          <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-xs text-[9px] font-bold text-amber-900 border border-amber-200 shadow-2xs flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
+            <span>High Demand · Hand-sorted</span>
+          </span>
+        </div>
+
         {/* Hover Quick View Trigger */}
         {onQuickView && (
           <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
@@ -161,7 +199,7 @@ export default function ShopProductCard({
               className="w-full py-2.5 rounded-xl bg-white/95 hover:bg-white text-[#17233B] font-bold text-xs uppercase tracking-wider shadow-md backdrop-blur-xs transition-transform active:scale-95 flex items-center justify-center gap-1.5 border border-stone-200"
             >
               <span>👁</span>
-              <span>Quick View</span>
+              <span>Quick View &amp; Nutrition</span>
             </button>
           </div>
         )}
@@ -194,7 +232,7 @@ export default function ShopProductCard({
             <div className="pt-2.5">
               <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1.5">
                 <span>Select Pack:</span>
-                <span className="text-[#176B68]">
+                <span className="text-[#176B68] font-bold">
                   {product.stockStatus === 'IN_STOCK' ? '● In Stock' : 'Limited'}
                 </span>
               </div>
@@ -234,9 +272,11 @@ export default function ShopProductCard({
                   </span>
                 )}
               </div>
-              <span className="text-[10px] text-stone-400">
-                ₹{Math.round((unitPrice / currentVariant.sizeG) * 1000)} / kg equivalent
-              </span>
+              {savings > 0 && (
+                <span className="text-[10px] text-emerald-700 font-bold block">
+                  You save ₹{savings} ({discountPercent}% OFF)
+                </span>
+              )}
             </div>
 
             <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
@@ -245,7 +285,7 @@ export default function ShopProductCard({
           </div>
         </div>
 
-        {/* ── ACTION ENGINE: QUANTITY STEPPER & ADD TO BASKET ── */}
+        {/* ── ACTION ENGINE: QUANTITY STEPPER + ADD TO CART + INSTANT BUY NOW ── */}
         <div className="pt-2 space-y-2">
           <div className="flex items-center gap-2">
             {/* Quantity Stepper */}
@@ -283,13 +323,23 @@ export default function ShopProductCard({
             <button
               type="button"
               onClick={handleAddToCart}
-              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
+              className={`flex-1 py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1 ${
                 isAdded
                   ? 'bg-emerald-700 text-white'
-                  : 'bg-[#17233B] hover:bg-[#176B68] text-white'
+                  : 'bg-stone-100 hover:bg-stone-200 text-[#17233B] border border-stone-300'
               }`}
             >
-              <span>{isAdded ? '✓ In Basket' : '🛒 Add'}</span>
+              <span>{isAdded ? '✓ Added' : '🛒 Add'}</span>
+            </button>
+
+            {/* Instant 1-Click Buy Now */}
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#17233B] hover:bg-[#176B68] text-white shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1"
+              title="Instant Checkout"
+            >
+              <span>⚡ Buy</span>
             </button>
           </div>
 
