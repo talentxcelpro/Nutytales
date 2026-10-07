@@ -192,7 +192,7 @@ export default function PopularProducts() {
           href="/shop"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-[#17233B] hover:text-[#176B68] border-b border-[#17233B] pb-1 transition-colors"
         >
-          <span>View All 25 Products</span>
+          <span>View Complete Harvest Collection (33 Items)</span>
           <span>→</span>
         </Link>
       </div>
