@@ -1,9 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Product } from '@/lib/products-data'
 
 interface ShopProductCardProps {
@@ -15,42 +14,11 @@ export default function ShopProductCard({
   product,
   onQuickView,
 }: ShopProductCardProps) {
-  const router = useRouter()
   // Default to 1kg or highest variant if available, else first variant
   const defaultIdx = product.variants.length > 2 ? 2 : 0
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(defaultIdx)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
-  const [isWishlisted, setIsWishlisted] = useState(false)
-
-  // Load wishlist status
-  useEffect(() => {
-    try {
-      const list = JSON.parse(localStorage.getItem('nt_wishlist') || '[]')
-      setIsWishlisted(list.includes(product.id))
-    } catch {
-      // ignore
-    }
-  }, [product.id])
-
-  const toggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    try {
-      const list: string[] = JSON.parse(localStorage.getItem('nt_wishlist') || '[]')
-      let updated: string[] = []
-      if (list.includes(product.id)) {
-        updated = list.filter((id) => id !== product.id)
-        setIsWishlisted(false)
-      } else {
-        updated = [...list, product.id]
-        setIsWishlisted(true)
-      }
-      localStorage.setItem('nt_wishlist', JSON.stringify(updated))
-    } catch {
-      // ignore
-    }
-  }
 
   const currentVariant =
     product.variants[selectedVariantIdx] || product.variants[0]
@@ -58,8 +26,6 @@ export default function ShopProductCard({
   const totalPrice = unitPrice * quantity
   const mrp = currentVariant.mrp || Math.round(unitPrice * 1.15)
   const savings = mrp > unitPrice ? mrp - unitPrice : 0
-  const discountPercent =
-    mrp > unitPrice ? Math.round(((mrp - unitPrice) / mrp) * 100) : 0
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -90,152 +56,90 @@ export default function ShopProductCard({
     }
   }
 
-  const handleBuyNow = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    try {
-      const existing = JSON.parse(localStorage.getItem('nt_cart') || '[]')
-      const item = {
-        productId: product.id,
-        name: product.name,
-        slug: product.slug,
-        mode: 'retail',
-        sizeLabel: currentVariant.label,
-        unitPrice,
-        quantity,
-        totalPrice,
-        image: product.image,
-      }
-      existing.push(item)
-      localStorage.setItem('nt_cart', JSON.stringify(existing))
-      window.dispatchEvent(new Event('nt_cart_updated'))
-      // Direct jump to checkout
-      router.push('/checkout')
-    } catch {
-      router.push('/cart')
-    }
-  }
-
   return (
-    <div className="group bg-white rounded-2xl border border-stone-200/90 hover:border-[#176B68]/60 shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative">
-      {/* ── TOP IMAGE CONTAINER (Uncropped HD Packaging, Ivory Studio) ── */}
-      <div className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF6EE] p-4 flex items-center justify-center overflow-hidden">
-        <Link
-          href={`/shop/${product.slug}`}
-          className="relative w-full h-full flex items-center justify-center block"
-        >
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              quality={95}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-contain p-2 group-hover:scale-105 transition-transform duration-500 ease-out drop-shadow-xs"
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center text-stone-300">
-              <span className="text-6xl">🥜</span>
-              <span className="text-[10px] mt-2 uppercase font-bold tracking-widest text-[#704B32]">
-                {product.category}
-              </span>
-            </div>
-          )}
-        </Link>
-
-        {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
-          {discountPercent > 0 && (
-            <span className="px-2 py-0.5 rounded-md bg-[#8A3B14] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-              {discountPercent}% OFF
-            </span>
-          )}
-          {product.isFeatured && (
-            <span className="px-2 py-0.5 rounded-md bg-[#C9A45C] text-[#17233B] text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-              BESTSELLER
-            </span>
-          )}
-          <span className="px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs text-[#176B68] text-[9px] font-bold tracking-wider border border-[#176B68]/20 shadow-xs">
-            {product.origin.split(',')[0]}
-          </span>
-        </div>
-
-        {/* Top Right Wishlist & Urgency */}
-        <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5 z-10">
-          <button
-            type="button"
-            onClick={toggleWishlist}
-            className={`w-8 h-8 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-xs transition-transform active:scale-90 ${
-              isWishlisted ? 'text-red-500' : 'text-stone-400 hover:text-stone-700'
-            }`}
-            title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-          >
-            {isWishlisted ? '♥' : '♡'}
-          </button>
-          <span className="px-2 py-0.5 rounded-full bg-[#17233B]/85 text-white text-[9px] font-bold shadow-xs">
-            ★ 4.9
-          </span>
-        </div>
-
-        {/* Scarcity Ticker on image */}
-        <div className="absolute bottom-3 left-3 pointer-events-none z-10 group-hover:opacity-0 transition-opacity">
-          <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-xs text-[9px] font-bold text-amber-900 border border-amber-200 shadow-2xs flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
-            <span>High Demand · Hand-sorted</span>
-          </span>
-        </div>
-
-        {/* Hover Quick View Trigger */}
-        {onQuickView && (
-          <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onQuickView(product)
-              }}
-              className="w-full py-2.5 rounded-xl bg-white/95 hover:bg-white text-[#17233B] font-bold text-xs uppercase tracking-wider shadow-md backdrop-blur-xs transition-transform active:scale-95 flex items-center justify-center gap-1.5 border border-stone-200"
-            >
-              <span>👁</span>
-              <span>Quick View &amp; Nutrition</span>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* ── CARD CONTENT & SPECS ── */}
-      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3">
-        <div>
-          {/* Subheader: Category & Grade */}
-          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#704B32] mb-1">
-            <span>{product.category}</span>
-            <span className="text-stone-500 font-semibold">{product.grade}</span>
-          </div>
-
-          {/* Product Name */}
+    <article className="group bg-white rounded-2xl border border-[#EAE3D5] hover:border-[#B8934A]/70 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+      <div>
+        {/* ── Visual Canvas (Zero Distortion, HD Packshot) ── */}
+        <div className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden">
           <Link
             href={`/shop/${product.slug}`}
-            className="font-serif font-bold text-base sm:text-lg text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-1 block"
+            className="relative w-full h-full flex items-center justify-center block"
+          >
+            {product.image ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                quality={95}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-contain p-3 group-hover:scale-104 transition-transform duration-500 ease-out drop-shadow-2xs"
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center text-stone-300">
+                <span className="text-5xl">🥜</span>
+                <span className="text-[10px] mt-2 uppercase font-medium tracking-widest text-[#8C7E70]">
+                  {product.category}
+                </span>
+              </div>
+            )}
+          </Link>
+
+          {/* Minimal Origin & Grade Badges */}
+          <div className="absolute top-3.5 left-3.5 flex flex-col gap-1 z-10 pointer-events-none">
+            <span className="px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-xs text-[#5C4F41] text-[10px] font-medium tracking-wider uppercase border border-[#EAE3D5] shadow-2xs">
+              {product.origin.split(',')[0]}
+            </span>
+            {product.grade && (
+              <span className="px-2.5 py-0.5 rounded-full bg-[#FAF5ED] text-[#B8934A] text-[9px] font-semibold tracking-wider uppercase border border-[#EAE3D5]">
+                {product.grade}
+              </span>
+            )}
+          </div>
+
+          {/* Subtle Quick View on Hover */}
+          {onQuickView && (
+            <div className="absolute inset-x-4 bottom-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onQuickView(product)
+                }}
+                className="w-full py-2 rounded-full bg-white/95 hover:bg-white text-[#17233B] text-xs font-semibold uppercase tracking-wider shadow-sm border border-[#EAE3D5] transition-transform active:scale-95"
+              >
+                Quick View
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* ── Product Information ── */}
+        <div className="p-5 space-y-3">
+          <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-[#8C7E70] font-medium">
+            <span>{product.category}</span>
+            <span className="text-emerald-800 text-[10px]">
+              {product.stockStatus === 'IN_STOCK' ? 'In Stock' : 'Limited'}
+            </span>
+          </div>
+
+          <Link
+            href={`/shop/${product.slug}`}
+            className="font-serif text-lg font-normal text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-1 block"
           >
             {product.name}
           </Link>
 
-          {/* Short description */}
-          <p className="text-xs text-stone-500 line-clamp-2 leading-relaxed mt-1">
+          <p className="text-xs text-[#7A6D5E] font-light line-clamp-2 leading-relaxed">
             {product.shortDesc}
           </p>
 
-          {/* Weight variant pills */}
+          {/* Pack Size Selection */}
           {product.variants.length > 0 && (
-            <div className="pt-2.5">
-              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1.5">
-                <span>Select Pack:</span>
-                <span className="text-[#176B68] font-bold">
-                  {product.stockStatus === 'IN_STOCK' ? '● In Stock' : 'Limited'}
-                </span>
-              </div>
+            <div className="pt-2">
+              <span className="text-[10px] uppercase tracking-wider text-[#8C7E70] block mb-1.5 font-medium">
+                Pack Size:
+              </span>
               <div className="flex flex-wrap gap-1.5">
                 {product.variants.map((v, idx) => (
                   <button
@@ -246,10 +150,10 @@ export default function ShopProductCard({
                       e.stopPropagation()
                       setSelectedVariantIdx(idx)
                     }}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all border ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all border ${
                       selectedVariantIdx === idx
-                        ? 'bg-[#17233B] text-white border-[#17233B] shadow-xs'
-                        : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                        ? 'bg-[#17233B] text-white border-[#17233B] shadow-2xs'
+                        : 'bg-[#FAF5ED]/50 hover:bg-[#FAF5ED] text-[#5C4F41] border-[#EAE3D5]'
                     }`}
                   >
                     {v.label}
@@ -259,109 +163,92 @@ export default function ShopProductCard({
             </div>
           )}
 
-          {/* Price & Savings Display */}
-          <div className="pt-3 border-t border-stone-100 flex items-baseline justify-between">
-            <div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-xl font-extrabold text-[#17233B]">
-                  ₹{unitPrice.toLocaleString('en-IN')}
-                </span>
-                {mrp > unitPrice && (
-                  <span className="text-xs text-stone-400 line-through">
-                    ₹{mrp.toLocaleString('en-IN')}
-                  </span>
-                )}
-              </div>
-              {savings > 0 && (
-                <span className="text-[10px] text-emerald-700 font-bold block">
-                  You save ₹{savings} ({discountPercent}% OFF)
+          {/* Pricing */}
+          <div className="pt-3 border-t border-[#F0EBE1] flex items-baseline justify-between">
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif text-xl font-semibold text-[#17233B]">
+                ₹{unitPrice.toLocaleString('en-IN')}
+              </span>
+              {mrp > unitPrice && (
+                <span className="text-xs text-stone-400 line-through">
+                  ₹{mrp.toLocaleString('en-IN')}
                 </span>
               )}
             </div>
-
-            <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              Tax Included
-            </span>
-          </div>
-        </div>
-
-        {/* ── ACTION ENGINE: QUANTITY STEPPER + ADD TO CART + INSTANT BUY NOW ── */}
-        <div className="pt-2 space-y-2">
-          <div className="flex items-center gap-2">
-            {/* Quantity Stepper */}
-            <div className="flex items-center border border-stone-300 rounded-xl bg-stone-50">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setQuantity((q) => Math.max(1, q - 1))
-                }}
-                className="w-8 h-9 flex items-center justify-center text-sm font-bold text-stone-600 hover:bg-white rounded-l-xl transition-colors"
-                aria-label="Decrease quantity"
-              >
-                −
-              </button>
-              <span className="w-7 text-center text-xs font-bold text-[#17233B]">
-                {quantity}
+            {savings > 0 && (
+              <span className="text-[11px] text-emerald-800 font-medium">
+                Save ₹{savings}
               </span>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setQuantity((q) => q + 1)
-                }}
-                className="w-8 h-9 flex items-center justify-center text-sm font-bold text-stone-600 hover:bg-white rounded-r-xl transition-colors"
-                aria-label="Increase quantity"
-              >
-                +
-              </button>
-            </div>
-
-            {/* Add to Basket button */}
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className={`flex-1 py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1 ${
-                isAdded
-                  ? 'bg-emerald-700 text-white'
-                  : 'bg-stone-100 hover:bg-stone-200 text-[#17233B] border border-stone-300'
-              }`}
-            >
-              <span>{isAdded ? '✓ Added' : '🛒 Add'}</span>
-            </button>
-
-            {/* Instant 1-Click Buy Now */}
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="py-2.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#17233B] hover:bg-[#176B68] text-white shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1"
-              title="Instant Checkout"
-            >
-              <span>⚡ Buy</span>
-            </button>
-          </div>
-
-          {/* Quick links: specs & wholesale */}
-          <div className="flex items-center justify-between text-[10px] text-stone-500 pt-1">
-            <Link
-              href={`/shop/${product.slug}`}
-              className="hover:text-[#176B68] font-semibold underline underline-offset-2"
-            >
-              Full Details →
-            </Link>
-            {product.b2bPricePerKg && (
-              <Link
-                href="/business-supply"
-                className="text-[#176B68] font-bold hover:underline"
-              >
-                Wholesale ₹{product.b2bPricePerKg}/kg
-              </Link>
             )}
           </div>
         </div>
       </div>
-    </div>
+
+      {/* ── Direct Add to Basket ── */}
+      <div className="p-5 pt-0 space-y-2">
+        <div className="flex items-center gap-2">
+          {/* Stepper */}
+          <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setQuantity((q) => Math.max(1, q - 1))
+              }}
+              className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+              aria-label="Decrease quantity"
+            >
+              −
+            </button>
+            <span className="w-6 text-center text-xs font-medium text-[#17233B]">
+              {quantity}
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setQuantity((q) => q + 1)
+              }}
+              className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+              aria-label="Increase quantity"
+            >
+              +
+            </button>
+          </div>
+
+          {/* Add Button */}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={`flex-1 py-2.5 px-4 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
+              isAdded
+                ? 'bg-emerald-700 text-white'
+                : 'bg-[#17233B] hover:bg-[#176B68] text-white'
+            }`}
+          >
+            <span>{isAdded ? '✓ Added' : 'Add to Basket'}</span>
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between text-[11px] text-[#8C7E70] pt-1">
+          <Link
+            href={`/shop/${product.slug}`}
+            className="hover:text-[#17233B] underline underline-offset-2"
+          >
+            Details &amp; Origin Story →
+          </Link>
+          {product.b2bPricePerKg && (
+            <Link
+              href="/business-supply"
+              className="hover:text-[#17233B]"
+            >
+              Bulk from ₹{product.b2bPricePerKg}/kg
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
   )
 }
