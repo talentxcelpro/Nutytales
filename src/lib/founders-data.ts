@@ -1,4 +1,4 @@
-// ─── Nutty Tales Founder Program — Supply Chain & Growth Infrastructure ─────────
+﻿// ─── Nuty Tales Founder Program — Supply Chain & Growth Infrastructure ─────────
 // "We help founders build. Source better. Launch faster. Grow smarter."
 // Providing real commercial infrastructure: Sourcing, Private Label, Travel Inventory, Fashion, Packaging & Multi-Hub Fulfilment
 
@@ -12,7 +12,7 @@ export interface FounderSector {
   sampleCase: {
     startupName: string
     founderNeed: string
-    nuttyTalesSolution: string
+    nutytalesSolution: string
   }
 }
 
@@ -32,7 +32,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'Kashmir Wellness Co.',
       founderNeed: '1,000 units of 250g Kashmiri Mamra Almonds with custom matte pouch and Delhi NCR fulfilment.',
-      nuttyTalesSolution: 'Nutty Tales sourced single-origin Mamra from Srinagar, custom-pouched at Noida HQ, and dispatched same-day to Amazon FBA.',
+      nutytalesSolution: 'Nuty Tales sourced single-origin Mamra from Srinagar, custom-pouched at Noida HQ, and dispatched same-day to Amazon FBA.',
     },
   },
   {
@@ -42,7 +42,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     tagline: 'Kashmir stays · 4x4 snow transfers · local guides · welcome hampers',
     idealFor: ['New travel agencies', 'Boutique tour operators', 'Kashmir honeymoon specialists', 'Adventure travel startups'],
     whatWeProvide: [
-      'Inventory access to Nutty Tales Orchard Retreat & Villa (Srinagar)',
+      'Inventory access to Nuty Tales Orchard Retreat & Villa (Srinagar)',
       'Dedicated sanitized 4x4 snow vehicles & airport transfers',
       'Local experienced guides and Gulmarg Gondola priority booking support',
       'Bespoke co-branded welcome hampers (Kagzi walnuts + saffron kahwa) placed in guest rooms',
@@ -50,7 +50,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'Himalayan Escapes Agency',
       founderNeed: 'Curated 5-night Kashmir package for 40 luxury couples without owning hotels or transport in Srinagar.',
-      nuttyTalesSolution: 'Nutty Tales provided complete ground operations: orchard villa suites, 4x4 snow fleet, private shikaras, and custom welcome hampers under the agency brand.',
+      nutytalesSolution: 'Nuty Tales provided complete ground operations: orchard villa suites, 4x4 snow fleet, private shikaras, and custom welcome hampers under the agency brand.',
     },
   },
   {
@@ -68,7 +68,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'Noor Heritage Label',
       founderNeed: 'Boutique winter collection of 50 hand-embroidered velvet Pherans with custom branding.',
-      nuttyTalesSolution: 'Connected to master Shehr-e-Khaas artisan guilds, tailored to modern silhouettes, branded with custom woven tags, and shipped worldwide.',
+      nutytalesSolution: 'Connected to master Shehr-e-Khaas artisan guilds, tailored to modern silhouettes, branded with custom woven tags, and shipped worldwide.',
     },
   },
   {
@@ -86,7 +86,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'Pine Mist Cottages (Manali)',
       founderNeed: 'Luxury welcome amenity hampers and breakfast dry fruit jars for 12 chalets.',
-      nuttyTalesSolution: 'Supplied branded 100g vacuum glass jars with wooden lids and monthly automatic replenishment from Noida HQ.',
+      nutytalesSolution: 'Supplied branded 100g vacuum glass jars with wooden lids and monthly automatic replenishment from Noida HQ.',
     },
   },
   {
@@ -104,7 +104,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'Crust & Crumb Patisserie',
       founderNeed: 'Weekly 25kg delivery of uniform blanched almond slices and fine almond meal for French macarons.',
-      nuttyTalesSolution: 'Supplied precision-sliced 0.8mm dust-free almond flakes with weekly scheduled delivery from Noida.',
+      nutytalesSolution: 'Supplied precision-sliced 0.8mm dust-free almond flakes with weekly scheduled delivery from Noida.',
     },
   },
   {
@@ -122,7 +122,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     sampleCase: {
       startupName: 'The Gift Atelier',
       founderNeed: '500 Diwali executive hampers requiring luxury wooden boxes, jumbo nuts, and 5-city delivery.',
-      nuttyTalesSolution: 'Assembled, packaged, and dispatched all 500 boxes to Mumbai, Bengaluru, Delhi, Hyderabad, and Chennai within 48 hours.',
+      nutytalesSolution: 'Assembled, packaged, and dispatched all 500 boxes to Mumbai, Bengaluru, Delhi, Hyderabad, and Chennai within 48 hours.',
     },
   },
 ]
@@ -164,7 +164,7 @@ export const FOUNDER_TIERS = [
       'Dedicated warehouse bay allocation (Noida / Patna / Srinagar)',
       'Multi-city scheduled delivery with unified invoicing',
       'Custom formulation blending and cleanroom bagging',
-      'Direct access to Nutty Tales executive supply chain desk',
+      'Direct access to Nuty Tales executive supply chain desk',
     ],
     cta: 'Enterprise Supply Agreement',
   },

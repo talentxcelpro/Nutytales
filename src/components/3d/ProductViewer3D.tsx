@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
@@ -155,7 +155,7 @@ export default function ProductViewer3D({
       ring.position.y = 0.3
       rootGroup.add(ring)
     } else {
-      // Nutty Tales Stand-Up Matte Resealable Pouch
+      // Nuty Tales Stand-Up Matte Resealable Pouch
       const pouchGeo = new THREE.BoxGeometry(1.1, 1.6, 0.45)
       const pouchMat = new THREE.MeshStandardMaterial({
         color: new THREE.Color(activeColor),

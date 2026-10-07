@@ -1,4 +1,4 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
 import Link from 'next/link'
 import { FSSAI_NUMBER } from '@/lib/constants'
 
@@ -11,7 +11,7 @@ export default function BrandStorySection() {
           <div className="lg:col-span-5 relative aspect-[4/5] rounded-3xl overflow-hidden border border-stone-200 shadow-xl group">
             <Image
               src="/images/campaign-travel-further.jpg"
-              alt="Good Things Travel Further — Nutty Tales Master Campaign"
+              alt="Good Things Travel Further — Nuty Tales Master Campaign"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-700"
               sizes="(max-width: 1024px) 100vw, 40vw"
@@ -41,7 +41,7 @@ export default function BrandStorySection() {
 
             <div className="space-y-4 text-xs sm:text-sm text-[#17233B]/80 leading-relaxed font-normal">
               <p>
-                Nutty Tales was founded on an uncompromising principle: transparency. In an industry crowded with inflated claims and mixed grades, we provide clearly documented origins, true kernel sizes, and honest pricing.
+                Nuty Tales was founded on an uncompromising principle: transparency. In an industry crowded with inflated claims and mixed grades, we provide clearly documented origins, true kernel sizes, and honest pricing.
               </p>
               <p>
                 From snow-fed walnut groves in Kashmir and sun-drenched almond orchards in California, to the traditional Makhana ponds of Mithila and the spice bazaars of Khari Baoli, we trace every harvest. Every batch is graded, packed in airtight food-safe containers under FSSAI Lic. {FSSAI_NUMBER}, and shipped with pride across India.

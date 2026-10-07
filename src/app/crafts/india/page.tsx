@@ -1,4 +1,4 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
 import Link from 'next/link'
 
 const REGIONS = [
@@ -67,7 +67,7 @@ export default function IndiaCraftsPage() {
               India — A Tapestry of Craft
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
-              Following our Kashmir anchor, Nutty Tales is curating verified artisan partnerships
+              Following our Kashmir anchor, Nuty Tales is curating verified artisan partnerships
               across India. Every region represented adheres to our Provenance & GI Authenticity code:
               direct cooperative relationships, documented master techniques, and fair remuneration.
             </p>

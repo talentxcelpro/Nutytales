@@ -1,4 +1,4 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
 import Link from 'next/link'
 
 const B2B_TARGETS = [
@@ -17,7 +17,7 @@ export default function BusinessSupplyBanner() {
           <div className="lg:col-span-4 relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/15 shadow-2xl group">
             <Image
               src="/images/campaign-good-food-story.jpg"
-              alt="Good Food Has A Story — Nutty Tales Business Supply"
+              alt="Good Food Has A Story — Nuty Tales Business Supply"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-700"
               sizes="(max-width: 1024px) 100vw, 33vw"
@@ -38,7 +38,7 @@ export default function BusinessSupplyBanner() {
               <span>🏭</span> B2B INGREDIENT &amp; PRODUCTION PARTNER
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
-              Nutty Tales Business Supply
+              Nuty Tales Business Supply
             </h2>
             <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
               We supply hotels, sweet manufacturers, commercial bakeries, and food brands across India. Mechanical slices, dices, slivers, and whole grades with FSSAI Central compliance and scheduled monthly freight.

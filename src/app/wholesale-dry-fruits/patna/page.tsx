@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nutty Tales',
+  title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nuty Tales',
   description:
     'Wholesale dry fruits and direct Mithila Makhana supplier in Patna and Bihar. Serving retailers, sweet shops, bakeries, namkeen manufacturers, and caterers across Patna, Gaya, Muzaffarpur, and Bhagalpur.',
   keywords: [
@@ -39,7 +39,7 @@ export default function PatnaWholesalePage() {
             Dry Fruit &amp; Makhana Wholesale Supplier in Patna &amp; Bihar
           </h1>
           <p className="text-base text-stone-600 leading-relaxed max-w-3xl">
-            Nutty Tales operates a dedicated commercial distribution hub in Patna. We supply bakeries, sweet shops (mithai makers), namkeen units, and dry fruit retailers with bulk California almonds, cashew splits/whole, raisins, and direct-from-farmer Phool Makhana across Bihar.
+            Nuty Tales operates a dedicated commercial distribution hub in Patna. We supply bakeries, sweet shops (mithai makers), namkeen units, and dry fruit retailers with bulk California almonds, cashew splits/whole, raisins, and direct-from-farmer Phool Makhana across Bihar.
           </p>
         </div>
 

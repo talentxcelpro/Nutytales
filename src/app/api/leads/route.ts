@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { insertLead, LeadSubmission } from '@/lib/supabase'
 
 export async function POST(request: Request) {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     status: 'online',
-    service: 'Nutty Tales Supabase Leads API',
+    service: 'Nuty Tales Supabase Leads API',
     supabaseUrl: 'https://qezkjbzmtfjjmqgzgili.supabase.co',
   })
 }

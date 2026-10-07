@@ -1,5 +1,5 @@
-/**
- * Database-backed sequential ID generators for NuttyTales.com.
+﻿/**
+ * Database-backed sequential ID generators for nutytales.com.
  *
  * These functions guarantee uniqueness by querying the database for the
  * current max sequence number and incrementing it atomically via a

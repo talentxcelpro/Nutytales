@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Product } from '@/lib/products-data'
+import { Product, getProductDynamicGallery } from '@/lib/products-data'
 
 interface QuickViewModalProps {
   product: Product | null
@@ -17,11 +17,14 @@ export default function QuickViewModal({
   onClose,
 }: QuickViewModalProps) {
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0)
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
-  const [activeTab, setActiveTab] = useState<'pack' | 'raw'>('pack')
 
   if (!isOpen || !product) return null
+
+  const gallery = getProductDynamicGallery(product)
+  const activeImage = gallery[selectedImageIdx] || product.image || '/images/almonds-pouch-250g.jpg'
 
   const currentVariant =
     product.variants[selectedVariantIdx] || product.variants[0]
@@ -31,7 +34,6 @@ export default function QuickViewModal({
   const savings = mrp > unitPrice ? mrp - unitPrice : 0
 
   const primaryImage = product.image || '/images/almonds-pouch-250g.jpg'
-  const secondaryImage = product.sensory?.secondaryImage
 
   const handleAddToCart = () => {
     try {
@@ -81,68 +83,85 @@ export default function QuickViewModal({
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* ── Left: Dual-Angle Photography Stage ── */}
-          <div className="relative bg-[#FAF5ED] p-6 sm:p-8 flex flex-col justify-between min-h-[380px] md:min-h-[520px]">
-            {/* View Switcher Tabs */}
-            <div className="flex items-center gap-2 z-10">
-              <button
-                type="button"
-                onClick={() => setActiveTab('pack')}
-                className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                  activeTab === 'pack'
-                    ? 'bg-[#17233B] text-white shadow-xs'
-                    : 'bg-white/80 text-[#5C4F41] border border-[#EAE3D5]'
-                }`}
-              >
-                Studio Pouch
-              </button>
-              {secondaryImage && (
+          {/* ── Left: Dynamic Multi-Angle Photography Stage (6-10 HD Images) ── */}
+          <div className="relative bg-[#FAF5ED] p-5 sm:p-6 flex flex-col justify-between min-h-[420px] md:min-h-[540px]">
+            {/* View Switcher Controls & Image Counter */}
+            <div className="flex items-center justify-between z-10 mb-1">
+              <span className="text-[11px] font-semibold tracking-wider uppercase text-[#704B32] bg-white/80 px-2.5 py-1 rounded-full border border-[#EAE3D5]">
+                HD View {selectedImageIdx + 1} of {gallery.length}
+              </span>
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setActiveTab('raw')}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                    activeTab === 'raw'
-                      ? 'bg-[#17233B] text-white shadow-xs'
-                      : 'bg-white/80 text-[#5C4F41] border border-[#EAE3D5]'
-                  }`}
+                  onClick={() => setSelectedImageIdx((prev) => (prev > 0 ? prev - 1 : gallery.length - 1))}
+                  className="w-7 h-7 rounded-full bg-white text-[#17233B] hover:bg-[#17233B] hover:text-white border border-[#EAE3D5] flex items-center justify-center text-xs font-bold transition-colors shadow-2xs"
+                  aria-label="Previous image"
                 >
-                  Raw Kernel Macro
+                  ‹
                 </button>
-              )}
+                <button
+                  type="button"
+                  onClick={() => setSelectedImageIdx((prev) => (prev < gallery.length - 1 ? prev + 1 : 0))}
+                  className="w-7 h-7 rounded-full bg-white text-[#17233B] hover:bg-[#17233B] hover:text-white border border-[#EAE3D5] flex items-center justify-center text-xs font-bold transition-colors shadow-2xs"
+                  aria-label="Next image"
+                >
+                  ›
+                </button>
+              </div>
             </div>
 
             {/* Image Canvas */}
-            <div className="relative w-full h-[300px] md:h-[380px] my-auto flex items-center justify-center">
-              {activeTab === 'pack' ? (
-                <Image
-                  src={primaryImage}
-                  alt={product.name}
-                  fill
-                  quality={95}
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-contain p-4 drop-shadow-xs"
-                />
-              ) : (
-                secondaryImage && (
+            <div className="relative w-full h-[260px] sm:h-[310px] my-auto flex items-center justify-center">
+              <Image
+                key={activeImage}
+                src={activeImage}
+                alt={`${product.name} view ${selectedImageIdx + 1}`}
+                fill
+                quality={95}
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className={`transition-all duration-300 drop-shadow-xs ${
+                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box')
+                    ? 'object-contain p-3'
+                    : 'object-cover rounded-2xl'
+                }`}
+              />
+            </div>
+
+            {/* Dynamic 6-10 HD Thumbnail Carousel Rail */}
+            <div className="flex items-center gap-2 overflow-x-auto py-2 scrollbar-hide z-10">
+              {gallery.map((img, idx) => (
+                <button
+                  key={`${img}-${idx}`}
+                  type="button"
+                  onClick={() => setSelectedImageIdx(idx)}
+                  className={`relative w-12 h-12 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all bg-white ${
+                    selectedImageIdx === idx
+                      ? 'border-[#176B68] ring-2 ring-[#176B68]/30 scale-105 shadow-xs'
+                      : 'border-[#EAE3D5] opacity-70 hover:opacity-100 hover:border-stone-400'
+                  }`}
+                  aria-label={`Select image ${idx + 1}`}
+                >
                   <Image
-                    src={secondaryImage}
-                    alt={`${product.name} raw macro`}
+                    src={img}
+                    alt={`Thumbnail ${idx + 1}`}
                     fill
-                    quality={95}
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover rounded-2xl"
+                    sizes="48px"
+                    className={
+                      img.includes('pouch') || img.includes('jar') || img.includes('box')
+                        ? 'object-contain p-1'
+                        : 'object-cover'
+                    }
                   />
-                )
-              )}
+                </button>
+              ))}
             </div>
 
             {/* Terroir / Provenance Capsule */}
-            <div className="flex items-center justify-between text-[11px] text-[#7A6D5E] border-t border-[#EAE3D5] pt-3 z-10">
-              <span>{product.origin}</span>
+            <div className="flex items-center justify-between text-[11px] text-[#7A6D5E] border-t border-[#EAE3D5] pt-2 z-10">
+              <span className="truncate max-w-[200px]">{product.origin}</span>
               {product.sensory?.altitude && (
-                <span className="font-mono text-[#17233B] font-semibold">
+                <span className="font-mono text-[#17233B] font-semibold flex-shrink-0">
                   🏔️ {product.sensory.altitude}
                 </span>
               )}

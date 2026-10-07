@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -148,7 +148,7 @@ export default function TryWithSIPage() {
               <span className="text-[#17233B] font-semibold">Try with SI Studio</span>
             </nav>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-              Nutty Tales — Try with SI
+              Nuty Tales — Try with SI
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 font-light mt-1">
               Virtual draping, drape comparison, and curated Himalayan winter styling

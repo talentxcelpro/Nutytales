@@ -16,10 +16,10 @@ export default function Hero() {
           <div className="lg:col-span-5 space-y-6 lg:pr-6">
             <div className="space-y-1.5">
               <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-semibold block">
-                Nutty Tales
+                Nuty Tales
               </span>
               <p className="font-serif italic text-base text-[#176B68]">
-                Wholesome Nutty Delights
+                Wholesome Nuty Delights
               </p>
             </div>
 
@@ -85,7 +85,7 @@ export default function Hero() {
               <div className="relative w-full h-[380px] sm:h-[460px] lg:h-[500px]">
                 <Image
                   src="/images/hero-lifestyle-bowl.png"
-                  alt="Nutty Tales Almonds and Cashews in handcrafted wooden bowl"
+                  alt="Nuty Tales Almonds and Cashews in handcrafted wooden bowl"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 55vw"
@@ -93,13 +93,13 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Inset floating strip with real Nutty Tales packaging */}
+              {/* Inset floating strip with real Nuty Tales packaging */}
               <div className="absolute bottom-4 left-4 right-4 bg-[#F7F2E8]/95 backdrop-blur-md p-3.5 rounded-xl border border-[#17233B]/10 shadow-sm flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
                     <Image
                       src="/images/almonds-pouch-250g.png"
-                      alt="Nutty Tales Almonds Pack"
+                      alt="Nuty Tales Almonds Pack"
                       fill
                       className="object-contain p-0.5"
                     />
@@ -107,7 +107,7 @@ export default function Hero() {
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
                     <Image
                       src="/images/cashews-pouch-250g.jpg"
-                      alt="Nutty Tales Cashews Pack"
+                      alt="Nuty Tales Cashews Pack"
                       fill
                       className="object-contain p-0.5"
                     />
@@ -115,7 +115,7 @@ export default function Hero() {
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
                     <Image
                       src="/images/walnuts-pouch-250g.jpg"
-                      alt="Nutty Tales Walnuts Pack"
+                      alt="Nuty Tales Walnuts Pack"
                       fill
                       className="object-contain p-0.5"
                     />
@@ -123,7 +123,7 @@ export default function Hero() {
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
                     <Image
                       src="/images/makhana-pouch-250g.jpg"
-                      alt="Nutty Tales Makhana Pack"
+                      alt="Nuty Tales Makhana Pack"
                       fill
                       className="object-contain p-0.5"
                     />

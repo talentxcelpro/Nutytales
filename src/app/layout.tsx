@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -22,15 +22,15 @@ const geistMono = Geist_Mono({
 });
 
 // ── Canonical URL ─────────────────────────────────────────────────────────────
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nuttytales.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
 // ── Site-wide metadata ─────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
 
   title: {
-    default: "Nutty Tales — Premium Dry Fruits Wholesale & Retail",
-    template: "%s | Nutty Tales",
+    default: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
+    template: "%s | Nuty Tales",
   },
 
   description:
@@ -53,13 +53,13 @@ export const metadata: Metadata = {
     "raisins wholesale India",
     "dry fruits gift hamper",
     "FSSAI certified dry fruits",
-    "NuttyTales wholesale",
+    "nutytales wholesale",
     "dry fruits bulk order",
   ],
 
-  authors: [{ name: "Nutty Tales", url: APP_URL }],
-  creator: "Nutty Tales",
-  publisher: "Nutty Tales",
+  authors: [{ name: "Nuty Tales", url: APP_URL }],
+  creator: "Nuty Tales",
+  publisher: "Nuty Tales",
 
   category: "food",
 
@@ -67,8 +67,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: APP_URL,
-    siteName: "Nutty Tales",
-    title: "Nutty Tales — Premium Dry Fruits Wholesale & Retail",
+    siteName: "Nuty Tales",
+    title: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
     description:
       "India's trusted dry fruit brand. Wholesale & retail. Almonds, Cashews, Makhana, Walnuts, Pistachios & more. FSSAI certified.",
     images: [
@@ -76,16 +76,16 @@ export const metadata: Metadata = {
         url: `${APP_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Nutty Tales — Premium Dry Fruits Wholesale & Retail",
+        alt: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    site: "@nuttytales",
-    creator: "@nuttytales",
-    title: "Nutty Tales — Premium Dry Fruits Wholesale & Retail",
+    site: "@nutytales",
+    creator: "@nutytales",
+    title: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
     description:
       "India's trusted dry fruit brand. Wholesale & retail. Almonds, Cashews, Makhana & more. FSSAI certified.",
     images: [`${APP_URL}/opengraph-image`],

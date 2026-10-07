@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 
 export default function KashmirSection() {
@@ -99,7 +99,7 @@ export default function KashmirSection() {
             href="/travel/kashmir"
             className="px-8 py-4 bg-[#17233B] hover:bg-[#176B68] text-white text-xs uppercase tracking-widest font-semibold rounded shadow-sm transition-colors inline-block"
           >
-            Discover Kashmir with Nutty Tales
+            Discover Kashmir with Nuty Tales
           </Link>
         </div>
       </div>

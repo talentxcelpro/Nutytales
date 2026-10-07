@@ -1,4 +1,4 @@
-// ─── Nutty Tales — Supabase Client & Database Services ─────────────────────────
+﻿// ─── Nuty Tales — Supabase Client & Database Services ─────────────────────────
 // Project URL: https://qezkjbzmtfjjmqgzgili.supabase.co
 // Supports safe isomorphic client & server usage with resilient fallback
 

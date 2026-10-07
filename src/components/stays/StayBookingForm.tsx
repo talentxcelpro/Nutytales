@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -71,7 +71,7 @@ export default function StayBookingForm({
 
   const whatsappPhone = (WHATSAPP_NUMBERS.STAYS || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales Stays! 🏔️\n\nI want to book / enquire about *${formData.property}*:\n• Dates: ${formData.checkIn || 'TBD'} to ${formData.checkOut || 'TBD'}\n• Guests: ${formData.guests}\n• Name: ${formData.guestName || 'Guest'}\n\nPlease share availability and tariff!`,
+    `Hello Nuty Tales Stays! 🏔️\n\nI want to book / enquire about *${formData.property}*:\n• Dates: ${formData.checkIn || 'TBD'} to ${formData.checkOut || 'TBD'}\n• Guests: ${formData.guests}\n• Name: ${formData.guestName || 'Guest'}\n\nPlease share availability and tariff!`,
   )}`
 
   return (

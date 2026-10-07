@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -109,7 +109,7 @@ const STORY_SCENES: StoryScene[] = [
     title: 'From Kashmir Valley to Your World',
     subtitle: 'Taste the nuts. Wear the heritage. Stay in the orchards. Explore the craft.',
     description:
-      'Nutty Tales brings these sacred crafts directly from verified Kashmiri artisan cooperatives to your doorstep, backed by official GI certification, virtual drape previews, and complete provenance dossiers.',
+      'Nuty Tales brings these sacred crafts directly from verified Kashmiri artisan cooperatives to your doorstep, backed by official GI certification, virtual drape previews, and complete provenance dossiers.',
     image: '/images/crafts-gifting-box.jpg',
     provenanceStat: 'PAN-India',
     statLabel: 'Bespoke Fulfilment',

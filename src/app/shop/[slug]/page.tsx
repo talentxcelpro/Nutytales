@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { PRODUCTS, Product } from '@/lib/products-data'
@@ -18,10 +18,10 @@ export async function generateMetadata({
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
   const product = PRODUCTS.find((p) => p.slug === slug)
-  if (!product) return { title: 'Product Not Found | Nutty Tales' }
+  if (!product) return { title: 'Product Not Found | Nuty Tales' }
 
   return {
-    title: `${product.name} — Retail & Wholesale | Nutty Tales`,
+    title: `${product.name} — Retail & Wholesale | Nuty Tales`,
     description: `${product.shortDesc} Origin: ${product.origin}. Available in 250g, 500g, 1kg retail and 5kg to 50kg bulk wholesale. FSSAI Lic. ${FSSAI_NUMBER}.`,
     keywords: [
       product.name.toLowerCase(),
@@ -30,12 +30,12 @@ export async function generateMetadata({
       `${product.origin.toLowerCase()} dry fruits`,
     ],
     openGraph: {
-      title: `${product.name} | Nutty Tales`,
+      title: `${product.name} | Nuty Tales`,
       description: product.shortDesc,
       images: product.image ? [product.image] : undefined,
     },
     alternates: {
-      canonical: `https://nuttytales.com/shop/${product.slug}`,
+      canonical: `https://nutytales.com/shop/${product.slug}`,
     },
   }
 }
@@ -59,7 +59,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     description: product.shortDesc,
     brand: {
       '@type': 'Brand',
-      name: 'Nutty Tales',
+      name: 'Nuty Tales',
     },
     offers: {
       '@type': 'AggregateOffer',

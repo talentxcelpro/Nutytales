@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -122,7 +122,7 @@ export default function LiveStaysDiscovery() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.STAYS || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales Hospitality! 🏔️\n\nI want to reserve a stay:\n• Property: *${property.name}* (${property.city})\n• Room: ${selectedRoom.name}\n• Dates: ${checkIn} to ${checkOut} (${nights} nights)\n• Guests: ${guestsCount}\n• Add-ons: ${
+    `Hello Nuty Tales Hospitality! 🏔️\n\nI want to reserve a stay:\n• Property: *${property.name}* (${property.city})\n• Room: ${selectedRoom.name}\n• Dates: ${checkIn} to ${checkOut} (${nights} nights)\n• Guests: ${guestsCount}\n• Add-ons: ${
       selectedAddOns.map((id) => property.experienceAddOns.find((a) => a.id === id)?.title).join(', ') || 'Standard'
     }\n• Estimated Tariff: ₹${totalEstimate.toLocaleString('en-IN')}\n\nPlease verify availability and confirm my reservation!`,
   )}`
@@ -300,7 +300,7 @@ export default function LiveStaysDiscovery() {
             Calculate Live Tariff &amp; Reserve
           </h3>
           <p className="text-xs sm:text-sm text-stone-600 mt-1">
-            Real-time seasonal rate engine. No hidden charges. Verified direct hospitality from Nutty Tales.
+            Real-time seasonal rate engine. No hidden charges. Verified direct hospitality from Nuty Tales.
           </p>
         </div>
 

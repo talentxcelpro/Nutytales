@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { PRODUCTS } from '@/lib/products-data'
@@ -84,7 +84,7 @@ export default function RFQForm() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales! 📦\n\nI want to request a wholesale bulk quote:\n• Company: ${formData.businessName || 'Business Buyer'}\n• Location: ${formData.deliveryLocation}\n• Products: ${items.map((i) => `${i.productName} (${i.quantity} ${i.unit})`).join(', ')}\n\nPlease share your quote!`,
+    `Hello Nuty Tales! 📦\n\nI want to request a wholesale bulk quote:\n• Company: ${formData.businessName || 'Business Buyer'}\n• Location: ${formData.deliveryLocation}\n• Products: ${items.map((i) => `${i.productName} (${i.quantity} ${i.unit})`).join(', ')}\n\nPlease share your quote!`,
   )}`
 
   return (

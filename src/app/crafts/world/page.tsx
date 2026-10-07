@@ -1,4 +1,4 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
 import Link from 'next/link'
 
 const WORLD_REGIONS = [
@@ -53,7 +53,7 @@ export default function WorldCraftsPage() {
               From Around the World
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
-              In subsequent phases, Nutty Tales Crafts will open curated pathways to legendary global craft
+              In subsequent phases, Nuty Tales Crafts will open curated pathways to legendary global craft
               traditions. We adhere strictly to verified customs documentation, country of origin certs, and
               direct master guild compensation.
             </p>

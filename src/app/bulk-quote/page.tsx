@@ -1,8 +1,8 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import RFQForm from '@/components/rfq/RFQForm'
 
 export const metadata: Metadata = {
-  title: 'Request a Bulk Dry Fruit Quote (RFQ) | Nutty Tales Wholesale',
+  title: 'Request a Bulk Dry Fruit Quote (RFQ) | Nuty Tales Wholesale',
   description:
     'Submit an RFQ for wholesale dry fruits. Multi-product quotes for California almonds, cashews, raisins, walnuts, pistachios, and Makhana. Fast response within 24 hours.',
   keywords: [

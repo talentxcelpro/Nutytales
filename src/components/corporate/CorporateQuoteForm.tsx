@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -76,7 +76,7 @@ export default function CorporateQuoteForm() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.CORPORATE || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales Corporate Gifting Team! 🎁\n\nI want to enquire about Diwali Corporate Gift Hampers:\n• Company: ${formData.companyName || 'Corporate Buyer'}\n• Hampers: ${formData.numHampers}\n• Budget: ${formData.budgetPerHamper}\n\nPlease share your catalog and quote!`,
+    `Hello Nuty Tales Corporate Gifting Team! 🎁\n\nI want to enquire about Diwali Corporate Gift Hampers:\n• Company: ${formData.companyName || 'Corporate Buyer'}\n• Hampers: ${formData.numHampers}\n• Budget: ${formData.budgetPerHamper}\n\nPlease share your catalog and quote!`,
   )}`
 
   return (
@@ -283,7 +283,7 @@ export default function CorporateQuoteForm() {
                     checked={formData.customBranding === 'No'}
                     onChange={handleChange}
                   />
-                  Nutty Tales Standard
+                  Nuty Tales Standard
                 </label>
               </div>
             </div>

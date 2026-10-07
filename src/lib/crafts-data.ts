@@ -1,4 +1,4 @@
-// ─── Nutty Tales Crafts & Heritage — Product & Provenance Catalog ───────────────
+﻿// ─── Nuty Tales Crafts & Heritage — Product & Provenance Catalog ───────────────
 // Fall / Winter 2026: Kashmir to the World
 // Authenticity, Provenance, GI Certification & Try with SI
 
@@ -486,7 +486,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     subCategory: 'Walnut Wood Carving',
     gender: 'unisex',
     shortDesc: '4-compartment heirloom dry fruit box carved from seasoned Kashmiri walnut wood roots (Dun Kul). Intricate Chinar and Dragon relief motifs.',
-    longDesc: `Carved exclusively from the root wood of matured Kashmiri walnut trees (Juglans regia) that have ceased bearing fruit. Walnut root wood is renowned worldwide for its deep brown grain, silky luster, and resistance to warping.\n\nHand-carved using hand chisels (Zamin/Jali work) by master carvers in Downtown Srinagar, then rubbed with natural wax and agate stone for a soft, lifelong patina without artificial varnish. Features 4 removable brass-hinged compartments—the ultimate centerpiece for serving Nutty Tales premium dry fruits to guests.`,
+    longDesc: `Carved exclusively from the root wood of matured Kashmiri walnut trees (Juglans regia) that have ceased bearing fruit. Walnut root wood is renowned worldwide for its deep brown grain, silky luster, and resistance to warping.\n\nHand-carved using hand chisels (Zamin/Jali work) by master carvers in Downtown Srinagar, then rubbed with natural wax and agate stone for a soft, lifelong patina without artificial varnish. Features 4 removable brass-hinged compartments—the ultimate centerpiece for serving Nuty Tales premium dry fruits to guests.`,
     editorialStory: 'Every swirl of the chisel reflects generations of woodcraft passed down through the guilds of Srinagar.',
     price: 6800,
     mrp: 9500,
@@ -569,8 +569,8 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     subCategory: 'Curated Gift Hampers',
     gender: 'unisex',
     shortDesc: 'The ultimate royal gift: Handcrafted Papier-Mâché keepsake box, 1g Pure Kashmiri Mongra Saffron, 500g Acacia Honey, 250g Kagzi Walnuts, and a Pure Cashmere Stole.',
-    longDesc: `Where Nutty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper\n\nDesigned for heads of state, VIP clients, Diwali 2026 executive gifting, and memorable family milestones.`,
-    editorialStory: 'Curated by Nutty Tales to celebrate the timeless elegance, warmth, and culinary treasures of the Kashmir Valley.',
+    longDesc: `Where Nuty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper\n\nDesigned for heads of state, VIP clients, Diwali 2026 executive gifting, and memorable family milestones.`,
+    editorialStory: 'Curated by Nuty Tales to celebrate the timeless elegance, warmth, and culinary treasures of the Kashmir Valley.',
     price: 18999,
     mrp: 25000,
     image: '/images/crafts-gifting-box.jpg',
@@ -586,7 +586,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       { name: 'Royal Midnight Navy', hex: '#16223B' },
     ],
     provenance: {
-      origin: 'Curated in Srinagar & Packed at Nutty Tales Noida HQ',
+      origin: 'Curated in Srinagar & Packed at Nuty Tales Noida HQ',
       artisanGroup: 'Collaboration between Kashmir Weavers, Beekeepers & Saffron Farmers',
       craftTradition: 'Heritage Gifting Assembly',
       material: 'Silk-lined presentation box with authentic artisanal products',

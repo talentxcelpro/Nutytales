@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -159,7 +159,7 @@ export default function CraftsPage() {
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Nutty Tales Crafts &amp; Heritage
+                  Nuty Tales Crafts &amp; Heritage
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
                   Kashmir to the World.
@@ -218,7 +218,7 @@ export default function CraftsPage() {
               <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden border border-white/15 shadow-2xl group">
                 <Image
                   src="/images/campaign-wear-the-story.jpg"
-                  alt="Nutty Tales Crafts & Heritage Fall Winter 2026 Lookbook - Wear the story"
+                  alt="Nuty Tales Crafts & Heritage Fall Winter 2026 Lookbook - Wear the story"
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Product } from '@/lib/products-data'
+import { Product, getProductDynamicGallery } from '@/lib/products-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 import ProductViewer3D, { ModelType } from '@/components/3d/ProductViewer3D'
 
@@ -22,15 +22,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const [viewer3DOpen, setViewer3DOpen] = useState(false)
   const [showStickyBar, setShowStickyBar] = useState(false)
 
-  // Multi-angle Gallery
-  const defaultGallery = [
-    product.image || '/images/almonds-pouch-250g.jpg',
-    '/images/hero-lifestyle-bowl.png',
-    '/images/crystal-gold-nut-bowls.jpg',
-    '/images/luxury-hamper-jars.png',
-  ]
-  const gallery = product.images && product.images.length > 0 ? product.images : defaultGallery
-  const [activeImage, setActiveImage] = useState(gallery[0])
+  // Multi-angle Dynamic 6-10 HD Gallery
+  const gallery = product.images && product.images.length > 3 ? product.images : getProductDynamicGallery(product)
+  const [activeImage, setActiveImage] = useState(gallery[0] || product.image)
 
   // Magnifier Zoom state
   const [isZoomed, setIsZoomed] = useState(false)
@@ -121,7 +115,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales! 👋\n\nI want to order *${product.name}*:\n• Pack: ${mode === 'retail' ? currentVariant.label : `${currentTier.minQtyKg} kg`}\n• Quantity: ${quantity} units (Total: ₹${totalPrice})\n• Grade: ${product.grade}\n\nPlease confirm availability and dispatch schedule!`
+    `Hello Nuty Tales! 👋\n\nI want to order *${product.name}*:\n• Pack: ${mode === 'retail' ? currentVariant.label : `${currentTier.minQtyKg} kg`}\n• Quantity: ${quantity} units (Total: ₹${totalPrice})\n• Grade: ${product.grade}\n\nPlease confirm availability and dispatch schedule!`
   )}`
 
   return (
@@ -146,8 +140,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 priority
                 quality={95}
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className={`object-contain p-6 transition-transform duration-300 ${
+                className={`transition-transform duration-300 ${
                   isZoomed ? 'scale-125' : 'scale-100'
+                } ${
+                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box')
+                    ? 'object-contain p-6'
+                    : 'object-cover'
                 }`}
                 style={
                   isZoomed
@@ -190,26 +188,31 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
           </div>
 
-          {/* Multi-angle HD Thumbnails Row */}
-          <div className="grid grid-cols-4 gap-3">
+          {/* Dynamic 8-10 Multi-angle HD Thumbnails Grid */}
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5">
             {gallery.map((img, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setActiveImage(img)}
-                className={`relative aspect-square rounded-2xl overflow-hidden bg-[#FAF6EE] border-2 transition-all p-2 flex items-center justify-center ${
+                className={`relative aspect-square rounded-2xl overflow-hidden bg-[#FAF6EE] border-2 transition-all p-1 flex items-center justify-center ${
                   activeImage === img
                     ? 'border-[#176B68] ring-2 ring-[#176B68]/30 scale-102 shadow-sm'
                     : 'border-stone-200 opacity-75 hover:opacity-100 hover:border-stone-400'
                 }`}
+                aria-label={`View angle ${idx + 1}`}
               >
                 <Image
                   src={img}
                   alt={`${product.name} angle ${idx + 1}`}
                   fill
                   quality={90}
-                  sizes="100px"
-                  className="object-contain p-1"
+                  sizes="80px"
+                  className={
+                    img.includes('pouch') || img.includes('jar') || img.includes('box')
+                      ? 'object-contain p-1'
+                      : 'object-cover'
+                  }
                 />
               </button>
             ))}

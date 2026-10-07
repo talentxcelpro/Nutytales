@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
@@ -30,7 +30,7 @@ const FOOTER_COLS = [
     title: 'Business Supply & Founders',
     links: [
       { label: 'B2B Business Supply Marketplace', href: '/business-supply' },
-      { label: 'Nutty Tales Founder Program', href: '/founders' },
+      { label: 'Nuty Tales Founder Program', href: '/founders' },
       { label: 'Bulk Ingredients Catalog', href: '/business-supply#bulk-ingredients' },
       { label: 'Enterprise Contract Procurement', href: '/business-supply#rfq-form' },
       { label: 'Noida Central Processing Hub', href: '/wholesale-dry-fruits/noida' },
@@ -41,7 +41,7 @@ const FOOTER_COLS = [
     title: 'Gifting, Stays & Weddings',
     links: [
       { label: 'Master Gifting Portal', href: '/gifting' },
-      { label: 'Weddings by Nutty Tales', href: '/weddings' },
+      { label: 'Weddings by Nuty Tales', href: '/weddings' },
       { label: 'Corporate & Diwali 2026 Gifting', href: '/corporate-gifting' },
       { label: 'Boutique Stays (Srinagar, Noida, Patna)', href: '/stays' },
       { label: 'Curated Kashmir Tours & Packages', href: '/travel/kashmir' },
@@ -64,7 +64,7 @@ export default function Footer() {
               <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-white p-0.5 border border-white/20 flex-shrink-0">
                 <Image
                   src="/images/logo.jpg"
-                  alt="Nutty Tales"
+                  alt="Nuty Tales"
                   width={40}
                   height={40}
                   className="object-contain w-full h-full"
@@ -72,7 +72,7 @@ export default function Footer() {
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold tracking-tight text-white block">
-                  Nutty Tales
+                  Nuty Tales
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#C9A45C] font-semibold block">
                   Taste · Stay · Explore · Discover
@@ -126,7 +126,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
           <div className="flex flex-wrap items-center gap-6">
-            <span>© {currentYear} Nutty Tales Private Limited. All rights reserved.</span>
+            <span>© {currentYear} Nuty Tales Private Limited. All rights reserved.</span>
             <span>FSSAI Reg. No. {FSSAI_NUMBER}</span>
             <span>Govt. J&amp;K GI Tag Authenticity Certified</span>
           </div>

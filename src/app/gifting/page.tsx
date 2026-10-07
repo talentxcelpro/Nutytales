@@ -1,9 +1,9 @@
-import Image from 'next/image'
+﻿import Image from 'next/image'
 import Link from 'next/link'
 
 const GIFTING_VERTICALS = [
   {
-    title: 'Weddings by Nutty Tales',
+    title: 'Weddings by Nuty Tales',
     subtitle: 'Bespoke Trousseau & Favours',
     desc: 'Custom monogrammed rigid boxes, couple name foil printing, and scheduled multi-address delivery across hotels and residences in India.',
     link: '/weddings',
@@ -48,7 +48,7 @@ export default function GiftingPage() {
           <nav className="text-xs text-[#704B32] flex items-center gap-2">
             <Link href="/" className="hover:text-[#176B68]">Home</Link>
             <span>/</span>
-            <span className="text-[#17233B] font-semibold">Gifting by Nutty Tales</span>
+            <span className="text-[#17233B] font-semibold">Gifting by Nuty Tales</span>
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#17233B]/10 pb-8">
@@ -61,7 +61,7 @@ export default function GiftingPage() {
               </h1>
               <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
                 Whether celebrating a grand Indian wedding, rewarding corporate teams for Diwali 2026,
-                or honoring relationships with authentic Kashmiri heirlooms — Nutty Tales designs,
+                or honoring relationships with authentic Kashmiri heirlooms — Nuty Tales designs,
                 custom-packages, and delivers across India.
               </p>
             </div>

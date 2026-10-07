@@ -1,19 +1,19 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 /* ------------------------------------------------------------------ */
 /*  SEO Metadata                                                        */
 /* ------------------------------------------------------------------ */
 export const metadata: Metadata = {
-  title: 'Wholesale Dry Fruits Supplier India | Bulk Dry Fruits | Nutty Tales',
+  title: 'Wholesale Dry Fruits Supplier India | Bulk Dry Fruits | Nuty Tales',
   description:
     'Buy wholesale dry fruits for your business. Bulk almonds, cashews, raisins, pistachios, makhana and more. Serving retailers, bakeries, hotels, restaurants, sweet shops. Noida, Kashmir, Patna.',
-  alternates: { canonical: 'https://nuttytales.com/wholesale-dry-fruits' },
+  alternates: { canonical: 'https://nutytales.com/wholesale-dry-fruits' },
   openGraph: {
-    title: 'Wholesale Dry Fruits Supplier India | Nutty Tales',
+    title: 'Wholesale Dry Fruits Supplier India | Nuty Tales',
     description:
       'Bulk supply of premium dry fruits across India. Competitive pricing, GST invoice, dedicated B2B support.',
-    url: 'https://nuttytales.com/wholesale-dry-fruits',
+    url: 'https://nutytales.com/wholesale-dry-fruits',
     type: 'website',
   },
 };
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Nutty Tales',
-  url: 'https://nuttytales.com',
-  logo: 'https://nuttytales.com/logo.png',
+  name: 'Nuty Tales',
+  url: 'https://nutytales.com',
+  logo: 'https://nutytales.com/logo.png',
   description:
     'Premium dry fruits wholesale and retail supplier across India. B2B supply to retailers, bakeries, hotels, sweet shops and food manufacturers.',
   address: {
@@ -45,9 +45,9 @@ const organizationSchema = {
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'Nutty Tales — Wholesale Dry Fruits',
-  image: 'https://nuttytales.com/og-image.jpg',
-  url: 'https://nuttytales.com/wholesale-dry-fruits',
+  name: 'Nuty Tales — Wholesale Dry Fruits',
+  image: 'https://nutytales.com/og-image.jpg',
+  url: 'https://nutytales.com/wholesale-dry-fruits',
   description:
     'Wholesale and bulk dry fruit supplier serving businesses across India.',
   address: {
@@ -76,12 +76,12 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nuttytales.com' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nutytales.com' },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Wholesale Dry Fruits',
-      item: 'https://nuttytales.com/wholesale-dry-fruits',
+      item: 'https://nutytales.com/wholesale-dry-fruits',
     },
   ],
 };
@@ -380,7 +380,7 @@ export default function WholesalePage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#3D2B1F] mb-4">Why Businesses Choose Nutty Tales</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#3D2B1F] mb-4">Why Businesses Choose Nuty Tales</h2>
             <p className="text-[#8B6F5E] text-lg max-w-2xl mx-auto">
               Everything a B2B buyer needs from a dry fruit supplier.
             </p>

@@ -1,10 +1,10 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Mithila Makhana Wholesale & Retail — Bihar Fox Nuts | Nutty Tales',
+  title: 'Mithila Makhana Wholesale & Retail — Bihar Fox Nuts | Nuty Tales',
   description:
     'Procure authentic GI-tagged Mithila Phool Makhana directly from Bihar origin. Grade A Jumbo (6+ count) and Standard grades. Retail packs (100g–500g) and wholesale 10kg–25kg sacks.',
   keywords: [
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     'organic lotus seeds wholesale',
   ],
   openGraph: {
-    title: 'Authentic Mithila Makhana — Direct from Bihar | Nutty Tales',
+    title: 'Authentic Mithila Makhana — Direct from Bihar | Nuty Tales',
     description:
       'GI-tagged Mithila Fox Nuts. Hand-graded Jumbo flakes, retail pouches, and bulk sacks for B2B supply nationwide.',
-    url: 'https://nuttytales.com/makhana',
-    siteName: 'Nutty Tales',
+    url: 'https://nutytales.com/makhana',
+    siteName: 'Nuty Tales',
     locale: 'en_IN',
     type: 'website',
   },
@@ -36,7 +36,7 @@ export default function MakhanaPage() {
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'Where does Nutty Tales source its Makhana?',
+        name: 'Where does Nuty Tales source its Makhana?',
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Our Makhana is sourced directly from certified harvesting ponds across the Mithila region (Darbhanga, Madhubani, and Saharsa) in North Bihar, holding GI Tag recognition.',
@@ -98,7 +98,7 @@ export default function MakhanaPage() {
 
               <p className="text-sm sm:text-base text-[#17233B]/75 leading-relaxed max-w-2xl">
                 Harvested from the wetland ponds of North Bihar, sun-dried, and popped to pristine perfection.
-                Nutty Tales delivers hand-sorted, extra-large lotus seeds with exceptional crunch, zero artificial bleaching, and FSSAI certification.
+                Nuty Tales delivers hand-sorted, extra-large lotus seeds with exceptional crunch, zero artificial bleaching, and FSSAI certification.
               </p>
 
               {/* Badges */}
@@ -138,7 +138,7 @@ export default function MakhanaPage() {
                 </Link>
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    'Hello Nutty Tales! 👋 I want to enquire about wholesale bulk orders for Mithila Makhana.'
+                    'Hello Nuty Tales! 👋 I want to enquire about wholesale bulk orders for Mithila Makhana.'
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -153,7 +153,7 @@ export default function MakhanaPage() {
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#F7F2E8] border border-[#17233B]/10 shadow-inner">
                 <Image
                   src="/images/hero-lifestyle-bowl.png"
-                  alt="Nutty Tales Fresh Mithila Makhana"
+                  alt="Nuty Tales Fresh Mithila Makhana"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"
@@ -315,7 +315,7 @@ export default function MakhanaPage() {
                   Direct Dispatch from Patna & Noida Hubs
                 </h2>
                 <p className="text-sm text-stone-300 leading-relaxed max-w-xl">
-                  Makhana is extraordinarily fragile and moisture-sensitive. To prevent crushing in transit and protect crunch during monsoon months, Nutty Tales utilizes heavy-gauge multi-layer woven sacks with heat-sealed food-grade LDPE moisture liners.
+                  Makhana is extraordinarily fragile and moisture-sensitive. To prevent crushing in transit and protect crunch during monsoon months, Nuty Tales utilizes heavy-gauge multi-layer woven sacks with heat-sealed food-grade LDPE moisture liners.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 text-xs text-stone-200">
@@ -346,7 +346,7 @@ export default function MakhanaPage() {
                   </Link>
                   <a
                     href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                      'Hello Nutty Tales! 👋 I want to speak with your wholesale procurement team regarding Makhana sacks.'
+                      'Hello Nuty Tales! 👋 I want to speak with your wholesale procurement team regarding Makhana sacks.'
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -411,7 +411,7 @@ export default function MakhanaPage() {
           <div className="space-y-4">
             <div className="bg-white p-6 rounded-2xl border border-[#17233B]/10 space-y-2">
               <h3 className="font-bold text-sm text-[#17233B]">
-                How does Nutty Tales ensure the Makhana does not become soggy or soft?
+                How does Nuty Tales ensure the Makhana does not become soggy or soft?
               </h3>
               <p className="text-xs text-[#17233B]/70 leading-relaxed">
                 We maintain strict moisture checks (&lt; 9%) immediately after roasting and popping in Bihar. All sacks and consumer pouches are hermetically sealed with moisture-blocking barrier films.

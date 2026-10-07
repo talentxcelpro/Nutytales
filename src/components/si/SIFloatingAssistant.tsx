@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
@@ -110,7 +110,7 @@ export default function SIFloatingAssistant() {
                   </span>
                 </div>
                 <p className="text-[11px] text-stone-300 font-light">
-                  Nutty Tales Commerce, Crafts &amp; Hospitality Engine
+                  Nuty Tales Commerce, Crafts &amp; Hospitality Engine
                 </p>
               </div>
             </div>
@@ -261,7 +261,7 @@ function getContextualPrompts(pathname: string) {
   if (pathname.startsWith('/founders')) {
     return {
       greeting:
-        'Welcome to the Nutty Tales Founder Program. I am SI Founder Copilot. Tell me what venture you are launching (D2C, travel, clothing, bakery, hospitality) and I will calculate your landed costs, starter MOQs, and launch roadmap.',
+        'Welcome to the Nuty Tales Founder Program. I am SI Founder Copilot. Tell me what venture you are launching (D2C, travel, clothing, bakery, hospitality) and I will calculate your landed costs, starter MOQs, and launch roadmap.',
       actions: [
         { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
         { label: 'Apply for Founder Program', href: '/founders#apply' },
@@ -286,7 +286,7 @@ function getContextualPrompts(pathname: string) {
   if (pathname.startsWith('/stays')) {
     return {
       greeting:
-        'Welcome to Nutty Tales Hospitality. I can check live availability and seasonal tariffs for our Srinagar Orchard Villa, Noida Corporate Retreat, or Patna Heritage Stay.',
+        'Welcome to Nuty Tales Hospitality. I can check live availability and seasonal tariffs for our Srinagar Orchard Villa, Noida Corporate Retreat, or Patna Heritage Stay.',
       actions: [
         { label: 'Srinagar Orchard Villa', href: '/stays' },
         { label: 'Kashmir Tour Packages', href: '/travel/kashmir' },
@@ -310,7 +310,7 @@ function getContextualPrompts(pathname: string) {
   // Default / Homepage / Retail
   return {
     greeting:
-      'Hello! I am SI, your Nutty Tales assistant. Whether you are looking for heart-healthy nuts, wedding hampers, Kashmir pashminas, or an orchard stay in Srinagar, I can guide you.',
+      'Hello! I am SI, your Nuty Tales assistant. Whether you are looking for heart-healthy nuts, wedding hampers, Kashmir pashminas, or an orchard stay in Srinagar, I can guide you.',
     actions: [
       { label: 'Shop Dry Fruits', href: '/shop' },
       { label: 'Wedding Hampers', href: '/weddings' },
@@ -355,7 +355,7 @@ function generateSIResponse(query: string, pathname: string): ChatMessage {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: 'The Nutty Tales Founder Program provides complete commercial infrastructure for startups: bulk ingredient sourcing at origin rates, small starter MOQs, turnkey private-label pouching, travel inventory access, and multi-hub fulfilment across Noida, Patna & Kashmir.',
+      text: 'The Nuty Tales Founder Program provides complete commercial infrastructure for startups: bulk ingredient sourcing at origin rates, small starter MOQs, turnkey private-label pouching, travel inventory access, and multi-hub fulfilment across Noida, Patna & Kashmir.',
       actions: [
         { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
         { label: 'Apply for Founder Program', href: '/founders#apply' },
@@ -387,7 +387,7 @@ function generateSIResponse(query: string, pathname: string): ChatMessage {
   return {
     id: 'resp-' + Date.now(),
     sender: 'si',
-    text: `I've noted: "${query}". Nutty Tales connects wholesome dry fruit nutrition, artisan Kashmir crafts, and bespoke boutique stays. How else may I assist you today?`,
+    text: `I've noted: "${query}". Nuty Tales connects wholesome dry fruit nutrition, artisan Kashmir crafts, and bespoke boutique stays. How else may I assist you today?`,
     actions: [
       { label: 'Browse Food Collections', href: '/shop' },
       { label: 'Explore Kashmir Crafts', href: '/crafts' },

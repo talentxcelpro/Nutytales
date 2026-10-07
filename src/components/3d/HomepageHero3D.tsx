@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
@@ -229,7 +229,7 @@ export default function HomepageHero3D() {
       <ProductViewer3D
         isOpen={viewerOpen}
         onClose={() => setViewerOpen(false)}
-        productName="Nutty Tales Premium Almonds (250g)"
+        productName="Nuty Tales Premium Almonds (250g)"
         modelType="pouch"
         price={425}
       />

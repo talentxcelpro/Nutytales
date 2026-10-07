@@ -10,7 +10,7 @@ export const size = {
 export const contentType = "image/png";
 
 /**
- * Default Open Graph image for NuttyTales.com
+ * Default Open Graph image for nutytales.com
  * Served at GET /opengraph-image
  *
  * All pages that don't define their own OG image will inherit this.
@@ -144,7 +144,7 @@ export default function OpenGraphImage(): ImageResponse {
               lineHeight:    1,
             }}
           >
-            Nutty
+            Nuty
           </span>
           <span
             style={{
@@ -233,7 +233,7 @@ export default function OpenGraphImage(): ImageResponse {
               letterSpacing: "0.08em",
             }}
           >
-            www.nuttytales.com
+            www.nutytales.com
           </span>
         </div>
       </div>

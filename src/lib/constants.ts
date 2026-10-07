@@ -1,7 +1,7 @@
-// ─── App Identity ──────────────────────────────────────────────────────────────
-export const APP_NAME = 'Nutty Tales'
+﻿// ─── App Identity ──────────────────────────────────────────────────────────────
+export const APP_NAME = 'Nuty Tales'
 export const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.nuttytales.com'
+  process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.nutytales.com'
 export const APP_DESCRIPTION =
   'Premium dry fruits — wholesale & retail. Sourced from Kashmir, delivered across India. FSSAI certified.'
 
@@ -133,13 +133,13 @@ export const PHONE_NUMBERS = {
 } as const
 
 export const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? 'support@nuttytales.com'
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? 'support@nutytales.com'
 export const SALES_EMAIL =
-  process.env.NEXT_PUBLIC_SALES_EMAIL ?? 'sales@nuttytales.com'
+  process.env.NEXT_PUBLIC_SALES_EMAIL ?? 'sales@nutytales.com'
 export const CORPORATE_EMAIL =
-  process.env.NEXT_PUBLIC_CORPORATE_EMAIL ?? 'corporate@nuttytales.com'
+  process.env.NEXT_PUBLIC_CORPORATE_EMAIL ?? 'corporate@nutytales.com'
 export const STAYS_EMAIL =
-  process.env.NEXT_PUBLIC_STAYS_EMAIL ?? 'stays@nuttytales.com'
+  process.env.NEXT_PUBLIC_STAYS_EMAIL ?? 'stays@nutytales.com'
 
 // ─── Shipping Estimation ───────────────────────────────────────────────────────
 /** Estimated delivery days from each dispatch location */

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -104,7 +104,7 @@ export default function FoundersPage() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales Founder Program! 🚀\n\nI want to apply / discuss infrastructure for my venture:\n• Brand: ${brandName || 'Emerging Startup'}\n• Founder: ${founderName || 'Founder'}\n• Sector: ${applicantSector}\n• Stage: ${stage}\n• Sourcing & Services Needed: ${needs.join(', ')}\n• Monthly Requirement: ${monthlyRequirement}\n• City: ${city || 'India'}\n\nPlease connect me with a Founder Supply Specialist!`,
+    `Hello Nuty Tales Founder Program! 🚀\n\nI want to apply / discuss infrastructure for my venture:\n• Brand: ${brandName || 'Emerging Startup'}\n• Founder: ${founderName || 'Founder'}\n• Sector: ${applicantSector}\n• Stage: ${stage}\n• Sourcing & Services Needed: ${needs.join(', ')}\n• Monthly Requirement: ${monthlyRequirement}\n• City: ${city || 'India'}\n\nPlease connect me with a Founder Supply Specialist!`,
   )}`
 
   return (
@@ -115,7 +115,7 @@ export default function FoundersPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[11px] font-bold tracking-widest uppercase">
-                <span>🚀</span> NUTTY TALES FOUNDER PROGRAM
+                <span>🚀</span> Nuty Tales FOUNDER PROGRAM
               </div>
 
               <div className="space-y-2">
@@ -131,7 +131,7 @@ export default function FoundersPage() {
               </div>
 
               <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-2xl">
-                Starting a D2C food brand, travel agency, clothing label, boutique stay or café? Nutty Tales provides the real commercial infrastructure you need: direct-from-origin sourcing, private label packaging, hotel &amp; travel inventory, artisan fashion supply, and multi-hub fulfilment across Noida, Patna and Kashmir.
+                Starting a D2C food brand, travel agency, clothing label, boutique stay or café? Nuty Tales provides the real commercial infrastructure you need: direct-from-origin sourcing, private label packaging, hotel &amp; travel inventory, artisan fashion supply, and multi-hub fulfilment across Noida, Patna and Kashmir.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -176,7 +176,7 @@ export default function FoundersPage() {
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/20 shadow-2xl group">
                 <Image
                   src="/images/campaign-travel-further.jpg"
-                  alt="Good Things Travel Further — Nutty Tales Ecosystem & Founder Infrastructure"
+                  alt="Good Things Travel Further — Nuty Tales Ecosystem & Founder Infrastructure"
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -301,10 +301,10 @@ export default function FoundersPage() {
               </div>
             </div>
 
-            {/* What Nutty Tales Supplies */}
+            {/* What Nuty Tales Supplies */}
             <div className="space-y-2">
               <span className="text-xs uppercase font-bold tracking-wider text-[#17233B] block">
-                What Nutty Tales Provides:
+                What Nuty Tales Provides:
               </span>
               <ul className="text-xs text-stone-600 space-y-2">
                 {selectedSector.whatWeProvide.map((prov, i) => (
@@ -338,8 +338,8 @@ export default function FoundersPage() {
             </div>
 
             <div className="p-3.5 bg-white rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
-              <strong className="text-[#176B68] block">Nutty Tales Solution:</strong>
-              <p>{selectedSector.sampleCase.nuttyTalesSolution}</p>
+              <strong className="text-[#176B68] block">Nuty Tales Solution:</strong>
+              <p>{selectedSector.sampleCase.nutytalesSolution}</p>
             </div>
 
             <div className="pt-2">
@@ -602,7 +602,7 @@ export default function FoundersPage() {
               Application Desk
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] mt-1">
-              Join Nutty Tales Founder Program
+              Join Nuty Tales Founder Program
             </h3>
             <p className="text-xs sm:text-sm text-stone-600 mt-1">
               Tell us what you are building. Our founder supply team responds within 24 hours with product sample options, landed cost models, and initial batch recommendations.
@@ -827,7 +827,7 @@ export default function FoundersPage() {
             {isSubmitted && (
               <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
                 <span>
-                  ✓ Welcome to the Nutty Tales Founder Program! Our Founder Supply Specialist will review your details and reach out within 24 hours.
+                  ✓ Welcome to the Nuty Tales Founder Program! Our Founder Supply Specialist will review your details and reach out within 24 hours.
                 </span>
                 <button
                   type="button"

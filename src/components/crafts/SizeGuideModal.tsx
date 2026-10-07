@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 
@@ -17,7 +17,7 @@ export default function SizeGuideModal({ isOpen, onClose, category = 'pherans' }
         <div className="flex items-center justify-between border-b border-stone-200 pb-4">
           <div>
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
-              Nutty Tales Atelier Sizing
+              Nuty Tales Atelier Sizing
             </span>
             <h3 className="font-serif text-2xl font-bold text-[#17233B]">
               Garment Sizing &amp; Fit Guide

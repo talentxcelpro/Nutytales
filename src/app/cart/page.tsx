@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import { calculateDiscount, DYNAMIC_COUPONS } from '@/lib/coupons'
 
 interface CartItem {
   productId: string
@@ -20,12 +21,19 @@ interface CartItem {
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
+  const [couponInput, setCouponInput] = useState('')
+  const [couponMsg, setCouponMsg] = useState('')
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem('nt_cart')
       if (stored) {
         setCart(JSON.parse(stored))
+      }
+      const storedCoupon = localStorage.getItem('nt_applied_coupon')
+      if (storedCoupon) {
+        setAppliedCoupon(storedCoupon)
       }
     } catch {
       // fallback
@@ -36,6 +44,29 @@ export default function CartPage() {
   const updateCart = (newCart: CartItem[]) => {
     setCart(newCart)
     localStorage.setItem('nt_cart', JSON.stringify(newCart))
+  }
+
+  const handleApplyCoupon = (code: string) => {
+    const clean = code.trim().toUpperCase()
+    const valid = DYNAMIC_COUPONS.find((c) => c.code === clean)
+    if (valid) {
+      localStorage.setItem('nt_applied_coupon', clean)
+      setAppliedCoupon(clean)
+      setCouponMsg(`✓ ${clean} applied!`)
+      window.dispatchEvent(new Event('nt_coupon_applied'))
+      setTimeout(() => setCouponMsg(''), 2500)
+    } else {
+      setCouponMsg('Invalid coupon code')
+      setTimeout(() => setCouponMsg(''), 2500)
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    localStorage.removeItem('nt_applied_coupon')
+    setAppliedCoupon(null)
+    setCouponMsg('Coupon removed')
+    window.dispatchEvent(new Event('nt_coupon_applied'))
+    setTimeout(() => setCouponMsg(''), 2000)
   }
 
   const handleQuantityChange = (index: number, newQty: number) => {
@@ -59,18 +90,22 @@ export default function CartPage() {
   }
 
   const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
+  const discount = calculateDiscount(subtotal, appliedCoupon)
   const hasWholesale = cart.some((item) => item.mode === 'wholesale')
   const freeShippingThreshold = 999
-  const shipping = subtotal > freeShippingThreshold || subtotal === 0 ? 0 : 99
-  const estimatedTotal = subtotal + shipping
+  const isFreeShip = subtotal > freeShippingThreshold || subtotal === 0 || appliedCoupon === 'FREESHIP'
+  const shipping = isFreeShip ? 0 : 99
+  const estimatedTotal = Math.max(0, subtotal - discount + shipping)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappSummary = cart
     .map((item) => `• ${item.name} (${item.sizeLabel}) × ${item.quantity} = ₹${item.totalPrice}`)
     .join('\n')
 
+  const discountInfo = appliedCoupon && discount > 0 ? `\n*Coupon (${appliedCoupon}):* -₹${discount}` : ''
+
   const whatsappMessage = encodeURIComponent(
-    `Hello Nutty Tales! 👋\n\nI would like to place an order for the following items:\n\n${whatsappSummary}\n\n*Estimated Total:* ₹${estimatedTotal}\n\nPlease confirm availability and payment details. Thank you!`
+    `Hello Nuty Tales! 👋\n\nI would like to place an order for the following items:\n\n${whatsappSummary}\n\n*Subtotal:* ₹${subtotal}${discountInfo}\n*Shipping:* ${isFreeShip ? 'FREE' : `₹${shipping}`}\n*Estimated Total:* ₹${estimatedTotal}\n\nPlease confirm availability and payment details. Thank you!`
   )
 
   if (!isLoaded) {
@@ -244,6 +279,52 @@ export default function CartPage() {
                   Order Summary
                 </h2>
 
+                {/* Dynamic Coupon Strip */}
+                <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200/80">
+                  {appliedCoupon ? (
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-emerald-700 font-mono font-bold text-xs">🎟️ {appliedCoupon}</span>
+                        <span className="text-[11px] text-emerald-800 font-semibold">(-₹{discount})</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRemoveCoupon}
+                        className="text-[11px] text-stone-400 hover:text-rose-600 underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <div className="flex gap-1.5">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                          placeholder="Promo code (e.g. NUTY10)"
+                          className="flex-1 bg-white border border-stone-200 rounded-lg px-2.5 py-1 text-xs uppercase font-mono tracking-wider focus:outline-hidden focus:border-[#17233B]"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleApplyCoupon(couponInput)
+                            setCouponInput('')
+                          }}
+                          className="px-3 py-1 bg-[#17233B] text-white rounded-lg text-xs font-semibold hover:bg-[#176B68] transition-colors"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      {couponMsg && (
+                        <p className={`text-[11px] ${couponMsg.includes('✓') ? 'text-emerald-700 font-semibold' : 'text-rose-600'}`}>
+                          {couponMsg}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between text-[#17233B]/80">
                     <span>Subtotal</span>
@@ -251,6 +332,13 @@ export default function CartPage() {
                       ₹{subtotal.toLocaleString('en-IN')}
                     </span>
                   </div>
+
+                  {appliedCoupon && discount > 0 && (
+                    <div className="flex justify-between text-emerald-700 font-semibold">
+                      <span>Coupon Discount ({appliedCoupon})</span>
+                      <span>-₹{discount.toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
 
                   <div className="flex justify-between text-[#17233B]/80">
                     <span>Standard Logistics</span>

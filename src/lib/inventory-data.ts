@@ -1,4 +1,4 @@
-// ─── Nutty Tales Dynamic Warehouse & Inventory Allocation Engine ──────────────
+﻿// ─── Nuty Tales Dynamic Warehouse & Inventory Allocation Engine ──────────────
 // Multi-warehouse tracking across Noida (HQ), Srinagar (Valley), and Patna (Bihar)
 
 export type WarehouseCode = 'NOIDA' | 'SRINAGAR' | 'PATNA'

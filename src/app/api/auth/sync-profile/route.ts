@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { verifyFirebaseIdToken } from '@/lib/firebase-admin'
 import { upsertUserProfile, getUserProfile } from '@/lib/profiles'
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     const email = verified?.email || body.email || null
     const phone = verified?.phone_number || body.phone || null
-    const name = verified?.name || body.name || (email ? email.split('@')[0] : 'Nutty Tales Member')
+    const name = verified?.name || body.name || (email ? email.split('@')[0] : 'Nuty Tales Member')
     const avatar = verified?.picture || body.avatar || null
     const provider = verified?.sign_in_provider || body.provider || (phone ? 'phone' : 'google')
 

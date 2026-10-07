@@ -1,4 +1,4 @@
-// ─── Nutty Tales Weddings & Custom Packaging Engine ─────────────────────────────
+﻿// ─── Nuty Tales Weddings & Custom Packaging Engine ─────────────────────────────
 // Bespoke dry fruit gifting, couple personalisation, and multi-city PAN-India delivery
 
 export interface WeddingOccasion {

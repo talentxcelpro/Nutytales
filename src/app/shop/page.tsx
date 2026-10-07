@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import { PRODUCTS } from '@/lib/products-data'
 import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
 
 export const metadata: Metadata = {
-  title: 'Shop Premium Dry Fruits Online | Retail & Wholesale | Nutty Tales',
+  title: 'Shop Premium Dry Fruits Online | Retail & Wholesale | Nuty Tales',
   description:
     'Browse our full dry fruits catalog. California Almonds, Kashmiri Mamra Badam, W240 Cashews, Kashmiri Walnuts, Saffron, Turkish Anjeer & Bihar Makhana. Fast express dispatch across India. FSSAI & GI certified.',
   keywords: [

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import { calculateDiscount, DYNAMIC_COUPONS } from '@/lib/coupons'
 
 export interface CartItem {
   productId: string
@@ -20,6 +21,9 @@ export interface CartItem {
 export default function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false)
   const [cart, setCart] = useState<CartItem[]>([])
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
+  const [couponInput, setCouponInput] = useState('')
+  const [couponMsg, setCouponMsg] = useState('')
 
   const loadCart = () => {
     try {
@@ -34,24 +38,38 @@ export default function CartDrawer() {
     }
   }
 
+  const loadCoupon = () => {
+    try {
+      const stored = localStorage.getItem('nt_applied_coupon')
+      setAppliedCoupon(stored || null)
+    } catch {
+      setAppliedCoupon(null)
+    }
+  }
+
   useEffect(() => {
     loadCart()
+    loadCoupon()
 
     const handleOpen = () => {
       loadCart()
+      loadCoupon()
       setIsOpen(true)
     }
 
     const handleCartUpdate = () => {
       loadCart()
+      loadCoupon()
     }
 
     window.addEventListener('nt_open_cart', handleOpen)
     window.addEventListener('nt_cart_updated', handleCartUpdate)
+    window.addEventListener('nt_coupon_applied', handleCartUpdate)
 
     return () => {
       window.removeEventListener('nt_open_cart', handleOpen)
       window.removeEventListener('nt_cart_updated', handleCartUpdate)
+      window.removeEventListener('nt_coupon_applied', handleCartUpdate)
     }
   }, [])
 
@@ -59,6 +77,31 @@ export default function CartDrawer() {
     setCart(newCart)
     localStorage.setItem('nt_cart', JSON.stringify(newCart))
     window.dispatchEvent(new Event('nt_cart_updated'))
+  }
+
+  const handleApplyCoupon = (code: string) => {
+    const clean = code.trim().toUpperCase()
+    const valid = DYNAMIC_COUPONS.find((c) => c.code === clean)
+    if (valid) {
+      localStorage.setItem('nt_applied_coupon', clean)
+      setAppliedCoupon(clean)
+      setCouponMsg(`✓ ${clean} applied!`)
+      window.dispatchEvent(new Event('nt_coupon_applied'))
+      window.dispatchEvent(new Event('nt_cart_updated'))
+      setTimeout(() => setCouponMsg(''), 2500)
+    } else {
+      setCouponMsg('Invalid coupon code')
+      setTimeout(() => setCouponMsg(''), 2500)
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    localStorage.removeItem('nt_applied_coupon')
+    setAppliedCoupon(null)
+    setCouponMsg('Coupon removed')
+    window.dispatchEvent(new Event('nt_coupon_applied'))
+    window.dispatchEvent(new Event('nt_cart_updated'))
+    setTimeout(() => setCouponMsg(''), 2000)
   }
 
   const handleQuantity = (idx: number, delta: number) => {
@@ -79,9 +122,13 @@ export default function CartDrawer() {
   }
 
   const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
+  const discount = calculateDiscount(subtotal, appliedCoupon)
   const freeShippingTarget = 999
   const freeShippingProgress = Math.min(100, Math.round((subtotal / freeShippingTarget) * 100))
   const remainingForFreeShipping = Math.max(0, freeShippingTarget - subtotal)
+  const isFreeShip = remainingForFreeShipping === 0 || appliedCoupon === 'FREESHIP'
+  const estimatedShipping = isFreeShip ? 0 : 99
+  const finalTotal = Math.max(0, subtotal - discount + estimatedShipping)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappSummary = cart
@@ -89,7 +136,9 @@ export default function CartDrawer() {
     .join('\n')
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales! 👋\n\nI want to order items from my cart:\n\n${whatsappSummary}\n\n*Subtotal:* ₹${subtotal}\n\nPlease confirm availability and dispatch date!`
+    `Hello Nuty Tales! 👋\n\nI want to order items from my cart:\n\n${whatsappSummary}\n\n*Subtotal:* ₹${subtotal}${
+      appliedCoupon && discount > 0 ? `\n*Coupon (${appliedCoupon}):* -₹${discount}` : ''
+    }\n*Shipping:* ${isFreeShip ? 'FREE' : '₹99'}\n*Estimated Total:* ₹${finalTotal}\n\nPlease confirm availability and dispatch date!`
   )}`
 
   if (!isOpen) return null
@@ -249,21 +298,73 @@ export default function CartDrawer() {
         {/* Footer / Summary */}
         {cart.length > 0 && (
           <div className="p-5 border-t border-[#17233B]/10 bg-white space-y-3">
+            {/* Dynamic Coupon Strip in Drawer */}
+            <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200/80">
+              {appliedCoupon ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-emerald-700 font-mono font-bold text-xs">🎟️ {appliedCoupon}</span>
+                    <span className="text-[11px] text-emerald-800 font-semibold">(-₹{discount})</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="text-[11px] text-stone-400 hover:text-rose-600 underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <div className="flex gap-1.5">
+                    <input
+                      type="text"
+                      value={couponInput}
+                      onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                      placeholder="Promo code (e.g. NUTY10)"
+                      className="flex-1 bg-white border border-stone-200 rounded-lg px-2.5 py-1 text-xs uppercase font-mono tracking-wider focus:outline-hidden focus:border-[#17233B]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleApplyCoupon(couponInput)
+                        setCouponInput('')
+                      }}
+                      className="px-3 py-1 bg-[#17233B] text-white rounded-lg text-xs font-semibold hover:bg-[#176B68] transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {couponMsg && (
+                    <p className={`text-[11px] ${couponMsg.includes('✓') ? 'text-emerald-700 font-semibold' : 'text-rose-600'}`}>
+                      {couponMsg}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between text-stone-600">
                 <span>Subtotal</span>
                 <span className="font-bold text-[#17233B]">₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
+              {appliedCoupon && discount > 0 && (
+                <div className="flex justify-between text-emerald-700 font-semibold">
+                  <span>Coupon Discount ({appliedCoupon})</span>
+                  <span>-₹{discount.toLocaleString('en-IN')}</span>
+                </div>
+              )}
               <div className="flex justify-between text-stone-600">
                 <span>Estimated Shipping</span>
-                <span className={remainingForFreeShipping === 0 ? 'text-emerald-700 font-bold' : 'font-bold'}>
-                  {remainingForFreeShipping === 0 ? 'FREE' : '₹99'}
+                <span className={isFreeShip ? 'text-emerald-700 font-bold' : 'font-bold'}>
+                  {isFreeShip ? 'FREE' : '₹99'}
                 </span>
               </div>
               <div className="flex justify-between text-sm font-bold text-[#17233B] pt-2 border-t border-stone-100">
                 <span>Estimated Total (Incl. Taxes)</span>
                 <span className="text-[#176B68] text-base">
-                  ₹{(subtotal + (remainingForFreeShipping === 0 ? 0 : 99)).toLocaleString('en-IN')}
+                  ₹{finalTotal.toLocaleString('en-IN')}
                 </span>
               </div>
             </div>

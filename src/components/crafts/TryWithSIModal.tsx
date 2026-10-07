@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -162,7 +162,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-serif text-lg font-bold tracking-tight text-white">
-                  Nutty Tales — Try with SI
+                  Nuty Tales — Try with SI
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#C9A45C] text-[#17233B]">
                   Virtual Studio & Stylist

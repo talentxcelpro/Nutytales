@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Dry Fruit Wholesale Supplier in Noida & Delhi NCR | Nutty Tales',
+  title: 'Dry Fruit Wholesale Supplier in Noida & Delhi NCR | Nuty Tales',
   description:
     'Wholesale dry fruits supplier in Noida, Greater Noida, Ghaziabad, Gurugram, and Delhi NCR. Direct Khari Baoli market links, central warehouse, bulk almonds, cashews, raisins, and GST invoices.',
   keywords: [
@@ -39,7 +39,7 @@ export default function NoidaWholesalePage() {
             Dry Fruit Wholesale Supplier in Noida &amp; Delhi NCR
           </h1>
           <p className="text-base text-stone-600 leading-relaxed max-w-3xl">
-            Operating from Noida with procurement access to Delhi&apos;s Khari Baoli market and direct import pipelines, Nutty Tales delivers bulk California almonds, W240/W320 cashews, raisins, pistachios, walnuts, and corporate hampers across Delhi NCR.
+            Operating from Noida with procurement access to Delhi&apos;s Khari Baoli market and direct import pipelines, Nuty Tales delivers bulk California almonds, W240/W320 cashews, raisins, pistachios, walnuts, and corporate hampers across Delhi NCR.
           </p>
         </div>
 

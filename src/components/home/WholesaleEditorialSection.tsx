@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export default function WholesaleEditorialSection() {
@@ -79,7 +79,7 @@ export default function WholesaleEditorialSection() {
           {/* Right Highlights & Compliance */}
           <div className="lg:col-span-6 bg-white p-8 sm:p-10 rounded-2xl border border-[#17233B]/10 shadow-sm space-y-6">
             <h3 className="font-serif text-2xl font-bold text-[#17233B]">
-              Why Indian Enterprises Choose Nutty Tales
+              Why Indian Enterprises Choose Nuty Tales
             </h3>
 
             <div className="space-y-4 text-xs text-[#17233B]/80">

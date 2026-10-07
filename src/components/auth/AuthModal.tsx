@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
@@ -112,7 +112,7 @@ export default function AuthModal() {
           </button>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#C9A45C]">
-              Nutty Tales Membership
+              Nuty Tales Membership
             </span>
           </div>
           <h2 className="font-serif text-2xl font-bold">Sign In or Register</h2>
@@ -298,7 +298,7 @@ export default function AuthModal() {
           <div className="pt-4 border-t border-stone-200 text-center text-[11px] text-stone-500 space-y-1">
             <p>🔒 256-bit encrypted authentication. No passwords stored.</p>
             <p>
-              By continuing, you agree to Nutty Tales&apos;{' '}
+              By continuing, you agree to Nuty Tales&apos;{' '}
               <span className="underline cursor-pointer">Terms</span> and{' '}
               <span className="underline cursor-pointer">Privacy Policy</span>.
             </p>

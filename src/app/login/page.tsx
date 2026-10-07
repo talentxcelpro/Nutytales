@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -115,7 +115,7 @@ function LoginForm() {
               <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A45C] block">
                 Taste · Stay · Explore
               </span>
-              <h1 className="font-serif text-3xl font-bold mt-2">Nutty Tales Portal</h1>
+              <h1 className="font-serif text-3xl font-bold mt-2">Nuty Tales Portal</h1>
             </div>
 
             <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
@@ -148,14 +148,14 @@ function LoginForm() {
           </div>
 
           <div className="pt-8 border-t border-white/10 text-[11px] text-stone-400 relative z-10">
-            Official Support: +91 9717161809 · support@nuttytales.com
+            Official Support: +91 9717161809 · support@nutytales.com
           </div>
         </div>
 
         {/* Right Column: Auth Form */}
         <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center">
           <div>
-            <h2 className="font-serif text-2xl font-bold text-[#17233B]">Welcome to Nutty Tales</h2>
+            <h2 className="font-serif text-2xl font-bold text-[#17233B]">Welcome to Nuty Tales</h2>
             <p className="text-xs text-stone-500 mt-1">
               Select your preferred login method to continue.
             </p>

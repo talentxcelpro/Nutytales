@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 
 const FOUR_DOORS = [
@@ -49,7 +49,7 @@ export default function DiscoverSection() {
             Taste · Stay · Explore · Discover
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-            Discover the World Through Nutty Tales
+            Discover the World Through Nuty Tales
           </h2>
           <p className="text-xs sm:text-sm text-[#17233B]/70 font-light">
             Taste it. Stay there. Explore it. Bring its stories home. Four connected doors into wholesome nourishment, warm retreats, and timeless craftsmanship.

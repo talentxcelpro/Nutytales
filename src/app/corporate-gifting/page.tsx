@@ -1,11 +1,11 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import CorporateQuoteForm from '@/components/corporate/CorporateQuoteForm'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Corporate Diwali Gift Hampers 2026 | Custom Dry Fruit Hampers | Nutty Tales',
+  title: 'Corporate Diwali Gift Hampers 2026 | Custom Dry Fruit Hampers | Nuty Tales',
   description:
     'Premium Corporate Diwali gift hampers with customized logo boxes, personalized greeting cards, and pan-India delivery. Almonds, Cashews, Kashmiri Walnuts, Afghan Anjeer & Saffron. Request a bulk quote.',
   keywords: [
@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     'client diwali gift boxes',
     'kashmir dry fruit hampers',
     'luxury diwali hampers india',
-    'nutty tales corporate gifting',
+    'Nuty Tales corporate gifting',
   ],
   openGraph: {
-    title: 'Corporate Diwali Gift Hampers 2026 | Nutty Tales',
+    title: 'Corporate Diwali Gift Hampers 2026 | Nuty Tales',
     description:
       'Stronger Relationships for a Brighter Tomorrow. Handcrafted dry fruit hampers with custom branding for your clients & team.',
     images: ['/images/corporate-diwali-gifting.jpg'],
@@ -187,7 +187,7 @@ export default function CorporateGiftingPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-emerald-100 max-w-2xl leading-relaxed">
-                Elevate your corporate gifting this festive season. Nutty Tales brings you premium dry fruit gift hampers featuring California almonds, cashews, Kashmiri walnuts, and Afghan anjeer, packaged in luxury rigid boxes or handcrafted wooden chests with your company logo.
+                Elevate your corporate gifting this festive season. Nuty Tales brings you premium dry fruit gift hampers featuring California almonds, cashews, Kashmiri walnuts, and Afghan anjeer, packaged in luxury rigid boxes or handcrafted wooden chests with your company logo.
               </p>
 
               {/* Quick Trust Badges */}
@@ -219,7 +219,7 @@ export default function CorporateGiftingPage() {
                 </a>
                 <a
                   href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                    'Hello Nutty Tales! 🎁 I want to enquire about Corporate Diwali Gift Hampers.',
+                    'Hello Nuty Tales! 🎁 I want to enquire about Corporate Diwali Gift Hampers.',
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -235,7 +235,7 @@ export default function CorporateGiftingPage() {
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-300/30 group">
                 <Image
                   src="/images/corporate-diwali-gifting.jpg"
-                  alt="Nutty Tales Corporate Gift Hampers - Diwali Collection"
+                  alt="Nuty Tales Corporate Gift Hampers - Diwali Collection"
                   width={800}
                   height={600}
                   priority

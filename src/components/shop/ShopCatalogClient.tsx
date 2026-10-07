@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
@@ -6,6 +6,7 @@ import { Product } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import ShopProductCard from './ShopProductCard'
 import QuickViewModal from './QuickViewModal'
+import DynamicCouponStrip from './DynamicCouponStrip'
 
 interface ShopCatalogClientProps {
   products: Product[]
@@ -158,9 +159,9 @@ export default function ShopCatalogClient({
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#17233B]">
+    <div className="min-h-screen bg-[#FDFBF7] text-[#17233B] pt-20">
       {/* ── 1. Elegant, Understated Announcement Strip (Bateel / Fortnum Style) ── */}
-      <div className="bg-[#FAF5ED] border-b border-[#EAE3D5] text-[#5C4F41] py-2.5 px-4 text-center">
+      <div className="bg-[#FAF5ED] border-b border-[#EAE3D5] text-[#5C4F41] py-2.5 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 text-xs tracking-wide">
           <span>
             Complimentary express pan-India delivery on orders over ₹999
@@ -179,7 +180,7 @@ export default function ShopCatalogClient({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-5 sm:pt-7 pb-24">
         {/* ── Compact Header & Main Controls Strip ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D5]">
           {/* Breadcrumb + Title + Count */}
@@ -243,6 +244,11 @@ export default function ShopCatalogClient({
               <option value="name-asc">Name: A to Z</option>
             </select>
           </div>
+        </div>
+
+        {/* ── 2. Dynamic Coupons & Quick Perks Strip ── */}
+        <div className="pt-3 pb-1">
+          <DynamicCouponStrip />
         </div>
 
         {/* ── Compact Category Filter Strip (Low-Profile Pills) ── */}
@@ -531,7 +537,7 @@ export default function ShopCatalogClient({
                             The Saffron Soils of Karewa
                           </h3>
                           <p className="text-xs text-[#7A6D5E] font-light leading-relaxed">
-                            Glacial-alluvial clay at 1,600m altitude imparts Nutty Tales Mongra Saffron with over 300% the natural crocin color index of commercial market grades.
+                            Glacial-alluvial clay at 1,600m altitude imparts Nuty Tales Mongra Saffron with over 300% the natural crocin color index of commercial market grades.
                           </p>
                         </div>
                         <div className="pt-6 relative z-10 border-t border-[#EAE3D5]">
@@ -684,7 +690,7 @@ export default function ShopCatalogClient({
         <section className="mt-24 pt-12 border-t border-[#EAE3D5]">
           <div className="max-w-4xl mx-auto text-center space-y-3 mb-12">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B8934A]">
-              The Nutty Tales Standard
+              The Nuty Tales Standard
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl text-[#17233B] font-normal">
               Purity at Origin. Perfection in Every Pack.

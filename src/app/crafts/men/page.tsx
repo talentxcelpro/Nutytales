@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -162,7 +162,7 @@ export default function MenClothingPage() {
             <div className="lg:col-span-4 relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 shadow-md">
               <Image
                 src="/images/campaign-mens-style-story.jpg"
-                alt="Men's Style with a Story - Nutty Tales"
+                alt="Men's Style with a Story - Nuty Tales"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"

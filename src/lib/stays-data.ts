@@ -1,4 +1,4 @@
-// ─── Nutty Tales Boutique Stays & Hospitality Engine ─────────────────────────
+﻿// ─── Nuty Tales Boutique Stays & Hospitality Engine ─────────────────────────
 // Properties in Srinagar (Kashmir), Noida (Delhi NCR), and Patna (Bihar)
 
 export interface StayRoom {
@@ -43,7 +43,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
   {
     id: 'prop-kashmir',
     slug: 'kashmir',
-    name: 'Nutty Tales Orchard Retreat & Villa',
+    name: 'Nuty Tales Orchard Retreat & Villa',
     city: 'Srinagar',
     state: 'Jammu & Kashmir',
     tagline: 'Private walnut & apple orchard beneath the Zabarwan range',
@@ -77,7 +77,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
         maxGuests: 3,
         bedConfig: '1 Royal King Bed + Daybed',
         sizeSqFt: 520,
-        amenities: ['Mountain View Balcony', 'Wood-burning Fireplace', 'Hand-knotted Kashmiri Silk Rug', 'Heated Bathroom', 'Nutty Tales Gourmet Nut Minibar'],
+        amenities: ['Mountain View Balcony', 'Wood-burning Fireplace', 'Hand-knotted Kashmiri Silk Rug', 'Heated Bathroom', 'Nuty Tales Gourmet Nut Minibar'],
         images: ['/images/crafts-kashmir-landscape.jpg'],
         description: 'Paneled in aged deodar cedar with handcrafted Khatamband wood ceilings. Panoramic morning views of mist rolling down the Zabarwan peaks.',
       },
@@ -115,7 +115,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
   {
     id: 'prop-noida',
     slug: 'noida',
-    name: 'Nutty Tales Executive Suites',
+    name: 'Nuty Tales Executive Suites',
     city: 'Noida',
     state: 'Uttar Pradesh (Delhi NCR)',
     tagline: 'Refined comfort & corporate tranquility in the heart of Sector 62',
@@ -125,7 +125,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
     propertyAmenities: [
       'Ergonomic Workstation & 300 Mbps Dedicated Fibre',
       'Complimentary Artisanal Breakfast & Cold Pressed Juices',
-      'Healthy In-Room Nutty Tales Nut Bar (Almonds, Cashews, Makhana)',
+      'Healthy In-Room Nuty Tales Nut Bar (Almonds, Cashews, Makhana)',
       'Executive Boardroom Access (On Booking)',
       'Airport Taxi & Delhi Metro Concierge',
       '24/7 Power Backup & Sound-Isolated Glazing',
@@ -144,7 +144,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
         maxGuests: 2,
         bedConfig: '1 King Bed',
         sizeSqFt: 420,
-        amenities: ['Dual-Monitor Workdesk', 'Smart TV with Streaming', 'Soundproof Windows', 'Nutty Tales Snack Basket', 'Rain Shower'],
+        amenities: ['Dual-Monitor Workdesk', 'Smart TV with Streaming', 'Soundproof Windows', 'Nuty Tales Snack Basket', 'Rain Shower'],
         images: ['/images/hero-banner.png'],
         description: 'Tailored for senior executives, visiting founders, and corporate travelers requiring silence, speed, and premium wellness.',
       },
@@ -168,7 +168,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
   {
     id: 'prop-patna',
     slug: 'patna',
-    name: 'Nutty Tales Heritage Riverfront Stay',
+    name: 'Nuty Tales Heritage Riverfront Stay',
     city: 'Patna',
     state: 'Bihar',
     tagline: 'Artisanal courtyard retreat celebrating the heritage of Mithila',

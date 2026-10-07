@@ -1,4 +1,4 @@
-// ─── Nutty Tales Business Supply — Enterprise B2B Marketplace & Ingredients Catalog ─────────
+﻿// ─── Nuty Tales Business Supply — Enterprise B2B Marketplace & Ingredients Catalog ─────────
 // Connecting Foodservice, Food Production, Health/Wellness, Trade, Brands, and Enterprise Procurement
 
 export interface IndustryProfile {

@@ -1,12 +1,12 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
 import KashmirTourCustomizer from '@/components/travel/KashmirTourCustomizer'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Kashmir Travel, Tours & Stays | Nutty Tales Private Experiences',
+  title: 'Kashmir Travel, Tours & Stays | Nuty Tales Private Experiences',
   description:
-    'Experience the magic of Kashmir with Nutty Tales. Stay at our private Srinagar orchard retreat and enjoy curated tours to Gulmarg, Pahalgam, Sonamarg, and Dal Lake with authentic local guides and live itinerary customization.',
+    'Experience the magic of Kashmir with Nuty Tales. Stay at our private Srinagar orchard retreat and enjoy curated tours to Gulmarg, Pahalgam, Sonamarg, and Dal Lake with authentic local guides and live itinerary customization.',
   keywords: [
     'kashmir travel package',
     'srinagar orchard stay',
@@ -33,7 +33,7 @@ export default function KashmirTravelPage() {
               Stay in Kashmir. Explore Kashmir. Taste Kashmir.
             </h1>
             <p className="text-base sm:text-lg text-stone-200 max-w-2xl leading-relaxed font-light">
-              Discover paradise through the eyes of locals. From our tranquil Srinagar orchard stay to snow-clad Gulmarg slopes and authentic Wazwan banquets, let Nutty Tales craft your unforgettable Kashmir journey.
+              Discover paradise through the eyes of locals. From our tranquil Srinagar orchard stay to snow-clad Gulmarg slopes and authentic Wazwan banquets, let Nuty Tales craft your unforgettable Kashmir journey.
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
               <a
@@ -44,7 +44,7 @@ export default function KashmirTravelPage() {
               </a>
               <a
                 href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                  'Hello Nutty Tales! 🏔️ I want to plan a custom private trip to Kashmir.',
+                  'Hello Nuty Tales! 🏔️ I want to plan a custom private trip to Kashmir.',
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

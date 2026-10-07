@@ -1,13 +1,13 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
 import LiveStaysDiscovery from '@/components/stays/LiveStaysDiscovery'
 
 export const metadata: Metadata = {
-  title: 'Nutty Tales Stays & Travel | Srinagar, Noida & Patna Properties',
+  title: 'Nuty Tales Stays & Travel | Srinagar, Noida & Patna Properties',
   description:
-    'Taste. Stay. Explore. Experience authentic boutique hospitality at Nutty Tales properties in Srinagar (Kashmir), Noida (Delhi NCR), and Patna (Bihar). Live seasonal pricing, orchard suites, and direct concierge reservations.',
+    'Taste. Stay. Explore. Experience authentic boutique hospitality at Nuty Tales properties in Srinagar (Kashmir), Noida (Delhi NCR), and Patna (Bihar). Live seasonal pricing, orchard suites, and direct concierge reservations.',
   keywords: [
-    'nutty tales stays',
+    'Nuty Tales stays',
     'kashmir orchard stay srinagar',
     'noida corporate stay',
     'patna heritage stay',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'taste stay explore',
   ],
   openGraph: {
-    title: 'Nutty Tales Stays | Taste. Stay. Explore.',
+    title: 'Nuty Tales Stays | Taste. Stay. Explore.',
     description:
       'Curated stays in Srinagar, Noida, and Patna. Unmatched comfort, local experiences, and farm-fresh dry fruit heritage.',
     images: ['/images/crafts-kashmir-landscape.jpg'],
@@ -41,7 +41,7 @@ export default function StaysPage() {
             </h1>
 
             <p className="text-base sm:text-lg text-stone-200 max-w-2xl leading-relaxed font-light">
-              Nutty Tales is more than a purveyor of fine dry fruits — it is a gateway to the lands from which they emerge. Stay at our private properties in Srinagar, Noida, and Patna, where gracious warmth meets unforgettable regional experiences.
+              Nuty Tales is more than a purveyor of fine dry fruits — it is a gateway to the lands from which they emerge. Stay at our private properties in Srinagar, Noida, and Patna, where gracious warmth meets unforgettable regional experiences.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -71,7 +71,7 @@ export default function StaysPage() {
       <section className="py-16 bg-[#F0EBE1] border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-[#704B32]">
-            The Connected Nutty Tales Journey
+            The Connected Nuty Tales Journey
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold font-serif text-[#17233B]">
             From Orchard Stay to Your Daily Pantry

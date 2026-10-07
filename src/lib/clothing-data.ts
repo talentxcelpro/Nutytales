@@ -1,4 +1,4 @@
-// ─── Nutty Tales Crafts & Heritage / Clothing — Comprehensive Catalog ────────────
+﻿// ─── Nuty Tales Crafts & Heritage / Clothing — Comprehensive Catalog ────────────
 // Fall / Winter 2026: Kashmir to the World
 // Real Luxury Fashion Ecommerce Data Model with Provenance, Variants, Sizes & Swatches
 
@@ -845,7 +845,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     dimensions: 'Kurta Length: 42", Chest: 44", Bottom Length: 40"',
     provenance: {
       origin: 'Srinagar / Noida Atelier',
-      artisanGroup: 'Nutty Tales Tailoring Collective',
+      artisanGroup: 'Nuty Tales Tailoring Collective',
       craftTradition: 'Traditional Indian Winter Kurta',
       material: 'Blended Wool & Cotton',
       technique: 'Single-needle tailoring with bound seams',
@@ -1118,7 +1118,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     dimensions: 'Cardigan Length: 36", Pant Inseam: 30"',
     provenance: {
       origin: 'Kashmir Valley & Ludhiana Knit Lab',
-      artisanGroup: 'Nutty Tales Knitwear Collaborative',
+      artisanGroup: 'Nuty Tales Knitwear Collaborative',
       craftTradition: 'Fine Himalayan Wool Spun Knitting',
       material: 'Cashmere & Extra-Fine Merino Blend',
       technique: 'Seamless circular rib knitting',
@@ -1319,7 +1319,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     dimensions: 'Both garments customized to respective sizes',
     provenance: {
       origin: 'Zadibal & Charar-i-Sharief, Kashmir',
-      artisanGroup: 'Nutty Tales Heritage Family Atelier',
+      artisanGroup: 'Nuty Tales Heritage Family Atelier',
       craftTradition: 'Heirloom Coordinated Needlework',
       material: 'Plush Velvet, Wool, Metallic Thread',
       technique: 'Matched hand embroidery',
@@ -1558,7 +1558,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     categoryLabel: 'Heritage Home',
     subCategory: 'Heritage Gifting',
     shortDesc: 'The ultimate royal gift: Handcrafted Papier-Mâché keepsake box, 1g Pure Kashmiri Mongra Saffron, 500g Acacia Honey, 250g Kagzi Walnuts, and a Pure Cashmere Stole.',
-    longDesc: `Where Nutty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper.`,
+    longDesc: `Where Nuty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper.`,
     price: 18999,
     mrp: 25000,
     image: '/images/crafts-gifting-box.jpg',
@@ -1585,7 +1585,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     fit: 'Luxury Gift Hamper',
     dimensions: '16" × 12" × 5" (Weight: ~3.2 kg)',
     provenance: {
-      origin: 'Curated in Srinagar & Packed at Nutty Tales Noida HQ',
+      origin: 'Curated in Srinagar & Packed at Nuty Tales Noida HQ',
       artisanGroup: 'Collaboration of Valley Weavers, Beekeepers & Farmers',
       craftTradition: 'Heritage Gifting Assembly',
       material: 'Silk-lined presentation box with authentic items',

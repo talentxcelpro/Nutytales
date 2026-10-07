@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import { calculateDiscount } from '@/lib/coupons'
 
 interface CartItem {
   productId: string
@@ -22,6 +23,7 @@ export default function CheckoutPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
 
   // Form state
   const [fullName, setFullName] = useState('')
@@ -43,6 +45,10 @@ export default function CheckoutPage() {
       if (stored) {
         setCart(JSON.parse(stored))
       }
+      const storedCoupon = localStorage.getItem('nt_applied_coupon')
+      if (storedCoupon) {
+        setAppliedCoupon(storedCoupon)
+      }
     } catch {
       // fallback
     }
@@ -50,8 +56,9 @@ export default function CheckoutPage() {
   }, [])
 
   const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
-  const shipping = subtotal > 999 || subtotal === 0 ? 0 : 99
-  const estimatedTotal = subtotal + shipping
+  const discount = calculateDiscount(subtotal, appliedCoupon)
+  const shipping = subtotal > 999 || subtotal === 0 || appliedCoupon === 'FREESHIP' ? 0 : 99
+  const estimatedTotal = Math.max(0, subtotal - discount + shipping)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
@@ -105,9 +112,10 @@ export default function CheckoutPage() {
       .join('\n')
 
     const b2bInfo = isB2B ? `\n• *Company:* ${companyName}\n• *GSTIN:* ${gstin}` : ''
+    const discountInfo = appliedCoupon && discount > 0 ? `\n• *Coupon (${appliedCoupon}):* -₹${discount}` : ''
 
     const text = encodeURIComponent(
-      `Hello Nutty Tales! 👋\n\nI just placed an order:\n\n*Customer:* ${fullName} (${phone})\n*Delivery:* ${address}, ${city}, ${state} - ${pincode}${b2bInfo}\n*Payment Method:* ${paymentMethod.toUpperCase()}\n\n*Items:*\n${summary}\n\n*Total Amount:* ₹${estimatedTotal}\n\nPlease share dispatch timeline and tracking details!`
+      `Hello Nuty Tales! 👋\n\nI just placed an order:\n\n*Customer:* ${fullName} (${phone})\n*Delivery:* ${address}, ${city}, ${state} - ${pincode}${b2bInfo}\n*Payment Method:* ${paymentMethod.toUpperCase()}\n\n*Items:*\n${summary}\n\n*Subtotal:* ₹${subtotal}${discountInfo}\n*Shipping:* ${shipping === 0 ? 'FREE' : `₹${shipping}`}\n*Total Amount:* ₹${estimatedTotal}\n\nPlease share dispatch timeline and tracking details!`
     )
 
     return `https://wa.me/${whatsappPhone}?text=${text}`
@@ -148,7 +156,7 @@ export default function CheckoutPage() {
                   B2B Bank Transfer Account (NEFT / RTGS / IMPS):
                 </p>
                 <div className="grid grid-cols-2 gap-2 text-stone-700">
-                  <div><strong>Account Name:</strong> Nutty Tales Foods</div>
+                  <div><strong>Account Name:</strong> Nuty Tales Foods</div>
                   <div><strong>Bank:</strong> HDFC Bank / ICICI Bank</div>
                   <div><strong>Account No:</strong> 50200088910412</div>
                   <div><strong>IFSC Code:</strong> HDFC0001234</div>
@@ -533,6 +541,12 @@ export default function CheckoutPage() {
                       ₹{subtotal.toLocaleString('en-IN')}
                     </span>
                   </div>
+                  {appliedCoupon && discount > 0 && (
+                    <div className="flex justify-between text-emerald-700 font-semibold">
+                      <span>Coupon Discount ({appliedCoupon})</span>
+                      <span>-₹{discount.toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span>Pan-India Delivery</span>
                     <span>
@@ -564,7 +578,7 @@ export default function CheckoutPage() {
                 </button>
 
                 <p className="text-[11px] text-center text-stone-500">
-                  By confirming, you agree to Nutty Tales terms of sale. FSSAI Lic. {FSSAI_NUMBER}.
+                  By confirming, you agree to Nuty Tales terms of sale. FSSAI Lic. {FSSAI_NUMBER}.
                 </p>
               </div>
             </div>

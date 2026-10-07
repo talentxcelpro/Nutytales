@@ -1,4 +1,4 @@
-import type { MetadataRoute } from "next";
+﻿import type { MetadataRoute } from "next";
 
 /**
  * Next.js robots.ts
@@ -8,7 +8,7 @@ import type { MetadataRoute } from "next";
  * all product & content pages fully indexable.
  */
 export default function robots(): MetadataRoute.Robots {
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nuttytales.com";
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
   return {
     rules: [

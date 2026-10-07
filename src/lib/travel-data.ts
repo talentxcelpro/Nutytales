@@ -1,4 +1,4 @@
-// ─── Nutty Tales Dynamic Kashmir Travel & Tour Packages ─────────────────────────
+﻿// ─── Nuty Tales Dynamic Kashmir Travel & Tour Packages ─────────────────────────
 // Connecting boutique stays, transfers, local guides, and orchard experiences
 
 export interface TravelPackage {
@@ -33,41 +33,41 @@ export const KASHMIR_TRAVEL_PACKAGES: TravelPackage[] = [
       {
         day: 1,
         title: 'Arrival in Srinagar & Dal Lake Shikara Sunset',
-        desc: 'Private 4x4 airport pickup. Check-in to Nutty Tales Orchard Villa. Traditional Samovar kehwa reception. Sunset shikara cruise past snow-dusted houseboats.',
-        stay: 'Nutty Tales Orchard Retreat & Villa, Harwan',
+        desc: 'Private 4x4 airport pickup. Check-in to Nuty Tales Orchard Villa. Traditional Samovar kehwa reception. Sunset shikara cruise past snow-dusted houseboats.',
+        stay: 'Nuty Tales Orchard Retreat & Villa, Harwan',
       },
       {
         day: 2,
         title: 'Gulmarg Alpine Snow & Gondola Heights (13,780 ft)',
         desc: 'Scenic drive to Gulmarg through pine forests draped in white. Gondola Phase 1 & 2 tickets to Mt. Apharwat. Optional skiing & snowmobiling with certified guide.',
-        stay: 'Nutty Tales Orchard Retreat & Villa, Harwan',
+        stay: 'Nuty Tales Orchard Retreat & Villa, Harwan',
       },
       {
         day: 3,
         title: 'Pahalgam Valley of Shepherds & Betaab Valley',
         desc: 'Day excursion along the Lidder River. Snow walks through Betaab Valley and Aru. Warm lunch of Kashmiri haakh, rajma & steaming rice.',
-        stay: 'Nutty Tales Orchard Retreat & Villa, Harwan',
+        stay: 'Nuty Tales Orchard Retreat & Villa, Harwan',
       },
       {
         day: 4,
         title: 'Shehr-e-Khaas Artisan Guilds & Saffron Fields',
         desc: 'Exclusive access to Kanihama Kani pashmina looms and woodcarving workshops in Downtown Srinagar. Walk the dormant saffron terraces of Pampore. Evening Wazwan dinner.',
-        stay: 'Nutty Tales Orchard Retreat & Villa, Harwan',
+        stay: 'Nuty Tales Orchard Retreat & Villa, Harwan',
       },
       {
         day: 5,
         title: 'Souvenir Hampers & Airport Farewell',
-        desc: 'Breakfast in the walnut grove. Receive your complimentary Nutty Tales Kashmir Travel Hamper (Kagzi Walnuts, Saffron & Kehwa). Private airport transfer.',
+        desc: 'Breakfast in the walnut grove. Receive your complimentary Nuty Tales Kashmir Travel Hamper (Kagzi Walnuts, Saffron & Kehwa). Private airport transfer.',
         stay: 'Departure',
       },
     ],
     inclusions: [
-      '4 Nights stay at Nutty Tales Orchard Retreat (Deluxe Room with Bukhari heating)',
+      '4 Nights stay at Nuty Tales Orchard Retreat (Deluxe Room with Bukhari heating)',
       'Dedicated 4x4 Snow-Equipped SUV with professional driver for all 5 days',
       'Daily authentic Kashmiri breakfasts and evening artisanal kehwa with almond cookies',
       'Gulmarg Gondola Phase 1 priority reservation assistance',
       'Private 2-hour Dal Lake Shikara ride with blankets and kehwa',
-      'Complimentary Nutty Tales Travel Hamper (Value ₹2,500)',
+      'Complimentary Nuty Tales Travel Hamper (Value ₹2,500)',
       'Airport pick-up and drop-off',
     ],
     exclusions: ['Airfare to Srinagar', 'Personal skiing gear rentals', 'Lunches & extra dinners'],
@@ -88,19 +88,19 @@ export const KASHMIR_TRAVEL_PACKAGES: TravelPackage[] = [
         day: 1,
         title: 'Golden Srinagar & Mughal Gardens',
         desc: 'Arrive in Srinagar. Visit Nishat & Shalimar gardens ablaze in crimson chinar foliage. Sunset tea at Char Chinar.',
-        stay: 'Nutty Tales Orchard Retreat, Srinagar',
+        stay: 'Nuty Tales Orchard Retreat, Srinagar',
       },
       {
         day: 2,
         title: 'Pampore Saffron Harvest & Floral Terrace Picking',
         desc: 'Visit Pampore during the once-a-year saffron bloom. Walk with farmers, hand-pick purple flowers, and learn stigma separating.',
-        stay: 'Nutty Tales Orchard Retreat, Srinagar',
+        stay: 'Nuty Tales Orchard Retreat, Srinagar',
       },
       {
         day: 3,
-        title: 'Nutty Tales Walnut Harvest & Local Craft Workshop',
+        title: 'Nuty Tales Walnut Harvest & Local Craft Workshop',
         desc: 'Join our estate team cracking fresh in-shell walnuts. Visit master papier-mâché and woodcarving studios.',
-        stay: 'Nutty Tales Orchard Retreat, Srinagar',
+        stay: 'Nuty Tales Orchard Retreat, Srinagar',
       },
       {
         day: 4,
@@ -114,7 +114,7 @@ export const KASHMIR_TRAVEL_PACKAGES: TravelPackage[] = [
       'Dedicated private vehicle with chauffeur throughout',
       'Hands-on saffron picking experience with local farmer family',
       'All breakfasts and traditional dinners',
-      'Nutty Tales Single-Origin Harvest Gift Hamper',
+      'Nuty Tales Single-Origin Harvest Gift Hamper',
     ],
     exclusions: ['Flights', 'Monument entry fees'],
   },

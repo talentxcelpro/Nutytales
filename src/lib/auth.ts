@@ -1,5 +1,5 @@
-/**
- * NextAuth configuration for NuttyTales.com.
+﻿/**
+ * NextAuth configuration for nutytales.com.
  *
  * Strategy  : JWT (stateless sessions)
  * Providers : Credentials (email + bcrypt password)

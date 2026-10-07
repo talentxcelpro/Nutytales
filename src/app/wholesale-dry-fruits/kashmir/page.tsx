@@ -1,19 +1,19 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 /* ------------------------------------------------------------------ */
 /*  SEO Metadata                                                        */
 /* ------------------------------------------------------------------ */
 export const metadata: Metadata = {
-  title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nutty Tales',
+  title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales',
   description:
     'Wholesale dry fruits in Kashmir. Supply to retailers, wholesalers, bakeries, hotels and businesses in Srinagar and J&K. GST invoice. Bulk orders.',
-  alternates: { canonical: 'https://nuttytales.com/wholesale-dry-fruits/kashmir' },
+  alternates: { canonical: 'https://nutytales.com/wholesale-dry-fruits/kashmir' },
   openGraph: {
-    title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nutty Tales',
+    title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales',
     description:
       'Premium wholesale dry fruits for businesses in Srinagar and J&K. Afghan raisins, pistachios, anjeer and more. GST invoice.',
-    url: 'https://nuttytales.com/wholesale-dry-fruits/kashmir',
+    url: 'https://nutytales.com/wholesale-dry-fruits/kashmir',
     type: 'website',
   },
 };
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'Nutty Tales — Wholesale Dry Fruits Kashmir',
-  image: 'https://nuttytales.com/og-image.jpg',
-  url: 'https://nuttytales.com/wholesale-dry-fruits/kashmir',
+  name: 'Nuty Tales — Wholesale Dry Fruits Kashmir',
+  image: 'https://nutytales.com/og-image.jpg',
+  url: 'https://nutytales.com/wholesale-dry-fruits/kashmir',
   description:
     'Wholesale dry fruit supplier serving businesses in Srinagar and Jammu & Kashmir. Premium Afghan dry fruits and more.',
   address: {
@@ -45,9 +45,9 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nuttytales.com' },
-    { '@type': 'ListItem', position: 2, name: 'Wholesale', item: 'https://nuttytales.com/wholesale-dry-fruits' },
-    { '@type': 'ListItem', position: 3, name: 'Kashmir', item: 'https://nuttytales.com/wholesale-dry-fruits/kashmir' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nutytales.com' },
+    { '@type': 'ListItem', position: 2, name: 'Wholesale', item: 'https://nutytales.com/wholesale-dry-fruits' },
+    { '@type': 'ListItem', position: 3, name: 'Kashmir', item: 'https://nutytales.com/wholesale-dry-fruits/kashmir' },
   ],
 };
 
@@ -155,7 +155,7 @@ export default function KashmirWholesalePage() {
   const whatsappKashmir = process.env.NEXT_PUBLIC_WHATSAPP_KASHMIR ?? '';
   const phoneKashmir = process.env.NEXT_PUBLIC_PHONE_KASHMIR ?? '';
   const whatsappMessage = encodeURIComponent(
-    'Hello Nutty Tales Kashmir team, I would like a wholesale quote for dry fruits.'
+    'Hello Nuty Tales Kashmir team, I would like a wholesale quote for dry fruits.'
   );
 
   return (
@@ -220,7 +220,7 @@ export default function KashmirWholesalePage() {
             {phoneKashmir && (
               <p className="mt-6 text-[#A8D8EA] text-sm">
                 📞 Call: <a href={`tel:${phoneKashmir}`} className="underline hover:text-white">{phoneKashmir}</a>
-                &nbsp;·&nbsp;📧 <a href="mailto:kashmir@nuttytales.com" className="underline hover:text-white">kashmir@nuttytales.com</a>
+                &nbsp;·&nbsp;📧 <a href="mailto:kashmir@nutytales.com" className="underline hover:text-white">kashmir@nutytales.com</a>
               </p>
             )}
           </div>
@@ -237,7 +237,7 @@ export default function KashmirWholesalePage() {
               </h2>
               <div className="space-y-4 text-[#5C3D2E] leading-relaxed">
                 <p>
-                  Nutty Tales supplies premium dry fruits to businesses across Jammu &amp; Kashmir. Our Kashmir operation focuses on delivering authentic Afghan dry fruits — raisins, pistachios, and anjeer — that are in constant demand across Srinagar&apos;s bustling retail, hospitality, and food sectors.
+                  Nuty Tales supplies premium dry fruits to businesses across Jammu &amp; Kashmir. Our Kashmir operation focuses on delivering authentic Afghan dry fruits — raisins, pistachios, and anjeer — that are in constant demand across Srinagar&apos;s bustling retail, hospitality, and food sectors.
                 </p>
                 <p>
                   Srinagar is our primary service area, with active expansion to Baramulla, Anantnag, Pulwama, and other J&amp;K districts. We work with a dedicated Kashmir sales team to ensure fast communication, competitive pricing, and reliable delivery.
@@ -391,7 +391,7 @@ export default function KashmirWholesalePage() {
               </a>
             )}
             <a
-              href="mailto:kashmir@nuttytales.com"
+              href="mailto:kashmir@nutytales.com"
               className="flex flex-col items-center gap-3 bg-[#C8862A] hover:bg-[#A36E22] text-white font-bold py-5 px-6 rounded-2xl transition-colors"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

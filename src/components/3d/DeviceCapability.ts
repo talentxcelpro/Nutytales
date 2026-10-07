@@ -1,4 +1,4 @@
-// ─── Nutty Tales 3D Device Capability & Quality Tier Detector ──────────────────
+﻿// ─── Nuty Tales 3D Device Capability & Quality Tier Detector ──────────────────
 
 export type QualityTier = 'HIGH' | 'MEDIUM' | 'LOW' | 'FALLBACK'
 

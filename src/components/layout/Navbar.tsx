@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -77,7 +77,7 @@ export default function Navbar() {
               <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-[#17233B]/10 bg-white p-0.5 flex-shrink-0 shadow-sm">
                 <Image
                   src="/images/logo.jpg"
-                  alt="Nutty Tales"
+                  alt="Nuty Tales"
                   width={44}
                   height={44}
                   priority
@@ -86,7 +86,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col">
                 <span className="font-serif text-2xl font-bold tracking-tight text-[#17233B] group-hover:text-[#176B68] transition-colors leading-none">
-                  Nutty Tales
+                  Nuty Tales
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#704B32] font-medium mt-1">
                   Taste · Gift · Wear · Stay · Explore
@@ -176,7 +176,7 @@ export default function Navbar() {
                   <div className="absolute right-0 top-full pt-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
                     <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-48 space-y-1 text-xs">
                       <div className="px-2 py-1 border-b border-stone-100">
-                        <p className="font-bold text-[#17233B] truncate">{profile?.name || 'Nutty Tales Member'}</p>
+                        <p className="font-bold text-[#17233B] truncate">{profile?.name || 'Nuty Tales Member'}</p>
                         <p className="text-[10px] text-stone-500 truncate">{user.email || user.phoneNumber}</p>
                       </div>
                       <button

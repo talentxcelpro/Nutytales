@@ -1,5 +1,5 @@
-/**
- * WhatsApp integration helpers for NuttyTales.com.
+﻿/**
+ * WhatsApp integration helpers for nutytales.com.
  *
  * All phone numbers are read exclusively from environment variables.
  * Never hardcode phone numbers in source code.
@@ -42,7 +42,7 @@ export function getB2BSalesWhatsApp(location: WhatsAppLocation): string {
   const number = WHATSAPP_NUMBERS[location]
   if (!number) {
     console.warn(
-      `[NuttyTales] WhatsApp number for ${location} is not configured. ` +
+      `[nutytales] WhatsApp number for ${location} is not configured. ` +
         `Set NEXT_PUBLIC_WHATSAPP_${location} in your environment.`,
     )
   }
@@ -66,7 +66,7 @@ export function buildWhatsAppMessage(
       const qty = data?.quantity ?? ''
       const city = data?.city ?? ''
       return (
-        `Hello Nutty Tales! 👋\n\n` +
+        `Hello Nuty Tales! 👋\n\n` +
         `I'm interested in a *bulk quote* for:\n` +
         `📦 Product: ${product}\n` +
         (qty ? `⚖️ Quantity: ${qty}\n` : '') +
@@ -78,7 +78,7 @@ export function buildWhatsAppMessage(
     case 'order_support': {
       const orderId = data?.orderId ?? 'N/A'
       return (
-        `Hello Nutty Tales Support! 🛎️\n\n` +
+        `Hello Nuty Tales Support! 🛎️\n\n` +
         `I need help with my order:\n` +
         `🧾 Order ID: *${orderId}*\n` +
         (data?.issue ? `❓ Issue: ${data.issue}\n` : '') +
@@ -89,7 +89,7 @@ export function buildWhatsAppMessage(
     case 'track_order': {
       const orderId = data?.orderId ?? 'N/A'
       return (
-        `Hello Nutty Tales! 📦\n\n` +
+        `Hello Nuty Tales! 📦\n\n` +
         `I'd like to track my order:\n` +
         `🧾 Order ID: *${orderId}*\n\n` +
         `Could you please share the current delivery status? Thank you!`
@@ -99,7 +99,7 @@ export function buildWhatsAppMessage(
     case 'product_inquiry': {
       const product = data?.product ?? 'your products'
       return (
-        `Hello Nutty Tales! 👋\n\n` +
+        `Hello Nuty Tales! 👋\n\n` +
         `I have a question about *${product}*.\n` +
         (data?.question ? `❓ ${data.question}\n` : '') +
         `\nLooking forward to your response!`
@@ -111,7 +111,7 @@ export function buildWhatsAppMessage(
       const hampers = data?.hampers ?? ''
       const budget = data?.budget ?? ''
       return (
-        `Hello Nutty Tales Corporate Gifting Team! 🎁\n\n` +
+        `Hello Nuty Tales Corporate Gifting Team! 🎁\n\n` +
         `I'd like to request a *Diwali / Corporate Gift Hampers Quote*:\n` +
         (company ? `🏢 Company: ${company}\n` : '') +
         (hampers ? `📦 Number of Hampers: ${hampers}\n` : '') +
@@ -125,7 +125,7 @@ export function buildWhatsAppMessage(
       const dates = data?.dates ?? ''
       const guests = data?.guests ?? ''
       return (
-        `Hello Nutty Tales Stays & Travel! 🏔️\n\n` +
+        `Hello Nuty Tales Stays & Travel! 🏔️\n\n` +
         `I would like to enquire about staying at your *${property}* property:\n` +
         (dates ? `📅 Dates: ${dates}\n` : '') +
         (guests ? `👥 Guests: ${guests}\n` : '') +
@@ -134,7 +134,7 @@ export function buildWhatsAppMessage(
     }
 
     default:
-      return `Hello Nutty Tales! 👋 I'd like to know more about your products and stays.`
+      return `Hello Nuty Tales! 👋 I'd like to know more about your products and stays.`
   }
 }
 

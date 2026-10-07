@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 
 export default function CorporateEditorialSection() {
@@ -67,7 +67,7 @@ export default function CorporateEditorialSection() {
               <div className="relative aspect-[4/3] w-full">
                 <Image
                   src="/images/luxury-hamper-jars.png"
-                  alt="Nutty Tales Luxury Corporate Gift Hamper with Glass Jars"
+                  alt="Nuty Tales Luxury Corporate Gift Hamper with Glass Jars"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"

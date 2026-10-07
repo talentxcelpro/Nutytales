@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -97,7 +97,7 @@ export default function KashmirTourCustomizer() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.STAYS || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales Kashmir Travel! 🏔️\n\nI want to customize *${currentPkg.title}* (${currentPkg.duration}):\n• Dates: ${travelDate || 'Flexible'}\n• Travelers: ${travelersCount} Adults\n• Vehicle: ${vehicleTier.replace('_', ' ').toUpperCase()}\n• Stay Tier: ${roomTier.replace('_', ' ').toUpperCase()}\n• Add-ons: ${selectedAddons.join(', ') || 'Standard'}\n• Estimated Total: ₹${totalTourEstimate.toLocaleString('en-IN')}\n\nPlease share the detailed customized itinerary and booking details!`,
+    `Hello Nuty Tales Kashmir Travel! 🏔️\n\nI want to customize *${currentPkg.title}* (${currentPkg.duration}):\n• Dates: ${travelDate || 'Flexible'}\n• Travelers: ${travelersCount} Adults\n• Vehicle: ${vehicleTier.replace('_', ' ').toUpperCase()}\n• Stay Tier: ${roomTier.replace('_', ' ').toUpperCase()}\n• Add-ons: ${selectedAddons.join(', ') || 'Standard'}\n• Estimated Total: ₹${totalTourEstimate.toLocaleString('en-IN')}\n\nPlease share the detailed customized itinerary and booking details!`,
   )}`
 
   return (
@@ -112,7 +112,7 @@ export default function KashmirTourCustomizer() {
             Select Your Preferred Itinerary
           </h2>
           <p className="text-xs sm:text-sm text-stone-600">
-            Each package is operated directly with private sanitized vehicles and stays at Nutty Tales Orchard Retreat.
+            Each package is operated directly with private sanitized vehicles and stays at Nuty Tales Orchard Retreat.
           </p>
         </div>
 

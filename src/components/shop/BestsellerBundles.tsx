@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -217,7 +217,7 @@ export default function BestsellerBundles() {
               SAVE UP TO 25%
             </span>
             <span className="text-stone-300 text-xs font-semibold">
-              ⚡ Curated by Nutty Tales Sommeliers
+              ⚡ Curated by Nuty Tales Sommeliers
             </span>
           </div>
           <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-white">

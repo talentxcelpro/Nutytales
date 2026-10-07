@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -125,7 +125,7 @@ export default function WeddingsPage() {
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Weddings by Nutty Tales
+                  Weddings by Nuty Tales
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
                   Gifts worthy of the occasion.
@@ -159,7 +159,7 @@ export default function WeddingsPage() {
               <div className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs text-stone-300 space-y-1">
                 <p className="font-semibold text-white">✨ Multi-Address Wedding Fulfilment:</p>
                 <p className="text-stone-300 font-light text-[11px]">
-                  E.g., 800 hampers delivered across 6 cities to 12 family &amp; hotel addresses for one wedding — seamlessly orchestrated under a single Nutty Tales order.
+                  E.g., 800 hampers delivered across 6 cities to 12 family &amp; hotel addresses for one wedding — seamlessly orchestrated under a single Nuty Tales order.
                 </p>
               </div>
             </div>
@@ -169,7 +169,7 @@ export default function WeddingsPage() {
               <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/20">
                 <Image
                   src="/images/crafts-gifting-box.jpg"
-                  alt="Weddings by Nutty Tales bespoke luxury hamper"
+                  alt="Weddings by Nuty Tales bespoke luxury hamper"
                   fill
                   priority
                   className="object-cover"
@@ -464,7 +464,7 @@ export default function WeddingsPage() {
                         </span>
                         <a
                           href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                            `Hello Nutty Tales! I would like to order ${quantity} units of "${opt.title}" for ${coupleNames} (${weddingDate}). Budget: ₹${opt.pricePerHamper}/hamper.`
+                            `Hello Nuty Tales! I would like to order ${quantity} units of "${opt.title}" for ${coupleNames} (${weddingDate}). Budget: ₹${opt.pricePerHamper}/hamper.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -535,7 +535,7 @@ export default function WeddingsPage() {
           </div>
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales! I would like to request a Wedding Sample Hamper box.'
+              'Hello Nuty Tales! I would like to request a Wedding Sample Hamper box.'
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -575,7 +575,7 @@ export default function WeddingsPage() {
               <div className="p-5 pt-0">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales! Please share details and sample availability for "${cur.name}" (₹${cur.price}).`
+                    `Hello Nuty Tales! Please share details and sample availability for "${cur.name}" (₹${cur.price}).`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

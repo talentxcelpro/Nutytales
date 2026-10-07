@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -110,7 +110,7 @@ export default function BusinessSupplyPage() {
   }
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nutty Tales B2B Supply! 🏭\n\nI want to discuss an industrial supply contract:\n• Company: ${companyName || 'Corporate Client'}\n• Industry: ${selectedIndustry.name}\n• Monthly Volume: ${mfgMonthlyKg}\n• Ingredients: ${mfgProducts}\n• Plant City: ${mfgLocation || deliveryCity || 'PAN-India'}\n\nPlease share the formal quotation and product specification sheets!`,
+    `Hello Nuty Tales B2B Supply! 🏭\n\nI want to discuss an industrial supply contract:\n• Company: ${companyName || 'Corporate Client'}\n• Industry: ${selectedIndustry.name}\n• Monthly Volume: ${mfgMonthlyKg}\n• Ingredients: ${mfgProducts}\n• Plant City: ${mfgLocation || deliveryCity || 'PAN-India'}\n\nPlease share the formal quotation and product specification sheets!`,
   )}`
 
   return (
@@ -126,7 +126,7 @@ export default function BusinessSupplyPage() {
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Nutty Tales Business Supply
+                  Nuty Tales Business Supply
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
                   Premium ingredients for businesses that make, serve and gift.
@@ -179,7 +179,7 @@ export default function BusinessSupplyPage() {
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/20 shadow-2xl group">
                 <Image
                   src="/images/campaign-good-food-story.jpg"
-                  alt="Good Food Has A Story — Nutty Tales Business Supply"
+                  alt="Good Food Has A Story — Nuty Tales Business Supply"
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -235,7 +235,7 @@ export default function BusinessSupplyPage() {
                     🚀 Launching a New Venture?
                   </span>
                   <p className="text-[11px] leading-snug">
-                    Are you a D2C food brand, travel startup, clothing label or cloud kitchen? Check out our <strong>Nutty Tales Founder Program</strong>.
+                    Are you a D2C food brand, travel startup, clothing label or cloud kitchen? Check out our <strong>Nuty Tales Founder Program</strong>.
                   </p>
                   <Link href="/founders" className="inline-block text-[11px] font-bold text-[#C9A45C] hover:underline pt-0.5">
                     Explore Founder Program &amp; Small MOQs →
@@ -480,7 +480,7 @@ export default function BusinessSupplyPage() {
                 </div>
 
                 <div className="p-3 bg-white rounded-xl border border-stone-200 text-[11px] text-stone-600 flex items-center justify-between">
-                  <span>📍 Recommended Fulfilment: <strong>{mfgLocation}</strong> via Nutty Tales Hub</span>
+                  <span>📍 Recommended Fulfilment: <strong>{mfgLocation}</strong> via Nuty Tales Hub</span>
                   <span className="text-emerald-700 font-bold">Moisture &lt; 5% · Zero Foreign Shell</span>
                 </div>
 
@@ -588,7 +588,7 @@ export default function BusinessSupplyPage() {
         </div>
       </section>
 
-      {/* ── 4. Nutty Tales Enterprise Supply ────────────────────────────────────── */}
+      {/* ── 4. Nuty Tales Enterprise Supply ────────────────────────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="bg-[#17233B] text-white rounded-3xl p-8 sm:p-12 border border-[#C9A45C]/30 shadow-2xl space-y-8">
           <div className="max-w-3xl space-y-2">
@@ -596,7 +596,7 @@ export default function BusinessSupplyPage() {
               Multi-Location Procurement Architecture
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold">
-              Nutty Tales Enterprise Supply: One Supplier. Multiple Locations.
+              Nuty Tales Enterprise Supply: One Supplier. Multiple Locations.
             </h2>
             <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
               For hotel groups, restaurant chains, and national food manufacturers operating in multiple cities: centralized contract management, uniform nationwide pricing, and local hub dispatches.
@@ -623,7 +623,7 @@ export default function BusinessSupplyPage() {
                 Delhi (300 kg) · Mumbai (200 kg) · Bengaluru (250 kg) · Srinagar (100 kg)
               </p>
               <p className="text-[11px] text-stone-400">
-                Nutty Tales manages: Quote → Procurement → Warehousing → Allocation → Scheduled Delivery → Automated Reordering
+                Nuty Tales manages: Quote → Procurement → Warehousing → Allocation → Scheduled Delivery → Automated Reordering
               </p>
             </div>
             <a

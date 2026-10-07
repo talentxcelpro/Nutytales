@@ -1,4 +1,4 @@
-// ─── Static Product Catalog ────────────────────────────────────────────────────
+﻿// ─── Static Product Catalog ────────────────────────────────────────────────────
 // 25 products across 12 categories with full pricing tiers
 
 export type StockStatus = 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK'
@@ -95,7 +95,7 @@ export const PRODUCTS: Product[] = [
     origin: 'California, USA',
     grade: 'Grade A',
     shortDesc: 'Extra-large, crunchy California almonds with rich flavour — perfect for snacking, baking, and gifting.',
-    longDesc: `Our California Almonds are sourced directly from certified farms in the San Joaquin Valley. Every batch is hand-selected for uniform size, superior crunch, and rich natural flavour. Free from artificial additives and preservatives. These almonds are perfect for daily snacking, baking, smoothies, milk preparation, and corporate gifting.\n\nNutty Tales almonds are FSSAI-certified, vacuum-packed to preserve freshness, and available in retail packs as well as wholesale sacks for businesses, cloud kitchens, and HORECA buyers.`,
+    longDesc: `Our California Almonds are sourced directly from certified farms in the San Joaquin Valley. Every batch is hand-selected for uniform size, superior crunch, and rich natural flavour. Free from artificial additives and preservatives. These almonds are perfect for daily snacking, baking, smoothies, milk preparation, and corporate gifting.\n\nNuty Tales almonds are FSSAI-certified, vacuum-packed to preserve freshness, and available in retail packs as well as wholesale sacks for businesses, cloud kitchens, and HORECA buyers.`,
     retailPrice: 980,
     b2bPricePerKg: 890,
     mrp: 1099,
@@ -127,7 +127,7 @@ export const PRODUCTS: Product[] = [
     origin: 'Kashmir, India',
     grade: 'Grade A+',
     shortDesc: 'Rare thin-shelled Mamra almonds from Kashmir — exceptionally nutritious and prized for medicinal use.',
-    longDesc: `Mamra Almonds (also called Kashmiri Badam) are considered the finest variety of almonds in the world. Unlike California almonds, Mamra almonds are cultivated in the high altitudes of Kashmir and Afghanistan. They are smaller, wrinkled, and oil-rich — containing up to 50% more oil than California almonds.\n\nTraditionally used in Unani and Ayurvedic medicine, they are prized for brain health, skin nourishment, and energy. Nutty Tales sources these directly from farms in the Kashmir Valley, ensuring zero adulteration.`,
+    longDesc: `Mamra Almonds (also called Kashmiri Badam) are considered the finest variety of almonds in the world. Unlike California almonds, Mamra almonds are cultivated in the high altitudes of Kashmir and Afghanistan. They are smaller, wrinkled, and oil-rich — containing up to 50% more oil than California almonds.\n\nTraditionally used in Unani and Ayurvedic medicine, they are prized for brain health, skin nourishment, and energy. Nuty Tales sources these directly from farms in the Kashmir Valley, ensuring zero adulteration.`,
     retailPrice: 2200,
     b2bPricePerKg: 1950,
     mrp: 2499,
@@ -423,7 +423,7 @@ export const PRODUCTS: Product[] = [
     origin: 'Afghanistan & Kashmir',
     grade: 'Premium',
     shortDesc: 'Large, seeded Munakka raisins — traditionally prized in Ayurvedic medicine for energy and digestion.',
-    longDesc: `Munakka (large black raisins) are the traditional form of dried grapes used extensively in Ayurvedic medicine. Unlike regular raisins, Munakka are larger, contain seeds, and have a more complex, tangy-sweet flavour.\n\nHigh in iron and antioxidants, they are commonly soaked overnight and consumed first thing in the morning. Nutty Tales sources Munakka directly from Afghanistan and Kashmir.`,
+    longDesc: `Munakka (large black raisins) are the traditional form of dried grapes used extensively in Ayurvedic medicine. Unlike regular raisins, Munakka are larger, contain seeds, and have a more complex, tangy-sweet flavour.\n\nHigh in iron and antioxidants, they are commonly soaked overnight and consumed first thing in the morning. Nuty Tales sources Munakka directly from Afghanistan and Kashmir.`,
     retailPrice: 580,
     b2bPricePerKg: 510,
     mrp: 680,
@@ -549,7 +549,7 @@ export const PRODUCTS: Product[] = [
     origin: 'Darbhanga, Bihar, India',
     grade: 'Grade A',
     shortDesc: 'Premium Grade A Makhana from Bihar — large, crispy lotus seeds perfect for roasting and kheer.',
-    longDesc: `Makhana (Fox Nuts / Lotus Seeds) is a superfood cultivated in the wetlands of Bihar, India. Nutty Tales sources Grade A Makhana directly from farmers in Darbhanga and Madhubani — the heart of India's Makhana belt.\n\nGrade A Makhana are characterised by large, uniform size (Sutta 6 grade), brilliant white colour, and exceptional crispness. Zero additives, zero processing, straight from the farm.\n\nPerfect for roasting with ghee and spices, making Makhana kheer, trail mixes, and baby food. Our Makhana is sourced fresh at harvest season and vacuum-packed for maximum shelf life.`,
+    longDesc: `Makhana (Fox Nuts / Lotus Seeds) is a superfood cultivated in the wetlands of Bihar, India. Nuty Tales sources Grade A Makhana directly from farmers in Darbhanga and Madhubani — the heart of India's Makhana belt.\n\nGrade A Makhana are characterised by large, uniform size (Sutta 6 grade), brilliant white colour, and exceptional crispness. Zero additives, zero processing, straight from the farm.\n\nPerfect for roasting with ghee and spices, making Makhana kheer, trail mixes, and baby food. Our Makhana is sourced fresh at harvest season and vacuum-packed for maximum shelf life.`,
     retailPrice: 480,
     b2bPricePerKg: 420,
     mrp: 549,
@@ -773,7 +773,7 @@ export const PRODUCTS: Product[] = [
     origin: 'Multi-origin',
     grade: 'Gift Grade',
     shortDesc: 'Luxurious Diwali dry fruit gift box — 8 varieties in an elegant wooden box with satin lining.',
-    longDesc: `The Nutty Tales Premium Diwali Gift Box is the ultimate gifting statement. A hand-crafted wooden box with satin lining, containing 8 premium dry fruits in individual compartments: Mamra Almonds, W240 Cashews, Iranian Pistachios, Kashmiri Walnuts, Medjool Dates, Afghan Kishmish, Turkish Figs, and Masala Makhana.\n\nCustom branding available for corporate orders of 50+ boxes. GST invoice provided. Pan-India delivery with special festive packaging.`,
+    longDesc: `The Nuty Tales Premium Diwali Gift Box is the ultimate gifting statement. A hand-crafted wooden box with satin lining, containing 8 premium dry fruits in individual compartments: Mamra Almonds, W240 Cashews, Iranian Pistachios, Kashmiri Walnuts, Medjool Dates, Afghan Kishmish, Turkish Figs, and Masala Makhana.\n\nCustom branding available for corporate orders of 50+ boxes. GST invoice provided. Pan-India delivery with special festive packaging.`,
     retailPrice: 2999,
     b2bPricePerKg: 2600,
     mrp: 3499,
@@ -1010,3 +1010,61 @@ export function formatPrice(amount: number): string {
     maximumFractionDigits: 0,
   }).format(amount)
 }
+
+/**
+ * Returns a dynamic 6 to 10 image high-definition gallery for any product.
+ * Covers: Packshot, raw kernel macro, culinary bowl, harvest origin,
+ * artisan sorting hands, terroir landscape, and luxury gift presentation.
+ */
+export function getProductDynamicGallery(product: Product): string[] {
+  const list: string[] = []
+  // 1. Primary packshot
+  if (product.image) list.push(product.image)
+
+  // 2. Raw kernel / spice macro reveal
+  if (product.sensory?.secondaryImage) {
+    list.push(product.sensory.secondaryImage)
+  } else if (product.categorySlug === 'almonds') {
+    list.push('/images/mamra-kernels-macro.jpg')
+  } else if (product.categorySlug === 'saffron') {
+    list.push('/images/saffron-threads-macro.jpg')
+  } else {
+    list.push('/images/cashews-walnuts-macro.jpg')
+  }
+
+  // 3. Gourmet serving bowl
+  list.push('/images/hero-lifestyle-bowl.png')
+
+  // 4. In-shell / alternative harvest view
+  if (product.categorySlug === 'almonds') {
+    list.push('/images/kashmir-kagzi-badam-250g.jpg')
+  } else if (product.categorySlug === 'walnuts') {
+    list.push('/images/kashmir-kagzi-akhrot-250g.jpg')
+  } else if (product.categorySlug === 'saffron') {
+    list.push('/images/iran-saffron-jar-5g.jpg')
+  } else {
+    list.push('/images/crystal-gold-nut-bowls.jpg')
+  }
+
+  // 5. Artisan hand-sorting & quality grading
+  list.push('/images/crafts-artisan-hands.jpg')
+
+  // 6. High-altitude terroir landscape
+  list.push('/images/crafts-kashmir-landscape.jpg')
+
+  // 7. Handcrafted presentation tray
+  list.push('/images/dark-wood-gourmet-tray.jpg')
+
+  // 8. Luxury gift box / unboxing packaging
+  list.push('/images/luxury-teal-gift-box.jpg')
+
+  // 9. Royal heritage casket presentation
+  list.push('/images/royal-tradition-box.jpg')
+
+  // 10. Connoisseur gift selection
+  list.push('/images/long-festive-gift-box.jpg')
+
+  // Deduplicate while preserving order
+  return Array.from(new Set(list))
+}
+
