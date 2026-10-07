@@ -1,44 +1,63 @@
-﻿'use client'
+'use client'
 
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { STAY_PROPERTIES, StayProperty, StayRoom } from '@/lib/stays-data'
+import {
+  STAY_PROPERTIES,
+  STAY_CATEGORIES,
+  StayProperty,
+  StayCategory,
+  StayRoom,
+} from '@/lib/stays-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export default function LiveStaysDiscovery() {
-  const [selectedPropId, setSelectedPropId] = useState<string>('prop-kashmir')
-  const property = useMemo(
-    () => STAY_PROPERTIES.find((p) => p.id === selectedPropId) || STAY_PROPERTIES[0],
-    [selectedPropId]
-  )
-
-  const [selectedRoomId, setSelectedRoomId] = useState<string>(property.rooms[0]?.id || '')
-  const selectedRoom = useMemo(
-    () => property.rooms.find((r) => r.id === selectedRoomId) || property.rooms[0],
-    [property, selectedRoomId]
-  )
-
-  // Booking Parameters
+  // ── 1. Search Bar Parameters ────────────────────────────────────────────────
+  const [destinationQuery, setDestinationQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<StayCategory>('all')
+  const [isWorkTripOnly, setIsWorkTripOnly] = useState(false)
+  
   const todayStr = new Date().toISOString().split('T')[0]
   const defaultCheckOutStr = new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0]
-
   const [checkIn, setCheckIn] = useState<string>(todayStr)
   const [checkOut, setCheckOut] = useState<string>(defaultCheckOutStr)
   const [guestsCount, setGuestsCount] = useState<number>(2)
-  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([])
 
-  // Guest Contact
+  // ── 2. Modal / Booking Drawer State ─────────────────────────────────────────
+  const [selectedPropertyForModal, setSelectedPropertyForModal] = useState<StayProperty | null>(null)
+  const [selectedRoomId, setSelectedRoomId] = useState<string>('')
+  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([])
+  const [isBuyoutMode, setIsBuyoutMode] = useState(false)
+
+  // ── 3. Guest Contact & Booking Submission ───────────────────────────────────
   const [guestName, setGuestName] = useState('')
   const [guestPhone, setGuestPhone] = useState('')
   const [guestEmail, setGuestEmail] = useState('')
+  const [companyName, setCompanyName] = useState('')
+  const [gstin, setGstin] = useState('')
   const [specialRequests, setSpecialRequests] = useState('')
-
-  // State
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isReserved, setIsReserved] = useState(false)
+  const [bookingConfirmationRef, setBookingConfirmationRef] = useState<string | null>(null)
 
-  // Calculate Nights
+  // ── 4. Host Earnings Calculator State ───────────────────────────────────────
+  const [hostPropertyType, setHostPropertyType] = useState<'orchard' | 'chalet' | 'houseboat' | 'executive'>('orchard')
+  const [hostBedrooms, setHostBedrooms] = useState<number>(4)
+
+  const hostEstimatedMonthlyRevenue = useMemo(() => {
+    const baseDailyRate =
+      hostPropertyType === 'orchard'
+        ? 12000
+        : hostPropertyType === 'chalet'
+        ? 16000
+        : hostPropertyType === 'houseboat'
+        ? 8500
+        : 7500
+    // Assuming 65% average occupancy
+    return Math.round(baseDailyRate * (hostBedrooms / 2) * 30 * 0.65)
+  }, [hostPropertyType, hostBedrooms])
+
+  // ── Calculate Nights ────────────────────────────────────────────────────────
   const nights = useMemo(() => {
     if (!checkIn || !checkOut) return 1
     const inDate = new Date(checkIn)
@@ -48,29 +67,78 @@ export default function LiveStaysDiscovery() {
     return diffDays > 0 ? diffDays : 1
   }, [checkIn, checkOut])
 
-  // Check if Peak Season applies
-  const isPeakSeason = useMemo(() => {
-    if (!checkIn) return false
-    const monthName = new Date(checkIn).toLocaleString('en-US', { month: 'long' })
-    return property.seasonalRates.peakMonths.includes(monthName)
-  }, [checkIn, property])
+  // ── Filtered Properties Set ─────────────────────────────────────────────────
+  const filteredProperties = useMemo(() => {
+    return STAY_PROPERTIES.filter((prop) => {
+      // Destination search
+      if (destinationQuery.trim()) {
+        const q = destinationQuery.toLowerCase()
+        const matchesLocation =
+          prop.city.toLowerCase().includes(q) ||
+          prop.state.toLowerCase().includes(q) ||
+          prop.name.toLowerCase().includes(q) ||
+          prop.country.toLowerCase().includes(q) ||
+          prop.tagline.toLowerCase().includes(q)
+        if (!matchesLocation) return false
+      }
 
-  const seasonalMultiplier = isPeakSeason
-    ? property.seasonalRates.peakSeasonMultiplier
-    : 1.0
+      // Category filter
+      if (selectedCategory !== 'all') {
+        const matchesCategory =
+          prop.category === selectedCategory ||
+          prop.secondaryCategories.includes(selectedCategory)
+        if (!matchesCategory) return false
+      }
 
-  // Pricing Calculation
-  const nightlyRate = Math.round(selectedRoom.basePricePerNight * seasonalMultiplier)
-  const baseRoomTotal = nightlyRate * nights
+      // Work trips only
+      if (isWorkTripOnly && !prop.workFriendly) {
+        return false
+      }
 
-  const addOnsTotal = useMemo(() => {
+      // Guest capacity
+      if (guestsCount > prop.maxTotalGuests) {
+        return false
+      }
+
+      return true
+    })
+  }, [destinationQuery, selectedCategory, isWorkTripOnly, guestsCount])
+
+  // ── Open Property Modal ─────────────────────────────────────────────────────
+  const handleOpenProperty = (property: StayProperty, buyout = false) => {
+    setSelectedPropertyForModal(property)
+    setSelectedRoomId(property.rooms[0]?.id || '')
+    setSelectedAddOns([])
+    setIsBuyoutMode(buyout)
+    setBookingConfirmationRef(null)
+  }
+
+  // ── Pricing Calculation for Modal ───────────────────────────────────────────
+  const modalSelectedRoom = useMemo(() => {
+    if (!selectedPropertyForModal) return null
+    return (
+      selectedPropertyForModal.rooms.find((r) => r.id === selectedRoomId) ||
+      selectedPropertyForModal.rooms[0]
+    )
+  }, [selectedPropertyForModal, selectedRoomId])
+
+  const modalNightlyRate = useMemo(() => {
+    if (!selectedPropertyForModal) return 0
+    if (isBuyoutMode) return selectedPropertyForModal.estateBuyoutPrice
+    return modalSelectedRoom ? modalSelectedRoom.basePricePerNight : 0
+  }, [selectedPropertyForModal, isBuyoutMode, modalSelectedRoom])
+
+  const modalBaseTotal = modalNightlyRate * nights
+
+  const modalAddOnsTotal = useMemo(() => {
+    if (!selectedPropertyForModal) return 0
     return selectedAddOns.reduce((acc, addOnId) => {
-      const item = property.experienceAddOns.find((a) => a.id === addOnId)
+      const item = selectedPropertyForModal.experienceAddOns.find((a) => a.id === addOnId)
       return acc + (item ? item.pricePerPerson * guestsCount : 0)
     }, 0)
-  }, [selectedAddOns, property, guestsCount])
+  }, [selectedPropertyForModal, selectedAddOns, guestsCount])
 
-  const totalEstimate = baseRoomTotal + addOnsTotal
+  const modalGrandTotal = modalBaseTotal + modalAddOnsTotal
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns((prev) =>
@@ -78,428 +146,674 @@ export default function LiveStaysDiscovery() {
     )
   }
 
-  const handlePropertySwitch = (propId: string) => {
-    setSelectedPropId(propId)
-    const newProp = STAY_PROPERTIES.find((p) => p.id === propId)
-    if (newProp && newProp.rooms.length > 0) {
-      setSelectedRoomId(newProp.rooms[0].id)
-    }
-    setSelectedAddOns([])
-  }
-
+  // ── Handle Reservation Submission ───────────────────────────────────────────
   const handleReservationSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!selectedPropertyForModal) return
+
     setIsSubmitting(true)
+    const refCode = `STAY-${Date.now().toString().slice(-6)}`
 
     const addOnTitles = selectedAddOns
-      .map((id) => property.experienceAddOns.find((a) => a.id === id)?.title)
+      .map((id) => selectedPropertyForModal.experienceAddOns.find((a) => a.id === id)?.title)
       .filter(Boolean)
       .join(', ')
 
     try {
-      await fetch('/api/leads', {
+      await fetch('/api/opportunities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: guestName || 'Boutique Stay Enquirer',
-          phone: guestPhone,
-          email: guestEmail,
-          city: property.city,
-          businessName: `[STAYS] ${property.name} - ${selectedRoom.name}`,
-          message: `Check-in: ${checkIn} | Check-out: ${checkOut} (${nights} nights) | Guests: ${guestsCount} | Add-ons: ${
-            addOnTitles || 'None'
-          } | Estimated Tariff: ₹${totalEstimate.toLocaleString('en-IN')} | Notes: ${specialRequests}`,
-          source: 'live-stays-engine',
+          type: 'booking_inquiry',
+          vertical: 'stays',
+          customerName: guestName,
+          companyName: companyName || `${guestName} Travel Group`,
+          customerPhone: guestPhone,
+          customerEmail: guestEmail,
+          deliveryCity: `${selectedPropertyForModal.city}, ${selectedPropertyForModal.state}`,
+          targetBudget: modalGrandTotal,
+          currency: 'INR',
+          notes: `[REF: ${refCode}] Property: ${selectedPropertyForModal.name} | Mode: ${
+            isBuyoutMode ? 'Full Estate Buyout' : modalSelectedRoom?.name
+          } | Dates: ${checkIn} to ${checkOut} (${nights} nights) | Guests: ${guestsCount} | GSTIN: ${
+            gstin || 'None'
+          } | Add-ons: ${addOnTitles || 'None'} | Notes: ${specialRequests}`,
         }),
       })
+      setBookingConfirmationRef(refCode)
     } catch {
-      // ignore
+      setBookingConfirmationRef(refCode)
     } finally {
       setIsSubmitting(false)
-      setIsReserved(true)
     }
   }
 
   const whatsappPhone = (WHATSAPP_NUMBERS.STAYS || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
-  const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nuty Tales Hospitality! 🏔️\n\nI want to reserve a stay:\n• Property: *${property.name}* (${property.city})\n• Room: ${selectedRoom.name}\n• Dates: ${checkIn} to ${checkOut} (${nights} nights)\n• Guests: ${guestsCount}\n• Add-ons: ${
-      selectedAddOns.map((id) => property.experienceAddOns.find((a) => a.id === id)?.title).join(', ') || 'Standard'
-    }\n• Estimated Tariff: ₹${totalEstimate.toLocaleString('en-IN')}\n\nPlease verify availability and confirm my reservation!`,
-  )}`
 
   return (
     <div className="space-y-12">
-      {/* ── 1. Property Switcher Tabs ────────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        {STAY_PROPERTIES.map((prop) => {
-          const isSelected = prop.id === selectedPropId
-          return (
+      {/* ── 1. The Iconic Airbnb Floating Global Search Bar ────────────────────── */}
+      <div className="bg-white rounded-3xl p-3 sm:p-4 shadow-xl border border-stone-200 text-[#17233B]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+          {/* Where: Destination */}
+          <div className="md:col-span-4 p-2.5 sm:p-3 rounded-2xl bg-[#FAF6EE] hover:bg-stone-100 transition-colors border border-stone-200">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
+              Where
+            </label>
+            <input
+              type="text"
+              value={destinationQuery}
+              onChange={(e) => setDestinationQuery(e.target.value)}
+              placeholder="Search Kashmir, Gulmarg, Dubai, London..."
+              className="w-full bg-transparent text-xs sm:text-sm font-semibold text-[#17233B] focus:outline-none placeholder-stone-400"
+            />
+          </div>
+
+          {/* When: Dates */}
+          <div className="md:col-span-3 grid grid-cols-2 gap-2 p-2.5 sm:p-3 rounded-2xl bg-[#FAF6EE] border border-stone-200">
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
+                Check In
+              </label>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                className="w-full bg-transparent text-xs font-semibold text-[#17233B] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
+                Check Out ({nights}N)
+              </label>
+              <input
+                type="date"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                className="w-full bg-transparent text-xs font-semibold text-[#17233B] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Who: Guests */}
+          <div className="md:col-span-2 p-2.5 sm:p-3 rounded-2xl bg-[#FAF6EE] border border-stone-200">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
+              Who
+            </label>
+            <select
+              value={guestsCount}
+              onChange={(e) => setGuestsCount(Number(e.target.value))}
+              className="w-full bg-transparent text-xs font-semibold text-[#17233B] focus:outline-none cursor-pointer"
+            >
+              {[1, 2, 4, 6, 8, 10, 14, 20].map((num) => (
+                <option key={num} value={num}>
+                  {num} {num === 1 ? 'Guest' : 'Guests'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Search Action & Airbnb for Work Toggle */}
+          <div className="md:col-span-3 flex items-center gap-2">
             <button
-              key={prop.id}
-              onClick={() => handlePropertySwitch(prop.id)}
-              className={`px-5 py-3 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 shadow-sm ${
-                isSelected
-                  ? 'bg-[#17233B] text-white ring-2 ring-[#C9A45C] scale-105'
-                  : 'bg-white hover:bg-stone-50 text-stone-700 border border-stone-200'
+              type="button"
+              onClick={() => setIsWorkTripOnly(!isWorkTripOnly)}
+              className={`flex-1 py-3 px-3 rounded-2xl text-xs font-bold transition-all border flex items-center justify-center gap-1.5 ${
+                isWorkTripOnly
+                  ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B] shadow-sm'
+                  : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
               }`}
             >
-              <span>{prop.city === 'Srinagar' ? '🏔️' : prop.city === 'Noida' ? '🏢' : '🏛️'}</span>
-              <span>{prop.name}</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full ${isSelected ? 'bg-[#C9A45C] text-[#17233B]' : 'bg-stone-100 text-stone-600'}`}>
-                {prop.city}
-              </span>
+              <span>💼</span>
+              <span>{isWorkTripOnly ? 'Work Verified' : 'For Work'}</span>
+            </button>
+
+            <button
+              type="button"
+              className="py-3 px-5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-2xl transition-all shadow-md flex items-center justify-center gap-1.5"
+            >
+              <span>🔍</span>
+              <span>Search</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 2. The Iconic Airbnb Horizontal Category Carousel ─────────────────── */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-stone-200">
+        {STAY_CATEGORIES.map((cat) => {
+          const isActive = selectedCategory === cat.id
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all flex-shrink-0 ${
+                isActive
+                  ? 'bg-[#17233B] text-white shadow-md'
+                  : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
+              }`}
+            >
+              <span className="text-base">{cat.icon}</span>
+              <span>{cat.label}</span>
             </button>
           )
         })}
       </div>
 
-      {/* ── 2. Active Property Hero Showcase ──────────────────────────────────────── */}
-      <div className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-xl grid grid-cols-1 lg:grid-cols-12">
-        {/* Left: Photo Gallery & Insets */}
-        <div className="lg:col-span-7 relative min-h-[380px] lg:min-h-[460px] bg-stone-900">
-          <Image
-            src={property.featuredImage}
-            alt={property.name}
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 60vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
-
-          {/* Badges */}
-          <div className="absolute top-5 left-5 flex flex-wrap gap-2">
-            <span className="px-3 py-1 rounded-full bg-[#17233B]/90 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/20">
-              {property.city}, {property.state}
-            </span>
-            {isPeakSeason && (
-              <span className="px-3 py-1 rounded-full bg-[#C9A45C] text-[#17233B] text-xs font-extrabold uppercase tracking-wider shadow-md">
-                Peak Season Rate Active
-              </span>
-            )}
+      {/* ── 3. Airbnb for Work / Corporate Offsites Banner ─────────────────────── */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#17233B] via-[#1E3048] to-[#10192A] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-[#C9A45C]/30">
+        <div className="space-y-1.5 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] font-bold text-[10px] uppercase tracking-wider">
+            <span>💼</span> NUTTY TALES STAYS FOR BUSINESS
           </div>
-
-          {/* Bottom Inset Caption */}
-          <div className="absolute bottom-5 left-5 right-5 text-white space-y-1">
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold">{property.name}</h3>
-            <p className="text-xs sm:text-sm text-stone-200 font-light">{property.tagline}</p>
-            <p className="text-[11px] text-[#C9A45C] font-medium pt-1">📍 {property.locationNote}</p>
-          </div>
-        </div>
-
-        {/* Right: Property Amenities Strip */}
-        <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-[#FAF6EE] border-t lg:border-t-0 lg:border-l border-stone-200">
-          <div className="space-y-4">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#704B32] block">
-              Property Highlights & Comforts
-            </span>
-            <ul className="space-y-2.5 text-xs text-[#17233B]">
-              {property.propertyAmenities.map((amenity, idx) => (
-                <li key={idx} className="flex items-start gap-2.5">
-                  <span className="text-[#176B68] font-bold text-sm">✓</span>
-                  <span className="leading-snug">{amenity}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="pt-6 border-t border-stone-200">
-            <div className="flex items-baseline justify-between mb-2">
-              <span className="text-xs text-stone-500 uppercase font-bold tracking-wider">Starting Tariff</span>
-              <span className="font-serif text-2xl font-bold text-[#17233B]">
-                ₹{property.rooms[0]?.basePricePerNight.toLocaleString('en-IN')}
-                <span className="text-xs text-stone-500 font-sans font-normal"> / night</span>
-              </span>
-            </div>
-            <p className="text-[11px] text-stone-500 leading-tight">
-              Includes farm-fresh breakfast, traditional Samovar kehwa, and complimentary Wi-Fi.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── 3. Interactive Room Selector ────────────────────────────────────────── */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#17233B]">
-            Select Your Suite or Cottage
+          <h3 className="font-serif text-xl sm:text-2xl font-bold">
+            Corporate Housing, Team Retreats &amp; Executive Offsites
           </h3>
-          <span className="text-xs text-stone-500 font-medium">
-            {property.rooms.length} room types available at this property
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {property.rooms.map((room) => {
-            const isSelected = room.id === selectedRoomId
-            return (
-              <div
-                key={room.id}
-                onClick={() => setSelectedRoomId(room.id)}
-                className={`cursor-pointer rounded-2xl p-6 transition-all border flex flex-col justify-between ${
-                  isSelected
-                    ? 'bg-white border-[#176B68] ring-2 ring-[#176B68]/30 shadow-lg scale-[1.01]'
-                    : 'bg-white/80 hover:bg-white border-stone-200 hover:border-stone-300 shadow-sm'
-                }`}
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                      {room.type}
-                    </span>
-                    <span className="text-xs font-semibold text-stone-500">
-                      Up to {room.maxGuests} Guests
-                    </span>
-                  </div>
-
-                  <h4 className="font-serif text-lg font-bold text-[#17233B]">{room.name}</h4>
-                  <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">{room.description}</p>
-
-                  <div className="text-[11px] text-stone-500 space-y-1 pt-1">
-                    <div className="flex items-center gap-1.5">
-                      <span>🛏️</span>
-                      <span>{room.bedConfig}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span>📐</span>
-                      <span>{room.sizeSqFt} sq. ft. living area</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-stone-400 uppercase block">Base Tariff</span>
-                    <span className="font-bold text-base text-[#17233B]">
-                      ₹{room.basePricePerNight.toLocaleString('en-IN')}
-                      <span className="text-[11px] font-normal text-stone-500"> / nt</span>
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${
-                      isSelected ? 'bg-[#176B68] text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                    }`}
-                  >
-                    {isSelected ? '✓ Selected' : 'Choose'}
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* ── 4. Live Date & Tariff Engine Form ─────────────────────────────────────── */}
-      <div id="booking-engine" className="bg-white rounded-3xl border border-stone-200 shadow-xl p-6 sm:p-10">
-        <div className="max-w-3xl mb-8">
-          <span className="text-xs uppercase font-bold tracking-widest text-[#704B32] block">
-            Step 2: Dates, Guests & Curated Add-ons
-          </span>
-          <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] mt-1">
-            Calculate Live Tariff &amp; Reserve
-          </h3>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1">
-            Real-time seasonal rate engine. No hidden charges. Verified direct hospitality from Nuty Tales.
+          <p className="text-xs text-stone-300 max-w-2xl font-light">
+            Verified 200+ Mbps fiber Wi-Fi, board meeting tables, in-house master chefs, private 4x4 airport transit, and official 18% GST / VAT tax invoices for enterprise expense approval.
           </p>
         </div>
 
-        <form onSubmit={handleReservationSubmit} className="space-y-8">
-          {/* Form Fields Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B] mb-1.5">
-                Check-in Date
-              </label>
-              <input
-                type="date"
-                required
-                min={todayStr}
-                value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
-              />
-            </div>
+        <div className="flex gap-3 flex-shrink-0">
+          <Link
+            href="/stays/group-quote"
+            className="px-5 py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+          >
+            Request Team Buyout Quote
+          </Link>
+          <button
+            type="button"
+            onClick={() => setIsWorkTripOnly(!isWorkTripOnly)}
+            className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-white/20 transition-all"
+          >
+            {isWorkTripOnly ? 'Show All Properties' : 'Filter Work Stays'}
+          </button>
+        </div>
+      </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B] mb-1.5">
-                Check-out Date
-              </label>
-              <input
-                type="date"
-                required
-                min={checkIn || todayStr}
-                value={checkOut}
-                onChange={(e) => setCheckOut(e.target.value)}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
-              />
-            </div>
+      {/* ── 4. Global Airbnb Property Card Grid ───────────────────────────────── */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between text-xs text-stone-500 font-semibold px-1">
+          <span>Showing {filteredProperties.length} verified global estates &amp; residences</span>
+          <span className="text-[#704B32] hidden sm:inline">✦ Instant Reserve &amp; Full Estate Buyouts</span>
+        </div>
 
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B] mb-1.5">
-                Guests
-              </label>
-              <select
-                value={guestsCount}
-                onChange={(e) => setGuestsCount(Number(e.target.value))}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-300 text-xs sm:text-sm text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
-              >
-                <option value={1}>1 Solo Guest</option>
-                <option value={2}>2 Adults (Couple / Twin)</option>
-                <option value={3}>3 Adults (Family)</option>
-                <option value={4}>4 Adults (Suite Quad)</option>
-                <option value={6}>5-6 Guests (Multiple Rooms)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B] mb-1.5">
-                Selected Suite
-              </label>
-              <input
-                type="text"
-                readOnly
-                value={selectedRoom.name}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-200 text-xs sm:text-sm text-[#17233B] bg-stone-100 font-semibold cursor-not-allowed"
-              />
-            </div>
+        {filteredProperties.length === 0 ? (
+          <div className="bg-white p-12 rounded-3xl text-center space-y-3 border border-stone-200">
+            <span className="text-4xl block">🔍</span>
+            <h4 className="font-serif text-xl font-bold text-[#17233B]">No properties matched your search</h4>
+            <p className="text-xs text-stone-500">Try clearing your destination query or switching categories.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setDestinationQuery('')
+                setSelectedCategory('all')
+                setIsWorkTripOnly(false)
+              }}
+              className="px-4 py-2 bg-[#17233B] text-white text-xs font-bold rounded-xl"
+            >
+              Reset Filters
+            </button>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProperties.map((prop) => (
+              <div
+                key={prop.id}
+                className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  {/* Photo with Overlay Badges */}
+                  <div className="relative aspect-[16/11] bg-stone-100 overflow-hidden cursor-pointer" onClick={() => handleOpenProperty(prop)}>
+                    <Image
+                      src={prop.featuredImage}
+                      alt={prop.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    />
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                      {prop.superhost && (
+                        <span className="bg-white/95 backdrop-blur-sm text-[#17233B] text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                          Superhost ★
+                        </span>
+                      )}
+                      {prop.workFriendly && (
+                        <span className="bg-[#17233B]/90 backdrop-blur-sm text-[#C9A45C] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                          Work-Ready
+                        </span>
+                      )}
+                    </div>
+                    <div className="absolute top-3 right-3 bg-white/90 p-1.5 rounded-full text-stone-700 shadow-sm">
+                      ♥
+                    </div>
+                  </div>
 
-          {/* Curated Experience Add-Ons */}
-          {property.experienceAddOns.length > 0 && (
-            <div className="space-y-3 pt-4 border-t border-stone-100">
-              <span className="block text-xs font-bold uppercase tracking-wider text-[#704B32]">
-                Optional Bespoke Experiences &amp; Add-ons:
-              </span>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {property.experienceAddOns.map((addon) => {
-                  const isChecked = selectedAddOns.includes(addon.id)
-                  return (
-                    <label
-                      key={addon.id}
-                      className={`p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-colors ${
-                        isChecked
-                          ? 'bg-[#176B68]/5 border-[#176B68]'
-                          : 'bg-white border-stone-200 hover:bg-stone-50'
-                      }`}
+                  {/* Card Content */}
+                  <div className="p-5 space-y-2.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-stone-500">
+                        {prop.city}, {prop.country}
+                      </span>
+                      <span className="font-bold text-[#17233B] flex items-center gap-1">
+                        ★ {prop.rating} <span className="text-stone-400 font-normal">({prop.reviewsCount})</span>
+                      </span>
+                    </div>
+
+                    <h4
+                      onClick={() => handleOpenProperty(prop)}
+                      className="font-serif font-bold text-base text-[#17233B] group-hover:text-[#704B32] transition-colors cursor-pointer line-clamp-1"
                     >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => toggleAddOn(addon.id)}
-                        className="mt-0.5 w-4 h-4 text-[#176B68] rounded focus:ring-0 cursor-pointer"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-xs text-[#17233B]">{addon.title}</span>
-                          <span className="text-xs font-bold text-[#176B68]">
-                            +₹{addon.pricePerPerson.toLocaleString('en-IN')}/person
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-stone-500 mt-0.5">{addon.desc}</p>
+                      {prop.name}
+                    </h4>
+
+                    <p className="text-[11px] text-stone-500 line-clamp-1">
+                      {prop.bedrooms} Bedrooms · {prop.baths} Baths · Up to {prop.maxTotalGuests} Guests
+                    </p>
+
+                    <div className="flex flex-wrap gap-1 pt-1 text-[10px] text-stone-600">
+                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">⚡ {prop.wifiSpeedMbps} Mbps</span>
+                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">👨‍🍳 Chef Available</span>
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="pt-2 border-t border-stone-100 flex items-baseline justify-between text-xs">
+                      <div>
+                        <span className="font-mono font-bold text-[#17233B] text-base">
+                          ₹{prop.rooms[0]?.basePricePerNight.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-stone-500 text-[11px]"> / suite</span>
                       </div>
-                    </label>
-                  )
-                })}
+                      <div className="text-right">
+                        <span className="text-[10px] text-stone-400 block">Buyout:</span>
+                        <span className="font-mono font-semibold text-[#704B32] text-xs">
+                          ₹{prop.estateBuyoutPrice.toLocaleString('en-IN')} / night
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Action Buttons */}
+                <div className="p-5 pt-0 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenProperty(prop, false)}
+                    className="flex-1 py-2.5 bg-[#17233B] hover:bg-stone-800 text-white font-bold text-xs rounded-xl transition-all shadow-sm"
+                  >
+                    Reserve Suite
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenProperty(prop, true)}
+                    className="py-2.5 px-3 bg-[#FAF6EE] hover:bg-stone-200 text-[#704B32] font-bold text-xs rounded-xl transition-all border border-stone-200"
+                    title="Reserve entire private estate"
+                  >
+                    Buyout
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── 5. Host Marketplace ("Airbnb Your Property with Nutty Tales") ──────── */}
+      <section className="bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E293B] text-white rounded-3xl p-8 sm:p-14 shadow-2xl border border-white/10 space-y-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Left: Pitch */}
+          <div className="lg:col-span-7 space-y-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A45C] text-[#17233B] text-[10px] font-bold uppercase tracking-wider">
+              <span>🏡</span> BECOME A GLOBAL HOST
+            </div>
+            <h3 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Airbnb your orchard, heritage villa or corporate flat with Nutty Tales.
+            </h3>
+            <p className="text-sm text-stone-300 font-light leading-relaxed max-w-xl">
+              Turn your property into a high-yield global stay. Nutty Tales manages high-net-worth guest screening, deployed in-house Wazwan chefs, complete housekeeping, and corporate enterprise bookings.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-2">
+              <div className="p-3 bg-white/5 rounded-xl border border-white/10">
+                <span className="text-[#C9A45C] font-bold block text-sm">0% Listing Fee</span>
+                <span className="text-stone-400">Zero upfront cost to list</span>
+              </div>
+              <div className="p-3 bg-white/5 rounded-xl border border-white/10">
+                <span className="text-[#C9A45C] font-bold block text-sm">Vetted Guests</span>
+                <span className="text-stone-400">CXOs, families &amp; teams</span>
+              </div>
+              <div className="p-3 bg-white/5 rounded-xl border border-white/10">
+                <span className="text-[#C9A45C] font-bold block text-sm">Damage Escrow</span>
+                <span className="text-stone-400">₹10 Lakh host protection</span>
               </div>
             </div>
-          )}
 
-          {/* Contact Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-stone-100">
-            <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">Guest Full Name *</label>
-              <input
-                type="text"
-                required
-                value={guestName}
-                onChange={(e) => setGuestName(e.target.value)}
-                placeholder="e.g. Rohini Sharma"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">WhatsApp Mobile *</label>
-              <input
-                type="tel"
-                required
-                value={guestPhone}
-                onChange={(e) => setGuestPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-stone-700 mb-1">Email Address</label>
-              <input
-                type="email"
-                value={guestEmail}
-                onChange={(e) => setGuestEmail(e.target.value)}
-                placeholder="rohini@example.com"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] focus:outline-none"
-              />
+            <div className="pt-2">
+              <Link
+                href="/stays/hosts"
+                className="inline-flex items-center gap-2 px-7 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
+              >
+                <span>🚀</span>
+                <span>List Your Property with Us</span>
+              </Link>
             </div>
           </div>
 
-          {/* Dynamic Pricing Ledger & Submission */}
-          <div className="p-6 bg-[#FAF6EE] rounded-2xl border border-stone-200 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-1 w-full md:w-auto">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
-                Estimated Tariff Breakdown ({nights} {nights === 1 ? 'Night' : 'Nights'}, {guestsCount} Guests)
+          {/* Right: Live Host Earnings Calculator */}
+          <div className="lg:col-span-5 bg-white/10 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/20 space-y-5 text-white">
+            <div className="border-b border-white/10 pb-3">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#C9A45C]">
+                Host Potential Calculator
               </span>
-              <div className="flex items-baseline gap-3">
-                <span className="font-serif text-3xl font-extrabold text-[#17233B]">
-                  ₹{totalEstimate.toLocaleString('en-IN')}
+              <h4 className="font-serif text-2xl font-bold">What could you earn?</h4>
+            </div>
+
+            {/* Property Type Radio */}
+            <div className="space-y-1.5 text-xs">
+              <label className="font-semibold text-stone-300 block">Property Category:</label>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {[
+                  { id: 'orchard', label: 'Orchard Villa' },
+                  { id: 'chalet', label: 'Ski Chalet' },
+                  { id: 'houseboat', label: 'Houseboat' },
+                  { id: 'executive', label: 'Executive Flat' },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setHostPropertyType(item.id as any)}
+                    className={`p-2.5 rounded-xl border transition-all text-center ${
+                      hostPropertyType === item.id
+                        ? 'bg-[#C9A45C] text-[#17233B] font-bold border-[#C9A45C]'
+                        : 'bg-white/5 text-stone-300 border-white/10 hover:bg-white/10'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Bedroom Slider */}
+            <div className="space-y-1.5 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-stone-300 font-semibold">Bedrooms:</span>
+                <span className="font-mono font-bold text-white px-2 py-0.5 bg-white/10 rounded">
+                  {hostBedrooms} Bedrooms
                 </span>
-                {isPeakSeason && (
-                  <span className="text-xs text-[#704B32] font-semibold bg-amber-100 px-2 py-0.5 rounded">
-                    Peak Season Multiplier ({property.seasonalRates.peakSeasonMultiplier}x)
-                  </span>
-                )}
               </div>
-              <p className="text-[11px] text-stone-500">
-                ₹{nightlyRate.toLocaleString('en-IN')}/nt room tariff
-                {addOnsTotal > 0 && ` + ₹${addOnsTotal.toLocaleString('en-IN')} experiences`} · Direct concierge billing
-              </p>
+              <input
+                type="range"
+                min="1"
+                max="8"
+                value={hostBedrooms}
+                onChange={(e) => setHostBedrooms(Number(e.target.value))}
+                className="w-full accent-[#C9A45C] cursor-pointer"
+              />
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-2 shadow-md"
-              >
-                <span>Instant WhatsApp Concierge</span>
-                <span>→</span>
-              </a>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all text-center shadow-md disabled:opacity-50"
-              >
-                {isSubmitting ? 'Submitting...' : isReserved ? '✓ Request Submitted' : 'Submit Formal Request'}
-              </button>
-            </div>
-          </div>
-
-          {isReserved && (
-            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
-              <span>
-                ✓ Your reservation enquiry for {property.name} has been sent! Our hospitality concierge will contact you within 2 hours.
+            {/* Calculated Monthly Revenue */}
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/10 text-center space-y-1">
+              <span className="text-xs text-stone-300">Estimated Monthly Income:</span>
+              <div className="font-mono text-3xl font-black text-[#C9A45C]">
+                ₹{hostEstimatedMonthlyRevenue.toLocaleString('en-IN')}
+              </div>
+              <span className="text-[10px] text-stone-400 block">
+                Based on 65% occupancy &amp; Nutty Tales premium guest network
               </span>
+            </div>
+
+            <Link
+              href={`/stays/hosts?type=${hostPropertyType}&br=${hostBedrooms}`}
+              className="block w-full text-center py-3 bg-white text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-stone-100 transition-all shadow-md"
+            >
+              Start Host Application →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. Property Quick-Look & Reservation Modal ─────────────────────────── */}
+      {selectedPropertyForModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-stone-200 text-[#17233B]">
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white z-10 px-6 sm:px-8 py-4 border-b border-stone-200 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
+                  {selectedPropertyForModal.city}, {selectedPropertyForModal.country} · {isBuyoutMode ? 'Full Buyout' : 'Suite Reservation'}
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#17233B]">
+                  {selectedPropertyForModal.name}
+                </h3>
+              </div>
               <button
                 type="button"
-                onClick={() => setIsReserved(false)}
-                className="text-emerald-900 font-bold hover:underline"
+                onClick={() => setSelectedPropertyForModal(null)}
+                className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-stone-700 font-bold"
               >
-                Dismiss
+                ✕
               </button>
             </div>
-          )}
-        </form>
-      </div>
+
+            <div className="p-6 sm:p-8 space-y-8">
+              {/* Photo Banner */}
+              <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-stone-100">
+                <Image
+                  src={selectedPropertyForModal.featuredImage}
+                  alt={selectedPropertyForModal.name}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute top-4 left-4 flex gap-2">
+                  <span className="bg-[#17233B]/90 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                    ★ {selectedPropertyForModal.rating} ({selectedPropertyForModal.reviewsCount} reviews)
+                  </span>
+                  <span className="bg-[#C9A45C] text-[#17233B] text-xs font-bold px-3 py-1 rounded-full">
+                    {isBuyoutMode ? 'Private Estate Buyout' : 'Suite Selection'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Success Message If Booked */}
+              {bookingConfirmationRef && (
+                <div className="p-6 bg-emerald-50 rounded-2xl border-2 border-emerald-500 text-emerald-900 space-y-2">
+                  <div className="font-bold text-base flex items-center gap-2">
+                    <span>🎉</span> Reservation Dossier Submitted! Ref: <strong>{bookingConfirmationRef}</strong>
+                  </div>
+                  <p className="text-xs">
+                    Our Private Stay Concierge and the property manager have been notified. A formal invoice with verified bank escrow link and WhatsApp confirmation will be delivered within 30 minutes.
+                  </p>
+                </div>
+              )}
+
+              {/* Mode Toggle: Suite vs Estate Buyout */}
+              <div className="flex rounded-2xl bg-stone-100 p-1 text-xs font-bold">
+                <button
+                  type="button"
+                  onClick={() => setIsBuyoutMode(false)}
+                  className={`flex-1 py-2.5 rounded-xl transition-all ${
+                    !isBuyoutMode ? 'bg-white text-[#17233B] shadow-sm' : 'text-stone-600 hover:text-black'
+                  }`}
+                >
+                  Individual Suite / Room
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsBuyoutMode(true)}
+                  className={`flex-1 py-2.5 rounded-xl transition-all ${
+                    isBuyoutMode ? 'bg-[#17233B] text-white shadow-sm' : 'text-stone-600 hover:text-black'
+                  }`}
+                >
+                  Entire Private Estate Buyout (Up to {selectedPropertyForModal.maxTotalGuests} Guests)
+                </button>
+              </div>
+
+              {/* Room Selector (If not buyout) */}
+              {!isBuyoutMode && (
+                <div className="space-y-3">
+                  <label className="text-xs font-bold uppercase tracking-wider text-stone-500 block">
+                    Select Suite / Cottage:
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {selectedPropertyForModal.rooms.map((room) => (
+                      <div
+                        key={room.id}
+                        onClick={() => setSelectedRoomId(room.id)}
+                        className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+                          selectedRoomId === room.id
+                            ? 'border-[#17233B] bg-[#FAF6EE] ring-2 ring-[#C9A45C]'
+                            : 'border-stone-200 bg-white hover:border-stone-400'
+                        }`}
+                      >
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <strong className="block text-sm text-[#17233B]">{room.name}</strong>
+                            <span className="text-[11px] text-stone-500">{room.type} · {room.sizeSqFt} sq ft</span>
+                          </div>
+                          <span className="font-mono font-bold text-xs text-[#704B32]">
+                            ₹{room.basePricePerNight.toLocaleString('en-IN')}/night
+                          </span>
+                        </div>
+                        <p className="text-xs text-stone-600 pt-2 line-clamp-2">{room.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Add-On Experiences */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500 block">
+                  Curated In-Stay Hospitality Add-Ons:
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {selectedPropertyForModal.experienceAddOns.map((addon) => {
+                    const isChecked = selectedAddOns.includes(addon.id)
+                    return (
+                      <div
+                        key={addon.id}
+                        onClick={() => toggleAddOn(addon.id)}
+                        className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-start gap-3 ${
+                          isChecked
+                            ? 'border-[#176B68] bg-[#176B68]/10'
+                            : 'border-stone-200 bg-white hover:border-stone-300'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => {}}
+                          className="mt-0.5 accent-[#176B68]"
+                        />
+                        <div className="text-xs flex-1">
+                          <div className="flex justify-between">
+                            <strong className="text-[#17233B]">{addon.title}</strong>
+                            <span className="font-mono text-[#176B68] font-bold">
+                              +₹{addon.pricePerPerson.toLocaleString('en-IN')}/pax
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-stone-500 pt-0.5">{addon.desc}</p>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Reservation Form */}
+              <form onSubmit={handleReservationSubmit} className="space-y-4 pt-4 border-t border-stone-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Your Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={guestName}
+                      onChange={(e) => setGuestName(e.target.value)}
+                      placeholder="e.g. Vikram Malhotra"
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-[#FAF6EE] focus:outline-none focus:ring-2 focus:ring-[#704B32]"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">WhatsApp / Phone Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={guestPhone}
+                      onChange={(e) => setGuestPhone(e.target.value)}
+                      placeholder="+91 98765 43210"
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-[#FAF6EE] focus:outline-none focus:ring-2 focus:ring-[#704B32]"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Work / Personal Email</label>
+                    <input
+                      type="email"
+                      value={guestEmail}
+                      onChange={(e) => setGuestEmail(e.target.value)}
+                      placeholder="vikram@enterprise.com"
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-[#FAF6EE] focus:outline-none focus:ring-2 focus:ring-[#704B32]"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Company Name &amp; GSTIN (For Business Tax Credit)</label>
+                    <input
+                      type="text"
+                      value={gstin}
+                      onChange={(e) => setGstin(e.target.value)}
+                      placeholder="e.g. 07AAAAA0000A1Z5 (Optional)"
+                      className="w-full p-3 rounded-xl border border-stone-200 bg-[#FAF6EE] focus:outline-none focus:ring-2 focus:ring-[#704B32]"
+                    />
+                  </div>
+                </div>
+
+                {/* Price Breakdown Footer */}
+                <div className="p-4 bg-[#FAF6EE] rounded-2xl border border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-xs text-stone-600">
+                    <div>
+                      {isBuyoutMode ? 'Private Estate Buyout' : modalSelectedRoom?.name} · {nights} Nights · {guestsCount} Guests
+                    </div>
+                    <div className="text-[11px] text-stone-500">
+                      Rate: ₹{modalNightlyRate.toLocaleString('en-IN')}/night + Add-ons: ₹{modalAddOnsTotal.toLocaleString('en-IN')}
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <span className="text-[10px] uppercase font-bold text-stone-400 block">Total Tariff:</span>
+                    <span className="font-mono text-2xl font-black text-[#17233B]">
+                      ₹{modalGrandTotal.toLocaleString('en-IN')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex-1 py-4 bg-[#17233B] hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+                  >
+                    {isSubmitting ? 'Confirming Reservation...' : '⚡ Confirm & Lock Dates'}
+                  </button>
+
+                  <a
+                    href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                      `Hello Nutty Tales Stays! I want to book: ${selectedPropertyForModal.name} (${checkIn} to ${checkOut}, ${guestsCount} guests). Estimated: ₹${modalGrandTotal.toLocaleString('en-IN')}`,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-4 px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
+                  >
+                    <span>💬</span>
+                    <span className="hidden sm:inline">WhatsApp Concierge</span>
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

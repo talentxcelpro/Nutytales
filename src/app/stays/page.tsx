@@ -4,105 +4,143 @@ import LiveStaysDiscovery from '@/components/stays/LiveStaysDiscovery'
 import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export const metadata: Metadata = {
-  title: 'Nuty Tales Stays & Travel | Srinagar, Noida & Patna Properties',
+  metadataBase: new URL('https://stays.nutytales.com'),
+  title: 'Nutty Tales Stays — Global Boutique Estates, Orchards & Airbnb for Work',
   description:
-    'Taste. Stay. Explore. Experience authentic boutique hospitality at Nuty Tales properties in Srinagar (Kashmir), Noida (Delhi NCR), and Patna (Bihar). Live seasonal pricing, orchard suites, and direct concierge reservations.',
+    'Global boutique hospitality and estate marketplace. Discover private walnut orchards, alpine ski chalets, luxury cedar houseboats, and Airbnb for Work verified corporate residences across Kashmir, Dubai, London, and Goa.',
   keywords: [
-    'Nuty Tales stays',
-    'kashmir orchard stay srinagar',
-    'noida corporate stay',
-    'patna heritage stay',
-    'kashmir dry fruit tour',
-    'taste stay explore',
+    'Airbnb for Work India',
+    'luxury stays Kashmir',
+    'private villa Srinagar',
+    'walnut orchard retreat Harwan',
+    'Gulmarg ski chalet',
+    'luxury houseboat Dal Lake',
+    'corporate offsite estate buyout',
+    'boutique stays London Dubai',
+    'Nutty Tales Stays',
   ],
+  alternates: {
+    canonical: 'https://stays.nutytales.com',
+  },
   openGraph: {
-    title: 'Nuty Tales Stays | Taste. Stay. Explore.',
+    title: 'Nutty Tales Stays — Global Boutique Estates & Airbnb for Work',
     description:
-      'Curated stays in Srinagar, Noida, and Patna. Unmatched comfort, local experiences, and farm-fresh dry fruit heritage.',
-    images: ['/images/crafts-kashmir-landscape.jpg'],
+      'Private walnut estates, alpine heated chalets, and Airbnb for Work corporate housing with dedicated chefs and high-speed fiber.',
+    url: 'https://stays.nutytales.com',
+    siteName: 'Nutty Tales Stays',
+    locale: 'en_IN',
+    type: 'website',
   },
 }
 
 export default function StaysPage() {
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B]">
-      {/* ── 1. Hero Banner ──────────────────────────────────────────────────────── */}
-      <section className="relative bg-gradient-to-r from-[#17233B] via-[#176B68] to-[#214B39] text-white pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden border-b border-[#C9A45C]/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#C9A45C] text-xs font-semibold tracking-wide border border-white/20">
-              <span>🏔️ BOUTIQUE HOSPITALITY &amp; ORCHARD RETREATS</span>
+      {/* ── 1. Global Hospitality Hero Banner ─────────────────────────────────── */}
+      <section className="relative bg-gradient-to-r from-[#17233B] via-[#1E3048] to-[#122336] text-white pt-16 pb-14 md:pt-24 md:pb-20 overflow-hidden border-b border-[#C9A45C]/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+          <div className="max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#C9A45C] text-xs font-bold uppercase tracking-widest border border-white/15">
+              <span>🏡</span> NUTTY TALES STAYS · GLOBAL HOSPITALITY &amp; AIRBNB BUSINESS
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-              Taste. Stay. Explore.
-              <span className="block text-[#C9A45C] font-serif italic text-2xl sm:text-3xl md:text-4xl mt-1">
-                Hospitality Grounded in Authenticity
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+              Stay in Extraordinary Places.
+              <span className="block text-[#C9A45C] font-serif italic text-2xl sm:text-4xl lg:text-5xl font-normal mt-1">
+                From High-Altitude Orchards to Global Business Suites
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-stone-200 max-w-2xl leading-relaxed font-light">
-              Nuty Tales is more than a purveyor of fine dry fruits — it is a gateway to the lands from which they emerge. Stay at our private properties in Srinagar, Noida, and Patna, where gracious warmth meets unforgettable regional experiences.
+            <p className="text-sm sm:text-base text-stone-200 max-w-2xl leading-relaxed font-light">
+              Discover private walnut estates, alpine heated ski chalets, serene cedar houseboats, and Airbnb for Work verified corporate residences. Reserve individual suites or book entire private estates with dedicated chefs and 4x4 convoys.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
+            {/* Quick Action Buttons */}
+            <div className="flex flex-wrap gap-3 pt-2 text-xs">
               <Link
                 href="/stays/group-quote"
-                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
+                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl uppercase tracking-wider shadow-lg transition-all"
               >
                 🏰 Private Estate Buyout Desk →
               </Link>
               <a
-                href="#booking-engine"
-                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-xs uppercase tracking-wider border border-white/20 transition-all"
+                href="#marketplace-grid"
+                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl uppercase tracking-wider border border-white/20 transition-all"
               >
-                Browse Suites &amp; Houseboats ↓
+                Explore Global Stays ↓
               </a>
               <Link
                 href="/stays/hosts"
-                className="px-6 py-3.5 bg-stone-900/60 hover:bg-stone-900 text-stone-200 font-semibold rounded-xl text-xs uppercase tracking-wider border border-white/10 transition-all"
+                className="px-6 py-3.5 bg-stone-900/70 hover:bg-stone-900 text-stone-200 font-semibold rounded-xl uppercase tracking-wider border border-white/10 transition-all flex items-center gap-1.5"
               >
-                List Property as Host
+                <span>🚀</span>
+                <span>Airbnb Your Estate (0% Fee)</span>
               </Link>
+            </div>
+          </div>
+
+          {/* Value Badges Strip */}
+          <div className="pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-stone-300">
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-400 font-bold">✓</span>
+              <span>100% Inspected &amp; Superhost Vetted</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-400 font-bold">✓</span>
+              <span>Airbnb for Work (200+ Mbps Fiber)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-400 font-bold">✓</span>
+              <span>In-House Master Wazwan Chefs</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-400 font-bold">✓</span>
+              <span>Full Private Buyouts (10-20 Pax)</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. Live Dynamic Stays Discovery Engine ───────────────────────────────── */}
-      <section id="booking-engine" className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      {/* ── 2. The Core Global Marketplace (Airbnb UI + Search + Grid + Host Calc) ── */}
+      <section id="marketplace-grid" className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <LiveStaysDiscovery />
 
         <SourcingRequestBanner
           vertical="stays"
-          contextText="Planning a private orchard buyout, corporate offsite, VIP high-level delegation, or bespoke Kashmir valley retreat?"
+          contextText="Planning a private 4-acre walnut orchard buyout, team executive offsite, VIP high-level delegation, or destination wedding estate takeover?"
         />
       </section>
 
-      {/* ── 3. The Ecosystem Loop: Taste & Stay ──────────────────────────────────── */}
+      {/* ── 3. The Unfair Ecosystem Advantage: Taste, Stay & Explore ──────────── */}
       <section className="py-16 bg-[#F0EBE1] border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-[#704B32]">
-            The Connected Nuty Tales Journey
+            The Connected Nutty Tales Group Advantage
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold font-serif text-[#17233B]">
-            From Orchard Stay to Your Daily Pantry
+            More Than Keys in a Lockbox: End-to-End Hospitality
           </h2>
           <p className="text-stone-600 text-sm max-w-2xl mx-auto leading-relaxed">
-            During your stay in Kashmir, walk the very orchards where our premium walnuts and almonds are nurtured. Taste the fresh harvest over warm saffron kahwa, take home handcrafted gift hampers, and reorder effortlessly online once you return home.
+            Conventional rentals leave you with keys and an empty kitchen. Nutty Tales Stays coordinates fresh harvest walnut breakfasts, in-house royal Wazwan chefs, heated 4x4 airport transit from Nutty Tales Travel, and custom celebration welcome hampers from Nutty Tales Gifting.
           </p>
-          <div className="pt-2 flex flex-wrap justify-center gap-4">
+          <div className="pt-2 flex flex-wrap justify-center gap-4 text-xs font-bold uppercase tracking-wider">
             <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold rounded-xl tracking-wider uppercase transition-colors shadow-md"
+              href="/stays/group-quote"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl transition-colors shadow-md"
             >
-              Explore Dry Fruits Collection →
+              Request Group Quote →
             </Link>
             <Link
-              href="/crafts"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-stone-50 border border-stone-300 text-[#17233B] text-xs font-bold rounded-xl tracking-wider uppercase transition-colors"
+              href="/travel/builder"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl transition-colors shadow-sm"
             >
-              Discover Kashmir Crafts (Try with SI) →
+              Build Complete Trip with SI →
+            </Link>
+            <Link
+              href="/stays/hosts"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-stone-50 border border-stone-300 text-[#17233B] rounded-xl transition-colors"
+            >
+              List Property as Host →
             </Link>
           </div>
         </div>
