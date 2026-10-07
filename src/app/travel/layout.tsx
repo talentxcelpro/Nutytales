@@ -12,6 +12,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://travel.nutytales.com',
   },
+  icons: {
+    icon: [
+      { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
+      { url: 'https://nutytales.com/favicon.png', type: 'image/png', sizes: '192x192' },
+    ],
+    apple: [
+      { url: 'https://nutytales.com/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   keywords: [
     'custom Kashmir travel packages',
     'luxury Kashmir tour',

@@ -232,11 +232,15 @@ export function buildRootCoreSitemap(): MetadataRoute.Sitemap {
     entry('/makhana/plain',              0.70, 'weekly'),
     entry('/makhana/flavoured',          0.70, 'weekly'),
 
-    // Tier 4 — Informational
+    // Tier 4 — Informational & Legal Trust
     entry('/about',                      0.60, 'monthly'),
     entry('/contact',                    0.65, 'monthly'),
     entry('/blog',                       0.75, 'daily'),
     entry('/founders',                   0.60, 'monthly'),
+    entry('/privacy',                    0.50, 'monthly'),
+    entry('/terms',                      0.50, 'monthly'),
+    entry('/shipping',                   0.70, 'weekly'),
+    entry('/sitemap',                    0.65, 'weekly'),
   ];
 }
 

@@ -161,7 +161,7 @@ export default function Footer() {
             <Link href="/shipping" className="hover:text-white transition-colors">
               Insured Shipping
             </Link>
-            <Link href="/sitemap.xml" className="hover:text-white transition-colors">
+            <Link href="/sitemap" className="hover:text-white transition-colors">
               Sitemap
             </Link>
           </div>
