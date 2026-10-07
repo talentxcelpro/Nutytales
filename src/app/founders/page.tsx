@@ -76,7 +76,7 @@ export default function FoundersPage() {
     setIsSubmitting(true)
 
     try {
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -89,11 +89,16 @@ export default function FoundersPage() {
           source: 'founder-program-application',
         }),
       })
+      const data = await res.json()
+      if (res.ok && data.success && data.result?.success !== false) {
+        setIsSubmitted(true)
+      } else {
+        alert(data.error || data.result?.error || 'Unable to submit application. Please contact via WhatsApp.')
+      }
     } catch {
-      // ignore
+      alert('Network error. Please contact via WhatsApp directly.')
     } finally {
       setIsSubmitting(false)
-      setIsSubmitted(true)
     }
   }
 

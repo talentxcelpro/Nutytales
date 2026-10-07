@@ -14,6 +14,17 @@ export async function POST(request: Request) {
 
     const result = await insertLead(body)
 
+    if (!result.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: result.error || 'Failed to record lead in database.',
+          result,
+        },
+        { status: 400 }
+      )
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Lead received successfully.',

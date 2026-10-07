@@ -52,6 +52,7 @@ export default function BusinessSupplyPage() {
   const [rfqNote, setRfqNote] = useState('')
   const [isSubmittingRfq, setIsSubmittingRfq] = useState(false)
   const [rfqSubmitted, setRfqSubmitted] = useState(false)
+  const [rfqError, setRfqError] = useState<string | null>(null)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
@@ -78,9 +79,10 @@ export default function BusinessSupplyPage() {
   const handleRfqSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmittingRfq(true)
+    setRfqError(null)
 
     try {
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -93,11 +95,17 @@ export default function BusinessSupplyPage() {
           source: 'business-supply-marketplace',
         }),
       })
+
+      const data = await res.json()
+      if (res.ok && data.success && data.result?.success !== false) {
+        setRfqSubmitted(true)
+      } else {
+        setRfqError(data.error || data.result?.error || 'Unable to record RFQ. Please contact via WhatsApp.')
+      }
     } catch {
-      // ignore
+      setRfqError('Network error. Please contact via WhatsApp directly.')
     } finally {
       setIsSubmittingRfq(false)
-      setRfqSubmitted(true)
     }
   }
 
@@ -754,6 +762,19 @@ export default function BusinessSupplyPage() {
                 <span>→</span>
               </a>
             </div>
+
+            {rfqError && (
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-center justify-between">
+                <span>⚠️ {rfqError}</span>
+                <button
+                  type="button"
+                  onClick={() => setRfqError(null)}
+                  className="text-red-900 font-bold hover:underline"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
 
             {rfqSubmitted && (
               <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
