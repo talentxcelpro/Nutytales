@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
@@ -360,43 +360,43 @@ export default function ShopCatalogClient({
           </div>
         )}
 
-        {/* ── 6. Main Catalog (Sidebar Filters + Products Grid) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-          {/* Left Faceted Filters (Desktop) */}
-          <aside className="hidden lg:block space-y-8">
-            <div className="bg-white rounded-2xl border border-[#EAE3D5] p-6 space-y-6 sticky top-28">
-              <div className="flex items-center justify-between border-b border-[#F0EBE1] pb-3">
-                <h3 className="font-serif font-semibold text-sm tracking-wide uppercase text-[#17233B]">
+        {/* ── 6. Main Catalog (Slim Sidebar Filters + Expanded Products Grid) ── */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+          {/* Left Faceted Filters (Desktop Slim Sidebar) */}
+          <aside className="hidden lg:block w-52 xl:w-56 flex-shrink-0">
+            <div className="bg-white rounded-2xl border border-[#EAE3D5] p-3.5 space-y-3.5 sticky top-24 shadow-2xs">
+              <div className="flex items-center justify-between border-b border-[#F0EBE1] pb-2">
+                <h3 className="font-serif font-semibold text-xs tracking-wider uppercase text-[#17233B]">
                   Filter By
                 </h3>
                 {activeFiltersCount > 0 && (
                   <button
                     type="button"
                     onClick={resetAllFilters}
-                    className="text-xs text-[#B8934A] hover:underline font-medium"
+                    className="text-[11px] text-[#B8934A] hover:underline font-medium"
                   >
-                    Reset
+                    Reset ({activeFiltersCount})
                   </button>
                 )}
               </div>
 
               {/* Price Range */}
-              <div className="space-y-2.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8C7E70] block">
+              <div className="space-y-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7E70] block">
                   Price
                 </span>
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {PRICE_TIERS.map((tier, idx) => (
                     <label
                       key={tier.label}
-                      className="flex items-center gap-2.5 text-xs text-[#5C4F41] cursor-pointer hover:text-[#17233B] transition-colors"
+                      className="flex items-center gap-2 text-[11px] text-[#5C4F41] cursor-pointer hover:text-[#17233B] transition-colors py-0.5"
                     >
                       <input
                         type="radio"
                         name="price-tier"
                         checked={selectedPriceTier === idx}
                         onChange={() => setSelectedPriceTier(idx)}
-                        className="text-[#17233B] focus:ring-[#17233B] accent-[#17233B]"
+                        className="text-[#17233B] focus:ring-[#17233B] accent-[#17233B] w-3 h-3"
                       />
                       <span>{tier.label}</span>
                     </label>
@@ -405,22 +405,22 @@ export default function ShopCatalogClient({
               </div>
 
               {/* Origin */}
-              <div className="space-y-2.5 border-t border-[#F0EBE1] pt-5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8C7E70] block">
-                  Harvest Origin
+              <div className="space-y-1.5 border-t border-[#F0EBE1] pt-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7E70] block">
+                  Origin
                 </span>
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {ORIGINS.map((orig) => (
                     <label
                       key={orig}
-                      className="flex items-center gap-2.5 text-xs text-[#5C4F41] cursor-pointer hover:text-[#17233B] transition-colors"
+                      className="flex items-center gap-2 text-[11px] text-[#5C4F41] cursor-pointer hover:text-[#17233B] transition-colors py-0.5"
                     >
                       <input
                         type="radio"
                         name="origin-tier"
                         checked={selectedOrigin === orig}
                         onChange={() => setSelectedOrigin(orig)}
-                        className="text-[#17233B] focus:ring-[#17233B] accent-[#17233B]"
+                        className="text-[#17233B] focus:ring-[#17233B] accent-[#17233B] w-3 h-3"
                       />
                       <span>{orig}</span>
                     </label>
@@ -429,38 +429,38 @@ export default function ShopCatalogClient({
               </div>
 
               {/* Quality Grade */}
-              <div className="space-y-2.5 border-t border-[#F0EBE1] pt-5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8C7E70] block">
-                  Selection Grade
+              <div className="space-y-1.5 border-t border-[#F0EBE1] pt-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7E70] block">
+                  Grade
                 </span>
-                <div className="space-y-1.5">
-                  <label className="flex items-center gap-2.5 text-xs text-[#5C4F41] cursor-pointer hover:text-[#17233B]">
+                <div className="space-y-1">
+                  <label className="flex items-center gap-2 text-[11px] text-[#5C4F41] cursor-pointer hover:text-[#17233B] py-0.5">
                     <input
                       type="radio"
                       name="grade-tier"
                       checked={selectedGrade === 'all'}
                       onChange={() => setSelectedGrade('all')}
-                      className="accent-[#17233B]"
+                      className="accent-[#17233B] w-3 h-3"
                     />
                     <span>All Grades</span>
                   </label>
-                  <label className="flex items-center gap-2.5 text-xs text-[#5C4F41] cursor-pointer hover:text-[#17233B]">
+                  <label className="flex items-center gap-2 text-[11px] text-[#5C4F41] cursor-pointer hover:text-[#17233B] py-0.5">
                     <input
                       type="radio"
                       name="grade-tier"
                       checked={selectedGrade === 'grade-a-plus'}
                       onChange={() => setSelectedGrade('grade-a-plus')}
-                      className="accent-[#17233B]"
+                      className="accent-[#17233B] w-3 h-3"
                     />
                     <span>Grade A+ (Reserve)</span>
                   </label>
-                  <label className="flex items-center gap-2.5 text-xs text-[#5C4F41] cursor-pointer hover:text-[#17233B]">
+                  <label className="flex items-center gap-2 text-[11px] text-[#5C4F41] cursor-pointer hover:text-[#17233B] py-0.5">
                     <input
                       type="radio"
                       name="grade-tier"
                       checked={selectedGrade === 'grade-a'}
                       onChange={() => setSelectedGrade('grade-a')}
-                      className="accent-[#17233B]"
+                      className="accent-[#17233B] w-3 h-3"
                     />
                     <span>Grade A (Export)</span>
                   </label>
@@ -468,38 +468,35 @@ export default function ShopCatalogClient({
               </div>
 
               {/* In-Stock */}
-              <div className="border-t border-[#F0EBE1] pt-5">
-                <label className="flex items-center gap-2.5 text-xs font-medium text-[#5C4F41] cursor-pointer hover:text-[#17233B]">
+              <div className="border-t border-[#F0EBE1] pt-2.5">
+                <label className="flex items-center gap-2 text-[11px] font-medium text-[#5C4F41] cursor-pointer hover:text-[#17233B]">
                   <input
                     type="checkbox"
                     checked={inStockOnly}
                     onChange={(e) => setInStockOnly(e.target.checked)}
-                    className="rounded accent-[#17233B]"
+                    className="rounded accent-[#17233B] w-3.5 h-3.5"
                   />
                   <span>In Stock Only</span>
                 </label>
               </div>
 
-              {/* Wholesale Prompt */}
-              <div className="bg-[#FAF5ED] p-4 rounded-xl border border-[#EAE3D5] text-center space-y-1.5">
-                <p className="text-xs font-semibold text-[#17233B]">
-                  Wholesale &amp; Bulk Orders
-                </p>
-                <p className="text-[11px] text-[#7A6D5E] leading-relaxed">
-                  Looking for institutional sacks (5kg to 50kg+)?
+              {/* Wholesale Prompt (Compact) */}
+              <div className="bg-[#FAF5ED] p-2.5 rounded-xl border border-[#EAE3D5] text-center space-y-1">
+                <p className="text-[10px] font-semibold text-[#17233B]">
+                  Wholesale Sacks (5kg+)?
                 </p>
                 <Link
                   href="/business-supply"
-                  className="inline-block mt-1 text-xs font-bold text-[#176B68] hover:underline"
+                  className="inline-block text-[10px] font-bold text-[#176B68] hover:underline"
                 >
-                  Visit Business Supply →
+                  Business Supply →
                 </Link>
               </div>
             </div>
           </aside>
 
-          {/* Right: Products Grid */}
-          <div className="lg:col-span-3">
+          {/* Right: Products Grid (Expanded) */}
+          <div className="flex-1 min-w-0">
             {sortedProducts.length === 0 ? (
               <div className="bg-white rounded-3xl border border-[#EAE3D5] p-16 text-center space-y-4">
                 <span className="text-4xl text-[#B8934A]">✦</span>
@@ -597,36 +594,36 @@ export default function ShopCatalogClient({
             onClick={() => setIsMobileFilterOpen(false)}
           >
             <div
-              className="bg-white w-full max-w-xs h-full p-6 overflow-y-auto space-y-6 flex flex-col justify-between"
+              className="bg-white w-full max-w-xs h-full p-4 overflow-y-auto space-y-4 flex flex-col justify-between"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#EAE3D5] pb-3">
-                  <h3 className="font-serif font-semibold text-base text-[#17233B]">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-[#EAE3D5] pb-2.5">
+                  <h3 className="font-serif font-semibold text-sm text-[#17233B]">
                     Filters
                   </h3>
                   <button
                     type="button"
                     onClick={() => setIsMobileFilterOpen(false)}
-                    className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center font-bold text-sm"
+                    className="w-7 h-7 rounded-full bg-stone-100 flex items-center justify-center font-bold text-xs"
                   >
                     ✕
                   </button>
                 </div>
 
                 {/* Price */}
-                <div className="space-y-2">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8C7E70] block">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7E70] block">
                     Price:
                   </span>
                   {PRICE_TIERS.map((tier, idx) => (
-                    <label key={tier.label} className="flex items-center gap-2.5 text-xs text-[#5C4F41]">
+                    <label key={tier.label} className="flex items-center gap-2 text-[11px] text-[#5C4F41] py-0.5">
                       <input
                         type="radio"
                         name="mob-price"
                         checked={selectedPriceTier === idx}
                         onChange={() => setSelectedPriceTier(idx)}
-                        className="accent-[#17233B]"
+                        className="accent-[#17233B] w-3 h-3"
                       />
                       <span>{tier.label}</span>
                     </label>
@@ -634,18 +631,18 @@ export default function ShopCatalogClient({
                 </div>
 
                 {/* Origin */}
-                <div className="space-y-2 border-t border-[#EAE3D5] pt-4">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#8C7E70] block">
+                <div className="space-y-1.5 border-t border-[#EAE3D5] pt-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C7E70] block">
                     Origin:
                   </span>
                   {ORIGINS.map((orig) => (
-                    <label key={orig} className="flex items-center gap-2.5 text-xs text-[#5C4F41]">
+                    <label key={orig} className="flex items-center gap-2 text-[11px] text-[#5C4F41] py-0.5">
                       <input
                         type="radio"
                         name="mob-origin"
                         checked={selectedOrigin === orig}
                         onChange={() => setSelectedOrigin(orig)}
-                        className="accent-[#17233B]"
+                        className="accent-[#17233B] w-3 h-3"
                       />
                       <span>{orig}</span>
                     </label>
@@ -653,13 +650,13 @@ export default function ShopCatalogClient({
                 </div>
 
                 {/* Stock */}
-                <div className="border-t border-[#EAE3D5] pt-4">
-                  <label className="flex items-center gap-2.5 text-xs font-medium text-[#5C4F41]">
+                <div className="border-t border-[#EAE3D5] pt-3">
+                  <label className="flex items-center gap-2 text-[11px] font-medium text-[#5C4F41]">
                     <input
                       type="checkbox"
                       checked={inStockOnly}
                       onChange={(e) => setInStockOnly(e.target.checked)}
-                      className="accent-[#17233B]"
+                      className="accent-[#17233B] w-3.5 h-3.5"
                     />
                     <span>In Stock Only</span>
                   </label>
