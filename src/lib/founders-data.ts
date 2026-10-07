@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales Founder Program — Supply Chain & Growth Infrastructure ─────────
+// ─── Nuty Tales Founder Program — Supply Chain & Growth Infrastructure ─────────
 // "We help founders build. Source better. Launch faster. Grow smarter."
 // Providing real commercial infrastructure: Sourcing, Private Label, Travel Inventory, Fashion, Packaging & Multi-Hub Fulfilment
 
@@ -75,7 +75,7 @@ export const FOUNDER_SECTORS: FounderSector[] = [
     id: 'sec-hospitality',
     name: 'Boutique Hospitality & Stays',
     icon: '🏡',
-    tagline: 'Homestays · boutique resorts · luxury vacation rentals · Airbnb hosts',
+    tagline: 'Boutique resorts · luxury estate villas · heritage retreats · private suites',
     idealFor: ['Heritage homestay owners', 'Hill-station villa hosts', 'Corporate guest-houses', 'Boutique hotel chains'],
     whatWeProvide: [
       'In-room minibar dry fruit amenity jars (Almonds, Cashews, Trail mix)',

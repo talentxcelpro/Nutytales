@@ -14,9 +14,10 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export default function LiveStaysDiscovery() {
   // ── 1. Search Bar Parameters ────────────────────────────────────────────────
+  const [selectedHubZone, setSelectedHubZone] = useState<'All' | 'Kashmir' | 'Delhi-NCR' | 'Patna' | 'Global'>('All')
   const [destinationQuery, setDestinationQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<StayCategory>('all')
-  const [isWorkTripOnly, setIsWorkTripOnly] = useState(false)
+  const [isCorporateWorkOnly, setIsCorporateWorkOnly] = useState(false)
   
   const todayStr = new Date().toISOString().split('T')[0]
   const defaultCheckOutStr = new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0]
@@ -30,17 +31,18 @@ export default function LiveStaysDiscovery() {
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([])
   const [isBuyoutMode, setIsBuyoutMode] = useState(false)
 
-  // ── 3. Guest Contact & Booking Submission ───────────────────────────────────
+  // ── 3. Guest Contact & Immediate Revenue Booking ────────────────────────────
   const [guestName, setGuestName] = useState('')
   const [guestPhone, setGuestPhone] = useState('')
   const [guestEmail, setGuestEmail] = useState('')
   const [companyName, setCompanyName] = useState('')
   const [gstin, setGstin] = useState('')
   const [specialRequests, setSpecialRequests] = useState('')
+  const [paymentMode, setPaymentMode] = useState<'advance-token' | 'full-prepay' | 'corporate-po'>('advance-token')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [bookingConfirmationRef, setBookingConfirmationRef] = useState<string | null>(null)
 
-  // ── 4. Host Earnings Calculator State ───────────────────────────────────────
+  // ── 4. Host Asset Management Calculator State ───────────────────────────────
   const [hostPropertyType, setHostPropertyType] = useState<'orchard' | 'chalet' | 'houseboat' | 'executive'>('orchard')
   const [hostBedrooms, setHostBedrooms] = useState<number>(4)
 
@@ -53,7 +55,7 @@ export default function LiveStaysDiscovery() {
         : hostPropertyType === 'houseboat'
         ? 8500
         : 7500
-    // Assuming 65% average occupancy
+    // Assuming 65% average occupancy in the curated collection
     return Math.round(baseDailyRate * (hostBedrooms / 2) * 30 * 0.65)
   }, [hostPropertyType, hostBedrooms])
 
@@ -70,7 +72,12 @@ export default function LiveStaysDiscovery() {
   // ── Filtered Properties Set ─────────────────────────────────────────────────
   const filteredProperties = useMemo(() => {
     return STAY_PROPERTIES.filter((prop) => {
-      // Destination search
+      // Hub zone filter (Kashmir, Delhi-NCR, Patna, Global)
+      if (selectedHubZone !== 'All' && prop.hubZone !== selectedHubZone) {
+        return false
+      }
+
+      // Text query
       if (destinationQuery.trim()) {
         const q = destinationQuery.toLowerCase()
         const matchesLocation =
@@ -90,8 +97,8 @@ export default function LiveStaysDiscovery() {
         if (!matchesCategory) return false
       }
 
-      // Work trips only
-      if (isWorkTripOnly && !prop.workFriendly) {
+      // Corporate work stays only
+      if (isCorporateWorkOnly && !prop.workFriendly) {
         return false
       }
 
@@ -102,7 +109,7 @@ export default function LiveStaysDiscovery() {
 
       return true
     })
-  }, [destinationQuery, selectedCategory, isWorkTripOnly, guestsCount])
+  }, [selectedHubZone, destinationQuery, selectedCategory, isCorporateWorkOnly, guestsCount])
 
   // ── Open Property Modal ─────────────────────────────────────────────────────
   const handleOpenProperty = (property: StayProperty, buyout = false) => {
@@ -139,6 +146,8 @@ export default function LiveStaysDiscovery() {
   }, [selectedPropertyForModal, selectedAddOns, guestsCount])
 
   const modalGrandTotal = modalBaseTotal + modalAddOnsTotal
+  // Immediate Cash Inflow Token (20% Advance Guarantee or ₹15,000 minimum)
+  const immediateTokenDeposit = isBuyoutMode ? 25000 : Math.round(Math.max(5000, modalGrandTotal * 0.2))
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns((prev) =>
@@ -146,7 +155,7 @@ export default function LiveStaysDiscovery() {
     )
   }
 
-  // ── Handle Reservation Submission ───────────────────────────────────────────
+  // ── Handle Reservation Submission & Immediate Payment Trigger ──────────────
   const handleReservationSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedPropertyForModal) return
@@ -167,17 +176,19 @@ export default function LiveStaysDiscovery() {
           type: 'booking_inquiry',
           vertical: 'stays',
           customerName: guestName,
-          companyName: companyName || `${guestName} Travel Group`,
+          companyName: companyName || `${guestName} Executive Group`,
           customerPhone: guestPhone,
           customerEmail: guestEmail,
           deliveryCity: `${selectedPropertyForModal.city}, ${selectedPropertyForModal.state}`,
           targetBudget: modalGrandTotal,
           currency: 'INR',
-          notes: `[REF: ${refCode}] Property: ${selectedPropertyForModal.name} | Mode: ${
+          notes: `[REF: ${refCode}] Property: ${selectedPropertyForModal.name} | Hub: ${selectedPropertyForModal.hubZone} | Mode: ${
             isBuyoutMode ? 'Full Estate Buyout' : modalSelectedRoom?.name
           } | Dates: ${checkIn} to ${checkOut} (${nights} nights) | Guests: ${guestsCount} | GSTIN: ${
             gstin || 'None'
-          } | Add-ons: ${addOnTitles || 'None'} | Notes: ${specialRequests}`,
+          } | Payment Mode: ${paymentMode} | Deposit Due: ₹${immediateTokenDeposit.toLocaleString(
+            'en-IN'
+          )} | Add-ons: ${addOnTitles || 'None'} | Notes: ${specialRequests}`,
         }),
       })
       setBookingConfirmationRef(refCode)
@@ -192,19 +203,54 @@ export default function LiveStaysDiscovery() {
 
   return (
     <div className="space-y-12">
-      {/* ── 1. The Iconic Airbnb Floating Global Search Bar ────────────────────── */}
+      {/* ── 1. The Three Primary Strategic Hubs Switcher ──────────────────────── */}
+      <div className="bg-[#17233B] text-white p-4 rounded-3xl border border-[#C9A45C]/30 shadow-md">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C9A45C] animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
+              Strategic Operating Corridors:
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-2 text-xs">
+            {[
+              { id: 'All', label: 'All Locations' },
+              { id: 'Kashmir', label: '🏔️ Kashmir (Harwan · Gulmarg · Pahalgam)' },
+              { id: 'Delhi-NCR', label: '🏢 Delhi / NCR (Noida Sector 62/63 Executive)' },
+              { id: 'Patna', label: '🏛️ Patna (Mithila Riverfront Courtyard)' },
+              { id: 'Global', label: '🌍 Global (Dubai DIFC · London Kensington)' },
+            ].map((hub) => (
+              <button
+                key={hub.id}
+                type="button"
+                onClick={() => setSelectedHubZone(hub.id as any)}
+                className={`px-3.5 py-1.5 rounded-full font-bold transition-all border ${
+                  selectedHubZone === hub.id
+                    ? 'bg-[#C9A45C] text-[#17233B] border-[#C9A45C] shadow-sm'
+                    : 'bg-white/10 text-stone-200 border-white/10 hover:bg-white/20'
+                }`}
+              >
+                {hub.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── 2. The Global Private Residences Floating Search Bar ──────────────── */}
       <div className="bg-white rounded-3xl p-3 sm:p-4 shadow-xl border border-stone-200 text-[#17233B]">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
           {/* Where: Destination */}
           <div className="md:col-span-4 p-2.5 sm:p-3 rounded-2xl bg-[#FAF6EE] hover:bg-stone-100 transition-colors border border-stone-200">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
-              Where
+              Destination / Estate
             </label>
             <input
               type="text"
               value={destinationQuery}
               onChange={(e) => setDestinationQuery(e.target.value)}
-              placeholder="Search Kashmir, Gulmarg, Dubai, London..."
+              placeholder="Srinagar, Gulmarg, Noida NCR, Patna, Dubai..."
               className="w-full bg-transparent text-xs sm:text-sm font-semibold text-[#17233B] focus:outline-none placeholder-stone-400"
             />
           </div>
@@ -238,7 +284,7 @@ export default function LiveStaysDiscovery() {
           {/* Who: Guests */}
           <div className="md:col-span-2 p-2.5 sm:p-3 rounded-2xl bg-[#FAF6EE] border border-stone-200">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500">
-              Who
+              Guests
             </label>
             <select
               value={guestsCount}
@@ -253,19 +299,19 @@ export default function LiveStaysDiscovery() {
             </select>
           </div>
 
-          {/* Search Action & Airbnb for Work Toggle */}
+          {/* Search Action & Corporate Work Mode Toggle */}
           <div className="md:col-span-3 flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setIsWorkTripOnly(!isWorkTripOnly)}
+              onClick={() => setIsCorporateWorkOnly(!isCorporateWorkOnly)}
               className={`flex-1 py-3 px-3 rounded-2xl text-xs font-bold transition-all border flex items-center justify-center gap-1.5 ${
-                isWorkTripOnly
+                isCorporateWorkOnly
                   ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B] shadow-sm'
                   : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
               }`}
             >
               <span>💼</span>
-              <span>{isWorkTripOnly ? 'Work Verified' : 'For Work'}</span>
+              <span>{isCorporateWorkOnly ? 'Corporate Living' : 'For Business'}</span>
             </button>
 
             <button
@@ -279,7 +325,7 @@ export default function LiveStaysDiscovery() {
         </div>
       </div>
 
-      {/* ── 2. The Iconic Airbnb Horizontal Category Carousel ─────────────────── */}
+      {/* ── 3. Horizontal Category Navigation Carousel ───────────────────────── */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-stone-200">
         {STAY_CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat.id
@@ -301,17 +347,17 @@ export default function LiveStaysDiscovery() {
         })}
       </div>
 
-      {/* ── 3. Airbnb for Work / Corporate Offsites Banner ─────────────────────── */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#17233B] via-[#1E3048] to-[#10192A] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-[#C9A45C]/30">
+      {/* ── 4. Corporate Living & Executive Suites Banner ─────────────────────── */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#17233B] via-[#1E3048] to-[#10192A] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-[#C9A45C]/30">
         <div className="space-y-1.5 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] font-bold text-[10px] uppercase tracking-wider">
-            <span>💼</span> NUTTY TALES STAYS FOR BUSINESS
+            <span>💼</span> NUTTY TALES EXECUTIVE CORPORATE LIVING
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold">
-            Corporate Housing, Team Retreats &amp; Executive Offsites
+            Executive Residences &amp; High-Yield Team Offsites
           </h3>
-          <p className="text-xs text-stone-300 max-w-2xl font-light">
-            Verified 200+ Mbps fiber Wi-Fi, board meeting tables, in-house master chefs, private 4x4 airport transit, and official 18% GST / VAT tax invoices for enterprise expense approval.
+          <p className="text-xs text-stone-300 max-w-2xl font-light leading-relaxed">
+            Anchored in <strong>Delhi / NCR (Noida Sector 62/63)</strong>, <strong>Kashmir (Harwan &amp; Gulmarg)</strong>, and <strong>Patna</strong>. Redundant 200–500 Mbps commercial fiber, dedicated board meeting tables, in-house master chefs, private 4x4 airport transit, and official 18% GST invoicing.
           </p>
         </div>
 
@@ -320,36 +366,37 @@ export default function LiveStaysDiscovery() {
             href="/stays/group-quote"
             className="px-5 py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
           >
-            Request Team Buyout Quote
+            Request Offsite Buyout Quote
           </Link>
           <button
             type="button"
-            onClick={() => setIsWorkTripOnly(!isWorkTripOnly)}
+            onClick={() => setIsCorporateWorkOnly(!isCorporateWorkOnly)}
             className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-white/20 transition-all"
           >
-            {isWorkTripOnly ? 'Show All Properties' : 'Filter Work Stays'}
+            {isCorporateWorkOnly ? 'Show All Estates' : 'Filter Executive Living'}
           </button>
         </div>
       </div>
 
-      {/* ── 4. Global Airbnb Property Card Grid ───────────────────────────────── */}
+      {/* ── 5. Global Property Card Grid ───────────────────────────────────────── */}
       <div className="space-y-6">
         <div className="flex items-center justify-between text-xs text-stone-500 font-semibold px-1">
-          <span>Showing {filteredProperties.length} verified global estates &amp; residences</span>
-          <span className="text-[#704B32] hidden sm:inline">✦ Instant Reserve &amp; Full Estate Buyouts</span>
+          <span>Displaying {filteredProperties.length} verified private residences &amp; estates</span>
+          <span className="text-[#704B32] hidden sm:inline">✦ Instant Advance Token &amp; Full Estate Buyouts</span>
         </div>
 
         {filteredProperties.length === 0 ? (
           <div className="bg-white p-12 rounded-3xl text-center space-y-3 border border-stone-200">
             <span className="text-4xl block">🔍</span>
-            <h4 className="font-serif text-xl font-bold text-[#17233B]">No properties matched your search</h4>
-            <p className="text-xs text-stone-500">Try clearing your destination query or switching categories.</p>
+            <h4 className="font-serif text-xl font-bold text-[#17233B]">No residences matched your criteria</h4>
+            <p className="text-xs text-stone-500">Try switching your hub zone or selecting &apos;All Residences&apos;.</p>
             <button
               type="button"
               onClick={() => {
+                setSelectedHubZone('All')
                 setDestinationQuery('')
                 setSelectedCategory('all')
-                setIsWorkTripOnly(false)
+                setIsCorporateWorkOnly(false)
               }}
               className="px-4 py-2 bg-[#17233B] text-white text-xs font-bold rounded-xl"
             >
@@ -365,7 +412,10 @@ export default function LiveStaysDiscovery() {
               >
                 <div>
                   {/* Photo with Overlay Badges */}
-                  <div className="relative aspect-[16/11] bg-stone-100 overflow-hidden cursor-pointer" onClick={() => handleOpenProperty(prop)}>
+                  <div
+                    className="relative aspect-[16/11] bg-stone-100 overflow-hidden cursor-pointer"
+                    onClick={() => handleOpenProperty(prop)}
+                  >
                     <Image
                       src={prop.featuredImage}
                       alt={prop.name}
@@ -374,19 +424,14 @@ export default function LiveStaysDiscovery() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                      {prop.superhost && (
-                        <span className="bg-white/95 backdrop-blur-sm text-[#17233B] text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
-                          Superhost ★
-                        </span>
-                      )}
+                      <span className="bg-[#17233B]/90 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                        {prop.hubZone} Hub
+                      </span>
                       {prop.workFriendly && (
-                        <span className="bg-[#17233B]/90 backdrop-blur-sm text-[#C9A45C] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
-                          Work-Ready
+                        <span className="bg-[#C9A45C] text-[#17233B] text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                          Executive Living
                         </span>
                       )}
-                    </div>
-                    <div className="absolute top-3 right-3 bg-white/90 p-1.5 rounded-full text-stone-700 shadow-sm">
-                      ♥
                     </div>
                   </div>
 
@@ -413,8 +458,8 @@ export default function LiveStaysDiscovery() {
                     </p>
 
                     <div className="flex flex-wrap gap-1 pt-1 text-[10px] text-stone-600">
-                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">⚡ {prop.wifiSpeedMbps} Mbps</span>
-                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">👨‍🍳 Chef Available</span>
+                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">⚡ {prop.wifiSpeedMbps} Mbps Fiber</span>
+                      <span className="bg-stone-100 px-2 py-0.5 rounded font-medium">👨‍🍳 Chef Service</span>
                     </div>
 
                     {/* Pricing */}
@@ -426,7 +471,7 @@ export default function LiveStaysDiscovery() {
                         <span className="text-stone-500 text-[11px]"> / suite</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] text-stone-400 block">Buyout:</span>
+                        <span className="text-[10px] text-stone-400 block">Estate Buyout:</span>
                         <span className="font-mono font-semibold text-[#704B32] text-xs">
                           ₹{prop.estateBuyoutPrice.toLocaleString('en-IN')} / night
                         </span>
@@ -459,33 +504,33 @@ export default function LiveStaysDiscovery() {
         )}
       </div>
 
-      {/* ── 5. Host Marketplace ("Airbnb Your Property with Nutty Tales") ──────── */}
+      {/* ── 6. Estate Asset Management & Host Program ─────────────────────────── */}
       <section className="bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E293B] text-white rounded-3xl p-8 sm:p-14 shadow-2xl border border-white/10 space-y-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left: Pitch */}
           <div className="lg:col-span-7 space-y-5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A45C] text-[#17233B] text-[10px] font-bold uppercase tracking-wider">
-              <span>🏡</span> BECOME A GLOBAL HOST
+              <span>🏡</span> ESTATE ASSET MANAGEMENT &amp; PRIVATE COLLECTION
             </div>
             <h3 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Airbnb your orchard, heritage villa or corporate flat with Nutty Tales.
+              List your orchard, heritage manor or corporate penthouse in the Private Collection.
             </h3>
             <p className="text-sm text-stone-300 font-light leading-relaxed max-w-xl">
-              Turn your property into a high-yield global stay. Nutty Tales manages high-net-worth guest screening, deployed in-house Wazwan chefs, complete housekeeping, and corporate enterprise bookings.
+              Turn your property into a high-yield institutional asset across Kashmir, Delhi NCR, and Patna. Nutty Tales manages high-net-worth guest screening, deployed in-house Wazwan chefs, complete housekeeping, and corporate enterprise bookings.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-2">
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
                 <span className="text-[#C9A45C] font-bold block text-sm">0% Listing Fee</span>
-                <span className="text-stone-400">Zero upfront cost to list</span>
+                <span className="text-stone-400">Zero upfront cost to partner</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
                 <span className="text-[#C9A45C] font-bold block text-sm">Vetted Guests</span>
-                <span className="text-stone-400">CXOs, families &amp; teams</span>
+                <span className="text-stone-400">CXOs, executive teams &amp; families</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                <span className="text-[#C9A45C] font-bold block text-sm">Damage Escrow</span>
-                <span className="text-stone-400">₹10 Lakh host protection</span>
+                <span className="text-[#C9A45C] font-bold block text-sm">Asset Guarantee</span>
+                <span className="text-stone-400">₹10 Lakh damage escrow protocol</span>
               </div>
             </div>
 
@@ -495,7 +540,7 @@ export default function LiveStaysDiscovery() {
                 className="inline-flex items-center gap-2 px-7 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
               >
                 <span>🚀</span>
-                <span>List Your Property with Us</span>
+                <span>Submit Estate Listing Application</span>
               </Link>
             </div>
           </div>
@@ -504,20 +549,20 @@ export default function LiveStaysDiscovery() {
           <div className="lg:col-span-5 bg-white/10 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/20 space-y-5 text-white">
             <div className="border-b border-white/10 pb-3">
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#C9A45C]">
-                Host Potential Calculator
+                Estate Yield Calculator
               </span>
-              <h4 className="font-serif text-2xl font-bold">What could you earn?</h4>
+              <h4 className="font-serif text-2xl font-bold">Estimated Monthly Yield</h4>
             </div>
 
             {/* Property Type Radio */}
             <div className="space-y-1.5 text-xs">
-              <label className="font-semibold text-stone-300 block">Property Category:</label>
+              <label className="font-semibold text-stone-300 block">Property Type:</label>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {[
-                  { id: 'orchard', label: 'Orchard Villa' },
-                  { id: 'chalet', label: 'Ski Chalet' },
-                  { id: 'houseboat', label: 'Houseboat' },
-                  { id: 'executive', label: 'Executive Flat' },
+                  { id: 'orchard', label: 'Orchard Villa (Kashmir)' },
+                  { id: 'chalet', label: 'Ski Chalet (Gulmarg)' },
+                  { id: 'houseboat', label: 'Cedar Houseboat' },
+                  { id: 'executive', label: 'Executive Penthouse (NCR)' },
                 ].map((item) => (
                   <button
                     key={item.id}
@@ -538,7 +583,7 @@ export default function LiveStaysDiscovery() {
             {/* Bedroom Slider */}
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between items-center">
-                <span className="text-stone-300 font-semibold">Bedrooms:</span>
+                <span className="text-stone-300 font-semibold">Bedrooms / Chambers:</span>
                 <span className="font-mono font-bold text-white px-2 py-0.5 bg-white/10 rounded">
                   {hostBedrooms} Bedrooms
                 </span>
@@ -555,12 +600,12 @@ export default function LiveStaysDiscovery() {
 
             {/* Calculated Monthly Revenue */}
             <div className="p-4 bg-white/5 rounded-2xl border border-white/10 text-center space-y-1">
-              <span className="text-xs text-stone-300">Estimated Monthly Income:</span>
+              <span className="text-xs text-stone-300">Projected Monthly Net Revenue:</span>
               <div className="font-mono text-3xl font-black text-[#C9A45C]">
                 ₹{hostEstimatedMonthlyRevenue.toLocaleString('en-IN')}
               </div>
               <span className="text-[10px] text-stone-400 block">
-                Based on 65% occupancy &amp; Nutty Tales premium guest network
+                Calculated on 65% occupancy in Nutty Tales Private Collection
               </span>
             </div>
 
@@ -568,13 +613,13 @@ export default function LiveStaysDiscovery() {
               href={`/stays/hosts?type=${hostPropertyType}&br=${hostBedrooms}`}
               className="block w-full text-center py-3 bg-white text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-stone-100 transition-all shadow-md"
             >
-              Start Host Application →
+              Start Partner Onboarding →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── 6. Property Quick-Look & Reservation Modal ─────────────────────────── */}
+      {/* ── 7. Interactive Property Quick-Look & Instant Deposit Booking Modal ─── */}
       {selectedPropertyForModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
           <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-stone-200 text-[#17233B]">
@@ -582,7 +627,7 @@ export default function LiveStaysDiscovery() {
             <div className="sticky top-0 bg-white z-10 px-6 sm:px-8 py-4 border-b border-stone-200 flex items-center justify-between">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  {selectedPropertyForModal.city}, {selectedPropertyForModal.country} · {isBuyoutMode ? 'Full Buyout' : 'Suite Reservation'}
+                  {selectedPropertyForModal.city}, {selectedPropertyForModal.country} · {selectedPropertyForModal.hubZone} Hub
                 </span>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#17233B]">
                   {selectedPropertyForModal.name}
@@ -611,7 +656,7 @@ export default function LiveStaysDiscovery() {
                     ★ {selectedPropertyForModal.rating} ({selectedPropertyForModal.reviewsCount} reviews)
                   </span>
                   <span className="bg-[#C9A45C] text-[#17233B] text-xs font-bold px-3 py-1 rounded-full">
-                    {isBuyoutMode ? 'Private Estate Buyout' : 'Suite Selection'}
+                    {isBuyoutMode ? 'Full Private Estate Buyout' : 'Suite Selection'}
                   </span>
                 </div>
               </div>
@@ -620,10 +665,10 @@ export default function LiveStaysDiscovery() {
               {bookingConfirmationRef && (
                 <div className="p-6 bg-emerald-50 rounded-2xl border-2 border-emerald-500 text-emerald-900 space-y-2">
                   <div className="font-bold text-base flex items-center gap-2">
-                    <span>🎉</span> Reservation Dossier Submitted! Ref: <strong>{bookingConfirmationRef}</strong>
+                    <span>🎉</span> Reservation Dossier Submitted! Reference: <strong>{bookingConfirmationRef}</strong>
                   </div>
                   <p className="text-xs">
-                    Our Private Stay Concierge and the property manager have been notified. A formal invoice with verified bank escrow link and WhatsApp confirmation will be delivered within 30 minutes.
+                    Our Private Stay Concierge and the property director have received your booking. A formal Proforma Invoice with direct Bank Wire (RTGS/NEFT) and instant payment token link has been dispatched to your email and WhatsApp.
                   </p>
                 </div>
               )}
@@ -637,7 +682,7 @@ export default function LiveStaysDiscovery() {
                     !isBuyoutMode ? 'bg-white text-[#17233B] shadow-sm' : 'text-stone-600 hover:text-black'
                   }`}
                 >
-                  Individual Suite / Room
+                  Individual Suite / Chamber
                 </button>
                 <button
                   type="button"
@@ -654,7 +699,7 @@ export default function LiveStaysDiscovery() {
               {!isBuyoutMode && (
                 <div className="space-y-3">
                   <label className="text-xs font-bold uppercase tracking-wider text-stone-500 block">
-                    Select Suite / Cottage:
+                    Select Suite / Chamber:
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {selectedPropertyForModal.rooms.map((room) => (
@@ -722,7 +767,7 @@ export default function LiveStaysDiscovery() {
                 </div>
               </div>
 
-              {/* Reservation Form */}
+              {/* Immediate Revenue Form */}
               <form onSubmit={handleReservationSubmit} className="space-y-4 pt-4 border-t border-stone-200">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
@@ -748,9 +793,10 @@ export default function LiveStaysDiscovery() {
                     />
                   </div>
                   <div>
-                    <label className="font-bold text-stone-700 block mb-1">Work / Personal Email</label>
+                    <label className="font-bold text-stone-700 block mb-1">Work / Personal Email *</label>
                     <input
                       type="email"
+                      required
                       value={guestEmail}
                       onChange={(e) => setGuestEmail(e.target.value)}
                       placeholder="vikram@enterprise.com"
@@ -758,7 +804,7 @@ export default function LiveStaysDiscovery() {
                     />
                   </div>
                   <div>
-                    <label className="font-bold text-stone-700 block mb-1">Company Name &amp; GSTIN (For Business Tax Credit)</label>
+                    <label className="font-bold text-stone-700 block mb-1">Company Name &amp; GSTIN (For 18% Tax Credit)</label>
                     <input
                       type="text"
                       value={gstin}
@@ -769,21 +815,51 @@ export default function LiveStaysDiscovery() {
                   </div>
                 </div>
 
+                {/* Immediate Inflow Payment Option Selector */}
+                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-2 text-xs">
+                  <label className="font-bold text-[#17233B] block">
+                    Immediate Revenue &amp; Commitment Option:
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {[
+                      { id: 'advance-token', label: '20% Advance Token', desc: `Pay ₹${immediateTokenDeposit.toLocaleString('en-IN')} now to lock dates` },
+                      { id: 'full-prepay', label: '100% Prepayment', desc: `Pay full ₹${modalGrandTotal.toLocaleString('en-IN')} (5% instant rebate)` },
+                      { id: 'corporate-po', label: 'Corporate PO & GST Invoice', desc: 'Net-15 terms for approved enterprises' },
+                    ].map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => setPaymentMode(opt.id as any)}
+                        className={`p-3 rounded-xl border text-left transition-all ${
+                          paymentMode === opt.id
+                            ? 'border-[#17233B] bg-[#17233B] text-white shadow-sm'
+                            : 'border-stone-200 bg-white text-stone-700 hover:border-stone-400'
+                        }`}
+                      >
+                        <strong className="block text-xs">{opt.label}</strong>
+                        <span className={`text-[10px] ${paymentMode === opt.id ? 'text-[#C9A45C]' : 'text-stone-500'}`}>
+                          {opt.desc}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Price Breakdown Footer */}
                 <div className="p-4 bg-[#FAF6EE] rounded-2xl border border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="text-xs text-stone-600">
                     <div>
-                      {isBuyoutMode ? 'Private Estate Buyout' : modalSelectedRoom?.name} · {nights} Nights · {guestsCount} Guests
+                      {isBuyoutMode ? 'Full Private Estate Buyout' : modalSelectedRoom?.name} · {nights} Nights · {guestsCount} Guests
                     </div>
                     <div className="text-[11px] text-stone-500">
-                      Rate: ₹{modalNightlyRate.toLocaleString('en-IN')}/night + Add-ons: ₹{modalAddOnsTotal.toLocaleString('en-IN')}
+                      Total Tariff: ₹{modalGrandTotal.toLocaleString('en-IN')} · <strong>Commitment Deposit Due Today: ₹{immediateTokenDeposit.toLocaleString('en-IN')}</strong>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-[10px] uppercase font-bold text-stone-400 block">Total Tariff:</span>
+                    <span className="text-[10px] uppercase font-bold text-stone-400 block">Deposit to Lock:</span>
                     <span className="font-mono text-2xl font-black text-[#17233B]">
-                      ₹{modalGrandTotal.toLocaleString('en-IN')}
+                      ₹{immediateTokenDeposit.toLocaleString('en-IN')}
                     </span>
                   </div>
                 </div>
@@ -794,12 +870,12 @@ export default function LiveStaysDiscovery() {
                     disabled={isSubmitting}
                     className="flex-1 py-4 bg-[#17233B] hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
                   >
-                    {isSubmitting ? 'Confirming Reservation...' : '⚡ Confirm & Lock Dates'}
+                    {isSubmitting ? 'Processing Reservation...' : `⚡ Lock Dates with ₹${immediateTokenDeposit.toLocaleString('en-IN')} Deposit`}
                   </button>
 
                   <a
                     href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                      `Hello Nutty Tales Stays! I want to book: ${selectedPropertyForModal.name} (${checkIn} to ${checkOut}, ${guestsCount} guests). Estimated: ₹${modalGrandTotal.toLocaleString('en-IN')}`,
+                      `Hello Nutty Tales Private Collection! I want to lock: ${selectedPropertyForModal.name} (${selectedPropertyForModal.hubZone} Hub, ${checkIn} to ${checkOut}, ${guestsCount} guests). Estimated: ₹${modalGrandTotal.toLocaleString('en-IN')}`,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

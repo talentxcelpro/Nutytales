@@ -8,11 +8,11 @@ import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const GIFTING_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'Curate Hampers', href: '/#hampers' },
-  { label: 'Diwali 2026', href: '/#diwali-2026', badge: 'Early Bird' },
-  { label: 'Multi-Recipient Desk', href: '/recipients', badge: 'Bulk Upload' },
-  { label: 'Gifting Dashboard', href: '/dashboard', badge: 'Corporate' },
+  { label: 'Design a Gift', href: '/designer', badge: 'SI Studio' },
+  { label: 'Gifting OS', href: '/#gifting-os' },
+  { label: 'Curated Hampers', href: '/#hampers' },
+  { label: 'Recipient Choice Desk', href: '/recipients', badge: 'Global Roster' },
+  { label: 'Operations Dashboard', href: '/dashboard', badge: 'Corporate' },
 ]
 
 export default function GiftingShell({
@@ -49,18 +49,18 @@ export default function GiftingShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Nutty Tales Gifting — Global Corporate &amp; Event Gifting</span>
+            <span>Nutty Tales Gifting — The Global Gifting OS</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-[#C9A45C]">
-            Multi-Recipient PAN-India &amp; Global Air Dispatch (UAE, UK, USA)
+            Outcome Intelligence · Recipient Choice Links · PAN-India &amp; Global Air Dispatch (UAE, UK, US)
           </span>
         </div>
 
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Gifting! I need a corporate quotation for customized hampers.',
+              'Hello Nutty Tales Gifting! I need a tailored gifting program proposal.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -83,10 +83,10 @@ export default function GiftingShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  Nutty Tales <span className="text-[#C9A45C]">Gifting</span>
+                  NUTTY TALES <span className="text-[#C9A45C]">GIFTING</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  Corporate · Personal · Festivals
+                  Gifts that mean something
                 </span>
               </div>
             </Link>
@@ -99,7 +99,7 @@ export default function GiftingShell({
                   <Link
                     key={link.label}
                     href={getLinkHref(link.href)}
-                    className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all relative flex items-center gap-1.5 ${
+                    className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all relative flex items-center gap-1.5 ${
                       active
                         ? 'bg-[#17233B] text-white shadow-sm'
                         : 'text-stone-700 hover:text-[#17233B] hover:bg-stone-200/50'
@@ -125,10 +125,11 @@ export default function GiftingShell({
             {/* Action Buttons */}
             <div className="hidden sm:flex items-center gap-3">
               <Link
-                href={getLinkHref('/recipients')}
-                className="px-5 py-2.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+                href={getLinkHref('/designer')}
+                className="px-5 py-2.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-1.5"
               >
-                ⚡ Bulk Upload Recipients
+                <span>✨</span>
+                <span>DESIGN A GIFT</span>
               </Link>
             </div>
 

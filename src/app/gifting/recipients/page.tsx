@@ -24,6 +24,11 @@ const TIER_PRICING: Record<RecipientRow['hamperTier'], { name: string; price: nu
 }
 
 export default function GiftingRecipientsPage() {
+  const [deskMode, setDeskMode] = useState<'roster' | 'choice-link'>('roster')
+  const [choiceLinkBudget, setChoiceLinkBudget] = useState(2450)
+  const [choiceLinkQty, setChoiceLinkQty] = useState(100)
+  const [copiedLink, setCopiedLink] = useState(false)
+
   const [occasion, setOccasion] = useState('Diwali 2026')
   const [deliveryDate, setDeliveryDate] = useState('2026-10-20')
   const [brandLogoFile, setBrandLogoFile] = useState<string | null>(null)
@@ -167,6 +172,134 @@ export default function GiftingRecipientsPage() {
         </p>
       </div>
 
+      {/* ── Mode Switcher: Roster vs Recipient Choice Link ─────────────────── */}
+      <div id="choice-links" className="bg-[#FAF6EE] p-2 rounded-2xl border border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setDeskMode('roster')}
+            className={`px-4 py-2.5 rounded-xl font-bold transition-all ${
+              deskMode === 'roster'
+                ? 'bg-[#17233B] text-white shadow-md'
+                : 'text-stone-600 hover:text-stone-900'
+            }`}
+          >
+            📋 Master Address Roster ({recipients.length} entries)
+          </button>
+          <button
+            type="button"
+            onClick={() => setDeskMode('choice-link')}
+            className={`px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-1.5 ${
+              deskMode === 'choice-link'
+                ? 'bg-[#704B32] text-white shadow-md'
+                : 'text-stone-600 hover:text-[#704B32]'
+            }`}
+          >
+            <span>🔗</span>
+            <span>Recipient Choice Links (Snappy Model)</span>
+            <span className="px-1.5 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] text-[9px] font-black uppercase">
+              No Address Needed
+            </span>
+          </button>
+        </div>
+
+        <Link
+          href="/gifting/designer"
+          className="text-xs font-bold text-[#704B32] hover:text-[#17233B] flex items-center gap-1 px-3 py-1.5"
+        >
+          <span>Open SI Gift Designer Studio</span>
+          <span>→</span>
+        </Link>
+      </div>
+
+      {/* ── Mode B: Recipient Choice Link Engine (Snappy / Goody Parity) ────── */}
+      {deskMode === 'choice-link' && (
+        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+          <div className="space-y-1">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+              Recipient Intelligence &amp; Autonomous Address Collection
+            </span>
+            <h2 className="font-serif text-2xl font-bold text-[#17233B]">
+              Generate Branded Recipient Choice Links
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm font-light">
+              Don&apos;t waste time chasing colleagues or clients for their home addresses. Set your budget, create a single campaign link, and let recipients select their preferred dry fruit box, specify dietary needs, and provide their delivery address privately.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-stone-700 block">Per-Recipient Budget Tier</label>
+              <select
+                value={choiceLinkBudget}
+                onChange={(e) => setChoiceLinkBudget(Number(e.target.value))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#704B32] focus:outline-none"
+              >
+                <option value={1299}>₹1,299 / recipient (Executive Tray)</option>
+                <option value={1899}>₹1,899 / recipient (Heritage Valley Box)</option>
+                <option value={2450}>₹2,450 / recipient (Vegan Leatherette Trunk)</option>
+                <option value={4950}>₹4,950 / recipient (Royal Walnut Casket)</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-stone-700 block">Estimated Number of Recipients</label>
+              <input
+                type="number"
+                min="10"
+                max="5000"
+                value={choiceLinkQty}
+                onChange={(e) => setChoiceLinkQty(Number(e.target.value))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#704B32] focus:outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-stone-700 block">Total Budget Allocation</label>
+              <div className="px-3.5 py-2.5 bg-stone-50 rounded-xl border border-stone-200 text-xs font-mono font-bold text-[#17233B]">
+                ₹{(choiceLinkBudget * choiceLinkQty).toLocaleString('en-IN')} + GST
+              </div>
+            </div>
+          </div>
+
+          <div className="p-5 bg-gradient-to-r from-purple-50 via-stone-50 to-amber-50 rounded-2xl border border-stone-200 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <strong className="text-xs text-[#17233B] block">Your Autonomous Choice Link is Active:</strong>
+                <span className="text-[11px] text-stone-600 font-mono">
+                  https://gifting.nutytales.com/choice/NT-2026-{choiceLinkBudget}?limit={choiceLinkQty}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setCopiedLink(true)
+                  setTimeout(() => setCopiedLink(false), 2000)
+                }}
+                className="px-4 py-2 bg-[#17233B] hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm"
+              >
+                {copiedLink ? '✓ Copied Link!' : 'Copy Choice Link'}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-2">
+              <div className="p-3 bg-white rounded-xl border border-stone-200">
+                <strong className="block text-purple-900">1. Share Link via Email/Slack</strong>
+                <span className="text-[11px] text-stone-500">Recipients get a luxury unboxing experience on web.</span>
+              </div>
+              <div className="p-3 bg-white rounded-xl border border-stone-200">
+                <strong className="block text-purple-900">2. Recipient Picks Options</strong>
+                <span className="text-[11px] text-stone-500">Chooses dry fruits, roasted nuts, or saffron blends.</span>
+              </div>
+              <div className="p-3 bg-white rounded-xl border border-stone-200">
+                <strong className="block text-purple-900">3. Nutty Tales Dispatches</strong>
+                <span className="text-[11px] text-stone-500">Live courier tracking synced directly to your dashboard.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {orderRef ? (
         <div className="bg-emerald-50 border-2 border-emerald-500 rounded-3xl p-8 sm:p-12 text-center space-y-5 animate-fadeIn">
           <div className="w-16 h-16 rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold mx-auto shadow-lg">
@@ -196,7 +329,7 @@ export default function GiftingRecipientsPage() {
             </button>
           </div>
         </div>
-      ) : (
+      ) : deskMode === 'roster' && (
         <form onSubmit={handleSubmitOrder} className="space-y-8">
           {/* ── 1. Campaign Parameters ────────────────────────────────────────── */}
           <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-6">

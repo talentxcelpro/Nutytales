@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { B2B_COMMODITIES } from '@/lib/b2b-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
 
 export default function B2BCatalogPage() {
   const [activeCategory, setActiveCategory] = useState('All')
@@ -179,6 +180,9 @@ export default function B2BCatalogPage() {
           </div>
         ))}
       </div>
+
+      {/* Immediate Cashflow: 5kg Quality Pack & Proforma Wire Desk */}
+      <CommercialSampleDesk />
     </div>
   )
 }

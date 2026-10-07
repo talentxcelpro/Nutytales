@@ -5,27 +5,27 @@ import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
-  title: 'Nutty Tales Stays — Global Boutique Estates, Orchards & Airbnb for Work',
+  title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
   description:
-    'Global boutique hospitality and estate marketplace. Discover private walnut orchards, alpine ski chalets, luxury cedar houseboats, and Airbnb for Work verified corporate residences across Kashmir, Dubai, London, and Goa.',
+    'Institutional luxury estate collection & executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Private walnut orchard villas, alpine ski chalets, Dal Lake royal cedar houseboats, and executive corporate boardroom residences.',
   keywords: [
-    'Airbnb for Work India',
-    'luxury stays Kashmir',
+    'luxury private residences Kashmir',
     'private villa Srinagar',
-    'walnut orchard retreat Harwan',
-    'Gulmarg ski chalet',
-    'luxury houseboat Dal Lake',
-    'corporate offsite estate buyout',
-    'boutique stays London Dubai',
+    'walnut orchard estate Harwan',
+    'Gulmarg alpine ski chalet',
+    'luxury cedar houseboat Dal Lake',
+    'corporate offsite estate buyout Delhi NCR',
+    'Patna heritage villa stay',
+    'executive residences Noida',
     'Nutty Tales Stays',
   ],
   alternates: {
     canonical: 'https://stays.nutytales.com',
   },
   openGraph: {
-    title: 'Nutty Tales Stays — Global Boutique Estates & Airbnb for Work',
+    title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Living',
     description:
-      'Private walnut estates, alpine heated chalets, and Airbnb for Work corporate housing with dedicated chefs and high-speed fiber.',
+      'Private walnut estates, alpine heated chalets, and executive corporate boardroom suites with dedicated master chefs, 4x4 convoys, and high-speed gigabit fiber.',
     url: 'https://stays.nutytales.com',
     siteName: 'Nutty Tales Stays',
     locale: 'en_IN',
@@ -41,18 +41,18 @@ export default function StaysPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
           <div className="max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#C9A45C] text-xs font-bold uppercase tracking-widest border border-white/15">
-              <span>🏡</span> NUTTY TALES STAYS · GLOBAL HOSPITALITY &amp; AIRBNB BUSINESS
+              <span>🏡</span> NUTTY TALES PRIVATE RESIDENCES · KASHMIR · DELHI-NCR · PATNA
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Stay in Extraordinary Places.
+              Stay in Extraordinary Private Estates.
               <span className="block text-[#C9A45C] font-serif italic text-2xl sm:text-4xl lg:text-5xl font-normal mt-1">
-                From High-Altitude Orchards to Global Business Suites
+                From High-Altitude Walnut Orchards to Executive Boardroom Residences
               </span>
             </h1>
 
             <p className="text-sm sm:text-base text-stone-200 max-w-2xl leading-relaxed font-light">
-              Discover private walnut estates, alpine heated ski chalets, serene cedar houseboats, and Airbnb for Work verified corporate residences. Reserve individual suites or book entire private estates with dedicated chefs and 4x4 convoys.
+              Discover vetted private walnut estates, alpine heated ski chalets, royal cedar houseboats, and corporate executive residences across Kashmir, Delhi-NCR, Patna, and global gateways. Reserve private luxury suites or complete estate buyouts with dedicated master chefs, meeting pavilions, and 4x4 chauffeured convoys.
             </p>
 
             {/* Quick Action Buttons */}
@@ -67,14 +67,14 @@ export default function StaysPage() {
                 href="#marketplace-grid"
                 className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl uppercase tracking-wider border border-white/20 transition-all"
               >
-                Explore Global Stays ↓
+                Explore Private Estates ↓
               </a>
               <Link
                 href="/stays/hosts"
                 className="px-6 py-3.5 bg-stone-900/70 hover:bg-stone-900 text-stone-200 font-semibold rounded-xl uppercase tracking-wider border border-white/10 transition-all flex items-center gap-1.5"
               >
-                <span>🚀</span>
-                <span>Airbnb Your Estate (0% Fee)</span>
+                <span>🏢</span>
+                <span>List Estate Asset (0% Fee)</span>
               </Link>
             </div>
           </div>
@@ -83,25 +83,25 @@ export default function StaysPage() {
           <div className="pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-stone-300">
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>100% Inspected &amp; Superhost Vetted</span>
+              <span>100% Inspected &amp; Estate Vetted</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>Airbnb for Work (200+ Mbps Fiber)</span>
+              <span>Executive Desks (Gigabit Fiber &amp; UPS)</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>In-House Master Wazwan Chefs</span>
+              <span>In-House Master Wazwan &amp; Estate Chefs</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>Full Private Buyouts (10-20 Pax)</span>
+              <span>Full Private Buyouts (10-30 Pax)</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. The Core Global Marketplace (Airbnb UI + Search + Grid + Host Calc) ── */}
+      {/* ── 2. The Core Global Marketplace (Search + Hub Filter + Estate Grid + Asset Desk) ── */}
       <section id="marketplace-grid" className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <LiveStaysDiscovery />
 

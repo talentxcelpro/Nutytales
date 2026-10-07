@@ -14,6 +14,7 @@ import {
   IndustryProfile,
 } from '@/lib/business-supply-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
 
 export default function B2BHomePage() {
   // ── 1. Amazon Business Onboarding State ────────────────────────────────────
@@ -777,6 +778,11 @@ export default function B2BHomePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── 2.5 IMMEDIATE B2B CASHFLOW: 5KG SAMPLE PACK & PROFORMA WIRE DESK ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <CommercialSampleDesk />
       </section>
 
       {/* ── 3. INTERACTIVE LIVE RFQ PROCUREMENT TERMINAL ─────────────────────── */}

@@ -259,22 +259,22 @@ function getContextualPrompts(pathname: string) {
   // ── Company 2: Nutty Tales Gifting (gifting.nutytales.com / /gifting) ───────
   if (pathname.startsWith('/gifting') || pathname.startsWith('/corporate-gifting')) {
     return {
-      assistantName: 'SI Corporate Gifting Copilot',
+      assistantName: 'SI Gift Designer & Gifting OS',
       badgeIcon: '🎁',
-      tagline: 'End-to-End Multi-Recipient Corporate & Festival Gifting',
-      inputPlaceholder: "Tell SI who you're gifting (e.g. 250 executive clients for Diwali)...",
+      tagline: 'Outcome-Based Gifting, Choice Links & Global Fulfillment',
+      inputPlaceholder: "Tell SI what you want this gift to accomplish (e.g. 300 employees across India, UAE & UK)...",
       greeting:
-        'Welcome to Nutty Tales Gifting. I am your Corporate Gifting Copilot. Whether you need 50 executive hampers with laser-engraved wooden boxes or 2,000 multi-city employee gifts, tell me your budget and recipient count.',
+        'Welcome to Nutty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Diwali gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
       actions: [
-        { label: 'Multi-Recipient Desk', href: '/gifting/recipients' },
-        { label: 'Curate Bespoke Hamper', href: '/gifting' },
-        { label: 'Gifting Dashboard', href: '/gifting/dashboard' },
+        { label: '✨ Design a Gift (SI Studio)', href: '/gifting/designer' },
+        { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
+        { label: '📊 Operations Dashboard', href: '/gifting/dashboard' },
       ],
       quickPrompts: [
-        'Hampers under ₹1,500 for Diwali',
-        'Upload 200 recipient addresses',
-        'Custom corporate foil branding',
-        'PAN-India multi-office dispatch',
+        '300 employees in India, UAE & UK ($75)',
+        'Thank best CXO client (₹5,000)',
+        'Send Snappy-style recipient choice link',
+        '500 destination wedding boxes',
       ],
     }
   }
@@ -396,6 +396,18 @@ function getContextualPrompts(pathname: string) {
 
 function generateSIResponse(query: string, pathname: string): ChatMessage {
   const q = query.toLowerCase()
+
+  if (q.includes('gift') || q.includes('diwali') || q.includes('recipient') || q.includes('snappy') || q.includes('sendoso') || q.includes('hamper')) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: 'Nutty Tales Gifting OS designs outcome-based programs tailored to your budget and geography. Whether sending gifts to 300 employees across India, UAE, and the UK or sending a Snappy-style recipient choice link where recipients choose items and input addresses privately, our studio handles curation, branding, and duty-paid delivery.',
+      actions: [
+        { label: '✨ Launch SI Gift Designer', href: '/gifting/designer' },
+        { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
+      ],
+    }
+  }
 
   if (q.includes('drape') || q.includes('try') || q.includes('look') || q.includes('wear')) {
     return {

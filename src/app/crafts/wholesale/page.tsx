@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import CraftsSwatchAndConsignmentDesk from '@/components/crafts/CraftsSwatchAndConsignmentDesk'
 
 export default function CraftsWholesalePage() {
   const [buyerType, setBuyerType] = useState('Luxury Boutique / Retailer')
@@ -68,6 +69,9 @@ export default function CraftsWholesalePage() {
           &quot;I need 200 shawls for our London boutique.&quot; Direct sourcing from certified Kashmiri master artisans and handloom guilds. We structure sample swatches, official GI-tag authenticity documentation, and insured door-to-door air freight worldwide.
         </p>
       </div>
+
+      {/* Immediate Revenue: Swatch Box & Cashmere Authenticity Kit */}
+      <CraftsSwatchAndConsignmentDesk />
 
       {rfqRef ? (
         <div className="bg-amber-50 border-2 border-[#C9A45C] rounded-3xl p-8 sm:p-12 text-center space-y-5 animate-fadeIn">

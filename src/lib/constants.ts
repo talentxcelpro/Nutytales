@@ -1,4 +1,4 @@
-﻿// ─── App Identity ──────────────────────────────────────────────────────────────
+// ─── App Identity ──────────────────────────────────────────────────────────────
 export const APP_NAME = 'Nuty Tales'
 export const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.nutytales.com'
@@ -121,6 +121,9 @@ export const WHATSAPP_NUMBERS = {
   SUPPORT: process.env.NEXT_PUBLIC_WHATSAPP_SUPPORT ?? DEFAULT_CONTACT_PHONE,
   CORPORATE: process.env.NEXT_PUBLIC_WHATSAPP_CORPORATE ?? DEFAULT_CONTACT_PHONE,
   STAYS: process.env.NEXT_PUBLIC_WHATSAPP_STAYS ?? DEFAULT_CONTACT_PHONE,
+  TRAVEL: process.env.NEXT_PUBLIC_WHATSAPP_TRAVEL ?? DEFAULT_CONTACT_PHONE,
+  WEDDINGS: process.env.NEXT_PUBLIC_WHATSAPP_WEDDINGS ?? DEFAULT_CONTACT_PHONE,
+  CRAFTS: process.env.NEXT_PUBLIC_WHATSAPP_CRAFTS ?? DEFAULT_CONTACT_PHONE,
 } as const
 
 export const PHONE_NUMBERS = {
@@ -130,6 +133,9 @@ export const PHONE_NUMBERS = {
   SUPPORT: process.env.NEXT_PUBLIC_PHONE_SUPPORT ?? DEFAULT_CONTACT_PHONE,
   CORPORATE: process.env.NEXT_PUBLIC_PHONE_CORPORATE ?? DEFAULT_CONTACT_PHONE,
   STAYS: process.env.NEXT_PUBLIC_PHONE_STAYS ?? DEFAULT_CONTACT_PHONE,
+  TRAVEL: process.env.NEXT_PUBLIC_PHONE_TRAVEL ?? DEFAULT_CONTACT_PHONE,
+  WEDDINGS: process.env.NEXT_PUBLIC_PHONE_WEDDINGS ?? DEFAULT_CONTACT_PHONE,
+  CRAFTS: process.env.NEXT_PUBLIC_PHONE_CRAFTS ?? DEFAULT_CONTACT_PHONE,
 } as const
 
 export const SUPPORT_EMAIL =

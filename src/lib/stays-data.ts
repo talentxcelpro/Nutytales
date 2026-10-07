@@ -1,14 +1,15 @@
-// ─── Nutty Tales Global Stays & Airbnb Business Platform ────────────────────────
-// Global boutique estates, high-altitude orchards, corporate housing & buyouts
+// ─── Nutty Tales Private Residences & Estate Collection ────────────────────────
+// Ultra-luxury private estates, high-altitude orchards & executive corporate living
+// Core Operational Axis: Kashmir (Harvest & Alps) · Delhi / NCR (Executive Hub) · Patna (Mithila Heritage)
 
 export type StayCategory =
   | 'all'
   | 'orchards'
-  | 'work_stays'
+  | 'corporate_suites'
   | 'ski_chalets'
   | 'houseboats'
-  | 'buyouts'
   | 'heritage'
+  | 'buyouts'
   | 'global'
 
 export interface StayRoom {
@@ -35,9 +36,10 @@ export interface StayProperty {
   secondaryCategories: StayCategory[]
   tagline: string
   locationNote: string
+  hubZone: 'Kashmir' | 'Delhi-NCR' | 'Patna' | 'Global'
   rating: number
   reviewsCount: number
-  superhost: boolean
+  curatedCollection: boolean
   workFriendly: boolean
   wifiSpeedMbps: number
   bedrooms: number
@@ -62,17 +64,18 @@ export interface StayProperty {
 }
 
 export const STAY_CATEGORIES: { id: StayCategory; label: string; icon: string }[] = [
-  { id: 'all', label: 'All Stays', icon: '✨' },
+  { id: 'all', label: 'All Residences', icon: '✨' },
   { id: 'orchards', label: 'Walnut & Apple Orchards', icon: '🍏' },
-  { id: 'work_stays', label: 'Airbnb for Work & Teams', icon: '💼' },
+  { id: 'corporate_suites', label: 'Executive Corporate Living', icon: '💼' },
   { id: 'ski_chalets', label: 'Alpine Ski Chalets', icon: '🏔️' },
-  { id: 'houseboats', label: 'Lakefront & Houseboats', icon: '🛥️' },
+  { id: 'houseboats', label: 'Lakefront Cedar Houseboats', icon: '🛥️' },
+  { id: 'heritage', label: 'Mithila & Heritage Manors', icon: '🏛️' },
   { id: 'buyouts', label: 'Private Estate Buyouts', icon: '🏰' },
-  { id: 'heritage', label: 'Heritage & Colonial', icon: '🏛️' },
-  { id: 'global', label: 'Global Cities (Dubai, London)', icon: '🌍' },
+  { id: 'global', label: 'Global Corridors (Dubai, London)', icon: '🌍' },
 ]
 
 export const STAY_PROPERTIES: StayProperty[] = [
+  // ── 1. KASHMIR ANCHOR: The Harwan Royal Walnut Orchard Estate ──────────────
   {
     id: 'prop-kashmir-harwan',
     slug: 'harwan-orchard-estate',
@@ -80,13 +83,14 @@ export const STAY_PROPERTIES: StayProperty[] = [
     city: 'Srinagar',
     state: 'Jammu & Kashmir',
     country: 'India',
+    hubZone: 'Kashmir',
     category: 'orchards',
-    secondaryCategories: ['buyouts', 'heritage', 'work_stays'],
+    secondaryCategories: ['buyouts', 'heritage', 'corporate_suites'],
     tagline: 'Private 4-acre walnut & apple orchard estate beneath snow-capped Zabarwan peaks',
-    locationNote: 'Harwan / Dachigam Road, 15 mins from Dal Lake & Shalimar Bagh',
+    locationNote: 'Harwan / Dachigam Road, 15 mins from Dal Lake & Shalimar Bagh, Srinagar',
     rating: 4.98,
     reviewsCount: 128,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 250,
     bedrooms: 5,
@@ -100,11 +104,11 @@ export const STAY_PROPERTIES: StayProperty[] = [
       '/images/brand-showcase-collage.jpg',
     ],
     propertyAmenities: [
-      'Private 4-Acre Walnut & Apple Orchard',
-      'Traditional Kashmiri Bukhari (Fireplace) in all Suites',
+      'Private 4-Acre Walnut & Apple Orchard Grounds',
+      'Traditional Kashmiri Bukhari (Wood Fireplace) in all Chambers',
       'In-House Master Wazwan Chef & Organic Harvest Breakfast',
-      'Dedicated High-Speed Workspace with 250 Mbps Fiber',
-      'Complimentary Samovar Kehwa & Roasted Walnuts on Arrival',
+      'Dedicated Executive Workspace with 250 Mbps Dedicated Fiber',
+      'Complimentary Samovar Kehwa & Single-Origin Roasted Walnuts',
       'Chauffeur-Driven 4x4 Snow Convoy Airport Service',
     ],
     seasonalRates: {
@@ -139,7 +143,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
       },
       {
         id: 'rm-ksh-03',
-        name: 'Deluxe Valley View Room',
+        name: 'Deluxe Valley View Chamber',
         type: 'Boutique Deluxe',
         basePricePerNight: 6800,
         maxGuests: 2,
@@ -156,6 +160,151 @@ export const STAY_PROPERTIES: StayProperty[] = [
       { id: 'exp-ksh-03', title: 'Sunset Shikara on Dal Lake & Char Chinar', pricePerPerson: 1500, desc: 'Private 2-hour shikara ride with steaming saffron kehwa and fresh almond cookies served on board.' },
     ],
   },
+
+  // ── 2. DELHI / NCR ANCHOR: Cyber City Executive Penthouse & Boardroom ───────
+  {
+    id: 'prop-noida-executive',
+    slug: 'cyber-city-executive-penthouse',
+    name: 'Cyber City Executive Penthouse & Boardroom',
+    city: 'Noida',
+    state: 'Delhi NCR (Uttar Pradesh)',
+    country: 'India',
+    hubZone: 'Delhi-NCR',
+    category: 'corporate_suites',
+    secondaryCategories: ['global', 'buyouts'],
+    tagline: 'Executive corporate residence with 12-seat boardroom, 500 Mbps redundant fiber & skyline garden terrace',
+    locationNote: 'Sector 62/63 Logistics & Corporate Corridor, Noida — 5 mins from Electronic City Metro',
+    rating: 4.95,
+    reviewsCount: 230,
+    curatedCollection: true,
+    workFriendly: true,
+    wifiSpeedMbps: 500,
+    bedrooms: 3,
+    baths: 4,
+    maxTotalGuests: 8,
+    estateBuyoutPrice: 22500,
+    featuredImage: '/images/stays/corporate-work-villa.jpg',
+    galleryImages: [
+      '/images/stays/corporate-work-villa.jpg',
+      '/images/brand-showcase-collage.jpg',
+    ],
+    propertyAmenities: [
+      '12-Seat High-Tech Executive Boardroom Table with 75" 4K AV Screen',
+      'Dual Redundant 500 Mbps Commercial Fiber Internet Connection',
+      'Herman Miller Ergonomic Chairs & Dual-Monitor Workstations',
+      'Official 18% Corporate GST Invoicing for Business Travel & Retreats',
+      'In-House Barista Espresso Machine & Complimentary Nut Bar',
+      'Direct Chauffeur Transit to Delhi Airport (DEL) & Expressways',
+    ],
+    seasonalRates: {
+      peakSeasonMultiplier: 1.1,
+      offPeakMultiplier: 0.9,
+      peakMonths: ['October', 'November', 'December', 'January', 'February'],
+    },
+    rooms: [
+      {
+        id: 'rm-noi-01',
+        name: 'The Chairman Penthouse Suite',
+        type: 'Presidential Executive Suite',
+        basePricePerNight: 7500,
+        maxGuests: 2,
+        bedConfig: '1 King Bed + Private Study',
+        sizeSqFt: 620,
+        amenities: ['Private Office Corner', 'Dual 4K Monitors', 'Skyline Terrace Balcony', 'Rain Shower', 'Espresso Bar'],
+        images: ['/images/stays/corporate-work-villa.jpg'],
+        description: 'Tailored for CXOs, visiting founders, and corporate leadership teams requiring absolute silence, speed, and privacy.',
+      },
+      {
+        id: 'rm-noi-02',
+        name: 'Deluxe Corporate Work Chamber',
+        type: 'Executive Room',
+        basePricePerNight: 4500,
+        maxGuests: 2,
+        bedConfig: '1 Queen Bed',
+        sizeSqFt: 360,
+        amenities: ['Ergonomic Desk', 'Fast Wi-Fi', 'Complimentary Breakfast', 'Sound-Isolated Double Glazing'],
+        images: ['/images/stays/corporate-work-villa.jpg'],
+        description: 'Clean, minimalist sanctuary designed for productivity and deep sleep during Delhi NCR business visits.',
+      },
+    ],
+    experienceAddOns: [
+      { id: 'exp-noi-01', title: 'Executive Boardroom Meeting Catering & Nut Flights', pricePerPerson: 750, desc: 'Fresh roasted and seasoned nut flights with artisanal cheeses, espresso, and working lunch platter.' },
+    ],
+  },
+
+  // ── 3. PATNA ANCHOR: Mithila Heritage Courtyard & Riverfront Residency ──────
+  {
+    id: 'prop-patna-heritage',
+    slug: 'mithila-heritage-courtyard-patna',
+    name: 'Mithila Heritage Courtyard & Riverfront Residency',
+    city: 'Patna',
+    state: 'Bihar',
+    country: 'India',
+    hubZone: 'Patna',
+    category: 'heritage',
+    secondaryCategories: ['orchards', 'corporate_suites', 'buyouts'],
+    tagline: 'Restored colonial manor celebrating the agricultural heritage of Mithila Makhana & Ganges River',
+    locationNote: 'Patliputra / Riverfront Promenade, 20 mins from Patna Airport & Mithila Makhana Hub',
+    rating: 4.93,
+    reviewsCount: 78,
+    curatedCollection: true,
+    workFriendly: true,
+    wifiSpeedMbps: 200,
+    bedrooms: 4,
+    baths: 4,
+    maxTotalGuests: 10,
+    estateBuyoutPrice: 24000,
+    featuredImage: '/images/crystal-gold-nut-bowls.jpg',
+    galleryImages: [
+      '/images/crystal-gold-nut-bowls.jpg',
+      '/images/dark-wood-gourmet-tray.jpg',
+    ],
+    propertyAmenities: [
+      'Authentic Hand-Painted Madhubani Artisanal Courtyard',
+      'Complimentary Roasted Desi Ghee Makhana & Herbal Tea Service',
+      'Dedicated Work Desks with 200 Mbps Fiber Internet',
+      'Ganges Riverfront Morning Terrace Walk with Guide',
+      'Private Chauffeur Airport Transit (Patna PAT Airport)',
+      '18% GST Invoicing for Agricultural & Corporate Travelers',
+    ],
+    seasonalRates: {
+      peakSeasonMultiplier: 1.15,
+      offPeakMultiplier: 0.9,
+      peakMonths: ['October', 'November', 'December', 'January', 'February'],
+    },
+    rooms: [
+      {
+        id: 'rm-pat-01',
+        name: 'The Mithila Grand Courtyard Suite',
+        type: 'Heritage Master Suite',
+        basePricePerNight: 5800,
+        maxGuests: 3,
+        bedConfig: '1 Royal Teak King Bed',
+        sizeSqFt: 480,
+        amenities: ['Courtyard View', 'Antique Teak Furnishings', 'Private Veranda', 'Organic Makhana Bar'],
+        images: ['/images/crystal-gold-nut-bowls.jpg'],
+        description: 'Immaculately restored heritage suite honoring ancient Mithila culture with original high ceilings and brass detailing.',
+      },
+      {
+        id: 'rm-pat-02',
+        name: 'Patliputra Deluxe Chamber',
+        type: 'Deluxe Heritage Room',
+        basePricePerNight: 4200,
+        maxGuests: 2,
+        bedConfig: '1 Queen Bed',
+        sizeSqFt: 340,
+        amenities: ['Workdesk', 'Rain Shower', 'High-Speed Wi-Fi', 'Breakfast Included'],
+        images: ['/images/dark-wood-gourmet-tray.jpg'],
+        description: 'Comfortable, quiet sanctuary ideal for agricultural commodity buyers, researchers, and cultural travellers.',
+      },
+    ],
+    experienceAddOns: [
+      { id: 'exp-pat-01', title: 'Mithila Makhana Harvesting & Roasting Masterclass', pricePerPerson: 1200, desc: 'Visit our agricultural partner ponds in Darbhanga/Madhubani, observe traditional lava popping, and taste hot artisanal roasted makhana.' },
+      { id: 'exp-pat-02', title: 'Sunset Ganges Boat Excursion with Live Classical Sitar', pricePerPerson: 1800, desc: 'Private wooden country boat glide on the holy river with tea and traditional delicacies.' },
+    ],
+  },
+
+  // ── 4. KASHMIR: The Gulmarg Pine Ridge Ski Chalet & Spa ─────────────────────
   {
     id: 'prop-gulmarg-chalet',
     slug: 'gulmarg-ski-chalet',
@@ -163,13 +312,14 @@ export const STAY_PROPERTIES: StayProperty[] = [
     city: 'Gulmarg',
     state: 'Jammu & Kashmir',
     country: 'India',
+    hubZone: 'Kashmir',
     category: 'ski_chalets',
-    secondaryCategories: ['buyouts', 'work_stays'],
-    tagline: 'Ski-in / ski-out luxury timber chalet with heated hot tub & Apharwat mountain panorama',
+    secondaryCategories: ['buyouts', 'corporate_suites'],
+    tagline: 'Ski-in / ski-out luxury timber chalet with heated outdoor hot tub & Apharwat mountain panorama',
     locationNote: 'Circular Road, Gulmarg — 5 mins from Gondola Terminal & Pine Ridge Trail',
     rating: 4.99,
     reviewsCount: 84,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 200,
     bedrooms: 4,
@@ -182,11 +332,11 @@ export const STAY_PROPERTIES: StayProperty[] = [
       '/images/crafts-kashmir-landscape.jpg',
     ],
     propertyAmenities: [
-      'Ski-in / Ski-out Access to Gulmarg Slopes',
-      'Outdoor Heated Cedar Hot Tub with Snow Views',
+      'Ski-in / Ski-out Access to Gulmarg World-Class Slopes',
+      'Outdoor Heated Cedar Hot Tub with Alpine Snow Views',
       'Radiant Heated Stone Floors & Massive Central Hearth',
       'Ski Gear Drying Room & Dedicated Equipment Butler',
-      'Starlink High-Speed Internet & Boardroom Setup',
+      'Starlink High-Speed Satellite Internet & Lounge',
       'VIP Gondola Pass Fast-Track Coordination',
     ],
     seasonalRates: {
@@ -207,24 +357,14 @@ export const STAY_PROPERTIES: StayProperty[] = [
         images: ['/images/stays/gulmarg-ski-chalet.jpg'],
         description: 'Vaulted timber ceilings overlooking fresh snow slopes. Complete winter luxury with personal ski concierge.',
       },
-      {
-        id: 'rm-glm-02',
-        name: 'Pine Ridge Deluxe Chalet Room',
-        type: 'Alpine Deluxe Room',
-        basePricePerNight: 11500,
-        maxGuests: 2,
-        bedConfig: '1 King Bed',
-        sizeSqFt: 420,
-        amenities: ['Floor-to-Ceiling Forest View', 'Rain Shower with Steam', 'Heated Flooring', 'Kashmir Wool Throws'],
-        images: ['/images/stays/gulmarg-ski-chalet.jpg'],
-        description: 'Warm cedar timber sanctuary nestled within pine woods. Cozy fireplace corner and heated bathroom.',
-      },
     ],
     experienceAddOns: [
       { id: 'exp-glm-01', title: 'Private Certified Ski Instructor & Equipment (Full Day)', pricePerPerson: 4500, desc: 'Certified level-3 mountain ski guide with fast-track Gondola Phase 2 powder snow access.' },
       { id: 'exp-glm-02', title: 'Après-Ski Fireplace Mulled Kehwa & Fondue', pricePerPerson: 1800, desc: 'Warm spices, mountain cheeses, dry fruit crisps, and artisanal saffron drinks by the crackling fire.' },
     ],
   },
+
+  // ── 5. KASHMIR: Zest-e-Nigeen Royal Cedar Houseboat ─────────────────────────
   {
     id: 'prop-nigeen-houseboat',
     slug: 'zest-e-nigeen-houseboat',
@@ -232,13 +372,14 @@ export const STAY_PROPERTIES: StayProperty[] = [
     city: 'Srinagar',
     state: 'Jammu & Kashmir',
     country: 'India',
+    hubZone: 'Kashmir',
     category: 'houseboats',
     secondaryCategories: ['heritage', 'orchards'],
     tagline: 'Hand-carved fragrant deodar cedar palace floating on tranquil mirror waters of Nigeen Lake',
     locationNote: 'West Bank, Nigeen Lake, Srinagar — Peaceful sanctuary away from commercial boat traffic',
     rating: 4.97,
     reviewsCount: 156,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 150,
     bedrooms: 4,
@@ -276,92 +417,13 @@ export const STAY_PROPERTIES: StayProperty[] = [
         images: ['/images/stays/cedar-houseboat.jpg'],
         description: 'The master chamber featuring century-old walnut wood carvings, Persian silk carpets, and uninterrupted water views.',
       },
-      {
-        id: 'rm-ngn-02',
-        name: 'The Lotus View Deluxe Suite',
-        type: 'Deluxe Lake Suite',
-        basePricePerNight: 6500,
-        maxGuests: 2,
-        bedConfig: '1 Queen Bed',
-        sizeSqFt: 380,
-        amenities: ['Water Balcony Access', 'Heated Ensuite Bathroom', 'Kehwa Service', 'Handmade Silk Quilts'],
-        images: ['/images/stays/cedar-houseboat.jpg'],
-        description: 'Peaceful lakeside room paneled in rich cedar with warm lantern chandeliers and floating garden vistas.',
-      },
     ],
     experienceAddOns: [
       { id: 'exp-ngn-01', title: 'Floating Candlelit Shikara Dinner with Live Rabab Musician', pricePerPerson: 3200, desc: 'Private 2-hour glide on moonlit Nigeen Lake with 10,000 floating marigolds and acoustic Kashmiri folk melodies.' },
-      { id: 'exp-ngn-02', title: 'Dawn Floating Vegetable & Artisan Market Tour', pricePerPerson: 900, desc: 'Early morning shikara excursion through silent waterways to experience the 200-year-old floating bazaar.' },
     ],
   },
-  {
-    id: 'prop-noida-executive',
-    slug: 'cyber-city-executive-penthouse',
-    name: 'Airbnb for Work: Cyber City Penthouse & Boardroom',
-    city: 'Noida',
-    state: 'Uttar Pradesh (Delhi NCR)',
-    country: 'India',
-    category: 'work_stays',
-    secondaryCategories: ['global'],
-    tagline: 'Airbnb for Work verified executive residence with 12-seat boardroom, 500 Mbps fiber & skyline terrace',
-    locationNote: 'Sector 62/63 Corporate Corridor, Noida — 5 mins from Electronic City Metro & Expressway',
-    rating: 4.94,
-    reviewsCount: 230,
-    superhost: true,
-    workFriendly: true,
-    wifiSpeedMbps: 500,
-    bedrooms: 3,
-    baths: 4,
-    maxTotalGuests: 8,
-    estateBuyoutPrice: 22500,
-    featuredImage: '/images/stays/corporate-work-villa.jpg',
-    galleryImages: [
-      '/images/stays/corporate-work-villa.jpg',
-      '/images/brand-showcase-collage.jpg',
-    ],
-    propertyAmenities: [
-      '12-Seat High-Tech Boardroom Table with 75" 4K AV Screen',
-      'Dual Redundant 500 Mbps Commercial Fiber Internet',
-      'Herman Miller Ergonomic Chairs & Dual-Monitor Workdesks',
-      'Official 18% Corporate GST Invoicing for Business Travel',
-      'In-House Barista Espresso Machine & Organic Nut Bar',
-      'Airport Taxi & Delhi Metro Corporate Chauffeur Access',
-    ],
-    seasonalRates: {
-      peakSeasonMultiplier: 1.1,
-      offPeakMultiplier: 0.9,
-      peakMonths: ['October', 'November', 'December', 'January', 'February'],
-    },
-    rooms: [
-      {
-        id: 'rm-noi-01',
-        name: 'The Executive Chairman Penthouse Suite',
-        type: 'Presidential Work Suite',
-        basePricePerNight: 7500,
-        maxGuests: 2,
-        bedConfig: '1 King Bed + Private Study',
-        sizeSqFt: 620,
-        amenities: ['Private Office Corner', 'Dual 4K Monitors', 'Skyline Terrace Balcony', 'Rain Shower', 'Espresso Bar'],
-        images: ['/images/stays/corporate-work-villa.jpg'],
-        description: 'Tailored for CXOs, visiting founders, and corporate leadership teams requiring absolute silence, speed, and privacy.',
-      },
-      {
-        id: 'rm-noi-02',
-        name: 'Deluxe Corporate Work Room',
-        type: 'Executive Room',
-        basePricePerNight: 4500,
-        maxGuests: 2,
-        bedConfig: '1 Queen Bed',
-        sizeSqFt: 360,
-        amenities: ['Ergonomic Desk', 'Fast Wi-Fi', 'Complimentary Breakfast', 'Sound-Isolated Double Glazing'],
-        images: ['/images/stays/corporate-work-villa.jpg'],
-        description: 'Clean, minimalist sanctuary designed for productivity and deep sleep during Delhi NCR business visits.',
-      },
-    ],
-    experienceAddOns: [
-      { id: 'exp-noi-01', title: 'Executive Boardroom Meeting Catering & Nut Flights', pricePerPerson: 750, desc: 'Fresh roasted and seasoned nut flights with artisanal cheeses, espresso, and working lunch platter.' },
-    ],
-  },
+
+  // ── 6. KASHMIR: Lidder Pine Riverfront Villa & Meadow (Pahalgam) ────────────
   {
     id: 'prop-pahalgam-riverfront',
     slug: 'lidder-pine-riverfront-estate',
@@ -369,13 +431,14 @@ export const STAY_PROPERTIES: StayProperty[] = [
     city: 'Pahalgam',
     state: 'Jammu & Kashmir',
     country: 'India',
+    hubZone: 'Kashmir',
     category: 'orchards',
-    secondaryCategories: ['buyouts', 'work_stays'],
-    tagline: 'Private cedar villa with trout stream frontage, pine forest lawns & bonfire pavilion',
+    secondaryCategories: ['buyouts', 'corporate_suites'],
+    tagline: 'Private cedar villa with trout stream frontage, pine forest lawns & campfire Wazwan pavilion',
     locationNote: 'Lidder Valley Road, Pahalgam — 10 mins from Aru Valley trailhead & Betaab Valley',
     rating: 4.96,
     reviewsCount: 92,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 200,
     bedrooms: 4,
@@ -418,20 +481,23 @@ export const STAY_PROPERTIES: StayProperty[] = [
       { id: 'exp-phg-01', title: 'Wild Brown Trout Fly Fishing (Half Day)', pricePerPerson: 2200, desc: 'Complete fishing gear, local license, and master ghillie guide along private river pools.' },
     ],
   },
+
+  // ── 7. GLOBAL: Downtown Burj Skyline Sky Villa (Dubai) ─────────────────────
   {
     id: 'prop-dubai-skyvilla',
     slug: 'dubai-downtown-sky-villa',
-    name: 'Downtown Burj Skyline Villa & Boardroom',
+    name: 'Downtown Burj Skyline Sky Villa & Boardroom',
     city: 'Dubai',
     state: 'Dubai',
     country: 'United Arab Emirates',
+    hubZone: 'Global',
     category: 'global',
-    secondaryCategories: ['work_stays', 'buyouts'],
-    tagline: 'Ultra-luxury penthouse with private infinity plunge pool, Burj Khalifa vista & DIFC boardroom',
+    secondaryCategories: ['corporate_suites', 'buyouts'],
+    tagline: 'Ultra-luxury penthouse with private infinity plunge pool, Burj Khalifa vista & DIFC executive boardroom',
     locationNote: 'Downtown / DIFC Corridor, Dubai — 5 mins from Dubai Mall & Trade Centre',
     rating: 4.98,
     reviewsCount: 68,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 1000,
     bedrooms: 4,
@@ -474,20 +540,23 @@ export const STAY_PROPERTIES: StayProperty[] = [
       { id: 'exp-dxb-01', title: 'Private Chauffeur Airport Escort (Rolls Royce / Maybach)', pricePerPerson: 4200, desc: 'Seamless VIP airport transit directly to the sky villa with luggage porterage.' },
     ],
   },
+
+  // ── 8. GLOBAL: Kensington Heritage Mews & Residence (London) ───────────────
   {
     id: 'prop-london-mews',
     slug: 'kensington-mews-residence',
-    name: 'Kensington Heritage Mews & Study Residence',
+    name: 'Kensington Heritage Mews & Residence',
     city: 'London',
     state: 'Greater London',
     country: 'United Kingdom',
+    hubZone: 'Global',
     category: 'global',
-    secondaryCategories: ['heritage', 'work_stays'],
+    secondaryCategories: ['heritage', 'corporate_suites'],
     tagline: 'Quiet Victorian mews house with private garden courtyard, library study & high-speed mesh',
     locationNote: 'South Kensington / Knightsbridge, London — 3 mins from Gloucester Road Station',
     rating: 4.95,
     reviewsCount: 52,
-    superhost: true,
+    curatedCollection: true,
     workFriendly: true,
     wifiSpeedMbps: 350,
     bedrooms: 3,
@@ -528,62 +597,6 @@ export const STAY_PROPERTIES: StayProperty[] = [
     ],
     experienceAddOns: [
       { id: 'exp-ldn-01', title: 'Traditional High Tea Hamper with Kashmiri Saffron Treats', pricePerPerson: 1600, desc: 'Curated British scones, clotted cream, Kashmiri saffron shortbread, and royal single-estate teas.' },
-    ],
-  },
-  {
-    id: 'prop-goa-moira',
-    slug: 'moira-portuguese-orchard-estate',
-    name: 'Moira Heritage Portuguese Orchard Villa',
-    city: 'Moira',
-    state: 'Goa',
-    country: 'India',
-    category: 'heritage',
-    secondaryCategories: ['buyouts', 'work_stays', 'orchards'],
-    tagline: '200-year-old restored Portuguese villa with tropical orchard, private pool & high-speed mesh',
-    locationNote: 'Moira Village, North Goa — 20 mins from Ashwem Beach & Mapusa Market',
-    rating: 4.97,
-    reviewsCount: 114,
-    superhost: true,
-    workFriendly: true,
-    wifiSpeedMbps: 300,
-    bedrooms: 5,
-    baths: 5,
-    maxTotalGuests: 14,
-    estateBuyoutPrice: 32000,
-    featuredImage: '/images/brand-showcase-collage.jpg',
-    galleryImages: [
-      '/images/brand-showcase-collage.jpg',
-      '/images/crystal-gold-nut-bowls.jpg',
-    ],
-    propertyAmenities: [
-      'Private 15m Chlorophyll Stone Swimming Pool',
-      'Tropical 2-Acre Mango, Coconut & Chikoo Orchard',
-      'In-House Goan Saraswat Cook & Breakfast Service',
-      'High-Speed Wi-Fi for Workations & Distributed Teams',
-      'High-Ceilinged Verandas with Antique Reclining Chairs',
-      'Airport Chauffeur Transfer (Mopa & Dabolim)',
-    ],
-    seasonalRates: {
-      peakSeasonMultiplier: 1.35,
-      offPeakMultiplier: 0.8,
-      peakMonths: ['November', 'December', 'January', 'February'],
-    },
-    rooms: [
-      {
-        id: 'rm-goa-01',
-        name: 'The Balcao Master Suite',
-        type: 'Portuguese Master Suite',
-        basePricePerNight: 7800,
-        maxGuests: 3,
-        bedConfig: '1 Four-Poster King Bed',
-        sizeSqFt: 580,
-        amenities: ['Private Balcao Veranda', 'High Timber Ceilings', 'Pool View', 'Outdoor Shower'],
-        images: ['/images/brand-showcase-collage.jpg'],
-        description: 'Immaculately restored heritage suite with original red oxide floors, brass four-poster bed, and lush orchard views.',
-      },
-    ],
-    experienceAddOns: [
-      { id: 'exp-goa-01', title: 'Traditional Goan Spice Plantation & Toddy Walk', pricePerPerson: 1200, desc: 'Guided walk through Moira village spice gardens followed by fresh coconut water and local delicacies.' },
     ],
   },
 ]

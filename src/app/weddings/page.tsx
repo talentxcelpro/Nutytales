@@ -11,6 +11,7 @@ import {
 } from '@/lib/weddings-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
+import WeddingTastingAndLockDesk from '@/components/weddings/WeddingTastingAndLockDesk'
 
 export default function WeddingsPage() {
   // Hamper Builder States
@@ -111,7 +112,7 @@ export default function WeddingsPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-20">
-      {/* ── 1. Hero Editorial Banner ────────────────────────────────────────────── */}
+      {/* ── 1. Hero Editorial Banner: AI Wedding OS ────────────────────────────── */}
       <section className="relative w-full bg-[#17233B] text-[#FAF6EE] py-16 sm:py-24 border-b border-[#C9A45C]/25 overflow-hidden">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C9A45C]/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#176B68]/20 rounded-full blur-3xl pointer-events-none" />
@@ -121,72 +122,125 @@ export default function WeddingsPage() {
             {/* Left Copy */}
             <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[11px] font-bold tracking-widest uppercase">
-                <span>💍</span> PAN-INDIA WEDDING DELIVERY
+                <span>💍</span> GLOBAL AI WEDDING OS &amp; EXECUTION ENGINE
               </div>
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Weddings by Nuty Tales
+                  Nutty Tales Weddings
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-                  Gifts worthy of the occasion.
+                  Tell us your wedding. <span className="text-[#C9A45C] italic font-serif">We make it happen.</span>
                 </h1>
-                <p className="font-serif italic text-lg sm:text-xl text-[#FAF6EE]/85">
-                  Premium dry fruits, Kashmir-inspired gifts and bespoke wedding hampers — designed around your celebration.
+                <p className="font-serif italic text-lg sm:text-xl text-[#FAF6EE]/90">
+                  The world&apos;s first full-stack wedding operating system — combining AI blueprinting, verified venues, hotel room blocks, ground travel, royal trousseau &amp; Day-Of execution.
                 </p>
               </div>
 
               <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-xl">
-                Honour your guests and families with auspicious royal dry fruits, Pampore saffron, and handcrafted keepsake boxes. Featuring couple monogramming, wedding date embossing, invitation-matched sleeves, and scheduled multi-city delivery to hotels, banquet halls, and homes across India.
+                Move beyond passive vendor directories. Tell SI your vision, guest count, and budget. We generate your multi-day Blueprint, source stays and travel, manufacture bespoke gifts, and run your wedding day with military-grade green-light precision.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
-                <a
-                  href="#hamper-builder"
+                <Link
+                  href="/weddings/workspace"
                   className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg hover:scale-105 flex items-center gap-2"
                 >
                   <span>✨</span>
-                  <span>Design Your Wedding Hamper (SI)</span>
-                </a>
+                  <span>Launch AI Wedding Workspace</span>
+                </Link>
                 <a
-                  href="#collections"
+                  href="#hamper-builder"
                   className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-xs uppercase tracking-wider border border-white/20 transition-colors"
                 >
-                  View Collections ↓
+                  Custom Trousseau &amp; Favours ↓
                 </a>
               </div>
 
-              {/* Fulfilment highlight */}
-              <div className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs text-stone-300 space-y-1">
-                <p className="font-semibold text-white">✨ Multi-Address Wedding Fulfilment:</p>
-                <p className="text-stone-300 font-light text-[11px]">
-                  E.g., 800 hampers delivered across 6 cities to 12 family &amp; hotel addresses for one wedding — seamlessly orchestrated under a single Nuty Tales order.
+              {/* Connected 6-Vertical Flywheel Highlight */}
+              <div className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs text-stone-300 space-y-1.5">
+                <p className="font-semibold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>The 6-Vertical Connected Transaction Graph:</span>
+                </p>
+                <p className="text-stone-300 font-light text-[11px] leading-relaxed">
+                  One wedding plan automatically splits into synchronized RFQs across <strong className="text-[#C9A45C]">Weddings</strong> (planners &amp; decor), <strong className="text-[#C9A45C]">Stays</strong> (room blocks), <strong className="text-[#C9A45C]">Travel</strong> (fleet &amp; transfers), <strong className="text-[#C9A45C]">Gifting</strong> (hampers), <strong className="text-[#C9A45C]">Crafts</strong> (pashminas), and <strong className="text-[#C9A45C]">Business</strong> (banquet supply).
                 </p>
               </div>
             </div>
 
-            {/* Right Photographic Visual */}
+            {/* Right Photographic Visual & Live Blueprint Inset */}
             <div className="lg:col-span-6 relative">
               <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/20">
                 <Image
-                  src="/images/crafts-gifting-box.jpg"
-                  alt="Weddings by Nuty Tales bespoke luxury hamper"
+                  src="/images/stays/kashmir-orchard-estate.jpg"
+                  alt="Nutty Tales Weddings — Heritage Kashmir Destination Estate"
                   fill
                   priority
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white flex items-end justify-between">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                {/* Top Floating Blueprint Card */}
+                <div className="absolute top-4 left-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 rounded-2xl p-3.5 text-white shadow-xl">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      AI Wedding Blueprint Active
+                    </span>
+                    <span className="text-[11px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded-full">
+                      3 Days · 180 Guests · ₹75 Lakh
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-[10px] text-stone-200">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span>Venue: The Heritage Chinar Lawns</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span>Stays: 60 Luxury Rooms Blocked</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span>Travel: 180 Airport Shuttles &amp; Shikaras</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span>Gifting: 180 Laser-Monogram Hampers</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Estate Legend + Inset Trousseau Thumbnail */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
-                      Signature Presentation
+                      Anchor Destination Venue
                     </span>
-                    <h3 className="font-serif text-xl font-bold">The Royal Chinar Wedding Chest</h3>
-                    <p className="text-xs text-stone-200">Custom Monogram Foil · Pure Kashmiri Saffron · Royal Nuts</p>
+                    <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                      The Heritage Chinar &amp; Orchard Estate
+                    </h3>
+                    <p className="text-[11px] text-stone-300">
+                      Srinagar, Kashmir Valley · Zabarwan Mountain Range · Verified Partner
+                    </p>
                   </div>
-                  <span className="bg-[#C9A45C] text-[#17233B] px-3 py-1 rounded-lg text-xs font-bold uppercase">
-                    Sample Box Ready
-                  </span>
+
+                  {/* Mini Inset Box Preview */}
+                  <div className="hidden sm:flex items-center gap-2.5 bg-stone-900/90 backdrop-blur-md p-2 rounded-xl border border-white/20 shadow-lg shrink-0">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-white/20">
+                      <Image
+                        src="/images/long-festive-gift-box.jpg"
+                        alt="Monogrammed Wedding Trousseau Chest"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-[10px] text-left pr-1">
+                      <span className="text-[#C9A45C] font-bold block">Royal Trousseau</span>
+                      <span className="text-white/80">Monogram Foiled</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -588,6 +642,11 @@ export default function WeddingsPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── 5.5 IMMEDIATE REVENUE: ROYAL TROUSSEAU TASTING TRUNK & DATE LOCK DESK ── */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <WeddingTastingAndLockDesk />
       </section>
 
       {/* ── 6. Wedding Consultation & Quote Form ─────────────────────────────────── */}

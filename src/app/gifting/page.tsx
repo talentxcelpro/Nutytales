@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import DemandCaptureModal from '@/components/demand/DemandCaptureModal'
 import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
+import SIGiftDesigner from '@/components/gifting/SIGiftDesigner'
+import ExecutiveSampleHamperDesk from '@/components/gifting/ExecutiveSampleHamperDesk'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 // ── Flagship Hamper Collections ──────────────────────────────────────────────
@@ -124,78 +126,82 @@ export default function GiftingPage() {
         </div>
       </div>
 
-      {/* ── 2. Hero Section ─────────────────────────────────────────────────── */}
+      {/* ── 2. Master Hero Section: NUTTY TALES GIFTING ───────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[#FAF7F2] via-white to-[#FAF7F2] py-16 sm:py-24 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Copy */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
-                <span>🎁</span> NUTTY TALES GIFTING · GLOBAL CORPORATE DESK
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
+                <span>🎁</span> NUTTY TALES GIFTING · THE GLOBAL GIFTING OS
               </div>
 
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#17233B] tracking-tight leading-[1.15]">
-                Corporate Gifting, <br />
-                <span className="italic text-[#704B32]">Executed Flawlessly</span> at Scale.
-              </h1>
+              <div className="space-y-2">
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#17233B] tracking-tight leading-[1.12]">
+                  Gifts that mean something.
+                </h1>
+                <p className="font-serif italic text-xl sm:text-2xl text-[#704B32] font-medium">
+                  Personal · Corporate · Weddings · Events · Experiences
+                </p>
+              </div>
 
               <p className="text-base sm:text-lg text-stone-600 font-light leading-relaxed max-w-2xl">
-                Elevate your Diwali, client milestones, and executive rewards. Direct high-altitude Kashmiri dry fruits, artisanal walnut wood boxes, precision laser branding, and door-to-door multi-address delivery across 19,000+ Indian PIN codes, Dubai, and London.
+                Most platforms are optimized to sell static hampers. Nutty Tales is the <strong>Global Gifting Operating System</strong>: combining recipient intelligence, outcome-based curation, Snappy-style recipient choice links, and localized fulfillment across 19,000+ Indian PIN codes, Dubai, and London.
               </p>
 
-              {/* Wedge Feature Badges */}
+              {/* Wedge Pillars */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs">
-                <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-sm flex items-center gap-2.5">
-                  <span className="text-lg text-[#C9A45C]">⚡</span>
+                <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-sm flex items-center gap-2.5">
+                  <span className="text-xl text-[#C9A45C]">🎯</span>
                   <div>
-                    <strong className="block text-[#17233B]">Multi-Recipient Desk</strong>
-                    <span className="text-stone-500 text-[11px]">CSV / Excel 1-Click Upload</span>
+                    <strong className="block text-[#17233B]">Outcome-Based</strong>
+                    <span className="text-stone-500 text-[11px]">Designed around your goal</span>
                   </div>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-sm flex items-center gap-2.5">
-                  <span className="text-lg text-[#C9A45C]">🏢</span>
+                <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-sm flex items-center gap-2.5">
+                  <span className="text-xl text-[#C9A45C]">🔗</span>
                   <div>
-                    <strong className="block text-[#17233B]">Custom Laser Branding</strong>
-                    <span className="text-stone-500 text-[11px]">Lid foil, metal tag &amp; cards</span>
+                    <strong className="block text-[#17233B]">Recipient Choice Links</strong>
+                    <span className="text-stone-500 text-[11px]">Send gifts without addresses</span>
                   </div>
                 </div>
-                <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-sm flex items-center gap-2.5 col-span-2 sm:col-span-1">
-                  <span className="text-lg text-[#C9A45C]">🧾</span>
+                <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-sm flex items-center gap-2.5 col-span-2 sm:col-span-1">
+                  <span className="text-xl text-[#C9A45C]">🌍</span>
                   <div>
-                    <strong className="block text-[#17233B]">100% GST Invoicing</strong>
-                    <span className="text-stone-500 text-[11px]">Full input tax recovery</span>
+                    <strong className="block text-[#17233B]">Global Air Mesh</strong>
+                    <span className="text-stone-500 text-[11px]">India · UAE · UK · USA</span>
                   </div>
                 </div>
               </div>
 
-              {/* CTAs */}
+              {/* Primary CTAs */}
               <div className="flex flex-wrap items-center gap-4 pt-4">
+                <a
+                  href="#designer"
+                  className="px-8 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-extrabold rounded-2xl text-xs uppercase tracking-wider shadow-lg transition-all flex items-center gap-2.5 hover:scale-[1.02]"
+                >
+                  <span>✨</span>
+                  <span>DESIGN A GIFT</span>
+                </a>
+
                 <Link
                   href="/gifting/recipients"
-                  className="px-7 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-2xl text-xs uppercase tracking-wider shadow-lg transition-all flex items-center gap-2 hover:scale-[1.02]"
-                >
-                  <span>⚡</span>
-                  <span>Upload Recipient Roster</span>
-                </Link>
-
-                <button
-                  onClick={() => setQuoteModalOpen(true)}
                   className="px-7 py-4 bg-[#17233B] hover:bg-stone-800 text-white font-bold rounded-2xl text-xs uppercase tracking-wider shadow-lg transition-all flex items-center gap-2"
                 >
-                  <span>📋</span>
-                  <span>Request Corporate Proposal</span>
-                </button>
+                  <span>⚡</span>
+                  <span>Recipient Choice Desk</span>
+                </Link>
 
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    'Hello Nutty Tales Gifting! I need a corporate quotation for Diwali 2026 hampers.',
+                    'Hello Nutty Tales Gifting! I want to design a gifting program for our organization.',
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-4 border border-stone-300 hover:border-stone-400 bg-white text-stone-700 font-semibold rounded-2xl text-xs flex items-center gap-2 transition-all shadow-sm"
                 >
                   <span className="text-emerald-600">💬</span>
-                  <span>Chat on WhatsApp</span>
+                  <span>Concierge Chat</span>
                 </a>
               </div>
             </div>
@@ -205,19 +211,21 @@ export default function GiftingPage() {
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-stone-100">
                 <Image
                   src="/images/corporate-diwali-gifting.jpg"
-                  alt="Nutty Tales Corporate Gifting Luxury Hampers"
+                  alt="Nutty Tales Gifting OS Luxury Casket"
                   fill
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#10192A]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#10192A]/85 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 text-white space-y-1.5">
                   <div className="inline-block px-2.5 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] font-bold text-[10px] uppercase tracking-wider">
-                    Diwali 2026 Edition
+                    Gifting OS Flagship
                   </div>
-                  <h3 className="font-serif text-xl font-bold">The Royal Corporate Heritage Trunk</h3>
-                  <p className="text-xs text-stone-200">
-                    Hand-carved walnut wood accents, vacuum-sealed Kashmir Mamra almonds, and laser brass insignia.
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold">
+                    The Royal Kashmir Heritage Casket
+                  </h3>
+                  <p className="text-xs text-stone-200 leading-relaxed">
+                    Carved Kashmir walnut wood, GI Pampore Mongra saffron, vacuum-sealed Mamra almonds, and laser brass crest.
                   </p>
                 </div>
               </div>
@@ -228,9 +236,251 @@ export default function GiftingPage() {
                   ✓
                 </div>
                 <div className="text-xs">
-                  <strong className="block text-[#17233B] text-sm">45,000+ Hampers</strong>
-                  <span className="text-stone-500">Delivered across 48 enterprise accounts in FY25-26</span>
+                  <strong className="block text-[#17233B] text-sm">45,000+ Gifts Fulfilled</strong>
+                  <span className="text-stone-500">Across 48 enterprise accounts and global recipients</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. Embedded SI Gift Designer Studio ──────────────────────────────── */}
+      <section className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SIGiftDesigner />
+      </section>
+
+      {/* ── 4. The Global Gifting OS Architecture ────────────────────────────── */}
+      <section id="gifting-os" className="py-16 sm:py-24 bg-[#10192A] text-white border-y border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
+              Nutty Tales Core Architecture
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-extrabold">
+              How the Global Gifting OS Works
+            </h2>
+            <p className="text-stone-400 text-xs sm:text-sm font-light">
+              Instead of browsing hundreds of static hampers, you express intent. SI analyzes the recipient, budget, and culture, orchestrating procurement, multi-country delivery, and seamless cross-business synergy.
+            </p>
+          </div>
+
+          {/* Architecture Pipeline Visualizer */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3 relative group hover:border-[#C9A45C]/50 transition-colors">
+              <span className="text-xs font-mono font-bold text-[#C9A45C]">STEP 01 · INTENT</span>
+              <h4 className="font-serif text-lg font-bold text-white">Customer Intent Engine</h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                &ldquo;Thank 25 CXO clients&rdquo; or &ldquo;300 employees across India, UAE, and UK at $75 each.&rdquo; SI parses persona, event, budget, and geographic destinations.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3 relative group hover:border-[#C9A45C]/50 transition-colors">
+              <span className="text-xs font-mono font-bold text-[#C9A45C]">STEP 02 · ORCHESTRATION</span>
+              <h4 className="font-serif text-lg font-bold text-white">SI Outcome Designer</h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Generates a tailored Gifting Program. Selects GI-certified harvest, artisan walnut craft from Crafts, or syncs guest lists from Weddings and VIP Stays.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3 relative group hover:border-[#C9A45C]/50 transition-colors">
+              <span className="text-xs font-mono font-bold text-[#C9A45C]">STEP 03 · DISPATCH DESK</span>
+              <h4 className="font-serif text-lg font-bold text-white">Choice Link or Roster</h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Option A: Send Snappy-style Choice Links without collecting addresses.<br />
+                Option B: Ingest Excel / CSV roster with 1-click AWB validation.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3 relative group hover:border-[#C9A45C]/50 transition-colors">
+              <span className="text-xs font-mono font-bold text-[#C9A45C]">STEP 04 · FULFILLMENT</span>
+              <h4 className="font-serif text-lg font-bold text-white">Global Air Hubs</h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Zero recipient customs duty. Dispatched via Bluedart Air (India), Dubai GCC Hub (UAE), and London Express (UK/Europe) with live tracking.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. Competitive Landscape Benchmarking (The Moat) ─────────────────── */}
+      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
+            Strategic Landscape
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
+            Why Nutty Tales Uniquely Solves Global Gifting
+          </h2>
+          <p className="text-stone-600 text-xs sm:text-sm font-light">
+            Global players excel in isolated features. Nutty Tales combines recipient choice, sales triggers, global fulfillment, and the unmatched artisan supply of our 6 connected verticals.
+          </p>
+        </div>
+
+        {/* Matrix Comparison Table */}
+        <div className="bg-white rounded-3xl border border-stone-200 shadow-lg overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-[#FAF6EE] text-[#17233B] font-bold border-b border-stone-200">
+              <tr>
+                <th className="p-4 sm:p-5 uppercase tracking-wider">Global Player</th>
+                <th className="p-4 sm:p-5 uppercase tracking-wider">Core Strength</th>
+                <th className="p-4 sm:p-5 uppercase tracking-wider">The Strategic Gap</th>
+                <th className="p-4 sm:p-5 uppercase tracking-wider text-[#704B32] font-black">
+                  Nutty Tales Gifting Advantage
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-200 text-stone-700">
+              <tr className="hover:bg-stone-50">
+                <td className="p-4 sm:p-5 font-bold text-[#17233B]">Snappy</td>
+                <td className="p-4 sm:p-5">Recipient Choice &amp; Global Logistics</td>
+                <td className="p-4 sm:p-5 text-stone-500">Generic gift swap catalog; no heritage curation</td>
+                <td className="p-4 sm:p-5 text-[#176B68] font-semibold">
+                  Recipient choice paired with Kashmir harvest &amp; bespoke keepsake caskets
+                </td>
+              </tr>
+              <tr className="hover:bg-stone-50">
+                <td className="p-4 sm:p-5 font-bold text-[#17233B]">Sendoso</td>
+                <td className="p-4 sm:p-5">CRM &amp; Sales-Triggered Workflows</td>
+                <td className="p-4 sm:p-5 text-stone-500">Third-party warehouse vendor markup; low emotional depth</td>
+                <td className="p-4 sm:p-5 text-[#176B68] font-semibold">
+                  CRM webhook trigger linked directly to farm-direct dry fruit production
+                </td>
+              </tr>
+              <tr className="hover:bg-stone-50">
+                <td className="p-4 sm:p-5 font-bold text-[#17233B]">Reachdesk</td>
+                <td className="p-4 sm:p-5">Global Enterprise Swag &amp; Events</td>
+                <td className="p-4 sm:p-5 text-stone-500">Corporate plastic/swag; lack of culinary and cultural luxury</td>
+                <td className="p-4 sm:p-5 text-[#176B68] font-semibold">
+                  Direct cross-border dispatch to India, UAE, and UK with zero recipient duty
+                </td>
+              </tr>
+              <tr className="hover:bg-stone-50">
+                <td className="p-4 sm:p-5 font-bold text-[#17233B]">Moonpig</td>
+                <td className="p-4 sm:p-5">Cards, Occasions &amp; Consumer Intelligence</td>
+                <td className="p-4 sm:p-5 text-stone-500">Consumer focus; minimal B2B multi-address enterprise SLAs</td>
+                <td className="p-4 sm:p-5 text-[#176B68] font-semibold">
+                  Occasion intelligence and personalized cards scaled for 5,000+ employees
+                </td>
+              </tr>
+              <tr className="hover:bg-stone-50">
+                <td className="p-4 sm:p-5 font-bold text-[#17233B]">Etsy</td>
+                <td className="p-4 sm:p-5">Handmade Artisan Discovery</td>
+                <td className="p-4 sm:p-5 text-stone-500">Fragmented seller quality; cannot deliver 1,000 uniform boxes</td>
+                <td className="p-4 sm:p-5 text-[#176B68] font-semibold">
+                  Unified Crafts vertical with master Srinagar guilds under NABL/FSSAI SLA
+                </td>
+              </tr>
+              <tr className="bg-[#FAF6EE]/70 font-semibold text-[#17233B]">
+                <td className="p-4 sm:p-5 font-black text-[#704B32]">Nutty Tales Gifting OS</td>
+                <td className="p-4 sm:p-5">Unified Gifting Intelligence + Commerce</td>
+                <td className="p-4 sm:p-5 text-emerald-800">Moat: Crosses Gifting → Weddings → Stays → Crafts → Business</td>
+                <td className="p-4 sm:p-5 text-[#704B32] font-black">
+                  Outcome-Based Design: One intent activates luxury gifting across 6 verticals
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ── 6. The Four Revenue Engines ──────────────────────────────────────── */}
+      <section className="py-16 sm:py-20 bg-stone-50 border-y border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
+              Commercial Scalability
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
+              Four High-Velocity Revenue Engines
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm font-light">
+              Nutty Tales Gifting is built to monetize every touchpoint — from intimate consumer celebrations to multi-country enterprise contracts.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+            {/* Engine 1 */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-lg font-bold">
+                  🎁
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Engine 01
+                </span>
+                <h3 className="font-serif text-xl font-bold text-[#17233B]">
+                  B2C &amp; Personal Gifting
+                </h3>
+                <p className="text-stone-600 leading-relaxed font-light">
+                  From ₹500 to ₹50,000+. Premium dry fruit collections, personalized wax-sealed cards, and birthday/anniversary deliveries for discerning consumers.
+                </p>
+              </div>
+              <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
+                Ticket: ₹500 – ₹50,000 / order
+              </div>
+            </div>
+
+            {/* Engine 2 */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center text-lg font-bold">
+                  🏢
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Engine 02
+                </span>
+                <h3 className="font-serif text-xl font-bold text-[#17233B]">
+                  Corporate Programs &amp; HR
+                </h3>
+                <p className="text-stone-600 leading-relaxed font-light">
+                  50 to 50,000 recipients. Employee onboarding, Diwali festive rollouts, CXO appreciation, 100% GST input tax credit, and Net-30 purchase orders.
+                </p>
+              </div>
+              <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
+                Ticket: ₹2.5L – ₹1.2 Cr / contract
+              </div>
+            </div>
+
+            {/* Engine 3 */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center text-lg font-bold">
+                  💍
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Engine 03
+                </span>
+                <h3 className="font-serif text-xl font-bold text-[#17233B]">
+                  Event &amp; Wedding Favors
+                </h3>
+                <p className="text-stone-600 leading-relaxed font-light">
+                  Destination weddings in Kashmir, corporate leadership offsites, and conferences. Connected with Nutty Tales Weddings for guest room drops.
+                </p>
+              </div>
+              <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
+                Ticket: ₹1.5L – ₹40L / wedding
+              </div>
+            </div>
+
+            {/* Engine 4 */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg font-bold">
+                  ⚡
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Engine 04
+                </span>
+                <h3 className="font-serif text-xl font-bold text-[#17233B]">
+                  Gifting Infrastructure &amp; API
+                </h3>
+                <p className="text-stone-600 leading-relaxed font-light">
+                  Nutty Tales Gifting API and Snappy-style recipient choice links. Enables external CRMs, HRMS platforms, and apps to trigger physical gifts programmatically.
+                </p>
+              </div>
+              <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
+                Recurring API &amp; platform GMV take
               </div>
             </div>
           </div>
@@ -439,6 +689,11 @@ export default function GiftingPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ── 3.5 IMMEDIATE REVENUE: EXECUTIVE SAMPLE HAMPER & FESTIVE SLOT LOCK ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExecutiveSampleHamperDesk />
       </section>
 
       {/* ── 4. Flagship Hamper Collections Showcase ─────────────────────────── */}

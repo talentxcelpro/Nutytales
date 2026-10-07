@@ -126,7 +126,9 @@ export default function TravelBuilderPage() {
                   onChange={(e) => setDestination(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs bg-white font-medium text-[#17233B]"
                 >
-                  <option value="Kashmir (Srinagar, Gulmarg, Pahalgam)">Kashmir Classic (Srinagar · Gulmarg · Pahalgam · Sonamarg)</option>
+                  <option value="Italy (Rome · Florence · Tuscany · Amalfi Coast)">Italy (Rome · Florence · Tuscany · Amalfi Coast)</option>
+                  <option value="Switzerland (Zurich · Lucerne · Zermatt · Interlaken)">Switzerland (Zurich · Lucerne · Zermatt · Interlaken)</option>
+                  <option value="Kashmir (Srinagar, Gulmarg, Pahalgam)">Kashmir Flagship (Srinagar · Gulmarg · Pahalgam · Sonamarg)</option>
                   <option value="Leh-Ladakh High Altitude Passes">Leh-Ladakh High Altitude (Pangong · Nubra Valley · Khardung La)</option>
                   <option value="Dubai & Desert Corridors">Dubai &amp; Desert Corridors (Burj · Palm Jumeirah · Dune Safari)</option>
                   <option value="London & Scottish Highlands">London &amp; Scottish Highlands Heritage Corridor</option>
@@ -149,7 +151,7 @@ export default function TravelBuilderPage() {
                 <input
                   type="number"
                   min="3"
-                  max="21"
+                  max="30"
                   value={daysCount}
                   onChange={(e) => setDaysCount(Number(e.target.value))}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs font-bold"
@@ -165,8 +167,9 @@ export default function TravelBuilderPage() {
                 >
                   <option value="Family with Children">Family with Children / Elders</option>
                   <option value="Honeymoon & Couples">Honeymoon &amp; Couples</option>
-                  <option value="Adventure Friends Group">Adventure Friends Group</option>
-                  <option value="Corporate Offsite Delegation">Corporate Offsite Delegation</option>
+                  <option value="Corporate Offsite Delegation">Corporate Offsite &amp; MICE (40 to 120 Pax)</option>
+                  <option value="Destination Wedding Group">Destination Wedding &amp; Life Event (100 to 200 Guests)</option>
+                  <option value="Solo & Small Group Adventure">Solo &amp; Small Group Adventure</option>
                 </select>
               </div>
 

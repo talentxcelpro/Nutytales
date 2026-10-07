@@ -4,28 +4,29 @@ import StaysShell from '@/components/stays/StaysShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
   title: {
-    default: 'Nutty Tales Stays — Exclusive Kashmiri Walnut Orchard Estates & Boutique Stays',
+    default: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
     template: '%s | Nutty Tales Stays',
   },
   description:
-    'Curated heritage stays in Kashmir. Private Harwan walnut orchard villa buyouts, Dal Lake cedar houseboats, curated royal Wazwan dining, and personal mountain concierges.',
+    'Vetted luxury private estate collection and executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Harwan walnut orchard villas, alpine ski chalets, royal cedar houseboats, and executive corporate boardroom suites with dedicated master chefs and 4x4 convoys.',
   alternates: {
     canonical: 'https://stays.nutytales.com',
   },
   keywords: [
-    'luxury stays Kashmir',
+    'luxury private residences Kashmir',
     'private villa Srinagar',
     'walnut orchard retreat Harwan',
     'luxury houseboat Dal Lake',
     'exclusive estate buyout Kashmir',
-    'boutique stays Gulmarg Pahalgam',
-    'heritage stays Kashmir',
-    'Kashmir corporate retreat villa',
+    'Gulmarg alpine ski chalet',
+    'corporate offsite estate buyout Delhi NCR',
+    'Patna heritage villa stay',
+    'executive residences Noida',
   ],
   openGraph: {
-    title: 'Nutty Tales Stays — Luxury Kashmiri Orchard Estates & Heritage Stays',
+    title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Living',
     description:
-      'Curated heritage stays in Kashmir. Private orchard villa buyouts, Dal Lake houseboats, and bespoke concierge.',
+      'Curated private estate collection across Kashmir, Delhi-NCR, and Patna. Private orchard villa buyouts, alpine chalets, cedar houseboats, and executive boardroom residences.',
     url: 'https://stays.nutytales.com',
     siteName: 'Nutty Tales Stays',
     locale: 'en_IN',
@@ -33,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Stays — Kashmiri Orchard Estates',
-    description: 'Private orchard villa buyouts, Dal Lake cedar houseboats, and mountain hospitality.',
+    title: 'Nutty Tales Stays — Private Residences & Estate Collection',
+    description: 'Private walnut orchard villas, alpine chalets, royal houseboats, and executive corporate suites.',
   },
 }
 

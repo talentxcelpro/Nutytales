@@ -19,6 +19,7 @@ import TryWithSIModal from '@/components/crafts/TryWithSIModal'
 import { CRAFT_PRODUCTS } from '@/lib/crafts-data'
 import DemandCaptureModal from '@/components/demand/DemandCaptureModal'
 import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
+import CraftsSwatchAndConsignmentDesk from '@/components/crafts/CraftsSwatchAndConsignmentDesk'
 
 export default function CraftsPage() {
   // ── State for Modals & Overlays ─────────────────────────────────────────────
@@ -656,6 +657,11 @@ export default function CraftsPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ── Immediate Revenue: Boutique Wholesale Swatch Box ─────────────────── */}
+      <section className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <CraftsSwatchAndConsignmentDesk />
       </section>
 
       {/* ── Sourcing Request Engine ────────────────────────────────────────── */}

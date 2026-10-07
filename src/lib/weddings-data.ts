@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales Weddings & Custom Packaging Engine ─────────────────────────────
+// ─── Nuty Tales Weddings & Custom Packaging Engine ─────────────────────────────
 // Bespoke dry fruit gifting, couple personalisation, and multi-city PAN-India delivery
 
 export interface WeddingOccasion {
@@ -78,7 +78,7 @@ export const PACKAGING_STYLES = [
     id: 'craft-box',
     name: 'Kashmir Papier-Mâché Keepsake Box',
     desc: 'Handmade paper pulp with genuine gold leaf floral motifs. Exquisite, sustainable, and uniquely Kashmiri.',
-    image: '/images/crafts-gifting-box.jpg',
+    image: '/images/long-festive-gift-box.jpg',
   },
   {
     id: 'brass-tray',
@@ -90,7 +90,7 @@ export const PACKAGING_STYLES = [
     id: 'custom-sleeve',
     name: 'Custom Pantone-Matched Designer Sleeve',
     desc: 'Tailored to match your wedding invitation color palette, typography, wax seals, and laser cuts.',
-    image: '/images/corporate-diwali-gifting.jpg',
+    image: '/images/dark-wood-gourmet-tray.jpg',
   },
 ]
 
@@ -102,7 +102,7 @@ export const WEDDING_CURATIONS = [
     price: 3800,
     contents: ['200g Kashmiri Kagzi Akhrot', '200g W240 Cashews', '200g California Almonds', '1g Pure Pampore Mongra Saffron', '250g Raw Acacia Honey'],
     packaging: 'Emerald Velvet Rigid Chest with Gold Foil Seal',
-    image: '/images/crafts-gifting-box.jpg',
+    image: '/images/long-festive-gift-box.jpg',
     minQty: 25,
   },
   {
