@@ -62,6 +62,7 @@ export function middleware(request: NextRequest) {
     }
 
     if (vertical === 'business') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/business/sitemap.xml')
       if (pathname === '/' || pathname === '/business-supply') return rewriteVertical('/b2b')
       if (pathname === '/rfq') return rewriteVertical('/b2b/rfq')
       if (pathname === '/catalog') return rewriteVertical('/b2b/catalog')
@@ -74,30 +75,35 @@ export function middleware(request: NextRequest) {
     }
 
     if (vertical === 'gifting') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/gifting/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/gifting')
       if (pathname.startsWith('/gifting')) return nextVertical()
       return rewriteVertical(`/gifting${pathname}`)
     }
 
     if (vertical === 'weddings') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/weddings/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/weddings')
       if (pathname.startsWith('/weddings')) return nextVertical()
       return rewriteVertical(`/weddings${pathname}`)
     }
 
     if (vertical === 'crafts') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/crafts/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/crafts')
       if (pathname.startsWith('/crafts')) return nextVertical()
       return rewriteVertical(`/crafts${pathname}`)
     }
 
     if (vertical === 'stays') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/stays/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/stays')
       if (pathname.startsWith('/stays')) return nextVertical()
       return rewriteVertical(`/stays${pathname}`)
     }
 
     if (vertical === 'travel') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/travel/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/travel')
       if (pathname.startsWith('/travel')) return nextVertical()
       return rewriteVertical(`/travel${pathname}`)
@@ -130,6 +136,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt)$).*)',
   ],
 }

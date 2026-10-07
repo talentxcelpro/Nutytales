@@ -62,6 +62,31 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // ── SEO Rewrites & Aliases ──────────────────────────────────────────────────
+  async rewrites() {
+    return [
+      { source: "/almonds-wholesale", destination: "/wholesale-dry-fruits/almonds" },
+      { source: "/cashews-wholesale", destination: "/wholesale-dry-fruits/cashews" },
+      { source: "/makhana-wholesale", destination: "/wholesale-dry-fruits/makhana" },
+      { source: "/almonds-wholesale/:city", destination: "/wholesale-dry-fruits/:city" },
+      { source: "/cashews-wholesale/:city", destination: "/wholesale-dry-fruits/:city" },
+      { source: "/makhana-wholesale/:city", destination: "/wholesale-dry-fruits/:city" },
+      { source: "/dry-fruits-for-bakeries", destination: "/wholesale-dry-fruits/bakeries" },
+      { source: "/dry-fruits-for-hotels", destination: "/wholesale-dry-fruits/hotels-resorts" },
+      { source: "/dry-fruits-for-sweet-shops", destination: "/wholesale-dry-fruits/sweet-shops" },
+      { source: "/dry-fruits-for-restaurants", destination: "/wholesale-dry-fruits/restaurants-cafes" },
+      { source: "/kashmir-crafts", destination: "/crafts/kashmir" },
+      { source: "/kani-shawls", destination: "/pashmina-shawls" },
+      { source: "/sozni-shawls", destination: "/pashmina-shawls" },
+      { source: "/hotels/srinagar", destination: "/stays/srinagar" },
+      { source: "/hotels/gulmarg", destination: "/stays/gulmarg" },
+      { source: "/boutique-stays/kashmir", destination: "/stays/kashmir" },
+      { source: "/family-stays/srinagar", destination: "/stays/srinagar" },
+      { source: "/wedding-planners/kashmir", destination: "/destination-weddings/kashmir" },
+      { source: "/wedding-venues/kashmir", destination: "/destination-weddings/kashmir" },
+    ];
+  },
+
   // ── Compiler options ───────────────────────────────────────────────────────
   compiler: {
     // Remove console.log in production builds (keep warn/error)

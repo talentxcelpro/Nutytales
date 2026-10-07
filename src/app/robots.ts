@@ -1,11 +1,13 @@
-﻿import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 /**
- * Next.js robots.ts
- * Rendered at GET /robots.txt
+ * Nutty Tales Global Search Engine Crawl Governance — robots.txt
  *
- * Disallows bots from sensitive/transactional sections while keeping
- * all product & content pages fully indexable.
+ * Rules:
+ * - Allows all legitimate public SEO pages across all 6 business verticals.
+ * - Disallows private/transactional routes (cart, checkout, admin, auth, internal search queries).
+ * - Disallows AI scrapers (GPTBot, CCBot, Google-Extended) from bulk-scraping proprietary catalog.
+ * - Publishes sitemaps for the root domain and all 6 independent business domains.
  */
 export default function robots(): MetadataRoute.Robots {
   const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
@@ -22,30 +24,32 @@ export default function robots(): MetadataRoute.Robots {
           "/account/",
           "/cart",
           "/checkout",
-          "/api",
           "/api/",
-          "/_next",
           "/_next/",
           "/login",
           "/register",
+          "/search?",
+          "/search/",
+          "/*?*utm_*",
+          "/*?*session_*",
           "/*.json$",
         ],
       },
-      // Prevent AI-training crawlers from scraping content
+      // Restrict generative AI bulk scrapers
       {
-        userAgent: "GPTBot",
-        disallow: "/",
-      },
-      {
-        userAgent: "Google-Extended",
-        disallow: "/",
-      },
-      {
-        userAgent: "CCBot",
+        userAgent: ["GPTBot", "Google-Extended", "CCBot", "anthropic-ai", "Claude-Web"],
         disallow: "/",
       },
     ],
-    sitemap: `${APP_URL}/sitemap.xml`,
+    sitemap: [
+      `${APP_URL}/sitemap.xml`,
+      "https://business.nutytales.com/sitemap.xml",
+      "https://gifting.nutytales.com/sitemap.xml",
+      "https://weddings.nutytales.com/sitemap.xml",
+      "https://crafts.nutytales.com/sitemap.xml",
+      "https://stays.nutytales.com/sitemap.xml",
+      "https://travel.nutytales.com/sitemap.xml",
+    ],
     host: APP_URL,
   };
 }

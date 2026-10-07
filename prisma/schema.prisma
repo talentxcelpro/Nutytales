@@ -1061,3 +1061,208 @@ model AuditLog {
 
   @@map("audit_logs")
 }
+
+// ==============================================================
+// GLOBAL SEO DEMAND ENGINE & INFRASTRUCTURE
+// ==============================================================
+
+model SeoPageCandidate {
+  id               String    @id @default(cuid())
+  business         String    // root, business, gifting, weddings, crafts, stays, travel
+  pageType         String    // hub, category, product, service, destination, location, occasion, audience, etc.
+  intentType       String    // transactional, commercial, b2b_procurement, rfq, local_commercial, etc.
+  keywordCluster   String[]
+  slug             String
+  canonicalUrl     String
+  country          String?
+  region           String?
+  city             String?
+  locationId       String?
+  categoryId       String?
+  productId        String?
+  serviceId        String?
+  occasion         String?
+  audience         String?
+  attributes       Json?
+
+  // Quality & Demand Scores (0 - 100)
+  demandScore      Float     @default(0)
+  commercialScore  Float     @default(0)
+  supplyScore      Float     @default(0)
+  qualityScore     Float     @default(0)
+  revenueScore     Float     @default(0)
+
+  // Status & Governance
+  status           String    @default("candidate") // candidate, qualified, draft, published, indexable, noindex, deprecated, redirected, blocked
+  robotsDirective  String    @default("noindex,nofollow")
+  sitemapGroup     String?
+  sitemapTier      Int       @default(5) // 1-5
+
+  lastEvaluatedAt  DateTime?
+  lastmod          DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([business, status])
+  @@index([canonicalUrl])
+  @@map("seo_page_candidates")
+}
+
+model SeoPageRecord {
+  id                 String    @id @default(cuid())
+  business           String    // root, business, gifting, weddings, crafts, stays, travel
+  pageType           String
+  intentType         String
+  slug               String    @unique
+  canonicalUrl       String    @unique
+  title              String
+  metaDescription    String
+  h1                 String
+  intro              String?   @db.Text
+  primaryEntityId    String?
+  location           String?
+  country            String?
+  language           String    @default("en")
+  currency           String    @default("INR")
+  heroImage          String?
+
+  // Rich real content blocks & data
+  contentBlocks      Json?
+  faqBlocks          Json?
+  commercialCta      Json?
+  supplierData       Json?
+  productData        Json?
+  serviceData        Json?
+  availabilityData   Json?
+  priceData          Json?
+  reviewData         Json?
+  relatedPages       Json?
+  breadcrumbs        Json?
+  schemaData         Json?
+
+  // Indexation governance & verification
+  lastVerifiedAt     DateTime?
+  lastmod            DateTime  @default(now())
+  qualityScore       Float     @default(0)
+  demandScore        Float     @default(0)
+  commercialScore    Float     @default(0)
+  indexabilityStatus String    @default("draft") // draft, published, indexable, noindex, deprecated
+  robotsDirective    String    @default("index,follow")
+  canonicalStatus    String    @default("canonical")
+  sitemapGroup       String?
+  publishedAt        DateTime?
+  updatedAt          DateTime  @updatedAt
+  deprecatedAt       DateTime?
+
+  @@index([business, indexabilityStatus])
+  @@map("seo_pages")
+}
+
+model SeoEntity {
+  id         String   @id @default(cuid())
+  type       String   // country, state, region, city, neighbourhood, destination, hotel, property, supplier, product, service, experience, wedding_venue, craft, artisan, gift, business_category, occasion, industry
+  name       String
+  slug       String   @unique
+  parentId   String?
+  country    String?
+  region     String?
+  city       String?
+  latitude   Float?
+  longitude  Float?
+  metadata   Json?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([type, slug])
+  @@map("seo_entities")
+}
+
+model SeoEntityRelation {
+  id           String   @id @default(cuid())
+  fromEntityId String
+  toEntityId   String
+  relationship String   // located_in, near, offers, supplies, serves, available_in, belongs_to, similar_to, related_to, suitable_for, bookable_at, delivers_to, partners_with
+  weight       Float    @default(1.0)
+  createdAt    DateTime @default(now())
+
+  @@unique([fromEntityId, toEntityId, relationship])
+  @@map("seo_entity_relations")
+}
+
+model SeoDemandSignalRecord {
+  id                 String   @id @default(cuid())
+  query              String
+  normalizedQuery    String
+  intentType         String
+  business           String
+  country            String?
+  city               String?
+  productOrService   String?
+  frequency          Int      @default(1)
+  commercialScore    Float    @default(0)
+  conversionCount    Int      @default(0)
+  revenueAttributed  Float    @default(0)
+  existingPageId     String?
+  existingPageQuality Float?
+  supplyGap          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([normalizedQuery])
+  @@index([business, intentType])
+  @@map("seo_demand_signals")
+}
+
+model SeoSupplyGapRecord {
+  id               String   @id @default(cuid())
+  query            String
+  business         String
+  demandScore      Float
+  country          String?
+  city             String?
+  description      String?
+  status           String   @default("open") // open, sourcing, resolved
+  resolvedByPageId String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("seo_supply_gaps")
+}
+
+model SeoConversionRecord {
+  id                String   @id @default(cuid())
+  seoPageId         String?
+  firstTouchPageId  String?
+  lastTouchPageId   String?
+  sessionSource     String?
+  queryCluster      String?
+  business          String
+  conversionType    String   // lead, rfq, order, booking, quote, gifting_order, wedding_enquiry, travel_booking, stay_booking, whatsapp_enquiry
+  revenue           Float?
+  grossMargin       Float?
+  currency          String   @default("INR")
+  createdAt         DateTime @default(now())
+
+  @@index([seoPageId])
+  @@index([business, conversionType])
+  @@map("seo_conversions")
+}
+
+model SeoGscTelemetryRecord {
+  id                 String   @id @default(cuid())
+  property           String   // nutytales.com, business.nutytales.com, etc.
+  date               DateTime
+  clicks             Int      @default(0)
+  impressions        Int      @default(0)
+  ctr                Float    @default(0)
+  position           Float    @default(0)
+  queryCluster       String?
+  pageUrl            String?
+  indexedPagesCount  Int?
+  crawlAnomalies     Int?
+  createdAt          DateTime @default(now())
+
+  @@index([property, date])
+  @@map("seo_gsc_telemetry")
+}
