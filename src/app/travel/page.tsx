@@ -59,17 +59,24 @@ export default function TravelMarketplacePage() {
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-4">
-              <button
-                onClick={() => setQuoteModalOpen(true)}
-                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+              <Link
+                href="/travel/builder"
+                className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
               >
-                Plan My Custom Trip →
-              </button>
+                <span>⚡</span>
+                <span>Launch SI Trip Builder →</span>
+              </Link>
               <Link
                 href="/travel/kashmir"
                 className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl border border-white/20 transition-colors"
               >
                 Explore Kashmir Valley Guide
+              </Link>
+              <Link
+                href="/travel/partners"
+                className="px-6 py-3.5 bg-stone-900/60 hover:bg-stone-900 text-stone-200 font-semibold text-xs uppercase tracking-wider rounded-xl border border-white/10 transition-colors"
+              >
+                DMC Partner Portal
               </Link>
             </div>
           </div>

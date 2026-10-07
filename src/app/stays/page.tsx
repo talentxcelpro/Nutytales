@@ -46,17 +46,23 @@ export default function StaysPage() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <a
-                href="#booking-engine"
+              <Link
+                href="/stays/group-quote"
                 className="px-6 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
               >
-                Reserve Your Suite ↓
-              </a>
-              <Link
-                href="/travel/kashmir"
+                🏰 Private Estate Buyout Desk →
+              </Link>
+              <a
+                href="#booking-engine"
                 className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-xs uppercase tracking-wider border border-white/20 transition-all"
               >
-                Kashmir Travel Packages →
+                Browse Suites &amp; Houseboats ↓
+              </a>
+              <Link
+                href="/stays/hosts"
+                className="px-6 py-3.5 bg-stone-900/60 hover:bg-stone-900 text-stone-200 font-semibold rounded-xl text-xs uppercase tracking-wider border border-white/10 transition-all"
+              >
+                List Property as Host
               </Link>
             </div>
           </div>
