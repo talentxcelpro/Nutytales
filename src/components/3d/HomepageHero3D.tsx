@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
@@ -232,6 +232,8 @@ export default function HomepageHero3D() {
         productName="Nuty Tales Premium Almonds (250g)"
         modelType="pouch"
         price={425}
+        productImage="/images/almonds-pouch-250g.jpg"
+        origin="California, USA"
       />
     </>
   )

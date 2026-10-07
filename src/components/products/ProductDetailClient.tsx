@@ -576,6 +576,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         productName={product.name}
         modelType={modelType}
         price={unitPrice}
+        productImage={product.image}
+        origin={product.origin}
         onAddToCart={handleAddToCart}
       />
     </div>
