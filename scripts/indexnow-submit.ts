@@ -12,7 +12,7 @@ import { KASHMIR_TRAVEL_PACKAGES } from '../src/lib/travel-data';
 import { INDUSTRIES } from '../src/lib/business-supply-data';
 
 const HOST = 'nutytales.com';
-const INDEXNOW_KEY = 'nutytales9872e90f23b145a6c8e310d54fa112';
+const INDEXNOW_KEY = '9872e90f23b145a6c8e310d54fa1128c';
 const KEY_LOCATION = `https://${HOST}/${INDEXNOW_KEY}.txt`;
 
 // Gather all high-value indexable URLs
