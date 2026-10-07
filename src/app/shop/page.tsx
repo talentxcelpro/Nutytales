@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { PRODUCTS } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
+import ShopProductCard from '@/components/shop/ShopProductCard'
 
 export const metadata: Metadata = {
   title: 'Shop Premium Dry Fruits Online | Retail & Wholesale | Nutty Tales',
@@ -98,87 +99,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filtered.map((prod) => (
-            <div
-              key={prod.id}
-              className="bg-white rounded-2xl border border-stone-200 hover:border-[#D4870A] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
-            >
-              <div>
-                {/* Image */}
-                <div className="relative aspect-square bg-gradient-to-br from-amber-50 to-stone-100 overflow-hidden">
-                  {prod.image ? (
-                    <Image
-                      src={prod.image}
-                      alt={prod.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-stone-300">
-                      <span className="text-5xl">🥜</span>
-                      <span className="text-[10px] mt-1 uppercase font-bold tracking-widest text-stone-400">
-                        {prod.category}
-                      </span>
-                    </div>
-                  )}
-
-                  {prod.isFeatured && (
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-[#C9A227] text-white text-[10px] font-bold tracking-wider shadow">
-                      POPULAR
-                    </span>
-                  )}
-                  <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[#2D6A4F] text-[10px] font-bold border border-emerald-200">
-                    {prod.origin.split(',')[0]}
-                  </span>
-                </div>
-
-                {/* Details */}
-                <div className="p-4 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4870A] block">
-                    {prod.category} • {prod.grade}
-                  </span>
-                  <Link
-                    href={`/shop/${prod.slug}`}
-                    className="font-bold text-sm text-[#3D2B1F] group-hover:text-[#D4870A] transition-colors line-clamp-1 block"
-                  >
-                    {prod.name}
-                  </Link>
-                  <p className="text-xs text-stone-500 line-clamp-2 leading-relaxed">
-                    {prod.shortDesc}
-                  </p>
-
-                  <div className="pt-2 border-t border-stone-100 flex items-baseline justify-between">
-                    <div>
-                      <span className="text-base font-extrabold text-[#3D2B1F]">
-                        ₹{prod.retailPrice.toLocaleString('en-IN')}
-                      </span>
-                      <span className="text-xs text-stone-500"> / kg</span>
-                    </div>
-                    {prod.b2bPricePerKg && (
-                      <span className="text-[11px] font-bold text-[#2D6A4F] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                        Wholesale: ₹{prod.b2bPricePerKg}/kg
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="p-4 pt-0 grid grid-cols-2 gap-2">
-                <Link
-                  href={`/shop/${prod.slug}`}
-                  className="py-2 text-center rounded-xl bg-stone-100 hover:bg-[#D4870A] hover:text-white text-stone-800 text-xs font-bold uppercase tracking-wider transition-colors"
-                >
-                  View Details
-                </Link>
-                <Link
-                  href={`/bulk-quote?product=${encodeURIComponent(prod.name)}`}
-                  className="py-2 text-center rounded-xl border border-[#2D6A4F] text-[#2D6A4F] hover:bg-emerald-50 text-xs font-bold uppercase tracking-wider transition-colors"
-                >
-                  Bulk Quote
-                </Link>
-              </div>
-            </div>
+            <ShopProductCard key={prod.id} product={prod} />
           ))}
         </div>
       </div>

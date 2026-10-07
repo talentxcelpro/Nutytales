@@ -23,7 +23,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'California, USA',
     retailPrice: 980,
     wholesalePrice: 890,
-    image: '/images/almonds-pouch-250g.png',
+    image: '/images/almonds-pouch-250g.jpg',
   },
   {
     id: 'csw-001',
@@ -130,14 +130,15 @@ export default function PopularProducts() {
             className="group bg-white rounded-xl overflow-hidden border border-[#17233B]/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
           >
             <div>
-              <div className="relative aspect-square bg-[#F7F2E8]/60 p-8 flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-square bg-[#F7F2E8]/60 p-6 flex items-center justify-center overflow-hidden">
                 {item.image ? (
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
+                    quality={95}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center text-stone-300">

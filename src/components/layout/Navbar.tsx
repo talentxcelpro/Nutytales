@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
+import CartDrawer from '@/components/cart/CartDrawer'
+
 const NAV_LINKS = [
   { label: 'Shop', href: '/shop' },
   { label: 'Business Supply', href: '/business-supply' },
@@ -20,9 +22,29 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [cartCount, setCartCount] = useState(0)
   const pathname = usePathname()
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem('nt_cart') || '[]')
+        const total = stored.reduce((acc: number, item: any) => acc + (item.quantity || 1), 0)
+        setCartCount(total)
+      } catch {
+        setCartCount(0)
+      }
+    }
+    updateCartCount()
+    window.addEventListener('nt_cart_updated', updateCartCount)
+    window.addEventListener('storage', updateCartCount)
+    return () => {
+      window.removeEventListener('nt_cart_updated', updateCartCount)
+      window.removeEventListener('storage', updateCartCount)
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -133,13 +155,24 @@ export default function Navbar() {
                 <span>✨</span>
                 <span>Try with SI</span>
               </Link>
-              <Link
-                href="/cart"
-                className="text-base text-[#17233B] hover:text-[#176B68] transition-colors px-1"
+
+              {/* Shopping Basket Button with Live Counter */}
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('nt_open_cart'))}
+                className="relative p-2 rounded-xl text-[#17233B] hover:text-[#176B68] hover:bg-black/5 transition-colors flex items-center gap-1.5 font-bold"
                 aria-label="Shopping Basket"
               >
-                🛒
-              </Link>
+                <span className="text-lg">🛒</span>
+                {cartCount > 0 ? (
+                  <span className="bg-[#176B68] text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-sm leading-none">
+                    {cartCount}
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-stone-500 font-semibold lowercase">basket</span>
+                )}
+              </button>
+
               <a
                 href={`https://wa.me/${whatsappPhone}`}
                 target="_blank"
@@ -152,9 +185,19 @@ export default function Navbar() {
 
             {/* Mobile Toggle */}
             <div className="flex items-center gap-3 xl:hidden">
-              <Link href="/cart" className="text-xl" aria-label="Shopping Basket">
-                🛒
-              </Link>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('nt_open_cart'))}
+                className="relative p-1 text-xl"
+                aria-label="Shopping Basket"
+              >
+                <span>🛒</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#176B68] text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="text-[#17233B] text-2xl focus:outline-none p-1"
@@ -234,13 +277,14 @@ export default function Navbar() {
       {/* Floating subtle WhatsApp button */}
       <a
         href={`https://wa.me/${whatsappPhone}`}
-        target="_blank"
-        rel="noopener noreferrer"
         aria-label="WhatsApp Concierge"
         className="fixed bottom-6 right-6 z-50 w-13 h-13 bg-[#176B68] hover:bg-[#125350] text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 border border-white/40"
       >
         <span className="text-xl">💬</span>
       </a>
+
+      {/* Global Slide-Over Shopping Basket Drawer */}
+      <CartDrawer />
     </>
   )
 }

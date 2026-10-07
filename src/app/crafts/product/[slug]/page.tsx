@@ -84,6 +84,9 @@ export default function CraftProductDetailPage() {
   const [siModalOpen, setSiModalOpen] = useState(false)
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
   const [viewer3DOpen, setViewer3DOpen] = useState(false)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
 
   // Pincode delivery check state
   const [pincode, setPincode] = useState('')
@@ -147,6 +150,8 @@ export default function CraftProductDetailPage() {
         image: product.image,
       }
       localStorage.setItem('nt_cart', JSON.stringify([...existing, newItem]))
+      window.dispatchEvent(new Event('nt_cart_updated'))
+      window.dispatchEvent(new Event('nt_open_cart'))
       setAddedToast(true)
       setTimeout(() => setAddedToast(false), 3500)
     } catch {
@@ -198,19 +203,39 @@ export default function CraftProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* LEFT: Large Image Gallery (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
-            {/* Main Stage Image */}
-            <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden bg-white shadow-sm border border-stone-200">
+            {/* Main Stage Image with Interactive HD Magnifier */}
+            <div
+              onMouseEnter={() => setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                const x = ((e.clientX - rect.left) / rect.width) * 100
+                const y = ((e.clientY - rect.top) / rect.height) * 100
+                setZoomPos({ x, y })
+              }}
+              className="relative aspect-[3/4] sm:aspect-[4/5] w-full rounded-3xl overflow-hidden bg-white shadow-sm border border-stone-200 cursor-crosshair group"
+            >
               <Image
                 src={selectedImage}
                 alt={product.name}
                 fill
                 priority
-                className="object-cover transition-all duration-300"
+                quality={95}
+                className={`object-cover object-[center_top] transition-transform duration-300 ${
+                  isZoomed ? 'scale-135' : 'scale-100'
+                }`}
+                style={
+                  isZoomed
+                    ? {
+                        transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                      }
+                    : undefined
+                }
                 sizes="(max-width: 1024px) 100vw, 60vw"
               />
 
               {/* Badges Overlay */}
-              <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10">
+              <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
                 <span className="bg-[#17233B] text-white px-3 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider shadow-sm">
                   {product.craft}
                 </span>
@@ -221,13 +246,28 @@ export default function CraftProductDetailPage() {
                 )}
               </div>
 
+              {/* Zoom hint */}
+              <div className="absolute top-4 right-4 pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity z-10">
+                <span className="bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-[10px] text-stone-600 font-semibold shadow-xs">
+                  🔍 Hover to Zoom HD
+                </span>
+              </div>
+
               {/* 3D and Fullscreen Zoom Triggers */}
               <div className="absolute bottom-4 right-4 flex items-center gap-2 z-10">
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  className="px-3.5 py-2 rounded-xl bg-white/95 hover:bg-white text-[#17233B] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
+                >
+                  <span>⤢</span>
+                  <span>Full View</span>
+                </button>
                 {product.is3DSupported && (
                   <button
                     type="button"
                     onClick={() => setViewer3DOpen(true)}
-                    className="px-3.5 py-2 rounded-xl bg-[#17233B]/90 hover:bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5"
+                    className="px-3.5 py-2 rounded-xl bg-[#17233B]/90 hover:bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
                   >
                     <span>✦</span>
                     <span>View in 3D</span>
@@ -623,6 +663,50 @@ export default function CraftProductDetailPage() {
           CRAFT_PRODUCTS.find((p) => p.slug === product.slug) || CRAFT_PRODUCTS[0]
         }
       />
+
+      {/* Fullscreen HD Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg flex flex-col items-center justify-between p-4 sm:p-8 animate-fadeIn"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <div className="w-full flex items-center justify-between text-white/80 max-w-6xl z-10" onClick={(e) => e.stopPropagation()}>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-[#C9A45C] font-semibold">{product.craft}</p>
+              <h4 className="font-serif text-lg text-white font-bold">{product.name}</h4>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center transition-colors"
+              aria-label="Close Fullscreen View"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div
+            className="relative w-full max-w-4xl h-[75vh] my-auto flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={selectedImage}
+              alt={product.name}
+              fill
+              className="object-contain"
+              sizes="100vw"
+              priority
+              quality={95}
+            />
+          </div>
+
+          <p className="text-white/60 text-xs text-center" onClick={(e) => e.stopPropagation()}>
+            HD Uncropped Studio Presentation · Click anywhere outside or ✕ to exit
+          </p>
+        </div>
+      )}
     </main>
   )
 }
