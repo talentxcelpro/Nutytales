@@ -211,6 +211,217 @@ export default function AdminSalesCommandCenterPage() {
           </div>
         </div>
 
+        {/* ── Portfolio P&L — The 6 Independent Global Companies ── */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
+                <span>✦</span> NUTTY TALES GROUP PORTFOLIO P&amp;L
+              </div>
+              <h2 className="font-serif text-2xl font-bold text-[#17233B] mt-1">
+                Six Independent Operating Companies
+              </h2>
+            </div>
+            <span className="text-xs text-stone-500 font-mono">
+              Independent P&amp;L · Separate Dashboards · Shared Platform Core
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* 1. Business */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">🏢</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-stone-100 text-stone-700 px-2 py-0.5 rounded">
+                    business.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Business</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  Global B2B sourcing, bulk wholesale commodity contracts, and enterprise replenishment.
+                </p>
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Monthly Sourcing GMV:</span>
+                    <span className="font-bold text-[#17233B]">₹48.6 Lakhs</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Active RFQ Volume:</span>
+                    <span className="font-bold text-[#176B68]">22,400 kg (8 Deals)</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/b2b/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#10192A] text-white hover:bg-[#176B68] rounded-xl transition-colors"
+              >
+                Open Business Dashboard →
+              </Link>
+            </div>
+
+            {/* 2. Gifting */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">🎁</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-stone-100 text-stone-700 px-2 py-0.5 rounded">
+                    gifting.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Gifting</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  Corporate gifting, Diwali 2026 hampers, multi-recipient dispatch, and laser branding.
+                </p>
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Gifting GMV (Season):</span>
+                    <span className="font-bold text-[#17233B]">₹32.8 Lakhs</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Hampers Dispatched:</span>
+                    <span className="font-bold text-[#176B68]">1,840 Boxes</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/gifting/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#10192A] text-white hover:bg-[#176B68] rounded-xl transition-colors"
+              >
+                Open Gifting Dashboard →
+              </Link>
+            </div>
+
+            {/* 3. Weddings */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">💍</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 px-2 py-0.5 rounded">
+                    weddings.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Weddings</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  The Wedding OS: Interactive workspace, venue booking, wazwan banquets, and trousseau favors.
+                </p>
+                <div className="p-3 bg-rose-50/50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Wedding Pipeline GMV:</span>
+                    <span className="font-bold text-[#8E2848]">₹1.85 Crores</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Favors Booked:</span>
+                    <span className="font-bold text-[#8E2848]">2,150 Units</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/weddings/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#2D1520] text-white hover:bg-[#8E2848] rounded-xl transition-colors"
+              >
+                Open Weddings Dashboard →
+              </Link>
+            </div>
+
+            {/* 4. Crafts */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">🧣</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded">
+                    crafts.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Crafts</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  Global luxury weaves marketplace, GI Changthangi Pashmina, tailored pherans, and wholesale export.
+                </p>
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Marketplace GMV:</span>
+                    <span className="font-bold text-[#17233B]">₹41.2 Lakhs</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">B2B Wholesale Share:</span>
+                    <span className="font-bold text-[#176B68]">64% (14 Guilds)</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/crafts/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#10192A] text-white hover:bg-[#176B68] rounded-xl transition-colors"
+              >
+                Open Crafts Dashboard →
+              </Link>
+            </div>
+
+            {/* 5. Stays */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">🏔️</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+                    stays.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Stays</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  Hospitality &amp; stay-experiences: Harwan walnut orchard suites, private buyouts, and local dining.
+                </p>
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Hospitality GMV:</span>
+                    <span className="font-bold text-[#17233B]">₹24.6 Lakhs</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Average Occupancy:</span>
+                    <span className="font-bold text-[#176B68]">84.2% (ADR ₹9,450)</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/stays/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#10192A] text-white hover:bg-[#176B68] rounded-xl transition-colors"
+              >
+                Open Stays Dashboard →
+              </Link>
+            </div>
+
+            {/* 6. Travel */}
+            <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl">✈️</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-teal-100 text-teal-800 px-2 py-0.5 rounded">
+                    travel.nutytales.com
+                  </span>
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Travel</h3>
+                <p className="text-xs text-stone-500 font-light">
+                  SI dynamic itinerary planning, 4x4 snow safaris, verified DMC network, and alpine expeditions.
+                </p>
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Travel Bookings GMV:</span>
+                    <span className="font-bold text-[#17233B]">₹54.2 Lakhs</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-stone-500">Active Expeditions:</span>
+                    <span className="font-bold text-[#176B68]">24 Trips (18 DMCs)</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/travel/dashboard"
+                className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider bg-[#0E3A43] text-white hover:bg-[#176B68] rounded-xl transition-colors"
+              >
+                Open Travel Dashboard →
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* ── Active Opportunities Pipeline Table ── */}
         <div className="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden space-y-4">
           <div className="p-6 border-b border-stone-200 flex flex-wrap items-center justify-between gap-4">

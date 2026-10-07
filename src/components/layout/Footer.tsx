@@ -58,8 +58,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  // Suppress consumer footer on dedicated B2B application shell
-  if (pathname?.startsWith('/b2b')) {
+  // Suppress consumer footer on dedicated standalone company shells
+  if (
+    pathname?.startsWith('/b2b') ||
+    pathname?.startsWith('/gifting') ||
+    pathname?.startsWith('/weddings') ||
+    pathname?.startsWith('/crafts') ||
+    pathname?.startsWith('/stays') ||
+    pathname?.startsWith('/travel')
+  ) {
     return null
   }
 

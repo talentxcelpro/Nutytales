@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
@@ -100,17 +100,17 @@ export default function SIFloatingAssistant() {
           <div className="bg-[#17233B] text-white px-5 py-4 flex items-center justify-between border-b border-white/10">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#176B68] to-[#C9A45C] flex items-center justify-center text-base font-bold shadow-inner">
-                ✨
+                {contextData.badgeIcon}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-serif font-bold text-sm">SI Assistant</h3>
+                  <h3 className="font-serif font-bold text-sm">{contextData.assistantName}</h3>
                   <span className="text-[9px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded bg-[#C9A45C] text-[#17233B]">
-                    Live AI Concierge
+                    Specialized AI
                   </span>
                 </div>
                 <p className="text-[11px] text-stone-300 font-light">
-                  Nuty Tales Commerce, Crafts &amp; Hospitality Engine
+                  {contextData.tagline}
                 </p>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function SIFloatingAssistant() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask SI anything..."
+              placeholder={contextData.inputPlaceholder}
               className="flex-1 px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs text-[#17233B] focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-stone-50"
             />
             <button
@@ -231,93 +231,166 @@ export default function SIFloatingAssistant() {
 }
 
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
+// ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
-  if (pathname.startsWith('/crafts')) {
+  // ── Company 1: Nutty Tales Business (business.nutytales.com / /b2b) ─────────
+  if (pathname.startsWith('/b2b') || pathname.startsWith('/business-supply')) {
     return {
+      assistantName: 'SI Procurement Copilot',
+      badgeIcon: '🏢',
+      tagline: 'Global B2B Sourcing & Commodity Procurement Desk',
+      inputPlaceholder: 'Tell SI what you need to source (e.g. 5,000 kg almonds monthly)...',
       greeting:
-        'Welcome to Crafts & Heritage Fall/Winter 2026. I am SI, your Kashmir style & provenance concierge. I can simulate drapes on your silhouette, explain the 14.5-micron Pashmina craft, or check GI tag certification.',
+        'Welcome to Nutty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source, your monthly volume, or grade specifications, and I will match verified suppliers with formal quotes.',
       actions: [
-        { label: 'Try with SI (Virtual Drape)', href: '/crafts/try-with-si' },
-        { label: 'GI Certification Authenticity', onClick: () => {} },
-        { label: 'Pheran vs Shawl Guide', onClick: () => {} },
+        { label: 'Create Instant RFQ', href: '/b2b/rfq' },
+        { label: 'Wholesale Catalog', href: '/b2b/catalog' },
+        { label: 'Commercial Dashboard', href: '/b2b/dashboard' },
       ],
-      quickPrompts: ['Drape a Pheran on me', 'Explain Kani weave', 'Is this GI certified?'],
+      quickPrompts: [
+        'Quote 5,000 kg Mamra Badam',
+        'Bakery almond slices 0.8mm',
+        'FSSAI & NABL lab reports',
+        'Standing replenishment agreement',
+      ],
     }
   }
 
+  // ── Company 2: Nutty Tales Gifting (gifting.nutytales.com / /gifting) ───────
+  if (pathname.startsWith('/gifting') || pathname.startsWith('/corporate-gifting')) {
+    return {
+      assistantName: 'SI Corporate Gifting Copilot',
+      badgeIcon: '🎁',
+      tagline: 'End-to-End Multi-Recipient Corporate & Festival Gifting',
+      inputPlaceholder: "Tell SI who you're gifting (e.g. 250 executive clients for Diwali)...",
+      greeting:
+        'Welcome to Nutty Tales Gifting. I am your Corporate Gifting Copilot. Whether you need 50 executive hampers with laser-engraved wooden boxes or 2,000 multi-city employee gifts, tell me your budget and recipient count.',
+      actions: [
+        { label: 'Multi-Recipient Desk', href: '/gifting/recipients' },
+        { label: 'Curate Bespoke Hamper', href: '/gifting' },
+        { label: 'Gifting Dashboard', href: '/gifting/dashboard' },
+      ],
+      quickPrompts: [
+        'Hampers under ₹1,500 for Diwali',
+        'Upload 200 recipient addresses',
+        'Custom corporate foil branding',
+        'PAN-India multi-office dispatch',
+      ],
+    }
+  }
+
+  // ── Company 3: Nutty Tales Weddings (weddings.nutytales.com / /weddings) ─────
   if (pathname.startsWith('/weddings')) {
     return {
+      assistantName: 'SI Wedding Planner',
+      badgeIcon: '💍',
+      tagline: 'The Wedding Operating System & Execution Concierge',
+      inputPlaceholder: "Tell SI how you're planning your wedding (e.g. 400 guests destination in Kashmir)...",
       greeting:
-        'Planning wedding celebrations? I am SI, your bespoke wedding concierge. I can match packaging to your wedding card colors, configure 100 to 1,000+ hampers across multiple cities, and generate custom monogram previews.',
+        'Welcome to Nutty Tales Weddings. I am your Wedding Planner Copilot. I help you plan budgets, orchestrate vendor RFQs (venues, decorators, photography), calculate guest favors, and generate multi-day timelines.',
       actions: [
-        { label: 'Design Your Hamper', href: '/weddings' },
-        { label: 'Budget Calculator (₹500 - ₹5000+)', onClick: () => {} },
-        { label: 'Multi-City PAN-India Delivery', onClick: () => {} },
+        { label: 'Launch Wedding Workspace', href: '/weddings/workspace' },
+        { label: 'Wedding Favors & Hampers', href: '/weddings/favors' },
+        { label: 'Planner Dashboard', href: '/weddings/dashboard' },
       ],
-      quickPrompts: ['Hampers under ₹1,500', 'Multi-city dispatch', 'Personalized monograms'],
+      quickPrompts: [
+        'Budget split for ₹25 Lakhs',
+        'Destination Kashmir venues',
+        '300 Mehendi return gifts',
+        'Multi-day event countdown',
+      ],
     }
   }
 
-  if (pathname.startsWith('/founders')) {
+  // ── Company 4: Nutty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
+  if (pathname.startsWith('/crafts')) {
     return {
+      assistantName: 'SI Style & Craft Advisor',
+      badgeIcon: '🧣',
+      tagline: 'Global Luxury Weaves, Virtual Drape & Provenance',
+      inputPlaceholder: 'Tell SI what you want to wear or discover (e.g. GI Kani Pashmina for winter)...',
       greeting:
-        'Welcome to the Nuty Tales Founder Program. I am SI Founder Copilot. Tell me what venture you are launching (D2C, travel, clothing, bakery, hospitality) and I will calculate your landed costs, starter MOQs, and launch roadmap.',
+        'Welcome to Nutty Tales Crafts. I am your Style & Provenance Advisor. I verify GI-tag authenticity, simulate drape folds in the Virtual Studio, and assist boutique buyers with wholesale craft procurement.',
       actions: [
-        { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
-        { label: 'Apply for Founder Program', href: '/founders#apply' },
+        { label: 'Try with SI (Drape Studio)', href: '/crafts/try-with-si' },
+        { label: 'B2B Wholesale Weaves', href: '/crafts/wholesale' },
+        { label: 'Artisan Dashboard', href: '/crafts/dashboard' },
       ],
-      quickPrompts: ['D2C dry fruit launch', 'Travel agency supply', 'Starter MOQ terms', 'Private label packaging'],
+      quickPrompts: [
+        'Simulate drape on my height',
+        'Verify GI Pashmina certificate',
+        'Wholesale quote for 100 shawls',
+        'Sub-zero warmth pheran',
+      ],
     }
   }
 
-  if (pathname.startsWith('/business-supply')) {
-    return {
-      greeting:
-        'Sourcing ingredients for hotels, commercial bakeries, or mithai chains? I can quote bulk cut specifications (sliced, slivered, nut flour) with laboratory moisture & oil parameters.',
-      actions: [
-        { label: 'What Do You Make?', href: '/business-supply#what-do-you-make' },
-        { label: 'Bulk Ingredients Catalog', href: '/business-supply#bulk-ingredients' },
-        { label: 'Create B2B RFQ', href: '/business-supply#rfq-form' },
-      ],
-      quickPrompts: ['Bakery almond slices', '500kg wholesale quote', 'FSSAI lab reports', 'Enterprise multi-location'],
-    }
-  }
-
+  // ── Company 5: Nutty Tales Stays (stays.nutytales.com / /stays) ─────────────
   if (pathname.startsWith('/stays')) {
     return {
+      assistantName: 'SI Stay Concierge',
+      badgeIcon: '🏔️',
+      tagline: 'Hospitality, Orchard Suites & Valley Experiences',
+      inputPlaceholder: 'Tell SI how you want to stay (e.g. 3 nights Srinagar orchard villa with kahwa)...',
       greeting:
-        'Welcome to Nuty Tales Hospitality. I can check live availability and seasonal tariffs for our Srinagar Orchard Villa, Noida Corporate Retreat, or Patna Heritage Stay.',
+        'Welcome to Nutty Tales Stays. I am your Hospitality Concierge. I calculate live seasonal tariffs, orchestrate private orchard buyouts for VIP delegations, and coordinate local culinary experiences.',
       actions: [
-        { label: 'Srinagar Orchard Villa', href: '/stays' },
-        { label: 'Kashmir Tour Packages', href: '/travel/kashmir' },
+        { label: 'Reserve Orchard Suite', href: '/stays#booking-engine' },
+        { label: 'Private Buyout & Groups', href: '/stays/group-quote' },
+        { label: 'Host Dashboard', href: '/stays/dashboard' },
       ],
-      quickPrompts: ['Best snow months', 'Orchard suite tariff', 'Private Wazwan dinner'],
+      quickPrompts: [
+        'Harwan Srinagar orchard suite',
+        'Peak snow season tariff',
+        'Private property buyout quote',
+        'Airport transfer & shikara',
+      ],
     }
   }
 
+  // ── Company 6: Nutty Tales Travel (travel.nutytales.com / /travel) ───────────
   if (pathname.startsWith('/travel')) {
     return {
+      assistantName: 'SI Travel Planner',
+      badgeIcon: '✈️',
+      tagline: 'Dynamic Itineraries, 4x4 Snow Safaris & Expeditions',
+      inputPlaceholder: 'Tell SI where you want to go (e.g. 7-day family Kashmir winter expedition)...',
       greeting:
-        'Planning your Kashmir journey? I can help customize your 4x4 snow safari, Gulmarg Gondola passes, and orchard retreat stays.',
+        'Welcome to Nutty Tales Travel. I am your Travel Planner Copilot. Tell me your travel dates, group size, and interests, and I will build an hour-by-hour itinerary with vetted drivers, stays, and activities.',
       actions: [
-        { label: 'Customize Itinerary', href: '/travel/kashmir' },
-        { label: 'Winter Snow Safari', href: '/travel/kashmir' },
+        { label: 'Build My Trip', href: '/travel/builder' },
+        { label: 'Explore Kashmir Packages', href: '/travel/kashmir' },
+        { label: 'Operator Dashboard', href: '/travel/dashboard' },
       ],
-      quickPrompts: ['Gulmarg Gondola advice', 'Private 4x4 vehicle', 'Wazwan feast booking'],
+      quickPrompts: [
+        '7-day family winter itinerary',
+        'Gulmarg Gondola & ski guide',
+        'Private 4x4 vehicle with driver',
+        'International corridor packages',
+      ],
     }
   }
 
-  // Default / Homepage / Retail
+  // ── Default / Group Gateway (nutytales.com) ─────────────────────────────────
   return {
+    assistantName: 'SI Group Intelligence',
+    badgeIcon: '✦',
+    tagline: 'Nutty Tales Group Flagship Ecosystem',
+    inputPlaceholder: 'Ask SI anything across the 6 operating companies...',
     greeting:
-      'Hello! I am SI, your Nuty Tales assistant. Whether you are looking for heart-healthy nuts, wedding hampers, Kashmir pashminas, or an orchard stay in Srinagar, I can guide you.',
+      'Hello! I am SI, the shared intelligence platform of Nutty Tales Group. I connect our 6 independent global companies: B2B Business, Corporate Gifting, Weddings OS, Crafts Marketplace, Hospitality Stays, and Travel Planning.',
     actions: [
-      { label: 'Shop Dry Fruits', href: '/shop' },
-      { label: 'Wedding Hampers', href: '/weddings' },
-      { label: 'Kashmir Crafts', href: '/crafts' },
-      { label: 'B2B Wholesale', href: '/business-supply' },
+      { label: 'Shop Harvest Retail', href: '/shop' },
+      { label: 'B2B Business Supply', href: '/b2b' },
+      { label: 'Corporate Gifting', href: '/gifting' },
+      { label: 'Wedding Workspace', href: '/weddings' },
     ],
-    quickPrompts: ['Diabetic-friendly nuts', 'Best dry fruits for gifting', 'Kashmir orchard stay'],
+    quickPrompts: [
+      'Pure Kashmiri Mamra Badam',
+      'Corporate festival gift hampers',
+      'Orchard villa stay in Srinagar',
+      'B2B wholesale pricing',
+    ],
   }
 }
 

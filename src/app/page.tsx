@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Hero from '@/components/home/Hero'
 import GiftsForEveryStory from '@/components/home/GiftsForEveryStory'
 import DiscoverSection from '@/components/home/DiscoverSection'
@@ -10,6 +10,8 @@ import CorporateEditorialSection from '@/components/home/CorporateEditorialSecti
 import WholesaleEditorialSection from '@/components/home/WholesaleEditorialSection'
 import KashmirSection from '@/components/home/KashmirSection'
 import BrandStorySection from '@/components/home/BrandStorySection'
+import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
+import GroupPortfolioShowcase from '@/components/home/GroupPortfolioShowcase'
 
 export const metadata: Metadata = {
   title: 'Nuty Tales — Taste. Gift. Wear. Stay. Explore. | Dry Fruits, Weddings & Crafts',
@@ -58,8 +60,14 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      {/* ── Group Ecosystem Bar ── */}
+      <GroupEcosystemBar currentCompanyId="gateway" darkTheme={false} />
+
       {/* 1. Hero (Brand Message & Photography) */}
       <Hero />
+
+      {/* ── Nutty Tales Group: Six Independent Global Businesses Showcase ── */}
+      <GroupPortfolioShowcase />
 
       {/* 2. Gifts for Every Story Strip (Everyday, Weddings, Diwali, Corporate, Kashmir, Celebrations) */}
       <GiftsForEveryStory />

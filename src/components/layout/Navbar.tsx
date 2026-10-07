@@ -27,8 +27,15 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0)
   const pathname = usePathname()
 
-  // Suppress consumer navbar when rendering dedicated B2B application shell
-  if (pathname?.startsWith('/b2b')) {
+  // Suppress consumer retail navbar when rendering dedicated standalone company shells
+  if (
+    pathname?.startsWith('/b2b') ||
+    pathname?.startsWith('/gifting') ||
+    pathname?.startsWith('/weddings') ||
+    pathname?.startsWith('/crafts') ||
+    pathname?.startsWith('/stays') ||
+    pathname?.startsWith('/travel')
+  ) {
     return null
   }
 

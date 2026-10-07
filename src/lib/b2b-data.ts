@@ -289,5 +289,6 @@ export const B2B_NAV_LINKS = [
   { label: 'Quotes', href: '/quotes' },
   { label: 'Orders & POs', href: '/orders' },
   { label: 'Replenishment', href: '/replenishment', badge: 'Contracts' },
+  { label: 'CEO Dashboard', href: '/dashboard', badge: 'KPIs' },
   { label: 'Business Account', href: '/account' },
 ]
