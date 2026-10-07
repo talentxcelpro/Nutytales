@@ -8,11 +8,11 @@ import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const TRAVEL_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'SI Trip Builder', href: '/builder', badge: 'Custom Itinerary' },
-  { label: 'Kashmir Packages', href: '/kashmir' },
-  { label: 'DMC Partners', href: '/partners', badge: 'Operators' },
-  { label: 'Travel Dashboard', href: '/dashboard', badge: 'Trips' },
+  { label: 'Operating System', href: '/' },
+  { label: 'SI Trip Builder', href: '/builder', badge: 'Intent Engine' },
+  { label: 'Curated Journeys', href: '/kashmir', badge: 'Global & Kashmir' },
+  { label: 'DMC & Partner API', href: '/partners', badge: 'Supply Network' },
+  { label: 'Command Center', href: '/dashboard', badge: 'Live Execution' },
 ]
 
 export default function TravelShell({
@@ -49,11 +49,12 @@ export default function TravelShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Nutty Tales Travel — Global Travel Planning, Tours &amp; Execution</span>
+            <span className="font-bold text-[#C9A45C]">NUTTY TALES TRAVEL</span>
+            <span className="text-stone-300">· The World&apos;s Intelligent Journey Marketplace</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
-          <span className="hidden md:inline text-[#C9A45C]">
-            Don&apos;t just book a trip. Build the trip. (SI Dynamic Itinerary Engine)
+          <span className="hidden md:inline text-stone-300 italic">
+            &ldquo;Don&apos;t search for your trip. Tell us what you want. SI plans it. Nutty Tales puts it together.&rdquo;
           </span>
         </div>
 
@@ -86,7 +87,7 @@ export default function TravelShell({
                   Nutty Tales <span className="text-[#C9A45C]">Travel</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  Tours · Itineraries · Expeditions
+                  Intelligent Journey Marketplace · Operating Layer
                 </span>
               </div>
             </Link>
