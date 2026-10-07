@@ -1,5 +1,8 @@
-﻿import Link from 'next/link'
+'use client'
+
+import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 const FOOTER_COLS = [
@@ -51,8 +54,14 @@ const FOOTER_COLS = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
   const currentYear = new Date().getFullYear()
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
+
+  // Suppress consumer footer on dedicated B2B application shell
+  if (pathname?.startsWith('/b2b')) {
+    return null
+  }
 
   return (
     <footer className="bg-[#17233B] text-white border-t border-white/10">

@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -26,6 +26,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [cartCount, setCartCount] = useState(0)
   const pathname = usePathname()
+
+  // Suppress consumer navbar when rendering dedicated B2B application shell
+  if (pathname?.startsWith('/b2b')) {
+    return null
+  }
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 

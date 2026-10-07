@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -115,6 +115,24 @@ export default function BusinessSupplyPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-20">
+      {/* ── Dedicated B2B Portal Callout Banner ── */}
+      <div className="bg-[#10192A] text-white border-b border-[#C9A45C]/30 py-3 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>
+              <strong>Dedicated B2B Wholesale Portal:</strong> Looking for live commodity tier rates, proforma invoices &amp; fast RFQ?
+            </span>
+          </div>
+          <Link
+            href="/b2b"
+            className="px-4 py-1.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold uppercase text-[11px] tracking-wider rounded-lg transition-colors whitespace-nowrap shadow-sm"
+          >
+            Open business.nutytales.com Portal →
+          </Link>
+        </div>
+      </div>
+
       {/* ── 1. Hero Executive Sourcing Banner ────────────────────────────────────── */}
       <section className="relative w-full bg-[#17233B] text-white py-16 sm:py-24 border-b border-[#C9A45C]/20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
