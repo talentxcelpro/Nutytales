@@ -34,9 +34,12 @@ export function middleware(request: NextRequest) {
   const vertical = getActiveVertical(request)
 
   if (pathname.startsWith('/api')) {
+    // Note: nt_uid cookie is a routing/redirect convenience hint only.
+    // Sensitive API endpoints MUST independently verify Firebase ID tokens via verifyIdToken() or Supabase JWT.
     if (API_ADMIN_ROUTE.test(pathname)) {
+      const authHeader = request.headers.get('authorization')
       const token = request.cookies.get('nt_uid')?.value
-      if (!token) {
+      if (!authHeader && !token) {
         return NextResponse.json({ error: 'Unauthorized', message: 'Authentication required.' }, { status: 401 })
       }
     }

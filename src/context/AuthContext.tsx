@@ -1,7 +1,7 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { User, ConfirmationResult, RecaptchaVerifier } from 'firebase/auth'
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react'
+import { User, ConfirmationResult } from 'firebase/auth'
 import {
   signInWithGoogle,
   setupRecaptchaVerifier,
@@ -11,11 +11,14 @@ import {
   onAuthStateChange
 } from '@/lib/firebase/client'
 import { UserProfile } from '@/lib/profiles'
+import { getAuthenticatedSupabaseClient, getSupabaseClient } from '@/lib/supabase'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 interface AuthContextType {
   user: User | null
   profile: UserProfile | null
   idToken: string | null
+  supabase: SupabaseClient | null
   loading: boolean
   isModalOpen: boolean
   openAuthModal: () => void
@@ -24,12 +27,14 @@ interface AuthContextType {
   sendPhoneOtp: (phoneNumber: string, containerId: string) => Promise<ConfirmationResult>
   confirmOtp: (confirmationResult: ConfirmationResult, otpCode: string) => Promise<void>
   signOut: () => Promise<void>
+  refreshIdToken: () => Promise<string | null>
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   idToken: null,
+  supabase: null,
   loading: true,
   isModalOpen: false,
   openAuthModal: () => {},
@@ -38,6 +43,7 @@ const AuthContext = createContext<AuthContextType>({
   sendPhoneOtp: async () => { throw new Error('Not implemented') },
   confirmOtp: async () => {},
   signOut: async () => {},
+  refreshIdToken: async () => null,
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -47,11 +53,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+  // Dynamically create authenticated Supabase client when idToken changes
+  const supabase = useMemo(() => {
+    if (idToken) {
+      return getAuthenticatedSupabaseClient(idToken) || getSupabaseClient()
+    }
+    return getSupabaseClient()
+  }, [idToken])
+
+  const refreshIdToken = async (): Promise<string | null> => {
+    if (!user) return null
+    try {
+      const refreshed = await user.getIdToken(true)
+      setIdToken(refreshed)
+      return refreshed
+    } catch (err) {
+      console.error('[AuthContext] Token refresh failed:', err)
+      return null
+    }
+  }
+
   const syncWithSupabase = async (firebaseUser: User, providerName?: string) => {
     try {
       const token = await firebaseUser.getIdToken(true)
       setIdToken(token)
-      
+
       const res = await fetch('/api/auth/sync-profile', {
         method: 'POST',
         headers: {
@@ -60,11 +86,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
         body: JSON.stringify({
           idToken: token,
-          uid: firebaseUser.uid,
-          name: firebaseUser.displayName,
-          email: firebaseUser.email,
-          phone: firebaseUser.phoneNumber,
-          avatar: firebaseUser.photoURL,
           provider: providerName || (firebaseUser.phoneNumber ? 'phone' : 'google'),
         }),
       })
@@ -74,9 +95,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (data.profile) {
           setProfile(data.profile)
         }
+        // If server assigned role='authenticated' claim, force token refresh
+        if (data.claimsUpdated) {
+          const freshToken = await firebaseUser.getIdToken(true)
+          setIdToken(freshToken)
+        }
       }
     } catch (err) {
-      console.error('[AuthContext] Failed to sync profile:', err)
+      console.error('[AuthContext] Failed to sync profile with Supabase:', err)
     }
   }
 
@@ -95,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe()
   }, [])
 
-  // Periodically refresh token
+  // Periodically refresh token to maintain fresh claims and session
   useEffect(() => {
     if (!user) return
     const interval = setInterval(async () => {
@@ -103,9 +129,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const token = await user.getIdToken(true)
         setIdToken(token)
       } catch (err) {
-        console.error('Token refresh failed', err)
+        console.error('Periodic token refresh failed:', err)
       }
-    }, 10 * 60 * 1000) // 10 minutes
+    }, 15 * 60 * 1000) // 15 minutes
     return () => clearInterval(interval)
   }, [user])
 
@@ -165,6 +191,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         profile,
         idToken,
+        supabase,
         loading,
         isModalOpen,
         openAuthModal: () => setIsModalOpen(true),
@@ -173,6 +200,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         sendPhoneOtp: handleSendPhoneOtp,
         confirmOtp: handleConfirmOtp,
         signOut: handleSignOut,
+        refreshIdToken,
       }}
     >
       {children}

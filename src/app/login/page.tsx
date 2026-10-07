@@ -6,10 +6,37 @@ import { useAuth } from '@/context/AuthContext'
 import { ConfirmationResult } from 'firebase/auth'
 import { getFirebaseErrorMessage } from '@/lib/firebase/client'
 
+function sanitizeCallbackUrl(url: string | null | undefined): string {
+  if (!url) return '/'
+  if (url.startsWith('//')) return '/'
+  if (url.startsWith('/')) return url
+  try {
+    const parsed = new URL(url)
+    const hostname = parsed.hostname.toLowerCase()
+    const allowed = [
+      'nutytales.com',
+      'business.nutytales.com',
+      'gifting.nutytales.com',
+      'weddings.nutytales.com',
+      'crafts.nutytales.com',
+      'stays.nutytales.com',
+      'travel.nutytales.com',
+      'localhost',
+    ]
+    if (allowed.includes(hostname) || hostname.endsWith('.nutytales.com') || hostname.endsWith('.localhost')) {
+      return parsed.pathname + parsed.search + parsed.hash
+    }
+  } catch {
+    // Invalid URL fallback
+  }
+  return '/'
+}
+
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectPath = searchParams.get('callbackUrl') || searchParams.get('redirect') || '/'
+  const rawRedirect = searchParams.get('callbackUrl') || searchParams.get('redirect')
+  const redirectPath = sanitizeCallbackUrl(rawRedirect)
 
   const { user, loading, signInWithGoogle, sendPhoneOtp, confirmOtp } = useAuth()
 
