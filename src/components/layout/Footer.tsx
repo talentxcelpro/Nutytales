@@ -58,8 +58,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  // Suppress consumer footer on dedicated standalone company shells
+  // Suppress consumer footer on dedicated standalone company shells or subdomains
+  const isSubdomain =
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel)/i.test(document.cookie))
+
   if (
+    isSubdomain ||
     pathname?.startsWith('/b2b') ||
     pathname?.startsWith('/gifting') ||
     pathname?.startsWith('/weddings') ||

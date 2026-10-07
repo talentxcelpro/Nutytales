@@ -61,54 +61,66 @@ export function middleware(request: NextRequest) {
 
   // ── 2. Multi-Vertical Subdomain Hostname-Aware Routing ─────────────────────
   if (vertical) {
+    const rewriteVertical = (targetPath: string) => {
+      const res = NextResponse.rewrite(new URL(targetPath, request.url))
+      res.cookies.set('nt_active_vertical', vertical, { path: '/' })
+      res.headers.set('x-nutytales-vertical', vertical)
+      return res
+    }
+
+    const nextVertical = () => {
+      const res = NextResponse.next()
+      res.cookies.set('nt_active_vertical', vertical, { path: '/' })
+      res.headers.set('x-nutytales-vertical', vertical)
+      return res
+    }
+
     // ── A. BUSINESS: business.nutytales.com ───────────────────────────────────
     if (vertical === 'business') {
-      if (pathname === '/' || pathname === '/business-supply') {
-        return NextResponse.rewrite(new URL('/b2b', request.url))
-      }
-      if (pathname === '/rfq') return NextResponse.rewrite(new URL('/b2b/rfq', request.url))
-      if (pathname === '/catalog') return NextResponse.rewrite(new URL('/b2b/catalog', request.url))
-      if (pathname === '/quotes') return NextResponse.rewrite(new URL('/b2b/quotes', request.url))
-      if (pathname === '/orders') return NextResponse.rewrite(new URL('/b2b/orders', request.url))
-      if (pathname === '/account') return NextResponse.rewrite(new URL('/b2b/account', request.url))
-      if (pathname === '/replenishment') return NextResponse.rewrite(new URL('/b2b/replenishment', request.url))
-      if (pathname.startsWith('/b2b')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/b2b${pathname}`, request.url))
+      if (pathname === '/' || pathname === '/business-supply') return rewriteVertical('/b2b')
+      if (pathname === '/rfq') return rewriteVertical('/b2b/rfq')
+      if (pathname === '/catalog') return rewriteVertical('/b2b/catalog')
+      if (pathname === '/quotes') return rewriteVertical('/b2b/quotes')
+      if (pathname === '/orders') return rewriteVertical('/b2b/orders')
+      if (pathname === '/account') return rewriteVertical('/b2b/account')
+      if (pathname === '/replenishment') return rewriteVertical('/b2b/replenishment')
+      if (pathname.startsWith('/b2b')) return nextVertical()
+      return rewriteVertical(`/b2b${pathname}`)
     }
 
     // ── B. GIFTING: gifting.nutytales.com ─────────────────────────────────────
     if (vertical === 'gifting') {
-      if (pathname === '/') return NextResponse.rewrite(new URL('/gifting', request.url))
-      if (pathname.startsWith('/gifting')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/gifting${pathname}`, request.url))
+      if (pathname === '/') return rewriteVertical('/gifting')
+      if (pathname.startsWith('/gifting')) return nextVertical()
+      return rewriteVertical(`/gifting${pathname}`)
     }
 
     // ── C. WEDDINGS: weddings.nutytales.com ───────────────────────────────────
     if (vertical === 'weddings') {
-      if (pathname === '/') return NextResponse.rewrite(new URL('/weddings', request.url))
-      if (pathname.startsWith('/weddings')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/weddings${pathname}`, request.url))
+      if (pathname === '/') return rewriteVertical('/weddings')
+      if (pathname.startsWith('/weddings')) return nextVertical()
+      return rewriteVertical(`/weddings${pathname}`)
     }
 
     // ── D. CRAFTS: crafts.nutytales.com ───────────────────────────────────────
     if (vertical === 'crafts') {
-      if (pathname === '/') return NextResponse.rewrite(new URL('/crafts', request.url))
-      if (pathname.startsWith('/crafts')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/crafts${pathname}`, request.url))
+      if (pathname === '/') return rewriteVertical('/crafts')
+      if (pathname.startsWith('/crafts')) return nextVertical()
+      return rewriteVertical(`/crafts${pathname}`)
     }
 
     // ── E. STAYS: stays.nutytales.com ─────────────────────────────────────────
     if (vertical === 'stays') {
-      if (pathname === '/') return NextResponse.rewrite(new URL('/stays', request.url))
-      if (pathname.startsWith('/stays')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/stays${pathname}`, request.url))
+      if (pathname === '/') return rewriteVertical('/stays')
+      if (pathname.startsWith('/stays')) return nextVertical()
+      return rewriteVertical(`/stays${pathname}`)
     }
 
     // ── F. TRAVEL: travel.nutytales.com ───────────────────────────────────────
     if (vertical === 'travel') {
-      if (pathname === '/') return NextResponse.rewrite(new URL('/travel', request.url))
-      if (pathname.startsWith('/travel')) return NextResponse.next()
-      return NextResponse.rewrite(new URL(`/travel${pathname}`, request.url))
+      if (pathname === '/') return rewriteVertical('/travel')
+      if (pathname.startsWith('/travel')) return nextVertical()
+      return rewriteVertical(`/travel${pathname}`)
     }
   }
 

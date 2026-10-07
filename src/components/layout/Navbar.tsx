@@ -27,8 +27,13 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0)
   const pathname = usePathname()
 
-  // Suppress consumer retail navbar when rendering dedicated standalone company shells
+  // Suppress consumer retail navbar when rendering dedicated standalone company shells or subdomains
+  const isSubdomain =
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel)/i.test(document.cookie))
+
   if (
+    isSubdomain ||
     pathname?.startsWith('/b2b') ||
     pathname?.startsWith('/gifting') ||
     pathname?.startsWith('/weddings') ||
