@@ -1,5 +1,5 @@
-﻿import { NextResponse } from 'next/server'
-import { verifyFirebaseIdToken } from '@/lib/firebase-admin'
+import { NextResponse } from 'next/server'
+import { verifyIdToken } from '@/lib/firebase/admin'
 import { upsertUserProfile, getUserProfile } from '@/lib/profiles'
 
 export async function POST(request: Request) {
@@ -16,11 +16,8 @@ export async function POST(request: Request) {
       )
     }
 
-    // 1. Verify token server-side via Firebase Admin
-    const verified = await verifyFirebaseIdToken(idToken)
+    const verified = await verifyIdToken(idToken)
 
-    // Fallback: If Firebase Admin credentials are not yet configured on the server,
-    // we use the client-passed payload with validation while Admin setup is finalized.
     const uid = verified?.uid || body.uid
     if (!uid) {
       return NextResponse.json(
@@ -35,7 +32,6 @@ export async function POST(request: Request) {
     const avatar = verified?.picture || body.avatar || null
     const provider = verified?.sign_in_provider || body.provider || (phone ? 'phone' : 'google')
 
-    // 2. Persist to Supabase public.profiles table
     const profile = await upsertUserProfile({
       id: uid,
       name,
@@ -59,7 +55,6 @@ export async function POST(request: Request) {
       },
     })
 
-    // 3. Set secure HTTP-only cookie for server-side auth checking & middleware
     response.cookies.set('nt_uid', uid, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -79,7 +74,6 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  // Return current profile if cookie is set
   const cookieHeader = request.headers.get('cookie') || ''
   const match = cookieHeader.match(/nt_uid=([^;]+)/)
   const uid = match ? match[1] : null

@@ -1,20 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// ── Route matchers ────────────────────────────────────────────────────────────
 const ADMIN_ROUTE = /^\/admin(\/.*)?$/
 const ACCOUNT_ROUTE = /^\/account(\/.*)?$/
 const API_ADMIN_ROUTE = /^\/api\/admin(\/.*)?$/
 
-/**
- * Identifies the vertical subdomain from the incoming request:
- * Supports:
- * - Production: business.nutytales.com, gifting.nutytales.com, weddings.nutytales.com,
- *               crafts.nutytales.com, stays.nutytales.com, travel.nutytales.com
- * - Local Dev: *.localhost:3000
- * - Query Override: ?vertical=... or ?subdomain=...
- * - Header Override: x-nutytales-vertical or x-forwarded-host
- */
 function getActiveVertical(request: NextRequest): string | null {
   const host =
     request.headers.get('x-forwarded-host') ||
@@ -43,15 +33,9 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const vertical = getActiveVertical(request)
 
-  // ── 1. Pass through API routes untouched ───────────────────────────────────
   if (pathname.startsWith('/api')) {
-    // API admin protection
     if (API_ADMIN_ROUTE.test(pathname)) {
-      const token =
-        request.cookies.get('nt_uid')?.value ||
-        request.cookies.get('authjs.session-token')?.value ||
-        request.cookies.get('__Secure-authjs.session-token')?.value ||
-        request.cookies.get('next-auth.session-token')?.value
+      const token = request.cookies.get('nt_uid')?.value
       if (!token) {
         return NextResponse.json({ error: 'Unauthorized', message: 'Authentication required.' }, { status: 401 })
       }
@@ -59,7 +43,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // ── 2. Multi-Vertical Subdomain Hostname-Aware Routing ─────────────────────
   if (vertical) {
     const rewriteVertical = (targetPath: string) => {
       const res = NextResponse.rewrite(new URL(targetPath, request.url))
@@ -75,7 +58,6 @@ export function middleware(request: NextRequest) {
       return res
     }
 
-    // ── A. BUSINESS: business.nutytales.com ───────────────────────────────────
     if (vertical === 'business') {
       if (pathname === '/' || pathname === '/business-supply') return rewriteVertical('/b2b')
       if (pathname === '/rfq') return rewriteVertical('/b2b/rfq')
@@ -88,35 +70,30 @@ export function middleware(request: NextRequest) {
       return rewriteVertical(`/b2b${pathname}`)
     }
 
-    // ── B. GIFTING: gifting.nutytales.com ─────────────────────────────────────
     if (vertical === 'gifting') {
       if (pathname === '/') return rewriteVertical('/gifting')
       if (pathname.startsWith('/gifting')) return nextVertical()
       return rewriteVertical(`/gifting${pathname}`)
     }
 
-    // ── C. WEDDINGS: weddings.nutytales.com ───────────────────────────────────
     if (vertical === 'weddings') {
       if (pathname === '/') return rewriteVertical('/weddings')
       if (pathname.startsWith('/weddings')) return nextVertical()
       return rewriteVertical(`/weddings${pathname}`)
     }
 
-    // ── D. CRAFTS: crafts.nutytales.com ───────────────────────────────────────
     if (vertical === 'crafts') {
       if (pathname === '/') return rewriteVertical('/crafts')
       if (pathname.startsWith('/crafts')) return nextVertical()
       return rewriteVertical(`/crafts${pathname}`)
     }
 
-    // ── E. STAYS: stays.nutytales.com ─────────────────────────────────────────
     if (vertical === 'stays') {
       if (pathname === '/') return rewriteVertical('/stays')
       if (pathname.startsWith('/stays')) return nextVertical()
       return rewriteVertical(`/stays${pathname}`)
     }
 
-    // ── F. TRAVEL: travel.nutytales.com ───────────────────────────────────────
     if (vertical === 'travel') {
       if (pathname === '/') return rewriteVertical('/travel')
       if (pathname.startsWith('/travel')) return nextVertical()
@@ -124,14 +101,8 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // ── 3. Consumer Website (nutytales.com) Authentication Checks ───────────────
-  const token =
-    request.cookies.get('nt_uid')?.value ||
-    request.cookies.get('authjs.session-token')?.value ||
-    request.cookies.get('__Secure-authjs.session-token')?.value ||
-    request.cookies.get('next-auth.session-token')?.value
+  const token = request.cookies.get('nt_uid')?.value
 
-  // Admin UI routes
   if (ADMIN_ROUTE.test(pathname)) {
     if (!token) {
       const loginUrl = new URL('/login', request.url)
@@ -142,7 +113,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Customer account routes (consumer site)
   if (ACCOUNT_ROUTE.test(pathname)) {
     if (!token) {
       const loginUrl = new URL('/login', request.url)
@@ -157,13 +127,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for static files:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public files with extensions (e.g. .svg, .png, .jpg, .jpeg, .gif, .webp, .ico, .txt, .xml)
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 }

@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales — Supabase Client & Database Services ─────────────────────────
+// ─── Nuty Tales — Supabase Client & Database Services ─────────────────────────
 // Project URL: https://qezkjbzmtfjjmqgzgili.supabase.co
 // Supports safe isomorphic client & server usage with resilient fallback
 
@@ -42,6 +42,20 @@ export function getSupabaseClient(): SupabaseClient | null {
   }
 
   return null
+}
+
+/**
+ * Returns a Supabase client authenticated with a Firebase ID token.
+ */
+export function getAuthenticatedSupabaseClient(idToken: string): SupabaseClient | null {
+  if (!SUPABASE_ANON_KEY) return null
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    },
+  })
 }
 
 /**

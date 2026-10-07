@@ -21,7 +21,7 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
-  const { user, profile, openAuthModal, logout } = useAuth()
+  const { user, profile, openAuthModal, signOut } = useAuth()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [cartCount, setCartCount] = useState(0)
@@ -197,7 +197,7 @@ export default function Navbar() {
                         <p className="text-[10px] text-stone-500 truncate">{user.email || user.phoneNumber}</p>
                       </div>
                       <button
-                        onClick={logout}
+                        onClick={signOut}
                         className="w-full text-left px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50 font-semibold"
                       >
                         Sign Out
@@ -332,7 +332,7 @@ export default function Navbar() {
                     </span>
                   </div>
                   <button
-                    onClick={logout}
+                    onClick={signOut}
                     className="text-xs font-bold text-red-600 hover:underline"
                   >
                     Sign Out

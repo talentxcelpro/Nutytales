@@ -1,7 +1,7 @@
 import { getApps, initializeApp, cert, App } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 
-interface FirebaseTokenPayload {
+export interface FirebaseTokenPayload {
   uid: string
   email?: string
   phone_number?: string
@@ -16,8 +16,7 @@ function getAdminApp(): App | null {
     return apps[0]
   }
 
-  const projectId =
-    process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  const projectId = process.env.FIREBASE_PROJECT_ID
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL
   const rawPrivateKey = process.env.FIREBASE_PRIVATE_KEY
 
@@ -37,26 +36,19 @@ function getAdminApp(): App | null {
       })
     }
 
-    // Fallback: initialize with project ID for token verification
-    return initializeApp({
-      projectId,
-    })
+    return initializeApp({ projectId })
   } catch (error) {
     console.error('[Firebase Admin] Initialization error:', error)
     return null
   }
 }
 
-/**
- * Server-side verification of Firebase ID tokens.
- * Extracts authenticated UID, email, phone number, and provider metadata.
- */
-export async function verifyFirebaseIdToken(
+export async function verifyIdToken(
   idToken: string
 ): Promise<FirebaseTokenPayload | null> {
   const adminApp = getAdminApp()
   if (!adminApp) {
-    console.warn('[Firebase Admin] Admin app not initialized, check FIREBASE_PROJECT_ID')
+    console.warn('[Firebase Admin] Admin app not initialized')
     return null
   }
 

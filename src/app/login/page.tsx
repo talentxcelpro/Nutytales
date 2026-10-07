@@ -1,16 +1,17 @@
-﻿'use client'
+'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { ConfirmationResult } from 'firebase/auth'
+import { getFirebaseErrorMessage } from '@/lib/firebase/client'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectPath = searchParams.get('callbackUrl') || searchParams.get('redirect') || '/'
 
-  const { user, loading, loginWithGoogle, requestPhoneOtp, confirmPhoneOtp } = useAuth()
+  const { user, loading, signInWithGoogle, sendPhoneOtp, confirmOtp } = useAuth()
 
   const [activeTab, setActiveTab] = useState<'phone' | 'google'>('phone')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -54,14 +55,12 @@ function LoginForm() {
 
     setIsSendingOtp(true)
     try {
-      const result = await requestPhoneOtp(cleanNumber, 'login-page-recaptcha-container')
+      const result = await sendPhoneOtp(cleanNumber, 'login-page-recaptcha-container')
       setConfirmationResult(result)
       setResendTimer(60)
     } catch (err: any) {
       console.error('Phone OTP error:', err)
-      setErrorMessage(
-        err?.message || 'Failed to send SMS code. Please verify your mobile number.'
-      )
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsSendingOtp(false)
     }
@@ -80,11 +79,11 @@ function LoginForm() {
     setIsVerifyingOtp(true)
     setErrorMessage(null)
     try {
-      await confirmPhoneOtp(confirmationResult, otpCode.trim())
+      await confirmOtp(confirmationResult, otpCode.trim())
       router.push(redirectPath)
     } catch (err: any) {
       console.error('Verify OTP error:', err)
-      setErrorMessage('Invalid verification code. Please check and try again.')
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsVerifyingOtp(false)
     }
@@ -95,11 +94,11 @@ function LoginForm() {
     setErrorMessage(null)
     setIsGoogleLoading(true)
     try {
-      await loginWithGoogle()
+      await signInWithGoogle()
       router.push(redirectPath)
     } catch (err: any) {
       console.error('Google Sign In error:', err)
-      setErrorMessage(err?.message || 'Google sign in could not be completed.')
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsGoogleLoading(false)
     }
@@ -206,7 +205,7 @@ function LoginForm() {
               {!confirmationResult ? (
                 <form onSubmit={handleSendOtp} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+                    <label htmlFor="login-phone-input" className="block text-xs font-semibold text-stone-700 mb-1.5">
                       Phone Number (India &amp; Global)
                     </label>
                     <div className="relative flex rounded-xl border border-stone-300 focus-within:ring-2 focus-within:ring-[#17233B] overflow-hidden">
@@ -214,6 +213,7 @@ function LoginForm() {
                         🇮🇳 +91
                       </span>
                       <input
+                        id="login-phone-input"
                         type="tel"
                         required
                         value={phoneNumber}
@@ -241,7 +241,7 @@ function LoginForm() {
                 <form onSubmit={handleVerifyOtp} className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="block text-xs font-semibold text-stone-700">
+                      <label htmlFor="login-otp-input" className="block text-xs font-semibold text-stone-700">
                         Enter 6-Digit SMS Code
                       </label>
                       <button
@@ -256,6 +256,7 @@ function LoginForm() {
                       </button>
                     </div>
                     <input
+                      id="login-otp-input"
                       type="text"
                       maxLength={6}
                       required

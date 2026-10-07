@@ -1,66 +1,65 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { User, ConfirmationResult, RecaptchaVerifier } from 'firebase/auth'
 import {
-  User,
-  onAuthStateChanged,
-  ConfirmationResult,
-  RecaptchaVerifier,
-} from 'firebase/auth'
-import {
-  getFirebaseAuth,
-  signInWithGoogle as fbSignInWithGoogle,
-  setupRecaptcha,
-  sendPhoneOtp as fbSendPhoneOtp,
-  confirmPhoneOtp as fbConfirmPhoneOtp,
-  logoutUser as fbLogoutUser,
-} from '@/lib/firebase'
+  signInWithGoogle,
+  setupRecaptchaVerifier,
+  sendPhoneOtp,
+  confirmOtp,
+  signOutUser,
+  onAuthStateChange
+} from '@/lib/firebase/client'
 import { UserProfile } from '@/lib/profiles'
 
 interface AuthContextType {
   user: User | null
   profile: UserProfile | null
+  idToken: string | null
   loading: boolean
   isModalOpen: boolean
   openAuthModal: () => void
   closeAuthModal: () => void
-  loginWithGoogle: () => Promise<void>
-  requestPhoneOtp: (phoneNumber: string, containerId?: string) => Promise<ConfirmationResult>
-  confirmPhoneOtp: (confirmationResult: ConfirmationResult, otpCode: string) => Promise<void>
-  logout: () => Promise<void>
+  signInWithGoogle: () => Promise<void>
+  sendPhoneOtp: (phoneNumber: string, containerId: string) => Promise<ConfirmationResult>
+  confirmOtp: (confirmationResult: ConfirmationResult, otpCode: string) => Promise<void>
+  signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
+  idToken: null,
   loading: true,
   isModalOpen: false,
   openAuthModal: () => {},
   closeAuthModal: () => {},
-  loginWithGoogle: async () => {},
-  requestPhoneOtp: async () => { throw new Error('Not implemented') },
-  confirmPhoneOtp: async () => {},
-  logout: async () => {},
+  signInWithGoogle: async () => {},
+  sendPhoneOtp: async () => { throw new Error('Not implemented') },
+  confirmOtp: async () => {},
+  signOut: async () => {},
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [idToken, setIdToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Synchronize authenticated Firebase user with Supabase public.profiles
   const syncWithSupabase = async (firebaseUser: User, providerName?: string) => {
     try {
-      const idToken = await firebaseUser.getIdToken()
+      const token = await firebaseUser.getIdToken(true)
+      setIdToken(token)
+      
       const res = await fetch('/api/auth/sync-profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          idToken,
+          idToken: token,
           uid: firebaseUser.uid,
           name: firebaseUser.displayName,
           email: firebaseUser.email,
@@ -77,23 +76,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
     } catch (err) {
-      console.error('[AuthContext] Failed to sync profile with Supabase:', err)
+      console.error('[AuthContext] Failed to sync profile:', err)
     }
   }
 
   useEffect(() => {
-    const auth = getFirebaseAuth()
-    if (!auth) {
-      setLoading(false)
-      return
-    }
-
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChange(async (currentUser) => {
       setUser(currentUser)
       if (currentUser) {
         await syncWithSupabase(currentUser)
       } else {
         setProfile(null)
+        setIdToken(null)
       }
       setLoading(false)
     })
@@ -101,10 +95,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe()
   }, [])
 
-  const loginWithGoogle = async () => {
+  // Periodically refresh token
+  useEffect(() => {
+    if (!user) return
+    const interval = setInterval(async () => {
+      try {
+        const token = await user.getIdToken(true)
+        setIdToken(token)
+      } catch (err) {
+        console.error('Token refresh failed', err)
+      }
+    }, 10 * 60 * 1000) // 10 minutes
+    return () => clearInterval(interval)
+  }, [user])
+
+  const handleSignInWithGoogle = async () => {
     setLoading(true)
     try {
-      const loggedInUser = await fbSignInWithGoogle()
+      const loggedInUser = await signInWithGoogle()
       if (loggedInUser) {
         setUser(loggedInUser)
         await syncWithSupabase(loggedInUser, 'google')
@@ -115,22 +123,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const requestPhoneOtp = async (
+  const handleSendPhoneOtp = async (
     phoneNumber: string,
-    containerId: string = 'recaptcha-container'
+    containerId: string
   ): Promise<ConfirmationResult> => {
-    const verifier = setupRecaptcha(containerId)
-    const confirmationResult = await fbSendPhoneOtp(phoneNumber, verifier)
-    return confirmationResult
+    const verifier = setupRecaptchaVerifier(containerId)
+    return await sendPhoneOtp(phoneNumber, verifier)
   }
 
-  const confirmPhoneOtp = async (
+  const handleConfirmOtp = async (
     confirmationResult: ConfirmationResult,
     otpCode: string
   ): Promise<void> => {
     setLoading(true)
     try {
-      const loggedInUser = await fbConfirmPhoneOtp(confirmationResult, otpCode)
+      const loggedInUser = await confirmOtp(confirmationResult, otpCode)
       setUser(loggedInUser)
       await syncWithSupabase(loggedInUser, 'phone')
       setIsModalOpen(false)
@@ -139,13 +146,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const logout = async () => {
+  const handleSignOut = async () => {
     setLoading(true)
     try {
-      await fbLogoutUser()
+      await signOutUser()
       await fetch('/api/auth/sync-profile', { method: 'DELETE' }).catch(() => {})
       setUser(null)
       setProfile(null)
+      setIdToken(null)
     } finally {
       setLoading(false)
     }
@@ -156,14 +164,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         profile,
+        idToken,
         loading,
         isModalOpen,
         openAuthModal: () => setIsModalOpen(true),
         closeAuthModal: () => setIsModalOpen(false),
-        loginWithGoogle,
-        requestPhoneOtp,
-        confirmPhoneOtp,
-        logout,
+        signInWithGoogle: handleSignInWithGoogle,
+        sendPhoneOtp: handleSendPhoneOtp,
+        confirmOtp: handleConfirmOtp,
+        signOut: handleSignOut,
       }}
     >
       {children}

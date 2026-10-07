@@ -1,12 +1,12 @@
-﻿'use client'
+'use client'
 
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { ConfirmationResult } from 'firebase/auth'
+import { getFirebaseErrorMessage } from '@/lib/firebase/client'
 
 export default function AuthModal() {
-  const { isModalOpen, closeAuthModal, loginWithGoogle, requestPhoneOtp, confirmPhoneOtp } =
-    useAuth()
+  const { isModalOpen, closeAuthModal, signInWithGoogle, sendPhoneOtp, confirmOtp } = useAuth()
 
   const [activeTab, setActiveTab] = useState<'phone' | 'google'>('phone')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -28,12 +28,10 @@ export default function AuthModal() {
 
   if (!isModalOpen) return null
 
-  // Handle Phone OTP Request
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault()
     setErrorMessage(null)
 
-    // Format phone number with country code (+91 default for India)
     let cleanNumber = phoneNumber.replace(/\s+/g, '').replace(/-/g, '')
     if (!cleanNumber.startsWith('+')) {
       cleanNumber = `+91${cleanNumber.replace(/^0+/, '')}`
@@ -46,20 +44,17 @@ export default function AuthModal() {
 
     setIsSendingOtp(true)
     try {
-      const result = await requestPhoneOtp(cleanNumber, 'modal-recaptcha-container')
+      const result = await sendPhoneOtp(cleanNumber, 'modal-recaptcha-container')
       setConfirmationResult(result)
       setResendTimer(60)
     } catch (err: any) {
       console.error('Phone OTP error:', err)
-      setErrorMessage(
-        err?.message || 'Failed to send SMS code. Please verify your number or try again.'
-      )
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsSendingOtp(false)
     }
   }
 
-  // Handle OTP Verification
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!confirmationResult) return
@@ -72,31 +67,32 @@ export default function AuthModal() {
     setIsVerifyingOtp(true)
     setErrorMessage(null)
     try {
-      await confirmPhoneOtp(confirmationResult, otpCode.trim())
+      await confirmOtp(confirmationResult, otpCode.trim())
+      closeAuthModal()
     } catch (err: any) {
       console.error('Verify OTP error:', err)
-      setErrorMessage('Invalid verification code. Please check and try again.')
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsVerifyingOtp(false)
     }
   }
 
-  // Handle Google Sign In
   const handleGoogleSignIn = async () => {
     setErrorMessage(null)
     setIsGoogleLoading(true)
     try {
-      await loginWithGoogle()
+      await signInWithGoogle()
+      closeAuthModal()
     } catch (err: any) {
       console.error('Google Sign In error:', err)
-      setErrorMessage(err?.message || 'Google sign in could not be completed.')
+      setErrorMessage(getFirebaseErrorMessage(err))
     } finally {
       setIsGoogleLoading(false)
     }
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" aria-modal="true" role="dialog" aria-labelledby="auth-modal-title">
       <div
         className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -115,7 +111,7 @@ export default function AuthModal() {
               Nuty Tales Membership
             </span>
           </div>
-          <h2 className="font-serif text-2xl font-bold">Sign In or Register</h2>
+          <h2 id="auth-modal-title" className="font-serif text-2xl font-bold">Sign In or Register</h2>
           <p className="text-xs text-stone-300 mt-1">
             Access member-only wholesale pricing, order tracking, and bespoke quotes.
           </p>
@@ -156,7 +152,7 @@ export default function AuthModal() {
         {/* Body */}
         <div className="p-6 space-y-4">
           {errorMessage && (
-            <div className="p-3 text-xs bg-red-50 text-red-700 rounded-xl border border-red-200 flex items-start gap-2">
+            <div className="p-3 text-xs bg-red-50 text-red-700 rounded-xl border border-red-200 flex items-start gap-2" role="alert">
               <span className="text-sm">⚠️</span>
               <span>{errorMessage}</span>
             </div>
@@ -168,7 +164,7 @@ export default function AuthModal() {
               {!confirmationResult ? (
                 <form onSubmit={handleSendOtp} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+                    <label htmlFor="phone-input" className="block text-xs font-semibold text-stone-700 mb-1.5">
                       Mobile Number (India &amp; Global)
                     </label>
                     <div className="relative flex rounded-xl border border-stone-300 focus-within:ring-2 focus-within:ring-[#17233B] overflow-hidden">
@@ -176,6 +172,7 @@ export default function AuthModal() {
                         🇮🇳 +91
                       </span>
                       <input
+                        id="phone-input"
                         type="tel"
                         required
                         value={phoneNumber}
@@ -184,12 +181,8 @@ export default function AuthModal() {
                         className="w-full px-3 py-2.5 text-sm font-medium focus:outline-none"
                       />
                     </div>
-                    <span className="text-[11px] text-stone-500 block mt-1">
-                      We will send a 6-digit one-time code via SMS.
-                    </span>
                   </div>
 
-                  {/* Invisible Recaptcha Container */}
                   <div id="modal-recaptcha-container"></div>
 
                   <button
@@ -204,7 +197,7 @@ export default function AuthModal() {
                 <form onSubmit={handleVerifyOtp} className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="block text-xs font-semibold text-stone-700">
+                      <label htmlFor="otp-input" className="block text-xs font-semibold text-stone-700">
                         Enter 6-Digit SMS Code
                       </label>
                       <button
@@ -219,6 +212,7 @@ export default function AuthModal() {
                       </button>
                     </div>
                     <input
+                      id="otp-input"
                       type="text"
                       maxLength={6}
                       required
@@ -261,10 +255,6 @@ export default function AuthModal() {
           {/* TAB 2: GOOGLE AUTH */}
           {activeTab === 'google' && (
             <div className="py-4 space-y-4 text-center">
-              <p className="text-xs text-stone-600">
-                Sign in with your verified Google Account for instant, passwordless access.
-              </p>
-
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
@@ -293,16 +283,6 @@ export default function AuthModal() {
               </button>
             </div>
           )}
-
-          {/* Trust badge footer */}
-          <div className="pt-4 border-t border-stone-200 text-center text-[11px] text-stone-500 space-y-1">
-            <p>🔒 256-bit encrypted authentication. No passwords stored.</p>
-            <p>
-              By continuing, you agree to Nuty Tales&apos;{' '}
-              <span className="underline cursor-pointer">Terms</span> and{' '}
-              <span className="underline cursor-pointer">Privacy Policy</span>.
-            </p>
-          </div>
         </div>
       </div>
     </div>

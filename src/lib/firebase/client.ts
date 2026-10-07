@@ -9,6 +9,8 @@ import {
   Auth,
   ConfirmationResult,
   User,
+  onAuthStateChanged,
+  AuthError
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -22,7 +24,6 @@ const firebaseConfig = {
 
 let app: FirebaseApp | null = null
 let auth: Auth | null = null
-let googleProvider: GoogleAuthProvider | null = null
 
 export function getFirebaseApp(): FirebaseApp | null {
   if (typeof window === 'undefined') return null
@@ -45,37 +46,52 @@ export function getFirebaseAuth(): Auth | null {
   return auth
 }
 
-export function getGoogleProvider(): GoogleAuthProvider {
-  if (!googleProvider) {
-    googleProvider = new GoogleAuthProvider()
-    googleProvider.setCustomParameters({ prompt: 'select_account' })
+export function getFirebaseErrorMessage(error: unknown): string {
+  if (typeof error === 'object' && error !== null && 'code' in error) {
+    const authError = error as AuthError;
+    switch (authError.code) {
+      case 'auth/popup-blocked':
+        return 'Google sign-in was blocked. Please allow popups and try again.'
+      case 'auth/popup-closed-by-user':
+        return 'Sign-in was cancelled.'
+      case 'auth/invalid-phone-number':
+        return 'Please enter a valid phone number.'
+      case 'auth/invalid-verification-code':
+        return 'Invalid code. Please check and try again.'
+      case 'auth/code-expired':
+        return 'The verification code has expired. Please request a new one.'
+      case 'auth/too-many-requests':
+        return 'Too many attempts. Please wait a few minutes and try again.'
+      case 'auth/quota-exceeded':
+        return 'SMS verification is temporarily unavailable. Please try Google sign-in or contact support.'
+      case 'auth/captcha-check-failed':
+        return 'Security check failed. Please refresh and try again.'
+      case 'auth/network-request-failed':
+        return 'Network error. Please check your connection and try again.'
+      case 'auth/account-exists-with-different-credential':
+        return 'An account already exists with this email using a different sign-in method.'
+    }
   }
-  return googleProvider
+  return 'Authentication failed. Please try again.'
 }
 
-/**
- * Initiates Google OAuth sign-in flow via popup
- */
 export async function signInWithGoogle(): Promise<User | null> {
   const firebaseAuth = getFirebaseAuth()
   if (!firebaseAuth) {
     throw new Error('Firebase Auth is not configured. Please check your environment variables.')
   }
-  const provider = getGoogleProvider()
+  const provider = new GoogleAuthProvider()
+  provider.setCustomParameters({ prompt: 'select_account' })
   const result = await signInWithPopup(firebaseAuth, provider)
   return result.user
 }
 
-/**
- * Initializes invisible / badge RecaptchaVerifier for Phone OTP verification
- */
-export function setupRecaptcha(containerId: string): RecaptchaVerifier {
+export function setupRecaptchaVerifier(containerId: string): RecaptchaVerifier {
   const firebaseAuth = getFirebaseAuth()
   if (!firebaseAuth) {
     throw new Error('Firebase Auth is not configured.')
   }
 
-  // Clear existing verifier attached to window if present
   if (typeof window !== 'undefined' && (window as any).recaptchaVerifier) {
     try {
       (window as any).recaptchaVerifier.clear()
@@ -86,12 +102,6 @@ export function setupRecaptcha(containerId: string): RecaptchaVerifier {
 
   const verifier = new RecaptchaVerifier(firebaseAuth, containerId, {
     size: 'invisible',
-    callback: () => {
-      // reCAPTCHA solved
-    },
-    'expired-callback': () => {
-      // Response expired
-    },
   })
 
   if (typeof window !== 'undefined') {
@@ -101,9 +111,6 @@ export function setupRecaptcha(containerId: string): RecaptchaVerifier {
   return verifier
 }
 
-/**
- * Sends real SMS OTP to phone number (+91xxxxxxxxxx)
- */
 export async function sendPhoneOtp(
   phoneNumber: string,
   verifier: RecaptchaVerifier
@@ -112,14 +119,10 @@ export async function sendPhoneOtp(
   if (!firebaseAuth) {
     throw new Error('Firebase Auth is not configured.')
   }
-
   return await signInWithPhoneNumber(firebaseAuth, phoneNumber, verifier)
 }
 
-/**
- * Confirms OTP code received via SMS
- */
-export async function confirmPhoneOtp(
+export async function confirmOtp(
   confirmationResult: ConfirmationResult,
   otpCode: string
 ): Promise<User> {
@@ -127,12 +130,15 @@ export async function confirmPhoneOtp(
   return result.user
 }
 
-/**
- * Signs the current user out of Firebase
- */
-export async function logoutUser(): Promise<void> {
+export async function signOutUser(): Promise<void> {
   const firebaseAuth = getFirebaseAuth()
   if (firebaseAuth) {
     await signOut(firebaseAuth)
   }
+}
+
+export function onAuthStateChange(callback: (user: User | null) => void) {
+  const auth = getFirebaseAuth()
+  if (!auth) return () => {}
+  return onAuthStateChanged(auth, callback)
 }
