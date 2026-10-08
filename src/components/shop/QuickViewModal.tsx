@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product, getProductDynamicGallery } from '@/lib/products-data'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface QuickViewModalProps {
   product: Product | null
@@ -16,6 +17,7 @@ export default function QuickViewModal({
   isOpen,
   onClose,
 }: QuickViewModalProps) {
+  const { formatPrice } = useMarketCurrency()
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0)
   const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -208,11 +210,11 @@ export default function QuickViewModal({
                 <div>
                   <div className="flex items-baseline gap-2.5">
                     <span className="font-serif text-2xl sm:text-3xl font-semibold text-[#17233B]">
-                      ₹{unitPrice.toLocaleString('en-IN')}
+                      {formatPrice(unitPrice)}
                     </span>
                     {mrp > unitPrice && (
                       <span className="text-stone-400 line-through text-sm">
-                        ₹{mrp.toLocaleString('en-IN')}
+                        {formatPrice(mrp)}
                       </span>
                     )}
                   </div>
@@ -223,7 +225,7 @@ export default function QuickViewModal({
 
                 {savings > 0 && (
                   <span className="bg-emerald-800 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                    Save ₹{savings}
+                    Save {formatPrice(savings)}
                   </span>
                 )}
               </div>

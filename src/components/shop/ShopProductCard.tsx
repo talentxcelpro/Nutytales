@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products-data'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface ShopProductCardProps {
   product: Product
@@ -14,6 +15,7 @@ export default function ShopProductCard({
   product,
   onQuickView,
 }: ShopProductCardProps) {
+  const { formatPrice } = useMarketCurrency()
   // Default to 1kg or highest variant if available, else first variant
   const defaultIdx = product.variants.length > 2 ? 2 : 0
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(defaultIdx)
@@ -236,17 +238,17 @@ export default function ShopProductCard({
           <div className="pt-3 border-t border-[#F0EBE1] flex items-baseline justify-between">
             <div className="flex items-baseline gap-2">
               <span className="font-serif text-xl sm:text-2xl font-semibold text-[#17233B]">
-                ₹{unitPrice.toLocaleString('en-IN')}
+                {formatPrice(unitPrice)}
               </span>
               {mrp > unitPrice && (
                 <span className="text-xs text-stone-400 line-through">
-                  ₹{mrp.toLocaleString('en-IN')}
+                  {formatPrice(mrp)}
                 </span>
               )}
             </div>
             {savings > 0 && (
               <span className="text-[11px] text-emerald-800 font-medium">
-                Save ₹{savings}
+                Save {formatPrice(savings)}
               </span>
             )}
           </div>

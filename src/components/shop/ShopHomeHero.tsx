@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 const SUGGESTED_SEARCHES = [
   'Pampore Mongra Saffron',
@@ -16,6 +17,7 @@ const SUGGESTED_SEARCHES = [
 
 export default function ShopHomeHero() {
   const router = useRouter()
+  const { formatPrice } = useMarketCurrency()
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = (e: React.FormEvent) => {
@@ -139,10 +141,10 @@ export default function ShopHomeHero() {
                 <div className="flex items-center justify-between pt-2 border-t border-white/15">
                   <div>
                     <span className="text-[10px] text-stone-400 uppercase font-medium block">Starting from</span>
-                    <span className="font-serif text-xl font-bold text-white">₹650</span>
+                    <span className="font-serif text-xl font-bold text-white">{formatPrice(650)}</span>
                   </div>
                   <Link
-                    href="/shop/pure-mongra-saffron"
+                    href="/shop/kashmiri-mongra-saffron"
                     className="px-5 py-2.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-md"
                   >
                     Shop Saffron →

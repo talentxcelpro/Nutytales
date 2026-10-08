@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { PRODUCTS, Product } from '@/lib/products-data'
@@ -9,15 +9,94 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>
 }
 
+const COMMON_ALIASES: Record<string, string> = {
+  'pure-mongra-saffron': 'kashmiri-mongra-saffron',
+  'kashmiri-saffron': 'kashmiri-mongra-saffron',
+  'pampore-mongra-saffron': 'kashmiri-mongra-saffron',
+  'saffron': 'kashmiri-mongra-saffron',
+  'mongra-saffron': 'kashmiri-mongra-saffron',
+  'kashmir-saffron': 'kashmiri-mongra-saffron',
+  'super-negin-saffron': 'iranian-super-negin-saffron',
+  'persian-saffron': 'iranian-super-negin-saffron',
+  'kashmiri-kagzi-walnuts': 'kashmiri-walnuts-in-shell',
+  'kagzi-akhrot': 'kashmiri-walnuts-in-shell',
+  'kagzi-walnuts': 'kashmiri-walnuts-in-shell',
+  'walnuts': 'kashmiri-walnuts-in-shell',
+  'akhrot': 'kashmiri-walnuts-in-shell',
+  'mamra-badam': 'mamra-almonds-kashmiri-badam',
+  'kashmiri-mamra-badam': 'mamra-almonds-kashmiri-badam',
+  'mamra-almonds': 'mamra-almonds-kashmiri-badam',
+  'california-almonds': 'california-almonds-premium',
+  'almonds': 'california-almonds-premium',
+  'makhana': 'makhana-grade-a-fox-nuts',
+  'phool-makhana': 'makhana-grade-a-fox-nuts',
+  'cashews': 'w240-premium-cashews',
+  'kaju': 'w240-premium-cashews',
+  'acacia-honey': 'pure-kashmiri-acacia-honey',
+  'kashmiri-honey': 'pure-kashmiri-acacia-honey',
+  'honey': 'pure-kashmiri-acacia-honey',
+  'pistachios': 'iranian-pistachios-roasted-salted',
+  'pista': 'iranian-pistachios-roasted-salted',
+}
+
+function resolveProductBySlug(slug: string): Product | undefined {
+  if (!slug) return undefined
+  // 1. Exact match
+  const exact = PRODUCTS.find((p) => p.slug === slug)
+  if (exact) return exact
+
+  // 2. Alias dictionary
+  const aliasTarget = COMMON_ALIASES[slug.toLowerCase()]
+  if (aliasTarget) {
+    const matched = PRODUCTS.find((p) => p.slug === aliasTarget)
+    if (matched) return matched
+  }
+
+  // 3. Keyword / partial match
+  const clean = slug.toLowerCase().replace(/[^a-z0-9]/g, '')
+  if (clean.includes('saffron') || clean.includes('kesar') || clean.includes('mongra')) {
+    if (clean.includes('iran') || clean.includes('negin')) {
+      return PRODUCTS.find((p) => p.slug === 'iranian-super-negin-saffron')
+    }
+    return PRODUCTS.find((p) => p.slug === 'kashmiri-mongra-saffron')
+  }
+
+  if (clean.includes('walnut') || clean.includes('akhrot')) {
+    return PRODUCTS.find((p) => p.slug === 'kashmiri-walnuts-in-shell') || PRODUCTS.find((p) => p.slug.includes('walnut'))
+  }
+
+  if (clean.includes('mamra')) {
+    return PRODUCTS.find((p) => p.slug === 'mamra-almonds-kashmiri-badam')
+  }
+
+  if (clean.includes('almond') || clean.includes('badam')) {
+    return PRODUCTS.find((p) => p.slug === 'california-almonds-premium')
+  }
+
+  if (clean.includes('makhana')) {
+    return PRODUCTS.find((p) => p.slug === 'makhana-grade-a-fox-nuts')
+  }
+
+  if (clean.includes('honey')) {
+    return PRODUCTS.find((p) => p.slug === 'pure-kashmiri-acacia-honey')
+  }
+
+  return PRODUCTS.find((p) => p.slug.replace(/[^a-z0-9]/g, '').includes(clean) || clean.includes(p.slug.replace(/[^a-z0-9]/g, '')))
+}
+
 export async function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ slug: p.slug }))
+  const allSlugs = new Set([
+    ...PRODUCTS.map((p) => p.slug),
+    ...Object.keys(COMMON_ALIASES),
+  ])
+  return Array.from(allSlugs).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
-  const product = PRODUCTS.find((p) => p.slug === slug)
+  const product = resolveProductBySlug(slug)
   if (!product) return { title: 'Product Not Found | Nuty Tales' }
 
   return {
@@ -42,7 +121,7 @@ export async function generateMetadata({
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params
-  const product = PRODUCTS.find((p) => p.slug === slug)
+  const product = resolveProductBySlug(slug)
 
   if (!product) {
     notFound()

@@ -7,6 +7,7 @@ import GlobalFooter from "@/components/global/GlobalFooter";
 import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const geistSans = Geist({
@@ -190,6 +191,7 @@ export default function RootLayout({
             {children}
           </div>
           <GlobalFooter />
+          <CartDrawer />
           <SIFloatingAssistant />
           <AuthModal />
         </AuthProvider>

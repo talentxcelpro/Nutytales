@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 import { calculateDiscount, DYNAMIC_COUPONS } from '@/lib/coupons'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 export interface CartItem {
   productId: string
@@ -19,6 +20,7 @@ export interface CartItem {
 }
 
 export default function CartDrawer() {
+  const { formatPrice } = useMarketCurrency()
   const [isOpen, setIsOpen] = useState(false)
   const [cart, setCart] = useState<CartItem[]>([])
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
@@ -178,7 +180,7 @@ export default function CartDrawer() {
           {remainingForFreeShipping > 0 ? (
             <div className="space-y-1.5">
               <p className="text-xs text-[#176B68] font-semibold flex items-center justify-between">
-                <span>Add ₹{remainingForFreeShipping} more for Free Express Shipping!</span>
+                <span>Add {formatPrice(remainingForFreeShipping)} more for Free Express Shipping!</span>
                 <span className="text-[10px]">{freeShippingProgress}%</span>
               </p>
               <div className="w-full bg-white rounded-full h-1.5 overflow-hidden">
@@ -256,9 +258,9 @@ export default function CartDrawer() {
                     {item.sizeLabel}
                   </p>
                   <p className="text-xs font-extrabold text-[#176B68] mt-1">
-                    ₹{item.totalPrice.toLocaleString('en-IN')}
+                    {formatPrice(item.totalPrice)}
                     <span className="text-[10px] text-stone-400 font-normal ml-1">
-                      (₹{item.unitPrice}/unit)
+                      ({formatPrice(item.unitPrice)}/unit)
                     </span>
                   </p>
                 </div>
@@ -347,24 +349,24 @@ export default function CartDrawer() {
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between text-stone-600">
                 <span>Subtotal</span>
-                <span className="font-bold text-[#17233B]">₹{subtotal.toLocaleString('en-IN')}</span>
+                <span className="font-bold text-[#17233B]">{formatPrice(subtotal)}</span>
               </div>
               {appliedCoupon && discount > 0 && (
                 <div className="flex justify-between text-emerald-700 font-semibold">
                   <span>Coupon Discount ({appliedCoupon})</span>
-                  <span>-₹{discount.toLocaleString('en-IN')}</span>
+                  <span>-{formatPrice(discount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-stone-600">
                 <span>Estimated Shipping</span>
                 <span className={isFreeShip ? 'text-emerald-700 font-bold' : 'font-bold'}>
-                  {isFreeShip ? 'FREE' : '₹99'}
+                  {isFreeShip ? 'FREE' : formatPrice(estimatedShipping)}
                 </span>
               </div>
               <div className="flex justify-between text-sm font-bold text-[#17233B] pt-2 border-t border-stone-100">
                 <span>Estimated Total (Incl. Taxes)</span>
                 <span className="text-[#176B68] text-base">
-                  ₹{finalTotal.toLocaleString('en-IN')}
+                  {formatPrice(finalTotal)}
                 </span>
               </div>
             </div>
