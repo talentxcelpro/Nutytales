@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const occasionRoutes: MetadataRoute.Sitemap = WEDDING_OCCASIONS.map((occ) => ({
-    url: `${WEDDINGS_URL}/#${occ.id}`,
+    url: `${WEDDINGS_URL}/destination-weddings/${occ.id}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.80,
