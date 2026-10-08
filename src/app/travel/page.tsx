@@ -109,8 +109,8 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
     protection: 'High-altitude emergency medical coverage & zero-cost mountain weather rerouting guarantee',
     supply: {
       flights: 'Air India / IndiGo direct corporate blocks (SXR)',
-      stays: 'Direct Nutty Tales Controlled Stays & Khyber/Highland Reserve',
-      transit: 'Nutty Tales Dedicated Chauffeur Fleet with GPS Telemetry',
+      stays: 'Direct Nuty Tales Controlled Stays & Khyber/Highland Reserve',
+      transit: 'Nuty Tales Dedicated Chauffeur Fleet with GPS Telemetry',
       experiences: 'J&K Cable Car Corporation Verified Passes + Certified Guides',
       dining: 'Curated Master Waza Banquets & Floating Shikara Kitchen',
       cancellation: 'Free date change in case of snow weather disruptions',
@@ -144,8 +144,8 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
     protection: 'VIP concierge on-call 24/7 with instant emergency medical & helicopter evacuation cover',
     supply: {
       flights: 'Direct airline executive booking',
-      stays: 'Nutty Tales Houseboat Reserve & Luxury Ski Suites',
-      transit: 'Nutty Tales VIP Luxury Fleet',
+      stays: 'Nuty Tales Houseboat Reserve & Luxury Ski Suites',
+      transit: 'Nuty Tales VIP Luxury Fleet',
       experiences: 'Private Butler, Live Folk Musicians, Licensed Alpine Skiers',
       dining: 'Private floating chef setup on Dal/Nigeen Lake',
       cancellation: '100% refundable up to 10 days before departure',
@@ -161,7 +161,7 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
     travelers: 120,
     budgetLabel: 'Enterprise MICE RFQ (120 Pax)',
     basePrice: 4850000,
-    description: 'Full-scale enterprise leadership offsite combining estate buyouts, keynote AV conference facilities, Lidder river rafting, Wazwan banquets, and customized Nutty Tales corporate gifting.',
+    description: 'Full-scale enterprise leadership offsite combining estate buyouts, keynote AV conference facilities, Lidder river rafting, Wazwan banquets, and customized Nuty Tales corporate gifting.',
     flights: 'Block-booked group flight departures with corporate GST invoice and centralized airport dispatch baggage tags',
     stays: [
       '4 Nights · Complete buy-out of luxury pine-valley resort estate (70 suites) in Pahalgam & Harwan',
@@ -181,7 +181,7 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
       stays: 'Exclusive Resort Estate Buyout Agreement',
       transit: 'Centralized 27-Vehicle Fleet Dispatch with Fleet Command GPS',
       experiences: 'Disaster-managed certified adventure teams & event AV rigging',
-      dining: 'Nutty Tales Hospitality Banquet Catering',
+      dining: 'Nuty Tales Hospitality Banquet Catering',
       cancellation: 'Tiered enterprise milestone escrow with weather fallback contingency',
       trustStatus: 'DIRECT_SUPPLY',
     },
@@ -196,7 +196,7 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
     travelers: 200,
     budgetLabel: 'Life-Event Ecosystem (200 Guests)',
     basePrice: 5800000,
-    description: 'A ₹58L+ compound event ecosystem orchestrating guest flights, palace accommodation, fleet convoy, Nutty Tales Gifting trousseau hampers, authentic Pashmina bridal favours, and royal Wazwan feast.',
+    description: 'A ₹58L+ compound event ecosystem orchestrating guest flights, palace accommodation, fleet convoy, Nuty Tales Gifting trousseau hampers, authentic Pashmina bridal favours, and royal Wazwan feast.',
     flights: 'Chartered & block flight coordination for 200 guests arriving across Mumbai, Delhi, and Bangalore',
     stays: [
       '3 Nights · Palace Estate & Luxury Lakefront Pavilion buyout for 200 wedding guests',
@@ -208,14 +208,14 @@ const PRESET_INTENTS: Record<string, TripItinerary> = {
       'Nikah / Pheras ceremony with panoramic views of the Zabarwan mountain range',
     ],
     dining: '36-course Royal Wazwan banquets prepared by legacy 4th-generation master Wazas',
-    heritage: 'Nutty Tales Crafts trousseau room: hand-embroidered GI Sozni pashminas & walnut jewellery chests',
+    heritage: 'Nuty Tales Crafts trousseau room: hand-embroidered GI Sozni pashminas & walnut jewellery chests',
     photography: 'Dedicated cinema wedding film crew (4 cameras + drone + instant guest Polaroid stations)',
     protection: 'Private security escort, full medical station with doctor, and weather canopy backups',
     supply: {
       flights: 'Group Block Air Travel & Luggage Escort',
-      stays: 'Palace Buyout Contract with Nutty Tales Stays & Weddings',
+      stays: 'Palace Buyout Contract with Nuty Tales Stays & Weddings',
       transit: '40-Vehicle Private Convoy with 24/7 Dispatch Desk',
-      experiences: 'Nutty Tales Weddings + Crafts + Gifting + Travel Orchestration',
+      experiences: 'Nuty Tales Weddings + Crafts + Gifting + Travel Orchestration',
       dining: 'Legacy Master Waza Guild Contract',
       cancellation: 'Event Insurance + Life-Event Escrow Guarantee',
       trustStatus: 'DIRECT_SUPPLY',
@@ -424,7 +424,7 @@ export default function TravelMarketplacePage() {
               <span className="text-[#C9A45C] italic font-normal">Tell us what you want.</span>
             </h1>
             <p className="text-stone-300 text-sm sm:text-lg font-light max-w-2xl mx-auto leading-relaxed">
-              SI plans it. Nutty Tales puts it together. No manual juggling between Booking, Expedia, Viator, and local car rentals. One unified, supply-verified journey.
+              SI plans it. Nuty Tales puts it together. No manual juggling between Booking, Expedia, Viator, and local car rentals. One unified, supply-verified journey.
             </p>
           </div>
 
@@ -1007,7 +1007,7 @@ export default function TravelMarketplacePage() {
               The Operating Layer That Sits Above The OTAs
             </h2>
             <p className="text-stone-300 text-xs sm:text-sm font-light leading-relaxed">
-              Booking.com, Expedia, and MakeMyTrip have mastered inventory. Nutty Tales masters intent, orchestration, and real-world execution.
+              Booking.com, Expedia, and MakeMyTrip have mastered inventory. Nuty Tales masters intent, orchestration, and real-world execution.
             </p>
           </div>
 
@@ -1015,7 +1015,7 @@ export default function TravelMarketplacePage() {
           <div className="p-8 sm:p-10 rounded-3xl bg-white/5 border border-white/10 space-y-6">
             <div className="text-center space-y-2">
               <span className="text-xs font-mono uppercase text-[#C9A45C] tracking-widest">
-                HOW NUTTY TALES ORCHESTRATES THE JOURNEY
+                HOW NUTY TALES ORCHESTRATES THE JOURNEY
               </span>
             </div>
 
@@ -1028,7 +1028,7 @@ export default function TravelMarketplacePage() {
               <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
               <div className="p-4 rounded-2xl bg-gradient-to-r from-[#17233B] to-[#704B32] border border-[#C9A45C]/40 text-center w-full md:w-auto">
                 <span className="text-xl block">✦</span>
-                <span className="text-[#C9A45C] font-bold block">2. NUTTY TALES SI</span>
+                <span className="text-[#C9A45C] font-bold block">2. NUTY TALES SI</span>
                 <span className="text-stone-200 text-[10px]">Intent Graph Builder</span>
               </div>
               <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
@@ -1082,7 +1082,7 @@ export default function TravelMarketplacePage() {
 
             <div className="p-6 rounded-3xl bg-gradient-to-br from-[#17233B] via-[#704B32]/30 to-[#10192A] border-2 border-[#C9A45C] space-y-3 shadow-xl">
               <div className="flex items-center justify-between">
-                <h4 className="font-bold text-lg text-[#C9A45C]">Nutty Tales Travel</h4>
+                <h4 className="font-bold text-lg text-[#C9A45C]">Nuty Tales Travel</h4>
                 <span className="text-[10px] bg-[#C9A45C] text-[#10192A] px-2 py-0.5 rounded font-bold font-mono">OPERATING LAYER</span>
               </div>
               <p className="text-stone-200 leading-relaxed">
@@ -1101,13 +1101,13 @@ export default function TravelMarketplacePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-200 pb-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
-              Nutty Tales Group Ecosystem
+              Nuty Tales Ecosystem
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
               Life-Event Commerce: How The 6 Businesses Unite
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm font-light max-w-2xl">
-              No single OTA can touch this. When a guest books a journey, wedding, or corporate retreat, all six Nutty Tales companies activate in harmony.
+              No single OTA can touch this. When a guest books a journey, wedding, or corporate retreat, all six Nuty Tales companies activate in harmony.
             </p>
           </div>
           <Link
@@ -1129,7 +1129,7 @@ export default function TravelMarketplacePage() {
                 Corporate Offsites (40 to 120 Pax)
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Turns a travel inquiry into a complete B2B corporate transaction: group flights, resort buyouts, AV conference staging, Lidder rafting, and branded hampers from Nutty Tales Gifting.
+                Turns a travel inquiry into a complete B2B corporate transaction: group flights, resort buyouts, AV conference staging, Lidder rafting, and branded hampers from Nuty Tales Gifting.
               </p>
               <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#704B32] font-semibold">
                 Single Corporate RFQ with GST credit &amp; centralized invoicing
@@ -1158,7 +1158,7 @@ export default function TravelMarketplacePage() {
                 Destination Weddings (200 Guests)
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Orchestrates a ₹50L+ event ecosystem: palace buyout, 40-vehicle fleet convoys, Nutty Tales Crafts bridal shawls, Gifting trousseau hampers, and 36-course Wazwan catering.
+                Orchestrates a ₹50L+ event ecosystem: palace buyout, 40-vehicle fleet convoys, Nuty Tales Crafts bridal shawls, Gifting trousseau hampers, and 36-course Wazwan catering.
               </p>
               <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#8E2848] font-semibold">
                 Unified life-event orchestration without vendor chaos
@@ -1182,7 +1182,7 @@ export default function TravelMarketplacePage() {
                 B2B DMC &amp; Global Partner API
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Enables agencies in Mumbai, Dubai, and London to distribute Nutty Tales verified alpine itineraries, licensed guides, and premium 4x4 fleets through our direct API.
+                Enables agencies in Mumbai, Dubai, and London to distribute Nuty Tales verified alpine itineraries, licensed guides, and premium 4x4 fleets through our direct API.
               </p>
               <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-emerald-800 font-semibold">
                 Wholesale DMC rates with guaranteed ground execution
@@ -1216,7 +1216,7 @@ export default function TravelMarketplacePage() {
           <div className="flex flex-wrap gap-4">
             <a
               href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                `Hello Nutty Tales Travel OS! I want to plan: ${currentItinerary.title} (Est. ₹${calculatedTotal.toLocaleString('en-IN')}).`,
+                `Hello Nuty Tales Travel OS! I want to plan: ${currentItinerary.title} (Est. ₹${calculatedTotal.toLocaleString('en-IN')}).`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"

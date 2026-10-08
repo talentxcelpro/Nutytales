@@ -351,7 +351,7 @@ export default function LiveStaysDiscovery() {
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#17233B] via-[#1E3048] to-[#10192A] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md border border-[#C9A45C]/30">
         <div className="space-y-1.5 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] font-bold text-[10px] uppercase tracking-wider">
-            <span>💼</span> NUTTY TALES EXECUTIVE CORPORATE LIVING
+            <span>💼</span> NUTY TALES EXECUTIVE CORPORATE LIVING
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold">
             Executive Residences &amp; High-Yield Team Offsites
@@ -516,7 +516,7 @@ export default function LiveStaysDiscovery() {
               List your orchard, heritage manor or corporate penthouse in the Private Collection.
             </h3>
             <p className="text-sm text-stone-300 font-light leading-relaxed max-w-xl">
-              Turn your property into a high-yield institutional asset across Kashmir, Delhi NCR, and Patna. Nutty Tales manages high-net-worth guest screening, deployed in-house Wazwan chefs, complete housekeeping, and corporate enterprise bookings.
+              Turn your property into a high-yield institutional asset across Kashmir, Delhi NCR, and Patna. Nuty Tales manages high-net-worth guest screening, deployed in-house Wazwan chefs, complete housekeeping, and corporate enterprise bookings.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-2">
@@ -605,7 +605,7 @@ export default function LiveStaysDiscovery() {
                 ₹{hostEstimatedMonthlyRevenue.toLocaleString('en-IN')}
               </div>
               <span className="text-[10px] text-stone-400 block">
-                Calculated on 65% occupancy in Nutty Tales Private Collection
+                Calculated on 65% occupancy in Nuty Tales Private Collection
               </span>
             </div>
 
@@ -875,7 +875,7 @@ export default function LiveStaysDiscovery() {
 
                   <a
                     href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                      `Hello Nutty Tales Private Collection! I want to lock: ${selectedPropertyForModal.name} (${selectedPropertyForModal.hubZone} Hub, ${checkIn} to ${checkOut}, ${guestsCount} guests). Estimated: ₹${modalGrandTotal.toLocaleString('en-IN')}`,
+                      `Hello Nuty Tales Private Collection! I want to lock: ${selectedPropertyForModal.name} (${selectedPropertyForModal.hubZone} Hub, ${checkIn} to ${checkOut}, ${guestsCount} guests). Estimated: ₹${modalGrandTotal.toLocaleString('en-IN')}`,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

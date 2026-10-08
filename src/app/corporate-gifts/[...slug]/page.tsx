@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const pathKey = slug.join('/');
   const item = GIFT_PAGES[pathKey];
 
-  if (!item) return { title: 'Corporate Gifts | Nutty Tales' };
+  if (!item) return { title: 'Corporate Gifts | Nuty Tales' };
 
   return generatePageMetadata({
     business: 'gifting',
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     intentType: 'transactional',
     slug: `/corporate-gifts/${pathKey}`,
     primaryKeyword: item.name,
-    title: `${item.name} | Nutty Tales Gifting`,
+    title: `${item.name} | Nuty Tales Gifting`,
     description: `${item.desc} From ${item.currency} ${item.priceFrom}. MOQ: ${item.moq} boxes.`,
     priceFrom: item.priceFrom,
     currency: item.currency,

@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Demand Intelligence Engine
+ * Nuty Tales SEO — Demand Intelligence Engine
  *
  * This module maintains and analyzes the SEO demand signals that power
  * the page candidate discovery system.
@@ -364,7 +364,7 @@ export function expandAcrossDimensions(
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * Known high-value demand clusters for Nutty Tales.
+ * Known high-value demand clusters for Nuty Tales.
  * These are based on real business knowledge, not invented.
  *
  * demandScore:     Based on estimated search volume and brand relevance

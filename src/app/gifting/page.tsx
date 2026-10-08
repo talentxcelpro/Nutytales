@@ -32,12 +32,12 @@ const FLAGSHIP_HAMPERS = [
   {
     id: 'corporate-executive-trunk',
     title: 'The Executive Vegan Leatherette Trunk',
-    subtitle: 'Diwali 2026 Bestseller · Multi-Address Favorite',
+    subtitle: 'Festive Bestseller · Multi-Address Favorite',
     tier: 'Management & Client Appreciation',
     price: 2450,
     minQty: 50,
     image: '/images/corporate-diwali-gifting.jpg',
-    badge: 'DIWALI 2026 BESTSELLER',
+    badge: 'FESTIVE BESTSELLER',
     contents: [
       'California Nonpareil Roasted Salted Almonds (200g)',
       'Premium W240 Whole Cashews (200g)',
@@ -105,19 +105,19 @@ export default function GiftingPage() {
 
   return (
     <div className="bg-[#FAF7F2] text-[#17233B]">
-      {/* ── 1. Diwali 2026 Early Bird Flash Alert ────────────────────────────── */}
-      <div id="diwali-2026" className="bg-[#17233B] text-white border-b border-[#C9A45C]/30 py-3 px-4">
+      {/* ── 1. Dynamic Festive Corporate Booking Alert ────────────────────── */}
+      <div id="festive-desk" className="bg-[#17233B] text-white border-b border-[#C9A45C]/30 py-3 px-4">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded-full bg-[#C9A45C] text-[#17233B] font-bold text-[10px] uppercase tracking-wider">
-              Early Bird 2026
+              Early Bird Advantage
             </span>
             <span className="font-medium text-stone-200">
-              Diwali Corporate Booking Window Open: Lock Q3/Q4 festive harvest inventory with <strong>15% Early-Bird Advantage</strong> &amp; Guaranteed Dispatch.
+              Festive Corporate Booking Window Open: Lock seasonal harvest inventory with <strong>15% Early-Bird Advantage</strong> &amp; Guaranteed Dispatch.
             </span>
           </div>
           <div className="flex items-center gap-4 text-xs font-bold text-[#C9A45C]">
-            <span>Dispatch Window: Oct 15 – Nov 05, 2026</span>
+            <span>Scheduled Pan-India &amp; Global Dispatch</span>
             <Link href="/gifting/recipients" className="hover:underline text-white flex items-center gap-1">
               <span>Launch Multi-Recipient Desk</span>
               <span>→</span>
@@ -126,14 +126,14 @@ export default function GiftingPage() {
         </div>
       </div>
 
-      {/* ── 2. Master Hero Section: NUTTY TALES GIFTING ───────────────────── */}
+      {/* ── 2. Master Hero Section: NUTY TALES GIFTING ───────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[#FAF7F2] via-white to-[#FAF7F2] py-16 sm:py-24 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Copy */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
-                <span>🎁</span> NUTTY TALES GIFTING · THE GLOBAL GIFTING OS
+                <span>🎁</span> NUTY TALES GIFTING · THE GLOBAL GIFTING OS
               </div>
 
               <div className="space-y-2">
@@ -146,7 +146,7 @@ export default function GiftingPage() {
               </div>
 
               <p className="text-base sm:text-lg text-stone-600 font-light leading-relaxed max-w-2xl">
-                Most platforms are optimized to sell static hampers. Nutty Tales is the <strong>Global Gifting Operating System</strong>: combining recipient intelligence, outcome-based curation, Snappy-style recipient choice links, and localized fulfillment across 19,000+ Indian PIN codes, Dubai, and London.
+                Most platforms are optimized to sell static hampers. Nuty Tales is the <strong>Global Gifting Operating System</strong>: combining recipient intelligence, outcome-based curation, Snappy-style recipient choice links, and localized fulfillment across 19,000+ Indian PIN codes, Dubai, and London.
               </p>
 
               {/* Wedge Pillars */}
@@ -194,7 +194,7 @@ export default function GiftingPage() {
 
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    'Hello Nutty Tales Gifting! I want to design a gifting program for our organization.',
+                    'Hello Nuty Tales Gifting! I want to design a gifting program for our organization.',
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -211,7 +211,7 @@ export default function GiftingPage() {
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-stone-100">
                 <Image
                   src="/images/corporate-diwali-gifting.jpg"
-                  alt="Nutty Tales Gifting OS Luxury Casket"
+                  alt="Nuty Tales Gifting OS Luxury Casket"
                   fill
                   className="object-cover"
                   priority
@@ -255,7 +255,7 @@ export default function GiftingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
-              Nutty Tales Core Architecture
+              Nuty Tales Core Architecture
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-extrabold">
               How the Global Gifting OS Works
@@ -310,10 +310,10 @@ export default function GiftingPage() {
             Strategic Landscape
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
-            Why Nutty Tales Uniquely Solves Global Gifting
+            Why Nuty Tales Uniquely Solves Global Gifting
           </h2>
           <p className="text-stone-600 text-xs sm:text-sm font-light">
-            Global players excel in isolated features. Nutty Tales combines recipient choice, sales triggers, global fulfillment, and the unmatched artisan supply of our 6 connected verticals.
+            Global players excel in isolated features. Nuty Tales combines recipient choice, sales triggers, global fulfillment, and the unmatched artisan supply of our 6 connected verticals.
           </p>
         </div>
 
@@ -326,7 +326,7 @@ export default function GiftingPage() {
                 <th className="p-4 sm:p-5 uppercase tracking-wider">Core Strength</th>
                 <th className="p-4 sm:p-5 uppercase tracking-wider">The Strategic Gap</th>
                 <th className="p-4 sm:p-5 uppercase tracking-wider text-[#704B32] font-black">
-                  Nutty Tales Gifting Advantage
+                  Nuty Tales Gifting Advantage
                 </th>
               </tr>
             </thead>
@@ -372,7 +372,7 @@ export default function GiftingPage() {
                 </td>
               </tr>
               <tr className="bg-[#FAF6EE]/70 font-semibold text-[#17233B]">
-                <td className="p-4 sm:p-5 font-black text-[#704B32]">Nutty Tales Gifting OS</td>
+                <td className="p-4 sm:p-5 font-black text-[#704B32]">Nuty Tales Gifting OS</td>
                 <td className="p-4 sm:p-5">Unified Gifting Intelligence + Commerce</td>
                 <td className="p-4 sm:p-5 text-emerald-800">Moat: Crosses Gifting → Weddings → Stays → Crafts → Business</td>
                 <td className="p-4 sm:p-5 text-[#704B32] font-black">
@@ -395,7 +395,7 @@ export default function GiftingPage() {
               Four High-Velocity Revenue Engines
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm font-light">
-              Nutty Tales Gifting is built to monetize every touchpoint — from intimate consumer celebrations to multi-country enterprise contracts.
+              Nuty Tales Gifting is built to monetize every touchpoint — from intimate consumer celebrations to multi-country enterprise contracts.
             </p>
           </div>
 
@@ -455,7 +455,7 @@ export default function GiftingPage() {
                   Event &amp; Wedding Favors
                 </h3>
                 <p className="text-stone-600 leading-relaxed font-light">
-                  Destination weddings in Kashmir, corporate leadership offsites, and conferences. Connected with Nutty Tales Weddings for guest room drops.
+                  Destination weddings in Kashmir, corporate leadership offsites, and conferences. Connected with Nuty Tales Weddings for guest room drops.
                 </p>
               </div>
               <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
@@ -476,7 +476,7 @@ export default function GiftingPage() {
                   Gifting Infrastructure &amp; API
                 </h3>
                 <p className="text-stone-600 leading-relaxed font-light">
-                  Nutty Tales Gifting API and Snappy-style recipient choice links. Enables external CRMs, HRMS platforms, and apps to trigger physical gifts programmatically.
+                  Nuty Tales Gifting API and Snappy-style recipient choice links. Enables external CRMs, HRMS platforms, and apps to trigger physical gifts programmatically.
                 </p>
               </div>
               <div className="p-3 bg-stone-50 rounded-xl text-[11px] font-mono text-stone-700">
@@ -667,7 +667,7 @@ export default function GiftingPage() {
                     <span>✓</span> 18% GST Input Credit Recovery: ~₹{gstCreditSavings.toLocaleString('en-IN')}
                   </div>
                   <div className="flex items-center gap-1 font-bold text-[#704B32]">
-                    <span>✦</span> Diwali 2026 Early-Bird Benefit: ~₹{earlyBirdSavings.toLocaleString('en-IN')}
+                    <span>✦</span> Festive Early-Bird Benefit: ~₹{earlyBirdSavings.toLocaleString('en-IN')}
                   </div>
                 </div>
               </div>
@@ -704,7 +704,7 @@ export default function GiftingPage() {
               Bespoke Catalog
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
-              The 2026 Corporate Collection
+              The Festive &amp; Corporate Collection
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm font-light max-w-2xl">
               From executive walnut wood caskets to featherlight multi-city postal mailers, each box is filled with FSSAI-certified fresh harvest dry fruits and vacuum-fresh packaging.

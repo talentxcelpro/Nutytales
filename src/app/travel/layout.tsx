@@ -4,8 +4,8 @@ import TravelShell from '@/components/travel/TravelShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://travel.nutytales.com'),
   title: {
-    default: 'Nutty Tales Travel — Bespoke Kashmir Expeditions & SI Dynamic Journeys',
-    template: '%s | Nutty Tales Travel',
+    default: 'Nuty Tales Travel — Bespoke Kashmir Expeditions & SI Dynamic Journeys',
+    template: '%s | Nuty Tales Travel',
   },
   description:
     'Bespoke travel experiences across Kashmir & Ladakh. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, Gulmarg heli-skiing, alpine meadow treks, and verified local DMC coordination.',
@@ -32,17 +32,17 @@ export const metadata: Metadata = {
     'Kashmir luxury travel concierge',
   ],
   openGraph: {
-    title: 'Nutty Tales Travel — Curated Kashmir Journeys & SI Dynamic Itineraries',
+    title: 'Nuty Tales Travel — Curated Kashmir Journeys & SI Dynamic Itineraries',
     description:
       'Build the trip, don’t just book it. Dynamic day-by-day itinerary planner, private 4x4 convoys, and verified DMCs.',
     url: 'https://travel.nutytales.com',
-    siteName: 'Nutty Tales Travel',
+    siteName: 'Nuty Tales Travel',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Travel — Bespoke Himalayan Expeditions',
+    title: 'Nuty Tales Travel — Bespoke Himalayan Expeditions',
     description: 'Dynamic Kashmir & Ladakh journeys with verified local DMCs and private 4x4 convoys.',
   },
 }

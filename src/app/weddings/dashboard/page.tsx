@@ -12,7 +12,7 @@ export default function WeddingsDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2D1520] text-[#C9A45C] text-xs font-semibold tracking-wide">
-            <span>💍 NUTTY TALES WEDDINGS — OPERATING DASHBOARD</span>
+            <span>💍 NUTY TALES WEDDINGS — OPERATING DASHBOARD</span>
           </div>
           <h1 className="font-serif text-3xl font-bold text-[#17233B] mt-2">
             Wedding Planning &amp; Vendor Command Center
@@ -57,7 +57,7 @@ export default function WeddingsDashboardPage() {
             </span>
             <span className="text-rose-700 font-bold text-xs">Laser Monogram</span>
           </div>
-          <p className="text-[11px] text-stone-500">Nutty Tales VIP trousseau collections</p>
+          <p className="text-[11px] text-stone-500">Nuty Tales VIP trousseau collections</p>
         </div>
 
         <div className="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm space-y-2">

@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Internal Linking System
+ * Nuty Tales SEO — Internal Linking System
  *
  * Intentional, crawlable, descriptive internal link graph.
  *
@@ -304,13 +304,13 @@ export function buildBreadcrumbs(
 ): Array<{ label: string; href: string }> {
   const domain = BUSINESS_DOMAINS[business];
   const crumbs: Array<{ label: string; href: string }> = [
-    { label: 'Nutty Tales', href: BUSINESS_DOMAINS.root },
+    { label: 'Nuty Tales', href: BUSINESS_DOMAINS.root },
   ];
 
   if (business !== 'root') {
     const businessLabels: Record<NutyBusiness, string> = {
-      root:     'Nutty Tales',
-      business: 'Nutty Tales Business',
+      root:     'Nuty Tales',
+      business: 'Nuty Tales Business',
       gifting:  'Gifting',
       weddings: 'Weddings',
       crafts:   'Crafts',

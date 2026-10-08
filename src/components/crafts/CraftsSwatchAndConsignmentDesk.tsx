@@ -106,7 +106,7 @@ export default function CraftsSwatchAndConsignmentDesk() {
           <div className="pt-3 flex justify-center gap-3">
             <a
               href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                `Hello Nutty Tales Crafts Export Desk! I just ordered Boutique Swatch Box (Ref: ${orderSuccess}) for ${boutiqueName || 'our boutique'}. Please share courier AWB.`,
+                `Hello Nuty Tales Crafts Export Desk! I just ordered Boutique Swatch Box (Ref: ${orderSuccess}) for ${boutiqueName || 'our boutique'}. Please share courier AWB.`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"

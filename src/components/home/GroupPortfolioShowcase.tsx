@@ -6,7 +6,7 @@ import Link from 'next/link'
 const COMPANIES = [
   {
     id: 'business',
-    name: 'Nutty Tales Business',
+    name: 'Nuty Tales Business',
     domain: 'business.nutytales.com',
     href: '/b2b',
     icon: '🏢',
@@ -20,7 +20,7 @@ const COMPANIES = [
   },
   {
     id: 'gifting',
-    name: 'Nutty Tales Gifting',
+    name: 'Nuty Tales Gifting',
     domain: 'gifting.nutytales.com',
     href: '/gifting',
     icon: '🎁',
@@ -29,12 +29,12 @@ const COMPANIES = [
       'One corporate request executed end-to-end. Upload recipient lists across cities and countries. Laser logo foil stamping, custom greeting cards, and real-time delivery reports.',
     kpi: '1,840 Boxes Dispatched',
     cta: 'Enter Gifting Desk →',
-    badge: 'Diwali 2026 Early Bird',
+    badge: 'Global Festive Desk',
     color: 'from-[#2C1810] to-[#43281C]',
   },
   {
     id: 'weddings',
-    name: 'Nutty Tales Weddings',
+    name: 'Nuty Tales Weddings',
     domain: 'weddings.nutytales.com',
     href: '/weddings',
     icon: '💍',
@@ -48,7 +48,7 @@ const COMPANIES = [
   },
   {
     id: 'crafts',
-    name: 'Nutty Tales Crafts',
+    name: 'Nuty Tales Crafts',
     domain: 'crafts.nutytales.com',
     href: '/crafts',
     icon: '🧣',
@@ -62,7 +62,7 @@ const COMPANIES = [
   },
   {
     id: 'stays',
-    name: 'Nutty Tales Stays',
+    name: 'Nuty Tales Stays',
     domain: 'stays.nutytales.com',
     href: '/stays',
     icon: '🏔️',
@@ -76,7 +76,7 @@ const COMPANIES = [
   },
   {
     id: 'travel',
-    name: 'Nutty Tales Travel',
+    name: 'Nuty Tales Travel',
     domain: 'travel.nutytales.com',
     href: '/travel',
     icon: '✈️',
@@ -92,18 +92,18 @@ const COMPANIES = [
 
 export default function GroupPortfolioShowcase() {
   return (
-    <section className="py-20 bg-[#FAF6EE] border-b border-stone-200">
+    <section id="portfolio-showcase" className="py-20 bg-[#FAF6EE] border-b border-stone-200 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-bold uppercase tracking-widest">
-            <span>✦</span> NUTTY TALES GROUP PORTFOLIO
+            <span>✦</span> NUTY TALES PORTFOLIO
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
             Six Independent Global Digital Businesses
           </h2>
           <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-light">
-            Nutty Tales operates as a technology group ecosystem. Each business is an independent global company with its own customers, suppliers, marketplace, and operations, powered by a shared foundation of intelligence, verified provenance, and execution.
+            Nuty Tales operates as a technology group ecosystem. Each business is an independent global company with its own customers, suppliers, marketplace, and operations, powered by a shared foundation of intelligence, verified provenance, and execution.
           </p>
         </div>
 

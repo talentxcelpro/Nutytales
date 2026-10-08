@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Nutty Tales Private Limited',
+  title: 'Privacy Policy | Nuty Tales Private Limited',
   description:
-    'Nutty Tales Group privacy policy. How we collect, safeguard, and process customer data across our gourmet dry fruit store, B2B wholesale portal, luxury stays, Kashmir travel, and GI-certified crafts.',
+    'Nuty Tales privacy policy. How we collect, safeguard, and process customer data across our gourmet dry fruit store, B2B wholesale portal, luxury stays, Kashmir travel, and GI-certified crafts.',
   alternates: {
     canonical: 'https://nutytales.com/privacy',
   },
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
           </h1>
 
           <p className="text-sm sm:text-base text-[#17233B]/80 leading-relaxed font-normal max-w-2xl">
-            Nutty Tales Private Limited (&ldquo;Nutty Tales&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;) is committed to the highest standards of data security, consumer privacy, and transparency across our Tri-Hub commerce and experiential network.
+            Nuty Tales Private Limited (&ldquo;Nuty Tales&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;) is committed to the highest standards of data security, consumer privacy, and transparency across our Tri-Hub commerce and experiential network.
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function PrivacyPolicyPage() {
               All online credit card, debit card, UPI, and NetBanking transactions are processed through RBI-licensed payment aggregators (including Razorpay Software Private Limited) using end-to-end 256-bit SSL encryption.
             </p>
             <p className="text-sm bg-[#F7F2E8] p-4 rounded-xl border border-[#17233B]/10">
-              <strong>Security Guarantee:</strong> Nutty Tales employees and systems never have visibility into or access to your card security numbers (CVV), NetBanking passwords, or UPI PINs.
+              <strong>Security Guarantee:</strong> Nuty Tales employees and systems never have visibility into or access to your card security numbers (CVV), NetBanking passwords, or UPI PINs.
             </p>
           </section>
 
@@ -162,7 +162,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="text-xs space-y-1 font-mono text-[#17233B]/90 pt-1">
               <p><strong>Designated Grievance Officer:</strong> Arshid Wani</p>
-              <p><strong>Entity:</strong> Nutty Tales Private Limited</p>
+              <p><strong>Entity:</strong> Nuty Tales Private Limited</p>
               <p><strong>Corporate HQ:</strong> Sector 62, Noida, Gautam Buddha Nagar, Uttar Pradesh 201309</p>
               <p><strong>Direct Email:</strong> grievance@nutytales.com</p>
               <p><strong>Response SLA:</strong> Within 48 business hours</p>
@@ -178,7 +178,7 @@ export default function PrivacyPolicyPage() {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nutty%20Tales%2C%20I%20have%20a%20question%20regarding%20data%20privacy.`}
+              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nuty%20Tales%2C%20I%20have%20a%20question%20regarding%20data%20privacy.`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#C9A45C] hover:bg-[#B38F46] text-[#17233B] text-xs font-bold px-5 py-3 rounded-xl transition-all shadow-sm"

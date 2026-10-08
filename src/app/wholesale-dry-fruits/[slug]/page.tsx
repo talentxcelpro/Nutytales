@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       intentType: 'b2b_procurement',
       slug: `/wholesale-dry-fruits/${slug}`,
       primaryKeyword: `Wholesale Dry Fruits for ${industry.name}`,
-      title: `Wholesale Dry Fruits for ${industry.name} | Bulk Supply & Ingredients | Nutty Tales`,
+      title: `Wholesale Dry Fruits for ${industry.name} | Bulk Supply & Ingredients | Nuty Tales`,
       description: `Commercial dry fruit & nut ingredients for ${industry.name}. ${industry.tagline}. Graded cuts, vacuum packaging, FSSAI certified batch COA, and scheduled B2B supply.`,
     });
   }
@@ -41,13 +41,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       intentType: 'local_commercial',
       slug: `/wholesale-dry-fruits/${slug}`,
       primaryKeyword: `Wholesale Dry Fruits in ${city.name}`,
-      title: `Dry Fruit Wholesale Supplier in ${city.name} | B2B Bulk Supply | Nutty Tales`,
+      title: `Dry Fruit Wholesale Supplier in ${city.name} | B2B Bulk Supply | Nuty Tales`,
       description: `Wholesale dry fruits supplier serving ${city.name}. Bulk California almonds, W240/W320 cashews, raisins, walnuts, makhana. FSSAI Reg. ${FSSAI_NUMBER}, GST invoices, reliable dispatch.`,
     });
   }
 
   return {
-    title: 'B2B Wholesale Dry Fruits | Nutty Tales',
+    title: 'B2B Wholesale Dry Fruits | Nuty Tales',
   };
 }
 
@@ -70,7 +70,7 @@ export default async function WholesaleSlugPage({ params }: PageProps) {
     ];
     const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
     const orgSchema = buildOrganizationSchema({
-      name: `Nutty Tales B2B — ${industry.name} Supply`,
+      name: `Nuty Tales B2B — ${industry.name} Supply`,
       url: `https://nutytales.com/wholesale-dry-fruits/${industry.slug}`,
       description: industry.tagline,
     });
@@ -199,7 +199,7 @@ export default async function WholesaleSlugPage({ params }: PageProps) {
     ];
     const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
     const localSchema = buildLocalBusinessSchema({
-      name: `Nutty Tales Wholesale Supply — ${city.name}`,
+      name: `Nuty Tales Wholesale Supply — ${city.name}`,
       url: `https://nutytales.com/wholesale-dry-fruits/${city.slug}`,
       addressLocality: city.name,
       addressCountry: 'India',

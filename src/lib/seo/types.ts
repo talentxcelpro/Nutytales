@@ -1,5 +1,5 @@
 /**
- * Nutty Tales Global SEO Infrastructure — Core Type Definitions
+ * Nuty Tales Global SEO Infrastructure — Core Type Definitions
  *
  * This module defines the shared type system used across the entire SEO
  * demand engine, indexation governor, page quality scorer, sitemap

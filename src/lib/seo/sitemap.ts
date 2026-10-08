@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Sitemap Architecture
+ * Nuty Tales SEO — Sitemap Architecture
  *
  * Scalable sitemap generation supporting 10M+ page candidates.
  *

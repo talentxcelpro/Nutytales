@@ -4,8 +4,8 @@ import CraftsShell from '@/components/crafts/CraftsShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://crafts.nutytales.com'),
   title: {
-    default: 'Nutty Tales Crafts — Authentic Kashmir GI Pashmina, Shawls & Heritage FW26 Couture',
-    template: '%s | Nutty Tales Crafts',
+    default: 'Nuty Tales Crafts — Authentic Kashmir GI Pashmina, Shawls & Heritage Collections',
+    template: '%s | Nuty Tales Crafts',
   },
   description:
     'Evidence-backed GI-certified Changthangi Pashmina, hand-embroidered Tilla shawls, fine wool pherans, and bespoke heritage crafts. Global boutique wholesale, provenance tracing, and export consignments.',
@@ -29,21 +29,21 @@ export const metadata: Metadata = {
     'luxury wool pheran',
     'Kashmir crafts export',
     'GI tag Changthangi goat wool',
-    'Kashmir couture FW26',
+    'Kashmir artisan couture',
     'handwoven pashmina wholesale',
   ],
   openGraph: {
-    title: 'Nutty Tales Crafts — Authentic Kashmir GI Pashmina & Heritage Handlooms',
+    title: 'Nuty Tales Crafts — Authentic Kashmir GI Pashmina & Heritage Handlooms',
     description:
       'Evidence-backed GI-certified Changthangi Pashmina, fine wool pherans, and bespoke Himalayan heritage crafts.',
     url: 'https://crafts.nutytales.com',
-    siteName: 'Nutty Tales Crafts',
+    siteName: 'Nuty Tales Crafts',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Crafts — Authentic Kashmiri Heritage',
+    title: 'Nuty Tales Crafts — Authentic Kashmiri Heritage',
     description: 'GI certified Changthangi Pashmina, pherans, and master artisan weaves.',
   },
 }

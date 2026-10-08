@@ -4,8 +4,8 @@ import B2BShell from '@/components/b2b/B2BShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://business.nutytales.com'),
   title: {
-    default: 'Nutty Tales Business — Global B2B Dry Fruits & Industrial Sourcing Engine',
-    template: '%s | Nutty Tales Business',
+    default: 'Nuty Tales Business — Global B2B Dry Fruits & Industrial Sourcing Engine',
+    template: '%s | Nuty Tales Business',
   },
   description:
     'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana & saffron with wholesale tier pricing and multi-point logistics.',
@@ -34,17 +34,17 @@ export const metadata: Metadata = {
     'almonds container procurement',
   ],
   openGraph: {
-    title: 'Nutty Tales Business — Global B2B Dry Fruits Wholesale Engine',
+    title: 'Nuty Tales Business — Global B2B Dry Fruits Wholesale Engine',
     description:
       'Direct farm-to-enterprise procurement portal for commercial food production, bakery chains, and institutional dry fruit buyers.',
     url: 'https://business.nutytales.com',
-    siteName: 'Nutty Tales Business',
+    siteName: 'Nuty Tales Business',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Business — Global B2B Dry Fruits Procurement',
+    title: 'Nuty Tales Business — Global B2B Dry Fruits Procurement',
     description: 'Direct farm-to-enterprise bulk almonds, walnuts, cashews, makhana & saffron.',
   },
 }

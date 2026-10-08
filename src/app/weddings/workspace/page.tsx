@@ -28,7 +28,7 @@ export default function WeddingWorkspacePage() {
   const [neededVendors, setNeededVendors] = useState<string[]>([
     'Heritage Orchard / Palace Venue',
     'Royal Kashmiri Wazwan / Multi-Cuisine Catering',
-    'Bespoke Dry Fruit Return Favors (Nutty Tales)',
+    'Bespoke Dry Fruit Return Favors (Nuty Tales)',
     'Cinematography & Candid Photography',
     'Floral & Stage Scenography',
   ])
@@ -111,7 +111,7 @@ export default function WeddingWorkspacePage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2D1520] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>💍 NUTTY TALES WEDDINGS — OPERATING SYSTEM</span>
+          <span>💍 NUTY TALES WEDDINGS — OPERATING SYSTEM</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
           Interactive Wedding Workspace &amp; Planning Engine
@@ -316,7 +316,7 @@ export default function WeddingWorkspacePage() {
               <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 space-y-1">
                 <span className="text-[10px] font-bold text-[#8E2848] uppercase block">Trousseau &amp; Favors (10%)</span>
                 <span className="font-bold text-base text-[#8E2848]">₹{(favorsBudget / 100000).toFixed(1)}L</span>
-                <span className="text-[10px] text-[#8E2848] block">Nutty Tales VIP Hampers</span>
+                <span className="text-[10px] text-[#8E2848] block">Nuty Tales VIP Hampers</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 space-y-1">
@@ -371,7 +371,7 @@ export default function WeddingWorkspacePage() {
                 {[
                   'Heritage Orchard / Palace Venue',
                   'Royal Kashmiri Wazwan / Multi-Cuisine Catering',
-                  'Bespoke Dry Fruit Return Favors (Nutty Tales)',
+                  'Bespoke Dry Fruit Return Favors (Nuty Tales)',
                   'Cinematography & Candid Photography',
                   'Floral & Stage Scenography',
                   'Bridal Makeup & Hair Artists',
@@ -405,7 +405,7 @@ export default function WeddingWorkspacePage() {
           <div className="p-6 bg-[#2D1520] text-white rounded-3xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="space-y-1 text-center sm:text-left">
               <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
-                ✦ Nutty Tales Wedding OS Guarantee
+                ✦ Nuty Tales Wedding OS Guarantee
               </span>
               <h4 className="font-serif text-xl font-bold">
                 Lock in Your Wedding Blueprint

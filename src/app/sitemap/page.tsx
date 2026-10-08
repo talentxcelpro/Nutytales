@@ -8,9 +8,9 @@ import { INDUSTRIES } from '@/lib/business-supply-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Global Directory & Sitemap | Nutty Tales Network',
+  title: 'Global Directory & Sitemap | Nuty Tales Network',
   description:
-    'Comprehensive directory and sitemap of the Nutty Tales Group. Explore our 6 independent business verticals: gourmet foods, B2B wholesale, corporate gifting, luxury stays, Kashmir travel, and GI crafts.',
+    'Comprehensive directory and sitemap of the Nuty Tales. Explore our 6 independent business verticals: gourmet foods, B2B wholesale, corporate gifting, luxury stays, Kashmir travel, and GI crafts.',
   alternates: {
     canonical: 'https://nutytales.com/sitemap',
   },
@@ -49,11 +49,11 @@ export default function HtmlSitemapPage() {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#17233B]">
-            Nutty Tales Architecture &amp; Index
+            Nuty Tales Architecture &amp; Index
           </h1>
 
           <p className="text-sm sm:text-base text-[#17233B]/80 leading-relaxed font-normal max-w-2xl">
-            Quickly navigate all commercial landing pages, B2B procurement portals, boutique residence collections, and heirloom handloom catalogs across the Nutty Tales network.
+            Quickly navigate all commercial landing pages, B2B procurement portals, boutique residence collections, and heirloom handloom catalogs across the Nuty Tales network.
           </p>
         </div>
 
@@ -264,7 +264,7 @@ export default function HtmlSitemapPage() {
               <p className="text-xs text-stone-300">Statutory policies, terms, insured shipping guidelines, and automated indexing endpoints.</p>
             </div>
             <a
-              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nutty%20Tales%20Concierge%2C%20I%20have%20an%20inquiry.`}
+              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nuty%20Tales%20Concierge%2C%20I%20have%20an%20inquiry.`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#C9A45C] hover:bg-[#B38F46] text-[#17233B] text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-1.5 self-start sm:self-auto"

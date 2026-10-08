@@ -66,10 +66,10 @@ export default function StaysHostPortalPage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>🏔️ NUTTY TALES STAYS — HOST &amp; PROPERTY PARTNER PORTAL</span>
+          <span>🏔️ NUTY TALES STAYS — HOST &amp; PROPERTY PARTNER PORTAL</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-          List Your Boutique Property on Nutty Tales Stays
+          List Your Boutique Property on Nuty Tales Stays
         </h1>
         <p className="text-stone-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
           Join our curated global hospitality network. We connect verified orchard villas, mountain retreats, and heritage suites to discerning travelers, corporate offsite leaders, and destination wedding parties.
@@ -229,7 +229,7 @@ export default function StaysHostPortalPage() {
             disabled={isSubmitting}
             className="w-full py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
           >
-            {isSubmitting ? 'Registering Property...' : '⚡ Apply to List on Nutty Tales Stays →'}
+            {isSubmitting ? 'Registering Property...' : '⚡ Apply to List on Nuty Tales Stays →'}
           </button>
         </form>
       )}

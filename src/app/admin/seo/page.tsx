@@ -4,7 +4,7 @@ import { getSeoEngineTelemetry } from '@/lib/seo/engine';
 import { NutyBusiness, BUSINESS_DOMAINS } from '@/lib/seo/types';
 
 export const metadata: Metadata = {
-  title: 'SEO & Demand Engine Command Center | Nutty Tales Admin',
+  title: 'SEO & Demand Engine Command Center | Nuty Tales Admin',
   description: 'Enterprise SEO infrastructure monitoring across all 7 Google Search Console properties, sitemap health, indexation governance, and revenue attribution.',
   robots: { index: false, follow: false },
 };
@@ -26,7 +26,7 @@ export default function SeoCommandCenterPage() {
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-              Nutty Tales Global SEO &amp; Revenue Infrastructure
+              Nuty Tales Global SEO &amp; Revenue Infrastructure
             </h1>
             <p className="text-xs text-slate-400 mt-1">
               Dual-Touch Revenue Attribution · Zero Invented Inventory · Real-Time Indexation Governor Gate

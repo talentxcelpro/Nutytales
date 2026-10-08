@@ -186,7 +186,7 @@ export default function SIGiftDesigner({
           vertical: 'weddings',
           badge: 'Weddings OS Connected',
           title: 'Guest Roster & Suite Distribution',
-          description: 'Synchronized with your Nutty Tales Wedding Workspace for hotel room drop allocation.',
+          description: 'Synchronized with your Nuty Tales Wedding Workspace for hotel room drop allocation.',
           linkText: 'Open Wedding Workspace',
           href: '/weddings/workspace',
         })
@@ -231,7 +231,7 @@ export default function SIGiftDesigner({
           'Pampore Mongra Saffron GI Tagged (2g Collector Box)',
           'Rare Kashmiri Kagzi Soft-Shell Walnuts (250g)',
           'Raw Forest Acacia Honey in Artisan Stone Jar (200g)',
-          'Invitation card to Nutty Tales Srinagar Orchard Retreat',
+          'Invitation card to Nuty Tales Srinagar Orchard Retreat',
         ]
         synergies.push({
           vertical: 'crafts',
@@ -264,7 +264,7 @@ export default function SIGiftDesigner({
         ]
       }
 
-      const rationale = `Nutty Tales SI analyzed your intent: ${p.toUpperCase()} audience with goal "${o}". Selected ${v.replace(
+      const rationale = `Nuty Tales SI analyzed your intent: ${p.toUpperCase()} audience with goal "${o}". Selected ${v.replace(
         '_',
         ' '
       )} aesthetics at ₹${b.toLocaleString(
@@ -837,7 +837,7 @@ export default function SIGiftDesigner({
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold uppercase tracking-widest text-[#704B32]">
-                    Cross-Ecosystem Synergies (Nutty Tales Unified Moat)
+                    Cross-Ecosystem Synergies (Nuty Tales Unified Moat)
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -928,7 +928,7 @@ export default function SIGiftDesigner({
 
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Gifting! I designed a program for ${recipientCount} recipients at ₹${programResult.unitBudgetINR} each (${programResult.title}). Please send a formal proforma and sample box.`
+                    `Hello Nuty Tales Gifting! I designed a program for ${recipientCount} recipients at ₹${programResult.unitBudgetINR} each (${programResult.title}). Please send a formal proforma and sample box.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

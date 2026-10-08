@@ -233,7 +233,7 @@ export default function SIFloatingAssistant() {
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
-  // ── Company 1: Nutty Tales Business (business.nutytales.com / /b2b) ─────────
+  // ── Company 1: Nuty Tales Business (business.nutytales.com / /b2b) ─────────
   if (pathname.startsWith('/b2b') || pathname.startsWith('/business-supply')) {
     return {
       assistantName: 'SI Procurement Copilot',
@@ -241,7 +241,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'Global B2B Sourcing & Commodity Procurement Desk',
       inputPlaceholder: 'Tell SI what you need to source (e.g. 5,000 kg almonds monthly)...',
       greeting:
-        'Welcome to Nutty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source, your monthly volume, or grade specifications, and I will match verified suppliers with formal quotes.',
+        'Welcome to Nuty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source, your monthly volume, or grade specifications, and I will match verified suppliers with formal quotes.',
       actions: [
         { label: 'Create Instant RFQ', href: '/b2b/rfq' },
         { label: 'Wholesale Catalog', href: '/b2b/catalog' },
@@ -256,7 +256,7 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 2: Nutty Tales Gifting (gifting.nutytales.com / /gifting) ───────
+  // ── Company 2: Nuty Tales Gifting (gifting.nutytales.com / /gifting) ───────
   if (pathname.startsWith('/gifting') || pathname.startsWith('/corporate-gifting')) {
     return {
       assistantName: 'SI Gift Designer & Gifting OS',
@@ -264,7 +264,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'Outcome-Based Gifting, Choice Links & Global Fulfillment',
       inputPlaceholder: "Tell SI what you want this gift to accomplish (e.g. 300 employees across India, UAE & UK)...",
       greeting:
-        'Welcome to Nutty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Diwali gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
+        'Welcome to Nuty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Diwali gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
       actions: [
         { label: '✨ Design a Gift (SI Studio)', href: '/gifting/designer' },
         { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
@@ -279,7 +279,7 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 3: Nutty Tales Weddings (weddings.nutytales.com / /weddings) ─────
+  // ── Company 3: Nuty Tales Weddings (weddings.nutytales.com / /weddings) ─────
   if (pathname.startsWith('/weddings')) {
     return {
       assistantName: 'SI Wedding Planner',
@@ -287,7 +287,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'The Wedding Operating System & Execution Concierge',
       inputPlaceholder: "Tell SI how you're planning your wedding (e.g. 400 guests destination in Kashmir)...",
       greeting:
-        'Welcome to Nutty Tales Weddings. I am your Wedding Planner Copilot. I help you plan budgets, orchestrate vendor RFQs (venues, decorators, photography), calculate guest favors, and generate multi-day timelines.',
+        'Welcome to Nuty Tales Weddings. I am your Wedding Planner Copilot. I help you plan budgets, orchestrate vendor RFQs (venues, decorators, photography), calculate guest favors, and generate multi-day timelines.',
       actions: [
         { label: 'Launch Wedding Workspace', href: '/weddings/workspace' },
         { label: 'Wedding Favors & Hampers', href: '/weddings/favors' },
@@ -302,7 +302,7 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 4: Nutty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
+  // ── Company 4: Nuty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
   if (pathname.startsWith('/crafts')) {
     return {
       assistantName: 'SI Style & Craft Advisor',
@@ -310,7 +310,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'Global Luxury Weaves, Virtual Drape & Provenance',
       inputPlaceholder: 'Tell SI what you want to wear or discover (e.g. GI Kani Pashmina for winter)...',
       greeting:
-        'Welcome to Nutty Tales Crafts. I am your Style & Provenance Advisor. I verify GI-tag authenticity, simulate drape folds in the Virtual Studio, and assist boutique buyers with wholesale craft procurement.',
+        'Welcome to Nuty Tales Crafts. I am your Style & Provenance Advisor. I verify GI-tag authenticity, simulate drape folds in the Virtual Studio, and assist boutique buyers with wholesale craft procurement.',
       actions: [
         { label: 'Try with SI (Drape Studio)', href: '/crafts/try-with-si' },
         { label: 'B2B Wholesale Weaves', href: '/crafts/wholesale' },
@@ -325,7 +325,7 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 5: Nutty Tales Stays (stays.nutytales.com / /stays) ─────────────
+  // ── Company 5: Nuty Tales Stays (stays.nutytales.com / /stays) ─────────────
   if (pathname.startsWith('/stays')) {
     return {
       assistantName: 'SI Stay Concierge',
@@ -333,7 +333,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'Hospitality, Orchard Suites & Valley Experiences',
       inputPlaceholder: 'Tell SI how you want to stay (e.g. 3 nights Srinagar orchard villa with kahwa)...',
       greeting:
-        'Welcome to Nutty Tales Stays. I am your Hospitality Concierge. I calculate live seasonal tariffs, orchestrate private orchard buyouts for VIP delegations, and coordinate local culinary experiences.',
+        'Welcome to Nuty Tales Stays. I am your Hospitality Concierge. I calculate live seasonal tariffs, orchestrate private orchard buyouts for VIP delegations, and coordinate local culinary experiences.',
       actions: [
         { label: 'Reserve Orchard Suite', href: '/stays#booking-engine' },
         { label: 'Private Buyout & Groups', href: '/stays/group-quote' },
@@ -348,7 +348,7 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 6: Nutty Tales Travel (travel.nutytales.com / /travel) ───────────
+  // ── Company 6: Nuty Tales Travel (travel.nutytales.com / /travel) ───────────
   if (pathname.startsWith('/travel')) {
     return {
       assistantName: 'SI Travel Planner',
@@ -356,7 +356,7 @@ function getContextualPrompts(pathname: string) {
       tagline: 'Dynamic Itineraries, 4x4 Snow Safaris & Expeditions',
       inputPlaceholder: 'Tell SI where you want to go (e.g. 7-day family Kashmir winter expedition)...',
       greeting:
-        'Welcome to Nutty Tales Travel. I am your Travel Planner Copilot. Tell me your travel dates, group size, and interests, and I will build an hour-by-hour itinerary with vetted drivers, stays, and activities.',
+        'Welcome to Nuty Tales Travel. I am your Travel Planner Copilot. Tell me your travel dates, group size, and interests, and I will build an hour-by-hour itinerary with vetted drivers, stays, and activities.',
       actions: [
         { label: 'Build My Trip', href: '/travel/builder' },
         { label: 'Explore Kashmir Packages', href: '/travel/kashmir' },
@@ -375,10 +375,10 @@ function getContextualPrompts(pathname: string) {
   return {
     assistantName: 'SI Group Intelligence',
     badgeIcon: '✦',
-    tagline: 'Nutty Tales Group Flagship Ecosystem',
+    tagline: 'Nuty Tales Flagship Ecosystem',
     inputPlaceholder: 'Ask SI anything across the 6 operating companies...',
     greeting:
-      'Hello! I am SI, the shared intelligence platform of Nutty Tales Group. I connect our 6 independent global companies: B2B Business, Corporate Gifting, Weddings OS, Crafts Marketplace, Hospitality Stays, and Travel Planning.',
+      'Hello! I am SI, the shared intelligence platform of Nuty Tales. I connect our 6 independent global companies: B2B Business, Corporate Gifting, Weddings OS, Crafts Marketplace, Hospitality Stays, and Travel Planning.',
     actions: [
       { label: 'Shop Harvest Retail', href: '/shop' },
       { label: 'B2B Business Supply', href: '/b2b' },
@@ -401,7 +401,7 @@ function generateSIResponse(query: string, pathname: string): ChatMessage {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: 'Nutty Tales Gifting OS designs outcome-based programs tailored to your budget and geography. Whether sending gifts to 300 employees across India, UAE, and the UK or sending a Snappy-style recipient choice link where recipients choose items and input addresses privately, our studio handles curation, branding, and duty-paid delivery.',
+      text: 'Nuty Tales Gifting OS designs outcome-based programs tailored to your budget and geography. Whether sending gifts to 300 employees across India, UAE, and the UK or sending a Snappy-style recipient choice link where recipients choose items and input addresses privately, our studio handles curation, branding, and duty-paid delivery.',
       actions: [
         { label: '✨ Launch SI Gift Designer', href: '/gifting/designer' },
         { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },

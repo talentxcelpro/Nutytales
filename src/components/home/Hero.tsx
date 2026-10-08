@@ -16,56 +16,67 @@ export default function Hero() {
           <div className="lg:col-span-5 space-y-6 lg:pr-6">
             <div className="space-y-1.5">
               <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-semibold block">
-                Nuty Tales
+                Nuty Tales · Global Marketplace
               </span>
               <p className="font-serif italic text-base text-[#176B68]">
-                Wholesome Nuty Delights
+                Taste · Gift · Wear · Stay · Travel · Business
               </p>
             </div>
 
             <div className="space-y-3">
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#17233B] tracking-tight leading-[1.15]">
-                The finest nuts, <br />
-                thoughtfully sourced.
+                A Global Marketplace for Taste, Living &amp; Enterprise.
               </h1>
               <p className="text-sm sm:text-base text-[#17233B]/80 max-w-md font-normal leading-relaxed">
-                Premium dry fruits for everyday indulgence, B2B business supply, and bespoke wedding gifting. From California and Kashmir to your home.
+                Connecting customers, master artisans, Himalayan growers, boutique hosts, and corporate buyers across six interconnected commerce ecosystems.
               </p>
             </div>
 
             {/* CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <a
+                href="#portfolio-showcase"
+                style={{ backgroundColor: '#17233B', color: '#FFFFFF' }}
+                className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white text-xs uppercase tracking-widest font-bold rounded-lg transition-all duration-200 shadow-md inline-block"
+              >
+                Explore Nuty Tales ↓
+              </a>
               <Link
                 href="/shop"
-                style={{ backgroundColor: '#17233B', color: '#FFFFFF' }}
-                className="px-7 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white text-xs uppercase tracking-widest font-semibold rounded-lg transition-all duration-200 shadow-md inline-block"
+                style={{ backgroundColor: '#C9A45C', color: '#17233B' }}
+                className="px-5 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] text-xs uppercase tracking-widest font-bold rounded-lg transition-all duration-200 shadow-md inline-block"
               >
-                Shop Dry Fruits
+                Shop Gourmet Nuts
               </Link>
               <Link
                 href="/business-supply"
                 style={{ borderColor: '#17233B', color: '#17233B' }}
-                className="px-7 py-3.5 border-2 border-[#17233B] text-[#17233B] hover:bg-[#17233B] hover:text-white text-xs uppercase tracking-widest font-semibold rounded-lg transition-all duration-200 inline-block"
+                className="px-5 py-3.5 border-2 border-[#17233B] text-[#17233B] hover:bg-[#17233B] hover:text-white text-xs uppercase tracking-widest font-semibold rounded-lg transition-all duration-200 inline-block"
               >
                 Business Supply
               </Link>
             </div>
 
             {/* Subtle discovery options */}
-            <div className="pt-2 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs tracking-wider uppercase font-semibold text-[#176B68]">
-              <Link
-                href="/weddings"
-                className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors"
-              >
-                <span>💍 Weddings &amp; Custom Hampers</span>
-                <span className="text-sm">→</span>
+            <div className="pt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs tracking-wider uppercase font-semibold text-[#176B68]">
+              <Link href="/gifting" className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors">
+                <span>🎁 Gift</span>
               </Link>
-              <Link
-                href="/crafts"
-                className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors"
-              >
-                <span>❄️ Kashmir Crafts (Try with SI)</span>
-                <span className="text-sm">→</span>
+              <span className="text-stone-300">•</span>
+              <Link href="/crafts" className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors">
+                <span>🧣 Wear</span>
+              </Link>
+              <span className="text-stone-300">•</span>
+              <Link href="/stays" className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors">
+                <span>🏡 Stay</span>
+              </Link>
+              <span className="text-stone-300">•</span>
+              <Link href="/travel" className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors">
+                <span>✈️ Travel</span>
+              </Link>
+              <span className="text-stone-300">•</span>
+              <Link href="/weddings" className="inline-flex items-center gap-1 hover:text-[#214B39] transition-colors">
+                <span>💍 Weddings</span>
               </Link>
             </div>
 

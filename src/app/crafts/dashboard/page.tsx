@@ -12,7 +12,7 @@ export default function CraftsDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-            <span>🧣 NUTTY TALES CRAFTS — MARKETPLACE DASHBOARD</span>
+            <span>🧣 NUTY TALES CRAFTS — MARKETPLACE DASHBOARD</span>
           </div>
           <h1 className="font-serif text-3xl font-bold text-[#17233B] mt-2">
             Crafts Marketplace &amp; Artisan Guild Command Center

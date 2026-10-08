@@ -4,8 +4,8 @@ import StaysShell from '@/components/stays/StaysShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
   title: {
-    default: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
-    template: '%s | Nutty Tales Stays',
+    default: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
+    template: '%s | Nuty Tales Stays',
   },
   description:
     'Vetted luxury private estate collection and executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Harwan walnut orchard villas, alpine ski chalets, royal cedar houseboats, and executive corporate boardroom suites with dedicated master chefs and 4x4 convoys.',
@@ -33,17 +33,17 @@ export const metadata: Metadata = {
     'executive residences Noida',
   ],
   openGraph: {
-    title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Living',
+    title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Living',
     description:
       'Curated private estate collection across Kashmir, Delhi-NCR, and Patna. Private orchard villa buyouts, alpine chalets, cedar houseboats, and executive boardroom residences.',
     url: 'https://stays.nutytales.com',
-    siteName: 'Nutty Tales Stays',
+    siteName: 'Nuty Tales Stays',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Stays — Private Residences & Estate Collection',
+    title: 'Nuty Tales Stays — Private Residences & Estate Collection',
     description: 'Private walnut orchard villas, alpine chalets, royal houseboats, and executive corporate suites.',
   },
 }

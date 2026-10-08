@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       intentType: 'transactional',
       slug: `/stays/${slug}`,
       primaryKeyword: prop.name,
-      title: `${prop.name} | ${prop.city} | Nutty Tales Stays`,
+      title: `${prop.name} | ${prop.city} | Nuty Tales Stays`,
       description: `${prop.tagline}. ${prop.bedrooms} bedrooms, max ${prop.maxTotalGuests} guests. From ₹${prop.estateBuyoutPrice.toLocaleString('en-IN')}/night.`,
       priceFrom: prop.estateBuyoutPrice,
       currency: 'INR',
@@ -60,13 +60,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       intentType: 'commercial',
       slug: `/stays/${slug}`,
       primaryKeyword: dest.title,
-      title: `${dest.title} | Nutty Tales Stays`,
+      title: `${dest.title} | Nuty Tales Stays`,
       description: dest.subtitle,
       location: slug.toUpperCase(),
     });
   }
 
-  return { title: 'Boutique Stays | Nutty Tales' };
+  return { title: 'Boutique Stays | Nuty Tales' };
 }
 
 export default async function StaySlugPage({ params }: PageProps) {

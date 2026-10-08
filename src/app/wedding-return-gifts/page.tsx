@@ -11,7 +11,7 @@ export const metadata: Metadata = generatePageMetadata({
   intentType: 'transactional',
   slug: '/wedding-return-gifts',
   primaryKeyword: 'Wedding Return Gifts',
-  title: 'Wedding Return Gifts & Favours | Dry Fruit Hampers | Nutty Tales',
+  title: 'Wedding Return Gifts & Favours | Dry Fruit Hampers | Nuty Tales',
   description: 'Bespoke wedding return gifts, shaadi favours, and hotel room hampers with couple monogramming, Kashmiri dry fruits, and Pan-India delivery. MOQ: 25 hampers.',
 });
 

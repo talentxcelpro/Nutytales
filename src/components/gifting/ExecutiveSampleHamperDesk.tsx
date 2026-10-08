@@ -187,7 +187,7 @@ export default function ExecutiveSampleHamperDesk() {
               <div className="pt-3 flex justify-center gap-3">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Corporate Concierge! I just ordered Executive Sample Hamper (Ref: ${sampleSuccess}). Please share delivery tracking.`,
+                    `Hello Nuty Tales Corporate Concierge! I just ordered Executive Sample Hamper (Ref: ${sampleSuccess}). Please share delivery tracking.`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -387,7 +387,7 @@ export default function ExecutiveSampleHamperDesk() {
               <div className="pt-3 flex justify-center gap-3">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Corporate Concierge! I just locked festive production slot (Ref: ${lockSuccess}) for ${lockTargetUnits} units. Please assign Senior Account Director.`,
+                    `Hello Nuty Tales Corporate Concierge! I just locked festive production slot (Ref: ${lockSuccess}) for ${lockTargetUnits} units. Please assign Senior Account Director.`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

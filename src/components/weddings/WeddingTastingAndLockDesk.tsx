@@ -189,7 +189,7 @@ export default function WeddingTastingAndLockDesk() {
               <div className="pt-3 flex justify-center gap-3">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Wedding Concierge! I just ordered Royal Tasting Trunk (Ref: ${tastingSuccess}) for our upcoming celebration. Please share delivery tracking.`,
+                    `Hello Nuty Tales Wedding Concierge! I just ordered Royal Tasting Trunk (Ref: ${tastingSuccess}) for our upcoming celebration. Please share delivery tracking.`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -407,7 +407,7 @@ export default function WeddingTastingAndLockDesk() {
               <div className="pt-3 flex justify-center gap-3">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Wedding Concierge! We just locked our wedding gifting slot (Ref: ${lockSuccess}) for date ${exactDate}. Please connect us with our assigned Senior Wedding Stylist.`,
+                    `Hello Nuty Tales Wedding Concierge! We just locked our wedding gifting slot (Ref: ${lockSuccess}) for date ${exactDate}. Please connect us with our assigned Senior Wedding Stylist.`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

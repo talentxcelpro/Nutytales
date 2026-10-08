@@ -10,7 +10,7 @@ export const metadata: Metadata = generatePageMetadata({
   intentType: 'commercial',
   slug: '/pashmina-shawls',
   primaryKeyword: 'Pashmina Shawls',
-  title: 'Authentic Kashmir Pashmina Shawls | GI Tag Certified | Nutty Tales Crafts',
+  title: 'Authentic Kashmir Pashmina Shawls | GI Tag Certified | Nuty Tales Crafts',
   description: '100% pure Changthangi Cashmere Pashmina shawls handwoven in the Kashmir Valley. GI Tag certified, sozni embroidery, kani loom weaves, micro-optical tested.',
 });
 

@@ -116,7 +116,7 @@ export default function ClothingNavbarStrip({
         <div className="py-2 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar text-[10px] font-bold tracking-wider uppercase text-stone-600 whitespace-nowrap">
           <div className="flex items-center space-x-5">
             <span className="text-[#C9A45C] font-extrabold flex items-center gap-1">
-              <span>✦</span> FALL / WINTER 2026
+              <span>✦</span> AUTUMN &amp; WINTER COLLECTIONS
             </span>
             {SECONDARY_COLLECTIONS.map((c) => (
               <button

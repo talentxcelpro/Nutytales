@@ -106,7 +106,7 @@ export default function TravelActivationDepositDesk() {
           <div className="pt-3 flex justify-center gap-3">
             <a
               href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                `Hello Nutty Tales Travel Concierge! I just placed VIP Journey Activation Deposit (Ref: ${depositSuccess}) for ${destinationCorridor}. Please connect with my assigned journey specialist.`,
+                `Hello Nuty Tales Travel Concierge! I just placed VIP Journey Activation Deposit (Ref: ${depositSuccess}) for ${destinationCorridor}. Please connect with my assigned journey specialist.`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"

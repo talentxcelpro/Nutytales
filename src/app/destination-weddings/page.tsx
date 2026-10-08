@@ -8,7 +8,7 @@ export const metadata: Metadata = generatePageMetadata({
   intentType: 'commercial',
   slug: '/destination-weddings',
   primaryKeyword: 'Destination Weddings',
-  title: 'Destination Wedding Planning, Venues & Bespoke Gifting | Nutty Tales Weddings',
+  title: 'Destination Wedding Planning, Venues & Bespoke Gifting | Nuty Tales Weddings',
   description: 'Full-stack destination wedding orchestration across Kashmir, Dubai, and Udaipur. Verified heritage venues, hotel room block management, custom royal trousseau hampers, and Day-Of execution.',
 });
 

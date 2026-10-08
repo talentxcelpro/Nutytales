@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Revenue Attribution System
+ * Nuty Tales SEO — Revenue Attribution System
  *
  * Every SEO page has a revenue pathway. This module:
  *

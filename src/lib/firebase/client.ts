@@ -51,7 +51,15 @@ export function getFirebaseErrorMessage(error: unknown): string {
         case 'auth/unauthorized-domain':
           return 'Domain nutytales.com is not authorized. Please add nutytales.com in Firebase Console > Authentication > Settings > Authorized domains.'
         case 'auth/operation-not-allowed':
-          return 'This sign-in method is not enabled. Please enable Phone & Google in Firebase Console > Authentication > Sign-in method.'
+          if (err.message && err.message.includes('BILLING_NOT_ENABLED')) {
+            return 'Real SMS delivery requires Firebase Blaze (pay-as-you-go) plan. Please upgrade in Firebase Console.'
+          }
+          if (err.message && err.message.toLowerCase().includes('region')) {
+            return 'SMS region restricted. Please allow this region under Firebase Console > Authentication > Settings > SMS region policy.'
+          }
+          return 'Phone authentication operation not allowed. Ensure Phone provider is enabled and Firebase billing is active for live SMS.'
+        case 'auth/billing-not-enabled':
+          return 'SMS delivery requires Firebase Blaze (pay-as-you-go) plan. Please link billing in Firebase Console.'
         case 'auth/popup-blocked':
           return 'Google sign-in popup was blocked. Please allow popups for nutytales.com.'
         case 'auth/popup-closed-by-user':

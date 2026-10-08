@@ -224,7 +224,7 @@ export default async function TravelPackageSlugPage({ params }: PageProps) {
         {/* Cross-business Internal Links (Kashmir Stays, Crafts, Gifting) */}
         <div className="bg-stone-50 p-6 rounded-2xl border border-stone-200 space-y-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500">
-            Complete Your Kashmir Journey With Nutty Tales
+            Complete Your Kashmir Journey With Nuty Tales
           </h3>
           <div className="flex flex-wrap gap-3">
             <Link

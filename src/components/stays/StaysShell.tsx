@@ -50,7 +50,7 @@ export default function StaysShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Nutty Tales Stays — Global Hospitality &amp; Experience Discovery</span>
+            <span>Nuty Tales Stays — Global Hospitality &amp; Experience Discovery</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-[#C9A45C]">
@@ -61,7 +61,7 @@ export default function StaysShell({
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Stays Concierge! I want to inquire about Harwan orchard villa and heritage suites.',
+              'Hello Nuty Tales Stays Concierge! I want to inquire about Harwan orchard villa and heritage suites.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -84,7 +84,7 @@ export default function StaysShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  Nutty Tales <span className="text-[#C9A45C]">Stays</span>
+                  Nuty Tales <span className="text-[#C9A45C]">Stays</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
                   Orchards · Villas · Houseboats
@@ -178,7 +178,7 @@ export default function StaysShell({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">🏔️</span>
-                <span className="font-serif text-lg font-bold">Nutty Tales Stays</span>
+                <span className="font-serif text-lg font-bold">Nuty Tales Stays</span>
               </div>
               <p className="text-xs text-stone-400 font-light leading-relaxed">
                 Global boutique hospitality and stay-experiences. Nestled in high-altitude orchards, lake-facing heritage suites, and urban corporate hubs. Book your room and seamless local culinary, transfer, and excursion journeys.
@@ -216,18 +216,18 @@ export default function StaysShell({
               </p>
               <div className="pt-2">
                 <span className="text-[10px] text-stone-500 uppercase tracking-widest block">
-                  A Nutty Tales Group Company
+                  A Nuty Tales Company
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-            <span>© {new Date().getFullYear()} Nutty Tales Stays. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Nuty Tales Stays. All rights reserved.</span>
             <div className="flex gap-4">
               <Link href={getLinkHref('/group-quote')} className="hover:text-white">Group Buyouts</Link>
               <Link href={getLinkHref('/dashboard')} className="hover:text-white">Hospitality Dashboard</Link>
-              <a href="https://www.nutytales.com" className="hover:text-white">Nutty Tales Group Gateway</a>
+              <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>
         </div>

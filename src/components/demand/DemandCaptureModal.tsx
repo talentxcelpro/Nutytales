@@ -311,7 +311,7 @@ export default function DemandCaptureModal({
               </div>
 
               <p className="leading-relaxed">
-                Thank you, <strong>{customerName}</strong>. Your request for <strong>{itemOrService}</strong> has been logged in Nutty Tales&apos; Sales Command Center.
+                Thank you, <strong>{customerName}</strong>. Your request for <strong>{itemOrService}</strong> has been logged in Nuty Tales&apos; Sales Command Center.
               </p>
 
               <div className="p-3.5 bg-white rounded-xl border border-emerald-200 space-y-1 text-xs">

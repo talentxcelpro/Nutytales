@@ -5,7 +5,7 @@ import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
-  title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
+  title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
   description:
     'Institutional luxury estate collection & executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Private walnut orchard villas, alpine ski chalets, Dal Lake royal cedar houseboats, and executive corporate boardroom residences.',
   keywords: [
@@ -17,17 +17,17 @@ export const metadata: Metadata = {
     'corporate offsite estate buyout Delhi NCR',
     'Patna heritage villa stay',
     'executive residences Noida',
-    'Nutty Tales Stays',
+    'Nuty Tales Stays',
   ],
   alternates: {
     canonical: 'https://stays.nutytales.com',
   },
   openGraph: {
-    title: 'Nutty Tales Stays — Private Residences, Orchard Estates & Executive Living',
+    title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Living',
     description:
       'Private walnut estates, alpine heated chalets, and executive corporate boardroom suites with dedicated master chefs, 4x4 convoys, and high-speed gigabit fiber.',
     url: 'https://stays.nutytales.com',
-    siteName: 'Nutty Tales Stays',
+    siteName: 'Nuty Tales Stays',
     locale: 'en_IN',
     type: 'website',
   },
@@ -41,7 +41,7 @@ export default function StaysPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
           <div className="max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#C9A45C] text-xs font-bold uppercase tracking-widest border border-white/15">
-              <span>🏡</span> NUTTY TALES PRIVATE RESIDENCES · KASHMIR · DELHI-NCR · PATNA
+              <span>🏡</span> NUTY TALES PRIVATE RESIDENCES · KASHMIR · DELHI-NCR · PATNA
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
@@ -115,13 +115,13 @@ export default function StaysPage() {
       <section className="py-16 bg-[#F0EBE1] border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-[#704B32]">
-            The Connected Nutty Tales Group Advantage
+            The Connected Nuty Tales Advantage
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold font-serif text-[#17233B]">
             More Than Keys in a Lockbox: End-to-End Hospitality
           </h2>
           <p className="text-stone-600 text-sm max-w-2xl mx-auto leading-relaxed">
-            Conventional rentals leave you with keys and an empty kitchen. Nutty Tales Stays coordinates fresh harvest walnut breakfasts, in-house royal Wazwan chefs, heated 4x4 airport transit from Nutty Tales Travel, and custom celebration welcome hampers from Nutty Tales Gifting.
+            Conventional rentals leave you with keys and an empty kitchen. Nuty Tales Stays coordinates fresh harvest walnut breakfasts, in-house royal Wazwan chefs, heated 4x4 airport transit from Nuty Tales Travel, and custom celebration welcome hampers from Nuty Tales Gifting.
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4 text-xs font-bold uppercase tracking-wider">
             <Link

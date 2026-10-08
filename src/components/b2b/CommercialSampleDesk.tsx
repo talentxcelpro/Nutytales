@@ -165,7 +165,7 @@ export default function CommercialSampleDesk() {
               <div className="pt-3 flex justify-center gap-3">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Trade Desk! I just ordered 5kg Sample Pack (Ref: ${sampleOrderSuccess}). Please confirm dispatch details and share Blue Dart AWB when generated.`,
+                    `Hello Nuty Tales Trade Desk! I just ordered 5kg Sample Pack (Ref: ${sampleOrderSuccess}). Please confirm dispatch details and share Blue Dart AWB when generated.`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -448,7 +448,7 @@ export default function CommercialSampleDesk() {
                   <div className="flex justify-between items-start border-b border-stone-200 pb-3">
                     <div>
                       <div className="font-serif font-extrabold text-base text-[#17233B]">
-                        NUTTY TALES AGRI-COMMODITIES PVT LTD
+                        NUTY TALES AGRI-COMMODITIES PVT LTD
                       </div>
                       <div className="text-[10px] text-stone-500">
                         Noida Sec 62/63 Executive Corridor, UP · FSSAI: {FSSAI_NUMBER}
@@ -479,7 +479,7 @@ export default function CommercialSampleDesk() {
                   {/* Bank Wire Details */}
                   <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1 text-[11px]">
                     <div className="font-bold text-amber-900">INSTITUTIONAL BANK WIRE ROUTING (RTGS / NEFT):</div>
-                    <div className="text-stone-700">Account Name: Nutty Tales Agri Commodities B2B</div>
+                    <div className="text-stone-700">Account Name: Nuty Tales Agri Commodities B2B</div>
                     <div className="text-stone-700">Bank: HDFC Bank Ltd, Sector 62 Noida Branch</div>
                     <div className="text-stone-700">A/C Number: 50200084920194 (Current) · IFSC: HDFC0001576</div>
                   </div>
@@ -487,7 +487,7 @@ export default function CommercialSampleDesk() {
                   <div className="pt-2 flex gap-3 font-sans">
                     <a
                       href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                        `Hello Nutty Tales Trade Desk! Generated Proforma Invoice ${generatedPi.piNumber} for ${piVolumeKg}kg of ${piCommodity} (Total: ₹${generatedPi.totalWithGst}). Please route to senior trade executive for purchase order lock.`,
+                        `Hello Nuty Tales Trade Desk! Generated Proforma Invoice ${generatedPi.piNumber} for ${piVolumeKg}kg of ${piCommodity} (Total: ₹${generatedPi.totalWithGst}). Please route to senior trade executive for purchase order lock.`,
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

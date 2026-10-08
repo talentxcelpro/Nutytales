@@ -58,7 +58,7 @@ export default function BusinessJoinPage() {
             <span>🤝</span> GLOBAL PARTNER &amp; BUSINESS ONBOARDING
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#17233B]">
-            Grow Your Business on Nutty Tales
+            Grow Your Business on Nuty Tales
           </h1>
           <p className="text-xs sm:text-sm text-stone-600">
             Join a global network of verified hotels, commercial bakeries, travel curators, wedding planners, and artisan fashion guilds. Access corporate demand, direct buyer RFQs, and automated fulfillment.
@@ -268,7 +268,7 @@ export default function BusinessJoinPage() {
                   </div>
 
                   <div className="p-4 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-1 text-stone-600">
-                    <strong className="text-[#17233B] block">Nutty Tales Verified Partner Guarantee:</strong>
+                    <strong className="text-[#17233B] block">Nuty Tales Verified Partner Guarantee:</strong>
                     <p>
                       All onboarded businesses undergo human verification of trade licenses, certifications, and quality standards before public listing. Zero fabricated reviews or phantom profiles.
                     </p>
@@ -300,12 +300,12 @@ export default function BusinessJoinPage() {
                 Partner Onboarding Application Received!
               </h2>
               <p className="max-w-lg mx-auto text-xs leading-relaxed">
-                Thank you for applying to join the Nutty Tales Global Business Network. Our partner verification team will review your credentials and contact you within 24 business hours.
+                Thank you for applying to join the Nuty Tales Global Business Network. Our partner verification team will review your credentials and contact you within 24 business hours.
               </p>
               <div className="pt-2">
                 <a
                   href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nutty Tales Partner Desk! Submitted partner onboarding for ${legalName} (${city}).`,
+                    `Hello Nuty Tales Partner Desk! Submitted partner onboarding for ${legalName} (${city}).`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

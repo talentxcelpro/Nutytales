@@ -23,7 +23,7 @@ export default function SourcingRequestBanner({
             <span>✨</span> CAN&apos;T FIND YOUR EXACT SPECIFICATION?
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-            Nutty Tales Custom Sourcing Engine
+            Nuty Tales Custom Sourcing Engine
           </h3>
           <p className="text-xs text-stone-300 font-light max-w-xl">
             {contextText} Our senior procurement network sources directly from vetted artisan cooperatives, orchard growers, and luxury hospitality partners globally.
@@ -42,7 +42,7 @@ export default function SourcingRequestBanner({
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         defaultVertical={vertical}
-        title="Nutty Tales Custom Sourcing Engine"
+        title="Nuty Tales Custom Sourcing Engine"
         subtitle="Specify what you need. Our ground sourcing teams in Kashmir, Noida, and partner networks will locate verified supply and return a formal quote."
       />
     </>

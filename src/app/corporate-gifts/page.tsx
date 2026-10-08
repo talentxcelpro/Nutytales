@@ -9,7 +9,7 @@ export const metadata: Metadata = generatePageMetadata({
   intentType: 'commercial',
   slug: '/corporate-gifts',
   primaryKeyword: 'Corporate Gifts',
-  title: 'Corporate Gifts & Luxury Dry Fruit Hampers | Nutty Tales Gifting',
+  title: 'Corporate Gifts & Luxury Dry Fruit Hampers | Nuty Tales Gifting',
   description: 'Premium corporate dry fruit hampers, Diwali gift boxes, employee welcome kits, and executive client tokens. Custom laser-engraved branding, Pan-India & Dubai delivery, GST invoices.',
 });
 

@@ -49,7 +49,7 @@ export default function GiftingShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Nutty Tales Gifting — The Global Gifting OS</span>
+            <span>Nuty Tales Gifting — The Global Gifting OS</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-[#C9A45C]">
@@ -60,7 +60,7 @@ export default function GiftingShell({
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Gifting! I need a tailored gifting program proposal.',
+              'Hello Nuty Tales Gifting! I need a tailored gifting program proposal.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -83,7 +83,7 @@ export default function GiftingShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  NUTTY TALES <span className="text-[#C9A45C]">GIFTING</span>
+                  NUTY TALES <span className="text-[#C9A45C]">GIFTING</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
                   Gifts that mean something
@@ -178,7 +178,7 @@ export default function GiftingShell({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">🎁</span>
-                <span className="font-serif text-lg font-bold">Nutty Tales Gifting</span>
+                <span className="font-serif text-lg font-bold">Nuty Tales Gifting</span>
               </div>
               <p className="text-xs text-stone-400 font-light leading-relaxed">
                 Global corporate gifting, festival hampers, and bespoke celebration boxes. One order executed end-to-end with laser personalization, multi-city air dispatch, and real-time delivery reports.
@@ -216,18 +216,18 @@ export default function GiftingShell({
               </p>
               <div className="pt-2">
                 <span className="text-[10px] text-stone-500 uppercase tracking-widest block">
-                  A Nutty Tales Group Company
+                  A Nuty Tales Company
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-            <span>© {new Date().getFullYear()} Nutty Tales Gifting. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Nuty Tales Gifting. All rights reserved.</span>
             <div className="flex gap-4">
               <Link href={getLinkHref('/recipients')} className="hover:text-white">Multi-Recipient Desk</Link>
               <Link href={getLinkHref('/dashboard')} className="hover:text-white">Corporate Dashboard</Link>
-              <a href="https://www.nutytales.com" className="hover:text-white">Nutty Tales Group Gateway</a>
+              <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>
         </div>

@@ -86,7 +86,7 @@ export default function GroupEcosystemBar({
         {/* Left: Group Label */}
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className="font-extrabold uppercase tracking-widest text-[#C9A45C] text-[10px] flex items-center gap-1">
-            <span>✦</span> NUTTY TALES GROUP
+            <span>✦</span> NUTY TALES
           </span>
           <span className="hidden sm:inline text-stone-500">|</span>
           <span className="hidden md:inline text-stone-400 text-[10px]">

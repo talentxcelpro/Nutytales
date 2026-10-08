@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Geo Entity System
+ * Nuty Tales SEO — Geo Entity System
  *
  * Geography is database-driven, not hardcoded.
  * This module provides the entity types, relationship graph,
@@ -19,7 +19,7 @@ import type { GeoEntity } from './types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GEO ENTITY SEED DATA
-// Real geographies where Nutty Tales has supply, demand, and capability.
+// Real geographies where Nuty Tales has supply, demand, and capability.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const GEO_ENTITIES: GeoEntity[] = [

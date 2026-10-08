@@ -12,7 +12,7 @@ export default function GiftingDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-            <span>🎁 NUTTY TALES GIFTING — CORPORATE OPERATIONS</span>
+            <span>🎁 NUTY TALES GIFTING — CORPORATE OPERATIONS</span>
           </div>
           <h1 className="font-serif text-3xl font-bold text-[#17233B] mt-2">
             Gifting Operations &amp; Fulfillment Command Center

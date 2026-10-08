@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Indexation Governor
+ * Nuty Tales SEO — Indexation Governor
  *
  * This module is the central quality gate for all SEO pages.
  *

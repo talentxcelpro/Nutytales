@@ -80,7 +80,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { destination } = await params;
   const data = DESTINATION_DATA[destination];
-  if (!data) return { title: 'Destination Wedding | Nutty Tales' };
+  if (!data) return { title: 'Destination Wedding | Nuty Tales' };
 
   return generatePageMetadata({
     business: 'weddings',
@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     intentType: 'transactional',
     slug: `/destination-weddings/${destination}`,
     primaryKeyword: data.title,
-    title: `${data.title} | Nutty Tales Weddings`,
+    title: `${data.title} | Nuty Tales Weddings`,
     description: `${data.desc} ${data.pricingRange}.`,
     location: data.name,
   });

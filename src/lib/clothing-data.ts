@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales Crafts & Heritage / Clothing — Comprehensive Catalog ────────────
+// ─── Nuty Tales Crafts & Heritage / Clothing — Comprehensive Catalog ────────────
 // Fall / Winter 2026: Kashmir to the World
 // Real Luxury Fashion Ecommerce Data Model with Provenance, Variants, Sizes & Swatches
 
@@ -1633,10 +1633,14 @@ export const PRIMARY_CLOTHING_NAV = [
 // ─── SECONDARY SEASONAL COLLECTIONS CONFIGURATION ───────────────────────────────
 export const SECONDARY_COLLECTIONS = [
   { id: 'new-arrivals', label: 'NEW ARRIVALS' },
-  { id: 'fall-winter-2026', label: 'FALL / WINTER 2026' },
   { id: 'bestsellers', label: 'BESTSELLERS' },
-  { id: 'craft-collection', label: 'CRAFT COLLECTION' },
-  { id: 'gifting', label: 'GIFTING' },
+  { id: 'seasonal', label: 'SEASONAL' },
+  { id: 'festive', label: 'FESTIVE' },
+  { id: 'heritage', label: 'HERITAGE' },
+  { id: 'luxury', label: 'LUXURY' },
+  { id: 'craft-collection', label: 'ARTISAN GUILDS' },
+  { id: 'gifting', label: 'GIFTS' },
+  { id: 'home', label: 'HOME DÉCOR' },
 ] as const
 
 // ─── CATEGORY TILES CONFIGURATION (PRODUCT-FOCUSED, NO MODELS) ─────────────────

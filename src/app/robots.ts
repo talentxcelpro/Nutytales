@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 /**
- * Nutty Tales Global Search Engine Crawl Governance — robots.txt
+ * Nuty Tales Global Search Engine Crawl Governance — robots.txt
  *
  * Rules:
  * - Allows all legitimate public SEO pages across all 6 business verticals.

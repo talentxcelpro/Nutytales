@@ -1,4 +1,4 @@
-// ─── Nutty Tales Private Residences & Estate Collection ────────────────────────
+// ─── Nuty Tales Private Residences & Estate Collection ────────────────────────
 // Ultra-luxury private estates, high-altitude orchards & executive corporate living
 // Core Operational Axis: Kashmir (Harvest & Alps) · Delhi / NCR (Executive Hub) · Patna (Mithila Heritage)
 

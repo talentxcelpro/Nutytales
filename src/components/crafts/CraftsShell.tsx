@@ -53,7 +53,7 @@ export default function CraftsShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
-            <span>Nutty Tales Crafts — Global Fashion, Handlooms &amp; Heritage Marketplace</span>
+            <span>Nuty Tales Crafts — Global Fashion, Handlooms &amp; Heritage Marketplace</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-[#C9A45C]">
@@ -64,7 +64,7 @@ export default function CraftsShell({
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Crafts! I am inquiring about authentic Kashmiri GI Pashmina and heritage fashion.',
+              'Hello Nuty Tales Crafts! I am inquiring about authentic Kashmiri GI Pashmina and heritage fashion.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -87,10 +87,10 @@ export default function CraftsShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  Nutty Tales <span className="text-[#C9A45C]">Crafts</span>
+                  Nuty Tales <span className="text-[#C9A45C]">Crafts</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  Pashmina · Pherans · Heritage FW26
+                  Pashmina · Pherans · Heritage Collections
                 </span>
               </div>
             </Link>
@@ -182,7 +182,7 @@ export default function CraftsShell({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">🧣</span>
-                <span className="font-serif text-lg font-bold">Nutty Tales Crafts</span>
+                <span className="font-serif text-lg font-bold">Nuty Tales Crafts</span>
               </div>
               <p className="text-xs text-stone-400 font-light leading-relaxed">
                 Global marketplace for luxury Himalayan handlooms, GI-certified Changthangi Pashmina, hand-embroidered pherans, tailored jackets, and artisanal home decor. Evidence-backed provenance directly connecting master weavers to global wardrobes and boutiques.
@@ -220,18 +220,18 @@ export default function CraftsShell({
               </p>
               <div className="pt-2">
                 <span className="text-[10px] text-stone-500 uppercase tracking-widest block">
-                  A Nutty Tales Group Company
+                  A Nuty Tales Company
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-            <span>© {new Date().getFullYear()} Nutty Tales Crafts. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Nuty Tales Crafts. All rights reserved.</span>
             <div className="flex gap-4">
               <Link href={getLinkHref('/wholesale')} className="hover:text-white">Wholesale Desk</Link>
               <Link href={getLinkHref('/dashboard')} className="hover:text-white">Marketplace Dashboard</Link>
-              <a href="https://www.nutytales.com" className="hover:text-white">Nutty Tales Group Gateway</a>
+              <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>
         </div>

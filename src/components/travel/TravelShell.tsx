@@ -49,19 +49,19 @@ export default function TravelShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-bold text-[#C9A45C]">NUTTY TALES TRAVEL</span>
+            <span className="font-bold text-[#C9A45C]">NUTY TALES TRAVEL</span>
             <span className="text-stone-300">· The World&apos;s Intelligent Journey Marketplace</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-stone-300 italic">
-            &ldquo;Don&apos;t search for your trip. Tell us what you want. SI plans it. Nutty Tales puts it together.&rdquo;
+            &ldquo;Don&apos;t search for your trip. Tell us what you want. SI plans it. Nuty Tales puts it together.&rdquo;
           </span>
         </div>
 
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Travel Desk! I want to plan a custom trip to Kashmir / Himalayas.',
+              'Hello Nuty Tales Travel Desk! I want to plan a custom trip to Kashmir / Himalayas.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -84,7 +84,7 @@ export default function TravelShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  Nutty Tales <span className="text-[#C9A45C]">Travel</span>
+                  Nuty Tales <span className="text-[#C9A45C]">Travel</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
                   Intelligent Journey Marketplace · Operating Layer
@@ -178,7 +178,7 @@ export default function TravelShell({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">✈️</span>
-                <span className="font-serif text-lg font-bold">Nutty Tales Travel</span>
+                <span className="font-serif text-lg font-bold">Nuty Tales Travel</span>
               </div>
               <p className="text-xs text-stone-400 font-light leading-relaxed">
                 Complete trip execution, bespoke dynamic itineraries, alpine snow expeditions, private 4x4 convoys, and verified Destination Management Companies (DMCs). Tailored for families, corporate offsites, and adventurous explorers.
@@ -216,18 +216,18 @@ export default function TravelShell({
               </p>
               <div className="pt-2">
                 <span className="text-[10px] text-stone-500 uppercase tracking-widest block">
-                  A Nutty Tales Group Company
+                  A Nuty Tales Company
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-            <span>© {new Date().getFullYear()} Nutty Tales Travel. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Nuty Tales Travel. All rights reserved.</span>
             <div className="flex gap-4">
               <Link href={getLinkHref('/builder')} className="hover:text-white">SI Trip Builder</Link>
               <Link href={getLinkHref('/dashboard')} className="hover:text-white">Travel Dashboard</Link>
-              <a href="https://www.nutytales.com" className="hover:text-white">Nutty Tales Group Gateway</a>
+              <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>
         </div>

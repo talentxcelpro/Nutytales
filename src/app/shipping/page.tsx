@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Insured Shipping & White-Glove Logistics Policy | Nutty Tales',
+  title: 'Insured Shipping & White-Glove Logistics Policy | Nuty Tales',
   description:
-    'Nutty Tales insured shipping and logistics network. Temperature-monitored, 100% transit-insured delivery across India, GCC, and global destinations from our Tri-Hub network in Noida, Srinagar, and Patna.',
+    'Nuty Tales insured shipping and logistics network. Temperature-monitored, 100% transit-insured delivery across India, GCC, and global destinations from our Tri-Hub network in Noida, Srinagar, and Patna.',
   alternates: {
     canonical: 'https://nutytales.com/shipping',
   },
@@ -94,7 +94,7 @@ export default function ShippingPolicyPage() {
               1. 100% Comprehensive Transit Insurance
             </h2>
             <p>
-              Every parcel leaving a Nutty Tales hub is automatically covered under our comprehensive transit insurance policy. In the exceedingly rare event that an order is lost in transit, intercepted, or damaged:
+              Every parcel leaving a Nuty Tales hub is automatically covered under our comprehensive transit insurance policy. In the exceedingly rare event that an order is lost in transit, intercepted, or damaged:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm text-[#17233B]/80">
               <li>
@@ -188,7 +188,7 @@ export default function ShippingPolicyPage() {
               4. Corporate Multi-Address Scheduled Delivery
             </h2>
             <p>
-              For corporate Diwali hampers, employee milestone gifts, and wedding trousseau distributions, Nutty Tales offers dedicated enterprise dispatch coordination:
+              For corporate Diwali hampers, employee milestone gifts, and wedding trousseau distributions, Nuty Tales offers dedicated enterprise dispatch coordination:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm text-[#17233B]/80">
               <li>Upload a single Excel or CSV recipient sheet containing hundreds or thousands of pan-India addresses.</li>
@@ -216,7 +216,7 @@ export default function ShippingPolicyPage() {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nutty%20Tales%20Logistics%2C%20I%20would%20like%20to%20track%20my%20order%20or%20inquire%20about%20express%20shipping.`}
+              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nuty%20Tales%20Logistics%2C%20I%20would%20like%20to%20track%20my%20order%20or%20inquire%20about%20express%20shipping.`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#C9A45C] hover:bg-[#B38F46] text-[#17233B] text-xs font-bold px-5 py-3 rounded-xl transition-all shadow-sm"

@@ -4,8 +4,8 @@ import GiftingShell from '@/components/gifting/GiftingShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://gifting.nutytales.com'),
   title: {
-    default: 'Nutty Tales Gifting — Bespoke Corporate & Festive Luxury Dry Fruit Hampers',
-    template: '%s | Nutty Tales Gifting',
+    default: 'Nuty Tales Gifting — Bespoke Corporate & Festive Luxury Dry Fruit Hampers',
+    template: '%s | Nuty Tales Gifting',
   },
   description:
     'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom laser-etched branding, handcrafted Kashmiri walnut wood boxes, GST invoicing, and PAN-India/international scheduled dispatch.',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   keywords: [
     'corporate gifting dry fruits',
-    'Diwali 2026 hampers',
+    'festive hampers',
     'luxury dry fruit gift boxes',
     'employee festive gifts',
     'custom branded corporate hampers',
@@ -33,17 +33,17 @@ export const metadata: Metadata = {
     'corporate gifting concierge',
   ],
   openGraph: {
-    title: 'Nutty Tales Gifting — Bespoke Corporate & Festive Hampers',
+    title: 'Nuty Tales Gifting — Bespoke Corporate & Festive Hampers',
     description:
       'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch.',
     url: 'https://gifting.nutytales.com',
-    siteName: 'Nutty Tales Gifting',
+    siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutty Tales Gifting — Corporate & Luxury Hampers',
+    title: 'Nuty Tales Gifting — Corporate & Luxury Hampers',
     description: 'Enterprise multi-recipient desk and bespoke handcrafted gifting.',
   },
 }

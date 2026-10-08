@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service & Commercial Conditions | Nutty Tales',
+  title: 'Terms of Service & Commercial Conditions | Nuty Tales',
   description:
-    'Terms of service, purchase contracts, wholesale procurement guidelines, hospitality reservation policies, and authenticity guarantees for Nutty Tales Private Limited.',
+    'Terms of service, purchase contracts, wholesale procurement guidelines, hospitality reservation policies, and authenticity guarantees for Nuty Tales Private Limited.',
   alternates: {
     canonical: 'https://nutytales.com/terms',
   },
@@ -44,7 +44,7 @@ export default function TermsOfServicePage() {
           </h1>
 
           <p className="text-sm sm:text-base text-[#17233B]/80 leading-relaxed font-normal max-w-2xl">
-            Welcome to Nutty Tales. These Terms of Service constitute a legally binding agreement between you (&ldquo;Customer&rdquo;, &ldquo;Buyer&rdquo;, &ldquo;Guest&rdquo;) and Nutty Tales Private Limited governing access to our commerce platforms, wholesale supply desks, bespoke gifting portals, and hospitality services.
+            Welcome to Nuty Tales. These Terms of Service constitute a legally binding agreement between you (&ldquo;Customer&rdquo;, &ldquo;Buyer&rdquo;, &ldquo;Guest&rdquo;) and Nuty Tales Private Limited governing access to our commerce platforms, wholesale supply desks, bespoke gifting portals, and hospitality services.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export default function TermsOfServicePage() {
               2. Product Quality &amp; GI Tag Provenance Warranty
             </h2>
             <p>
-              Nutty Tales guarantees the authenticity and origin of our catalog items:
+              Nuty Tales guarantees the authenticity and origin of our catalog items:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm text-[#17233B]/80">
               <li>
@@ -174,7 +174,7 @@ export default function TermsOfServicePage() {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nutty%20Tales%2C%20I%20have%20an%20inquiry%20regarding%20commercial%20terms.`}
+              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nuty%20Tales%2C%20I%20have%20an%20inquiry%20regarding%20commercial%20terms.`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#C9A45C] hover:bg-[#B38F46] text-[#17233B] text-xs font-bold px-5 py-3 rounded-xl transition-all shadow-sm"

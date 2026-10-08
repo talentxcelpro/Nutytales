@@ -127,7 +127,7 @@ export default function WeddingsPage() {
 
               <div className="space-y-2">
                 <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-semibold block">
-                  Nutty Tales Weddings
+                  Nuty Tales Weddings
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
                   Tell us your wedding. <span className="text-[#C9A45C] italic font-serif">We make it happen.</span>
@@ -174,7 +174,7 @@ export default function WeddingsPage() {
               <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/20">
                 <Image
                   src="/images/stays/kashmir-orchard-estate.jpg"
-                  alt="Nutty Tales Weddings — Heritage Kashmir Destination Estate"
+                  alt="Nuty Tales Weddings — Heritage Kashmir Destination Estate"
                   fill
                   priority
                   className="object-cover"

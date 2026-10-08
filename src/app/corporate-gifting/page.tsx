@@ -1,25 +1,25 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import CorporateQuoteForm from '@/components/corporate/CorporateQuoteForm'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Corporate Diwali Gift Hampers 2026 | Custom Dry Fruit Hampers | Nuty Tales',
+  title: 'Festive Corporate Gift Hampers | Custom Dry Fruit Hampers | Nuty Tales',
   description:
-    'Premium Corporate Diwali gift hampers with customized logo boxes, personalized greeting cards, and pan-India delivery. Almonds, Cashews, Kashmiri Walnuts, Afghan Anjeer & Saffron. Request a bulk quote.',
+    'Premium Corporate festive gift hampers with customized logo boxes, personalized greeting cards, and pan-India delivery. Almonds, Cashews, Kashmiri Walnuts, Afghan Anjeer & Saffron. Request a bulk quote.',
   keywords: [
-    'corporate diwali gift hampers 2026',
+    'festive corporate gift hampers',
     'dry fruit corporate gifts',
-    'custom branded diwali gifts',
-    'employee diwali gifts',
-    'client diwali gift boxes',
+    'custom branded festive gifts',
+    'employee festive gifts',
+    'client festive gift boxes',
     'kashmir dry fruit hampers',
-    'luxury diwali hampers india',
+    'luxury festive hampers india',
     'Nuty Tales corporate gifting',
   ],
   openGraph: {
-    title: 'Corporate Diwali Gift Hampers 2026 | Nuty Tales',
+    title: 'Festive Corporate Gift Hampers | Nuty Tales',
     description:
       'Stronger Relationships for a Brighter Tomorrow. Handcrafted dry fruit hampers with custom branding for your clients & team.',
     images: ['/images/corporate-diwali-gifting.jpg'],
@@ -174,7 +174,7 @@ export default function CorporateGiftingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/20 text-amber-300 text-xs font-semibold tracking-wide border border-amber-400/30">
-                <span>✨ DIWALI 2026 CORPORATE GIFTING</span>
+                <span>✨ FESTIVE CORPORATE GIFTING</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                 <span>BOOKINGS OPEN</span>
               </div>
@@ -259,7 +259,7 @@ export default function CorporateGiftingPage() {
             Curated Gifting Ladder
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-[#3D2B1F]">
-            The Diwali 2026 Hamper Collection
+            The Festive Corporate Hamper Collection
           </h2>
           <p className="text-stone-600 text-sm sm:text-base">
             From high-volume employee appreciation gifts to bespoke handcrafted wooden chests for CXOs and key clients. Indicative starting prices shown — final quotation customized by quantity and branding.

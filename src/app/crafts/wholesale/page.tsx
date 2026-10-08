@@ -60,7 +60,7 @@ export default function CraftsWholesalePage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>🧣 NUTTY TALES CRAFTS — WHOLESALE &amp; EXPORT DESK</span>
+          <span>🧣 NUTY TALES CRAFTS — WHOLESALE &amp; EXPORT DESK</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
           B2B Artisan Sourcing &amp; Global Export Procurement
@@ -258,7 +258,7 @@ export default function CraftsWholesalePage() {
                 Evidence-Backed Quality Assurance
               </span>
               <h3 className="font-serif text-xl font-bold">
-                The Nutty Tales Provenance Guarantee
+                The Nuty Tales Provenance Guarantee
               </h3>
               <p className="text-xs text-stone-300 font-light leading-relaxed">
                 We never make unverified artisan claims. Every wholesale consignment is backed by legal provenance documentation and microscopic testing:

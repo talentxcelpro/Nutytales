@@ -1,5 +1,5 @@
 /**
- * Nutty Tales SEO — Metadata Engine
+ * Nuty Tales SEO — Metadata Engine
  *
  * Generates unique, intent-driven metadata for every SEO page type.
  *
@@ -30,13 +30,13 @@ import { BUSINESS_DOMAINS } from './types';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const BRAND_NAMES: Record<NutyBusiness, string> = {
-  root:     'Nutty Tales',
-  business: 'Nutty Tales Business',
-  gifting:  'Nutty Tales Gifting',
-  weddings: 'Nutty Tales Weddings',
-  crafts:   'Nutty Tales Crafts',
-  stays:    'Nutty Tales Stays',
-  travel:   'Nutty Tales Travel',
+  root:     'Nuty Tales',
+  business: 'Nuty Tales Business',
+  gifting:  'Nuty Tales Gifting',
+  weddings: 'Nuty Tales Weddings',
+  crafts:   'Nuty Tales Crafts',
+  stays:    'Nuty Tales Stays',
+  travel:   'Nuty Tales Travel',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -47,11 +47,11 @@ const BRAND_NAMES: Record<NutyBusiness, string> = {
  * Generates the page <title> based on page type and intent.
  *
  * Formula examples:
- *   hub:           "Wholesale Dry Fruits | Bulk Supply India | Nutty Tales Business"
- *   product:       "California Almonds W240 — 1kg to 25kg | Buy Online | Nutty Tales"
- *   location:      "Wholesale Dry Fruits Noida | B2B Bulk Orders | Nutty Tales Business"
- *   destination:   "Kashmir Travel Packages 2026 | 5 to 10 Day Trips | Nutty Tales Travel"
- *   occasion:      "Corporate Gifts for Diwali — Dubai Delivery | Nutty Tales Gifting"
+ *   hub:           "Wholesale Dry Fruits | Bulk Supply India | Nuty Tales Business"
+ *   product:       "California Almonds W240 — 1kg to 25kg | Buy Online | Nuty Tales"
+ *   location:      "Wholesale Dry Fruits Noida | B2B Bulk Orders | Nuty Tales Business"
+ *   destination:   "Kashmir Travel Packages 2026 | 5 to 10 Day Trips | Nuty Tales Travel"
+ *   occasion:      "Corporate Gifts for Diwali — Dubai Delivery | Nuty Tales Gifting"
  */
 export function buildTitle(params: {
   pageType: SeoPageType;

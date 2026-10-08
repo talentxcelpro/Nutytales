@@ -42,7 +42,7 @@ export default function AdminSalesCommandCenterPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-300 pb-6">
           <div className="space-y-1.5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-              <span>📊</span> NUTTY TALES SALES COMMAND CENTER
+              <span>📊</span> NUTY TALES SALES COMMAND CENTER
             </div>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
               Daily Business Generation &amp; Pipeline
@@ -72,11 +72,11 @@ export default function AdminSalesCommandCenterPage() {
           </div>
         </div>
 
-        {/* ── Question 1: "HOW MUCH BUSINESS DID NUTTY TALES GENERATE TODAY?" ── */}
+        {/* ── Question 1: "HOW MUCH BUSINESS DID NUTY TALES GENERATE TODAY?" ── */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#17233B]">
-              How Much Business Did Nutty Tales Generate Today?
+              How Much Business Did Nuty Tales Generate Today?
             </h2>
             <span className="text-[11px] text-stone-500 font-mono">
               Live Pipeline Pulse · Zero Fake Metrics
@@ -216,7 +216,7 @@ export default function AdminSalesCommandCenterPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-                <span>✦</span> NUTTY TALES GROUP PORTFOLIO P&amp;L
+                <span>✦</span> NUTY TALES PORTFOLIO P&amp;L
               </div>
               <h2 className="font-serif text-2xl font-bold text-[#17233B] mt-1">
                 Six Independent Operating Companies
@@ -237,7 +237,7 @@ export default function AdminSalesCommandCenterPage() {
                     business.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Business</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Business</h3>
                 <p className="text-xs text-stone-500 font-light">
                   Global B2B sourcing, bulk wholesale commodity contracts, and enterprise replenishment.
                 </p>
@@ -269,9 +269,9 @@ export default function AdminSalesCommandCenterPage() {
                     gifting.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Gifting</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Gifting</h3>
                 <p className="text-xs text-stone-500 font-light">
-                  Corporate gifting, Diwali 2026 hampers, multi-recipient dispatch, and laser branding.
+                  Corporate gifting, festive hampers, multi-recipient dispatch, and laser branding.
                 </p>
                 <div className="p-3 bg-stone-50 rounded-xl space-y-1 text-xs">
                   <div className="flex justify-between">
@@ -301,7 +301,7 @@ export default function AdminSalesCommandCenterPage() {
                     weddings.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Weddings</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Weddings</h3>
                 <p className="text-xs text-stone-500 font-light">
                   The Wedding OS: Interactive workspace, venue booking, wazwan banquets, and trousseau favors.
                 </p>
@@ -333,7 +333,7 @@ export default function AdminSalesCommandCenterPage() {
                     crafts.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Crafts</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Crafts</h3>
                 <p className="text-xs text-stone-500 font-light">
                   Global luxury weaves marketplace, GI Changthangi Pashmina, tailored pherans, and wholesale export.
                 </p>
@@ -365,7 +365,7 @@ export default function AdminSalesCommandCenterPage() {
                     stays.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Stays</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Stays</h3>
                 <p className="text-xs text-stone-500 font-light">
                   Hospitality &amp; stay-experiences: Harwan walnut orchard suites, private buyouts, and local dining.
                 </p>
@@ -397,7 +397,7 @@ export default function AdminSalesCommandCenterPage() {
                     travel.nutytales.com
                   </span>
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nutty Tales Travel</h3>
+                <h3 className="font-serif text-lg font-bold text-[#17233B]">Nuty Tales Travel</h3>
                 <p className="text-xs text-stone-500 font-light">
                   SI dynamic itinerary planning, 4x4 snow safaris, verified DMC network, and alpine expeditions.
                 </p>

@@ -55,10 +55,16 @@ export default function CraftsPage() {
       result = result.filter((p) => p.isNew)
     } else if (activeCollection === 'bestsellers') {
       result = result.filter((p) => p.isBestseller)
-    } else if (activeCollection === 'fall-winter-2026') {
-      result = result.filter((p) => p.isFallWinter2026)
-    } else if (activeCollection === 'craft-collection') {
-      result = result.filter((p) => p.provenance.giTagCertified)
+    } else if (activeCollection === 'seasonal' || activeCollection === 'fall-winter-2026') {
+      result = result.filter((p) => p.isFallWinter2026 || p.warmthRating?.includes('Heavy') || p.warmthRating?.includes('Medium'))
+    } else if (activeCollection === 'festive') {
+      result = result.filter((p) => p.tags.includes('festive') || p.tags.includes('tilla') || p.tags.includes('wedding'))
+    } else if (activeCollection === 'heritage' || activeCollection === 'craft-collection') {
+      result = result.filter((p) => p.provenance.giTagCertified || p.tags.includes('heritage'))
+    } else if (activeCollection === 'luxury') {
+      result = result.filter((p) => p.price >= 25000 || p.tags.includes('pashmina'))
+    } else if (activeCollection === 'home') {
+      result = result.filter((p) => p.primaryCategory === 'heritage-home')
     } else if (activeCollection === 'gifting') {
       result = result.filter((p) => p.primaryCategory === 'heritage-home' || p.tags.includes('gifting'))
     }
@@ -158,7 +164,7 @@ export default function CraftsPage() {
             {/* Left Headline & Direct CTAs */}
             <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[10px] font-extrabold tracking-widest uppercase">
-                <span>✦</span> FALL / WINTER 2026 COLLECTION
+                <span>✦</span> AUTUMN &amp; WINTER HERITAGE COLLECTIONS
               </div>
 
               <div className="space-y-2">

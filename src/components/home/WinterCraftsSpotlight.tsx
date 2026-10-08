@@ -26,7 +26,7 @@ export default function WinterCraftsSpotlight() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 border-b border-white/10 pb-8">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#C9A45C] text-[11px] font-bold tracking-widest uppercase">
-              <span>❄️</span> Kashmir — Fall / Winter 2026
+              <span>❄️</span> Kashmir — Autumn &amp; Winter Collections
             </div>
             <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
               Wear the story.
@@ -72,7 +72,7 @@ export default function WinterCraftsSpotlight() {
 
               <div className="relative z-10 space-y-0.5">
                 <span className="text-[9px] uppercase tracking-widest text-[#C9A45C] font-bold block">
-                  Kashmir FW &apos;26
+                  Kashmir Autumn &amp; Winter
                 </span>
                 <h3 className="font-serif text-base sm:text-lg font-bold text-white group-hover:text-[#C9A45C] transition-colors leading-tight">
                   {cat.label}

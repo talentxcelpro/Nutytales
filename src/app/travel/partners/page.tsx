@@ -58,13 +58,13 @@ export default function TravelPartnersPage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>✈️ NUTTY TALES TRAVEL — DMC &amp; OPERATOR PARTNER NETWORK</span>
+          <span>✈️ NUTY TALES TRAVEL — DMC &amp; OPERATOR PARTNER NETWORK</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
-          Join the Nutty Tales Global Travel Partner Ecosystem
+          Join the Nuty Tales Global Travel Partner Ecosystem
         </h1>
         <p className="text-stone-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
-          Are you a licensed Destination Management Company (DMC), mountain ski guide, adventure outfitter, or luxury fleet operator? Partner with Nutty Tales Travel to receive verified international group bookings and high-intent itineraries.
+          Are you a licensed Destination Management Company (DMC), mountain ski guide, adventure outfitter, or luxury fleet operator? Partner with Nuty Tales Travel to receive verified international group bookings and high-intent itineraries.
         </p>
       </div>
 
@@ -209,7 +209,7 @@ export default function TravelPartnersPage() {
             disabled={isSubmitting}
             className="w-full py-3.5 bg-[#17233B] hover:bg-[#0E3A43] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
           >
-            {isSubmitting ? 'Registering DMC...' : '⚡ Register as Verified Nutty Tales Travel Partner →'}
+            {isSubmitting ? 'Registering DMC...' : '⚡ Register as Verified Nuty Tales Travel Partner →'}
           </button>
         </form>
       )}

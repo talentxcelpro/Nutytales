@@ -49,7 +49,7 @@ export default function WeddingsShell({
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white font-medium">
             <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
-            <span>Nutty Tales Weddings — Global Wedding Operating System &amp; Execution</span>
+            <span>Nuty Tales Weddings — Global Wedding Operating System &amp; Execution</span>
           </span>
           <span className="hidden md:inline text-white/30">•</span>
           <span className="hidden md:inline text-[#C9A45C]">
@@ -60,7 +60,7 @@ export default function WeddingsShell({
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nutty Tales Weddings Concierge! We are planning a wedding and need bespoke trousseau hampers and vendor support.',
+              'Hello Nuty Tales Weddings Concierge! We are planning a wedding and need bespoke trousseau hampers and vendor support.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -83,7 +83,7 @@ export default function WeddingsShell({
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#2D1520] tracking-tight block">
-                  Nutty Tales <span className="text-[#8E2848]">Weddings</span>
+                  Nuty Tales <span className="text-[#8E2848]">Weddings</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
                   Favors · Venues · Wedding OS
@@ -177,7 +177,7 @@ export default function WeddingsShell({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">💍</span>
-                <span className="font-serif text-lg font-bold">Nutty Tales Weddings</span>
+                <span className="font-serif text-lg font-bold">Nuty Tales Weddings</span>
               </div>
               <p className="text-xs text-stone-400 font-light leading-relaxed">
                 The global operating system for couples, families, and elite planners. From destination palace bookings and trousseau favor curation to verified vendor coordination and escrow management.
@@ -215,18 +215,18 @@ export default function WeddingsShell({
               </p>
               <div className="pt-2">
                 <span className="text-[10px] text-stone-500 uppercase tracking-widest block">
-                  A Nutty Tales Group Company
+                  A Nuty Tales Company
                 </span>
               </div>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-            <span>© {new Date().getFullYear()} Nutty Tales Weddings. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Nuty Tales Weddings. All rights reserved.</span>
             <div className="flex gap-4">
               <Link href={getLinkHref('/workspace')} className="hover:text-white">Wedding Workspace</Link>
               <Link href={getLinkHref('/dashboard')} className="hover:text-white">Couple Dashboard</Link>
-              <a href="https://www.nutytales.com" className="hover:text-white">Nutty Tales Group Gateway</a>
+              <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>
         </div>

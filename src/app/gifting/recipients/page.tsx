@@ -162,13 +162,13 @@ export default function GiftingRecipientsPage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>🎁 NUTTY TALES GIFTING — MULTI-RECIPIENT PROCUREMENT DESK</span>
+          <span>🎁 NUTY TALES GIFTING — MULTI-RECIPIENT PROCUREMENT DESK</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
           Corporate Multi-Recipient Upload &amp; Dispatch Engine
         </h1>
         <p className="text-stone-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
-          &quot;I need to send gifts to these people.&quot; Upload or configure recipient addresses across multiple cities and countries. Nutty Tales manages curation, custom laser foil branding, individual greeting cards, and white-glove air delivery with live tracking.
+          &quot;I need to send gifts to these people.&quot; Upload or configure recipient addresses across multiple cities and countries. Nuty Tales manages curation, custom laser foil branding, individual greeting cards, and white-glove air delivery with live tracking.
         </p>
       </div>
 
@@ -292,7 +292,7 @@ export default function GiftingRecipientsPage() {
                 <span className="text-[11px] text-stone-500">Chooses dry fruits, roasted nuts, or saffron blends.</span>
               </div>
               <div className="p-3 bg-white rounded-xl border border-stone-200">
-                <strong className="block text-purple-900">3. Nutty Tales Dispatches</strong>
+                <strong className="block text-purple-900">3. Nuty Tales Dispatches</strong>
                 <span className="text-[11px] text-stone-500">Live courier tracking synced directly to your dashboard.</span>
               </div>
             </div>

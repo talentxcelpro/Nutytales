@@ -14,21 +14,20 @@ import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import GroupPortfolioShowcase from '@/components/home/GroupPortfolioShowcase'
 
 export const metadata: Metadata = {
-  title: 'Nuty Tales — Taste. Gift. Wear. Stay. Explore. | Dry Fruits, Weddings & Crafts',
+  title: 'Nuty Tales — Global Marketplace for Products, Gifting, Travel, Stays, Crafts, Weddings & Business',
   description:
-    'The finest nuts, bespoke weddings, B2B business supply, and authentic Himalayan heritage. Buy premium California almonds, cashews, Kashmiri Kagzi walnuts, Mongra saffron, raw honey, Mithila makhana, handcrafted Pashmina shawls & pherans (Try with SI), wedding hampers, and explore boutique stays in Srinagar, Noida & Patna. FSSAI certified.',
+    'Nuty Tales is a global technology-enabled marketplace connecting customers, sellers, artisans, farmers, boutique hosts, and corporate buyers across six integrated verticals: Products, Gifting, Weddings, Crafts, Stays, and Travel.',
   keywords: [
     'Nuty Tales',
-    'taste gift wear stay explore',
-    'wedding dry fruit hampers',
-    'weddings by Nuty Tales',
-    'b2b dry fruit supply',
-    'dry fruits for bakeries',
-    'dry fruits for hotels',
-    'kashmir crafts and heritage',
+    'global marketplace',
+    'premium dry fruits',
+    'corporate gifting',
+    'destination weddings',
+    'kashmir crafts',
+    'boutique stays',
+    'curated travel',
+    'b2b food supply',
     'try with si',
-    'corporate diwali gift hampers',
-    'Nuty Tales stays',
   ],
   alternates: {
     canonical: 'https://nutytales.com',
@@ -43,7 +42,7 @@ export default function HomePage() {
     url: 'https://nutytales.com',
     logo: 'https://nutytales.com/images/logo.jpg',
     description:
-      'Taste. Gift. Wear. Stay. Explore. Gourmet dry fruits, B2B business ingredients, bespoke wedding hampers, boutique stays in Srinagar, Noida & Patna, and authentic Kashmiri heritage crafts. FSSAI Reg. 22724441000048.',
+      'Nuty Tales — A Global Marketplace for Products, Gifting, Travel, Stays, Crafts, Weddings and Business Services. FSSAI Reg. 22724441000048.',
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+91-9717161809',
@@ -66,7 +65,7 @@ export default function HomePage() {
       {/* 1. Hero (Brand Message & Photography) */}
       <Hero />
 
-      {/* ── Nutty Tales Group: Six Independent Global Businesses Showcase ── */}
+      {/* ── Nuty Tales: Six Independent Global Businesses Showcase ── */}
       <GroupPortfolioShowcase />
 
       {/* 2. Gifts for Every Story Strip (Everyday, Weddings, Diwali, Corporate, Kashmir, Celebrations) */}
@@ -75,7 +74,7 @@ export default function HomePage() {
       {/* 3. Discover Nuty Tales (4 Doors: Taste, Gift, Stay, Discover) */}
       <DiscoverSection />
 
-      {/* 4. Kashmir — Fall / Winter 2026: Wear the Story (Try with SI Spotlight) */}
+      {/* 4. Kashmir — Autumn & Winter Collections: Wear the Story (Try with SI Spotlight) */}
       <WinterCraftsSpotlight />
 
       {/* 5. Our Collection (Dry Fruits, Saffron, Honey, Makhana) */}

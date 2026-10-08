@@ -11,7 +11,7 @@ export default function GiftDesignerPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-semibold tracking-wide">
-            <span>🎁 NUTTY TALES GIFTING · SI DESIGN STUDIO</span>
+            <span>🎁 NUTY TALES GIFTING · SI DESIGN STUDIO</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B] mt-2">
             Outcome-Based Gift Designer

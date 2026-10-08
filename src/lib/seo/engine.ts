@@ -1,5 +1,5 @@
 /**
- * Nutty Tales Global SEO & Demand Engine — Master Coordinator
+ * Nuty Tales Global SEO & Demand Engine — Master Coordinator
  *
  * This engine unifies:
  * 1. Demand signal ingestion & clustering

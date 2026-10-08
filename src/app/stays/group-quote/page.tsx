@@ -80,7 +80,7 @@ export default function StaysGroupQuotePage() {
       {/* ── Breadcrumb & Header ───────────────────────────────────────────────── */}
       <div className="space-y-2 border-b border-stone-200 pb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10192A] text-[#C9A45C] text-xs font-semibold tracking-wide">
-          <span>🏔️ NUTTY TALES STAYS — PRIVATE BUYOUT DESK</span>
+          <span>🏔️ NUTY TALES STAYS — PRIVATE BUYOUT DESK</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
           Private Orchard Buyouts, Delegations &amp; Corporate Retreats
