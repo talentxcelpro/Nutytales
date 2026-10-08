@@ -29,6 +29,17 @@ export default function KashmirCraftsPage() {
             <span className="text-[#17233B] font-semibold">Kashmir — Crafted by Heritage</span>
           </nav>
 
+          <div className="relative w-full aspect-[21/6] rounded-2xl overflow-hidden border border-[#17233B]/10 shadow-md">
+            <Image
+              src="/images/crafts-hero-banner.jpg"
+              alt="Kashmir crafts loom and heritage banner"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1280px) 100vw, 1280px"
+            />
+          </div>
+
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#17233B]/10 pb-8">
             <div className="max-w-3xl space-y-2">
               <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">

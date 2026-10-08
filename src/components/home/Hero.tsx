@@ -109,7 +109,7 @@ export default function Hero() {
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="relative w-9 h-12 bg-white rounded border border-stone-200 overflow-hidden flex-shrink-0 shadow-xs">
                     <Image
-                      src="/images/almonds-pouch-250g.png"
+                      src="/images/almonds-pouch-250g.jpg"
                       alt="Nuty Tales Almonds Pack"
                       fill
                       className="object-contain p-0.5"

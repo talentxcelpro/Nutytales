@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -54,7 +54,7 @@ const STORY_SCENES: StoryScene[] = [
     subtitle: 'Six times finer than human hair, so delicate it cannot withstand power looms.',
     description:
       'True Pashmina fiber measures between 12 and 14.5 microns in thickness. Because modern industrial weaving machines snap fibers this fragile, every authentic Kashmir Pashmina MUST be hand-spun on the traditional wooden Charkha (Yender) by master women spinners.',
-    image: '/images/crafts-pashmina-shawl.jpg',
+    image: '/images/crafts-shawls.jpg',
     provenanceStat: '14.5 µm',
     statLabel: 'Fiber Fineness',
     artisanQuote: 'Touch a pure Pashmina in the dark, and you will feel warmth before you even sense weight.',
@@ -68,7 +68,7 @@ const STORY_SCENES: StoryScene[] = [
     subtitle: 'A single needle, fine silk filaments, and months of patient devotion.',
     description:
       'Sozni embroidery is among the most sophisticated needlework techniques known to mankind. Using needles as fine as horsehair, artisans sew microscopic satin stitches that replicate delicate Paisley botehs and floral jals with identical perfection on both sides of the textile.',
-    image: '/images/crafts-velvet-pheran.jpg',
+    image: '/images/crafts-artisan-hands.jpg',
     provenanceStat: '240+ Hours',
     statLabel: 'Hand-Stitching Time',
     artisanQuote: 'Our eyes tire, but our hearts steady. We stitch prayer and memory into every petal.',
@@ -82,7 +82,7 @@ const STORY_SCENES: StoryScene[] = [
     subtitle: 'Timeless Kashmiri warmth meets modern luxury fashion editorial elegance.',
     description:
       'When draped, the Pheran and Jamawar shawl do not simply cover—they transform. Rich jewel-toned velvets, pure woolens, and hand-woven cashmeres create an architectural silhouette that has dressed Himalayan royalty and global connoisseurs alike.',
-    image: '/images/crafts-men-pheran.jpg',
+    image: '/images/crafts-pherans.jpg',
     provenanceStat: '100% Pure',
     statLabel: 'Natural Materials',
     artisanQuote: 'Elegance without arrogance. Warmth without heavy burden.',

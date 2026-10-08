@@ -1,4 +1,4 @@
-﻿// ─── Static Product Catalog ────────────────────────────────────────────────────
+// ─── Static Product Catalog ────────────────────────────────────────────────────
 // 25 products across 12 categories with full pricing tiers
 
 export type StockStatus = 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK'
@@ -75,7 +75,7 @@ function buildTiers(baseKgPrice: number): PriceTier[] {
 }
 
 // ─── Variant helper ─────────────────────────────────────────────────────────────
-function buildVariants(pricePerKg: number, mrpMultiplier = 1.1): ProductVariant[] {
+function buildVariants(pricePerKg: number, mrpMultiplier = 1.18): ProductVariant[] {
   return [
     { sizeG: 250,  label: '250g',  retailPrice: Math.round(pricePerKg * 0.25 * 1.05), mrp: Math.round(pricePerKg * 0.25 * 1.05 * mrpMultiplier) },
     { sizeG: 500,  label: '500g',  retailPrice: Math.round(pricePerKg * 0.50 * 1.04), mrp: Math.round(pricePerKg * 0.50 * 1.04 * mrpMultiplier) },
@@ -96,11 +96,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Extra-large, crunchy California almonds with rich flavour — perfect for snacking, baking, and gifting.',
     longDesc: `Our California Almonds are sourced directly from certified farms in the San Joaquin Valley. Every batch is hand-selected for uniform size, superior crunch, and rich natural flavour. Free from artificial additives and preservatives. These almonds are perfect for daily snacking, baking, smoothies, milk preparation, and corporate gifting.\n\nNuty Tales almonds are FSSAI-certified, vacuum-packed to preserve freshness, and available in retail packs as well as wholesale sacks for businesses, cloud kitchens, and HORECA buyers.`,
-    retailPrice: 980,
-    b2bPricePerKg: 890,
-    mrp: 1099,
-    variants: buildVariants(980),
-    b2bTiers: buildTiers(890),
+    retailPrice: 1250,
+    b2bPricePerKg: 1120,
+    mrp: 1499,
+    variants: buildVariants(1250),
+    b2bTiers: buildTiers(1120),
     stockStatus: 'IN_STOCK',
     image: '/images/almonds-pouch-250g.jpg',
     sensory: {
@@ -128,11 +128,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A+',
     shortDesc: 'Rare thin-shelled Mamra almonds from Kashmir — exceptionally nutritious and prized for medicinal use.',
     longDesc: `Mamra Almonds (also called Kashmiri Badam) are considered the finest variety of almonds in the world. Unlike California almonds, Mamra almonds are cultivated in the high altitudes of Kashmir and Afghanistan. They are smaller, wrinkled, and oil-rich — containing up to 50% more oil than California almonds.\n\nTraditionally used in Unani and Ayurvedic medicine, they are prized for brain health, skin nourishment, and energy. Nuty Tales sources these directly from farms in the Kashmir Valley, ensuring zero adulteration.`,
-    retailPrice: 2200,
-    b2bPricePerKg: 1950,
-    mrp: 2499,
-    variants: buildVariants(2200),
-    b2bTiers: buildTiers(1950),
+    retailPrice: 4200,
+    b2bPricePerKg: 3600,
+    mrp: 4999,
+    variants: buildVariants(4200),
+    b2bTiers: buildTiers(3600),
     stockStatus: 'IN_STOCK',
     image: '/images/mamra-almonds-pouch-250g.jpg',
     sensory: {
@@ -160,11 +160,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Perfectly roasted and lightly salted California almonds — the ultimate snacking companion.',
     longDesc: `Our Roasted Salted Almonds are dry-roasted in small batches to bring out their natural sweetness, then lightly seasoned with Himalayan pink salt. No oil added in the roasting process. Great for on-the-go snacking, party mixes, and gift hampers. These are popular with gym-goers, office workers, and health-conscious families.`,
-    retailPrice: 1050,
-    b2bPricePerKg: 950,
-    mrp: 1199,
-    variants: buildVariants(1050),
-    b2bTiers: buildTiers(950),
+    retailPrice: 1380,
+    b2bPricePerKg: 1220,
+    mrp: 1650,
+    variants: buildVariants(1380),
+    b2bTiers: buildTiers(1220),
     stockStatus: 'IN_STOCK',
     image: '/images/almonds-pouch-250g.jpg',
     isFeatured: false,
@@ -184,11 +184,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Kagzi Grade A',
     shortDesc: 'Traditional Kashmiri paper-shell whole almonds — easily cracked by hand, bursting with natural mountain oils.',
     longDesc: `Harvested from the high-altitude orchards of Kashmir, our Kagzi Badam are prized for their soft, paper-thin shell that cracks open effortlessly between two fingers. Inside lies a pure, unblemished almond kernel rich in vitamin E, dietary fiber, and natural omega oils.\n\nUnlike commercially imported varieties, Kashmiri Kagzi almonds are non-GMO, sun-dried naturally, and unpolished. Ideal for festive gifting, Ayurvedic preparations, and daily family nourishment.`,
-    retailPrice: 850,
-    b2bPricePerKg: 760,
-    mrp: 999,
-    variants: buildVariants(850),
-    b2bTiers: buildTiers(760),
+    retailPrice: 1150,
+    b2bPricePerKg: 980,
+    mrp: 1399,
+    variants: buildVariants(1150),
+    b2bTiers: buildTiers(980),
     stockStatus: 'IN_STOCK',
     image: '/images/kashmir-kagzi-badam-250g.jpg',
     isFeatured: true,
@@ -210,11 +210,11 @@ export const PRODUCTS: Product[] = [
     grade: 'W240',
     shortDesc: 'Large W240 grade whole cashews — creamy, rich, and perfect for sweets, curries, and gifting.',
     longDesc: `W240 refers to the count of cashews per pound — 240 pieces, which means extra-large, whole, and beautifully white kernels. Our W240 cashews are sourced from coastal Karnataka and Goa where cashew cultivation is a centuries-old tradition.\n\nIdeal for mithai shops, restaurants, bakeries, and retail consumers. Packed in moisture-proof packaging to preserve freshness. Available for bulk orders with GST invoice.`,
-    retailPrice: 1100,
-    b2bPricePerKg: 980,
-    mrp: 1249,
-    variants: buildVariants(1100),
-    b2bTiers: buildTiers(980),
+    retailPrice: 1450,
+    b2bPricePerKg: 1280,
+    mrp: 1750,
+    variants: buildVariants(1450),
+    b2bTiers: buildTiers(1280),
     stockStatus: 'IN_STOCK',
     image: '/images/cashews-pouch-250g.jpg',
     sensory: {
@@ -242,11 +242,11 @@ export const PRODUCTS: Product[] = [
     grade: 'W320 Splits',
     shortDesc: 'Economy cashew pieces — ideal for cooking, halwas, biryanis, and ice-cream toppings.',
     longDesc: `Cashew splits and pieces are the economical choice for food businesses. Same quality, same taste — just broken kernels instead of whole. Our W320 splits are perfect for any cooked application where the shape does not matter: kheer, halwa, biryani, cakes, and energy bars.\n\nA favourite among cloud kitchens, catering companies, bakeries, and confectionery manufacturers.`,
-    retailPrice: 820,
-    b2bPricePerKg: 740,
-    mrp: 950,
-    variants: buildVariants(820),
-    b2bTiers: buildTiers(740),
+    retailPrice: 1350,
+    b2bPricePerKg: 1180,
+    mrp: 1599,
+    variants: buildVariants(1350),
+    b2bTiers: buildTiers(1180),
     stockStatus: 'IN_STOCK',
     image: '/images/cashews-pouch-250g.jpg',
     isFeatured: false,
@@ -266,11 +266,11 @@ export const PRODUCTS: Product[] = [
     grade: 'W240',
     shortDesc: 'Dry-roasted W240 cashews with no salt or oil added — clean, crunchy, and nutritious.',
     longDesc: `Roasted in small batches using dry-heat technology, our unsalted cashews retain maximum nutrients while achieving a golden, crunchy texture. Zero oil. Zero salt. Perfect for keto, paleo, and low-sodium diets. Popular with fitness enthusiasts and health-food stores.`,
-    retailPrice: 1180,
-    b2bPricePerKg: 1060,
-    mrp: 1350,
-    variants: buildVariants(1180),
-    b2bTiers: buildTiers(1060),
+    retailPrice: 1580,
+    b2bPricePerKg: 1380,
+    mrp: 1899,
+    variants: buildVariants(1580),
+    b2bTiers: buildTiers(1380),
     stockStatus: 'LOW_STOCK',
     image: '/images/cashews-pouch-250g.jpg',
     isFeatured: false,
@@ -292,11 +292,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Kagzi Grade A',
     shortDesc: 'Handpicked thin-shelled Kashmiri Kagzi walnuts — easily broken by hand with golden buttery kernels.',
     longDesc: `Kashmiri Kagzi walnuts are world-renowned for their paper-thin shells, light blonde color, and rich, buttery kernel with high essential fatty acids. Harvested from ancient walnut groves in the Kashmir Valley, these walnuts are sorted and packed immediately after autumn curing.\n\nPaper-shell (Kagzi) walnuts break cleanly with simple hand pressure. Zero chemical bleaching or sulfur treatment. Rich in plant-based Omega-3 ALA, antioxidants, and neuro-protective nutrients.`,
-    retailPrice: 700,
-    b2bPricePerKg: 630,
-    mrp: 799,
-    variants: buildVariants(700),
-    b2bTiers: buildTiers(630),
+    retailPrice: 980,
+    b2bPricePerKg: 850,
+    mrp: 1199,
+    variants: buildVariants(980),
+    b2bTiers: buildTiers(850),
     stockStatus: 'IN_STOCK',
     image: '/images/kashmir-kagzi-akhrot-250g.jpg',
     sensory: {
@@ -324,11 +324,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Shelled Kashmiri walnut kernels — ready-to-eat halves and pieces, perfect for cooking and snacking.',
     longDesc: `Our walnut kernels are hand-shelled from premium Kashmiri walnuts, sorted into halves and pieces. Light amber in colour with a mild, rich flavour. Ready to use directly in salads, baking, cakes, and as toppings.\n\nNo artificial bleaching or processing. Packed in nitrogen-flushed pouches to prevent oxidation.`,
-    retailPrice: 950,
-    b2bPricePerKg: 860,
-    mrp: 1099,
-    variants: buildVariants(950),
-    b2bTiers: buildTiers(860),
+    retailPrice: 1950,
+    b2bPricePerKg: 1720,
+    mrp: 2350,
+    variants: buildVariants(1950),
+    b2bTiers: buildTiers(1720),
     stockStatus: 'IN_STOCK',
     image: '/images/walnuts-pouch-250g.jpg',
     isFeatured: false,
@@ -350,11 +350,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Premium Iranian pistachios — roasted, lightly salted, and naturally split for easy snacking.',
     longDesc: `Iranian pistachios are the gold standard — plump, naturally split, with vibrant green kernels and a rich, complex flavour. Our stock is sourced from Rafsanjan, Iran, the pistachio capital of the world.\n\nRoasted in small batches and lightly seasoned with sea salt. Popular at parties, in trail mixes, and as luxury gifting.`,
-    retailPrice: 1350,
-    b2bPricePerKg: 1200,
-    mrp: 1550,
-    variants: buildVariants(1350),
-    b2bTiers: buildTiers(1200),
+    retailPrice: 1650,
+    b2bPricePerKg: 1450,
+    mrp: 1950,
+    variants: buildVariants(1650),
+    b2bTiers: buildTiers(1450),
     stockStatus: 'IN_STOCK',
     image: '/images/pistachios-pouch-250g.jpg',
     isFeatured: true,
@@ -374,11 +374,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Natural raw pistachios — no roasting, no salt, maximum nutrition for health-conscious buyers.',
     longDesc: `Raw, unroasted pistachios retain maximum levels of antioxidants and vitamins. Sourced from Afghanistan's high-altitude farms, our raw pistachios are a favourite with nutritionists, health stores, and Ayurvedic practitioners.\n\nUse in smoothies, granolas, Middle Eastern sweets like baklava, or eat as-is for a pure natural snack.`,
-    retailPrice: 1280,
-    b2bPricePerKg: 1140,
-    mrp: 1450,
-    variants: buildVariants(1280),
-    b2bTiers: buildTiers(1140),
+    retailPrice: 2400,
+    b2bPricePerKg: 2100,
+    mrp: 2850,
+    variants: buildVariants(2400),
+    b2bTiers: buildTiers(2100),
     stockStatus: 'IN_STOCK',
     image: '/images/pistachios-pouch-250g.jpg',
     isFeatured: false,
@@ -400,11 +400,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'Plump, naturally sun-dried green Afghan kishmish — seedless, sweet, and intensely flavourful.',
     longDesc: `Afghan green raisins (Kishmish) are sun-dried without sulphur dioxide, giving them their characteristic green-yellow hue and concentrated sweetness. Unlike artificially coloured raisins, these are pure and natural.\n\nPopular in Indian sweets, biryanis, pulao, cakes, and as a healthy snack. A key ingredient in dry fruit assortments and gift boxes.`,
-    retailPrice: 520,
-    b2bPricePerKg: 460,
-    mrp: 599,
-    variants: buildVariants(520),
-    b2bTiers: buildTiers(460),
+    retailPrice: 580,
+    b2bPricePerKg: 490,
+    mrp: 699,
+    variants: buildVariants(580),
+    b2bTiers: buildTiers(490),
     stockStatus: 'IN_STOCK',
     image: '/images/raisins-pouch-250g.jpg',
     isFeatured: false,
@@ -424,11 +424,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'Large, seeded Munakka raisins — traditionally prized in Ayurvedic medicine for energy and digestion.',
     longDesc: `Munakka (large black raisins) are the traditional form of dried grapes used extensively in Ayurvedic medicine. Unlike regular raisins, Munakka are larger, contain seeds, and have a more complex, tangy-sweet flavour.\n\nHigh in iron and antioxidants, they are commonly soaked overnight and consumed first thing in the morning. Nuty Tales sources Munakka directly from Afghanistan and Kashmir.`,
-    retailPrice: 580,
-    b2bPricePerKg: 510,
-    mrp: 680,
-    variants: buildVariants(580),
-    b2bTiers: buildTiers(510),
+    retailPrice: 650,
+    b2bPricePerKg: 550,
+    mrp: 780,
+    variants: buildVariants(650),
+    b2bTiers: buildTiers(550),
     stockStatus: 'IN_STOCK',
     image: '/images/raisins-pouch-250g.jpg',
     isFeatured: false,
@@ -474,11 +474,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Dark, semi-dry Safawi dates from Madinah — soft texture, mild sweetness, zero added sugar.',
     longDesc: `Safawi dates are grown in the fertile date farms of Madinah, Saudi Arabia. They are a darker variety with a semi-dry texture, mildly sweet, and slightly chewy. These are extremely popular during Ramadan and as everyday healthy snacks.\n\nRich in potassium, magnesium, and natural sugars. No preservatives, no added sugar. Ideal for health-conscious consumers and gift boxes.`,
-    retailPrice: 850,
-    b2bPricePerKg: 750,
-    mrp: 999,
-    variants: buildVariants(850),
-    b2bTiers: buildTiers(750),
+    retailPrice: 950,
+    b2bPricePerKg: 820,
+    mrp: 1150,
+    variants: buildVariants(950),
+    b2bTiers: buildTiers(820),
     stockStatus: 'IN_STOCK',
     image: '/images/dates-box-250g.jpg',
     isFeatured: false,
@@ -500,11 +500,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Sun-dried Turkish figs (Anjeer) — naturally sweet, fibre-rich, and loaded with calcium and iron.',
     longDesc: `Turkish dried figs are considered the world's finest. Our Anjeer is sourced from the Aegean region of Turkey, where fig cultivation has flourished for thousands of years. Naturally sun-dried without sulphur, they have a sweet, jam-like flavour and chewy texture.\n\nRich in dietary fibre, calcium, potassium, and iron. Popular in Ayurvedic wellness routines, desserts, chutneys, and as a standalone snack.`,
-    retailPrice: 650,
-    b2bPricePerKg: 575,
-    mrp: 749,
-    variants: buildVariants(650),
-    b2bTiers: buildTiers(575),
+    retailPrice: 1650,
+    b2bPricePerKg: 1450,
+    mrp: 1950,
+    variants: buildVariants(1650),
+    b2bTiers: buildTiers(1450),
     stockStatus: 'IN_STOCK',
     image: '/images/anjeer-pouch-250g.jpg',
     isFeatured: false,
@@ -524,11 +524,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium Wild',
     shortDesc: 'Rare wild-harvested Afghan figs with intense sweetness and complex flavour — a connoisseur\'s choice.',
     longDesc: `Afghan wild figs are harvested from naturally growing fig trees in Afghanistan's mountain regions. Smaller than cultivated varieties but far more flavourful. These are not commercially farmed — they are true wild figs, hand-collected and sun-dried.\n\nA rare delicacy in the dry fruit world. Limited seasonal availability. Premium choice for gifting and Ayurvedic practitioners.`,
-    retailPrice: 850,
-    b2bPricePerKg: 760,
-    mrp: 999,
-    variants: buildVariants(850),
-    b2bTiers: buildTiers(760),
+    retailPrice: 1950,
+    b2bPricePerKg: 1720,
+    mrp: 2350,
+    variants: buildVariants(1950),
+    b2bTiers: buildTiers(1720),
     stockStatus: 'LOW_STOCK',
     image: '/images/anjeer-pouch-250g.jpg',
     isFeatured: false,
@@ -550,11 +550,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A',
     shortDesc: 'Premium Grade A Makhana from Bihar — large, crispy lotus seeds perfect for roasting and kheer.',
     longDesc: `Makhana (Fox Nuts / Lotus Seeds) is a superfood cultivated in the wetlands of Bihar, India. Nuty Tales sources Grade A Makhana directly from farmers in Darbhanga and Madhubani — the heart of India's Makhana belt.\n\nGrade A Makhana are characterised by large, uniform size (Sutta 6 grade), brilliant white colour, and exceptional crispness. Zero additives, zero processing, straight from the farm.\n\nPerfect for roasting with ghee and spices, making Makhana kheer, trail mixes, and baby food. Our Makhana is sourced fresh at harvest season and vacuum-packed for maximum shelf life.`,
-    retailPrice: 480,
-    b2bPricePerKg: 420,
-    mrp: 549,
-    variants: buildVariants(480),
-    b2bTiers: buildTiers(420),
+    retailPrice: 2100,
+    b2bPricePerKg: 1850,
+    mrp: 2499,
+    variants: buildVariants(2100),
+    b2bTiers: buildTiers(1850),
     stockStatus: 'IN_STOCK',
     image: '/images/makhana-pouch-250g.jpg',
     isFeatured: true,
@@ -574,11 +574,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade B',
     shortDesc: 'Economy Grade B Makhana — smaller size, same great taste, ideal for kheer and cooking.',
     longDesc: `Grade B Makhana are smaller-sized fox nuts that are equally nutritious and delicious as Grade A, at a more accessible price point. Ideal for cooking applications where presentation is not critical — kheer, halwa, curry gravies, and roasted snacks.\n\nVery popular with restaurants, cloud kitchens, catering companies, and households looking for economical nutrition. Sourced from Bihar's Makhana farms.`,
-    retailPrice: 360,
-    b2bPricePerKg: 310,
-    mrp: 420,
-    variants: buildVariants(360),
-    b2bTiers: buildTiers(310),
+    retailPrice: 1750,
+    b2bPricePerKg: 1520,
+    mrp: 1999,
+    variants: buildVariants(1750),
+    b2bTiers: buildTiers(1520),
     stockStatus: 'IN_STOCK',
     image: '/images/makhana-pouch-250g.jpg',
     isFeatured: false,
@@ -598,11 +598,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A Processed',
     shortDesc: 'Crispy roasted Makhana with tangy masala — a guilt-free healthy snack for all ages.',
     longDesc: `Our Masala Makhana is made from Grade A Bihar Makhana, roasted with pure ghee and a blend of Himalayan salt, chaat masala, and mild spices. The result is an incredibly addictive, crunchy snack that is far healthier than chips or namkeen.\n\nHigh in protein, low in calories, naturally gluten-free. A fast-growing favourite in health-food retail. Available for private label in bulk.`,
-    retailPrice: 560,
-    b2bPricePerKg: 490,
-    mrp: 650,
-    variants: buildVariants(560),
-    b2bTiers: buildTiers(490),
+    retailPrice: 2400,
+    b2bPricePerKg: 2100,
+    mrp: 2850,
+    variants: buildVariants(2400),
+    b2bTiers: buildTiers(2100),
     stockStatus: 'IN_STOCK',
     image: '/images/makhana-pouch-250g.jpg',
     isFeatured: true,
@@ -648,11 +648,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'Crunchy roasted pumpkin seeds — rich in zinc, magnesium, and healthy fats.',
     longDesc: `Pumpkin seeds (pepitas) are a nutritional powerhouse. Our roasted pumpkin seeds are shell-free, dry-roasted without oil, and lightly salted. Rich in zinc (immune support), magnesium (muscle function), and healthy monounsaturated fats.\n\nA great addition to salads, trail mixes, granola, and baked goods. Also delicious on their own as a snack.`,
-    retailPrice: 450,
-    b2bPricePerKg: 395,
-    mrp: 520,
-    variants: buildVariants(450),
-    b2bTiers: buildTiers(395),
+    retailPrice: 550,
+    b2bPricePerKg: 480,
+    mrp: 650,
+    variants: buildVariants(550),
+    b2bTiers: buildTiers(480),
     stockStatus: 'IN_STOCK',
     image: '/images/pumpkin-seeds-pouch-250g.jpg',
     isFeatured: false,
@@ -674,11 +674,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'The ultimate nut mix — almonds, cashews, walnuts, pistachios, hazelnuts, pecans, and macadamia.',
     longDesc: `Our Premium Mixed Nuts is the finest nut blend you can buy — containing 7 varieties of carefully selected nuts from their best origins. Each batch contains: California Almonds, W240 Cashews, Kashmiri Walnuts, Iranian Pistachios, Turkish Hazelnuts, American Pecans, and Hawaiian Macadamia Nuts.\n\nRoasted to perfection and lightly salted. Perfect for corporate gifting, premium retail, high-end hospitality, and health-conscious snackers.`,
-    retailPrice: 1500,
-    b2bPricePerKg: 1350,
-    mrp: 1750,
-    variants: buildVariants(1500),
-    b2bTiers: buildTiers(1350),
+    retailPrice: 1950,
+    b2bPricePerKg: 1700,
+    mrp: 2350,
+    variants: buildVariants(1950),
+    b2bTiers: buildTiers(1700),
     stockStatus: 'IN_STOCK',
     image: '/images/nut-mix-pouch-250g.jpg',
     isFeatured: true,
@@ -698,11 +698,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Standard',
     shortDesc: 'Classic Indian dry fruit mix — almonds, cashews, raisins, pistachios, and dates.',
     longDesc: `Our Classic Dry Fruit & Nut Mix is the perfect everyday dry fruit assortment for Indian households. Contains: Almonds, Cashews, Raisins (Kishmish), Pistachios, and Dates — the five staples of Indian dry fruit culture.\n\nIdeal as a daily health snack, for adding to milk, sweets, and as a starter gift for festive seasons. Available in premium gift packaging on request.`,
-    retailPrice: 1050,
-    b2bPricePerKg: 940,
-    mrp: 1199,
-    variants: buildVariants(1050),
-    b2bTiers: buildTiers(940),
+    retailPrice: 1450,
+    b2bPricePerKg: 1280,
+    mrp: 1750,
+    variants: buildVariants(1450),
+    b2bTiers: buildTiers(1280),
     stockStatus: 'IN_STOCK',
     image: '/images/nut-mix-pouch-250g.jpg',
     isFeatured: false,
@@ -724,11 +724,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'Energy-packed trail mix for athletes — nuts, seeds, cranberries, and dark chocolate chips.',
     longDesc: `Formulated for active lifestyles, our Fitness Trail Mix combines high-protein nuts with energy-boosting dried fruits and antioxidant-rich extras. Contains: Almonds, Cashews, Pumpkin Seeds, Sunflower Seeds, Dried Cranberries, and Dark Chocolate Chips.\n\nNo artificial colours, no synthetic preservatives. A favourite with gym-goers, hikers, and corporate wellness programmes.`,
-    retailPrice: 750,
-    b2bPricePerKg: 660,
-    mrp: 880,
-    variants: buildVariants(750),
-    b2bTiers: buildTiers(660),
+    retailPrice: 980,
+    b2bPricePerKg: 850,
+    mrp: 1199,
+    variants: buildVariants(980),
+    b2bTiers: buildTiers(850),
     stockStatus: 'IN_STOCK',
     image: '/images/nut-mix-pouch-250g.jpg',
     isFeatured: false,
@@ -748,11 +748,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Premium',
     shortDesc: 'Crunchy roasted seed mix — flaxseeds, pumpkin, sunflower, sesame, and watermelon seeds.',
     longDesc: `Our Roasted Mixed Seeds blend is a nutritional powerhouse in a small package. Each serving contains 5 types of seeds: Flaxseeds (omega-3), Pumpkin Seeds (zinc), Sunflower Seeds (vitamin E), Sesame Seeds (calcium), and Watermelon Seeds (protein).\n\nLightly roasted and minimally salted. Great as a topping for salads, yogurt, soups, and rice dishes. Also perfect for plain snacking. Popular with diabetics, heart patients, and weight-conscious consumers.`,
-    retailPrice: 380,
-    b2bPricePerKg: 330,
-    mrp: 449,
-    variants: buildVariants(380),
-    b2bTiers: buildTiers(330),
+    retailPrice: 450,
+    b2bPricePerKg: 390,
+    mrp: 550,
+    variants: buildVariants(450),
+    b2bTiers: buildTiers(390),
     stockStatus: 'IN_STOCK',
     image: '/images/seeds-mix-pouch-250g.jpg',
     isFeatured: false,
@@ -774,12 +774,12 @@ export const PRODUCTS: Product[] = [
     grade: 'Gift Grade',
     shortDesc: 'Luxurious Diwali dry fruit gift box — 8 varieties in an elegant wooden box with satin lining.',
     longDesc: `The Nuty Tales Premium Diwali Gift Box is the ultimate gifting statement. A hand-crafted wooden box with satin lining, containing 8 premium dry fruits in individual compartments: Mamra Almonds, W240 Cashews, Iranian Pistachios, Kashmiri Walnuts, Medjool Dates, Afghan Kishmish, Turkish Figs, and Masala Makhana.\n\nCustom branding available for corporate orders of 50+ boxes. GST invoice provided. Pan-India delivery with special festive packaging.`,
-    retailPrice: 2999,
-    b2bPricePerKg: 2600,
-    mrp: 3499,
+    retailPrice: 3499,
+    b2bPricePerKg: 3000,
+    mrp: 4199,
     variants: [
-      { sizeG: 1000, label: '1 kg (8×125g)', retailPrice: 2999, mrp: 3499 },
-      { sizeG: 2000, label: '2 kg (8×250g)', retailPrice: 5799, mrp: 6999 },
+      { sizeG: 1000, label: '1 kg (8×125g)', retailPrice: 3499, mrp: 4199 },
+      { sizeG: 2000, label: '2 kg (8×250g)', retailPrice: 6799, mrp: 7999 },
     ],
     b2bTiers: buildTiers(2600),
     stockStatus: 'IN_STOCK',
@@ -801,12 +801,12 @@ export const PRODUCTS: Product[] = [
     grade: 'Standard',
     shortDesc: 'Everyday family dry fruit pack — 5 essentials in resealable pouches, great value for money.',
     longDesc: `The Family Pack is our best-selling everyday value pack. Five resealable pouches containing the Indian household staples: Almonds (200g), Cashews (200g), Raisins (200g), Pistachios (100g), and Dates (300g). Total 1 kg of premium dry fruits.\n\nAvailable in jute bags for an eco-friendly gifting option. Excellent for Eid, Diwali, anniversaries, and housewarming gifts. Affordable luxury for every family.`,
-    retailPrice: 1299,
-    b2bPricePerKg: 1150,
-    mrp: 1499,
+    retailPrice: 1699,
+    b2bPricePerKg: 1450,
+    mrp: 1999,
     variants: [
-      { sizeG: 1000, label: '1 kg (5-in-1)', retailPrice: 1299, mrp: 1499 },
-      { sizeG: 2000, label: '2 kg (5-in-1)', retailPrice: 2499, mrp: 2999 },
+      { sizeG: 1000, label: '1 kg (5-in-1)', retailPrice: 1699, mrp: 1999 },
+      { sizeG: 2000, label: '2 kg (5-in-1)', retailPrice: 3299, mrp: 3899 },
     ],
     b2bTiers: buildTiers(1150),
     stockStatus: 'IN_STOCK',
@@ -830,13 +830,13 @@ export const PRODUCTS: Product[] = [
     grade: 'Grade A1 Mongra (GI Tagged)',
     shortDesc: 'Certified pure Kashmiri Mongra saffron — intense crimson threads with intoxicating aroma and medicinal potency.',
     longDesc: `Sourced directly from the autumn harvest in the historic saffron fields of Pampore, Kashmir. Mongra refers to the purest top-portion stigmas, completely free from style or yellow base components. 100% natural, tested for high crocin (color), picrocrocin (flavor), and safranal (aroma) count.\n\nFSSAI certified and vacuum packed in airtight gold-accented glass jars to preserve fragile essential oils. Perfect for gourmet cooking, traditional biryanis, desserts, pregnancy wellness, and luxury corporate gifting.`,
-    retailPrice: 1850,
-    b2bPricePerKg: 160000,
-    mrp: 2200,
+    retailPrice: 1950,
+    b2bPricePerKg: 180000,
+    mrp: 2350,
     variants: [
       { sizeG: 1, label: '1g Jar', retailPrice: 420, mrp: 499 },
-      { sizeG: 2, label: '2g Jar', retailPrice: 799, mrp: 950 },
-      { sizeG: 5, label: '5g Jar', retailPrice: 1850, mrp: 2200 },
+      { sizeG: 2, label: '2g Jar', retailPrice: 820, mrp: 975 },
+      { sizeG: 5, label: '5g Jar', retailPrice: 1950, mrp: 2350 },
     ],
     b2bTiers: [
       { minQtyKg: 0.05, maxQtyKg: 0.1, pricePerKg: 160000, savingsPercent: 5 },
@@ -869,13 +869,13 @@ export const PRODUCTS: Product[] = [
     grade: 'Super Negin Grade 1',
     shortDesc: 'World-renowned Iranian Super Negin saffron — thick, all-red unbroken stigmas with intense color and floral aroma.',
     longDesc: `Sourced from the historic saffron terraces of Khorasan, Iran. Super Negin represents the highest commercial grade of Persian saffron, containing only the pristine all-red tips of the stigma with zero yellow style.\n\nRenowned for intense color release (crocin levels > 250), deep aromatic complexity, and culinary excellence. Sealed in airtight luxury glass jars for connoisseurs, gourmet kitchens, and prestige gifting.`,
-    retailPrice: 1450,
-    b2bPricePerKg: 135000,
-    mrp: 1750,
+    retailPrice: 1550,
+    b2bPricePerKg: 145000,
+    mrp: 1850,
     variants: [
-      { sizeG: 1, label: '1g Jar', retailPrice: 349, mrp: 420 },
+      { sizeG: 1, label: '1g Jar', retailPrice: 340, mrp: 420 },
       { sizeG: 2, label: '2g Jar', retailPrice: 650, mrp: 799 },
-      { sizeG: 5, label: '5g Jar', retailPrice: 1450, mrp: 1750 },
+      { sizeG: 5, label: '5g Jar', retailPrice: 1550, mrp: 1850 },
     ],
     b2bTiers: [
       { minQtyKg: 0.05, maxQtyKg: 0.1, pricePerKg: 135000, savingsPercent: 5 },
@@ -902,13 +902,13 @@ export const PRODUCTS: Product[] = [
     grade: 'Raw & Unfiltered (Grade A+)',
     shortDesc: 'Single-origin white acacia honey harvested from Robinia pseudoacacia blossoms in Kashmir — delicate, floral, and naturally liquid.',
     longDesc: `Harvested in late spring across the pristine acacia groves of the Kashmir Valley. Kashmiri Acacia Honey is prized globally for its pale, almost transparent golden hue, smooth floral sweetness, and high fructose-to-glucose ratio that prevents quick crystallization.\n\n100% raw, unheated, and unpasteurized to preserve active bee enzymes, pollen, and natural antioxidants. Zero added sugar or corn syrup. A natural gourmet sweetener for herbal teas, desserts, and daily wellness.`,
-    retailPrice: 680,
-    b2bPricePerKg: 580,
-    mrp: 799,
+    retailPrice: 780,
+    b2bPricePerKg: 1100,
+    mrp: 920,
     variants: [
-      { sizeG: 250, label: '250g Jar', retailPrice: 380, mrp: 449 },
-      { sizeG: 500, label: '500g Jar', retailPrice: 680, mrp: 799 },
-      { sizeG: 1000, label: '1 kg Jar', retailPrice: 1250, mrp: 1499 },
+      { sizeG: 250, label: '250g Jar', retailPrice: 420, mrp: 499 },
+      { sizeG: 500, label: '500g Jar', retailPrice: 780, mrp: 920 },
+      { sizeG: 1000, label: '1 kg Jar', retailPrice: 1450, mrp: 1750 },
     ],
     b2bTiers: buildTiers(580),
     stockStatus: 'IN_STOCK',
@@ -930,13 +930,13 @@ export const PRODUCTS: Product[] = [
     grade: 'Wild Forest Raw Grade A',
     shortDesc: 'Dark amber artisanal honey gathered from wild Sidr (Jujube) trees in the Himalayan foothills — rich, butterscotch notes and high medicinal value.',
     longDesc: `Harvested by traditional beekeepers from wild Sidr tree blossoms flourishing in the untouched foothills of Kashmir. Sidr honey is celebrated in classical healing traditions for its antimicrobial potency, deep caramel undertone, and rich mineral profile.\n\nUnfiltered, thick, and raw. Excellent for soothing throat irritations, strengthening digestion, and serving as a luxury accompaniment to aged cheeses and dry fruit platters.`,
-    retailPrice: 850,
-    b2bPricePerKg: 720,
-    mrp: 999,
+    retailPrice: 1450,
+    b2bPricePerKg: 2200,
+    mrp: 1699,
     variants: [
-      { sizeG: 250, label: '250g Jar', retailPrice: 480, mrp: 550 },
-      { sizeG: 500, label: '500g Jar', retailPrice: 850, mrp: 999 },
-      { sizeG: 1000, label: '1 kg Jar', retailPrice: 1550, mrp: 1850 },
+      { sizeG: 250, label: '250g Jar', retailPrice: 750, mrp: 899 },
+      { sizeG: 500, label: '500g Jar', retailPrice: 1450, mrp: 1699 },
+      { sizeG: 1000, label: '1 kg Jar', retailPrice: 2800, mrp: 3299 },
     ],
     b2bTiers: buildTiers(720),
     stockStatus: 'IN_STOCK',
@@ -960,11 +960,11 @@ export const PRODUCTS: Product[] = [
     grade: 'Gourmet Roasted Jumbo',
     shortDesc: 'Slow-roasted jumbo Mithila makhana tossed in pure Vedic A2 cow ghee and stone-ground Himalayan pink rock salt.',
     longDesc: `Handpicked 6+ Suta jumbo fox nuts from Mithila, slowly roasted in iron kadhais with pure A2 cow ghee and seasoned with natural pink rock salt. Super crunchy, lightly buttery, and completely gluten-free.\n\nAn ideal low-glycemic, gut-friendly snack for diabetic diet management, midday cravings, and children's school tiffins. Contains zero palm oil, zero maltodextrin, and zero artificial flavor enhancers.`,
-    retailPrice: 580,
-    b2bPricePerKg: 510,
-    mrp: 680,
-    variants: buildVariants(580),
-    b2bTiers: buildTiers(510),
+    retailPrice: 2650,
+    b2bPricePerKg: 2320,
+    mrp: 3150,
+    variants: buildVariants(2650),
+    b2bTiers: buildTiers(2320),
     stockStatus: 'IN_STOCK',
     image: '/images/makhana-pouch-250g.jpg',
     isFeatured: true,
@@ -1012,59 +1012,77 @@ export function formatPrice(amount: number): string {
 }
 
 /**
- * Returns a dynamic 6 to 10 image high-definition gallery for any product.
- * Covers: Packshot, raw kernel macro, culinary bowl, harvest origin,
- * artisan sorting hands, terroir landscape, and luxury gift presentation.
+ * Returns a clean, high-definition gallery containing ONLY images strictly relevant to the product.
+ * Eliminates out-of-context craft photos, embroidery shots, travel banners, or unrelated gift boxes.
  */
 export function getProductDynamicGallery(product: Product): string[] {
+  if (product.images && product.images.length > 0) {
+    return Array.from(new Set(product.images))
+  }
+
   const list: string[] = []
+
   // 1. Primary packshot
   if (product.image) list.push(product.image)
 
-  // 2. Raw kernel / spice macro reveal
+  // 2. Secondary macro/harvest image from sensory if specified
   if (product.sensory?.secondaryImage) {
     list.push(product.sensory.secondaryImage)
-  } else if (product.categorySlug === 'almonds') {
-    list.push('/images/mamra-kernels-macro.jpg')
-  } else if (product.categorySlug === 'saffron') {
+  }
+
+  const cat = (product.categorySlug || '').toLowerCase()
+  const slug = (product.slug || '').toLowerCase()
+
+  // 3. Category-specific authentic images ONLY
+  if (cat === 'saffron') {
     list.push('/images/saffron-threads-macro.jpg')
-  } else {
+    if (slug.includes('iran')) {
+      list.push('/images/iran-saffron-jar-5g.jpg')
+    } else {
+      list.push('/images/saffron-jar-5g.jpg')
+    }
+  } else if (cat === 'honey') {
+    list.push('/images/kashmir-honey-jar-500g.jpg')
+  } else if (cat === 'almonds') {
+    if (slug.includes('mamra')) {
+      list.push('/images/mamra-kernels-macro.jpg')
+      list.push('/images/kashmir-kagzi-badam-250g.jpg')
+    } else {
+      list.push('/images/mamra-kernels-macro.jpg')
+      list.push('/images/hero-lifestyle-bowl.png')
+    }
+  } else if (cat === 'walnuts') {
     list.push('/images/cashews-walnuts-macro.jpg')
-  }
-
-  // 3. Gourmet serving bowl
-  list.push('/images/hero-lifestyle-bowl.png')
-
-  // 4. In-shell / alternative harvest view
-  if (product.categorySlug === 'almonds') {
-    list.push('/images/kashmir-kagzi-badam-250g.jpg')
-  } else if (product.categorySlug === 'walnuts') {
     list.push('/images/kashmir-kagzi-akhrot-250g.jpg')
-  } else if (product.categorySlug === 'saffron') {
-    list.push('/images/iran-saffron-jar-5g.jpg')
-  } else {
+  } else if (cat === 'cashews') {
+    list.push('/images/cashews-walnuts-macro.jpg')
+  } else if (cat === 'makhana') {
+    list.push('/images/makhana-pouch-250g.jpg')
+  } else if (cat === 'pistachios') {
+    list.push('/images/pistachios-pouch-250g.jpg')
+  } else if (cat === 'figs' || cat === 'anjeer') {
+    list.push('/images/anjeer-pouch-250g.jpg')
+  } else if (cat === 'dates') {
+    list.push('/images/dates-box-250g.jpg')
+  } else if (cat === 'raisins') {
+    list.push('/images/raisins-pouch-250g.jpg')
+  } else if (cat === 'seeds') {
+    if (slug.includes('chia')) {
+      list.push('/images/chia-seeds-pouch-250g.jpg')
+    } else if (slug.includes('pumpkin')) {
+      list.push('/images/pumpkin-seeds-pouch-250g.jpg')
+    } else {
+      list.push('/images/seeds-mix-pouch-250g.jpg')
+    }
+  } else if (cat === 'gifting' || slug.includes('box') || slug.includes('hamper')) {
+    list.push('/images/luxury-hamper-jars.png')
+    list.push('/images/luxury-teal-gift-box.jpg')
     list.push('/images/crystal-gold-nut-bowls.jpg')
+    list.push('/images/long-festive-gift-box.jpg')
   }
 
-  // 5. Artisan hand-sorting & quality grading
-  list.push('/images/crafts-artisan-hands.jpg')
-
-  // 6. High-altitude terroir landscape
-  list.push('/images/crafts-kashmir-landscape.jpg')
-
-  // 7. Handcrafted presentation tray
-  list.push('/images/dark-wood-gourmet-tray.jpg')
-
-  // 8. Luxury gift box / unboxing packaging
-  list.push('/images/luxury-teal-gift-box.jpg')
-
-  // 9. Royal heritage casket presentation
-  list.push('/images/royal-tradition-box.jpg')
-
-  // 10. Connoisseur gift selection
-  list.push('/images/long-festive-gift-box.jpg')
-
-  // Deduplicate while preserving order
+  // Return deduplicated list
   return Array.from(new Set(list))
 }
+
 

@@ -6,7 +6,7 @@ const CATEGORIES = [
     name: 'Almonds',
     slug: 'almonds',
     origin: 'California & Kashmir',
-    image: '/images/almonds-pouch-250g.png',
+    image: '/images/almonds-pouch-250g.jpg',
   },
   {
     name: 'Cashews',

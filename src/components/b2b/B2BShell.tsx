@@ -80,7 +80,7 @@ export default function B2BShell({
               <Link href={getLinkHref('/')} className="flex items-center gap-3 group">
                 <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-[#17233B] p-1 border border-[#C9A45C]/30 shadow-sm flex-shrink-0">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/logo.jpg"
                     alt="Nuty Tales"
                     fill
                     className="object-contain p-1"

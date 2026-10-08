@@ -206,7 +206,7 @@ export function getCrossVerticalRecommendations(
         href: `/shop/${saffron.slug}`,
         priceINR: saffron.retailPrice,
         currency: 'INR',
-        image: saffron.image || saffron.images?.[0] || '/images/hero-dry-fruits.png',
+        image: saffron.image || saffron.images?.[0] || '/images/hero-banner.png',
         badges: ['GI Mongra', 'NABL Lab Tested'],
         crossSellReason: 'Authentic Himalayan harvest shipped direct to your home doorstep',
       })
@@ -340,7 +340,7 @@ export function getCrossVerticalRecommendations(
         href: '/b2b',
         priceINR: commodity.tierPrices.tier2.pricePerKg,
         currency: 'INR',
-        image: '/images/products/almonds-california.jpg',
+        image: '/images/almonds-pouch-250g.jpg',
         badges: ['Factory Direct', 'Tiered Rates'],
         crossSellReason: 'Buying in massive scale? Save significantly with container B2B pricing',
       })
@@ -397,7 +397,7 @@ export function getCrossVerticalRecommendations(
         href: `/shop/${p1.slug}`,
         priceINR: p1.retailPrice,
         currency: 'INR',
-        image: p1.image || p1.images?.[0] || '/images/hero-dry-fruits.png',
+        image: p1.image || p1.images?.[0] || '/images/hero-banner.png',
         badges: [p1.grade || 'Fresh Harvest', 'FSSAI Certified'],
       })
     }
@@ -548,7 +548,7 @@ export function getAllMarketplaceItems(): MarketplaceItem[] {
       href: `/shop/${p.slug}`,
       priceINR: p.retailPrice,
       currency: 'INR',
-      image: p.image || p.images?.[0] || '/images/hero-dry-fruits.png',
+      image: p.image || p.images?.[0] || '/images/hero-banner.png',
       badges: [p.grade || 'Direct Farm', 'FSSAI Certified'],
       crossSellReason: 'Direct harvest dry fruit and gourmet gifting',
     })
@@ -623,7 +623,7 @@ export function getAllMarketplaceItems(): MarketplaceItem[] {
       href: '/b2b',
       priceINR: b.tierPrices.tier1.pricePerKg,
       currency: 'INR',
-      image: '/images/hero-dry-fruits.png',
+      image: '/images/hero-banner.png',
       location: b.origin,
       badges: ['Institutional Grade', 'Export Ready'],
       crossSellReason: 'Direct bulk procurement from grower aggregators',

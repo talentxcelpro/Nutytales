@@ -142,7 +142,7 @@ export function EditorialDestinationsSection() {
     {
       title: 'Srinagar & The Dal Waters',
       tagline: 'Waterfront royal cedar houseboats, floating flower markets & artisan guilds',
-      image: '/images/stays-patna-exterior.jpg',
+      image: '/images/stays/cedar-houseboat.jpg',
       doors: ['Heritage Stays', 'Sozni Crafts', 'Lake Charters'],
       href: '/travel',
     },
@@ -163,7 +163,7 @@ export function EditorialDestinationsSection() {
     {
       title: 'Pampore Karewa Highlands',
       tagline: 'The world capital of certified GI Mongra Saffron & autumn violet blooms',
-      image: '/images/products/saffron-field-harvest.jpg',
+      image: '/images/saffron-threads-macro.jpg',
       doors: ['Saffron Vaults', 'Grower Collectives', 'Bulk Sourcing'],
       href: '/b2b',
     },
@@ -244,7 +244,7 @@ export function CraftAndProvenanceSection() {
       craft: 'The Saffron Vaults of Pampore',
       time: 'Autumn Harvest (October - November)',
       desc: 'Single-origin Mongra stigmas dried within hours of picking on the Karewa plateau, delivering certified crocin potency above 240.',
-      image: '/images/products/saffron-box-mongra.jpg',
+      image: '/images/saffron-jar-5g.jpg',
       badge: 'Kashmir Saffron GI-535',
       href: '/shop',
     },

@@ -216,9 +216,9 @@ assert(breadcrumbSchema.itemListElement.length === 2, 'BreadcrumbList contains e
 const productSchema = buildProductSchema({
   name: 'California Almonds 1kg',
   description: 'Premium quality nonpareil almonds',
-  image: 'https://nutytales.com/images/almonds.jpg',
+  image: 'https://nutytales.com/images/almonds-pouch-250g.jpg',
   priceCurrency: 'INR',
-  price: 850,
+  price: 1250,
   availability: 'InStock',
   url: 'https://nutytales.com/shop/california-almonds',
   reviewCount: 42,

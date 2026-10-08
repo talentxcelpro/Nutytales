@@ -176,7 +176,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Fasting & Sattvic Nutrition', 'Spiritual Feasts', 'Pure Harvest Sourcing'],
     suggestedGifts: ['Jumbo Phool Makhana 6+ Sutra', 'Californian Almonds', 'Organic Dates'],
     relatedVerticals: ['gifting', 'business'],
-    heroImage: '/images/makhana-harvest.jpg',
+    heroImage: '/images/makhana-pouch-250g.jpg',
   },
   {
     id: 'raksha-bandhan',
@@ -245,7 +245,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Heavy Wool Pherans', 'Handwoven Kani Shawls', 'Needlework Sozni Velvet Coats', 'Walnut Wood Furniture'],
     culinaryHighlights: ['Fresh New-Crop Kashmiri Walnuts', 'Pampore Mongra Saffron', 'Mamra Almonds', 'Spiced Kehwa'],
     travelHighlights: ['Gulmarg Ski Slopes', 'Pahalgam Winter Pine Forest', 'Houseboat Cedar Fireside'],
-    heroImage: '/images/winter-crafts-hero.jpg',
+    heroImage: '/images/crafts-winter-hero.jpg',
   },
   {
     id: 'spring',
@@ -258,7 +258,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Pastel Hand-Dyed Pashmina Stoles', 'Silk-Blend Scarves', 'Papier-Mâché Floral Eggs & Boxes'],
     culinaryHighlights: ['Raw Acacia Spring Honey', 'Crisp Sun-Dried Figs', 'Jumbo Cashews'],
     travelHighlights: ['Badamwari Almond Blossom Walk', 'Srinagar Tulip Festival', 'Dachigam Wildlife Awakening'],
-    heroImage: '/images/kashmir-spring.jpg',
+    heroImage: '/images/crafts-kashmir-landscape.jpg',
   },
   {
     id: 'summer',
@@ -271,7 +271,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Breathable Handloom Linen-Cashmere Blends', 'Cotton Ari Embroidery Robes', 'Walnut Carved Salad Bowls'],
     culinaryHighlights: ['Phool Makhana Roasted Snacks', 'Hydrating Raw Seeds', 'Sun-Dried Iranian Apricots'],
     travelHighlights: ['Kashmir Great Lakes Alpine Trek', 'Sonamarg Thajiwas Glacier Walk', 'Dal Lake Sunset Shikara'],
-    heroImage: '/images/summer-retreat.jpg',
+    heroImage: '/images/stays/kashmir-orchard-estate.jpg',
   },
   {
     id: 'monsoon',
@@ -297,7 +297,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Harvest Celebration Keepsakes', 'Artisan Walnut Wood Trays'],
     culinaryHighlights: ['New-Crop Wet In-Shell Walnuts', 'Fresh GI Saffron Stigmas', 'Jumbo Grade 6 Makhana'],
     travelHighlights: ['Pampore Purple Saffron Field Walking', 'Walnut Orchard Harvest Trails'],
-    heroImage: '/images/makhana-harvest.jpg',
+    heroImage: '/images/makhana-pouch-250g.jpg',
   },
 ]
 
@@ -391,7 +391,7 @@ export const LIFE_EVENTS: LifeEventEntity[] = [
       'Exclusive buyout of private walnut orchard villas, alpine ski chalets, and boardroom retreats combined with curated high-altitude expeditions.',
     milestones: ['Leadership Strategy Sessions', 'Team Adventure Challenges', 'Private Chef Dinners', 'Fireside Keynotes'],
     connectedVerticals: ['stays', 'travel', 'business', 'gifting'],
-    heroImage: '/images/summer-retreat.jpg',
+    heroImage: '/images/stays/kashmir-orchard-estate.jpg',
   },
   {
     id: 'milestone-celebrations',
@@ -401,7 +401,7 @@ export const LIFE_EVENTS: LifeEventEntity[] = [
       'Private family gatherings, 50th jubilee celebrations, and golden anniversaries hosted across historic houseboats and private mountain estates.',
     milestones: ['Welcome Shikara Reception', 'Fireside Banquet', 'Artisan Trousseau Presentation'],
     connectedVerticals: ['stays', 'weddings', 'crafts', 'gifting'],
-    heroImage: '/images/winter-crafts-hero.jpg',
+    heroImage: '/images/crafts-winter-hero.jpg',
   },
 ]
 
@@ -415,7 +415,7 @@ export const TRAVEL_SEASONS: TravelSeasonEntity[] = [
     bestMonths: 'December – March',
     experiences: ['Gulmarg Heli-Skiing', 'Phase 2 Gondola Summit', 'Frozen Drung Waterfall', 'Heated Cedar Houseboat Stay'],
     destinations: ['Gulmarg', 'Srinagar', 'Pahalgam Betaab Valley', 'Drung'],
-    heroImage: '/images/winter-crafts-hero.jpg',
+    heroImage: '/images/crafts-winter-hero.jpg',
   },
   {
     id: 'spring-blossom',
@@ -425,7 +425,7 @@ export const TRAVEL_SEASONS: TravelSeasonEntity[] = [
     bestMonths: 'March – May',
     experiences: ['Tulip Garden Walks', 'Badamwari Blossom Picnic', 'Dal Lake Lotus Waterways', 'Shikara Sunset High Tea'],
     destinations: ['Srinagar', 'Badamwari', 'Nishat & Shalimar Gardens'],
-    heroImage: '/images/kashmir-spring.jpg',
+    heroImage: '/images/crafts-kashmir-landscape.jpg',
   },
   {
     id: 'alpine-summer',
@@ -435,7 +435,7 @@ export const TRAVEL_SEASONS: TravelSeasonEntity[] = [
     bestMonths: 'June – August',
     experiences: ['Great Lakes Multi-Day Trek', 'Sonamarg Thajiwas Glacier', 'Pahalgam Lidder River Angling', 'Meadow Camping'],
     destinations: ['Sonamarg', 'Pahalgam', 'Aru Valley', 'Gurez Valley'],
-    heroImage: '/images/summer-retreat.jpg',
+    heroImage: '/images/stays/kashmir-orchard-estate.jpg',
   },
   {
     id: 'golden-autumn',
@@ -445,7 +445,7 @@ export const TRAVEL_SEASONS: TravelSeasonEntity[] = [
     bestMonths: 'September – November',
     experiences: ['Chinar Foliage Walking Trails', 'Pampore Saffron Harvesting', 'Walnut Harvest Orchards', 'Heritage Artisan Guilds'],
     destinations: ['Srinagar', 'Pampore', 'Harwan', 'Dachigam'],
-    heroImage: '/images/makhana-harvest.jpg',
+    heroImage: '/images/makhana-pouch-250g.jpg',
   },
 ]
 

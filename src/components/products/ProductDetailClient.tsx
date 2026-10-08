@@ -195,7 +195,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     <div className="space-y-12">
       {/* ── Product Header Grid ────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* Left: Product Images (7 cols on large) */}
+        {/* Left: Product Images (6 cols on large) */}
         <div className="lg:col-span-6 space-y-4">
           {/* Main Stage Image with Interactive HD Magnifier */}
           <div
@@ -203,7 +203,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             onMouseEnter={() => setIsZoomed(true)}
             onMouseLeave={() => setIsZoomed(false)}
             onMouseMove={handleMouseMove}
-            className="relative aspect-square rounded-3xl overflow-hidden bg-[#FAF6EE] border border-stone-200/80 shadow-sm flex items-center justify-center cursor-crosshair group"
+            className="relative aspect-square rounded-3xl overflow-hidden bg-[#FAF8F5] border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-center cursor-crosshair group"
           >
             {activeImage ? (
               <Image
@@ -217,7 +217,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   isZoomed ? 'scale-125' : 'scale-100'
                 } ${
                   activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box')
-                    ? 'object-contain p-6'
+                    ? 'object-contain p-8'
                     : 'object-cover'
                 }`}
                 style={
@@ -237,41 +237,41 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
             )}
 
-            {/* Badges Overlay */}
-            <div className="absolute top-4 left-4 flex flex-col gap-1.5 pointer-events-none z-10">
-              <span className="px-3 py-1 rounded-full bg-[#176B68] text-white text-[11px] font-bold shadow-sm">
+            {/* Badges Overlay - Apple-style Frosted Glass Pills */}
+            <div className="absolute top-4 left-4 flex flex-col gap-2 pointer-events-none z-10">
+              <span className="px-3.5 py-1.5 rounded-full bg-[#17233B]/90 backdrop-blur-md text-white text-[11px] font-semibold tracking-wide shadow-xs">
                 {product.origin}
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/95 text-stone-800 text-[11px] font-bold border border-stone-200 shadow-sm">
+              <span className="px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#17233B] text-[11px] font-semibold border border-stone-200/80 shadow-xs">
                 Grade: {product.grade}
               </span>
             </div>
 
             <div className="absolute top-4 right-4 pointer-events-none z-10">
-              <span className="px-2.5 py-1 rounded-full bg-[#17233B]/90 text-white text-[10px] font-bold shadow-sm">
+              <span className="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#17233B] text-[11px] font-semibold border border-stone-200/80 shadow-xs">
                 ★ 4.9 (148 Reviews)
               </span>
             </div>
 
             {/* Zoom hint badge */}
-            <div className="absolute bottom-4 left-4 pointer-events-none opacity-70 group-hover:opacity-0 transition-opacity z-10">
-              <span className="bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-[10px] text-stone-600 font-semibold shadow-xs">
+            <div className="absolute bottom-4 left-4 pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity z-10">
+              <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] text-stone-700 font-medium border border-stone-200/60 shadow-xs">
                 🔍 Hover to zoom in HD
               </span>
             </div>
           </div>
 
-          {/* Dynamic 8-10 Multi-angle HD Thumbnails Grid */}
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-2.5">
+          {/* Clean Curated Thumbnails Row (Strictly Relevant Product Angles Only) */}
+          <div className="flex items-center gap-3 overflow-x-auto py-1 scrollbar-none">
             {gallery.map((img, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setActiveImage(img)}
-                className={`relative aspect-square rounded-2xl overflow-hidden bg-[#FAF6EE] border-2 transition-all p-1 flex items-center justify-center ${
+                className={`relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden bg-[#FAF8F5] border-2 transition-all p-1.5 flex-shrink-0 flex items-center justify-center ${
                   activeImage === img
-                    ? 'border-[#176B68] ring-2 ring-[#176B68]/30 scale-102 shadow-sm'
-                    : 'border-stone-200 opacity-75 hover:opacity-100 hover:border-stone-400'
+                    ? 'border-[#17233B] ring-2 ring-[#17233B]/20 scale-102 shadow-xs'
+                    : 'border-stone-200/80 opacity-70 hover:opacity-100 hover:border-stone-400'
                 }`}
                 aria-label={`View angle ${idx + 1}`}
               >
@@ -280,7 +280,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   alt={`${product.name} angle ${idx + 1}`}
                   fill
                   quality={90}
-                  sizes="80px"
+                  sizes="90px"
                   className={
                     img.includes('pouch') || img.includes('jar') || img.includes('box')
                       ? 'object-contain p-1'
@@ -295,24 +295,24 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <button
             type="button"
             onClick={() => setViewer3DOpen(true)}
-            className="w-full py-3.5 px-4 rounded-2xl bg-[#17233B] hover:bg-[#176B68] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all group active:scale-[0.99]"
+            className="w-full py-3.5 px-5 rounded-full bg-stone-100 hover:bg-stone-200/80 text-[#17233B] text-xs font-semibold tracking-wide flex items-center justify-center gap-2 border border-stone-200/80 transition-all group active:scale-[0.99] shadow-2xs"
           >
             <span className="w-2 h-2 rounded-full bg-[#C9A45C] group-hover:scale-125 transition-transform" />
             <span>Inspect Packaging in 3D (360° PBR Model)</span>
           </button>
 
           {/* Origin & Trust Strip */}
-          <div className="bg-white p-5 rounded-3xl border border-stone-200/90 shadow-xs grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200/70 shadow-2xs grid grid-cols-3 gap-2 text-center text-xs">
             <div className="p-2 border-r border-stone-100">
-              <span className="text-[10px] uppercase font-bold text-stone-400 block">FSSAI License</span>
+              <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider">FSSAI License</span>
               <span className="text-emerald-800 font-bold text-xs mt-0.5 block">{FSSAI_NUMBER}</span>
             </div>
             <div className="p-2 border-r border-stone-100">
-              <span className="text-[10px] uppercase font-bold text-stone-400 block">Shelf Life</span>
+              <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider">Shelf Life</span>
               <span className="text-stone-800 font-bold text-xs mt-0.5 block">{product.shelfLifeMonths} Months</span>
             </div>
             <div className="p-2">
-              <span className="text-[10px] uppercase font-bold text-stone-400 block">Preservatives</span>
+              <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider">Preservatives</span>
               <span className="text-stone-800 font-bold text-xs mt-0.5 block">0% (Pure Harvest)</span>
             </div>
           </div>
@@ -320,40 +320,40 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
         {/* Right: Dual Commerce Engine (6 cols) */}
         <div className="lg:col-span-6 space-y-6">
-          <div>
+          <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#176B68]">
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#176B68]">
                 {product.category}
               </span>
               <span className="text-stone-300">•</span>
               <span className="text-xs text-stone-500 font-medium">{product.origin}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#17233B] mt-1 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#17233B] tracking-tight leading-tight">
               {product.name}
             </h1>
-            <p className="text-xs sm:text-sm text-[#17233B]/70 mt-2 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#17233B]/70 leading-relaxed font-light">
               {product.shortDesc}
             </p>
           </div>
 
-          {/* Mode Switcher: Retail vs Wholesale */}
-          <div className="p-1.5 bg-[#17233B]/5 rounded-2xl flex gap-1 border border-[#17233B]/10">
+          {/* Mode Switcher: Apple Segmented Pill */}
+          <div className="p-1 bg-stone-100/80 rounded-full flex gap-1 border border-stone-200/60">
             <button
               onClick={() => setMode('retail')}
-              className={`flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              className={`flex-1 py-2.5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all ${
                 mode === 'retail'
-                  ? 'bg-white text-[#17233B] shadow-sm'
-                  : 'text-[#17233B]/60 hover:text-[#17233B]'
+                  ? 'bg-white text-[#17233B] shadow-xs'
+                  : 'text-stone-500 hover:text-[#17233B]'
               }`}
             >
               🛒 Retail Packs (250g – 1 kg)
             </button>
             <button
               onClick={() => setMode('wholesale')}
-              className={`flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+              className={`flex-1 py-2.5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all ${
                 mode === 'wholesale'
-                  ? 'bg-[#176B68] text-white shadow-sm'
-                  : 'text-[#17233B]/60 hover:text-[#17233B]'
+                  ? 'bg-[#17233B] text-white shadow-xs'
+                  : 'text-stone-500 hover:text-[#17233B]'
               }`}
             >
               📦 Wholesale Sacks (5 kg – 100 kg+)
@@ -361,55 +361,55 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           </div>
 
           {/* Pricing & Selection Box */}
-          <div className="bg-white p-6 rounded-3xl border border-[#17233B]/10 shadow-sm space-y-5">
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
             {/* Purchase Model: One-Time vs Subscribe & Save (10% Off) */}
             {mode === 'retail' && (
               <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-2 p-1 bg-stone-100/90 rounded-2xl border border-stone-200">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setPurchaseType('onetime')}
-                    className={`p-3 rounded-xl text-left transition-all ${
+                    className={`p-4 rounded-2xl text-left transition-all border ${
                       purchaseType === 'onetime'
-                        ? 'bg-white shadow-xs border border-stone-200/80'
-                        : 'hover:bg-white/50'
+                        ? 'bg-white border-[#17233B] ring-1 ring-[#17233B] shadow-xs'
+                        : 'bg-stone-50/60 border-stone-200/80 hover:bg-white'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-[#17233B]">One-Time Order</span>
-                      <span className="w-3.5 h-3.5 rounded-full border border-stone-400 flex items-center justify-center">
-                        {purchaseType === 'onetime' && <span className="w-2 h-2 rounded-full bg-[#17233B]" />}
+                      <span className="w-4 h-4 rounded-full border border-stone-400 flex items-center justify-center">
+                        {purchaseType === 'onetime' && <span className="w-2.5 h-2.5 rounded-full bg-[#17233B]" />}
                       </span>
                     </div>
-                    <span className="text-[11px] text-stone-500 font-medium mt-0.5 block">Standard single dispatch</span>
+                    <span className="text-[11px] text-stone-500 font-medium mt-1 block">Standard single dispatch</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setPurchaseType('subscribe')}
-                    className={`p-3 rounded-xl text-left transition-all relative overflow-hidden ${
+                    className={`p-4 rounded-2xl text-left transition-all relative overflow-hidden border ${
                       purchaseType === 'subscribe'
-                        ? 'bg-emerald-50/90 border border-emerald-300 shadow-xs'
-                        : 'hover:bg-emerald-50/40'
+                        ? 'bg-emerald-50/70 border-emerald-600 ring-1 ring-emerald-600 shadow-xs'
+                        : 'bg-stone-50/60 border-stone-200/80 hover:bg-emerald-50/30'
                     }`}
                   >
-                    <span className="absolute top-0 right-0 bg-emerald-600 text-white text-[8px] font-black uppercase px-2 py-0.5 rounded-bl-lg tracking-wider">
+                    <span className="absolute top-2.5 right-2.5 bg-emerald-700 text-white text-[9px] font-bold px-2 py-0.5 rounded-full tracking-wide">
                       SAVE 10%
                     </span>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-emerald-950">Subscribe &amp; Save</span>
-                      <span className="w-3.5 h-3.5 rounded-full border border-emerald-500 flex items-center justify-center">
-                        {purchaseType === 'subscribe' && <span className="w-2 h-2 rounded-full bg-emerald-600" />}
+                      <span className="w-4 h-4 rounded-full border border-emerald-500 flex items-center justify-center">
+                        {purchaseType === 'subscribe' && <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />}
                       </span>
                     </div>
-                    <span className="text-[11px] text-emerald-700 font-semibold mt-0.5 block">
+                    <span className="text-[11px] text-emerald-700 font-semibold mt-1 block">
                       Auto-replenish · Pause anytime
                     </span>
                   </button>
                 </div>
 
                 {purchaseType === 'subscribe' && (
-                  <div className="p-3 bg-emerald-50/80 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                  <div className="p-3.5 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                     <span className="text-emerald-900 font-medium">Auto-delivery frequency:</span>
                     <div className="flex gap-1.5">
                       {[30, 60, 90].map((days) => (
@@ -417,7 +417,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                           key={days}
                           type="button"
                           onClick={() => setSubscribeInterval(days)}
-                          className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                          className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
                             subscribeInterval === days
                               ? 'bg-emerald-700 text-white shadow-xs'
                               : 'bg-white text-emerald-900 border border-emerald-200 hover:bg-emerald-100'
@@ -436,10 +436,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               /* Retail Pack Size Selector */
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-[#17233B]/80">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#17233B]/80">
                     Select Pack Size:
                   </label>
-                  <span className="text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  <span className="text-[11px] text-emerald-800 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     Vacuum Flushed Fresh Batch
                   </span>
                 </div>
@@ -455,23 +455,23 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                         key={v.sizeG}
                         type="button"
                         onClick={() => setSelectedVariantIndex(idx)}
-                        className={`p-3.5 rounded-2xl border text-center transition-all relative ${
+                        className={`p-4 rounded-2xl border text-center transition-all relative ${
                           isSelected
-                            ? 'border-[#176B68] bg-[#176B68]/5 ring-2 ring-[#176B68] shadow-xs'
-                            : 'border-stone-200 hover:border-[#176B68]/40 bg-white'
+                            ? 'border-[#17233B] bg-[#17233B]/[0.03] ring-1 ring-[#17233B] shadow-xs'
+                            : 'border-stone-200/80 hover:border-stone-300 bg-white'
                         }`}
                       >
                         {idx === 2 && (
-                          <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#C9A45C] text-[#17233B] text-[8px] font-black uppercase px-2 py-0.2 rounded-full tracking-wider shadow-xs">
+                          <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#C9A45C] text-[#17233B] text-[8px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider shadow-xs">
                             BEST VALUE
                           </span>
                         )}
-                        <span className="block text-base font-bold text-[#17233B]">{v.label}</span>
-                        <span className="block text-xs font-extrabold text-[#176B68] mt-0.5">
+                        <span className="block text-sm font-bold text-[#17233B]">{v.label}</span>
+                        <span className="block text-sm font-extrabold text-[#17233B] mt-0.5">
                           {formatPrice(variantUnitPrice)}
                         </span>
                         {v.mrp && (
-                          <span className="text-[10px] text-stone-400 line-through block">
+                          <span className="text-[10px] text-stone-400 line-through block mt-0.5">
                             MRP {formatPrice(v.mrp)}
                           </span>
                         )}
@@ -484,10 +484,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               /* Wholesale Ladder */
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-[#17233B]/80">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#17233B]/80">
                     Select Quantity Tier:
                   </label>
-                  <span className="text-[10px] font-bold text-[#176B68] bg-[#176B68]/10 px-2 py-0.5 rounded border border-[#176B68]/20">
+                  <span className="text-[10px] font-bold text-[#176B68] bg-[#176B68]/10 px-2.5 py-0.5 rounded-full border border-[#176B68]/20">
                     GST Invoice Included
                   </span>
                 </div>
@@ -498,9 +498,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       key={idx}
                       type="button"
                       onClick={() => setSelectedTierIndex(idx)}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
+                      className={`p-3.5 rounded-2xl border text-center transition-all ${
                         selectedTierIndex === idx
-                          ? 'border-[#176B68] bg-[#176B68]/10 ring-2 ring-[#176B68]'
+                          ? 'border-[#17233B] bg-[#17233B]/[0.03] ring-1 ring-[#17233B]'
                           : 'border-stone-200 hover:border-stone-300 bg-white'
                       }`}
                     >
@@ -517,7 +517,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   ))}
                 </div>
 
-                <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 text-xs text-[#17233B]/80 flex items-center justify-between">
+                <div className="p-3.5 bg-stone-50 rounded-2xl border border-stone-200/70 text-xs text-[#17233B]/80 flex items-center justify-between">
                   <span>Need 100 kg or full pallet contracts?</span>
                   <Link
                     href={`/bulk-quote?product=${encodeURIComponent(product.name)}`}
@@ -530,11 +530,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             )}
 
             {/* Global Express Air Guarantee Strip */}
-            <div className="p-3 bg-stone-50 rounded-2xl border border-stone-200/80 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="text-base">✈️</span>
+            <div className="p-3.5 bg-stone-50/80 rounded-2xl border border-stone-200/60 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="text-lg">✈️</span>
                 <div>
-                  <span className="font-bold text-[#17233B]">
+                  <span className="font-semibold text-[#17233B]">
                     Direct Express to {countryConfig.countryName}
                   </span>
                   <span className="text-[11px] text-stone-500 block">
@@ -545,7 +545,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <button
                 type="button"
                 onClick={() => setShowCOAModal(true)}
-                className="text-[11px] font-bold text-[#176B68] hover:underline whitespace-nowrap bg-white px-2.5 py-1 rounded-lg border border-stone-200"
+                className="text-[11px] font-semibold text-[#17233B] hover:text-[#176B68] whitespace-nowrap bg-white px-3 py-1.5 rounded-full border border-stone-200/80 shadow-2xs transition-all"
               >
                 Inspect COA 📜
               </button>
@@ -554,22 +554,22 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* Quantity Stepper & Price Calculation */}
             <div className="pt-3 border-t border-stone-100 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-bold text-[#17233B]/80">Quantity:</span>
-                <div className="flex items-center border border-stone-300 rounded-xl overflow-hidden bg-stone-50">
+                <span className="text-xs font-semibold text-[#17233B]/80">Quantity:</span>
+                <div className="flex items-center border border-stone-200 rounded-full overflow-hidden bg-white shadow-2xs">
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-8 h-9 flex items-center justify-center font-bold text-stone-600 hover:bg-white transition-colors"
+                    className="w-9 h-10 flex items-center justify-center font-bold text-stone-500 hover:bg-stone-50 transition-colors"
                   >
                     −
                   </button>
-                  <span className="w-8 text-center text-sm font-bold bg-white text-[#17233B]">
+                  <span className="w-8 text-center text-sm font-semibold text-[#17233B]">
                     {quantity}
                   </span>
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="w-8 h-9 flex items-center justify-center font-bold text-stone-600 hover:bg-white transition-colors"
+                    className="w-9 h-10 flex items-center justify-center font-bold text-stone-500 hover:bg-stone-50 transition-colors"
                   >
                     +
                   </button>
@@ -577,10 +577,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
 
               <div className="text-right">
-                <span className="text-[10px] uppercase text-stone-400 font-bold block">
+                <span className="text-[10px] uppercase text-stone-400 font-bold block tracking-wider">
                   Total Payable
                 </span>
-                <span className="text-3xl font-black text-[#17233B]">
+                <span className="text-3xl font-bold tracking-tight text-[#17233B]">
                   {formatPrice(totalPrice)}
                 </span>
                 <span className="text-[10px] text-stone-500 block">
@@ -589,12 +589,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Apple Rounded-Full Shape & Spacing */}
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="flex-1 py-4 bg-[#17233B] hover:bg-[#176B68] text-white font-bold rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider active:scale-[0.98] flex items-center justify-center gap-2"
+                className="flex-1 py-4 bg-[#17233B] hover:bg-black text-white font-semibold rounded-full shadow-sm hover:shadow-md transition-all text-xs uppercase tracking-wider active:scale-[0.98] flex items-center justify-center gap-2"
               >
                 <span>🛒</span>
                 <span>{purchaseType === 'subscribe' ? 'Subscribe Now' : 'Add to Basket'}</span>
@@ -603,7 +603,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="flex-1 py-4 bg-[#C9A45C] hover:bg-[#b08e49] text-[#17233B] font-extrabold rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider text-center active:scale-[0.98]"
+                className="flex-1 py-4 bg-[#C9A45C] hover:bg-[#b08e49] text-[#17233B] font-bold rounded-full shadow-sm hover:shadow-md transition-all text-xs uppercase tracking-wider text-center active:scale-[0.98]"
               >
                 Instant Buy Now →
               </button>
@@ -614,14 +614,14 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3 border-2 border-[#176B68] text-[#176B68] hover:bg-[#176B68]/5 font-bold rounded-2xl text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
+              className="w-full py-3.5 border border-emerald-600/30 text-emerald-800 hover:bg-emerald-50/60 font-semibold rounded-full text-xs tracking-wide text-center transition-all flex items-center justify-center gap-2"
             >
               <span>💬</span>
               <span>Order Directly on WhatsApp Concierge</span>
             </a>
 
             {addedMessage && (
-              <div className="p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs rounded-xl font-semibold text-center animate-fade-in">
+              <div className="p-3.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs rounded-2xl font-semibold text-center animate-fade-in">
                 ✓ {addedMessage}{' '}
                 <button
                   onClick={() => window.dispatchEvent(new Event('nt_open_cart'))}
@@ -634,8 +634,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           </div>
 
           {/* Delivery & Pincode Checker */}
-          <div className="bg-white p-5 rounded-3xl border border-stone-200/90 shadow-xs space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block">
+          <div className="bg-white p-6 rounded-3xl border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.02)] space-y-3">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
               Estimated Delivery &amp; PAN-India Dispatch
             </span>
             <form onSubmit={handleCheckPincode} className="flex gap-2">
@@ -644,53 +644,53 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 placeholder="Enter 6-digit delivery PIN code"
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-stone-300 text-xs text-[#17233B] focus:outline-none focus:ring-2 focus:ring-[#176B68]"
+                className="flex-1 px-4 py-3 rounded-full border border-stone-200 text-xs text-[#17233B] bg-stone-50/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#17233B] transition-all"
               />
               <button
                 type="submit"
                 disabled={pincode.length < 6 || isCheckingPincode}
-                className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] disabled:bg-stone-300 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors"
+                className="px-6 py-3 bg-[#17233B] hover:bg-black disabled:bg-stone-200 text-white rounded-full text-xs font-semibold uppercase tracking-wider transition-all active:scale-95 shadow-2xs"
               >
                 {isCheckingPincode ? 'Checking...' : 'Check'}
               </button>
             </form>
             {deliveryEstimate && (
-              <p className="text-xs text-emerald-800 font-semibold bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
+              <p className="text-xs text-emerald-800 font-semibold bg-emerald-50/80 p-3 rounded-2xl border border-emerald-200">
                 ✓ {deliveryEstimate}
               </p>
             )}
           </div>
 
           {/* Nutritional Facts Table */}
-          <div className="bg-white p-6 rounded-3xl border border-stone-200 space-y-4">
-            <h3 className="font-bold text-sm text-[#17233B] uppercase tracking-wider flex items-center justify-between">
+          <div className="bg-white p-6 rounded-3xl border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.02)] space-y-4">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#17233B] flex items-center justify-between">
               <span>Nutritional Profile</span>
               <span className="text-[10px] font-normal text-stone-400">Per {product.nutrition.servingSize}</span>
             </h3>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs">
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Energy</span>
-                <span className="font-bold text-stone-900">{product.nutrition.calories} kcal</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Energy</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.calories} kcal</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Protein</span>
-                <span className="font-bold text-stone-900">{product.nutrition.protein}g</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Protein</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.protein}g</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Carbs</span>
-                <span className="font-bold text-stone-900">{product.nutrition.carbs}g</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Carbs</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.carbs}g</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Fats</span>
-                <span className="font-bold text-stone-900">{product.nutrition.fat}g</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Fats</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.fat}g</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Fiber</span>
-                <span className="font-bold text-stone-900">{product.nutrition.fiber}g</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Fiber</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.fiber}g</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
-                <span className="text-[10px] text-stone-500 block">Sodium</span>
-                <span className="font-bold text-stone-900">{product.nutrition.sodium ?? 0}mg</span>
+              <div className="p-3 rounded-2xl bg-stone-50/80 border border-stone-100">
+                <span className="text-[10px] text-stone-400 font-medium block">Sodium</span>
+                <span className="font-bold text-stone-900 mt-0.5 block">{product.nutrition.sodium ?? 0}mg</span>
               </div>
             </div>
             <p className="text-[11px] text-stone-500">
