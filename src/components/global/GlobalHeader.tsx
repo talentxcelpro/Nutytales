@@ -258,29 +258,62 @@ export default function GlobalHeader() {
                 <div className="relative group hidden sm:block">
                   <button
                     type="button"
-                    className="flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-[#17233B] text-xs font-semibold"
+                    className="flex items-center gap-2 py-1.5 px-3 rounded-full bg-stone-100 hover:bg-stone-200 text-[#17233B] text-xs font-semibold transition"
                   >
-                    <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px]">
-                      {profile?.name ? profile.name[0].toUpperCase() : '👤'}
+                    {user.photoURL || profile?.avatar_url ? (
+                      <img
+                        src={user.photoURL || profile?.avatar_url || ''}
+                        alt={user.displayName || profile?.name || 'Account'}
+                        className="w-5 h-5 rounded-full object-cover border border-stone-300 shadow-2xs"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px] font-bold">
+                        {(user.displayName || profile?.name || user.email || 'U')[0].toUpperCase()}
+                      </span>
+                    )}
+                    <span className="max-w-[100px] truncate font-bold text-[#17233B]">
+                      {(user.displayName || profile?.name || user.email?.split('@')[0] || 'Account').split(' ')[0]}
                     </span>
-                    <span className="max-w-[70px] truncate">
-                      {profile?.name || 'Account'}
-                    </span>
+                    <span className="text-[9px] text-stone-500">▾</span>
                   </button>
                   <div className="absolute right-0 top-full pt-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
-                    <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-44 space-y-1 text-xs">
-                      <div className="px-2 py-1 border-b border-stone-100">
-                        <p className="font-bold text-[#17233B] truncate">{profile?.name || 'Member'}</p>
-                        <p className="text-[10px] text-stone-400 truncate">{user.email || user.phoneNumber}</p>
+                    <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-56 space-y-2 text-xs">
+                      <div className="px-2 py-2 border-b border-stone-100 flex items-center gap-2.5">
+                        {user.photoURL || profile?.avatar_url ? (
+                          <img
+                            src={user.photoURL || profile?.avatar_url || ''}
+                            alt={user.displayName || profile?.name || 'Account'}
+                            className="w-9 h-9 rounded-full object-cover border border-stone-200 shrink-0 shadow-2xs"
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-9 h-9 rounded-full bg-[#17233B] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                            {(user.displayName || profile?.name || user.email || 'U')[0].toUpperCase()}
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-[#17233B] truncate text-xs">
+                            {user.displayName || profile?.name || 'Nuty Tales Member'}
+                          </p>
+                          <p className="text-[10px] text-stone-500 truncate">
+                            {user.email || user.phoneNumber}
+                          </p>
+                          <span className="inline-block mt-0.5 text-[9px] uppercase font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                            ✓ Verified Member
+                          </span>
+                        </div>
                       </div>
-                      <Link href="/account" className="block px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium">
-                        My Orders &amp; Bookings
+                      <Link href="/b2b/orders" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium text-stone-700 transition">
+                        <span>📦</span>
+                        <span>My Orders &amp; Bookings</span>
                       </Link>
                       <button
                         onClick={signOut}
-                        className="w-full text-left px-2 py-1.5 rounded-lg text-rose-600 hover:bg-rose-50 font-semibold"
+                        className="w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-lg text-rose-600 hover:bg-rose-50 font-semibold transition"
                       >
-                        Sign Out
+                        <span>🚪</span>
+                        <span>Sign Out</span>
                       </button>
                     </div>
                   </div>

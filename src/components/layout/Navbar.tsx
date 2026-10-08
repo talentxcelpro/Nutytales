@@ -191,25 +191,53 @@ export default function Navbar() {
                     type="button"
                     className="flex items-center gap-2 py-1.5 px-3 rounded-full bg-stone-100 hover:bg-stone-200 text-[#17233B] text-[11px] font-bold normal-case transition-colors"
                   >
-                    <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px]">
-                      {profile?.name ? profile.name[0].toUpperCase() : '👤'}
-                    </span>
+                    {user.photoURL || profile?.avatar_url ? (
+                      <img
+                        src={user.photoURL || profile?.avatar_url || ''}
+                        alt={user.displayName || profile?.name || 'Account'}
+                        className="w-5 h-5 rounded-full object-cover border border-stone-300 shadow-2xs"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px]">
+                        {(user.displayName || profile?.name || user.email || 'U')[0].toUpperCase()}
+                      </span>
+                    )}
                     <span className="max-w-[90px] truncate">
-                      {profile?.name || user.displayName || user.phoneNumber || 'Account'}
+                      {(user.displayName || profile?.name || user.phoneNumber || 'Account').split(' ')[0]}
                     </span>
                     <span className="text-[9px]">▾</span>
                   </button>
                   <div className="absolute right-0 top-full pt-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-50">
-                    <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-48 space-y-1 text-xs">
-                      <div className="px-2 py-1 border-b border-stone-100">
-                        <p className="font-bold text-[#17233B] truncate">{profile?.name || 'Nuty Tales Member'}</p>
-                        <p className="text-[10px] text-stone-500 truncate">{user.email || user.phoneNumber}</p>
+                    <div className="bg-white rounded-2xl p-3 shadow-xl border border-stone-200 w-52 space-y-2 text-xs">
+                      <div className="px-2 py-2 border-b border-stone-100 flex items-center gap-2.5">
+                        {user.photoURL || profile?.avatar_url ? (
+                          <img
+                            src={user.photoURL || profile?.avatar_url || ''}
+                            alt={user.displayName || profile?.name || 'Account'}
+                            className="w-8 h-8 rounded-full object-cover border border-stone-200 shrink-0"
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-[#17233B] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                            {(user.displayName || profile?.name || user.email || 'U')[0].toUpperCase()}
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-[#17233B] truncate">{user.displayName || profile?.name || 'Nuty Tales Member'}</p>
+                          <p className="text-[10px] text-stone-500 truncate">{user.email || user.phoneNumber}</p>
+                        </div>
                       </div>
+                      <Link href="/b2b/orders" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium text-stone-700 transition">
+                        <span>📦</span>
+                        <span>My Orders</span>
+                      </Link>
                       <button
                         onClick={signOut}
-                        className="w-full text-left px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50 font-semibold"
+                        className="w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-lg text-red-600 hover:bg-red-50 font-semibold"
                       >
-                        Sign Out
+                        <span>🚪</span>
+                        <span>Sign Out</span>
                       </button>
                     </div>
                   </div>
