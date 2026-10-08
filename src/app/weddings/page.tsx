@@ -133,12 +133,12 @@ export default function WeddingsPage() {
                   Tell us your wedding. <span className="text-[#C9A45C] italic font-serif">We make it happen.</span>
                 </h1>
                 <p className="font-serif italic text-lg sm:text-xl text-[#FAF6EE]/90">
-                  The world&apos;s first full-stack wedding operating system — combining AI blueprinting, verified venues, hotel room blocks, ground travel, royal trousseau &amp; Day-Of execution.
+                  An AI-assisted, technology-powered wedding orchestration platform — combining intelligent blueprinting, verified venues, hotel room blocks, ground travel, royal trousseau &amp; Day-Of execution.
                 </p>
               </div>
 
               <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-xl">
-                Move beyond passive vendor directories. Tell SI your vision, guest count, and budget. We generate your multi-day Blueprint, source stays and travel, manufacture bespoke gifts, and run your wedding day with military-grade green-light precision.
+                Move beyond passive vendor directories. Tell SI your vision, guest count, and budget. We generate your multi-day Blueprint, source stays and travel, manufacture bespoke gifts, and run your wedding day with verified milestone orchestration and precision.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">

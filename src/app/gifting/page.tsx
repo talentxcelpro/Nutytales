@@ -236,8 +236,8 @@ export default function GiftingPage() {
                   ✓
                 </div>
                 <div className="text-xs">
-                  <strong className="block text-[#17233B] text-sm">45,000+ Gifts Fulfilled</strong>
-                  <span className="text-stone-500">Across 48 enterprise accounts and global recipients</span>
+                  <strong className="block text-[#17233B] text-sm">Verified Enterprise Fulfillment</strong>
+                  <span className="text-stone-500">Scheduled delivery across India, UAE, UK and North America</span>
                 </div>
               </div>
             </div>

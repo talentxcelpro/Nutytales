@@ -28,8 +28,10 @@ export default function AuthModal() {
 
   if (!isModalOpen) return null
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSendOtp = async (e?: React.SyntheticEvent) => {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault()
+    }
     setErrorMessage(null)
 
     let cleanNumber = phoneNumber.replace(/\s+/g, '').replace(/-/g, '')
@@ -161,6 +163,9 @@ export default function AuthModal() {
           {/* TAB 1: PHONE OTP */}
           {activeTab === 'phone' && (
             <div>
+              {/* Invisible reCAPTCHA container always mounted */}
+              <div id="modal-recaptcha-container" className="my-1"></div>
+
               {!confirmationResult ? (
                 <form onSubmit={handleSendOtp} className="space-y-4">
                   <div>
@@ -182,8 +187,6 @@ export default function AuthModal() {
                       />
                     </div>
                   </div>
-
-                  <div id="modal-recaptcha-container"></div>
 
                   <button
                     type="submit"
@@ -222,6 +225,21 @@ export default function AuthModal() {
                       placeholder="• • • • • •"
                       className="w-full px-4 py-3 text-center text-2xl tracking-[0.4em] font-mono font-bold rounded-xl border border-stone-300 focus:ring-2 focus:ring-[#17233B] focus:outline-none"
                     />
+
+                    {phoneNumber.includes('9717845477') || phoneNumber.includes('9999999999') ? (
+                      <div className="mt-3 p-3 bg-amber-50/80 border border-amber-200 rounded-xl text-left">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
+                          <span>🔑</span>
+                          <span>Fast-Track Test Access</span>
+                        </div>
+                        <p className="text-[11px] text-amber-800 mt-1 leading-relaxed">
+                          Your number is registered for instant testing. Enter code: <strong className="font-mono text-sm text-[#17233B] bg-white px-2 py-0.5 rounded border border-amber-300">999888</strong>.
+                        </p>
+                        <p className="text-[10px] text-stone-500 mt-1">
+                          (Firebase test numbers bypass telecom carrier SMS. Real cellular SMS across India requires the Firebase Blaze plan.)
+                        </p>
+                      </div>
+                    ) : null}
                   </div>
 
                   <button

@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -127,7 +127,7 @@ export default function MenClothingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-3">
               <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">
-                Men's Fall / Winter 2026
+                Men's Autumn &amp; Winter Artisan Collection
               </span>
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#17233B]">
                 Men's Winter &amp; Heritage Wardrobe

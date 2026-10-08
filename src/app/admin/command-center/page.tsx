@@ -52,14 +52,26 @@ export default function AdminSalesCommandCenterPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <Link
+              href="/admin/revenue-os"
+              className="px-4 py-2 bg-[#17233B] text-white rounded-xl font-bold hover:bg-[#203050] shadow-sm"
+            >
+              Revenue OS ↗
+            </Link>
+            <Link
+              href="/admin/partners"
+              className="px-4 py-2 bg-white border border-stone-300 rounded-xl font-bold hover:bg-stone-50"
+            >
+              Partner Verification ↗
+            </Link>
             <a
               href="https://business.nutytales.com"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 bg-white border border-stone-300 rounded-xl font-bold hover:bg-stone-50"
             >
-              Open B2B Portal ↗
+              B2B Portal ↗
             </a>
             <a
               href={`https://wa.me/${whatsappPhone}`}

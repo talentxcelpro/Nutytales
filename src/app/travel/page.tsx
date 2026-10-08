@@ -918,7 +918,7 @@ export default function TravelMarketplacePage() {
               </ul>
               <div className="pt-2 text-[11px] text-stone-500 font-medium border-t border-stone-100 flex items-center justify-between">
                 <span>Curated Lodgings:</span>
-                <strong className="text-emerald-700">100% Guaranteed</strong>
+                <strong className="text-emerald-700">Verified Selection</strong>
               </div>
             </div>
 

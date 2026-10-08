@@ -319,11 +319,11 @@ export default function CraftsPage() {
           <div>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
               {activeCollection === 'new-arrivals'
-                ? 'New Arrivals (Fall / Winter 2026)'
+                ? 'New Arrivals (Autumn & Winter)'
                 : activeCollection === 'bestsellers'
                 ? 'Bestselling Heritage Classics'
-                : activeCollection === 'fall-winter-2026'
-                ? 'Fall / Winter 2026 Curated Selection'
+                : activeCollection === 'fall-winter-2026' || activeCollection === 'seasonal'
+                ? 'Autumn & Winter Curated Selection'
                 : activeCollection === 'craft-collection'
                 ? 'GI Certified Craft Collection'
                 : 'Heritage Gifting & Keepsakes'}
@@ -398,7 +398,7 @@ export default function CraftsPage() {
         )}
       </section>
 
-      {/* ── 5. Fall / Winter 2026 Seasonal Colour Story Banner ─────────────────── */}
+      {/* ── 5. Autumn & Winter Seasonal Colour Story Banner ─────────────────── */}
       <section className="py-16 bg-[#17233B] text-white border-y border-stone-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="max-w-3xl space-y-2">
@@ -406,10 +406,10 @@ export default function CraftsPage() {
               Seasonal Palette
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold">
-              Fall / Winter 2026: Kashmir to the World
+              Autumn &amp; Winter: Kashmir to the World
             </h2>
             <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
-              Our 2026 palette draws directly from the changing valley: deep crimson madder root, pine-covered slopes of Gulmarg, Dal Lake midnight reflections, and warm Himalayan ivory.
+              Our seasonal palette draws directly from the changing valley: deep crimson madder root, pine-covered slopes of Gulmarg, Dal Lake midnight reflections, and warm Himalayan ivory.
             </p>
           </div>
 

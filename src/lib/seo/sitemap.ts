@@ -175,6 +175,12 @@ export function buildRootCoreSitemap(): MetadataRoute.Sitemap {
   return [
     // Tier 1 — Highest commercial intent
     entry('/',                           1.0, 'daily'),
+    entry('/search',                     0.95, 'daily'),
+    entry('/partners',                   0.90, 'weekly'),
+    entry('/festivals',                  0.90, 'weekly'),
+    entry('/seasons',                    0.90, 'weekly'),
+    entry('/occasions',                  0.90, 'weekly'),
+    entry('/life-events',                0.90, 'weekly'),
     entry('/wholesale-dry-fruits',       0.95, 'weekly'),
     entry('/business-supply',            0.95, 'weekly'),
     entry('/corporate-gifting',          0.95, 'weekly'),

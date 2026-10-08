@@ -130,7 +130,7 @@ export default function WomenClothingPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl space-y-2">
               <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">
-                Women's Fall / Winter 2026
+                Women's Autumn &amp; Winter Artisan Collection
               </span>
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#17233B]">
                 Women's Kashmir Collection

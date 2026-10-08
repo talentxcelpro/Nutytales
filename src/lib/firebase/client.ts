@@ -116,9 +116,13 @@ export function setupRecaptchaVerifier(containerId: string): RecaptchaVerifier {
     } catch {
       // ignore
     }
+    (window as any).recaptchaVerifier = null
   }
 
-  const verifier = new RecaptchaVerifier(firebaseAuth, containerId, {
+  const el = typeof document !== 'undefined' ? document.getElementById(containerId) : null
+  const container = el || containerId
+
+  const verifier = new RecaptchaVerifier(firebaseAuth, container as any, {
     size: 'invisible',
   })
 

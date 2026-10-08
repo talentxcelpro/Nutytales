@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { label: 'Founders', href: '/founders', badge: 'Program' },
   { label: 'Gifting', href: '/gifting' },
   { label: 'Weddings', href: '/weddings', badge: 'Bespoke' },
-  { label: 'Crafts', href: '/crafts', badge: "FW '26" },
+  { label: 'Crafts', href: '/crafts', badge: 'Artisan' },
   { label: 'Stays', href: '/stays' },
   { label: 'Travel', href: '/travel/kashmir' },
 ]
@@ -139,10 +139,10 @@ export default function Navbar() {
                         <div className="bg-white rounded-2xl p-5 shadow-2xl border border-stone-200 w-80 space-y-3">
                           <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                             <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                              Fall / Winter 2026 Collection
+                              Autumn &amp; Winter Artisan Collections
                             </span>
                             <span className="text-[9px] font-extrabold bg-[#C9A45C] text-[#17233B] px-1.5 py-0.2 rounded">
-                              FW '26
+                              Heritage Guild
                             </span>
                           </div>
                           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
@@ -166,6 +166,15 @@ export default function Navbar() {
 
             {/* Actions Right */}
             <div className="hidden md:flex items-center space-x-4 text-xs uppercase tracking-wider font-semibold text-[#17233B]">
+              <Link
+                href="/search"
+                className="text-stone-700 hover:text-[#176B68] transition-colors flex items-center gap-1 font-bold"
+                title="Search Marketplace"
+              >
+                <span>🔍</span>
+                <span>Search</span>
+              </Link>
+
               <Link
                 href="/crafts/try-with-si"
                 className="text-[#704B32] hover:text-[#176B68] transition-colors flex items-center gap-1"
