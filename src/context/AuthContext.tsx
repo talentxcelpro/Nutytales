@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useMemo } from '
 import { User, ConfirmationResult } from 'firebase/auth'
 import {
   signInWithGoogle,
+  signInWithGoogleCredential,
   setupRecaptchaVerifier,
   sendPhoneOtp,
   confirmOtp,
@@ -24,6 +25,7 @@ interface AuthContextType {
   openAuthModal: () => void
   closeAuthModal: () => void
   signInWithGoogle: () => Promise<void>
+  signInWithGoogleCredential: (idToken: string) => Promise<void>
   sendPhoneOtp: (phoneNumber: string, containerId: string) => Promise<ConfirmationResult>
   confirmOtp: (confirmationResult: ConfirmationResult, otpCode: string) => Promise<void>
   signOut: () => Promise<void>
@@ -40,6 +42,7 @@ const AuthContext = createContext<AuthContextType>({
   openAuthModal: () => {},
   closeAuthModal: () => {},
   signInWithGoogle: async () => {},
+  signInWithGoogleCredential: async () => {},
   sendPhoneOtp: async () => { throw new Error('Not implemented') },
   confirmOtp: async () => {},
   signOut: async () => {},
@@ -149,6 +152,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const handleSignInWithGoogleCredential = async (idToken: string) => {
+    setLoading(true)
+    try {
+      const loggedInUser = await signInWithGoogleCredential(idToken)
+      if (loggedInUser) {
+        setUser(loggedInUser)
+        await syncWithSupabase(loggedInUser, 'google')
+        setIsModalOpen(false)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleSendPhoneOtp = async (
     phoneNumber: string,
     containerId: string
@@ -197,6 +214,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         openAuthModal: () => setIsModalOpen(true),
         closeAuthModal: () => setIsModalOpen(false),
         signInWithGoogle: handleSignInWithGoogle,
+        signInWithGoogleCredential: handleSignInWithGoogleCredential,
         sendPhoneOtp: handleSendPhoneOtp,
         confirmOtp: handleConfirmOtp,
         signOut: handleSignOut,

@@ -3,6 +3,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithCredential,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   signOut,
@@ -113,6 +114,16 @@ export async function signInWithGoogle(): Promise<User | null> {
   const provider = new GoogleAuthProvider()
   provider.setCustomParameters({ prompt: 'select_account' })
   const result = await signInWithPopup(firebaseAuth, provider)
+  return result.user
+}
+
+export async function signInWithGoogleCredential(idToken: string): Promise<User> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) {
+    throw new Error('Firebase Auth is not configured. Please check your environment variables.')
+  }
+  const credential = GoogleAuthProvider.credential(idToken)
+  const result = await signInWithCredential(firebaseAuth, credential)
   return result.user
 }
 

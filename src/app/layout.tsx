@@ -7,6 +7,7 @@ import GlobalFooter from "@/components/global/GlobalFooter";
 import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
+import GoogleOneTap from "@/components/auth/GoogleOneTap";
 import CartDrawer from "@/components/cart/CartDrawer";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
@@ -194,6 +195,7 @@ export default function RootLayout({
           <CartDrawer />
           <SIFloatingAssistant />
           <AuthModal />
+          <GoogleOneTap />
         </AuthProvider>
       </body>
     </html>
