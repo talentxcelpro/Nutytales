@@ -1,9 +1,9 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import GlobalHeader from "@/components/global/GlobalHeader";
+import GlobalFooter from "@/components/global/GlobalFooter";
 import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
@@ -29,54 +29,45 @@ export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
 
   title: {
-    default: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
-    template: "%s | Nuty Tales",
+    default: "Nuty Tales Shop — Premium Single-Origin Dry Fruits, Saffron & Gourmet Harvest",
+    template: "%s | Nuty Tales Shop",
   },
 
   description:
-    "Buy premium dry fruits retail or wholesale. Almonds, Cashews, Raisins, Pistachios, Walnuts, Anjeer, Makhana and more. Serving Noida, Kashmir, Patna and all India.",
+    "Buy certified single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, and Mithila jumbo makhana. FSSAI certified, nitrogen-sealed freshness, worldwide delivery.",
 
   keywords: [
-    "dry fruits wholesale India",
+    "Nuty Tales Shop",
     "buy dry fruits online",
-    "wholesale almonds cashews",
-    "dry fruits Noida",
-    "dry fruits Kashmir",
-    "dry fruits Patna",
-    "makhana wholesale",
-    "bulk dry fruits supplier",
-    "B2B dry fruits",
-    "premium dry fruits",
-    "anjeer wholesale",
-    "pistachios wholesale India",
-    "walnuts wholesale",
-    "raisins wholesale India",
-    "dry fruits gift hamper",
-    "FSSAI certified dry fruits",
-    "nutytales wholesale",
-    "dry fruits bulk order",
+    "kashmiri walnuts",
+    "pampore saffron",
+    "mamra almonds",
+    "mithila makhana",
+    "raw honey",
+    "fssai certified dry fruits",
+    "single origin nuts",
   ],
 
   authors: [{ name: "Nuty Tales", url: APP_URL }],
   creator: "Nuty Tales",
   publisher: "Nuty Tales",
 
-  category: "food",
+  category: "marketplace",
 
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: APP_URL,
     siteName: "Nuty Tales",
-    title: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
+    title: "Nuty Tales — Global Marketplace for Products, Gifting, Travel, Stays, Crafts, Weddings & Business",
     description:
-      "India's trusted dry fruit brand. Wholesale & retail. Almonds, Cashews, Makhana, Walnuts, Pistachios & more. FSSAI certified.",
+      "A global technology-powered marketplace connecting customers, sellers, artisans, farmers, luxury hosts, and corporate buyers across six interconnected ecosystems.",
     images: [
       {
         url: `${APP_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
+        alt: "Nuty Tales — Global Marketplace Platform",
       },
     ],
   },
@@ -85,9 +76,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@nutytales",
     creator: "@nutytales",
-    title: "Nuty Tales — Premium Dry Fruits Wholesale & Retail",
+    title: "Nuty Tales — Global Marketplace Platform",
     description:
-      "India's trusted dry fruit brand. Wholesale & retail. Almonds, Cashews, Makhana & more. FSSAI certified.",
+      "A global marketplace connecting people, products, places, experiences, and business sourcing.",
     images: [`${APP_URL}/opengraph-image`],
   },
 
@@ -194,11 +185,11 @@ export default function RootLayout({
 
         {/* ── Page content with Firebase + Supabase Auth ── */}
         <AuthProvider>
-          <Navbar />
+          <GlobalHeader />
           <div className="flex-1">
             {children}
           </div>
-          <Footer />
+          <GlobalFooter />
           <SIFloatingAssistant />
           <AuthModal />
         </AuthProvider>

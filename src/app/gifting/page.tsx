@@ -848,7 +848,7 @@ export default function GiftingPage() {
         isOpen={quoteModalOpen}
         onClose={() => setQuoteModalOpen(false)}
         defaultVertical="gifting"
-        title="Request Corporate Diwali 2026 Proposal"
+        title="Request Corporate Festive Gifting Proposal"
         subtitle="Share your target quantity, per-box budget, and delivery timeline. Our corporate gifting studio will dispatch physical samples and formal quotation within 4 hours."
       />
     </div>

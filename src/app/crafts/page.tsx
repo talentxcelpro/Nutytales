@@ -235,7 +235,7 @@ export default function CraftsPage() {
               <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden border border-white/15 shadow-2xl group">
                 <Image
                   src="/images/campaign-wear-the-story.jpg"
-                  alt="Nuty Tales Crafts & Heritage Fall Winter 2026 Lookbook - Wear the story"
+                  alt="Nuty Tales Crafts & Heritage Autumn & Winter Lookbook - Wear the story"
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"

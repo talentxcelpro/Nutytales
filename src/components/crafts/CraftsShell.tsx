@@ -4,19 +4,15 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const CRAFTS_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'Women', href: '/women' },
-  { label: 'Men', href: '/men' },
-  { label: 'Pashmina & Shawls', href: '/shawls-stoles' },
-  { label: 'Pherans', href: '/pherans' },
-  { label: 'Jackets & Coats', href: '/jackets-coats' },
-  { label: 'Heritage Home', href: '/heritage-home' },
-  { label: 'Wholesale & Export', href: '/wholesale', badge: 'B2B Desk' },
-  { label: 'Marketplace Dashboard', href: '/dashboard', badge: 'Artisans' },
+  { label: 'Collections', href: '/#collections' },
+  { label: 'Artisans', href: '/#artisans' },
+  { label: 'Heritage', href: '/shawls-stoles', badge: 'GI Pashmina' },
+  { label: 'Fashion', href: '/women' },
+  { label: 'Home', href: '/heritage-home' },
+  { label: 'Wholesale & Export', href: '/wholesale', badge: 'B2B' },
 ]
 
 export default function CraftsShell({
@@ -26,6 +22,7 @@ export default function CraftsShell({
 }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const isLinkActive = (href: string) => {
@@ -45,9 +42,6 @@ export default function CraftsShell({
 
   return (
     <div className="min-h-screen bg-[#FAF6EE] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="crafts" />
-
       {/* ── Crafts Top Ribbon ─────────────────────────────────────────────────── */}
       <div className="bg-[#10192A] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">

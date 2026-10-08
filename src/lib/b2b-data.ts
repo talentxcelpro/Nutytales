@@ -283,12 +283,10 @@ export const B2B_HUBS: B2BHub[] = [
 ]
 
 export const B2B_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'B2B Catalog', href: '/catalog', badge: 'Live Rates' },
-  { label: 'RFQ Terminal', href: '/rfq', badge: 'Instant Freight' },
-  { label: 'Quotes', href: '/quotes' },
-  { label: 'Orders & POs', href: '/orders' },
-  { label: 'Replenishment', href: '/replenishment', badge: 'Contracts' },
-  { label: 'CEO Dashboard', href: '/dashboard', badge: 'KPIs' },
-  { label: 'Business Account', href: '/account' },
+  { label: 'Products', href: '/catalog', badge: 'Live Rates' },
+  { label: 'Suppliers', href: '/#suppliers' },
+  { label: 'Categories', href: '/#categories' },
+  { label: 'RFQ', href: '/rfq', badge: 'Instant Freight' },
+  { label: 'Orders', href: '/orders' },
+  { label: 'Procurement', href: '/replenishment', badge: 'Contracts' },
 ]

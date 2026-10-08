@@ -20,7 +20,7 @@ export default function ExecutiveSampleHamperDesk() {
 
   // Allocation Lock State
   const [lockTargetUnits, setLockTargetUnits] = useState(250)
-  const [lockFestiveDate, setLockFestiveDate] = useState('Diwali 2026 (Oct 20-25)')
+  const [lockFestiveDate, setLockFestiveDate] = useState('Diwali & Festive Season')
   const [isLockingSlot, setIsLockingSlot] = useState(false)
   const [lockSuccess, setLockSuccess] = useState<string | null>(null)
 
@@ -497,9 +497,9 @@ export default function ExecutiveSampleHamperDesk() {
                         onChange={(e) => setLockFestiveDate(e.target.value)}
                         className="w-full px-3 py-2 rounded-xl bg-[#17233B] border border-white/20 text-white"
                       >
-                        <option value="Diwali 2026 (Oct 20-25)">Diwali 2026 (Oct 20-25 Dispatch)</option>
-                        <option value="Pre-Diwali VIP (Oct 10-15)">Pre-Diwali VIP Window (Oct 10-15)</option>
-                        <option value="Year-End / New Year 2027">Year-End / New Year 2027 (Dec 15-20)</option>
+                        <option value="Diwali & Festive Season">Diwali &amp; Festive Season (Priority Window)</option>
+                        <option value="Pre-Festive VIP">Pre-Festive VIP Window</option>
+                        <option value="Year-End / New Year">Year-End / New Year Window</option>
                         <option value="Immediate Monthly Milestone">Immediate Monthly Corporate Milestone</option>
                       </select>
                     </div>

@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales Crafts & Heritage — Product & Provenance Catalog ───────────────
+// ─── Nuty Tales Crafts & Heritage — Product & Provenance Catalog ───────────────
 // Fall / Winter 2026: Kashmir to the World
 // Authenticity, Provenance, GI Certification & Try with SI
 
@@ -569,7 +569,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     subCategory: 'Curated Gift Hampers',
     gender: 'unisex',
     shortDesc: 'The ultimate royal gift: Handcrafted Papier-Mâché keepsake box, 1g Pure Kashmiri Mongra Saffron, 500g Acacia Honey, 250g Kagzi Walnuts, and a Pure Cashmere Stole.',
-    longDesc: `Where Nuty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper\n\nDesigned for heads of state, VIP clients, Diwali 2026 executive gifting, and memorable family milestones.`,
+    longDesc: `Where Nuty Tales Foods and Crafts & Heritage merge into an unforgettable experience. Presented in an exquisite emerald-and-gold keepsake box featuring:\n\n• 1 × Fine Kashmiri Cashmere Stole (Unisex Ivory / Slate)\n• 1 × 1g Pure Kashmiri Mongra Saffron Jar (Pampore Grade A1)\n• 1 × 500g Raw Kashmiri Acacia Honey Glass Jar\n• 1 × 250g In-Shell Kashmiri Kagzi Walnuts\n• 1 × Handcrafted Papier-Mâché dry-fruit serving bowl\n• 1 × Personalized calligraphy note on handmade flower-petal paper\n\nDesigned for heads of state, VIP clients, festive executive gifting, and memorable family milestones.`,
     editorialStory: 'Curated by Nuty Tales to celebrate the timeless elegance, warmth, and culinary treasures of the Kashmir Valley.',
     price: 18999,
     mrp: 25000,
@@ -600,7 +600,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     isFeatured: true,
     warmthRating: 'Warm (0°C - 10°C)',
     stockStatus: 'IN_STOCK',
-    tags: ['hamper', 'gifting', 'kashmir-heritage', 'corporate-gifting', 'luxury', 'diwali-2026'],
+    tags: ['hamper', 'gifting', 'kashmir-heritage', 'corporate-gifting', 'luxury', 'festive-gifting'],
   },
 ]
 

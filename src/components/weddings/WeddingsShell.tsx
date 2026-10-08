@@ -4,14 +4,13 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const WEDDINGS_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'Wedding Workspace', href: '/workspace', badge: 'Wedding OS' },
-  { label: 'Trousseau & Favors', href: '/#hampers' },
-  { label: 'Destination Venues', href: '/#venues' },
+  { label: 'Discover', href: '/#overview' },
+  { label: 'Venues', href: '/#venues' },
+  { label: 'Favors & Trousseau', href: '/#hampers' },
+  { label: 'Planning & Budgets', href: '/workspace', badge: 'Wedding OS' },
   { label: 'Couple Dashboard', href: '/dashboard', badge: 'Timeline' },
 ]
 
@@ -22,6 +21,7 @@ export default function WeddingsShell({
 }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const isLinkActive = (href: string) => {
@@ -41,9 +41,6 @@ export default function WeddingsShell({
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="weddings" />
-
       {/* ── Weddings Top Ribbon ─────────────────────────────────────────────────── */}
       <div className="bg-[#2D1520] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-[#C9A45C]/20 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">

@@ -29,7 +29,7 @@ export default function GiftingRecipientsPage() {
   const [choiceLinkQty, setChoiceLinkQty] = useState(100)
   const [copiedLink, setCopiedLink] = useState(false)
 
-  const [occasion, setOccasion] = useState('Diwali 2026')
+  const [occasion, setOccasion] = useState('Diwali & Festive Season')
   const [deliveryDate, setDeliveryDate] = useState('2026-10-20')
   const [brandLogoFile, setBrandLogoFile] = useState<string | null>(null)
   const [senderCompany, setSenderCompany] = useState('')
@@ -392,10 +392,10 @@ export default function GiftingRecipientsPage() {
                   onChange={(e) => setOccasion(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#176B68] focus:outline-none bg-white"
                 >
-                  <option value="Diwali 2026">Diwali 2026 Celebration</option>
+                  <option value="Diwali & Festive Season">Diwali &amp; Festive Celebration</option>
                   <option value="Executive Milestone">Executive &amp; Board Milestone</option>
                   <option value="Employee Appreciation">Employee Appreciation / Annual Day</option>
-                  <option value="New Year & Christmas">New Year &amp; Christmas 2026</option>
+                  <option value="New Year & Christmas">New Year &amp; Christmas</option>
                   <option value="VIP Client Retention">VIP Client Retention</option>
                 </select>
               </div>

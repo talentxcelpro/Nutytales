@@ -4,15 +4,15 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const GIFTING_NAV_LINKS = [
-  { label: 'Design a Gift', href: '/designer', badge: 'SI Studio' },
-  { label: 'Gifting OS', href: '/#gifting-os' },
-  { label: 'Curated Hampers', href: '/#hampers' },
-  { label: 'Recipient Choice Desk', href: '/recipients', badge: 'Global Roster' },
-  { label: 'Operations Dashboard', href: '/dashboard', badge: 'Corporate' },
+  { label: 'Explore Gifts', href: '/#hampers' },
+  { label: 'Occasions', href: '/#occasions' },
+  { label: 'Corporate', href: '/#corporate' },
+  { label: 'Collections', href: '/#collections' },
+  { label: 'Personalized', href: '/designer', badge: 'SI Studio' },
+  { label: 'Bulk Gifting', href: '/recipients', badge: 'Roster Desk' },
 ]
 
 export default function GiftingShell({
@@ -22,6 +22,7 @@ export default function GiftingShell({
 }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const whatsappPhone = (WHATSAPP_NUMBERS.CORPORATE || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const isLinkActive = (href: string) => {
@@ -41,9 +42,6 @@ export default function GiftingShell({
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="gifting" />
-
       {/* ── Gifting Top Ribbon ─────────────────────────────────────────────────── */}
       <div className="bg-[#10192A] text-stone-300 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -190,7 +188,7 @@ export default function GiftingShell({
               <ul className="space-y-1.5 text-stone-300">
                 <li>Corporate Employee Gifting</li>
                 <li>VIP Client &amp; CXO Executive Boxes</li>
-                <li>Diwali 2026 Early Procurement</li>
+                <li>Festive Season Priority Procurement</li>
                 <li>Wedding Welcome Hampers</li>
                 <li>International Air Gifting (UAE, UK, US)</li>
               </ul>

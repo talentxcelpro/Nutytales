@@ -1,4 +1,4 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import Image from 'next/image'
 
 const FOUR_DOORS = [
@@ -32,7 +32,7 @@ const FOUR_DOORS = [
   {
     tag: 'Discover',
     title: 'Crafts & Heritage',
-    subtitle: 'Fall / Winter 2026',
+    subtitle: 'Autumn & Winter Artisan',
     desc: 'Hand-woven Kani Pashmina shawls, wool tweed pherans, embroidered stoles, velvet coats, and carved walnut wood.',
     link: '/crafts',
     linkText: 'Discover Crafts (Try with SI) →',

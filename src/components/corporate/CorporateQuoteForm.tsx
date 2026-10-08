@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -116,7 +116,7 @@ export default function CorporateQuoteForm() {
               Request a Corporate Quote
             </h3>
             <p className="text-sm text-stone-600 mt-1">
-              Custom branding, greeting cards, and bulk pricing for Diwali 2026. Fast response within 2 hours.
+              Custom branding, greeting cards, and bulk pricing for Diwali &amp; Festive Celebrations. Fast response within 2 hours.
             </p>
           </div>
 

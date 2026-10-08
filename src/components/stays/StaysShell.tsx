@@ -4,16 +4,15 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const STAYS_NAV_LINKS = [
-  { label: 'Overview', href: '/' },
-  { label: 'Orchard Suites', href: '/#booking-engine' },
-  { label: 'Experiences & Dining', href: '/#experiences' },
-  { label: 'Group & Orchard Buyouts', href: '/group-quote', badge: 'Private' },
-  { label: 'Host Portal', href: '/hosts', badge: 'List Property' },
-  { label: 'Hospitality Dashboard', href: '/dashboard', badge: 'Occupancy' },
+  { label: 'Destinations', href: '/#destinations' },
+  { label: 'Stays', href: '/#booking-engine' },
+  { label: 'Collections', href: '/#collections' },
+  { label: 'Experiences', href: '/#experiences' },
+  { label: 'Group Buyouts', href: '/group-quote', badge: 'Private' },
+  { label: 'Host Portal', href: '/hosts', badge: 'List' },
 ]
 
 export default function StaysShell({
@@ -23,6 +22,7 @@ export default function StaysShell({
 }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const whatsappPhone = (WHATSAPP_NUMBERS.STAYS || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const isLinkActive = (href: string) => {
@@ -42,9 +42,6 @@ export default function StaysShell({
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="stays" />
-
       {/* ── Stays Top Ribbon ─────────────────────────────────────────────────── */}
       <div className="bg-[#10192A] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">

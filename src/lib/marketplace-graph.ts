@@ -430,9 +430,9 @@ export function getCrossVerticalRecommendations(
  * Intelligent commercial intent resolver.
  * Parses natural user language into actionable marketplace queries.
  */
-export function parseCustomerIntent(query: string): IntentResolution {
+export function parseCustomerIntent(query: string, contextProduct?: PlatformVertical): IntentResolution {
   const q = query.toLowerCase()
-  const verticals: PlatformVertical[] = []
+  const verticals: PlatformVertical[] = contextProduct ? [contextProduct] : []
   let budgetMax: number | undefined
   let quantity: number | undefined
   let location: string | undefined

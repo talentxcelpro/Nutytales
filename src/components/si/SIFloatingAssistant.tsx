@@ -74,7 +74,7 @@ export default function SIFloatingAssistant() {
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-serif italic text-stone-200">
-              Need styling, wedding or B2B advice?
+              {contextData.pillText}
             </span>
             <span className="font-bold text-[#C9A45C]">Ask SI ✨</span>
           </div>
@@ -233,12 +233,13 @@ export default function SIFloatingAssistant() {
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
-  // ── Company 1: Nuty Tales Business (business.nutytales.com / /b2b) ─────────
+  // ── Product 1: Nuty Tales Business (business.nutytales.com / /b2b) ─────────
   if (pathname.startsWith('/b2b') || pathname.startsWith('/business-supply')) {
     return {
       assistantName: 'SI Procurement Copilot',
       badgeIcon: '🏢',
       tagline: 'Global B2B Sourcing & Commodity Procurement Desk',
+      pillText: 'Need bulk sourcing or RFQ quotes?',
       inputPlaceholder: 'Tell SI what you need to source (e.g. 5,000 kg almonds monthly)...',
       greeting:
         'Welcome to Nuty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source, your monthly volume, or grade specifications, and I will match verified suppliers with formal quotes.',
@@ -256,15 +257,16 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 2: Nuty Tales Gifting (gifting.nutytales.com / /gifting) ───────
+  // ── Product 2: Nuty Tales Gifting (gifting.nutytales.com / /gifting) ───────
   if (pathname.startsWith('/gifting') || pathname.startsWith('/corporate-gifting')) {
     return {
       assistantName: 'SI Gift Designer & Gifting OS',
       badgeIcon: '🎁',
       tagline: 'Outcome-Based Gifting, Choice Links & Global Fulfillment',
+      pillText: 'Need corporate or bulk gifting advice?',
       inputPlaceholder: "Tell SI what you want this gift to accomplish (e.g. 300 employees across India, UAE & UK)...",
       greeting:
-        'Welcome to Nuty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Diwali gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
+        'Welcome to Nuty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Festival gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
       actions: [
         { label: '✨ Design a Gift (SI Studio)', href: '/gifting/designer' },
         { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
@@ -279,12 +281,13 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 3: Nuty Tales Weddings (weddings.nutytales.com / /weddings) ─────
+  // ── Product 3: Nuty Tales Weddings (weddings.nutytales.com / /weddings) ─────
   if (pathname.startsWith('/weddings')) {
     return {
       assistantName: 'SI Wedding Planner',
       badgeIcon: '💍',
       tagline: 'The Wedding Operating System & Execution Concierge',
+      pillText: 'Need wedding favors or planning advice?',
       inputPlaceholder: "Tell SI how you're planning your wedding (e.g. 400 guests destination in Kashmir)...",
       greeting:
         'Welcome to Nuty Tales Weddings. I am your Wedding Planner Copilot. I help you plan budgets, orchestrate vendor RFQs (venues, decorators, photography), calculate guest favors, and generate multi-day timelines.',
@@ -302,12 +305,13 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 4: Nuty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
+  // ── Product 4: Nuty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
   if (pathname.startsWith('/crafts')) {
     return {
       assistantName: 'SI Style & Craft Advisor',
       badgeIcon: '🧣',
       tagline: 'Global Luxury Weaves, Virtual Drape & Provenance',
+      pillText: 'Need drape simulation or weave advice?',
       inputPlaceholder: 'Tell SI what you want to wear or discover (e.g. GI Kani Pashmina for winter)...',
       greeting:
         'Welcome to Nuty Tales Crafts. I am your Style & Provenance Advisor. I verify GI-tag authenticity, simulate drape folds in the Virtual Studio, and assist boutique buyers with wholesale craft procurement.',
@@ -325,12 +329,13 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 5: Nuty Tales Stays (stays.nutytales.com / /stays) ─────────────
+  // ── Product 5: Nuty Tales Stays (stays.nutytales.com / /stays) ─────────────
   if (pathname.startsWith('/stays')) {
     return {
       assistantName: 'SI Stay Concierge',
       badgeIcon: '🏔️',
       tagline: 'Hospitality, Orchard Suites & Valley Experiences',
+      pillText: 'Need valley stay & villa concierge?',
       inputPlaceholder: 'Tell SI how you want to stay (e.g. 3 nights Srinagar orchard villa with kahwa)...',
       greeting:
         'Welcome to Nuty Tales Stays. I am your Hospitality Concierge. I calculate live seasonal tariffs, orchestrate private orchard buyouts for VIP delegations, and coordinate local culinary experiences.',
@@ -348,12 +353,13 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Company 6: Nuty Tales Travel (travel.nutytales.com / /travel) ───────────
+  // ── Product 6: Nuty Tales Travel (travel.nutytales.com / /travel) ───────────
   if (pathname.startsWith('/travel')) {
     return {
       assistantName: 'SI Travel Planner',
       badgeIcon: '✈️',
       tagline: 'Dynamic Itineraries, 4x4 Snow Safaris & Expeditions',
+      pillText: 'Need itinerary & expedition advice?',
       inputPlaceholder: 'Tell SI where you want to go (e.g. 7-day family Kashmir winter expedition)...',
       greeting:
         'Welcome to Nuty Tales Travel. I am your Travel Planner Copilot. Tell me your travel dates, group size, and interests, and I will build an hour-by-hour itinerary with vetted drivers, stays, and activities.',
@@ -371,31 +377,59 @@ function getContextualPrompts(pathname: string) {
     }
   }
 
-  // ── Default / Group Gateway (nutytales.com) ─────────────────────────────────
+  // ── Product: Nuty Tales Shop (nutytales.com / /shop / default) ────────────
   return {
-    assistantName: 'SI Group Intelligence',
+    assistantName: 'SI Shopping Concierge',
     badgeIcon: '✦',
-    tagline: 'Nuty Tales Flagship Ecosystem',
-    inputPlaceholder: 'Ask SI anything across the 6 operating companies...',
+    tagline: 'Harvest Provenance & Quality Sommelier',
+    pillText: 'Need advice on harvest, saffron or almonds?',
+    inputPlaceholder: 'Ask SI about walnuts, Grade-A saffron, mamra almonds...',
     greeting:
-      'Hello! I am SI, the shared intelligence platform of Nuty Tales. I connect our 6 independent global companies: B2B Business, Corporate Gifting, Weddings OS, Crafts Marketplace, Hospitality Stays, and Travel Planning.',
+      'Welcome to Nuty Tales Shop. I am SI, your gourmet harvest concierge. I can help you select cold-pressed walnut oil, lab-certified Mongra saffron, royal Mamra almonds, or advise on storage, origins, and global delivery.',
     actions: [
-      { label: 'Shop Harvest Retail', href: '/shop' },
-      { label: 'B2B Business Supply', href: '/b2b' },
-      { label: 'Corporate Gifting', href: '/gifting' },
-      { label: 'Wedding Workspace', href: '/weddings' },
+      { label: 'Grade-A Mongra Saffron', href: '/shop?category=saffron' },
+      { label: 'Kashmir Kagzi Walnuts', href: '/shop?category=walnuts' },
+      { label: 'Mamra Badam Selection', href: '/shop?category=almonds' },
+      { label: 'View All Collections', href: '/shop' },
     ],
     quickPrompts: [
-      'Pure Kashmiri Mamra Badam',
-      'Corporate festival gift hampers',
-      'Orchard villa stay in Srinagar',
-      'B2B wholesale pricing',
+      'How to test pure saffron?',
+      'Kagzi vs normal walnuts',
+      'Mamra oil content benefits',
+      'International express delivery',
     ],
   }
 }
 
 function generateSIResponse(query: string, pathname: string): ChatMessage {
   const q = query.toLowerCase()
+
+  if (q.includes('saffron') || q.includes('kesar') || q.includes('mongra')) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: 'Our Pampore Grade-A Mongra Saffron is 100% stigma-only with crocin coloring strength > 220, tested in NABL accredited labs. Packaged in sealed airtight gold glass jars to preserve the delicate floral aroma and medicinal potency.',
+      actions: [{ label: 'View Saffron Selection', href: '/shop?category=saffron' }],
+    }
+  }
+
+  if (q.includes('walnut') || q.includes('akhrot') || q.includes('kagzi')) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: 'Our Kashmir Kagzi Walnuts are hand-cracked fresh from Kupwara and Shopian high-altitude organic orchards. Soft-shell (Kagzi) can be cracked with two fingers, yielding light-amber halves rich in Omega-3 DHA.',
+      actions: [{ label: 'View Walnut Selection', href: '/shop?category=walnuts' }],
+    }
+  }
+
+  if (q.includes('almond') || q.includes('badam') || q.includes('mamra')) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: 'Kashmiri Mamra almonds are prized worldwide for their rich natural oil content (over 50%) and distinct concave shape. Unlike hybrid California almonds, each Mamra almond is 100% non-GMO and wild-pollinated.',
+      actions: [{ label: 'View Mamra Badam', href: '/shop?category=almonds' }],
+    }
+  }
 
   if (q.includes('gift') || q.includes('diwali') || q.includes('recipient') || q.includes('snappy') || q.includes('sendoso') || q.includes('hamper')) {
     return {

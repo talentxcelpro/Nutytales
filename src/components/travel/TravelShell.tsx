@@ -4,15 +4,14 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import GroupEcosystemBar from '@/components/group/GroupEcosystemBar'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const TRAVEL_NAV_LINKS = [
-  { label: 'Operating System', href: '/' },
-  { label: 'SI Trip Builder', href: '/builder', badge: 'Intent Engine' },
-  { label: 'Curated Journeys', href: '/kashmir', badge: 'Global & Kashmir' },
-  { label: 'DMC & Partner API', href: '/partners', badge: 'Supply Network' },
-  { label: 'Command Center', href: '/dashboard', badge: 'Live Execution' },
+  { label: 'Destinations', href: '/kashmir' },
+  { label: 'Trips', href: '/#trips' },
+  { label: 'Experiences', href: '/#experiences' },
+  { label: 'Itineraries', href: '/builder', badge: 'SI Builder' },
+  { label: 'Concierge', href: '/partners', badge: 'DMC Network' },
 ]
 
 export default function TravelShell({
@@ -22,6 +21,7 @@ export default function TravelShell({
 }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const isLinkActive = (href: string) => {
@@ -41,9 +41,6 @@ export default function TravelShell({
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="travel" />
-
       {/* ── Travel Top Ribbon ─────────────────────────────────────────────────── */}
       <div className="bg-[#10192A] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">

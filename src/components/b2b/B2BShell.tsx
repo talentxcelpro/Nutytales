@@ -36,9 +36,6 @@ export default function B2BShell({
 
   return (
     <div className="min-h-screen bg-[#FAF6EE] text-[#17233B] flex flex-col font-sans">
-      {/* ── Group Ecosystem Switcher ── */}
-      <GroupEcosystemBar currentCompanyId="business" />
-
       {/* ── B2B Top Utility Notification Bar ───────────────────────────────────── */}
       <div className="bg-[#10192A] text-stone-300 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import KashmirTourCustomizer from '@/components/travel/KashmirTourCustomizer'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -72,7 +72,7 @@ export default function KashmirTravelPage() {
             Taste, Wear &amp; Experience the Valley
           </h2>
           <p className="text-stone-600 text-sm max-w-2xl mx-auto leading-relaxed">
-            Combine your mountain vacation with our authentic Fall/Winter 2026 Kashmiri crafts and farm-fresh dry fruit hampers, delivered directly to your home or prepared as welcome gifts in your room.
+            Combine your mountain vacation with our authentic Autumn & Winter Kashmiri crafts and farm-fresh dry fruit hampers, delivered directly to your home or prepared as welcome gifts in your room.
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4">
             <Link

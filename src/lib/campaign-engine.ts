@@ -333,7 +333,7 @@ export const OCCASIONS: OccasionEntity[] = [
     description:
       'Day-1 welcome kits and milestone anniversary recognition packages shipped automatically via HRMS integrations or bulk CSV roster uploads.',
     idealFor: ['Day-1 Onboarding', 'Work Anniversary', 'Quarterly Excellence Awards', 'Retirement Honors'],
-    suggestedHampers: ['The Gulmarg Celebration Casket', 'Nutty Nutrition Work Desk Pack', 'Custom Branded Sleeve Box'],
+    suggestedHampers: ['The Gulmarg Celebration Casket', 'Nuty Nutrition Work Desk Pack', 'Custom Branded Sleeve Box'],
     heroImage: '/images/luxury-teal-gift-box.jpg',
   },
   {
