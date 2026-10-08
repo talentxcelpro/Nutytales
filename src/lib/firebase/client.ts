@@ -15,7 +15,7 @@ import {
 
 const fallbackConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyD4cD89kiA9iVuZpV-AcnMYITK2V1fbCk4',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'nutty-tales-1c667.firebaseapp.com',
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'nutytales.com',
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'nutty-tales-1c667',
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'nutty-tales-1c667.firebasestorage.app',
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '812303172678',
