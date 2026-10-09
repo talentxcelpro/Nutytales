@@ -182,6 +182,32 @@ export function interpretNaturalLanguageRequest(
     state = 'Maharashtra'
   }
 
+  // 2b. Detect Overseas Country of Residence
+  let detectedCountry = userCountry && userCountry !== 'Global' ? userCountry : ''
+  if (!detectedCountry) {
+    if (lower.includes('london') || lower.includes('uk') || lower.includes('united kingdom') || lower.includes('england')) {
+      detectedCountry = 'United Kingdom'
+    } else if (lower.includes('dubai') || lower.includes('uae') || lower.includes('abu dhabi') || lower.includes('sharjah')) {
+      detectedCountry = 'United Arab Emirates'
+    } else if (lower.includes('canada') || lower.includes('toronto') || lower.includes('vancouver')) {
+      detectedCountry = 'Canada'
+    } else if (lower.includes('usa') || lower.includes('us') || lower.includes('united states') || lower.includes('california') || lower.includes('new york') || lower.includes('texas')) {
+      detectedCountry = 'United States'
+    } else if (lower.includes('australia') || lower.includes('sydney') || lower.includes('melbourne')) {
+      detectedCountry = 'Australia'
+    } else if (lower.includes('singapore')) {
+      detectedCountry = 'Singapore'
+    } else if (lower.includes('germany') || lower.includes('europe') || lower.includes('frankfurt')) {
+      detectedCountry = 'Germany / Europe'
+    } else if (lower.includes('saudi') || lower.includes('riyadh') || lower.includes('jeddah')) {
+      detectedCountry = 'Saudi Arabia'
+    } else if (lower.includes('qatar') || lower.includes('doha')) {
+      detectedCountry = 'Qatar'
+    } else {
+      detectedCountry = 'Global (Overseas)'
+    }
+  }
+
   // 3. Detect Frequency & Urgency
   let frequency: ExtractedPlan['frequency'] = 'one_time'
   if (lower.includes('every month') || lower.includes('monthly') || lower.includes('once a month')) {
@@ -260,7 +286,7 @@ export function interpretNaturalLanguageRequest(
       categoryLabel: catDetails.title,
       destination_city: city,
       destination_state: state,
-      country_of_residence: userCountry,
+      country_of_residence: detectedCountry,
       frequency,
       urgency,
       estimated_budget: estimatedBudget,
@@ -269,6 +295,55 @@ export function interpretNaturalLanguageRequest(
       clarification_needed: clarifications,
     },
   }
+}
+
+/**
+ * Quick helper to extract mentioned cities and countries from a prompt for UI synchronization
+ */
+export function extractLocationsFromPrompt(prompt: string): { country?: string; city?: string } {
+  const lower = prompt.toLowerCase()
+  let city: string | undefined
+  let country: string | undefined
+
+  if (lower.includes('srinagar') || lower.includes('kashmir') || lower.includes('gulmarg') || lower.includes('pahalgam')) {
+    city = 'Srinagar'
+  } else if (lower.includes('delhi') || lower.includes('ncr') || lower.includes('noida') || lower.includes('gurugram') || lower.includes('gurgaon')) {
+    city = 'Delhi NCR'
+  } else if (lower.includes('mumbai') || lower.includes('thane') || lower.includes('navi mumbai')) {
+    city = 'Mumbai'
+  } else if (lower.includes('bengaluru') || lower.includes('bangalore')) {
+    city = 'Bengaluru'
+  } else if (lower.includes('chandigarh') || lower.includes('mohali') || lower.includes('panchkula')) {
+    city = 'Chandigarh'
+  } else if (lower.includes('amritsar') || lower.includes('jalandhar') || lower.includes('ludhiana')) {
+    city = 'Amritsar'
+  } else if (lower.includes('hyderabad')) {
+    city = 'Hyderabad'
+  } else if (lower.includes('pune')) {
+    city = 'Pune'
+  }
+
+  if (lower.includes('london') || lower.includes('uk') || lower.includes('united kingdom') || lower.includes('england')) {
+    country = 'United Kingdom'
+  } else if (lower.includes('dubai') || lower.includes('uae') || lower.includes('abu dhabi') || lower.includes('sharjah')) {
+    country = 'United Arab Emirates'
+  } else if (lower.includes('canada') || lower.includes('toronto') || lower.includes('vancouver')) {
+    country = 'Canada'
+  } else if (lower.includes('usa') || lower.includes('us') || lower.includes('united states') || lower.includes('california') || lower.includes('new york') || lower.includes('texas')) {
+    country = 'United States'
+  } else if (lower.includes('australia') || lower.includes('sydney') || lower.includes('melbourne')) {
+    country = 'Australia'
+  } else if (lower.includes('singapore')) {
+    country = 'Singapore'
+  } else if (lower.includes('germany') || lower.includes('europe') || lower.includes('frankfurt')) {
+    country = 'Germany / Europe'
+  } else if (lower.includes('saudi') || lower.includes('riyadh') || lower.includes('jeddah')) {
+    country = 'Saudi Arabia'
+  } else if (lower.includes('qatar') || lower.includes('doha')) {
+    country = 'Qatar'
+  }
+
+  return { country, city }
 }
 
 /**
