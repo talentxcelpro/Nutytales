@@ -48,8 +48,9 @@ export default function NriAdminCommandCenterPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Admin Header */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="bg-[#0E1524] text-white rounded-3xl p-6 sm:p-10 border border-[#1E293B] shadow-2xl space-y-8">
+        {/* Admin Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#C9A45C] mb-1">
@@ -292,6 +293,7 @@ export default function NriAdminCommandCenterPage() {
           )}
         </div>
       )}
+      </div>
     </div>
   )
 }

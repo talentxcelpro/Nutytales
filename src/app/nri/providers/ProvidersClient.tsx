@@ -65,39 +65,39 @@ export default function ProviderOnboardingPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       <div className="space-y-3 text-center max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C9A45C]/15 border border-[#C9A45C]/30 text-xs text-[#C9A45C] font-semibold">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#8C6D2D]/10 border border-[#8C6D2D]/20 text-xs text-[#8C6D2D] font-semibold">
           <span>🤝</span>
           <span>ON-GROUND SUPPLY PARTNERSHIP</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#191919] tracking-tight">
           Become a Verified Service Provider
         </h1>
-        <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed">
+        <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
           Join India’s premier execution network. We connect verified advocates, Chartered Accountants, structural engineers, and elder companions with clients living across the globe.
         </p>
       </div>
 
       {submitted ? (
-        <div className="bg-[#0E1524] rounded-3xl p-10 border border-emerald-500/30 text-center space-y-4 animate-fadeIn">
-          <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl mx-auto">
+        <div className="bg-white rounded-3xl p-10 border border-emerald-200 text-center space-y-4 shadow-sm animate-fadeIn">
+          <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-3xl mx-auto">
             ✓
           </div>
-          <h2 className="font-serif text-2xl font-bold text-white">
+          <h2 className="font-serif text-2xl font-bold text-[#191919]">
             Application Submitted for Verification
           </h2>
-          <p className="text-xs text-stone-300 max-w-md mx-auto leading-relaxed">
-            Your application status is now <span className="text-amber-400 font-bold uppercase">Under Review</span>. Our compliance officer will verify your identity, Bar Council / ICAI / trade licenses, and contact you via phone or email within 2-3 business days.
+          <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+            Your application status is now <span className="text-[#8C6D2D] font-bold uppercase">Under Review</span>. Our compliance officer will verify your identity, Bar Council / ICAI / trade licenses, and contact you via phone or email within 2-3 business days.
           </p>
           <div className="pt-4 flex justify-center gap-4">
             <Link
               href="/provider-workspace"
-              className="px-5 py-2.5 rounded-xl bg-[#C9A45C] text-[#0E1524] text-xs font-bold"
+              className="px-5 py-2.5 rounded-full bg-[#191919] text-white text-xs font-semibold hover:bg-[#2A2A2A] transition-colors"
             >
               Open Provider Workspace →
             </Link>
             <Link
               href="/"
-              className="px-5 py-2.5 rounded-xl bg-white/10 text-white text-xs font-semibold"
+              className="px-5 py-2.5 rounded-full bg-[#FAF9F6] text-stone-700 border border-[#EAE6DF] text-xs font-semibold hover:bg-[#F3EFE6] transition-colors"
             >
               Return Home
             </Link>
@@ -106,16 +106,16 @@ export default function ProviderOnboardingPage() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="bg-[#0E1524] rounded-3xl p-8 sm:p-10 border border-white/10 space-y-8"
+          className="bg-white rounded-3xl p-8 sm:p-10 border border-[#EAE6DF] space-y-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
         >
           {/* Section 1: Business Identity */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-bold text-white border-b border-white/10 pb-2">
+            <h3 className="font-serif text-xl font-bold text-[#191919] border-b border-[#EAE6DF] pb-2">
               1. Identity & Business Profile
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Primary Contact Full Name *
                 </label>
                 <input
@@ -124,12 +124,12 @@ export default function ProviderOnboardingPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Farooq Ahmad Mir"
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Registered Business / Firm Name
                 </label>
                 <input
@@ -137,12 +137,12 @@ export default function ProviderOnboardingPage() {
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
                   placeholder="e.g. Mir Estate & Property Solutions"
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Official Phone / WhatsApp *
                 </label>
                 <input
@@ -151,12 +151,12 @@ export default function ProviderOnboardingPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+91-9858000101"
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Official Email Address *
                 </label>
                 <input
@@ -165,7 +165,7 @@ export default function ProviderOnboardingPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="contact@mirestates.com"
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
             </div>
@@ -173,12 +173,12 @@ export default function ProviderOnboardingPage() {
 
           {/* Section 2: Services & Coverage */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-bold text-white border-b border-white/10 pb-2">
+            <h3 className="font-serif text-xl font-bold text-[#191919] border-b border-[#EAE6DF] pb-2">
               2. Service Specializations & City Coverage
             </h3>
 
             <div className="space-y-2">
-              <label className="block text-stone-400 text-xs font-semibold">
+              <label className="block text-stone-600 text-xs font-semibold">
                 Select Service Verticals Handled:
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
@@ -192,8 +192,8 @@ export default function ProviderOnboardingPage() {
                       onClick={() => toggleCategory(key)}
                       className={`p-2.5 rounded-xl border text-left transition-all ${
                         selected
-                          ? 'bg-[#C9A45C]/20 border-[#C9A45C] text-white font-semibold'
-                          : 'bg-white/5 border-white/10 text-stone-400 hover:text-white'
+                          ? 'bg-[#8C6D2D]/15 border-[#8C6D2D] text-[#8C6D2D] font-semibold'
+                          : 'bg-[#FAF9F6] border-[#EAE6DF] text-stone-600 hover:text-[#191919]'
                       }`}
                     >
                       <span>{NRI_CATEGORIES[key].icon} </span>
@@ -205,7 +205,7 @@ export default function ProviderOnboardingPage() {
             </div>
 
             <div className="space-y-2 pt-2">
-              <label className="block text-stone-400 text-xs font-semibold">
+              <label className="block text-stone-600 text-xs font-semibold">
                 Operational Cities with Direct Physical Presence:
               </label>
               <div className="flex flex-wrap gap-2 text-xs">
@@ -216,10 +216,10 @@ export default function ProviderOnboardingPage() {
                       key={c.id}
                       type="button"
                       onClick={() => toggleCity(c.name)}
-                      className={`px-3 py-1.5 rounded-xl border transition-all ${
+                      className={`px-3 py-1.5 rounded-full border transition-all ${
                         selected
-                          ? 'bg-emerald-500/20 border-emerald-400 text-white font-bold'
-                          : 'bg-white/5 border-white/10 text-stone-400'
+                          ? 'bg-emerald-50 border-emerald-500 text-emerald-800 font-bold'
+                          : 'bg-[#FAF9F6] border-[#EAE6DF] text-stone-600 hover:bg-[#F3EFE6]'
                       }`}
                     >
                       📍 {c.name}
@@ -232,13 +232,13 @@ export default function ProviderOnboardingPage() {
 
           {/* Section 3: Qualifications & Track Record */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-bold text-white border-b border-white/10 pb-2">
+            <h3 className="font-serif text-xl font-bold text-[#191919] border-b border-[#EAE6DF] pb-2">
               3. Qualifications & Experience
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Years of Professional Experience in India
                 </label>
                 <input
@@ -247,12 +247,12 @@ export default function ProviderOnboardingPage() {
                   max={50}
                   value={experienceYears}
                   onChange={(e) => setExperienceYears(Number(e.target.value))}
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
 
               <div>
-                <label className="block text-stone-400 font-semibold mb-1">
+                <label className="block text-stone-600 font-semibold mb-1">
                   Professional License / Enrollment No.
                 </label>
                 <input
@@ -260,13 +260,13 @@ export default function ProviderOnboardingPage() {
                   value={licenseInfo}
                   onChange={(e) => setLicenseInfo(e.target.value)}
                   placeholder="e.g. Bar Council Enrolment / ICAI Membership / Engineer Reg."
-                  className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                  className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
                 />
               </div>
             </div>
 
             <div className="text-xs space-y-1">
-              <label className="block text-stone-400 font-semibold">
+              <label className="block text-stone-600 font-semibold">
                 Relevant Experience Serving Overseas / Diaspora Clients:
               </label>
               <textarea
@@ -274,12 +274,12 @@ export default function ProviderOnboardingPage() {
                 value={nriExperience}
                 onChange={(e) => setNriExperience(e.target.value)}
                 placeholder="e.g. Have managed ancestral orchards for families in London and Dubai; coordinated regular photo updates and tenant coordination."
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
               />
             </div>
 
             <div className="text-xs space-y-1">
-              <label className="block text-stone-400 font-semibold">
+              <label className="block text-stone-600 font-semibold">
                 Standard / Sample Pricing Model:
               </label>
               <input
@@ -287,11 +287,11 @@ export default function ProviderOnboardingPage() {
                 value={sampleRate}
                 onChange={(e) => setSampleRate(e.target.value)}
                 placeholder="e.g. ₹3,500 per site visit / ₹4,999 monthly retainer"
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-[#8C6D2D]"
               />
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-start gap-3 text-xs">
+            <div className="p-4 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF] flex items-start gap-3 text-xs">
               <input
                 type="checkbox"
                 id="panCheck"
@@ -299,7 +299,7 @@ export default function ProviderOnboardingPage() {
                 onChange={(e) => setPanDeclared(e.target.checked)}
                 className="mt-0.5"
               />
-              <label htmlFor="panCheck" className="text-stone-300 font-light leading-relaxed">
+              <label htmlFor="panCheck" className="text-stone-700 font-light leading-relaxed">
                 I declare that my business possesses valid Indian PAN / GST credentials, and I agree to undergo mandatory identity and police/credential background checks before receiving customer bookings.
               </label>
             </div>
@@ -308,7 +308,7 @@ export default function ProviderOnboardingPage() {
           <div className="pt-4 flex justify-end">
             <button
               type="submit"
-              className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#C9A45C] to-[#E2C37E] text-[#0E1524] text-xs font-bold shadow-lg hover:shadow-[#C9A45C]/30 transition-all hover:scale-[1.02]"
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#C9A45C] to-[#E2C37E] text-[#0E1524] text-xs font-bold shadow-md hover:shadow-lg transition-all"
             >
               Submit Provider Application →
             </button>
