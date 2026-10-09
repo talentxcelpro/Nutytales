@@ -479,9 +479,10 @@ export default function CommercialSampleDesk() {
                   {/* Bank Wire Details */}
                   <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1 text-[11px]">
                     <div className="font-bold text-amber-900">INSTITUTIONAL BANK WIRE ROUTING (RTGS / NEFT):</div>
-                    <div className="text-stone-700">Account Name: Nuty Tales Agri Commodities B2B</div>
-                    <div className="text-stone-700">Bank: HDFC Bank Ltd, Sector 62 Noida Branch</div>
+                    <div className="text-stone-700">Account Name: Nuty Tales Foods &amp; Crafts (Nexgenn Services)</div>
+                    <div className="text-stone-700">Bank: HDFC Bank Ltd, Sector 128 Noida Branch</div>
                     <div className="text-stone-700">A/C Number: 50200084920194 (Current) · IFSC: HDFC0001576</div>
+                    <div className="text-stone-700">FSSAI Lic: 22724441000048</div>
                   </div>
 
                   <div className="pt-2 flex gap-3 font-sans">

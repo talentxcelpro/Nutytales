@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
@@ -60,6 +60,29 @@ export default function NoidaWholesalePage() {
             <h3 className="font-bold text-sm text-[#3D2B1F]">FSSAI Reg. {FSSAI_NUMBER}</h3>
             <p className="text-xs text-stone-600">Hygienic batch packaging, moisture-tested kernels, and sealed tamper-evident containers.</p>
           </div>
+        </div>
+
+        {/* Official Registered Office Address */}
+        <div className="bg-white p-6 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#C9A45C]">
+              Official Registered Office &amp; FSSAI Facility
+            </span>
+            <p className="text-sm font-semibold text-[#3D2B1F]">
+              PC-12, 003, Jaypee Wishtown, Sector 128, Noida, Uttar Pradesh 201304, India
+            </p>
+            <p className="text-xs text-stone-500">
+              FSSAI Lic. {FSSAI_NUMBER} · Central Wholesale Order Desk
+            </p>
+          </div>
+          <a
+            href="https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 bg-[#17233B] text-white hover:bg-black rounded-xl text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-colors"
+          >
+            Open on Google Maps ↗
+          </a>
         </div>
 
         {/* CTAs */}

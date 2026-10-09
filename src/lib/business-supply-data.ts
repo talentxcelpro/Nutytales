@@ -1,4 +1,4 @@
-﻿// ─── Nuty Tales Business Supply — Enterprise B2B Marketplace & Ingredients Catalog ─────────
+// ─── Nuty Tales Business Supply — Enterprise B2B Marketplace & Ingredients Catalog ─────────
 // Connecting Foodservice, Food Production, Health/Wellness, Trade, Brands, and Enterprise Procurement
 
 export interface IndustryProfile {
@@ -455,22 +455,25 @@ export const BULK_PACKAGING_TIERS = [
 
 export const SUPPLY_HUBS = [
   {
-    city: 'Noida / Delhi NCR',
+    city: 'Noida / Delhi NCR (Official Registered HQ)',
     role: 'Central Processing & Rapid B2B Dispatch',
     reach: 'Delhi NCR, Punjab, Haryana, Rajasthan, Western UP (Same-Day / Next-Day Delivery)',
-    address: 'Sector 62, Noida, Uttar Pradesh',
+    address: 'PC-12, 003, Jaypee Wishtown, Sector 128, Noida, Uttar Pradesh 201304',
+    mapUrl: 'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6',
   },
   {
-    city: 'Srinagar, Kashmir',
-    role: 'Direct Valley Farm Aggregation',
-    reach: 'Kashmiri Walnuts, Kagzi Badam, Pampore Saffron & Acacia Honey Sourcing',
-    address: 'Boulevard Road & Industrial Estate, Srinagar, J&K',
+    city: 'Kashmir (Arshid House)',
+    role: 'Direct Valley Farm & Craft Aggregation',
+    reach: 'Kashmiri Walnuts, Kagzi Badam, Pampore Saffron & Artisanal Crafts Sourcing',
+    address: 'Arshid House, Budgam–Gojra Road, Dadna, Budgam, Jammu and Kashmir 191111',
+    mapUrl: 'https://www.google.com/maps/place/Arshid+House/@34.1324252,74.5415978,11z/data=!4m10!1m2!2m1!1sArshid+House,+Budgam-Gojra+Road,+Dadna,+Budgam,+Jammu+and+Kashmir+191111!3m6!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj',
   },
   {
-    city: 'Patna, Bihar',
+    city: 'Patna, Bihar (Nafis Colony)',
     role: 'Makhana Wetland & Eastern India Distribution',
-    reach: 'Darbhanga & Madhubani Fox Nut Harvest + Eastern Regional Logistics',
-    address: 'Patna Industrial Area, Bihar',
+    reach: 'Mithila Fox Nut Harvest + Eastern Regional Logistics',
+    address: 'Nafis Colony, near Noor Plaza, Bari Path, Lalbagh, Patna, Bihar 800004',
+    mapUrl: 'https://www.mappls.com/place-noor+plaza-bari+path-lalbagh-patna-bihar-800004-VOK1WN@zdata=MjUuNjE2MzI0Kzg1LjE3MDQxNysxNytWT0sxV04rKw==ed',
   },
 ]
 

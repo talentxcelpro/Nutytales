@@ -51,22 +51,23 @@ export default function GlobalFooter() {
                 </div>
                 <div>
                   <span className="font-serif text-2xl font-bold tracking-tight text-white block">
-                    Nuty Tales
+                    Nuty Tales Foods &amp; Crafts
                   </span>
                   <span className="text-[9px] tracking-[0.2em] uppercase text-[#C9A45C] font-semibold block">
-                    Global Marketplace Platform
+                    A subsidiary of Nexgenn Services
                   </span>
                 </div>
               </Link>
 
               <p className="text-xs text-stone-400 leading-relaxed font-light max-w-sm">
-                A technology-powered global marketplace connecting customers, master artisans, Himalayan growers, luxury hosts, and corporate buyers across six interconnected ecosystems.
+                Dry fruits, nuts, healthy snacks, corporate gifting, wedding hampers and crafts. Connecting direct orchard sourcing in Kashmir, Mithila Makhana wetlands, and corporate logistics from Noida.
               </p>
 
               <div className="pt-2 text-xs text-stone-400 space-y-1">
-                <p>📍 Operational Corridors: Kashmir Highlands · Delhi NCR · Dubai · London</p>
+                <p>📍 Registered HQ: PC-12, 003, Jaypee Wishtown, Sector 128, Noida, UP 201304</p>
+                <p>🏔️ Kashmir: Arshid House, Dadna, Budgam · 🌾 Patna: Nafis Colony</p>
                 <p className="font-mono text-[11px] text-stone-500">
-                  Reg: Nuty Tales Foods &amp; Crafts Private Limited · FSSAI: {FSSAI_NUMBER}
+                  Nuty Tales Foods &amp; Crafts · Central FSSAI: {FSSAI_NUMBER}
                 </p>
               </div>
 
@@ -158,7 +159,7 @@ export default function GlobalFooter() {
           {/* Bottom Bar: Focused on Shop with subtle ecosystem footer */}
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-xs text-stone-500 gap-4">
             <div className="space-y-1 text-center md:text-left">
-              <p>© {currentYear} Nuty Tales Shop. All rights reserved. Sourced from Himalayan &amp; global origins.</p>
+              <p>© {currentYear} Nuty Tales Foods &amp; Crafts · A subsidiary of Nexgenn Services. All rights reserved.</p>
               <p className="text-[11px] text-stone-500">
                 Part of Nuty Tales technology ecosystem ·{' '}
                 <a href="https://business.nutytales.com" className="hover:underline text-stone-400">Business</a> ·{' '}

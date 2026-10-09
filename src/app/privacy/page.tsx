@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Nuty Tales Private Limited',
+  title: 'Privacy Policy | Nuty Tales Foods & Crafts',
   description:
-    'Nuty Tales privacy policy. How we collect, safeguard, and process customer data across our gourmet dry fruit store, B2B wholesale portal, luxury stays, Kashmir travel, and GI-certified crafts.',
+    'Nuty Tales Foods & Crafts (A subsidiary of Nexgenn Services) privacy policy. How we collect, safeguard, and process customer data across our gourmet dry fruits, nuts, corporate gifting, and crafts portal.',
   alternates: {
     canonical: 'https://nutytales.com/privacy',
   },
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
           </h1>
 
           <p className="text-sm sm:text-base text-[#17233B]/80 leading-relaxed font-normal max-w-2xl">
-            Nuty Tales Private Limited (&ldquo;Nuty Tales&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;) is committed to the highest standards of data security, consumer privacy, and transparency across our Tri-Hub commerce and experiential network.
+            Nuty Tales Foods &amp; Crafts, a subsidiary of Nexgenn Services (&ldquo;Nuty Tales&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;), is committed to the highest standards of data security, consumer privacy, and transparency across our Tri-Hub commerce and experiential network.
           </p>
         </div>
 
@@ -160,10 +160,13 @@ export default function PrivacyPolicyPage() {
             <p className="text-xs text-[#17233B]/70">
               In accordance with the Information Technology Act 2000 and Digital Personal Data Protection Act 2023:
             </p>
-            <div className="text-xs space-y-1 font-mono text-[#17233B]/90 pt-1">
+            <div className="text-xs space-y-1.5 font-mono text-[#17233B]/90 pt-1">
               <p><strong>Designated Grievance Officer:</strong> Arshid Wani</p>
-              <p><strong>Entity:</strong> Nuty Tales Private Limited</p>
-              <p><strong>Corporate HQ:</strong> Sector 62, Noida, Gautam Buddha Nagar, Uttar Pradesh 201309</p>
+              <p><strong>Entity:</strong> Nuty Tales Foods &amp; Crafts (A subsidiary of Nexgenn Services)</p>
+              <p><strong>FSSAI Registration:</strong> {FSSAI_NUMBER}</p>
+              <p><strong>Official Registered Office:</strong> PC-12, 003, Jaypee Wishtown, Sector 128, Noida, Uttar Pradesh 201304, India</p>
+              <p><strong>Kashmir Hub:</strong> Arshid House, Budgam–Gojra Road, Dadna, Budgam, Jammu and Kashmir 191111, India</p>
+              <p><strong>Patna Hub:</strong> Nafis Colony, near Noor Plaza, Bari Path, Lalbagh, Patna, Bihar 800004, India</p>
               <p><strong>Direct Email:</strong> grievance@nutytales.com</p>
               <p><strong>Response SLA:</strong> Within 48 business hours</p>
             </div>

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 /* ------------------------------------------------------------------ */
@@ -31,8 +31,10 @@ const localBusinessSchema = {
     'Wholesale dry fruit supplier serving businesses in Srinagar and Jammu & Kashmir. Premium Afghan dry fruits and more.',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Srinagar',
-    addressRegion: 'Jammu & Kashmir',
+    streetAddress: 'Arshid House, Budgam–Gojra Road, Dadna',
+    addressLocality: 'Budgam',
+    addressRegion: 'Jammu and Kashmir',
+    postalCode: '191111',
     addressCountry: 'IN',
   },
   areaServed: ['Srinagar', 'Jammu', 'Kashmir', 'Baramulla', 'Anantnag', 'Pulwama'],
@@ -398,6 +400,27 @@ export default function KashmirWholesalePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               Email
+            </a>
+          </div>
+
+          {/* Arshid House Kashmir Location Card */}
+          <div className="bg-white/10 p-6 rounded-2xl border border-white/20 text-left max-w-xl mx-auto space-y-2 mb-8 backdrop-blur-sm">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#C9A45C] block">
+              🏔️ Kashmir Hub &amp; Property Information
+            </span>
+            <p className="text-sm font-semibold text-white">
+              Arshid House, Budgam–Gojra Road, Dadna, Budgam, Jammu and Kashmir 191111, India
+            </p>
+            <p className="text-xs text-stone-300">
+              Valley farm procurement, Himalayan walnuts, Mamra almonds &amp; authentic craft aggregation.
+            </p>
+            <a
+              href="https://www.google.com/maps/place/Arshid+House/@34.1324252,74.5415978,11z/data=!4m10!1m2!2m1!1sArshid+House,+Budgam-Gojra+Road,+Dadna,+Budgam,+Jammu+and+Kashmir+191111!3m6!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-[#C9A45C] hover:underline font-bold pt-1"
+            >
+              <span>Open Arshid House on Google Maps ↗</span>
             </a>
           </div>
           <Link

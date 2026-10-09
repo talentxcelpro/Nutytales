@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
@@ -432,7 +432,7 @@ export default function MakhanaPage() {
                 What is the lead time for 500 kg to 2,000 kg orders?
               </h3>
               <p className="text-xs text-[#17233B]/70 leading-relaxed">
-                Orders dispatch within 24 to 48 hours from our central transit facility in Patna or our regional fulfillment warehouse in Sector 62, Noida.
+                Orders dispatch within 24 to 48 hours from our central transit facility in Patna or our registered fulfillment facility in Sector 128, Noida.
               </p>
             </div>
           </div>

@@ -3,7 +3,15 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import {
+  WHATSAPP_NUMBERS,
+  DEFAULT_CONTACT_PHONE,
+  FSSAI_NUMBER,
+  LOCATIONS,
+  BRAND_NAME,
+  SUBSIDIARY_STATEMENT,
+  BUSINESS_FOCUS,
+} from '@/lib/constants'
 
 const FOOTER_COLS = [
   {
@@ -95,22 +103,64 @@ export default function Footer() {
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold tracking-tight text-white block">
-                  Nuty Tales
+                  {BRAND_NAME}
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#C9A45C] font-semibold block">
-                  Taste · Stay · Explore · Discover
+                  {SUBSIDIARY_STATEMENT}
                 </span>
               </div>
             </Link>
 
             <p className="text-xs text-stone-300 leading-relaxed max-w-sm font-normal">
-              An integrated gourmet dry-fruit commerce, luxury Himalayan crafts, and boutique hospitality network. Connecting the orchards &amp; loom clusters of Kashmir, the Makhana ponds of Bihar, and central procurement in Noida, Delhi NCR.
+              {BUSINESS_FOCUS} Connecting direct orchard sourcing in Kashmir, Mithila Makhana wetlands, and corporate logistics from Noida.
             </p>
 
-            <div className="pt-2 text-xs text-stone-300 space-y-1">
-              <p>📍 Central HQ: Sector 62, Noida, Delhi NCR</p>
-              <p>🏔️ Valley Hub: Srinagar, Jammu &amp; Kashmir</p>
-              <p>🌾 Eastern Hub: Patna, Bihar</p>
+            <div className="pt-2 text-xs text-stone-300 space-y-2.5">
+              <div>
+                <p className="font-semibold text-white flex items-center gap-1.5">
+                  <span>📍</span> {LOCATIONS.NOIDA.name}:
+                </p>
+                <a
+                  href={LOCATIONS.NOIDA.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-300 hover:text-[#C9A45C] transition-colors block text-[11px] pl-5 leading-snug"
+                >
+                  {LOCATIONS.NOIDA.address}
+                  <span className="text-[#C9A45C] font-semibold ml-1">↗ Google Maps</span>
+                </a>
+              </div>
+
+              <div>
+                <p className="font-semibold text-white flex items-center gap-1.5">
+                  <span>🏔️</span> {LOCATIONS.KASHMIR.name}:
+                </p>
+                <a
+                  href={LOCATIONS.KASHMIR.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-300 hover:text-[#C9A45C] transition-colors block text-[11px] pl-5 leading-snug"
+                >
+                  {LOCATIONS.KASHMIR.address}
+                  <span className="text-[#C9A45C] font-semibold ml-1">↗ Google Maps</span>
+                </a>
+              </div>
+
+              <div>
+                <p className="font-semibold text-white flex items-center gap-1.5">
+                  <span>🌾</span> {LOCATIONS.PATNA.name}:
+                </p>
+                <a
+                  href={LOCATIONS.PATNA.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-300 hover:text-[#C9A45C] transition-colors block text-[11px] pl-5 leading-snug"
+                >
+                  {LOCATIONS.PATNA.address}
+                  <span className="text-[#C9A45C] font-semibold ml-1">↗ Mappls</span>
+                </a>
+              </div>
+
               <p className="pt-1">
                 <a
                   href={`https://wa.me/${whatsappPhone}`}
@@ -188,8 +238,9 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
           <div className="flex flex-wrap items-center gap-6">
-            <span>© {currentYear} Nuty Tales Private Limited. All rights reserved.</span>
+            <span>© {currentYear} {BRAND_NAME} · {SUBSIDIARY_STATEMENT}. All rights reserved.</span>
             <span>Central FSSAI Lic. {FSSAI_NUMBER}</span>
+            <span>Sector 128, Noida (Official Registered Office)</span>
             <span>Govt. J&amp;K GI Tag Authenticity Certified</span>
           </div>
           <div className="flex items-center gap-6">

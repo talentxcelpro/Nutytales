@@ -196,12 +196,14 @@ export default function CheckoutPage() {
                 <p className="font-bold text-[#17233B] uppercase tracking-wider text-[11px]">
                   B2B Bank Transfer Account (NEFT / RTGS / IMPS):
                 </p>
-                <div className="grid grid-cols-2 gap-2 text-stone-700">
-                  <div><strong>Account Name:</strong> Nuty Tales Foods</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-700">
+                  <div><strong>Account Name:</strong> Nuty Tales Foods &amp; Crafts</div>
+                  <div><strong>Parent Entity:</strong> Nexgenn Services</div>
                   <div><strong>Bank:</strong> HDFC Bank / ICICI Bank</div>
+                  <div><strong>Branch:</strong> Sector 128, Noida, UP 201304</div>
                   <div><strong>Account No:</strong> 50200088910412</div>
                   <div><strong>IFSC Code:</strong> HDFC0001234</div>
-                  <div><strong>Branch:</strong> Sector 62, Noida, NCR</div>
+                  <div><strong>FSSAI Lic:</strong> 22724441000048</div>
                   <div><strong>GSTIN:</strong> 09AAECN1234F1Z5</div>
                 </div>
                 <p className="text-[11px] text-[#704B32] pt-1">

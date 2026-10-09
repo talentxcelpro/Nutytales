@@ -58,9 +58,9 @@ export default function ShippingPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-[#C9A45C]/10 text-[#C9A45C] flex items-center justify-center font-bold text-sm">
                 01
               </div>
-              <h3 className="font-serif text-base font-bold text-[#17233B]">Central Hub — Noida</h3>
+              <h3 className="font-serif text-base font-bold text-[#17233B]">Official HQ — Sector 128, Noida</h3>
               <p className="text-xs text-[#17233B]/70 leading-relaxed">
-                Sector 62, Delhi-NCR. Central grading, cold storage, corporate laser packaging, and express same-day / 24h dispatch across North India.
+                PC-12, 003, Jaypee Wishtown, Sector 128, Noida, UP 201304. FSSAI registered facility, central grading, cold storage, and corporate same-day dispatch.
               </p>
             </div>
 
@@ -68,9 +68,9 @@ export default function ShippingPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
                 02
               </div>
-              <h3 className="font-serif text-base font-bold text-[#17233B]">Valley Origin — Srinagar</h3>
+              <h3 className="font-serif text-base font-bold text-[#17233B]">Kashmir Hub — Arshid House</h3>
               <p className="text-xs text-[#17233B]/70 leading-relaxed">
-                Industrial Estate, Srinagar. Direct air-cargo dispatches for fresh walnut harvest, Pampore saffron vials, and GI-certified Changthangi pashminas.
+                Budgam–Gojra Road, Dadna, Budgam, J&amp;K 191111. Direct origin aggregation for Kagzi walnuts, Mamra almonds, Pampore saffron, and artisanal crafts.
               </p>
             </div>
 
@@ -78,9 +78,9 @@ export default function ShippingPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-700 flex items-center justify-center font-bold text-sm">
                 03
               </div>
-              <h3 className="font-serif text-base font-bold text-[#17233B]">Eastern Hub — Patna</h3>
+              <h3 className="font-serif text-base font-bold text-[#17233B]">Eastern Hub — Nafis Colony, Patna</h3>
               <p className="text-xs text-[#17233B]/70 leading-relaxed">
-                Industrial Area, Patna. Direct origin packaging for Mithila Phool Makhana, jumbo grading, and Eastern India regional wholesale fulfillment.
+                Near Noor Plaza, Bari Path, Lalbagh, Patna, Bihar 800004. Direct procurement for Mithila Phool Makhana and Eastern India logistics.
               </p>
             </div>
           </div>

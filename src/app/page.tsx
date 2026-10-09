@@ -8,20 +8,21 @@ import ShopTrustAndGuarantee from '@/components/shop/ShopTrustAndGuarantee'
 import { FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Nuty Tales Shop — Premium Single-Origin Dry Fruits, Saffron & Gourmet Harvest',
+  title: 'Nuty Tales Foods & Crafts — Dry Fruits, Nuts, Gifting & Crafts | Nexgenn Services',
   description:
-    'Shop authentic single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, and Mithila jumbo makhana. Nitrogen-sealed freshness, FSSAI certified, shipped worldwide.',
+    'Nuty Tales Foods & Crafts — A subsidiary of Nexgenn Services. Authentic single-origin Kashmiri Kagzi walnuts, Mamra almonds, Pampore saffron, Mithila makhana, corporate gifting, and artisanal crafts. FSSAI: 22724441000048.',
   keywords: [
-    'Nuty Tales Shop',
+    'Nuty Tales Foods & Crafts',
+    'Nexgenn Services',
     'buy dry fruits online',
     'kashmiri walnuts',
     'pampore mongra saffron',
     'mamra almonds',
     'mithila makhana',
-    'raw kashmiri honey',
-    'fssai certified dry fruits',
-    'single origin gourmet food',
-    'california almonds',
+    'fssai 22724441000048',
+    'corporate gifting hampers',
+    'wedding hampers',
+    'kashmiri crafts',
   ],
   alternates: {
     canonical: 'https://nutytales.com',
@@ -32,11 +33,27 @@ export default function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'OnlineStore',
-    name: 'Nuty Tales Shop',
+    name: 'Nuty Tales Foods & Crafts',
+    legalName: 'Nuty Tales Foods & Crafts',
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'Nexgenn Services',
+    },
     url: 'https://nutytales.com',
     logo: 'https://nutytales.com/images/logo.jpg',
     description:
-      'Nuty Tales Shop — Premium Single-Origin Dry Fruits, Saffron & Gourmet Harvest. FSSAI Reg. ' + FSSAI_NUMBER,
+      'Nuty Tales Foods & Crafts — A subsidiary of Nexgenn Services. Dry fruits, nuts, healthy snacks, corporate gifting, wedding hampers and crafts. Central FSSAI: ' +
+      FSSAI_NUMBER,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'PC-12, 003, Jaypee Wishtown, Sector 128',
+      addressLocality: 'Noida',
+      addressRegion: 'Uttar Pradesh',
+      postalCode: '201304',
+      addressCountry: 'IN',
+    },
+    hasMap:
+      'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://nutytales.com/shop?q={search_term_string}',
@@ -46,7 +63,7 @@ export default function HomePage() {
       '@type': 'ContactPoint',
       telephone: '+91-9717161809',
       contactType: 'customer service',
-      availableLanguage: ['English', 'Hindi'],
+      availableLanguage: ['English', 'Hindi', 'Kashmiri', 'Urdu'],
     },
   }
 

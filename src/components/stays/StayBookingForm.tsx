@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -126,14 +126,14 @@ export default function StayBookingForm({
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#D4870A] text-sm bg-white font-medium"
               >
-                <option value="Kashmir Valley Orchard Stay (Srinagar)">
-                  🏔️ Kashmir Valley Orchard Stay (Srinagar, J&K)
+                <option value="Kashmir — Arshid House (Budgam / Dadna)">
+                  🏔️ Kashmir — Arshid House (Budgam / Dadna, J&amp;K)
                 </option>
-                <option value="Noida Executive Retreat (Delhi NCR)">
-                  🏢 Noida Executive Retreat (Delhi NCR / Sector 62)
+                <option value="Noida Executive Retreat (Jaypee Wishtown / Sector 128)">
+                  🏢 Noida Executive Retreat (Jaypee Wishtown / Sector 128)
                 </option>
-                <option value="Patna Heritage Comfort Stay (Bihar)">
-                  🌾 Patna Heritage Comfort Stay (Patna, Bihar)
+                <option value="Patna Heritage Comfort Stay (Nafis Colony, Bihar)">
+                  🌾 Patna Heritage Comfort Stay (Nafis Colony, Bihar)
                 </option>
               </select>
             </div>

@@ -217,8 +217,8 @@ export default function LiveStaysDiscovery() {
             {[
               { id: 'All', label: 'All Locations' },
               { id: 'Kashmir', label: '🏔️ Kashmir (Harwan · Gulmarg · Pahalgam)' },
-              { id: 'Delhi-NCR', label: '🏢 Delhi / NCR (Noida Sector 62/63 Executive)' },
-              { id: 'Patna', label: '🏛️ Patna (Mithila Riverfront Courtyard)' },
+              { id: 'Delhi-NCR', label: '🏢 Delhi / NCR (Noida Sector 128 / Jaypee Wishtown)' },
+              { id: 'Patna', label: '🏛️ Patna (Nafis Colony / Mithila Courtyard)' },
               { id: 'Global', label: '🌍 Global (Dubai DIFC · London Kensington)' },
             ].map((hub) => (
               <button
@@ -357,7 +357,7 @@ export default function LiveStaysDiscovery() {
             Executive Residences &amp; High-Yield Team Offsites
           </h3>
           <p className="text-xs text-stone-300 max-w-2xl font-light leading-relaxed">
-            Anchored in <strong>Delhi / NCR (Noida Sector 62/63)</strong>, <strong>Kashmir (Harwan &amp; Gulmarg)</strong>, and <strong>Patna</strong>. Redundant 200–500 Mbps commercial fiber, dedicated board meeting tables, in-house master chefs, private 4x4 airport transit, and official 18% GST invoicing.
+            Anchored in <strong>Delhi / NCR (Sector 128, Noida)</strong>, <strong>Kashmir (Arshid House &amp; Harwan)</strong>, and <strong>Patna (Nafis Colony)</strong>. Redundant 200–500 Mbps commercial fiber, dedicated board meeting tables, in-house master chefs, private 4x4 airport transit, and official 18% GST invoicing.
           </p>
         </div>
 

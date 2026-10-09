@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
@@ -67,6 +67,29 @@ export default function PatnaWholesalePage() {
               Explore Our Makhana Wholesale Guide &amp; Catalog →
             </Link>
           </div>
+        </div>
+
+        {/* Patna Regional Hub Address */}
+        <div className="bg-white p-6 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#2D6A4F]">
+              Patna Commercial Hub &amp; Makhana Depot
+            </span>
+            <p className="text-sm font-semibold text-[#3D2B1F]">
+              Nafis Colony, near Noor Plaza, Bari Path, Lalbagh, Patna, Bihar 800004, India
+            </p>
+            <p className="text-xs text-stone-500">
+              Direct connection to Mithila wetland farmer clusters in Darbhanga &amp; Madhubani.
+            </p>
+          </div>
+          <a
+            href="https://www.mappls.com/place-noor+plaza-bari+path-lalbagh-patna-bihar-800004-VOK1WN@zdata=MjUuNjE2MzI0Kzg1LjE3MDQxNysxNytWT0sxV04rKw==ed"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 bg-[#2D6A4F] text-white hover:bg-[#1E4D38] rounded-xl text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-colors"
+          >
+            Open on Mappls ↗
+          </a>
         </div>
 
         {/* CTAs */}

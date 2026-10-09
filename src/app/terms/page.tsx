@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service & Commercial Conditions | Nuty Tales',
+  title: 'Terms of Service & Commercial Conditions | Nuty Tales Foods & Crafts',
   description:
-    'Terms of service, purchase contracts, wholesale procurement guidelines, hospitality reservation policies, and authenticity guarantees for Nuty Tales Private Limited.',
+    'Terms of service, purchase contracts, wholesale procurement guidelines, and authenticity guarantees for Nuty Tales Foods & Crafts (A subsidiary of Nexgenn Services).',
   alternates: {
     canonical: 'https://nutytales.com/terms',
   },
@@ -44,7 +44,7 @@ export default function TermsOfServicePage() {
           </h1>
 
           <p className="text-sm sm:text-base text-[#17233B]/80 leading-relaxed font-normal max-w-2xl">
-            Welcome to Nuty Tales. These Terms of Service constitute a legally binding agreement between you (&ldquo;Customer&rdquo;, &ldquo;Buyer&rdquo;, &ldquo;Guest&rdquo;) and Nuty Tales Private Limited governing access to our commerce platforms, wholesale supply desks, bespoke gifting portals, and hospitality services.
+            Welcome to Nuty Tales Foods &amp; Crafts, a subsidiary of Nexgenn Services (&ldquo;Nuty Tales&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;). These Terms of Service constitute a legally binding agreement between you (&ldquo;Customer&rdquo;, &ldquo;Buyer&rdquo;, &ldquo;Guest&rdquo;) and Nuty Tales Foods &amp; Crafts governing access to our commerce platforms, wholesale supply desks, and bespoke gifting portals.
           </p>
         </div>
 

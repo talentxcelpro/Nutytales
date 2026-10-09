@@ -31,28 +31,30 @@ export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
 
   title: {
-    default: "Nuty Tales Shop — Premium Single-Origin Dry Fruits, Saffron & Gourmet Harvest",
-    template: "%s | Nuty Tales Shop",
+    default: "Nuty Tales Foods & Crafts — Premium Dry Fruits, Nuts, Gifting & Crafts | Nexgenn Services",
+    template: "%s | Nuty Tales Foods & Crafts",
   },
 
   description:
-    "Buy certified single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, and Mithila jumbo makhana. FSSAI certified, nitrogen-sealed freshness, worldwide delivery.",
+    "Nuty Tales Foods & Crafts (A subsidiary of Nexgenn Services). Buy certified single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, Mithila jumbo makhana, corporate gifting, and artisanal crafts. FSSAI: 22724441000048.",
 
   keywords: [
-    "Nuty Tales Shop",
+    "Nuty Tales Foods & Crafts",
+    "Nexgenn Services",
     "buy dry fruits online",
     "kashmiri walnuts",
     "pampore saffron",
     "mamra almonds",
     "mithila makhana",
-    "raw honey",
-    "fssai certified dry fruits",
-    "single origin nuts",
+    "fssai 22724441000048",
+    "corporate gifting",
+    "wedding hampers",
+    "kashmiri crafts",
   ],
 
-  authors: [{ name: "Nuty Tales", url: APP_URL }],
-  creator: "Nuty Tales",
-  publisher: "Nuty Tales",
+  authors: [{ name: "Nuty Tales Foods & Crafts", url: APP_URL }],
+  creator: "Nexgenn Services",
+  publisher: "Nuty Tales Foods & Crafts",
 
   category: "marketplace",
 

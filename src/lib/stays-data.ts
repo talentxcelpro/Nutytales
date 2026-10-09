@@ -36,6 +36,7 @@ export interface StayProperty {
   secondaryCategories: StayCategory[]
   tagline: string
   locationNote: string
+  mapUrl?: string
   hubZone: 'Kashmir' | 'Delhi-NCR' | 'Patna' | 'Global'
   rating: number
   reviewsCount: number
@@ -87,7 +88,8 @@ export const STAY_PROPERTIES: StayProperty[] = [
     category: 'orchards',
     secondaryCategories: ['buyouts', 'heritage', 'corporate_suites'],
     tagline: 'Private 4-acre walnut & apple orchard estate beneath snow-capped Zabarwan peaks',
-    locationNote: 'Harwan / Dachigam Road, 15 mins from Dal Lake & Shalimar Bagh, Srinagar',
+    locationNote: 'Harwan / Dachigam Road & Arshid House, Budgam–Gojra Road, Dadna, Budgam, J&K 191111',
+    mapUrl: 'https://www.google.com/maps/place/Arshid+House/@34.1324252,74.5415978,11z/data=!4m10!1m2!2m1!1sArshid+House,+Budgam-Gojra+Road,+Dadna,+Budgam,+Jammu+and+Kashmir+191111!3m6!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj',
     rating: 4.98,
     reviewsCount: 128,
     curatedCollection: true,
@@ -165,7 +167,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
   {
     id: 'prop-noida-executive',
     slug: 'cyber-city-executive-penthouse',
-    name: 'Cyber City Executive Penthouse & Boardroom',
+    name: 'Jaypee Wishtown Executive Penthouse & Boardroom',
     city: 'Noida',
     state: 'Delhi NCR (Uttar Pradesh)',
     country: 'India',
@@ -173,7 +175,8 @@ export const STAY_PROPERTIES: StayProperty[] = [
     category: 'corporate_suites',
     secondaryCategories: ['global', 'buyouts'],
     tagline: 'Executive corporate residence with 12-seat boardroom, 500 Mbps redundant fiber & skyline garden terrace',
-    locationNote: 'Sector 62/63 Logistics & Corporate Corridor, Noida — 5 mins from Electronic City Metro',
+    locationNote: 'PC-12, 003, Jaypee Wishtown, Sector 128, Noida, Uttar Pradesh 201304 — Expressway Corridor',
+    mapUrl: 'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6',
     rating: 4.95,
     reviewsCount: 230,
     curatedCollection: true,
@@ -244,7 +247,8 @@ export const STAY_PROPERTIES: StayProperty[] = [
     category: 'heritage',
     secondaryCategories: ['orchards', 'corporate_suites', 'buyouts'],
     tagline: 'Restored colonial manor celebrating the agricultural heritage of Mithila Makhana & Ganges River',
-    locationNote: 'Patliputra / Riverfront Promenade, 20 mins from Patna Airport & Mithila Makhana Hub',
+    locationNote: 'Nafis Colony, near Noor Plaza, Bari Path, Lalbagh, Patna, Bihar 800004 — Mithila Sourcing Corridor',
+    mapUrl: 'https://www.mappls.com/place-noor+plaza-bari+path-lalbagh-patna-bihar-800004-VOK1WN@zdata=MjUuNjE2MzI0Kzg1LjE3MDQxNysxNytWT0sxV04rKw==ed',
     rating: 4.93,
     reviewsCount: 78,
     curatedCollection: true,

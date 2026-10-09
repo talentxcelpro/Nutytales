@@ -182,7 +182,7 @@ export default function ExecutiveSampleHamperDesk() {
                 Sample Order Ref: {sampleSuccess} · ₹1,499 (100% PO Credit Guaranteed)
               </p>
               <p className="text-xs text-stone-300 max-w-xl mx-auto leading-relaxed">
-                Dispatched within 24 hours from our <strong>Noida Sector 62 Corporate Showroom</strong> via Blue Dart Air. Your physical box contains 4 premium glass jars, gold lid foil stamping swatches, and a ₹1,499 credit voucher valid on orders of 25+ hampers.
+                Dispatched within 24 hours from our <strong>Noida Sector 128 Corporate Office &amp; Gifting Studio</strong> (Jaypee Wishtown) via Blue Dart Air. Your physical box contains 4 premium glass jars, gold lid foil stamping swatches, and a ₹1,499 credit voucher valid on orders of 25+ hampers.
               </p>
               <div className="pt-3 flex justify-center gap-3">
                 <a
@@ -253,9 +253,9 @@ export default function ExecutiveSampleHamperDesk() {
 
                 <div className="pt-3 border-t border-white/10 text-[11px] text-stone-300 space-y-1">
                   <div className="text-[#C9A45C] font-bold">Tri-Hub Execution Guarantee:</div>
-                  <div>• Delhi/NCR Hub: Noida Sector 62 Gifting Studio (Instant Dispatch)</div>
-                  <div>• Kashmir Origin: Harwan Walnuts &amp; Pampore Saffron direct seal</div>
-                  <div>• Patna Depot: Mithila Grade-1 Phool Makhana fresh inclusion</div>
+                  <div>• Delhi/NCR HQ: Noida Sector 128 Gifting Studio, Jaypee Wishtown (Instant Dispatch)</div>
+                  <div>• Kashmir Hub: Arshid House, Budgam &amp; Harwan Walnuts / Pampore Saffron direct seal</div>
+                  <div>• Patna Depot: Nafis Colony &amp; Mithila Grade-1 Phool Makhana fresh inclusion</div>
                 </div>
               </div>
 
@@ -357,7 +357,7 @@ export default function ExecutiveSampleHamperDesk() {
                         : 'Order Executive Sample Hamper (₹1,499) — Dispatched in 24h →'}
                     </button>
                     <p className="text-[11px] text-stone-400 text-center mt-2">
-                      100% of ₹1,499 credited on PO · Instant GST Invoice · Dispatched from Noida Sector 62 Showroom
+                      100% of ₹1,499 credited on PO · Instant GST Invoice · Dispatched from Noida Sector 128 Showroom
                     </p>
                   </div>
                 </form>
