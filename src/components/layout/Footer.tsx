@@ -146,11 +146,50 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* Official FSSAI & Quality Assurance Trust Ribbon */}
+        <div className="mt-12 py-5 px-6 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-4">
+            <div className="bg-white rounded-xl p-2 px-3 flex items-center justify-center shadow-xs flex-shrink-0">
+              <Image
+                src="/images/fssai-logo.png"
+                alt="FSSAI Food Safety and Standards Authority of India"
+                width={72}
+                height={35}
+                className="h-7 w-auto object-contain"
+              />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold text-white tracking-wide uppercase">
+                  Central FSSAI Food Safety Certified
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  Verified Active
+                </span>
+              </div>
+              <p className="text-[11px] text-stone-300 font-mono mt-0.5">
+                License No. <span className="text-[#C9A45C] font-semibold tracking-wider">{FSSAI_NUMBER}</span> · Standardized under Food Safety and Standards Act
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-5 text-xs text-stone-300">
+            <span className="flex items-center gap-1.5">
+              <span className="text-[#C9A45C]">✦</span> 100% Single-Origin Harvest
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-[#C9A45C]">✦</span> NABL Lab Tested
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="text-[#C9A45C]">✦</span> Nitrogen-Flushed Barrier Packs
+            </span>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
+        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
           <div className="flex flex-wrap items-center gap-6">
             <span>© {currentYear} Nuty Tales Private Limited. All rights reserved.</span>
-            <span>FSSAI Reg. No. {FSSAI_NUMBER}</span>
+            <span>Central FSSAI Lic. {FSSAI_NUMBER}</span>
             <span>Govt. J&amp;K GI Tag Authenticity Certified</span>
           </div>
           <div className="flex items-center gap-6">

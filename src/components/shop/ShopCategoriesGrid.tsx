@@ -47,6 +47,27 @@ const SHOP_CATEGORIES = [
     image: '/images/cashews-pouch-250g.jpg',
     itemCount: 'Grade-A Selects',
   },
+  {
+    name: 'Afghan Chilgoza & Exotic Nuts',
+    slug: 'exotic-nuts',
+    description: 'Hindu Kush pine nuts (Chilgoza) & mammoth California pecan halves.',
+    image: '/images/chilgoza-pouch-250g.jpg',
+    itemCount: 'Wild Harvest Reserves',
+  },
+  {
+    name: 'Super Berries & Cranberries',
+    slug: 'berries',
+    description: 'USA whole cranberries, wild blueberries & Persian ruby barberries.',
+    image: '/images/cranberries-pouch-250g.jpg',
+    itemCount: 'Antioxidant Superfoods',
+  },
+  {
+    name: 'Royal Dates & Sun-Dried Figs',
+    slug: 'dates',
+    description: 'Madinah Ajwa & Mabroom dates, plus Turkish & Kandahar mala anjeer.',
+    image: '/images/mabroom-dates-pouch-250g.jpg',
+    itemCount: 'Sacred & Honeyed Fruits',
+  },
 ]
 
 export default function ShopCategoriesGrid() {

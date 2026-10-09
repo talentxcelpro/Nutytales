@@ -633,6 +633,41 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             )}
           </div>
 
+          {/* FSSAI Food Safety & Authentic Quality Trust Card */}
+          <div className="bg-gradient-to-r from-emerald-50/70 via-stone-50 to-amber-50/50 p-5 rounded-3xl border border-emerald-100 shadow-[0_2px_14px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="bg-white p-2 rounded-2xl border border-stone-200/80 shadow-2xs flex items-center justify-center flex-shrink-0">
+                <Image
+                  src="/images/fssai-logo.png"
+                  alt="FSSAI Food Safety and Standards Authority of India"
+                  width={68}
+                  height={32}
+                  className="h-7 w-auto object-contain"
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#17233B]">
+                    Central FSSAI Certified
+                  </span>
+                  <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                    Lic. {FSSAI_NUMBER}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-500 mt-0.5">
+                  100% single-origin harvest · Zero adulteration · Nitrogen-flushed barrier pack
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowCOAModal(true)}
+              className="text-[11px] font-semibold text-emerald-900 bg-emerald-100/60 hover:bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-200/80 transition-colors self-start sm:self-auto whitespace-nowrap"
+            >
+              Verify Lab COA 📜
+            </button>
+          </div>
+
           {/* Delivery & Pincode Checker */}
           <div className="bg-white p-6 rounded-3xl border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.02)] space-y-3">
             <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
@@ -869,7 +904,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <span className="font-bold text-emerald-700">0.00% Zero Pesticides (PASS)</span>
               </div>
               <div className="p-3 bg-white rounded-xl border border-stone-200 flex justify-between items-center">
-                <span className="text-stone-500">FSSAI License</span>
+                <div className="flex items-center gap-2">
+                  <Image
+                    src="/images/fssai-logo.png"
+                    alt="FSSAI"
+                    width={44}
+                    height={22}
+                    className="h-5 w-auto object-contain"
+                  />
+                  <span className="text-stone-500">Central FSSAI License</span>
+                </div>
                 <span className="font-bold text-[#17233B]">{FSSAI_NUMBER}</span>
               </div>
               <div className="p-3 bg-white rounded-xl border border-stone-200 flex justify-between items-center">

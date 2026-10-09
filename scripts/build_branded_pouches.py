@@ -55,41 +55,52 @@ def generate_branded_pouch(
         vignette = vignette.filter(ImageFilter.GaussianBlur(1.5))
         base.paste(vignette, (cx - radius, cy - radius), vignette)
 
-    # 3. Clean Luxury Typography
+    # 3. Clean Luxury Typography with Auto-Fitting
     draw = ImageDraw.Draw(base)
     font_dir = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
-    
-    try:
-        font_subhead = ImageFont.truetype(os.path.join(font_dir, 'georgiab.ttf'), 17)
-        font_title1 = ImageFont.truetype(os.path.join(font_dir, 'georgiab.ttf'), 38)
-        font_title2 = ImageFont.truetype(os.path.join(font_dir, 'georgiab.ttf'), 32)
-        font_sub = ImageFont.truetype(os.path.join(font_dir, 'segoeuib.ttf'), 15)
-    except:
-        font_subhead = ImageFont.load_default()
-        font_title1 = font_subhead
-        font_title2 = font_subhead
-        font_sub = font_subhead
+    georgia_path = os.path.join(font_dir, 'georgiab.ttf')
+    segoe_path = os.path.join(font_dir, 'segoeuib.ttf')
+
+    def get_fitted_font(f_path, init_size, text, max_w=480):
+        size = init_size
+        while size >= 12:
+            try:
+                f = ImageFont.truetype(f_path, size)
+                bb = draw.textbbox((0, 0), text, font=f)
+                if (bb[2] - bb[0]) <= max_w:
+                    return f
+            except:
+                return ImageFont.load_default()
+            size -= 2
+        try:
+            return ImageFont.truetype(f_path, 12)
+        except:
+            return ImageFont.load_default()
 
     # Subhead (Teal / Slate)
     if subhead:
+        font_subhead = get_fitted_font(georgia_path, 17, subhead, 480)
         bb = draw.textbbox((0, 0), subhead, font=font_subhead)
         w_sub = bb[2] - bb[0]
         draw.text((cx - w_sub // 2, 386), subhead, font=font_subhead, fill=(28, 70, 72))
 
     # Title Line 1 (Dark Slate Navy)
     if title_line1:
+        font_title1 = get_fitted_font(georgia_path, 38, title_line1, 480)
         bb1 = draw.textbbox((0, 0), title_line1, font=font_title1)
         w_t1 = bb1[2] - bb1[0]
         draw.text((cx - w_t1 // 2, 418), title_line1, font=font_title1, fill=(23, 35, 59))
 
     # Title Line 2 (Warm Gold)
     if title_line2:
+        font_title2 = get_fitted_font(georgia_path, 32, title_line2, 480)
         bb2 = draw.textbbox((0, 0), title_line2, font=font_title2)
         w_t2 = bb2[2] - bb2[0]
         draw.text((cx - w_t2 // 2, 472), title_line2, font=font_title2, fill=(184, 147, 74))
 
     # Subtitle (Dark Charcoal Sans)
     if subtitle:
+        font_sub = get_fitted_font(segoe_path, 15, subtitle, 490)
         bb_s = draw.textbbox((0, 0), subtitle, font=font_sub)
         w_s = bb_s[2] - bb_s[0]
         draw.text((cx - w_s // 2, 532), subtitle, font=font_sub, fill=(65, 55, 50))
@@ -178,6 +189,97 @@ POUCH_DEFINITIONS = [
         'title_line1': 'GURBANDI BADAM',
         'title_line2': 'ALMONDS',
         'subtitle': 'HIGH OIL MEDICINAL ALMONDS',
+    },
+    # ── New Regional Specialities ──────────────────────────────────────────
+    # 1. Afghanistan: Chilgoza (Pine Nuts)
+    {
+        'output_filename': 'chilgoza-pouch-250g.jpg',
+        'window_image_filename': 'chilgoza-macro.jpg',
+        'subhead': 'HINDU KUSH • AFGHANISTAN',
+        'title_line1': 'ROYAL JUMBO',
+        'title_line2': 'CHILGOZA',
+        'subtitle': 'WILD HARVEST PINE NUTS IN-SHELL',
+    },
+    # 2. Afghanistan: Kandahari Abjosh Long Sultanas
+    {
+        'output_filename': 'abjosh-raisins-pouch-250g.jpg',
+        'window_image_filename': 'black-munakka-macro.jpg',
+        'subhead': 'KANDAHAR VALLEY • AFGHANISTAN',
+        'title_line1': 'KANDAHARI ABJOSH',
+        'title_line2': 'GOLDEN RAISINS',
+        'subtitle': 'EXTRA LONG JUMBO SULTANAS',
+    },
+    # 3. Middle East: Mabroom Dates (Madinah)
+    {
+        'output_filename': 'mabroom-dates-pouch-250g.jpg',
+        'window_image_filename': 'mabroom-dates-macro.jpg',
+        'subhead': 'MADINAH AL-MUNAWWARAH',
+        'title_line1': 'ROYAL MABROOM',
+        'title_line2': 'DATES',
+        'subtitle': 'VIP GRADE 1 SLENDER CHEWY DATES',
+    },
+    # 4. Middle East: Iranian Ruby Barberries (Zereshk)
+    {
+        'output_filename': 'barberries-pouch-250g.jpg',
+        'window_image_filename': 'barberries-macro.jpg',
+        'subhead': 'SOUTH KHORASAN • IRAN',
+        'title_line1': 'POFAKI RUBY',
+        'title_line2': 'BARBERRIES (ZERESHK)',
+        'subtitle': 'SUN-DRIED TART WILD SUPERBERRY',
+    },
+    # 5. USA: Cranberries
+    {
+        'output_filename': 'cranberries-pouch-250g.jpg',
+        'window_image_filename': 'cranberries-macro.jpg',
+        'subhead': 'WISCONSIN BOGS • USA',
+        'title_line1': 'WHOLE DRIED',
+        'title_line2': 'CRANBERRIES',
+        'subtitle': 'GRADE A PLUMP TART-SWEET BERRIES',
+    },
+    # 6. USA: Blueberries
+    {
+        'output_filename': 'blueberries-pouch-250g.jpg',
+        'window_image_filename': 'blueberries-macro.jpg',
+        'subhead': 'PACIFIC NORTHWEST • USA',
+        'title_line1': 'WILD DRIED',
+        'title_line2': 'BLUEBERRIES',
+        'subtitle': 'ANTIOXIDANT SUPERFOOD GRADE A',
+    },
+    # 7. USA: California Prunes
+    {
+        'output_filename': 'prunes-pouch-250g.jpg',
+        'window_image_filename': 'ajwa-dates-macro.jpg',
+        'subhead': 'SACRAMENTO VALLEY • CALIFORNIA',
+        'title_line1': 'CALIFORNIA PITTED',
+        'title_line2': 'PRUNES',
+        'subtitle': 'MOIST SUN-DRIED SWEET PLUMS',
+    },
+    # 8. USA: California Pecan Halves
+    {
+        'output_filename': 'pecans-pouch-250g.jpg',
+        'window_image_filename': 'pecans-macro.jpg',
+        'subhead': 'ORCHARDS OF CALIFORNIA • USA',
+        'title_line1': 'GOLDEN MAMMOTH',
+        'title_line2': 'PECAN HALVES',
+        'subtitle': 'BUTTERY RICH RAW TREE NUTS',
+    },
+    # 9. India (Kerala): Tellicherry Black Pepper Cashews
+    {
+        'output_filename': 'pepper-cashews-pouch-250g.jpg',
+        'window_image_filename': 'pepper-cashews-macro.jpg',
+        'subhead': 'MALABAR COAST • KERALA',
+        'title_line1': 'TELLICHERRY PEPPER',
+        'title_line2': 'ROASTED CASHEWS',
+        'subtitle': 'SLOW-ROASTED JUMBO W210 KERNELS',
+    },
+    # 10. India (Himachal Pradesh): Kinnaur Wild Walnuts
+    {
+        'output_filename': 'himachal-walnuts-pouch-250g.jpg',
+        'window_image_filename': 'cashews-walnuts-macro.jpg',
+        'subhead': 'KINNAUR VALLEY • HIMACHAL',
+        'title_line1': 'KINNAUR WILD',
+        'title_line2': 'MOUNTAIN WALNUTS',
+        'subtitle': 'ORGANIC HIGH-OIL MOUNTAIN AKHROT',
     },
 ]
 

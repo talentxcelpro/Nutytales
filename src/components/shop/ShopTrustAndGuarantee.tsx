@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FSSAI_NUMBER, WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
@@ -41,7 +42,17 @@ export default function ShopTrustAndGuarantee() {
             <p className="text-[11px] text-stone-400 font-light">Every SKU tested for botanical purity and GI tagging.</p>
           </div>
           <div className="space-y-1">
-            <span className="text-[#C9A45C] font-serif text-2xl font-bold block">FSSAI</span>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="bg-white px-2 py-0.5 rounded-md inline-flex items-center">
+                <Image
+                  src="/images/fssai-logo.png"
+                  alt="FSSAI"
+                  width={52}
+                  height={24}
+                  className="h-5 w-auto object-contain"
+                />
+              </div>
+            </div>
             <p className="font-bold text-white">Central Lic. {FSSAI_NUMBER}</p>
             <p className="text-[11px] text-stone-400 font-light">Audited facility for hygiene, packaging &amp; storage.</p>
           </div>

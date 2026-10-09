@@ -18,13 +18,14 @@ interface ShopCatalogClientProps {
 const ORIGINS = [
   'All Origins',
   'Kashmir, India',
-  'California, USA',
-  'Iran',
   'Afghanistan',
-  'Bihar, India',
-  'Turkey',
+  'Middle East',
+  'USA & California',
+  'Kerala, India',
+  'Himachal Pradesh, India',
+  'Bihar & Mithila',
   'Ladakh, India',
-  'Saudi Arabia',
+  'Turkey',
 ]
 
 const PRICE_TIERS = [
@@ -77,11 +78,30 @@ export default function ShopCatalogClient({
       }
 
       // Origin filter
-      if (
-        selectedOrigin !== 'All Origins' &&
-        !p.origin.toLowerCase().includes(selectedOrigin.split(',')[0].toLowerCase())
-      ) {
-        return false
+      if (selectedOrigin !== 'All Origins') {
+        const o = (p.origin || '').toLowerCase()
+        if (selectedOrigin === 'Middle East') {
+          if (!o.includes('saudi') && !o.includes('iran') && !o.includes('madinah') && !o.includes('middle east')) return false
+        } else if (selectedOrigin === 'USA & California') {
+          if (!o.includes('usa') && !o.includes('california') && !o.includes('wisconsin') && !o.includes('oregon')) return false
+        } else if (selectedOrigin === 'Afghanistan') {
+          if (!o.includes('afghan')) return false
+        } else if (selectedOrigin === 'Kerala, India') {
+          if (!o.includes('kerala') && !o.includes('malabar')) return false
+        } else if (selectedOrigin === 'Himachal Pradesh, India') {
+          if (!o.includes('himachal') && !o.includes('kinnaur')) return false
+        } else if (selectedOrigin === 'Bihar & Mithila') {
+          if (!o.includes('bihar') && !o.includes('mithila')) return false
+        } else if (selectedOrigin === 'Kashmir, India') {
+          if (!o.includes('kashmir')) return false
+        } else if (selectedOrigin === 'Ladakh, India') {
+          if (!o.includes('ladakh')) return false
+        } else if (selectedOrigin === 'Turkey') {
+          if (!o.includes('turkey') && !o.includes('aydin')) return false
+        } else {
+          const matchKey = selectedOrigin.split(',')[0].toLowerCase().trim()
+          if (!o.includes(matchKey)) return false
+        }
       }
 
       // Price filter
