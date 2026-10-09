@@ -8,35 +8,26 @@ import { ExtractedPlan, NriRequest } from '@/lib/nri/types'
 import { NriStore } from '@/lib/nri/nri-store'
 import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
 
-const EXAMPLE_PROMPTS = [
-  'Manage my parents’ house in Srinagar with monthly inspections.',
-  'Arrange a doctor appointment & companion escort for my father in Delhi.',
-  'Inspect apartment in DLF Phase 5 Gurugram before winter.',
-  'Help renovate my ancestral home while I’m living in Dubai.',
-  'Draft and register a Power of Attorney for property sale.',
-  'Plan my sister’s wedding in Kashmir with Wazwan catering.',
-  'Send luxury saffron & walnut gift boxes to relatives across India.',
+const POPULAR_SUGGESTIONS = [
+  'Inspect parents’ house in Srinagar before winter',
+  'Doctor appointment & companion escort for father in Delhi',
+  'DLF Phase 5 Gurugram apartment health check',
+  'Power of Attorney consular drafting & registration',
+  'Pre-arrival deep cleaning & winter pipe insulation',
+  'Chauffeur luxury SUV for Kashmir family tour',
 ]
 
-const RESIDENCE_COUNTRIES = [
-  'United States',
-  'United Kingdom',
-  'United Arab Emirates',
-  'Canada',
-  'Australia',
-  'Singapore',
-  'Saudi Arabia',
-  'Qatar',
-  'New Zealand',
-  'Germany / Europe',
-  'Other Country',
+const TIMEFRAMES = [
+  { label: 'Flexible / Standard', value: 'standard' },
+  { label: 'Urgent / Within 48h', value: 'priority' },
+  { label: 'Standing Monthly Plan', value: 'monthly' },
 ]
 
 export default function GetSomethingDoneEngine() {
   const router = useRouter()
   const [prompt, setPrompt] = useState('')
-  const [userCountry, setUserCountry] = useState('')
   const [userCity, setUserCity] = useState('')
+  const [timeline, setTimeline] = useState('standard')
   const [isProcessing, setIsProcessing] = useState(false)
   const [extractedPlan, setExtractedPlan] = useState<ExtractedPlan | null>(null)
   const [matchedProviders, setMatchedProviders] = useState<any[]>([])
@@ -50,16 +41,24 @@ export default function GetSomethingDoneEngine() {
 
     setIsProcessing(true)
     setTimeout(() => {
-      // Auto-extract locations if user hasn't explicitly chosen them
+      // Auto-extract locations if not selected manually
       const autoLocs = extractLocationsFromPrompt(text)
-      const effectiveCountry = userCountry || autoLocs.country || 'Global Diaspora'
       const effectiveCity = userCity || autoLocs.city || 'Delhi NCR'
+      const effectiveCountry = autoLocs.country || 'Global Diaspora'
 
-      // Synchronize input fields if they were blank
-      if (!userCountry && autoLocs.country) setUserCountry(autoLocs.country)
-      if (!userCity && autoLocs.city) setUserCity(autoLocs.city)
+      if (!userCity && autoLocs.city) {
+        setUserCity(autoLocs.city)
+      }
 
-      const result = interpretNaturalLanguageRequest(text, effectiveCountry, effectiveCity)
+      // Add timeline modifier if user picked priority or monthly
+      let augmentedText = text
+      if (timeline === 'priority' && !text.toLowerCase().includes('urgent')) {
+        augmentedText += ' urgent priority'
+      } else if (timeline === 'monthly' && !text.toLowerCase().includes('month')) {
+        augmentedText += ' recurring monthly'
+      }
+
+      const result = interpretNaturalLanguageRequest(augmentedText, effectiveCountry, effectiveCity)
       const matches = matchProvidersForPlan(result.plan)
       setExtractedPlan(result.plan)
       setMatchedProviders(matches)
@@ -68,10 +67,9 @@ export default function GetSomethingDoneEngine() {
     }, 350)
   }
 
-  const handlePromptChipClick = (example: string) => {
+  const handleSuggestionClick = (example: string) => {
     setPrompt(example)
     const locs = extractLocationsFromPrompt(example)
-    if (locs.country) setUserCountry(locs.country)
     if (locs.city) setUserCity(locs.city)
     handleInterpret(example)
   }
@@ -112,378 +110,340 @@ export default function GetSomethingDoneEngine() {
   }
 
   return (
-    <div id="request-engine" className="w-full max-w-5xl mx-auto scroll-mt-24">
-      {/* Outer Card */}
-      <div className="relative rounded-3xl bg-gradient-to-b from-[#141F33]/98 via-[#0F1726]/98 to-[#0B111D]/98 border-2 border-[#C9A45C]/40 p-6 sm:p-9 shadow-2xl backdrop-blur-xl">
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#C9A45C] to-[#E2C37E] text-[#0E1524] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest shadow-md">
-          ✨ The Signature Request Engine
-        </div>
-
-        {/* Heading & Instructions */}
-        <div className="text-center space-y-2 mb-6 pt-1">
-          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
-            What do you need done in India?
-          </h2>
-          <p className="text-xs sm:text-sm text-stone-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Tell us in plain words. Our engine scopes the right vertical, estimates realistic timelines and fees, and assigns vetted coordinators on the ground.
-          </p>
-        </div>
-
-        {/* Optional Location Selectors (Neutral Placeholders to Avoid Contradicting Prompts) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 max-w-2xl mx-auto">
-          <div>
-            <label className="block text-[10px] sm:text-[11px] uppercase tracking-wider text-stone-400 font-semibold mb-1">
-              Where are you currently based?
-            </label>
-            <select
-              value={userCountry}
-              onChange={(e) => setUserCountry(e.target.value)}
-              className="w-full bg-[#182338] text-stone-200 text-xs rounded-xl px-3.5 py-2.5 border border-white/10 focus:border-[#C9A45C] focus:outline-none transition-colors"
-            >
-              <option value="" className="text-stone-400">
-                🌍 Select your country of residence (or auto-detect)
-              </option>
-              {RESIDENCE_COUNTRIES.map((c) => (
-                <option key={c} value={c} className="bg-[#10192A] text-white">
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[10px] sm:text-[11px] uppercase tracking-wider text-stone-400 font-semibold mb-1">
-              Indian Destination City
+    <div id="search-bar" className="w-full max-w-4xl scroll-mt-28">
+      {/* ── Airbnb-Style Horizontal Search Bar ── */}
+      <div className="bg-white rounded-2xl lg:rounded-full border border-stone-200 shadow-[0_6px_28px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.09)] transition-all p-2 sm:p-2.5">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleInterpret()
+          }}
+          className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0"
+        >
+          {/* Segment 1: Where in India? */}
+          <div className="flex-1 px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors cursor-pointer text-left">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
+              Where in India?
             </label>
             <select
               value={userCity}
               onChange={(e) => setUserCity(e.target.value)}
-              className="w-full bg-[#182338] text-stone-200 text-xs rounded-xl px-3.5 py-2.5 border border-white/10 focus:border-[#C9A45C] focus:outline-none transition-colors"
+              className="w-full bg-transparent text-xs font-semibold text-[#191919] focus:outline-none cursor-pointer truncate"
             >
-              <option value="" className="text-stone-400">
-                📍 Auto-detected from prompt (or select hub)
-              </option>
+              <option value="">Any Hub (Auto-detect from request)</option>
               {OPERATIONAL_CITIES.map((c) => (
-                <option key={c.id} value={c.name} className="bg-[#10192A] text-white">
+                <option key={c.id} value={c.name}>
                   {c.name} ({c.state})
                 </option>
               ))}
             </select>
           </div>
-        </div>
 
-        {/* Main Input Textarea & Prominent Action */}
-        <div className="space-y-4">
-          <div className="relative">
-            <textarea
-              rows={3}
+          <div className="hidden lg:block w-[1px] h-9 bg-stone-200 mx-1" />
+
+          {/* Segment 2: What do you need handled? (Natural Language Input) */}
+          <div className="flex-[2] px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors text-left">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
+              What do you need handled?
+            </label>
+            <input
+              type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => {
-                if ((e.key === 'Enter' && !e.shiftKey) || (e.key === 'Enter' && (e.metaKey || e.ctrlKey))) {
-                  e.preventDefault()
-                  handleInterpret()
-                }
-              }}
-              placeholder="e.g. I live in London and need someone to inspect my ancestral home in Srinagar before winter, check roof seepage, test water pressure, and send timestamped photos..."
-              className="w-full rounded-2xl bg-[#080D17] border border-white/20 p-4 text-sm text-white placeholder-stone-400 focus:outline-none focus:border-[#C9A45C] focus:ring-1 focus:ring-[#C9A45C]/40 transition-all resize-none shadow-inner leading-relaxed"
-              aria-label="Describe what you need done in India"
+              placeholder="e.g. Inspect parents’ house in Srinagar before winter..."
+              className="w-full bg-transparent text-xs font-medium text-[#191919] placeholder-stone-400 focus:outline-none truncate"
             />
           </div>
 
-          {/* Action Row: Primary Button + Keyboard Hint */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span className="text-[11px] text-stone-400 hidden sm:inline">
-              Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 font-mono text-[10px] text-stone-300">Enter</kbd> to analyze request
-            </span>
+          <div className="hidden lg:block w-[1px] h-9 bg-stone-200 mx-1" />
 
+          {/* Segment 3: When? (Timeline / Frequency) */}
+          <div className="flex-1 px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors cursor-pointer text-left">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
+              When?
+            </label>
+            <select
+              value={timeline}
+              onChange={(e) => setTimeline(e.target.value)}
+              className="w-full bg-transparent text-xs font-semibold text-[#191919] focus:outline-none cursor-pointer"
+            >
+              {TIMEFRAMES.map((t) => (
+                <option key={t.value} value={t.value}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Primary Action Button: Find Help */}
+          <div className="px-2 py-1 flex items-center justify-end">
             <button
-              type="button"
-              onClick={() => handleInterpret()}
+              type="submit"
               disabled={isProcessing || !prompt.trim()}
-              className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#C9A45C] via-[#E2C37E] to-[#C9A45C] text-[#0E1524] text-xs sm:text-sm font-bold shadow-lg hover:shadow-[#C9A45C]/25 transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
-              aria-label="Find service category and scoping estimate"
+              className="w-full lg:w-auto px-6 py-3.5 rounded-full bg-[#191919] hover:bg-[#333333] text-white text-xs font-semibold transition-all hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
+              aria-label="Find Help in India"
             >
               {isProcessing ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-[#0E1524] border-t-transparent rounded-full animate-spin" />
-                  <span>Structuring Service Plan...</span>
+                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Searching...</span>
                 </>
               ) : (
                 <>
-                  <span>⚡ Find Service & Scoping Estimate</span>
-                  <span>→</span>
+                  <span>🔍</span>
+                  <span>Find Help</span>
                 </>
               )}
             </button>
           </div>
+        </form>
+      </div>
 
-          {/* Example Prompt Chips */}
-          <div className="space-y-2 pt-2 border-t border-white/5">
-            <span className="text-[11px] uppercase tracking-wider text-stone-400 font-semibold block">
-              Try an example request:
+      {/* ── Popular Search Suggestions Strip ── */}
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-stone-500 px-2">
+        <span className="font-semibold text-stone-700">Popular:</span>
+        {POPULAR_SUGGESTIONS.slice(0, 4).map((item, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => handleSuggestionClick(item)}
+            className="hover:text-stone-900 hover:underline text-stone-600 transition-colors"
+          >
+            {item} {idx < 3 && '•'}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Extracted Service Plan & Quotation Scoping Card ── */}
+      {extractedPlan && !isSubmitted && (
+        <div className="mt-6 bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xl text-left space-y-6 animate-fadeIn">
+          {/* Header Summary */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-5">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F3EFE6] text-[#8C6D2D] border border-[#E5DEC9] uppercase tracking-wider">
+                  {extractedPlan.categoryLabel}
+                </span>
+                <span className="text-xs font-semibold text-stone-700">
+                  📍 {extractedPlan.destination_city}, {extractedPlan.destination_state}
+                </span>
+                <span className="text-xs text-stone-400">
+                  • Residence: {extractedPlan.country_of_residence}
+                </span>
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#191919] mt-1.5">
+                {extractedPlan.title}
+              </h3>
+            </div>
+
+            {/* Sub-Tabs */}
+            <div className="flex items-center bg-stone-100 p-1 rounded-full text-xs self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setActiveTab('plan')}
+                className={`px-3.5 py-1.5 rounded-full font-semibold transition-all ${
+                  activeTab === 'plan' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                Scope
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('estimate')}
+                className={`px-3.5 py-1.5 rounded-full font-semibold transition-all ${
+                  activeTab === 'estimate' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                Estimate
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('providers')}
+                className={`px-3.5 py-1.5 rounded-full font-semibold transition-all ${
+                  activeTab === 'providers' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                Execution Desk
+              </button>
+            </div>
+          </div>
+
+          {/* Tab 1: Scope & Deliverables */}
+          {activeTab === 'plan' && (
+            <div className="space-y-4 text-xs">
+              <p className="text-stone-600 text-sm font-light leading-relaxed">
+                {extractedPlan.summary}
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="bg-[#FAF9F6] p-4 rounded-2xl border border-stone-200 space-y-2">
+                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-stone-900">
+                    Planned Inclusions & Checkpoints:
+                  </h4>
+                  <ul className="space-y-1.5 text-stone-700">
+                    {extractedPlan.inclusions.map((inc, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">✓</span>
+                        <span className="leading-tight">{inc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bg-[#FAF9F6] p-4 rounded-2xl border border-stone-200 space-y-2">
+                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-stone-900">
+                    Verifiable Proof Generated:
+                  </h4>
+                  <ul className="space-y-1.5 text-stone-700">
+                    {extractedPlan.deliverables.map((del, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-[#8C6D2D] font-bold">📸</span>
+                        <span className="leading-tight">{del}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {extractedPlan.clarification_needed.length > 0 && (
+                <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1">
+                  <span className="font-bold">⚠️ Details for Execution Precision:</span>
+                  <ul className="list-disc list-inside space-y-0.5 text-amber-800">
+                    {extractedPlan.clarification_needed.map((cl, i) => (
+                      <li key={i}>{cl}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 2: Pricing Estimate */}
+          {activeTab === 'estimate' && (
+            <div className="space-y-4 text-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FAF9F6] p-4 rounded-2xl border border-stone-200">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block">
+                    Planning Fee Range
+                  </span>
+                  <span className="font-serif text-3xl font-bold text-[#191919]">
+                    ₹{extractedPlan.estimated_budget.min.toLocaleString('en-IN')} – ₹{extractedPlan.estimated_budget.max.toLocaleString('en-IN')}
+                  </span>
+                  <span className="text-xs text-stone-500 ml-2">
+                    ({extractedPlan.frequency === 'monthly' ? 'monthly recurring estimate' : 'single assignment estimate'})
+                  </span>
+                </div>
+
+                <div className="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700 text-right">
+                  <span className="text-[10px] text-stone-400 uppercase block font-medium">Frequency</span>
+                  <span className="font-semibold capitalize text-stone-900">{extractedPlan.frequency.replace('_', ' ')}</span>
+                </div>
+              </div>
+
+              <p className="text-stone-500 text-xs font-light leading-relaxed">
+                <strong className="text-stone-800">Notice:</strong> {extractedPlan.estimated_budget.disclaimer}
+              </p>
+
+              <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 text-blue-950 text-xs space-y-1">
+                <span className="font-bold text-blue-900">🛡️ Phased Milestone Custody:</span>
+                <p className="text-blue-900/90 leading-relaxed font-light">
+                  Funds are safeguarded in platform milestone custody. The final milestone is released only after you review and approve the uploaded GPS-timestamped photographic proof on your portal.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Tab 3: Execution Desk */}
+          {activeTab === 'providers' && (
+            <div className="space-y-3 text-xs">
+              <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-2xl bg-[#F3EFE6] border border-[#E5DEC9] flex items-center justify-center text-xl">
+                      🏛️
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-stone-900 text-sm">
+                        Nuty Tales Ground Operations ({extractedPlan.destination_city})
+                      </h4>
+                      <span className="text-[11px] text-[#8C6D2D] font-medium block">
+                        Central Concierge & Ground Coordinator Desk
+                      </span>
+                    </div>
+                  </div>
+
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    Platform Supervised
+                  </span>
+                </div>
+
+                <p className="text-xs text-stone-600 font-light leading-relaxed">
+                  Direct on-ground coordinator dispatch in {extractedPlan.destination_city}. All tasks are supervised with strict GPS-timestamped photographic verification and client sign-off.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Action Row */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-stone-100">
+            <span className="text-xs text-stone-500 text-center sm:text-left">
+              Reviewing plan for <strong className="text-stone-900">{extractedPlan.destination_city}</strong>
             </span>
-            <div className="flex flex-wrap gap-2">
-              {EXAMPLE_PROMPTS.map((ex, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => handlePromptChipClick(ex)}
-                  className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 text-[11px] border border-white/10 hover:border-[#C9A45C]/50 transition-all text-left"
-                >
-                  {ex}
-                </button>
-              ))}
+
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setExtractedPlan(null)}
+                className="px-4 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold w-1/2 sm:w-auto transition-colors"
+              >
+                Modify Search
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmitRequest}
+                className="px-6 py-2.5 rounded-full bg-[#191919] hover:bg-[#333333] text-white text-xs font-semibold shadow-sm hover:shadow-md transition-all w-1/2 sm:w-auto text-center"
+              >
+                Confirm & Submit Request →
+              </button>
             </div>
           </div>
         </div>
+      )}
 
-        {/* ── Extracted Plan & Interpretation Review Card ── */}
-        {extractedPlan && !isSubmitted && (
-          <div className="mt-8 pt-8 border-t border-white/10 space-y-6 animate-fadeIn">
-            {/* Header: Plan Title + Review Sub-Tabs */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-[#C9A45C]/20 text-[#C9A45C] border border-[#C9A45C]/40 uppercase tracking-wider">
-                    {extractedPlan.categoryLabel}
-                  </span>
-                  <span className="text-xs text-stone-300 font-medium">
-                    📍 {extractedPlan.destination_city}, {extractedPlan.destination_state}
-                  </span>
-                  <span className="text-xs text-stone-400">
-                    • Origin: {extractedPlan.country_of_residence}
-                  </span>
-                </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
-                  {extractedPlan.title}
-                </h3>
-              </div>
-
-              {/* View Selector */}
-              <div className="flex items-center bg-[#080D17] p-1 rounded-xl border border-white/10 text-xs self-start sm:self-auto">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('plan')}
-                  className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${
-                    activeTab === 'plan' ? 'bg-[#C9A45C] text-[#0E1524]' : 'text-stone-300 hover:text-white'
-                  }`}
-                >
-                  Scope of Work
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('estimate')}
-                  className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${
-                    activeTab === 'estimate' ? 'bg-[#C9A45C] text-[#0E1524]' : 'text-stone-300 hover:text-white'
-                  }`}
-                >
-                  Pricing Estimate
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('providers')}
-                  className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${
-                    activeTab === 'providers' ? 'bg-[#C9A45C] text-[#0E1524]' : 'text-stone-300 hover:text-white'
-                  }`}
-                >
-                  Execution Desk
-                </button>
-              </div>
-            </div>
-
-            {/* Tab 1: Scope of Work */}
-            {activeTab === 'plan' && (
-              <div className="space-y-4 bg-[#080D17]/90 rounded-2xl p-5 border border-white/10 text-xs">
-                <p className="text-stone-300 leading-relaxed font-light text-sm">
-                  {extractedPlan.summary}
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                  <div className="space-y-2">
-                    <h4 className="text-[11px] uppercase tracking-wider text-[#C9A45C] font-bold">
-                      Planned Ground Deliverables:
-                    </h4>
-                    <ul className="space-y-2 text-stone-300">
-                      {extractedPlan.inclusions.map((inc, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-emerald-400 mt-0.5 font-bold">✓</span>
-                          <span>{inc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h4 className="text-[11px] uppercase tracking-wider text-[#C9A45C] font-bold">
-                      Verifiable Evidence Produced:
-                    </h4>
-                    <ul className="space-y-2 text-stone-300">
-                      {extractedPlan.deliverables.map((del, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-[#C9A45C] mt-0.5">📸</span>
-                          <span>{del}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {extractedPlan.clarification_needed.length > 0 && (
-                  <div className="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-1">
-                    <span className="font-bold">⚠️ Details for Execution Precision:</span>
-                    <ul className="list-disc list-inside space-y-0.5 text-stone-300">
-                      {extractedPlan.clarification_needed.map((cl, i) => (
-                        <li key={i}>{cl}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Tab 2: Pricing Estimate */}
-            {activeTab === 'estimate' && (
-              <div className="bg-[#080D17]/90 rounded-2xl p-5 border border-white/10 text-xs space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-                  <div>
-                    <span className="text-[11px] text-stone-400 uppercase tracking-wider block">
-                      Planning Fee Range
-                    </span>
-                    <span className="font-serif text-2xl sm:text-3xl font-bold text-[#C9A45C]">
-                      ₹{extractedPlan.estimated_budget.min.toLocaleString('en-IN')} – ₹{extractedPlan.estimated_budget.max.toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-[11px] text-stone-400 ml-2">
-                      ({extractedPlan.frequency === 'monthly' ? 'monthly retainer estimate' : 'single assignment estimate'})
-                    </span>
-                  </div>
-
-                  <div className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-stone-300">
-                    <span className="text-[10px] text-stone-400 block uppercase">Billing Mode</span>
-                    <span className="font-semibold capitalize">{extractedPlan.frequency.replace('_', ' ')}</span>
-                  </div>
-                </div>
-
-                <p className="text-stone-300 text-xs font-light leading-relaxed">
-                  <strong className="text-white">Notice:</strong> {extractedPlan.estimated_budget.disclaimer}
-                </p>
-
-                <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-stone-300 text-xs space-y-1">
-                  <span className="font-bold text-blue-300">🛡️ Phased Milestone Custody:</span>
-                  <p className="leading-relaxed">
-                    Payments are safeguarded in platform milestone custody. The final milestone is disbursed only after you inspect and accept the uploaded GPS-timestamped photographic proof on your portal.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Tab 3: Execution Desk */}
-            {activeTab === 'providers' && (
-              <div className="space-y-3">
-                <div className="bg-[#080D17]/90 p-5 rounded-2xl border border-white/10 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-[#C9A45C]/20 border border-[#C9A45C]/40 flex items-center justify-center text-2xl">
-                        🏛️
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-white text-sm">
-                          Nuty Tales Ground Operations ({extractedPlan.destination_city})
-                        </h4>
-                        <span className="text-[11px] text-[#C9A45C] font-medium block">
-                          Central Concierge & Ground Coordinator Desk
-                        </span>
-                      </div>
-                    </div>
-
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                      Platform Supervised
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-stone-300 font-light leading-relaxed pt-1">
-                    Direct on-ground coordinator dispatch in {extractedPlan.destination_city}. All activities are overseen by our Operations Supervisor with strict timestamped photographic verification and milestone custody.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px]">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-stone-300">
-                      <strong className="text-[#C9A45C] block">Verification Standard:</strong>
-                      <span>Aadhaar & Police Vetted</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-white/5 text-stone-300">
-                      <strong className="text-[#C9A45C] block">Evidence Protocol:</strong>
-                      <span>GPS & Time-Stamped</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-white/5 text-stone-300">
-                      <strong className="text-[#C9A45C] block">Payment Release:</strong>
-                      <span>Only Upon Client Approval</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Bottom Review & Final Submission Action */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
-              <span className="text-xs text-stone-400 text-center sm:text-left">
-                Ready to proceed? We’ll initiate coordination for <strong className="text-white">{extractedPlan.destination_city}</strong>.
-              </span>
-
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <button
-                  type="button"
-                  onClick={() => setExtractedPlan(null)}
-                  className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 text-xs font-semibold border border-white/10 w-1/2 sm:w-auto transition-colors"
-                >
-                  Edit Request
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleSubmitRequest}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#C9A45C] to-[#E2C37E] text-[#0E1524] text-xs font-bold hover:shadow-lg hover:shadow-[#C9A45C]/30 transition-all hover:scale-[1.02] w-1/2 sm:w-auto text-center"
-                >
-                  Confirm & Submit Request →
-                </button>
-              </div>
-            </div>
+      {/* ── Submission Confirmation & Link to Tracker ── */}
+      {isSubmitted && createdRequestId && (
+        <div className="mt-6 bg-white rounded-3xl border border-stone-200 p-8 shadow-xl text-center space-y-4 animate-fadeIn">
+          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold mx-auto">
+            ✓
           </div>
-        )}
-
-        {/* ── Submission Confirmation & Link to Tracker ── */}
-        {isSubmitted && createdRequestId && (
-          <div className="mt-8 pt-8 border-t border-white/10 text-center space-y-4 animate-fadeIn">
-            <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mx-auto">
-              ✓
-            </div>
-            <div>
-              <h3 className="font-serif text-2xl font-bold text-white">
-                Your Service Request is Active!
-              </h3>
-              <p className="text-xs text-stone-300 max-w-md mx-auto mt-1 leading-relaxed">
-                Request ID: <span className="font-mono text-[#C9A45C] font-bold">{createdRequestId}</span>. Ground coordinators in {extractedPlan?.destination_city} have been notified. You can track milestones live in My India.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => router.push(`/requests/${createdRequestId}`)}
-                className="px-5 py-2.5 rounded-xl bg-[#C9A45C] text-[#0E1524] text-xs font-bold shadow-md hover:bg-[#DFBC72] transition-colors"
-              >
-                Inspect Request Status & Proof Dossier →
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push('/dashboard')}
-                className="px-5 py-2.5 rounded-xl bg-white/10 text-white text-xs font-semibold hover:bg-white/15 transition-colors"
-              >
-                Open My India Dashboard
-              </button>
-            </div>
+          <div>
+            <h3 className="font-serif text-2xl font-bold text-[#191919]">
+              Your Service Request is Active
+            </h3>
+            <p className="text-xs text-stone-600 max-w-md mx-auto mt-1 leading-relaxed">
+              Request ID: <span className="font-mono text-stone-900 font-bold">{createdRequestId}</span>. Ground coordinators in {extractedPlan?.destination_city} have been alerted. You can track live milestones in My India.
+            </p>
           </div>
-        )}
-      </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => router.push(`/requests/${createdRequestId}`)}
+              className="px-5 py-2.5 rounded-full bg-[#191919] text-white text-xs font-semibold shadow-sm hover:bg-[#333333] transition-colors"
+            >
+              Inspect Request Tracker →
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard')}
+              className="px-5 py-2.5 rounded-full bg-stone-100 text-stone-800 text-xs font-semibold hover:bg-stone-200 transition-colors"
+            >
+              Open My India Dashboard
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
