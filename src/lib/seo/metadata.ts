@@ -31,6 +31,7 @@ import { BUSINESS_DOMAINS } from './types';
 
 const BRAND_NAMES: Record<NutyBusiness, string> = {
   root:     'Nuty Tales',
+  nri:      'Nuty Tales NRI',
   business: 'Nuty Tales Business',
   gifting:  'Nuty Tales Gifting',
   weddings: 'Nuty Tales Weddings',
@@ -149,6 +150,7 @@ export function buildMetaDescription(params: {
 
 function defaultCta(business: NutyBusiness, intent: SeoIntentType): string {
   const ctas: Partial<Record<NutyBusiness, string>> = {
+    nri:      ' Request India-based assistance.',
     business: ' Get a bulk quote today.',
     gifting:  ' Design your gift now.',
     weddings: ' Request a wedding quote.',
