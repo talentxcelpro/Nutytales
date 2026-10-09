@@ -149,15 +149,15 @@ export default async function CountryGatewayPage({
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Header */}
-      <div className="bg-[#0E1524] rounded-3xl p-8 sm:p-12 border border-white/10 space-y-4 text-center max-w-4xl mx-auto">
+      <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#EAE6DF] space-y-4 text-center max-w-4xl mx-auto shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
         <span className="text-4xl block">{country.flag}</span>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A45C]/15 border border-[#C9A45C]/30 text-xs text-[#C9A45C] font-semibold">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8C6D2D]/10 border border-[#8C6D2D]/20 text-xs text-[#8C6D2D] font-semibold">
           <span>{country.currency} SETTLEMENT & TIMEZONE CONCIERGE</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#191919] tracking-tight">
           {country.headline}
         </h1>
-        <p className="text-sm text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-stone-600 font-light max-w-2xl mx-auto leading-relaxed">
           {country.tagline}
         </p>
       </div>
@@ -167,12 +167,12 @@ export default async function CountryGatewayPage({
         {country.keyTopics.map((top, idx) => (
           <div
             key={idx}
-            className="bg-[#0E1524] p-6 rounded-3xl border border-white/10 space-y-2"
+            className="bg-white p-6 rounded-3xl border border-[#EAE6DF] space-y-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
           >
-            <strong className="font-serif text-base font-bold text-white block">
+            <strong className="font-serif text-base font-bold text-[#191919] block">
               {top.title}
             </strong>
-            <p className="text-stone-300 font-light leading-relaxed">{top.desc}</p>
+            <p className="text-stone-600 font-light leading-relaxed">{top.desc}</p>
           </div>
         ))}
       </div>

@@ -5,7 +5,7 @@ import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
 import { NriStore } from '@/lib/nri/nri-store'
 import { EmergencyLead } from '@/lib/nri/types'
 
-export default function EmergencyAssistancePage() {
+export default function EmergencyClient() {
   const [selectedCity, setSelectedCity] = useState('Srinagar')
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
@@ -50,38 +50,38 @@ export default function EmergencyAssistancePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       {/* Red Alert Header */}
-      <div className="rounded-3xl bg-rose-950/40 border-2 border-rose-500/40 p-8 text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500 text-white text-xs font-bold uppercase tracking-widest">
+      <div className="rounded-3xl bg-rose-50 border border-rose-200 p-8 text-center space-y-4 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-600 text-white text-xs font-bold uppercase tracking-widest">
           <span>🚨</span>
           <span>URGENT ON-GROUND COORDINATION</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-rose-950 tracking-tight">
           India Emergency Assistance Desk
         </h1>
-        <p className="text-xs sm:text-sm text-rose-200 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-rose-800 max-w-2xl mx-auto leading-relaxed font-light">
           Urgent family assistance, senior distress, or sudden property compromise in India? Submit an expedited dispatch request to mobilize local ground coordinators.
         </p>
 
         {/* Vital Government Helplines Notice */}
-        <div className="p-4 rounded-2xl bg-black/50 border border-rose-500/30 text-xs text-stone-200 max-w-xl mx-auto space-y-1">
-          <strong className="text-white block">CRITICAL STATUTORY DISCLAIMER:</strong>
-          <p className="font-light text-stone-300">
-            Nuty Tales provides logistical and companion coordination. We are <strong>not</strong> a substitute for official state emergency services. In life-threatening medical emergencies or criminal incidents, immediately dial Indian National Emergency: <span className="text-rose-400 font-bold font-mono text-sm">112</span>.
+        <div className="p-4 rounded-2xl bg-white border border-rose-200 text-xs text-stone-700 max-w-xl mx-auto space-y-1 text-left shadow-sm">
+          <strong className="text-rose-950 block">CRITICAL STATUTORY DISCLAIMER:</strong>
+          <p className="font-light text-stone-600">
+            Nuty Tales provides logistical and companion coordination. We are <strong>not</strong> a substitute for official state emergency services. In life-threatening medical emergencies or criminal incidents, immediately dial Indian National Emergency: <span className="text-rose-600 font-bold font-mono text-sm">112</span>.
           </p>
         </div>
       </div>
 
       {/* Localized Official Hotlines Directory */}
-      <div className="bg-[#0E1524] rounded-3xl p-6 sm:p-8 border border-white/10 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <h2 className="font-serif text-xl font-bold text-white">
-            Official Government Helplines for: {cityData.name} ({cityData.state})
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#EAE6DF] space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+          <h2 className="font-serif text-xl font-bold text-[#191919]">
+            Official Government Helplines: {cityData.name} ({cityData.state})
           </h2>
 
           <select
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="bg-[#1A263D] text-white text-xs px-3 py-2 rounded-xl border border-white/10 focus:outline-none"
+            className="bg-[#FAF9F6] text-[#191919] text-xs px-3.5 py-2 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
           >
             {OPERATIONAL_CITIES.map((c) => (
               <option key={c.id} value={c.name}>
@@ -92,44 +92,44 @@ export default function EmergencyAssistancePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Police</span>
-            <strong className="text-white text-sm block mt-0.5">{cityData.emergencyDirectory.police}</strong>
+          <div className="p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF]">
+            <span className="text-[10px] text-stone-500 uppercase font-semibold block">Police</span>
+            <strong className="text-[#191919] text-sm block mt-0.5">{cityData.emergencyDirectory.police}</strong>
           </div>
 
-          <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Ambulance</span>
-            <strong className="text-rose-400 text-sm block mt-0.5">{cityData.emergencyDirectory.ambulance}</strong>
+          <div className="p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF]">
+            <span className="text-[10px] text-stone-500 uppercase font-semibold block">Ambulance</span>
+            <strong className="text-rose-600 text-sm block mt-0.5">{cityData.emergencyDirectory.ambulance}</strong>
           </div>
 
-          <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Senior Citizen</span>
-            <strong className="text-[#C9A45C] text-sm block mt-0.5">{cityData.emergencyDirectory.seniorHelpline}</strong>
+          <div className="p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF]">
+            <span className="text-[10px] text-stone-500 uppercase font-semibold block">Senior Citizen</span>
+            <strong className="text-[#8C6D2D] text-sm block mt-0.5">{cityData.emergencyDirectory.seniorHelpline}</strong>
           </div>
 
-          <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-            <span className="text-[10px] text-stone-400 uppercase font-semibold block">NRI / Fire Desk</span>
-            <strong className="text-stone-300 text-xs block mt-0.5">{cityData.emergencyDirectory.nriCell || cityData.emergencyDirectory.fire}</strong>
+          <div className="p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF]">
+            <span className="text-[10px] text-stone-500 uppercase font-semibold block">NRI / Fire Desk</span>
+            <strong className="text-stone-800 text-xs block mt-0.5">{cityData.emergencyDirectory.nriCell || cityData.emergencyDirectory.fire}</strong>
           </div>
         </div>
       </div>
 
       {/* Expedited Ground Dispatch Request Form */}
       {submitted && leadRecord ? (
-        <div className="bg-[#0E1524] rounded-3xl p-8 border border-emerald-500/40 text-center space-y-4 animate-fadeIn">
-          <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-2xl mx-auto">
+        <div className="bg-white rounded-3xl p-8 border border-emerald-300 text-center space-y-4 shadow-sm animate-fadeIn">
+          <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-2xl mx-auto">
             ✓
           </div>
-          <h2 className="font-serif text-2xl font-bold text-white">
+          <h2 className="font-serif text-2xl font-bold text-[#191919]">
             Emergency Dispatch Logged & Escalated
           </h2>
-          <p className="text-xs text-stone-300 max-w-md mx-auto leading-relaxed">
-            Dispatch ID: <span className="font-mono text-[#C9A45C] font-bold">{leadRecord.id}</span>. Our on-call supervisor in {leadRecord.locationCity} has received this escalation and will initiate contact with your local reference immediately.
+          <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+            Dispatch ID: <span className="font-mono text-[#8C6D2D] font-bold">{leadRecord.id}</span>. Our on-call supervisor in {leadRecord.locationCity} has received this escalation and will initiate contact with your local reference immediately.
           </p>
           <div className="pt-2">
             <button
               onClick={() => setSubmitted(false)}
-              className="px-5 py-2.5 rounded-xl bg-white/10 text-white text-xs font-semibold"
+              className="px-5 py-2.5 rounded-full bg-[#191919] text-white text-xs font-semibold hover:bg-[#2A2A2A] transition-colors"
             >
               Submit Another Inquiry
             </button>
@@ -138,81 +138,81 @@ export default function EmergencyAssistancePage() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="bg-[#0E1524] rounded-3xl p-8 border border-white/10 space-y-6 text-xs"
+          className="bg-white rounded-3xl p-8 border border-[#EAE6DF] space-y-6 text-xs shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
         >
-          <h3 className="font-serif text-xl font-bold text-white border-b border-white/10 pb-3">
+          <h3 className="font-serif text-xl font-bold text-[#191919] border-b border-[#EAE6DF] pb-3">
             Expedited Ground Coordination Form
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Your Name (Overseas Caller) *</label>
+              <label className="block text-stone-600 font-semibold mb-1">Your Name (Overseas Caller) *</label>
               <input
                 type="text"
                 required
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 placeholder="e.g. Tariq Wani"
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               />
             </div>
 
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Your Direct Phone / WhatsApp *</label>
+              <label className="block text-stone-600 font-semibold mb-1">Your Direct Phone / WhatsApp *</label>
               <input
                 type="tel"
                 required
                 value={contactPhone}
                 onChange={(e) => setContactPhone(e.target.value)}
                 placeholder="e.g. +44-7911-123456"
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               />
             </div>
 
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Person in India Requiring Assistance *</label>
+              <label className="block text-stone-600 font-semibold mb-1">Person in India Requiring Assistance *</label>
               <input
                 type="text"
                 required
                 value={inIndiaPerson}
                 onChange={(e) => setInIndiaPerson(e.target.value)}
                 placeholder="e.g. Ghulam Mohammad (Father)"
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               />
             </div>
 
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Their Local Phone Number in India *</label>
+              <label className="block text-stone-600 font-semibold mb-1">Their Local Phone Number in India *</label>
               <input
                 type="tel"
                 required
                 value={inIndiaPhone}
                 onChange={(e) => setInIndiaPhone(e.target.value)}
                 placeholder="e.g. +91-9419012345"
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-stone-400 font-semibold mb-1">Full Address / Landmark in India *</label>
+            <label className="block text-stone-600 font-semibold mb-1">Full Address / Landmark in India *</label>
             <textarea
               rows={2}
               required
               value={locationAddress}
               onChange={(e) => setLocationAddress(e.target.value)}
               placeholder="e.g. House No. 42, Near Mughal Garden Upper Canal, Harwan, Srinagar"
-              className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+              className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Nature of Situation</label>
+              <label className="block text-stone-600 font-semibold mb-1">Nature of Situation</label>
               <select
                 value={nature}
                 onChange={(e) => setNature(e.target.value as any)}
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               >
                 <option value="Elder Distress / Health">Elder Distress / Health Check</option>
                 <option value="Emergency Property Damage">Emergency Property Damage / Flood / Fire</option>
@@ -223,11 +223,11 @@ export default function EmergencyAssistancePage() {
             </div>
 
             <div>
-              <label className="block text-stone-400 font-semibold mb-1">Urgency Level</label>
+              <label className="block text-stone-600 font-semibold mb-1">Urgency Level</label>
               <select
                 value={urgency}
                 onChange={(e) => setUrgency(e.target.value as any)}
-                className="w-full bg-[#1A263D] text-white p-3 rounded-xl border border-white/10"
+                className="w-full bg-[#FAF9F6] text-[#191919] p-3 rounded-xl border border-[#EAE6DF] focus:outline-none focus:border-rose-400"
               >
                 <option value="Immediate (1-2 Hours)">Immediate Mobilization (1-2 Hours)</option>
                 <option value="Same Day">Same Day Priority</option>
@@ -235,15 +235,15 @@ export default function EmergencyAssistancePage() {
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2.5">
+          <div className="p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#EAE6DF] flex items-start gap-2.5">
             <input
               type="checkbox"
               id="permCheck"
               checked={permissionGiven}
               onChange={(e) => setPermissionGiven(e.target.checked)}
-              className="mt-0.5"
+              className="mt-0.5 accent-rose-600"
             />
-            <label htmlFor="permCheck" className="text-stone-300 font-light leading-relaxed">
+            <label htmlFor="permCheck" className="text-stone-700 font-light text-xs leading-relaxed">
               I grant permission to Nuty Tales authorized ground coordinators to contact the named individuals and verify physical safety.
             </label>
           </div>
@@ -251,7 +251,7 @@ export default function EmergencyAssistancePage() {
           <div className="pt-2 flex justify-end">
             <button
               type="submit"
-              className="px-8 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-lg transition-all"
+              className="px-8 py-3.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold shadow-md transition-all"
             >
               Dispatch Emergency Request →
             </button>

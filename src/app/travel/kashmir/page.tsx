@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   title: 'Kashmir Travel, Tours & Stays | Nuty Tales Private Experiences',
   description:
     'Experience the magic of Kashmir with Nuty Tales. Stay at our private Srinagar orchard retreat and enjoy curated tours to Gulmarg, Pahalgam, Sonamarg, and Dal Lake with authentic local guides and live itinerary customization.',
+  alternates: {
+    canonical: 'https://travel.nutytales.com/travel/kashmir',
+  },
+  openGraph: {
+    title: 'Kashmir Travel, Tours & Stays | Nuty Tales Private Experiences',
+    description:
+      'Experience the magic of Kashmir with Nuty Tales. Curated tours to Gulmarg, Pahalgam, Sonamarg, and Dal Lake.',
+    url: 'https://travel.nutytales.com/travel/kashmir',
+    siteName: 'Nuty Tales Travel',
+  },
   keywords: [
     'kashmir travel package',
     'srinagar orchard stay',
