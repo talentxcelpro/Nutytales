@@ -44,6 +44,7 @@ const FOOTER_COLS = [
       { label: 'Partner & Seller Network', href: '/partners' },
       { label: 'B2B Wholesale Supply', href: '/business-supply' },
       { label: 'Enterprise RFQ Desk', href: '/bulk-quote' },
+      { label: 'Contact & Registered Offices', href: '/contact' },
       { label: 'Nuty Tales Founder Program', href: '/founders' },
       { label: 'Revenue OS Telemetry', href: '/admin/revenue-os' },
       { label: 'Partner Verification Desk', href: '/admin/partners' },
@@ -159,6 +160,15 @@ export default function Footer() {
                   {LOCATIONS.PATNA.address}
                   <span className="text-[#C9A45C] font-semibold ml-1">↗ Mappls</span>
                 </a>
+              </div>
+
+              <div className="pt-1">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 text-xs text-[#C9A45C] hover:underline font-bold"
+                >
+                  <span>View All 3 Verified Hubs &amp; Map Pins →</span>
+                </Link>
               </div>
 
               <p className="pt-1">

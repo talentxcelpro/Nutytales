@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.in",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     // Reasonable device sizes for e-commerce product grids

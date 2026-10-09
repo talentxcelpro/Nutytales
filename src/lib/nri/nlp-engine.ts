@@ -22,7 +22,7 @@ export interface ParsedRequestResult {
 export function interpretNaturalLanguageRequest(
   prompt: string,
   userCountry: string = 'United States',
-  userPreferredCity: string = 'Srinagar'
+  userPreferredCity: string = ''
 ): ParsedRequestResult {
   const p = prompt.trim()
   const lower = p.toLowerCase()
@@ -153,8 +153,8 @@ export function interpretNaturalLanguageRequest(
   }
 
   // 2. Detect Indian Location
-  let city = userPreferredCity || 'Srinagar'
-  let state = 'Jammu & Kashmir'
+  let city = userPreferredCity || ''
+  let state = 'Pan-India'
 
   if (lower.includes('srinagar') || lower.includes('kashmir') || lower.includes('gulmarg') || lower.includes('pahalgam')) {
     city = 'Srinagar'
@@ -174,12 +174,39 @@ export function interpretNaturalLanguageRequest(
   } else if (lower.includes('amritsar') || lower.includes('jalandhar') || lower.includes('ludhiana')) {
     city = 'Amritsar'
     state = 'Punjab'
-  } else if (lower.includes('hyderabad')) {
+  } else if (lower.includes('hyderabad') || lower.includes('secunderabad')) {
     city = 'Hyderabad'
     state = 'Telangana'
   } else if (lower.includes('pune')) {
     city = 'Pune'
     state = 'Maharashtra'
+  } else if (lower.includes('jaipur') || lower.includes('udaipur') || lower.includes('rajasthan')) {
+    city = 'Jaipur'
+    state = 'Rajasthan'
+  } else if (lower.includes('kochi') || lower.includes('cochin') || lower.includes('kerala') || lower.includes('trivandrum')) {
+    city = 'Kochi'
+    state = 'Kerala'
+  } else if (lower.includes('kolkata') || lower.includes('calcutta') || lower.includes('bengal')) {
+    city = 'Kolkata'
+    state = 'West Bengal'
+  } else if (lower.includes('patna') || lower.includes('bihar')) {
+    city = 'Patna'
+    state = 'Bihar'
+  } else if (lower.includes('goa') || lower.includes('panaji')) {
+    city = 'Goa'
+    state = 'Goa'
+  } else if (lower.includes('chennai') || lower.includes('madras') || lower.includes('tamil nadu')) {
+    city = 'Chennai'
+    state = 'Tamil Nadu'
+  } else if (lower.includes('lucknow') || lower.includes('kanpur')) {
+    city = 'Lucknow'
+    state = 'Uttar Pradesh'
+  } else if (lower.includes('ahmedabad') || lower.includes('gujarat')) {
+    city = 'Ahmedabad'
+    state = 'Gujarat'
+  } else if (!city) {
+    city = 'Delhi NCR'
+    state = 'Delhi / Haryana'
   }
 
   // 2b. Detect Overseas Country of Residence
@@ -317,10 +344,26 @@ export function extractLocationsFromPrompt(prompt: string): { country?: string; 
     city = 'Chandigarh'
   } else if (lower.includes('amritsar') || lower.includes('jalandhar') || lower.includes('ludhiana')) {
     city = 'Amritsar'
-  } else if (lower.includes('hyderabad')) {
+  } else if (lower.includes('hyderabad') || lower.includes('secunderabad')) {
     city = 'Hyderabad'
   } else if (lower.includes('pune')) {
     city = 'Pune'
+  } else if (lower.includes('jaipur') || lower.includes('udaipur') || lower.includes('rajasthan')) {
+    city = 'Jaipur'
+  } else if (lower.includes('kochi') || lower.includes('cochin') || lower.includes('kerala') || lower.includes('trivandrum')) {
+    city = 'Kochi'
+  } else if (lower.includes('kolkata') || lower.includes('calcutta') || lower.includes('bengal')) {
+    city = 'Kolkata'
+  } else if (lower.includes('patna') || lower.includes('bihar')) {
+    city = 'Patna'
+  } else if (lower.includes('goa') || lower.includes('panaji')) {
+    city = 'Goa'
+  } else if (lower.includes('chennai') || lower.includes('madras') || lower.includes('tamil nadu')) {
+    city = 'Chennai'
+  } else if (lower.includes('lucknow') || lower.includes('kanpur')) {
+    city = 'Lucknow'
+  } else if (lower.includes('ahmedabad') || lower.includes('gujarat')) {
+    city = 'Ahmedabad'
   }
 
   if (lower.includes('london') || lower.includes('uk') || lower.includes('united kingdom') || lower.includes('england')) {

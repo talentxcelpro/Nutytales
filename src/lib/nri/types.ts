@@ -234,7 +234,10 @@ export interface OperationalCity {
   id: string
   name: string
   state: string
-  operationalTier: 'Tier 1 - Full Operational Supply' | 'Tier 2 - Verified Partner Network' | 'On-Demand Coordination'
+  region?: 'North' | 'West' | 'South' | 'East' | 'Central'
+  operationalTier: 'Tier 1 - Full Operational Supply' | 'Tier 2 - Verified Partner Network' | 'On-Demand Coordination' | 'Tier 1 - Direct Fulfillment Hub' | 'Tier 2 - Scoped RFQ Dispatch' | 'Tier 3 - Expanding Network'
+  coverageStatus?: 'Available to Book' | 'Request a Quote' | 'Limited Coverage' | 'Coming Soon'
+  coverageSummary?: string
   leadCoverage: string[]
   emergencyDirectory: {
     police: string

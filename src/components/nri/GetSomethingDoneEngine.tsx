@@ -9,12 +9,12 @@ import { NriStore } from '@/lib/nri/nri-store'
 import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
 
 const POPULAR_SUGGESTIONS = [
-  'Inspect parents’ house in Srinagar before winter',
-  'Doctor appointment & companion escort for father in Delhi',
-  'DLF Phase 5 Gurugram apartment health check',
-  'Power of Attorney consular drafting & registration',
-  'Pre-arrival deep cleaning & winter pipe insulation',
-  'Chauffeur luxury SUV for Kashmir family tour',
+  'Doctor appointment & companion escort for parents in Delhi NCR',
+  'Vacant apartment inspection & tenant handover in Mumbai',
+  'Power of Attorney consular drafting & Sub-Registrar execution',
+  'Ancestral home check & monsoon sealing in Kerala',
+  'Villa perimeter inspection & utility audit in Bengaluru',
+  'Pre-winter structural audit & pipe insulation in Srinagar',
 ]
 
 const TIMEFRAMES = [
@@ -110,7 +110,7 @@ export default function GetSomethingDoneEngine() {
   }
 
   return (
-    <div id="search-bar" className="w-full max-w-4xl scroll-mt-28">
+    <div id="search-bar" className="w-full max-w-5xl scroll-mt-28">
       {/* ── Airbnb-Style Horizontal Search Bar ── */}
       <div className="bg-white rounded-2xl lg:rounded-full border border-stone-200 shadow-[0_6px_28px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.09)] transition-all p-2 sm:p-2.5">
         <form
@@ -150,7 +150,7 @@ export default function GetSomethingDoneEngine() {
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g. Inspect parents’ house in Srinagar before winter..."
+              placeholder="e.g. Inspect parents’ apartment in Mumbai or doctor escort in Delhi NCR..."
               className="w-full bg-transparent text-xs font-medium text-[#191919] placeholder-stone-400 focus:outline-none truncate"
             />
           </div>

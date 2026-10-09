@@ -107,6 +107,7 @@ export default function GlobalFooter() {
               <ul className="space-y-2 text-xs text-stone-400">
                 <li><Link href="/account" className="hover:text-white transition">Order Tracking</Link></li>
                 <li><Link href="/shipping" className="hover:text-white transition">Shipping &amp; Delivery</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition">Contact &amp; Hub Locations</Link></li>
                 <li><Link href="/returns" className="hover:text-white transition">Returns &amp; Refund Policy</Link></li>
                 <li><Link href="/privacy" className="hover:text-white transition">Quality &amp; Lab Standards</Link></li>
                 <li><Link href="/terms" className="hover:text-white transition">Terms &amp; Conditions</Link></li>

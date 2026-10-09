@@ -77,7 +77,7 @@ export default function NriNavbar() {
           : 'bg-[#FAF9F6] border-b border-[#EAE6DF]'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex items-center justify-between h-20">
           {/* Brand Logo & Editorial Title */}
           <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
