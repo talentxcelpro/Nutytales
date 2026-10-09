@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Evidence-backed GI-certified Changthangi Pashmina, hand-embroidered Tilla shawls, fine wool pherans, and bespoke heritage crafts. Global boutique wholesale, provenance tracing, and export consignments.',
-  alternates: {
-    canonical: 'https://crafts.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

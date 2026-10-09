@@ -140,7 +140,7 @@ export function buildBusinessSitemapIndex(
  * Only submit to GSC once the corresponding sitemap exists with real indexable URLs.
  */
 export function buildRootSitemapIndex(): Array<{ url: string; lastmod: Date }> {
-  const businesses: NutyBusiness[] = ['business', 'gifting', 'weddings', 'crafts', 'stays', 'travel'];
+  const businesses: NutyBusiness[] = ['nri', 'business', 'gifting', 'weddings', 'crafts', 'stays', 'travel'];
   return businesses.map((b) => ({
     url: `${BUSINESS_DOMAINS[b]}/sitemap.xml`,
     lastmod: new Date(),

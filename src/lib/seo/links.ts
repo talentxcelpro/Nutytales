@@ -161,6 +161,33 @@ export const BUSINESS_NAV_TREES: Record<NutyBusiness, NavNode[]> = {
     },
   ],
 
+  nri: [
+    {
+      href: '/services',
+      label: 'NRI Services',
+      children: [
+        { href: '/services/property-management', label: 'Property Management' },
+        { href: '/services/parent-care', label: 'Parents & Family Care' },
+        { href: '/services/healthcare', label: 'Healthcare Coordination' },
+        { href: '/services/legal-documents', label: 'Legal & POA' },
+        { href: '/services/home-services', label: 'Home Repairs' },
+        { href: '/services/travel', label: 'Travel & Chauffeurs' },
+      ],
+    },
+    {
+      href: '/marketplace',
+      label: 'Verified Directory & RFQ',
+    },
+    {
+      href: '/dashboard',
+      label: 'My India Dashboard',
+    },
+    {
+      href: '/how-it-works',
+      label: 'How It Works',
+    },
+  ],
+
   business: [
     {
       href: '/wholesale-dry-fruits',
@@ -310,6 +337,7 @@ export function buildBreadcrumbs(
   if (business !== 'root') {
     const businessLabels: Record<NutyBusiness, string> = {
       root:     'Nuty Tales',
+      nri:      'Nuty Tales NRI',
       business: 'Nuty Tales Business',
       gifting:  'Gifting',
       weddings: 'Weddings',

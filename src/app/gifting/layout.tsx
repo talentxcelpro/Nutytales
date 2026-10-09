@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom laser-etched branding, handcrafted Kashmiri walnut wood boxes, GST invoicing, and PAN-India/international scheduled dispatch.',
-  alternates: {
-    canonical: 'https://gifting.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

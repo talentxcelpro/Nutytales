@@ -1,7 +1,19 @@
-'use client'
-
+import type { Metadata } from 'next'
 import React from 'react'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'How It Works — Step-by-Step India Execution for NRIs | Nuty Tales NRI',
+  description: 'Understand how Nuty Tales handles your property, family assistance, and legal tasks in India: natural language scoping, verified ground coordinators, and milestone escrow.',
+  alternates: {
+    canonical: 'https://nri.nutytales.com/how-it-works',
+  },
+  openGraph: {
+    title: 'How Nuty Tales Handles India for NRIs',
+    description: 'Natural language scoping, verified ground coordinators, milestone escrow.',
+    url: 'https://nri.nutytales.com/how-it-works',
+  },
+}
 
 export default function NriHowItWorksPage() {
   const steps = [

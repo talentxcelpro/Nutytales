@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana & saffron with wholesale tier pricing and multi-point logistics.',
-  alternates: {
-    canonical: 'https://business.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

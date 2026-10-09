@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  alternates: {
-    canonical: 'https://nri.nutytales.com',
-  },
 }
 
 export default function NriLayout({ children }: { children: React.ReactNode }) {

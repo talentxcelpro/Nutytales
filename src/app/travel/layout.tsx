@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Bespoke travel experiences across Kashmir & Ladakh. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, Gulmarg heli-skiing, alpine meadow treks, and verified local DMC coordination.',
-  alternates: {
-    canonical: 'https://travel.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

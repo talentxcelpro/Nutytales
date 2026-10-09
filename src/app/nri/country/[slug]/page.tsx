@@ -1,6 +1,5 @@
-'use client'
-
-import React, { use } from 'react'
+import type { Metadata } from 'next'
+import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import GetSomethingDoneEngine from '@/components/nri/GetSomethingDoneEngine'
@@ -111,13 +110,39 @@ const COUNTRIES: Record<string, CountryConfig> = {
   },
 }
 
-export default function CountryGatewayPage({
+export async function generateStaticParams() {
+  return Object.keys(COUNTRIES).map((slug) => ({ slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const country = COUNTRIES[slug]
+  if (!country) return { title: 'NRI Country Services | Nuty Tales NRI' }
+  return {
+    title: `${country.name} to India Management Platform | Nuty Tales NRI`,
+    description: country.tagline,
+    alternates: {
+      canonical: `https://nri.nutytales.com/country/${slug}`,
+    },
+    openGraph: {
+      title: `${country.name} to India Management Platform | Nuty Tales NRI`,
+      description: country.tagline,
+      url: `https://nri.nutytales.com/country/${slug}`,
+    },
+  }
+}
+
+export default async function CountryGatewayPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
-  const resolved = use(params)
-  const country = COUNTRIES[resolved.slug]
+  const { slug } = await params
+  const country = COUNTRIES[slug]
 
   if (!country) notFound()
 

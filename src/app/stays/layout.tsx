@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Vetted luxury private estate collection and executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Harwan walnut orchard villas, alpine ski chalets, royal cedar houseboats, and executive corporate boardroom suites with dedicated master chefs and 4x4 convoys.',
-  alternates: {
-    canonical: 'https://stays.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

@@ -9,9 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     'Curated wedding favors, royal trousseau walnut gift hampers, and destination Kashmir wedding execution. Interactive budget workspace, 6-ceremony milestones, and artisan favor curation.',
-  alternates: {
-    canonical: 'https://weddings.nutytales.com',
-  },
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

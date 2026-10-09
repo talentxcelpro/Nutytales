@@ -8,12 +8,13 @@ import ShopTrustAndGuarantee from '@/components/shop/ShopTrustAndGuarantee'
 import { FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Nuty Tales Foods & Crafts — Dry Fruits, Nuts, Gifting & Crafts | Nexgenn Services',
+  title: {
+    absolute: 'Nuty Tales — Premium Single-Origin Dry Fruits, Saffron & Gourmet Harvest',
+  },
   description:
-    'Nuty Tales Foods & Crafts — A subsidiary of Nexgenn Services. Authentic single-origin Kashmiri Kagzi walnuts, Mamra almonds, Pampore saffron, Mithila makhana, corporate gifting, and artisanal crafts. FSSAI: 22724441000048.',
+    'Buy certified single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, Mithila jumbo makhana, corporate gifting, and artisanal harvest. FSSAI certified, nitrogen-sealed freshness, worldwide delivery.',
   keywords: [
-    'Nuty Tales Foods & Crafts',
-    'Nexgenn Services',
+    'Nuty Tales',
     'buy dry fruits online',
     'kashmiri walnuts',
     'pampore mongra saffron',
@@ -33,17 +34,14 @@ export default function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'OnlineStore',
-    name: 'Nuty Tales Foods & Crafts',
-    legalName: 'Nuty Tales Foods & Crafts',
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'Nexgenn Services',
-    },
+    name: 'Nuty Tales',
     url: 'https://nutytales.com',
     logo: 'https://nutytales.com/images/logo.jpg',
     description:
-      'Nuty Tales Foods & Crafts — A subsidiary of Nexgenn Services. Dry fruits, nuts, healthy snacks, corporate gifting, wedding hampers and crafts. Central FSSAI: ' +
+      'Buy certified single-origin Kashmiri Kagzi walnuts, Pampore Mongra saffron, high-oil Mamra almonds, and Mithila jumbo makhana. Central FSSAI: ' +
       FSSAI_NUMBER,
+    currenciesAccepted: 'INR, USD, AED, EUR, GBP',
+    paymentAccepted: 'Credit Card, Debit Card, UPI, NetBanking',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'PC-12, 003, Jaypee Wishtown, Sector 128',

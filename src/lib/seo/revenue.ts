@@ -76,6 +76,7 @@ export interface SeoRevenueKpis {
  */
 export const BUSINESS_CONVERSION_PATHS: Record<NutyBusiness, ConversionType[]> = {
   root: ['order', 'account_creation'],
+  nri: ['rfq', 'lead', 'quote', 'account_creation'],
   business: ['rfq', 'lead', 'quote', 'order'],
   gifting: ['gifting_order', 'rfq', 'quote', 'lead'],
   weddings: ['wedding_enquiry', 'lead', 'rfq', 'quote'],
@@ -104,6 +105,11 @@ export const BUSINESS_PRIMARY_CTAS: Record<NutyBusiness, {
     label: 'Shop Now',
     conversionType: 'order',
     trackingGoal: 'root_purchase',
+  },
+  nri: {
+    label: 'Get Started',
+    conversionType: 'rfq',
+    trackingGoal: 'nri_request_initiated',
   },
   business: {
     label: 'Get a Bulk Quote',
@@ -157,6 +163,7 @@ export function buildWhatsappLink(params: {
 
   const businessMessages: Record<NutyBusiness, string> = {
     root:     `Hi, I found your website and wanted to enquire about${pageContext ? ` ${pageContext}` : ' your products'}.`,
+    nri:      `Hi, I need assistance managing a service or property in India. Please connect me with your ground coordinator desk.`,
     business: `Hi, I'm interested in${pageContext ? ` ${pageContext}` : ' wholesale dry fruits'}${quantity ? ` (approx. ${quantity})` : ''}${location ? ` for ${location}` : ''}. Please share your B2B price list.`,
     gifting:  `Hi, I'd like to enquire about${pageContext ? ` ${pageContext}` : ' corporate gifting'}${quantity ? ` for ${quantity}` : ''}. Please share your gifting catalogue.`,
     weddings: `Hi, I'm planning a${pageContext ? ` ${pageContext}` : ' wedding'} and would like to get a quote. Can you share your packages?`,

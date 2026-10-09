@@ -1,6 +1,5 @@
-'use client'
-
-import React, { use } from 'react'
+import type { Metadata } from 'next'
+import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { NRI_CATEGORIES } from '@/lib/nri/nri-data'
@@ -20,13 +19,42 @@ const SLUG_MAP: Record<string, ServiceCategoryKey> = {
   'business': 'business_procurement',
 }
 
-export default function CategoryDetailPage({
+export async function generateStaticParams() {
+  return Object.keys(SLUG_MAP).map((category) => ({ category }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>
+}): Promise<Metadata> {
+  const { category } = await params
+  const catKey: ServiceCategoryKey | undefined = SLUG_MAP[category]
+  if (!catKey || !NRI_CATEGORIES[catKey]) {
+    return { title: 'NRI Services | Nuty Tales NRI' }
+  }
+  const cat = NRI_CATEGORIES[catKey]
+  return {
+    title: `${cat.title} in India for NRIs | Nuty Tales NRI`,
+    description: `${cat.description} Verified on-ground coordinators across ${cat.popularCities.join(', ')}.`,
+    alternates: {
+      canonical: `https://nri.nutytales.com/services/${category}`,
+    },
+    openGraph: {
+      title: `${cat.title} in India for NRIs | Nuty Tales NRI`,
+      description: cat.description,
+      url: `https://nri.nutytales.com/services/${category}`,
+    },
+  }
+}
+
+export default async function CategoryDetailPage({
   params,
 }: {
   params: Promise<{ category: string }>
 }) {
-  const resolvedParams = use(params)
-  const catKey: ServiceCategoryKey | undefined = SLUG_MAP[resolvedParams.category]
+  const { category } = await params
+  const catKey: ServiceCategoryKey | undefined = SLUG_MAP[category]
 
   if (!catKey || !NRI_CATEGORIES[catKey]) {
     notFound()
