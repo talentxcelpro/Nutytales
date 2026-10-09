@@ -459,14 +459,14 @@ export const SUPPLY_HUBS = [
     role: 'Central Processing & Rapid B2B Dispatch',
     reach: 'Delhi NCR, Punjab, Haryana, Rajasthan, Western UP (Same-Day / Next-Day Delivery)',
     address: 'PC-12, 003, Jaypee Wishtown, Sector 128, Noida, Uttar Pradesh 201304',
-    mapUrl: 'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6',
+    mapUrl: 'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D',
   },
   {
     city: 'Kashmir (Arshid House)',
     role: 'Direct Valley Farm & Craft Aggregation',
     reach: 'Kashmiri Walnuts, Kagzi Badam, Pampore Saffron & Artisanal Crafts Sourcing',
     address: 'Arshid House, Budgam–Gojra Road, Dadna, Budgam, Jammu and Kashmir 191111',
-    mapUrl: 'https://www.google.com/maps/place/Arshid+House/@34.1324252,74.5415978,11z/data=!4m10!1m2!2m1!1sArshid+House,+Budgam-Gojra+Road,+Dadna,+Budgam,+Jammu+and+Kashmir+191111!3m6!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj',
+    mapUrl: 'https://www.google.com/maps/place/Arshid+House/@34.0087558,74.7060736,17z/data=!4m6!3m5!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D',
   },
   {
     city: 'Patna, Bihar (Nafis Colony)',

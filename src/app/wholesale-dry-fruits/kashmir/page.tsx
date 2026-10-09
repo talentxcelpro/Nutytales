@@ -415,7 +415,7 @@ export default function KashmirWholesalePage() {
               Valley farm procurement, Himalayan walnuts, Mamra almonds &amp; authentic craft aggregation.
             </p>
             <a
-              href="https://www.google.com/maps/place/Arshid+House/@34.1324252,74.5415978,11z/data=!4m10!1m2!2m1!1sArshid+House,+Budgam-Gojra+Road,+Dadna,+Budgam,+Jammu+and+Kashmir+191111!3m6!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj"
+              href="https://www.google.com/maps/place/Arshid+House/@34.0087558,74.7060736,17z/data=!4m6!3m5!1s0x38e191f6e26e2615:0x437d1ccd908b0d4a!8m2!3d34.0087701!4d74.7086101!16s%2Fg%2F11t2ssyygj?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#C9A45C] hover:underline font-bold pt-1"

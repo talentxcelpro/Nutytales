@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 
 export default function NriLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#0A0F1D] text-stone-200 flex flex-col font-sans selection:bg-[#C9A45C]/30 selection:text-white">
+    <div className="min-h-screen bg-[#FAF9F6] text-[#191919] flex flex-col font-sans selection:bg-[#C9A45C]/25 selection:text-[#191919]">
       <NriNavbar />
       <main className="flex-1">{children}</main>
       <NriFooter />

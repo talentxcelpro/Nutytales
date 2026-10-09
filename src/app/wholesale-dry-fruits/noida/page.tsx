@@ -76,7 +76,7 @@ export default function NoidaWholesalePage() {
             </p>
           </div>
           <a
-            href="https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6"
+            href="https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 bg-[#17233B] text-white hover:bg-black rounded-xl text-xs font-semibold whitespace-nowrap self-start sm:self-auto transition-colors"

@@ -15,6 +15,7 @@
 
 export type NutyBusiness =
   | 'root'       // nutytales.com
+  | 'nri'        // nri.nutytales.com (NRI services & India coordination)
   | 'business'   // business.nutytales.com (wholesale / B2B procurement)
   | 'gifting'    // gifting.nutytales.com
   | 'weddings'   // weddings.nutytales.com
@@ -24,6 +25,7 @@ export type NutyBusiness =
 
 export const BUSINESS_DOMAINS: Record<NutyBusiness, string> = {
   root:     'https://nutytales.com',
+  nri:      'https://nri.nutytales.com',
   business: 'https://business.nutytales.com',
   gifting:  'https://gifting.nutytales.com',
   weddings: 'https://weddings.nutytales.com',
