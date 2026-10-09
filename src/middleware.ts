@@ -19,6 +19,7 @@ function getActiveVertical(request: NextRequest): string | null {
   const headerVertical = request.headers.get('x-nutytales-vertical')
   if (headerVertical) return headerVertical.toLowerCase()
 
+  if (host.startsWith('nri.nutytales.com') || host.startsWith('nri.localhost')) return 'nri'
   if (host.startsWith('business.nutytales.com') || host.startsWith('business.localhost')) return 'business'
   if (host.startsWith('gifting.nutytales.com') || host.startsWith('gifting.localhost')) return 'gifting'
   if (host.startsWith('weddings.nutytales.com') || host.startsWith('weddings.localhost')) return 'weddings'
@@ -59,6 +60,35 @@ export function middleware(request: NextRequest) {
       res.cookies.set('nt_active_vertical', vertical, { path: '/' })
       res.headers.set('x-nutytales-vertical', vertical)
       return res
+    }
+
+    if (vertical === 'nri') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/nri/sitemap.xml')
+      if (pathname === '/') return rewriteVertical('/nri')
+      if (pathname === '/services') return rewriteVertical('/nri/services')
+      if (pathname === '/marketplace') return rewriteVertical('/nri/marketplace')
+      if (pathname === '/how-it-works') return rewriteVertical('/nri/how-it-works')
+      if (pathname === '/providers' || pathname === '/for-providers') return rewriteVertical('/nri/providers')
+      if (pathname === '/for-business' || pathname === '/business') return rewriteVertical('/nri/business')
+      if (pathname === '/dashboard' || pathname === '/my-india') return rewriteVertical('/nri/dashboard')
+      if (pathname === '/emergency') return rewriteVertical('/nri/emergency')
+      if (pathname === '/provider-workspace') return rewriteVertical('/nri/provider-workspace')
+      if (pathname === '/nri-services') return rewriteVertical('/nri/services')
+      if (pathname === '/nri-property-management') return rewriteVertical('/nri/services/property-management')
+      if (pathname === '/nri-parent-care') return rewriteVertical('/nri/services/parent-care')
+      if (pathname === '/nri-healthcare') return rewriteVertical('/nri/services/healthcare')
+      if (pathname === '/nri-legal-services') return rewriteVertical('/nri/services/legal-services')
+      if (pathname === '/nri-tax-services') return rewriteVertical('/nri/services/tax-services')
+      if (pathname === '/nri-home-services') return rewriteVertical('/nri/services/home-services')
+      if (pathname === '/nri-travel') return rewriteVertical('/nri/services/travel')
+      if (pathname === '/nri-weddings') return rewriteVertical('/nri/services/weddings')
+      if (pathname === '/nri-gifting') return rewriteVertical('/nri/services/gifting')
+      if (pathname === '/usa-to-india-services') return rewriteVertical('/nri/country/usa')
+      if (pathname === '/uk-to-india-services') return rewriteVertical('/nri/country/uk')
+      if (pathname === '/canada-to-india-services') return rewriteVertical('/nri/country/canada')
+      if (pathname === '/dubai-to-india-services') return rewriteVertical('/nri/country/uae')
+      if (pathname.startsWith('/nri')) return nextVertical()
+      return rewriteVertical(`/nri${pathname}`)
     }
 
     if (vertical === 'business') {

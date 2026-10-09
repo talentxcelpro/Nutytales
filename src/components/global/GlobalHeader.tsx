@@ -31,8 +31,8 @@ export default function GlobalHeader() {
 
   // Suppress global gateway header when rendering dedicated standalone company shells or subdomains
   const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel)/i.test(document.cookie))
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri)/i.test(document.cookie))
 
   if (
     isSubdomain ||
@@ -41,7 +41,8 @@ export default function GlobalHeader() {
     pathname?.startsWith('/weddings') ||
     pathname?.startsWith('/crafts') ||
     pathname?.startsWith('/stays') ||
-    pathname?.startsWith('/travel')
+    pathname?.startsWith('/travel') ||
+    pathname?.startsWith('/nri')
   ) {
     return null
   }

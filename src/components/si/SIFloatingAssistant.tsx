@@ -233,6 +233,31 @@ export default function SIFloatingAssistant() {
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
+  // ── Product: Nuty Tales NRI (nri.nutytales.com / /nri) ───────────────────
+  if (pathname.startsWith('/nri')) {
+    return {
+      assistantName: 'SI India Execution Copilot',
+      badgeIcon: '🇮🇳',
+      tagline: 'Your trusted intelligence & execution team in India',
+      pillText: 'Need something handled in India?',
+      inputPlaceholder: 'Tell SI what you need done in India (e.g. Inspect parents’ home in Srinagar, doctor visit in Delhi)...',
+      greeting:
+        'Welcome to Nuty Tales NRI. India, handled. From anywhere in the world.\n\nTell me what you need done for your family, property, healthcare, documents, or travel in India. I will interpret your request, estimate timelines, match verified providers, and structure your India Care Plan.',
+      actions: [
+        { label: '⚡ Get Something Done', href: '/nri#request-engine' },
+        { label: '🏛️ My India Dashboard', href: '/nri/dashboard' },
+        { label: '🚨 Emergency Assistance', href: '/nri/emergency' },
+        { label: '🤝 Become a Provider', href: '/nri/providers' },
+      ],
+      quickPrompts: [
+        'Inspect parents’ house in Srinagar',
+        'Doctor appointment for father in Delhi',
+        'Property tax & POA assistance',
+        'Home renovation while in Dubai',
+      ],
+    }
+  }
+
   // ── Product 1: Nuty Tales Business (business.nutytales.com / /b2b) ─────────
   if (pathname.startsWith('/b2b') || pathname.startsWith('/business-supply')) {
     return {
@@ -403,6 +428,40 @@ function getContextualPrompts(pathname: string) {
 
 function generateSIResponse(query: string, pathname: string): ChatMessage {
   const q = query.toLowerCase()
+
+  if (pathname.startsWith('/nri') || q.includes('property') || q.includes('inspect') || q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('doctor') || q.includes('poa') || q.includes('power of attorney') || q.includes('nri') || q.includes('caregiver')) {
+    if (q.includes('inspect') || q.includes('property') || q.includes('house') || q.includes('flat')) {
+      return {
+        id: 'resp-' + Date.now(),
+        sender: 'si',
+        text: '📍 Property Oversight Service: We coordinate comprehensive physical inspections, before-and-after photo evidence, structural health audits, utility-bill clearing, and tenant check-ins across Srinagar, Delhi NCR, Mumbai, Bengaluru, and Chandigarh.\n\nAll inspections include GPS-timestamped photographic reports and vendor verification.',
+        actions: [
+          { label: 'Submit Inspection Request', href: '/nri#request-engine' },
+          { label: 'View Property Plans', href: '/nri/services/property-management' },
+        ],
+      }
+    }
+    if (q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('elder') || q.includes('doctor') || q.includes('medicine')) {
+      return {
+        id: 'resp-' + Date.now(),
+        sender: 'si',
+        text: '❤️ Family & Senior Care Coordination: Scheduled home visits, companion errands, verified physician appointments, doorstep medicine pickup, and emergency liaison in India.\n\nYour dashboard provides real-time visit check-ins, service notes, and authorized family sharing.',
+        actions: [
+          { label: 'Setup India Care Plan', href: '/nri#request-engine' },
+          { label: 'Senior Care Inclusions', href: '/nri/services/parent-care' },
+        ],
+      }
+    }
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: '🇮🇳 India Execution Engine: Describe any responsibility—from legal document pickup to home renovation or family holiday in Kashmir. We match verified local execution partners, provide transparent quotes, and track work to proof-of-completion.',
+      actions: [
+        { label: '⚡ Get Something Done', href: '/nri#request-engine' },
+        { label: '🏛️ My India Dashboard', href: '/nri/dashboard' },
+      ],
+    }
+  }
 
   if (q.includes('saffron') || q.includes('kesar') || q.includes('mongra')) {
     return {
