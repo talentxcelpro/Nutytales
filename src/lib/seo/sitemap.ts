@@ -173,80 +173,37 @@ export function buildRootCoreSitemap(): MetadataRoute.Sitemap {
   }
 
   return [
-    // Tier 1 — Highest commercial intent
-    entry('/',                           1.0, 'daily'),
-    entry('/search',                     0.95, 'daily'),
-    entry('/partners',                   0.90, 'weekly'),
-    entry('/festivals',                  0.90, 'weekly'),
-    entry('/seasons',                    0.90, 'weekly'),
-    entry('/occasions',                  0.90, 'weekly'),
-    entry('/life-events',                0.90, 'weekly'),
-    entry('/wholesale-dry-fruits',       0.95, 'weekly'),
-    entry('/business-supply',            0.95, 'weekly'),
-    entry('/corporate-gifting',          0.95, 'weekly'),
-    entry('/weddings',                   0.95, 'weekly'),
-    entry('/gifting',                    0.95, 'weekly'),
-    entry('/makhana',                    0.95, 'weekly'),
-    entry('/shop',                       0.95, 'daily'),
+    // Tier 1 — Core Brand & Commerce Hubs
+    entry('/',                               1.0, 'daily'),
+    entry('/shop',                           0.95, 'daily'),
+    entry('/makhana',                        0.90, 'weekly'),
+    entry('/festivals',                      0.85, 'weekly'),
+    entry('/festivals/diwali',               0.85, 'weekly'),
+    entry('/festivals/eid',                  0.85, 'weekly'),
+    entry('/festivals/christmas',            0.85, 'weekly'),
+    entry('/festivals/new-year',             0.85, 'weekly'),
+    entry('/festivals/raksha-bandhan',       0.85, 'weekly'),
+    entry('/festivals/holi',                 0.85, 'weekly'),
+    entry('/festivals/karwa-chauth',         0.85, 'weekly'),
+    entry('/festivals/navratri',             0.85, 'weekly'),
+    entry('/occasions',                      0.85, 'weekly'),
+    entry('/occasions/corporate-gifting',    0.85, 'weekly'),
+    entry('/occasions/wedding-favors',       0.85, 'weekly'),
+    entry('/occasions/employee-recognition', 0.85, 'weekly'),
+    entry('/seasons',                        0.85, 'weekly'),
+    entry('/seasons/autumn-winter',          0.85, 'weekly'),
+    entry('/seasons/spring',                 0.85, 'weekly'),
+    entry('/seasons/summer',                 0.85, 'weekly'),
+    entry('/life-events',                    0.85, 'weekly'),
+    entry('/life-events/weddings',           0.85, 'weekly'),
+    entry('/life-events/corporate-retreats', 0.85, 'weekly'),
 
-    // Tier 2 — High-demand categories
-    entry('/wholesale-dry-fruits/noida',     0.90, 'weekly'),
-    entry('/wholesale-dry-fruits/kashmir',   0.90, 'weekly'),
-    entry('/wholesale-dry-fruits/patna',     0.90, 'weekly'),
-    entry('/wholesale-dry-fruits/delhi',     0.85, 'weekly'),
-    entry('/wholesale-dry-fruits/mumbai',    0.85, 'weekly'),
-    entry('/wholesale-dry-fruits/bangalore', 0.80, 'weekly'),
-    entry('/wholesale-dry-fruits/bihar',     0.80, 'weekly'),
-
-    // Tier 2 — Business
-    entry('/business',                   0.85, 'monthly'),
-    entry('/bulk-quote',                 0.90, 'monthly'),
-    entry('/almonds-wholesale',          0.85, 'weekly'),
-    entry('/cashews-wholesale',          0.85, 'weekly'),
-    entry('/makhana-wholesale',          0.85, 'weekly'),
-    entry('/dry-fruits-for-bakeries',    0.80, 'weekly'),
-    entry('/dry-fruits-for-hotels',      0.80, 'weekly'),
-    entry('/dry-fruits-for-restaurants', 0.80, 'weekly'),
-    entry('/dry-fruits-for-sweet-shops', 0.80, 'weekly'),
-
-    // Tier 2 — Travel & Stays
-    entry('/travel/kashmir',             0.90, 'weekly'),
-    entry('/travel/kashmir/7-days',      0.85, 'weekly'),
-    entry('/travel/kashmir/5-days',      0.85, 'weekly'),
-    entry('/travel/kashmir/family',      0.85, 'weekly'),
-    entry('/travel/kashmir/honeymoon',   0.85, 'weekly'),
-    entry('/travel/kashmir/luxury',      0.80, 'weekly'),
-    entry('/stays',                      0.90, 'weekly'),
-    entry('/stays/kashmir',              0.90, 'weekly'),
-
-    // Tier 2 — Crafts
-    entry('/crafts',                     0.90, 'weekly'),
-    entry('/crafts/kashmir',             0.90, 'weekly'),
-    entry('/pashmina-shawls',            0.85, 'weekly'),
-    entry('/kani-shawls',               0.85, 'weekly'),
-
-    // Tier 3 — Category pages
-    entry('/dry-fruits',                 0.80, 'weekly'),
-    entry('/dry-fruits/almonds',         0.80, 'weekly'),
-    entry('/dry-fruits/cashews',         0.80, 'weekly'),
-    entry('/dry-fruits/pistachios',      0.75, 'weekly'),
-    entry('/dry-fruits/walnuts',         0.75, 'weekly'),
-    entry('/dry-fruits/raisins',         0.75, 'weekly'),
-    entry('/dry-fruits/dates',           0.75, 'weekly'),
-    entry('/dry-fruits/anjeer',          0.70, 'weekly'),
-    entry('/dry-fruits/apricots',        0.70, 'weekly'),
-    entry('/makhana/plain',              0.70, 'weekly'),
-    entry('/makhana/flavoured',          0.70, 'weekly'),
-
-    // Tier 4 — Informational & Legal Trust
-    entry('/about',                      0.60, 'monthly'),
-    entry('/contact',                    0.65, 'monthly'),
-    entry('/blog',                       0.75, 'daily'),
-    entry('/founders',                   0.60, 'monthly'),
-    entry('/privacy',                    0.50, 'monthly'),
-    entry('/terms',                      0.50, 'monthly'),
-    entry('/shipping',                   0.70, 'weekly'),
-    entry('/sitemap',                    0.65, 'weekly'),
+    // Tier 2 — Trust & Legal
+    entry('/founders',                       0.70, 'monthly'),
+    entry('/shipping',                       0.70, 'weekly'),
+    entry('/privacy',                        0.50, 'monthly'),
+    entry('/terms',                          0.50, 'monthly'),
+    entry('/sitemap',                        0.60, 'weekly'),
   ];
 }
 
