@@ -76,8 +76,9 @@ export default function RequestTrackerPage({
   const activeStepIdx = currentIdx >= 0 ? currentIdx : 3
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Top Breadcrumb */}
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="bg-[#0E1524] text-white rounded-3xl p-6 sm:p-10 border border-[#1E293B] shadow-2xl space-y-8">
+        {/* Top Breadcrumb */}
       <div className="flex items-center justify-between text-xs text-stone-400">
         <Link href="/dashboard" className="hover:text-white flex items-center gap-1">
           <span>← Back to My India Dashboard</span>
@@ -317,6 +318,7 @@ export default function RequestTrackerPage({
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }
