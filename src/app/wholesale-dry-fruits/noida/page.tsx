@@ -3,9 +3,19 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Dry Fruit Wholesale Supplier in Noida & Delhi NCR | Nuty Tales',
+  title: 'Dry Fruit Wholesale Supplier in Noida & Delhi NCR | Nuty Tales Business',
   description:
     'Wholesale dry fruits supplier in Noida, Greater Noida, Ghaziabad, Gurugram, and Delhi NCR. Direct Khari Baoli market links, central warehouse, bulk almonds, cashews, raisins, and GST invoices.',
+  alternates: {
+    canonical: 'https://business.nutytales.com/wholesale-dry-fruits/noida',
+  },
+  openGraph: {
+    title: 'Dry Fruit Wholesale Supplier in Noida & Delhi NCR | Nuty Tales Business',
+    description:
+      'Wholesale dry fruits supplier in Noida and Delhi NCR. Direct Khari Baoli market links and GST invoices.',
+    url: 'https://business.nutytales.com/wholesale-dry-fruits/noida',
+    type: 'website',
+  },
   keywords: [
     'dry fruits wholesale noida',
     'dry fruit supplier delhi ncr',

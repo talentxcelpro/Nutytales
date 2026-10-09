@@ -1,10 +1,22 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import RFQForm from '@/components/rfq/RFQForm'
 
 export const metadata: Metadata = {
-  title: 'Request a Bulk Dry Fruit Quote (RFQ) | Nuty Tales Wholesale',
+  title: 'Request a Bulk Dry Fruit Quote (RFQ) | Nuty Tales Business',
   description:
     'Submit an RFQ for wholesale dry fruits. Multi-product quotes for California almonds, cashews, raisins, walnuts, pistachios, and Makhana. Fast response within 24 hours.',
+  alternates: {
+    canonical: 'https://business.nutytales.com/bulk-quote',
+  },
+  openGraph: {
+    title: 'Request a Bulk Dry Fruit Quote (RFQ) | Nuty Tales Business',
+    description:
+      'Submit an RFQ for wholesale dry fruits with fast pricing within 24 hours.',
+    url: 'https://business.nutytales.com/bulk-quote',
+    siteName: 'Nuty Tales Business',
+    locale: 'en_IN',
+    type: 'website',
+  },
   keywords: [
     'dry fruit bulk quote',
     'dry fruits rfq india',

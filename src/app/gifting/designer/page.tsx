@@ -1,8 +1,24 @@
-'use client'
-
-import React from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import SIGiftDesigner from '@/components/gifting/SIGiftDesigner'
+
+export const metadata: Metadata = {
+  title: 'Outcome-Based Gift Designer | Nuty Tales Gifting',
+  description:
+    'Design custom corporate and luxury hampers. Configure premium dry fruits, branded packaging, multi-address shipping, and immediate quotation.',
+  alternates: {
+    canonical: 'https://gifting.nutytales.com/designer',
+  },
+  openGraph: {
+    title: 'Outcome-Based Gift Designer | Nuty Tales Gifting',
+    description:
+      'Design custom corporate and luxury hampers with live configuration and immediate quotation.',
+    url: 'https://gifting.nutytales.com/designer',
+    siteName: 'Nuty Tales Gifting',
+    locale: 'en_IN',
+    type: 'website',
+  },
+}
 
 export default function GiftDesignerPage() {
   return (

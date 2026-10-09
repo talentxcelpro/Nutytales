@@ -1,19 +1,19 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 /* ------------------------------------------------------------------ */
 /*  SEO Metadata                                                        */
 /* ------------------------------------------------------------------ */
 export const metadata: Metadata = {
-  title: 'Wholesale Dry Fruits Supplier India | Bulk Dry Fruits | Nuty Tales',
+  title: 'Wholesale Dry Fruits Supplier India | Bulk Dry Fruits | Nuty Tales Business',
   description:
     'Buy wholesale dry fruits for your business. Bulk almonds, cashews, raisins, pistachios, makhana and more. Serving retailers, bakeries, hotels, restaurants, sweet shops. Noida, Kashmir, Patna.',
-  alternates: { canonical: 'https://nutytales.com/wholesale-dry-fruits' },
+  alternates: { canonical: 'https://business.nutytales.com/wholesale-dry-fruits' },
   openGraph: {
-    title: 'Wholesale Dry Fruits Supplier India | Nuty Tales',
+    title: 'Wholesale Dry Fruits Supplier India | Nuty Tales Business',
     description:
       'Bulk supply of premium dry fruits across India. Competitive pricing, GST invoice, dedicated B2B support.',
-    url: 'https://nutytales.com/wholesale-dry-fruits',
+    url: 'https://business.nutytales.com/wholesale-dry-fruits',
     type: 'website',
   },
 };

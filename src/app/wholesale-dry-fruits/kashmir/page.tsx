@@ -5,15 +5,15 @@ import Link from 'next/link';
 /*  SEO Metadata                                                        */
 /* ------------------------------------------------------------------ */
 export const metadata: Metadata = {
-  title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales',
+  title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales Business',
   description:
     'Wholesale dry fruits in Kashmir. Supply to retailers, wholesalers, bakeries, hotels and businesses in Srinagar and J&K. GST invoice. Bulk orders.',
-  alternates: { canonical: 'https://nutytales.com/wholesale-dry-fruits/kashmir' },
+  alternates: { canonical: 'https://business.nutytales.com/wholesale-dry-fruits/kashmir' },
   openGraph: {
-    title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales',
+    title: 'Dry Fruit Wholesale Supplier Kashmir | Srinagar | Nuty Tales Business',
     description:
       'Premium wholesale dry fruits for businesses in Srinagar and J&K. Afghan raisins, pistachios, anjeer and more. GST invoice.',
-    url: 'https://nutytales.com/wholesale-dry-fruits/kashmir',
+    url: 'https://business.nutytales.com/wholesale-dry-fruits/kashmir',
     type: 'website',
   },
 };

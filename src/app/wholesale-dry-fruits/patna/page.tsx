@@ -3,9 +3,19 @@ import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nuty Tales',
+  title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nuty Tales Business',
   description:
     'Wholesale dry fruits and direct Mithila Makhana supplier in Patna and Bihar. Serving retailers, sweet shops, bakeries, namkeen manufacturers, and caterers across Patna, Gaya, Muzaffarpur, and Bhagalpur.',
+  alternates: {
+    canonical: 'https://business.nutytales.com/wholesale-dry-fruits/patna',
+  },
+  openGraph: {
+    title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nuty Tales Business',
+    description:
+      'Wholesale dry fruits and direct Mithila Makhana supplier in Patna and Bihar.',
+    url: 'https://business.nutytales.com/wholesale-dry-fruits/patna',
+    type: 'website',
+  },
   keywords: [
     'dry fruits wholesale patna',
     'makhana wholesale bihar',

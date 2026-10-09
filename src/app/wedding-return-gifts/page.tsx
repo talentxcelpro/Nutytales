@@ -19,9 +19,8 @@ export default function WeddingReturnGiftsPage() {
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '');
 
   const breadcrumbs = [
-    { name: 'Home', url: 'https://nutytales.com' },
-    { name: 'Weddings', url: 'https://nutytales.com/weddings' },
-    { name: 'Wedding Return Gifts', url: 'https://nutytales.com/wedding-return-gifts' },
+    { name: 'Home', url: 'https://weddings.nutytales.com' },
+    { name: 'Wedding Return Gifts', url: 'https://weddings.nutytales.com/wedding-return-gifts' },
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
 
