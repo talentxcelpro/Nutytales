@@ -32,11 +32,73 @@ function getActiveVertical(request: NextRequest): string | null {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const host =
+    request.headers.get('x-forwarded-host') ||
+    request.headers.get('host') ||
+    request.nextUrl.hostname ||
+    ''
+
+  // 1. Enforce single-hop HTTPS 301 permanent redirect from www.nutytales.com to canonical https://nutytales.com
+  if (host.startsWith('www.nutytales.com')) {
+    const redirectUrl = new URL(pathname + request.nextUrl.search, 'https://nutytales.com')
+    return NextResponse.redirect(redirectUrl, { status: 301 })
+  }
+
   const vertical = getActiveVertical(request)
 
+  // 2. Hostname-specific robots.txt generation
+  if (pathname === '/robots.txt') {
+    const sitemapUrl = vertical
+      ? `https://${vertical}.nutytales.com/sitemap.xml`
+      : 'https://nutytales.com/sitemap.xml'
+    const hostUrl = vertical
+      ? `https://${vertical}.nutytales.com`
+      : 'https://nutytales.com'
+
+    const robotsTxt = `# Nuty Tales Search Engine Crawl Governance
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /account
+Disallow: /account/
+Disallow: /cart
+Disallow: /checkout
+Disallow: /api/
+Disallow: /_next/
+Disallow: /login
+Disallow: /register
+Disallow: /search?
+Disallow: /*?*utm_*
+Disallow: /*?*session_*
+Disallow: /*.json$
+
+# AI Scraper Policy
+User-agent: GPTBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+
+Sitemap: ${sitemapUrl}
+Host: ${hostUrl}
+`
+    return new NextResponse(robotsTxt, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+      },
+    })
+  }
+
+  // 3. API route protection
   if (pathname.startsWith('/api')) {
-    // Note: nt_uid cookie is a routing/redirect convenience hint only.
-    // Sensitive API endpoints MUST independently verify Firebase ID tokens via verifyIdToken() or Supabase JWT.
     if (API_ADMIN_ROUTE.test(pathname)) {
       const authHeader = request.headers.get('authorization')
       const token = request.cookies.get('nt_uid')?.value
@@ -47,6 +109,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // 4. Subdomain-aware routing & rewrites
   if (vertical) {
     const rewriteVertical = (targetPath: string) => {
       const res = NextResponse.rewrite(new URL(targetPath, request.url))
@@ -66,6 +129,7 @@ export function middleware(request: NextRequest) {
       if (pathname === '/sitemap.xml') return rewriteVertical('/nri/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/nri')
       if (pathname === '/services') return rewriteVertical('/nri/services')
+      if (pathname.startsWith('/services/')) return rewriteVertical(`/nri${pathname}`)
       if (pathname === '/marketplace') return rewriteVertical('/nri/marketplace')
       if (pathname === '/how-it-works') return rewriteVertical('/nri/how-it-works')
       if (pathname === '/providers' || pathname === '/for-providers') return rewriteVertical('/nri/providers')
@@ -73,20 +137,7 @@ export function middleware(request: NextRequest) {
       if (pathname === '/dashboard' || pathname === '/my-india') return rewriteVertical('/nri/dashboard')
       if (pathname === '/emergency') return rewriteVertical('/nri/emergency')
       if (pathname === '/provider-workspace') return rewriteVertical('/nri/provider-workspace')
-      if (pathname === '/nri-services') return rewriteVertical('/nri/services')
-      if (pathname === '/nri-property-management') return rewriteVertical('/nri/services/property-management')
-      if (pathname === '/nri-parent-care') return rewriteVertical('/nri/services/parent-care')
-      if (pathname === '/nri-healthcare') return rewriteVertical('/nri/services/healthcare')
-      if (pathname === '/nri-legal-services') return rewriteVertical('/nri/services/legal-services')
-      if (pathname === '/nri-tax-services') return rewriteVertical('/nri/services/tax-services')
-      if (pathname === '/nri-home-services') return rewriteVertical('/nri/services/home-services')
-      if (pathname === '/nri-travel') return rewriteVertical('/nri/services/travel')
-      if (pathname === '/nri-weddings') return rewriteVertical('/nri/services/weddings')
-      if (pathname === '/nri-gifting') return rewriteVertical('/nri/services/gifting')
-      if (pathname === '/usa-to-india-services') return rewriteVertical('/nri/country/usa')
-      if (pathname === '/uk-to-india-services') return rewriteVertical('/nri/country/uk')
-      if (pathname === '/canada-to-india-services') return rewriteVertical('/nri/country/canada')
-      if (pathname === '/dubai-to-india-services') return rewriteVertical('/nri/country/uae')
+      if (pathname.startsWith('/country/')) return rewriteVertical(`/nri${pathname}`)
       if (pathname.startsWith('/nri')) return nextVertical()
       return rewriteVertical(`/nri${pathname}`)
     }
@@ -94,6 +145,8 @@ export function middleware(request: NextRequest) {
     if (vertical === 'business') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/business/sitemap.xml')
       if (pathname === '/' || pathname === '/business-supply') return rewriteVertical('/b2b')
+      if (pathname.startsWith('/wholesale-dry-fruits')) return nextVertical()
+      if (pathname.startsWith('/bulk-quote')) return nextVertical()
       if (pathname === '/rfq') return rewriteVertical('/b2b/rfq')
       if (pathname === '/catalog') return rewriteVertical('/b2b/catalog')
       if (pathname === '/quotes') return rewriteVertical('/b2b/quotes')
@@ -107,6 +160,11 @@ export function middleware(request: NextRequest) {
     if (vertical === 'gifting') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/gifting/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/gifting')
+      if (pathname.startsWith('/corporate-gifts')) return nextVertical()
+      if (pathname.startsWith('/corporate-gifting')) return nextVertical()
+      if (pathname === '/dashboard') return rewriteVertical('/gifting/dashboard')
+      if (pathname === '/designer') return rewriteVertical('/gifting/designer')
+      if (pathname === '/recipients') return rewriteVertical('/gifting/recipients')
       if (pathname.startsWith('/gifting')) return nextVertical()
       return rewriteVertical(`/gifting${pathname}`)
     }
@@ -114,6 +172,16 @@ export function middleware(request: NextRequest) {
     if (vertical === 'weddings') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/weddings/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/weddings')
+      if (pathname.startsWith('/destination-weddings')) return nextVertical()
+      if (pathname.startsWith('/wedding-return-gifts')) return nextVertical()
+      if (pathname === '/wedding-planners/kashmir' || pathname === '/wedding-venues/kashmir' || pathname === '/wedding-catering/kashmir') {
+        return rewriteVertical('/destination-weddings/kashmir')
+      }
+      if (pathname === '/wedding-gifts/kashmir') {
+        return rewriteVertical('/wedding-return-gifts')
+      }
+      if (pathname === '/workspace') return rewriteVertical('/weddings/workspace')
+      if (pathname === '/dashboard') return rewriteVertical('/weddings/dashboard')
       if (pathname.startsWith('/weddings')) return nextVertical()
       return rewriteVertical(`/weddings${pathname}`)
     }
@@ -121,6 +189,14 @@ export function middleware(request: NextRequest) {
     if (vertical === 'crafts') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/crafts/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/crafts')
+      if (pathname.startsWith('/pashmina-shawls')) return nextVertical()
+      if (pathname.startsWith('/kani-shawls') || pathname.startsWith('/sozni-shawls')) {
+        return rewriteVertical('/pashmina-shawls')
+      }
+      if (pathname === '/kashmir-crafts') {
+        return rewriteVertical('/crafts/kashmir')
+      }
+      if (pathname.startsWith('/product/')) return rewriteVertical(`/crafts${pathname}`)
       if (pathname.startsWith('/crafts')) return nextVertical()
       return rewriteVertical(`/crafts${pathname}`)
     }
@@ -128,6 +204,18 @@ export function middleware(request: NextRequest) {
     if (vertical === 'stays') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/stays/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/stays')
+      if (pathname === '/hosts') return rewriteVertical('/stays/hosts')
+      if (pathname === '/group-quote') return rewriteVertical('/stays/group-quote')
+      if (pathname === '/dashboard') return rewriteVertical('/stays/dashboard')
+      if (pathname === '/hotels/srinagar' || pathname === '/family-stays/srinagar') {
+        return rewriteVertical('/stays/srinagar')
+      }
+      if (pathname === '/hotels/gulmarg') {
+        return rewriteVertical('/stays/gulmarg')
+      }
+      if (pathname === '/boutique-stays/kashmir') {
+        return rewriteVertical('/stays/kashmir')
+      }
       if (pathname.startsWith('/stays')) return nextVertical()
       return rewriteVertical(`/stays${pathname}`)
     }
@@ -135,6 +223,9 @@ export function middleware(request: NextRequest) {
     if (vertical === 'travel') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/travel/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/travel')
+      if (pathname === '/builder') return rewriteVertical('/travel/builder')
+      if (pathname === '/dashboard') return rewriteVertical('/travel/dashboard')
+      if (pathname === '/partners') return rewriteVertical('/travel/partners')
       if (pathname.startsWith('/travel')) return nextVertical()
       return rewriteVertical(`/travel${pathname}`)
     }
@@ -166,6 +257,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 }
