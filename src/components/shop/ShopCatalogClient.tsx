@@ -23,6 +23,8 @@ const ORIGINS = [
   'Afghanistan',
   'Bihar, India',
   'Turkey',
+  'Ladakh, India',
+  'Saudi Arabia',
 ]
 
 const PRICE_TIERS = [
