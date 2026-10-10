@@ -9,7 +9,16 @@ export const metadata: Metadata = {
     template: '%s | Nuty Tales NRI',
   },
   description:
-    'The premier global India-management platform for NRIs, OCI holders, and overseas families. Property management in Srinagar & Delhi, senior parent care visits, Power of Attorney legal execution, and ICAI tax coordination.',
+    'Dedicated on-the-ground support in India for Non-Resident Indians and overseas families. Verified senior parent care visits, GPS-audited property inspections, Power of Attorney legal execution, and ICAI tax coordination.',
+  icons: {
+    icon: [
+      { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
+      { url: 'https://nutytales.com/favicon.png', type: 'image/png', sizes: '192x192' },
+    ],
+    apple: [
+      { url: 'https://nutytales.com/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   keywords: [
     'Nuty Tales NRI',
     'NRI services India',
@@ -29,9 +38,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://nri.nutytales.com',
     siteName: 'Nuty Tales NRI',
-    title: 'Nuty Tales NRI — Global India-Management Platform',
+    title: 'Nuty Tales NRI — India, handled. From anywhere in the world.',
     description:
-      'Your trusted team in India, while you live anywhere in the world. Real transactional execution for family, property, documents, and travel.',
+      'Dedicated on-the-ground support in India for Non-Resident Indians and overseas families. Real transactional execution for family, property, documents, and ancestral stays.',
     images: [
       {
         url: 'https://nri.nutytales.com/opengraph-image',
@@ -45,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@nutytales',
     creator: '@nutytales',
-    title: 'Nuty Tales NRI — Global India-Management Platform',
+    title: 'Nuty Tales NRI — India, handled. From anywhere in the world.',
     description: 'Your trusted team in India, while you live anywhere in the world.',
   },
   robots: {

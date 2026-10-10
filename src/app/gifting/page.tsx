@@ -3,17 +3,17 @@ import GiftingHomeClient from './GiftingHomeClient'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Nuty Tales Gifting — Bespoke Corporate & Festive Luxury Dry Fruit Hampers',
+    absolute: 'Nuty Tales Gifting — Make Every Gift Mean More',
   },
   description:
-    'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom laser-etched branding, handcrafted Kashmiri walnut wood boxes, GST invoicing, and PAN-India/international scheduled dispatch.',
+    'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom branding, and scheduled dispatch across India and worldwide. Make every gift mean more.',
   alternates: {
     canonical: 'https://gifting.nutytales.com',
   },
   openGraph: {
-    title: 'Nuty Tales Gifting — Bespoke Corporate & Festive Luxury Dry Fruit Hampers',
+    title: 'Nuty Tales Gifting — Make Every Gift Mean More',
     description:
-      'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch.',
+      'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch. Make every gift mean more.',
     url: 'https://gifting.nutytales.com',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',

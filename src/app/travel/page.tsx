@@ -3,17 +3,17 @@ import TravelHomeClient from './TravelHomeClient'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Nuty Tales Travel — Bespoke Kashmir Expeditions & SI Dynamic Journeys',
+    absolute: 'Nuty Tales Travel — Travel India Beyond the Ordinary',
   },
   description:
-    'Bespoke travel experiences across Kashmir & Ladakh. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, Gulmarg heli-skiing, alpine meadow treks, and verified local DMC coordination.',
+    'Bespoke travel expeditions and curated journeys across Kashmir, Ladakh, and India. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, alpine chalets, and verified DMC coordination.',
   alternates: {
     canonical: 'https://travel.nutytales.com',
   },
   openGraph: {
-    title: 'Nuty Tales Travel — Bespoke Kashmir Expeditions & SI Dynamic Journeys',
+    title: 'Nuty Tales Travel — Travel India Beyond the Ordinary',
     description:
-      'Bespoke travel experiences across Kashmir & Ladakh. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, Gulmarg heli-skiing, alpine meadow treks, and verified local DMC coordination.',
+      'Bespoke travel expeditions and curated journeys across Kashmir, Ladakh, and India. AI-powered dynamic itinerary planner, private 4x4 off-road convoys, alpine chalets, and verified DMC coordination.',
     url: 'https://travel.nutytales.com',
     siteName: 'Nuty Tales Travel',
     locale: 'en_IN',

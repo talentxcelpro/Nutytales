@@ -420,11 +420,10 @@ export default function TravelMarketplacePage() {
               <span>✦</span> INTENT → SUPPLY → EXECUTION
             </div>
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-              Don’t search for your trip.<br />
-              <span className="text-[#C9A45C] italic font-normal">Tell us what you want.</span>
+              Travel India Beyond the Ordinary.
             </h1>
             <p className="text-stone-300 text-sm sm:text-lg font-light max-w-2xl mx-auto leading-relaxed">
-              SI plans it. Nuty Tales puts it together. No manual juggling between Booking, Expedia, Viator, and local car rentals. One unified, supply-verified journey.
+              Bespoke expeditions, private alpine convoys, and curated journeys across Kashmir, Ladakh, and India. Tell us what you want—we orchestrate flights, boutique estates, private chauffeurs, and master guides into one seamless trip.
             </p>
           </div>
 

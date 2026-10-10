@@ -172,10 +172,10 @@ export default function CraftsPage() {
                   Nuty Tales Crafts &amp; Heritage
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-                  Kashmir to the World.
+                  Crafted by Tradition. Chosen for a Lifetime.
                 </h1>
                 <p className="font-serif italic text-lg sm:text-xl text-stone-200">
-                  Pherans. Shawls. Jackets. Winter Wear. Crafted with character.
+                  Pherans. Shawls. Jackets. Heritage Home Decor. Crafted with character.
                 </p>
               </div>
 

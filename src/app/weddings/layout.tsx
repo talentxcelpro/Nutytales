@@ -4,11 +4,11 @@ import WeddingsShell from '@/components/weddings/WeddingsShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://weddings.nutytales.com'),
   title: {
-    default: 'Nuty Tales Weddings — Royal Trousseau Hampers & Kashmir Destination Wedding Concierge',
+    default: 'Nuty Tales Weddings — Bring Every Wedding Detail Together Beautifully',
     template: '%s | Nuty Tales Weddings',
   },
   description:
-    'Curated wedding favors, royal trousseau walnut gift hampers, and destination Kashmir wedding execution. Interactive budget workspace, 6-ceremony milestones, and artisan favor curation.',
+    'Curated wedding favors, royal trousseau walnut gift hampers, and destination wedding execution. Bring every wedding detail together beautifully with intelligent planning and artisan curation.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     'monogram trousseau boxes',
   ],
   openGraph: {
-    title: 'Nuty Tales Weddings — Royal Favors & Destination Wedding Concierge',
+    title: 'Nuty Tales Weddings — Bring Every Wedding Detail Together Beautifully',
     description:
-      'Curated wedding favors, royal trousseau walnut gift hampers, and destination Kashmir wedding planning.',
+      'Curated wedding favors, royal trousseau walnut gift hampers, and destination wedding execution. Bring every wedding detail together beautifully.',
     url: 'https://weddings.nutytales.com',
     siteName: 'Nuty Tales Weddings',
     locale: 'en_IN',
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nuty Tales Weddings — Favors & Destination Concierge',
-    description: 'Royal trousseau hampers and destination wedding workspace.',
+    title: 'Nuty Tales Weddings — Bring Every Wedding Detail Together Beautifully',
+    description: 'Royal trousseau hampers, destination weddings, and seamless execution.',
   },
 }
 

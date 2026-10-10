@@ -356,31 +356,61 @@ export default function GetSomethingDoneEngine() {
           {/* Tab 3: Execution Desk */}
           {activeTab === 'providers' && (
             <div className="space-y-3 text-xs">
-              <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-[#F3EFE6] border border-[#E5DEC9] flex items-center justify-center text-xl">
-                      🏛️
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-stone-900 text-sm">
-                        Nuty Tales Ground Operations ({extractedPlan.destination_city})
-                      </h4>
-                      <span className="text-[11px] text-[#8C6D2D] font-medium block">
-                        Central Concierge & Ground Coordinator Desk
+              {matchedProviders.length > 0 ? (
+                matchedProviders.slice(0, 1).map((m, idx) => (
+                  <div key={idx} className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-11 h-11 rounded-2xl bg-[#F3EFE6] border border-[#E5DEC9] flex items-center justify-center text-xl">
+                          {m.isDirectHub ? '🏛️' : m.isRfqOnly ? '🤝' : '📋'}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-stone-900 text-sm">
+                            {m.provider.name}
+                          </h4>
+                          <span className="text-[11px] text-[#8C6D2D] font-medium block">
+                            {m.provider.businessName}
+                          </span>
+                        </div>
+                      </div>
+
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
+                          m.isDirectHub
+                            ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                            : m.isRfqOnly
+                            ? 'bg-amber-100 text-amber-900 border-amber-200'
+                            : 'bg-stone-100 text-stone-700 border-stone-300'
+                        }`}
+                      >
+                        {m.fitLabel}
                       </span>
                     </div>
+
+                    <p className="text-xs text-stone-600 font-light leading-relaxed">
+                      {m.provider.bio}
+                    </p>
+
+                    <div className="pt-2 border-t border-stone-200/60 space-y-1">
+                      <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                        Matching & Execution Safeguards:
+                      </span>
+                      <ul className="space-y-1 text-stone-700">
+                        {m.transparentReasons.map((r: string, rIdx: number) => (
+                          <li key={rIdx} className="flex items-start gap-1.5">
+                            <span className="text-emerald-600 font-bold">✓</span>
+                            <span>{r}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                    Platform Supervised
-                  </span>
+                ))
+              ) : (
+                <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 text-stone-600">
+                  <p>Central operations desk will scope and review available ground specialists for {extractedPlan.destination_city}.</p>
                 </div>
-
-                <p className="text-xs text-stone-600 font-light leading-relaxed">
-                  Direct on-ground coordinator dispatch in {extractedPlan.destination_city}. All tasks are supervised with strict GPS-timestamped photographic verification and client sign-off.
-                </p>
-              </div>
+              )}
             </div>
           )}
 
@@ -404,7 +434,11 @@ export default function GetSomethingDoneEngine() {
                 onClick={handleSubmitRequest}
                 className="px-6 py-2.5 rounded-full bg-[#191919] hover:bg-[#333333] text-white text-xs font-semibold shadow-sm hover:shadow-md transition-all w-1/2 sm:w-auto text-center"
               >
-                Confirm & Submit Request →
+                {matchedProviders[0]?.isDirectHub
+                  ? 'Confirm & Schedule Service →'
+                  : matchedProviders[0]?.isRfqOnly
+                  ? 'Request Scoped Quotation →'
+                  : 'Submit Sourcing Request →'}
               </button>
             </div>
           </div>

@@ -130,10 +130,10 @@ export default function WeddingsPage() {
                   Nuty Tales Weddings
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-                  Tell us your wedding. <span className="text-[#C9A45C] italic font-serif">We make it happen.</span>
+                  Bring Every Wedding Detail Together Beautifully.
                 </h1>
                 <p className="font-serif italic text-lg sm:text-xl text-[#FAF6EE]/90">
-                  An AI-assisted, technology-powered wedding orchestration platform — combining intelligent blueprinting, verified venues, hotel room blocks, ground travel, royal trousseau &amp; Day-Of execution.
+                  An intelligent wedding orchestration platform combining bespoke royal trousseau hampers, verified venues, guest stays, ground convoys, and Day-Of execution.
                 </p>
               </div>
 

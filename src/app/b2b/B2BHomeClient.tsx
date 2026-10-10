@@ -208,7 +208,20 @@ export default function B2BHomePage() {
   return (
     <div className="space-y-20 pb-20">
       {/* ── 1. AMAZON BUSINESS REFERENCE SPLIT-CARD HERO ─────────────────────── */}
-      <section className="pt-8 sm:pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="pt-8 sm:pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+        {/* Executive Headline Banner */}
+        <div className="text-left space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
+            <span>🏭</span> NUTY TALES BUSINESS · ENTERPRISE SOURCING ENGINE
+          </div>
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#17233B] leading-tight">
+            Source Better. Supply Smarter. Grow Together.
+          </h1>
+          <p className="text-stone-600 text-sm sm:text-lg font-light max-w-3xl leading-relaxed">
+            Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana &amp; saffron with wholesale tier pricing and multi-point logistics.
+          </p>
+        </div>
+
         <div className="bg-white rounded-3xl border border-stone-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
           {/* Left Split Card: "Let us create your free Nuty Tales Business account" */}
           <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 space-y-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-stone-200">
@@ -264,11 +277,11 @@ export default function B2BHomePage() {
               {!isOnboardingSubmitted ? (
                 <>
                   <div className="space-y-2">
-                    <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B] tracking-tight">
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] tracking-tight">
                       {isSignInMode
                         ? 'Sign in to your Nuty Tales Business account'
                         : 'Let us create your free Nuty Tales Business account'}
-                    </h1>
+                    </h2>
                     <p className="text-xs sm:text-sm text-stone-600">
                       Access exclusive volume pricing, GST invoice tax credit, and direct orchard allocations.
                     </p>

@@ -138,7 +138,7 @@ export default function GiftingPage() {
 
               <div className="space-y-2">
                 <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#17233B] tracking-tight leading-[1.12]">
-                  Gifts that mean something.
+                  Make Every Gift Mean More.
                 </h1>
                 <p className="font-serif italic text-xl sm:text-2xl text-[#704B32] font-medium">
                   Personal · Corporate · Weddings · Events · Experiences

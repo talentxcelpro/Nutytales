@@ -5,9 +5,9 @@ import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
-  title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
+  title: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
   description:
-    'Institutional luxury estate collection & executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Private walnut orchard villas, alpine ski chalets, Dal Lake royal cedar houseboats, and executive corporate boardroom residences.',
+    'Discover vetted luxury private residences, alpine chalets, walnut orchard estates, and executive corporate suites across Kashmir, Delhi-NCR, and Patna. Where you stay is an unforgettable chapter of where you travel.',
   keywords: [
     'luxury private residences Kashmir',
     'private villa Srinagar',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     canonical: 'https://stays.nutytales.com',
   },
   openGraph: {
-    title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Living',
+    title: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     description:
       'Private walnut estates, alpine heated chalets, and executive corporate boardroom suites with dedicated master chefs, 4x4 convoys, and high-speed gigabit fiber.',
     url: 'https://stays.nutytales.com',
@@ -45,9 +45,9 @@ export default function StaysPage() {
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Stay in Extraordinary Private Estates.
+              Find Your Place to Stay.
               <span className="block text-[#C9A45C] font-serif italic text-2xl sm:text-4xl lg:text-5xl font-normal mt-1">
-                From High-Altitude Walnut Orchards to Executive Boardroom Residences
+                Make It Part of the Journey.
               </span>
             </h1>
 

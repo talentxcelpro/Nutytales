@@ -4,11 +4,11 @@ import CraftsShell from '@/components/crafts/CraftsShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://crafts.nutytales.com'),
   title: {
-    default: 'Nuty Tales Crafts — Authentic Kashmir GI Pashmina, Shawls & Heritage Collections',
+    default: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
     template: '%s | Nuty Tales Crafts',
   },
   description:
-    'Evidence-backed GI-certified Changthangi Pashmina, hand-embroidered Tilla shawls, fine wool pherans, and bespoke heritage crafts. Global boutique wholesale, provenance tracing, and export consignments.',
+    'Evidence-backed GI-certified Changthangi Pashmina, hand-embroidered Tilla shawls, fine wool pherans, and bespoke heritage crafts. Crafted by tradition, chosen for a lifetime.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     'handwoven pashmina wholesale',
   ],
   openGraph: {
-    title: 'Nuty Tales Crafts — Authentic Kashmir GI Pashmina & Heritage Handlooms',
+    title: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
     description:
-      'Evidence-backed GI-certified Changthangi Pashmina, fine wool pherans, and bespoke Himalayan heritage crafts.',
+      'Evidence-backed GI-certified Changthangi Pashmina, fine wool pherans, and bespoke Himalayan heritage crafts. Crafted by tradition, chosen for a lifetime.',
     url: 'https://crafts.nutytales.com',
     siteName: 'Nuty Tales Crafts',
     locale: 'en_IN',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nuty Tales Crafts — Authentic Kashmiri Heritage',
+    title: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
     description: 'GI certified Changthangi Pashmina, pherans, and master artisan weaves.',
   },
 }

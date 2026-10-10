@@ -4,11 +4,11 @@ import GiftingShell from '@/components/gifting/GiftingShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://gifting.nutytales.com'),
   title: {
-    default: 'Nuty Tales Gifting — Bespoke Corporate & Festive Luxury Dry Fruit Hampers',
+    default: 'Nuty Tales Gifting — Make Every Gift Mean More',
     template: '%s | Nuty Tales Gifting',
   },
   description:
-    'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom laser-etched branding, handcrafted Kashmiri walnut wood boxes, GST invoicing, and PAN-India/international scheduled dispatch.',
+    'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom branding, and scheduled dispatch across India and worldwide. Make every gift mean more.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     'corporate gifting concierge',
   ],
   openGraph: {
-    title: 'Nuty Tales Gifting — Bespoke Corporate & Festive Hampers',
+    title: 'Nuty Tales Gifting — Make Every Gift Mean More',
     description:
-      'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch.',
+      'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch. Make every gift mean more.',
     url: 'https://gifting.nutytales.com',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nuty Tales Gifting — Corporate & Luxury Hampers',
+    title: 'Nuty Tales Gifting — Make Every Gift Mean More',
     description: 'Enterprise multi-recipient desk and bespoke handcrafted gifting.',
   },
 }

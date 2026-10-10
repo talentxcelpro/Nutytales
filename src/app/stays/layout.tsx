@@ -4,11 +4,11 @@ import StaysShell from '@/components/stays/StaysShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://stays.nutytales.com'),
   title: {
-    default: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Suites',
+    default: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     template: '%s | Nuty Tales Stays',
   },
   description:
-    'Vetted luxury private estate collection and executive hospitality across Kashmir, Delhi-NCR, Patna, and global gateways. Harwan walnut orchard villas, alpine ski chalets, royal cedar houseboats, and executive corporate boardroom suites with dedicated master chefs and 4x4 convoys.',
+    'Find vetted luxury private residences, alpine chalets, walnut orchard estates, and executive corporate suites across Kashmir, Delhi-NCR, and Patna. Where you stay is an unforgettable chapter of where you travel.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     'executive residences Noida',
   ],
   openGraph: {
-    title: 'Nuty Tales Stays — Private Residences, Orchard Estates & Executive Living',
+    title: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     description:
-      'Curated private estate collection across Kashmir, Delhi-NCR, and Patna. Private orchard villa buyouts, alpine chalets, cedar houseboats, and executive boardroom residences.',
+      'Find vetted luxury private residences, alpine chalets, walnut orchard estates, and executive corporate suites across Kashmir, Delhi-NCR, and Patna.',
     url: 'https://stays.nutytales.com',
     siteName: 'Nuty Tales Stays',
     locale: 'en_IN',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nuty Tales Stays — Private Residences & Estate Collection',
+    title: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     description: 'Private walnut orchard villas, alpine chalets, royal houseboats, and executive corporate suites.',
   },
 }

@@ -2,54 +2,52 @@
 // Operating Platform for Indians Living Abroad | nri.nutytales.com
 
 import { NriProvider, ServiceCategoryKey, ExtractedPlan } from './types'
-import { VERIFIED_PROVIDERS } from './nri-data'
+import { VERIFIED_PROVIDERS, OPERATIONAL_CITIES } from './nri-data'
 
 export interface MatchScoreResult {
   provider: NriProvider
   matchScore: number // 0-100 calibrated
-  fitLabel: 'Best Match' | 'Strong Fit' | 'Available for Your Location'
+  fitLabel: 'Direct Fulfillment Hub' | 'Scoped RFQ Sourcing' | 'Feasibility Review Required' | 'Best Match' | 'Strong Fit'
   transparentReasons: string[]
   isVerified: boolean
+  isDirectHub: boolean
+  isRfqOnly: boolean
 }
 
 /**
- * Evaluates and ranks verified providers against an extracted plan
+ * Evaluates and ranks verified providers against an extracted plan with strict location awareness
  */
 export function matchProvidersForPlan(
   plan: ExtractedPlan,
   allProviders: NriProvider[] = VERIFIED_PROVIDERS
 ): MatchScoreResult[] {
   const results: MatchScoreResult[] = []
+  const destLower = plan.destination_city.toLowerCase()
 
+  // 1. First search genuine verified registered providers
   for (const provider of allProviders) {
-    let score = 0
-    const reasons: string[] = []
-
-    // 1. Category Compatibility (35 points)
+    // A. Category Compatibility
     const categoryMatch = provider.categories.includes(plan.category)
-    if (categoryMatch) {
-      score += 35
-      reasons.push(`Specializes in ${plan.categoryLabel}`)
-    } else {
-      // If provider doesn't handle this category, skip
+    if (!categoryMatch) continue
+
+    // B. Strict City Coverage - Provider MUST genuinely cover this city
+    const cityMatch = provider.cities.some((c) => {
+      const cLow = c.toLowerCase()
+      return cLow === destLower || destLower.includes(cLow) || cLow.includes(destLower)
+    })
+
+    if (!cityMatch) {
+      // Strictly skip provider if they do not operate in the requested destination city
       continue
     }
 
-    // 2. City Coverage (25 points)
-    const cityMatch =
-      provider.cities.some((c) => c.toLowerCase() === plan.destination_city.toLowerCase()) ||
-      provider.cities.some((c) => plan.destination_city.toLowerCase().includes(c.toLowerCase()))
+    let score = 35 // Base category score
+    const reasons: string[] = [`Specializes in ${plan.categoryLabel}`]
 
-    if (cityMatch) {
-      score += 25
-      reasons.push(`Direct on-ground coverage in ${plan.destination_city}`)
-    } else {
-      // Partial points for regional coverage
-      score += 10
-      reasons.push(`Operates regionally across northern India`)
-    }
+    score += 25
+    reasons.push(`Direct on-ground coverage in ${plan.destination_city}`)
 
-    // 3. Verification & Accreditations (20 points)
+    // Verification & Accreditations (20 points)
     if (provider.verificationStatus === 'verified') {
       score += 15
       reasons.push(`Verified ${provider.verificationLevel}`)
@@ -58,31 +56,27 @@ export function matchProvidersForPlan(
       score += 5
     }
 
-    // 4. Experience & Rating Calibration (15 points)
-    if (provider.rating >= 4.9) {
+    // Experience & Rating Calibration (15 points)
+    if (provider.rating >= 4.9 && provider.completedJobs > 0) {
       score += 10
-      reasons.push(`High satisfaction rating of ${provider.rating.toFixed(2)} (${provider.completedJobs} completed jobs)`)
-    } else if (provider.rating >= 4.7) {
-      score += 8
-    }
-
-    if (provider.experienceYears >= 10) {
+      reasons.push(`Client satisfaction rating of ${provider.rating.toFixed(1)}`)
+    } else {
       score += 5
-      reasons.push(`${provider.experienceYears}+ years local industry experience`)
     }
 
-    // 5. NRI Specific Experience
+    if (provider.experienceYears >= 5) {
+      score += 5
+      reasons.push(`${provider.experienceYears}+ years verified industry experience`)
+    }
+
+    // NRI Specific Experience
     if (provider.nriExperience) {
       score += 5
-      reasons.push(`Substantiated overseas family management experience`)
+      reasons.push('Substantiated overseas family coordination experience')
     }
 
-    // Cap score at 100
-    const finalScore = Math.min(100, Math.max(10, score))
-
-    let fitLabel: MatchScoreResult['fitLabel'] = 'Available for Your Location'
-    if (finalScore >= 85) fitLabel = 'Best Match'
-    else if (finalScore >= 70) fitLabel = 'Strong Fit'
+    const finalScore = Math.min(100, Math.max(20, score))
+    const fitLabel: MatchScoreResult['fitLabel'] = finalScore >= 80 ? 'Best Match' : 'Strong Fit'
 
     results.push({
       provider: {
@@ -94,49 +88,144 @@ export function matchProvidersForPlan(
       fitLabel,
       transparentReasons: reasons,
       isVerified: provider.verificationStatus === 'verified',
+      isDirectHub: true,
+      isRfqOnly: false,
     })
   }
 
-  // If no 3rd-party providers match or catalog is in onboarding mode, assign to Central Desk
+  // 2. If no direct provider in catalog, evaluate against Platform Operational Registry
   if (results.length === 0) {
-    const citySlug = plan.destination_city.toLowerCase().replace(/[^a-z0-9]+/g, '-')
-    const deskProvider: NriProvider = {
-      id: `desk-${citySlug}`,
-      name: `Nuty Tales Ground Operations (${plan.destination_city})`,
-      businessName: 'Nuty Tales Central Operations Desk',
-      avatar: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=150&auto=format&fit=crop&q=80',
-      categories: [plan.category],
-      cities: [plan.destination_city],
-      experienceYears: 6,
-      verificationStatus: 'verified',
-      verificationLevel: 'Platform Managed',
-      rating: 5.0,
-      reviewCount: 0,
-      completedJobs: 0,
-      nriExperience: 'Direct central concierge execution with dedicated coordinator assignment and supervisor sign-off.',
-      languages: ['English', 'Hindi', 'Urdu'],
-      bio: `Direct execution supervised by Nuty Tales on-ground coordinators in ${plan.destination_city}. All milestones protected by timestamped photographic proof.`,
-      phone: '+91-194-2450001',
-      email: 'operations@nutytales.com',
-      panGstDeclared: true,
-      sampleRate: `${plan.estimated_budget.currency} ${plan.estimated_budget.min.toLocaleString()} – ${plan.estimated_budget.max.toLocaleString()}`,
-    }
-
-    results.push({
-      provider: {
-        ...deskProvider,
-        matchScore: 95,
-        matchReason: `Direct Ground Execution in ${plan.destination_city} • Supervisor Monitored • Milestone Custody Protected`,
-      },
-      matchScore: 95,
-      fitLabel: 'Best Match',
-      transparentReasons: [
-        `Direct ground coordinator assignment in ${plan.destination_city}`,
-        `Full supervision by Nuty Tales Central Operations Desk`,
-        `GPS-timestamped photographic proof required for milestone sign-off`,
-      ],
-      isVerified: true,
+    const cityMeta = OPERATIONAL_CITIES.find((c) => {
+      const cLow = c.name.toLowerCase()
+      return cLow === destLower || destLower.includes(cLow) || cLow.includes(destLower)
     })
+
+    const citySlug = plan.destination_city.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+
+    if (cityMeta && (cityMeta.operationalTier.includes('Tier 1') || cityMeta.coverageStatus === 'Available to Book')) {
+      // Tier 1 Direct Fulfillment Hub
+      const deskProvider: NriProvider = {
+        id: `desk-${citySlug}`,
+        name: `Nuty Tales Ground Operations (${plan.destination_city})`,
+        businessName: 'Nuty Tales Central Ground Operations',
+        avatar: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=150&auto=format&fit=crop&q=80',
+        categories: [plan.category],
+        cities: [plan.destination_city],
+        experienceYears: 6,
+        verificationStatus: 'verified',
+        verificationLevel: 'Platform Managed',
+        rating: 5.0,
+        reviewCount: 0,
+        completedJobs: 0,
+        nriExperience: 'Direct central concierge execution with dedicated coordinator assignment and supervisor sign-off.',
+        languages: ['English', 'Hindi'],
+        bio: `Direct execution supervised by Nuty Tales on-ground coordinators in ${plan.destination_city}. All milestones protected by timestamped photographic proof.`,
+        phone: '+91-11-23382020',
+        email: 'operations@nutytales.com',
+        panGstDeclared: true,
+        sampleRate: `${plan.estimated_budget.currency} ${plan.estimated_budget.min.toLocaleString()} – ${plan.estimated_budget.max.toLocaleString()}`,
+      }
+
+      results.push({
+        provider: {
+          ...deskProvider,
+          matchScore: 90,
+          matchReason: `Direct Ground Execution in ${plan.destination_city} • Supervisor Monitored • Milestone Custody Protected`,
+        },
+        matchScore: 90,
+        fitLabel: 'Direct Fulfillment Hub',
+        transparentReasons: [
+          `Direct ground coordinator assignment active in ${plan.destination_city}`,
+          'Supervised execution by Nuty Tales Central Operations Desk',
+          'GPS-timestamped photographic proof required for milestone sign-off',
+        ],
+        isVerified: true,
+        isDirectHub: true,
+        isRfqOnly: false,
+      })
+    } else if (cityMeta && (cityMeta.operationalTier.includes('Tier 2') || cityMeta.coverageStatus === 'Request a Quote')) {
+      // Tier 2 Scoped RFQ Dispatch
+      const rfqProvider: NriProvider = {
+        id: `rfq-${citySlug}`,
+        name: `Custom Sourcing Desk (${plan.destination_city})`,
+        businessName: 'Nuty Tales Partner Sourcing Network',
+        avatar: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=150&auto=format&fit=crop&q=80',
+        categories: [plan.category],
+        cities: [plan.destination_city],
+        experienceYears: 5,
+        verificationStatus: 'verified',
+        verificationLevel: 'Platform Managed',
+        rating: 5.0,
+        reviewCount: 0,
+        completedJobs: 0,
+        nriExperience: 'Custom partner dispatch and vetting for regional Indian hubs.',
+        languages: ['English', 'Hindi'],
+        bio: `Scoped RFQ dispatch desk. We match your request with credentialed local partners in ${plan.destination_city} within 24–48 hours.`,
+        phone: '+91-11-23382020',
+        email: 'sourcing@nutytales.com',
+        panGstDeclared: true,
+        sampleRate: 'Custom Scoped Quotation',
+      }
+
+      results.push({
+        provider: {
+          ...rfqProvider,
+          matchScore: 75,
+          matchReason: `Custom Partner Scoping in ${plan.destination_city} • 24–48h Feasibility Check • Milestone Custody`,
+        },
+        matchScore: 75,
+        fitLabel: 'Scoped RFQ Sourcing',
+        transparentReasons: [
+          `Custom vendor scoping active in ${plan.destination_city}`,
+          'Itemized quotation and feasibility confirmation within 24–48 hours',
+          'Payments held in contractual milestone custody until proof approval',
+        ],
+        isVerified: true,
+        isDirectHub: false,
+        isRfqOnly: true,
+      })
+    } else {
+      // Tier 3 or Outside Network - Honest Feasibility Disclosure
+      const reviewProvider: NriProvider = {
+        id: `review-${citySlug}`,
+        name: `Feasibility Desk (${plan.destination_city})`,
+        businessName: 'Nuty Tales Network Expansion Desk',
+        avatar: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=150&auto=format&fit=crop&q=80',
+        categories: [plan.category],
+        cities: [plan.destination_city],
+        experienceYears: 0,
+        verificationStatus: 'under_review',
+        verificationLevel: 'Identity Verified',
+        rating: 0,
+        reviewCount: 0,
+        completedJobs: 0,
+        nriExperience: 'New location inquiry handling.',
+        languages: ['English', 'Hindi'],
+        bio: `Direct automated booking is not currently operational in ${plan.destination_city}. Submit request for custom feasibility evaluation.`,
+        phone: '+91-11-23382020',
+        email: 'expansion@nutytales.com',
+        panGstDeclared: true,
+        sampleRate: 'Feasibility Assessment on Demand',
+      }
+
+      results.push({
+        provider: {
+          ...reviewProvider,
+          matchScore: 40,
+          matchReason: `Location Outside Direct Network (${plan.destination_city}) • Feasibility Review Required`,
+        },
+        matchScore: 40,
+        fitLabel: 'Feasibility Review Required',
+        transparentReasons: [
+          `Direct provider network not currently active in ${plan.destination_city}`,
+          'Our operations team will review ground partner availability manually',
+          'No booking commitment or upfront payment required until confirmed',
+        ],
+        isVerified: false,
+        isDirectHub: false,
+        isRfqOnly: true,
+      })
+    }
   }
 
   // Rank by calibrated score descending
@@ -161,6 +250,8 @@ export function generateIllustrativeQuote(provider: NriProvider, plan: Extracted
     completedJobs: provider.completedJobs,
     totalAmount: basePrice,
     currency: plan.estimated_budget.currency,
+    isIllustrative: true,
+    quoteNotice: 'Illustrative quotation estimate based on standard package parameters. Binding quotation confirmed upon on-ground scope review.',
     breakdown: [
       { item: `Coordination & Local Execution (${plan.categoryLabel})`, amount: Math.round(basePrice * 0.7) },
       { item: 'Detailed GPS Timestamped Documentation & Reporting', amount: Math.round(basePrice * 0.2) },
@@ -188,23 +279,23 @@ export function generateIllustrativeQuote(provider: NriProvider, plan: Extracted
       : [
           {
             id: 'm1',
-            title: 'Initial Deposit & Coordinator Mobilization',
+            title: 'Initial Mobilization Deposit (40%)',
             percentage: 40,
             amount: Math.round(basePrice * 0.4),
             status: 'pending' as const,
-            due_condition: 'Released to hold verified coordinator slot',
+            due_condition: 'Released to mobilize local coordinator and schedule site visit',
           },
           {
             id: 'm2',
-            title: 'Final Milestone (After Customer Proof Approval)',
+            title: 'Final Milestone Release (60%)',
             percentage: 60,
             amount: Math.round(basePrice * 0.6),
             status: 'pending' as const,
-            due_condition: 'Released only after you inspect and approve photo/document proof',
+            due_condition: 'Released only after you inspect and approve photo/document proof on your dashboard',
           },
         ],
     estimatedDays: plan.urgency === 'priority' ? 2 : 5,
-    proposalNote: `Hello, I have reviewed your request for ${plan.destination_city}. With ${provider.experienceYears} years of experience and dedicated local coordinators on the ground, I will ensure thorough execution and timestamped photo proof.`,
+    proposalNote: `Hello, your request for ${plan.destination_city} has been routed to our operations coordination desk. We ensure thorough ground execution, itemized checklists, and timestamped photographic proof.`,
     validUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     createdAt: new Date().toISOString(),
     status: 'pending' as const,

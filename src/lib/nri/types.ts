@@ -69,6 +69,7 @@ export interface ExtractedPlan {
   }
   inclusions: string[]
   deliverables: string[]
+  family_city?: string
   beneficiary_name?: string
   beneficiary_relation?: string
   property_type?: string

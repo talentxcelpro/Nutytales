@@ -4,11 +4,11 @@ import B2BShell from '@/components/b2b/B2BShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://business.nutytales.com'),
   title: {
-    default: 'Nuty Tales Business — Global B2B Dry Fruits & Industrial Sourcing Engine',
+    default: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
     template: '%s | Nuty Tales Business',
   },
   description:
-    'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana & saffron with wholesale tier pricing and multi-point logistics.',
+    'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. Source better, supply smarter, grow together.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     'almonds container procurement',
   ],
   openGraph: {
-    title: 'Nuty Tales Business — Global B2B Dry Fruits Wholesale Engine',
+    title: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
     description:
-      'Direct farm-to-enterprise procurement portal for commercial food production, bakery chains, and institutional dry fruit buyers.',
+      'Direct farm-to-enterprise procurement portal for commercial food production, bakery chains, and institutional dry fruit buyers. Source better, supply smarter, grow together.',
     url: 'https://business.nutytales.com',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nuty Tales Business — Global B2B Dry Fruits Procurement',
+    title: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
     description: 'Direct farm-to-enterprise bulk almonds, walnuts, cashews, makhana & saffron.',
   },
 }
