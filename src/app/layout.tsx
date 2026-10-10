@@ -166,6 +166,9 @@ export default function RootLayout({
             />
           </>
         )}
+        {/* ── LLM / AI Answer Engine Discovery (llms.txt standard) ── */}
+        <link rel="help" type="text/markdown" href="/llms.txt" />
+        <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
       </head>
 
       <body className="min-h-screen bg-nt-cream text-nt-brown flex flex-col">
