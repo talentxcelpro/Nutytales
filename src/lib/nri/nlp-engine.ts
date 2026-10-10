@@ -107,143 +107,128 @@ export function interpretNaturalLanguageRequest(
   const p = prompt.trim()
   const lower = p.toLowerCase()
 
-  // 1. Detect Category
-  let category: ServiceCategoryKey = 'property_management'
-  let confidence = 0.85
-
-  if (
-    lower.includes('electrician') ||
-    lower.includes('plumber') ||
-    lower.includes('carpenter') ||
-    lower.includes('repair') ||
-    lower.includes('leak') ||
-    lower.includes('paint') ||
-    lower.includes('clean') ||
-    lower.includes('renovat') ||
-    lower.includes('plumb') ||
-    lower.includes('electr') ||
-    lower.includes('waterproof') ||
-    lower.includes('seepage') ||
-    lower.includes('fix ')
-  ) {
-    category = 'home_services'
-  } else if (
-    lower.includes('doctor') ||
-    lower.includes('hospital') ||
-    lower.includes('opd') ||
-    lower.includes('blood test') ||
-    lower.includes('diagnostic') ||
-    lower.includes('caregiver') ||
-    lower.includes('physician') ||
-    lower.includes('clinic') ||
-    lower.includes('health')
-  ) {
-    category = 'healthcare'
-  } else if (
-    lower.includes('parent') ||
-    lower.includes('father') ||
-    lower.includes('mother') ||
-    lower.includes('elder') ||
-    lower.includes('senior') ||
-    lower.includes('visit them') ||
-    lower.includes('companion') ||
-    lower.includes('medicine pickup') ||
-    lower.includes('grocer') ||
-    lower.includes('family')
-  ) {
-    category = 'parent_care'
-  } else if (
-    lower.includes('poa') ||
-    lower.includes('power of attorney') ||
-    lower.includes('notary') ||
-    lower.includes('legal') ||
-    lower.includes('deed') ||
-    lower.includes('encumbrance') ||
-    lower.includes('registry') ||
-    lower.includes('sub-registrar') ||
-    lower.includes('revenue') ||
-    lower.includes('fard') ||
-    lower.includes('jamabandi') ||
-    lower.includes('khata') ||
-    lower.includes('mutation')
-  ) {
-    category = 'legal_documents'
-  } else if (
-    lower.includes('tax') ||
-    lower.includes('itr') ||
-    lower.includes('15ca') ||
-    lower.includes('15cb') ||
-    lower.includes('fema') ||
-    lower.includes('ca ') ||
-    lower.includes('chartered accountant') ||
-    lower.includes('capital gain') ||
-    lower.includes('repatriat')
-  ) {
-    category = 'tax_finance'
-  } else if (
-    lower.includes('travel') ||
-    lower.includes('holiday') ||
-    lower.includes('stay') ||
-    lower.includes('villa stay') ||
-    lower.includes('airport pickup') ||
-    lower.includes('chauffeur') ||
-    lower.includes('suv') ||
-    lower.includes('tour') ||
-    lower.includes('itinerary')
-  ) {
-    category = 'travel_stays'
-  } else if (
-    lower.includes('wedding') ||
-    lower.includes('marriage') ||
-    lower.includes('reception') ||
-    lower.includes('venue') ||
-    lower.includes('cater') ||
-    lower.includes('wazwan') ||
-    lower.includes('nikah')
-  ) {
-    category = 'weddings_events'
-  } else if (
-    lower.includes('gift') ||
-    lower.includes('hamper') ||
-    lower.includes('deliver') ||
-    lower.includes('birthday') ||
-    lower.includes('anniversary') ||
-    lower.includes('sweets') ||
-    lower.includes('dry fruit box')
-  ) {
-    category = 'gifting_deliveries'
-  } else if (
-    lower.includes('pashmina') ||
-    lower.includes('shawl') ||
-    lower.includes('carpet') ||
-    lower.includes('craft') ||
-    lower.includes('rug') ||
-    lower.includes('wood')
-  ) {
-    category = 'crafts_heritage'
-  } else if (
-    lower.includes('business') ||
-    lower.includes('factory') ||
-    lower.includes('supplier') ||
-    lower.includes('incorporat') ||
-    lower.includes('procurement') ||
-    lower.includes('vendor audit')
-  ) {
-    category = 'business_procurement'
-  } else if (
-    lower.includes('inspect') ||
-    lower.includes('inspection') ||
-    lower.includes('property') ||
-    lower.includes('house') ||
-    lower.includes('flat') ||
-    lower.includes('apartment') ||
-    lower.includes('tenant') ||
-    lower.includes('caretaker') ||
-    lower.includes('meter') ||
-    lower.includes('lock')
-  ) {
-    category = 'property_management'
+  // 1. Detect Category via Multi-Signal Weighted Scoring
+  const categoryScores: Record<ServiceCategoryKey, number> = {
+    property_management: 0,
+    parent_care: 0,
+    healthcare: 0,
+    legal_documents: 0,
+    tax_finance: 0,
+    home_services: 0,
+    travel_stays: 0,
+    weddings_events: 0,
+    gifting_deliveries: 0,
+    crafts_heritage: 0,
+    business_procurement: 0,
   }
+
+  // A. Property Management Signals
+  if (lower.includes('property i need inspected') || lower.includes('inspect my') || lower.includes('flat inspected') || lower.includes('house inspected') || lower.includes('property inspected')) {
+    categoryScores.property_management += 25
+  }
+  if (lower.includes('inspect') || lower.includes('inspection') || lower.includes('walkthrough') || lower.includes('caretaker') || lower.includes('society maintenance') || lower.includes('tenant') || lower.includes('meter reading') || lower.includes('key hold')) {
+    categoryScores.property_management += 12
+  }
+  if (lower.includes('property') || lower.includes('flat') || lower.includes('apartment') || lower.includes('house') || lower.includes('villa') || lower.includes('vacant') || lower.includes('plot')) {
+    categoryScores.property_management += 6
+  }
+
+  // B. Parent & Elder Care Signals
+  if (lower.includes('visit my elderly') || lower.includes('check on my mother') || lower.includes('check on my father') || lower.includes('elderly mother') || lower.includes('elderly father') || lower.includes('visit them') || lower.includes('companion for')) {
+    categoryScores.parent_care += 25
+  }
+  if (lower.includes('elder') || lower.includes('senior') || lower.includes('companion') || lower.includes('medicine pickup') || lower.includes('grocer')) {
+    categoryScores.parent_care += 12
+  }
+  if (lower.includes('parents') || lower.includes('mother') || lower.includes('father') || lower.includes('family')) {
+    if (lower.includes('parents live in') || lower.includes('mother lives in') || lower.includes('father lives in') || lower.includes('family lives in')) {
+      categoryScores.parent_care += 2 // Passive residence context
+    } else {
+      categoryScores.parent_care += 7
+    }
+  }
+
+  // C. Healthcare Signals
+  if (lower.includes('hospital escort') || lower.includes('medical escort') || lower.includes('cardiology') || lower.includes('doctor consultation') || lower.includes('accompanied doctor')) {
+    categoryScores.healthcare += 25
+  }
+  if (lower.includes('doctor') || lower.includes('hospital') || lower.includes('opd') || lower.includes('blood test') || lower.includes('diagnostic') || lower.includes('caregiver') || lower.includes('physician') || lower.includes('clinic')) {
+    categoryScores.healthcare += 14
+  }
+
+  // D. Legal & Documents Signals
+  if (lower.includes('power of attorney') || lower.includes('poa') || lower.includes('lawyer') || lower.includes('advocate') || lower.includes('sub-registrar') || lower.includes('bar council') || lower.includes('encumbrance certificate')) {
+    categoryScores.legal_documents += 25
+  }
+  if (lower.includes('legal') || lower.includes('deed') || lower.includes('notary') || lower.includes('affidavit') || lower.includes('revenue') || lower.includes('fard') || lower.includes('jamabandi') || lower.includes('khata') || lower.includes('mutation') || lower.includes('registry')) {
+    categoryScores.legal_documents += 14
+  }
+
+  // E. Tax & Finance Signals
+  if (lower.includes('15ca') || lower.includes('15cb') || lower.includes('fema') || lower.includes('repatriat') || lower.includes('chartered accountant')) {
+    categoryScores.tax_finance += 25
+  }
+  if (lower.includes('tax') || lower.includes('itr') || lower.includes('capital gain') || lower.includes('ca ')) {
+    categoryScores.tax_finance += 12
+  }
+
+  // F. Home Services Signals
+  if (lower.includes('electrician') || lower.includes('plumber') || lower.includes('carpenter') || lower.includes('deep clean') || lower.includes('waterproofing') || lower.includes('seepage repair')) {
+    categoryScores.home_services += 25
+  }
+  if (lower.includes('repair') || lower.includes('leak') || lower.includes('paint') || lower.includes('clean') || lower.includes('renovat') || lower.includes('fix ')) {
+    categoryScores.home_services += 10
+  }
+
+  // G. Travel & Stays Signals
+  if (lower.includes('chauffeur') || lower.includes('airport pickup') || lower.includes('suv') || lower.includes('itinerary builder') || lower.includes('homestay') || lower.includes('ancestral tour')) {
+    categoryScores.travel_stays += 25
+  }
+  if (lower.includes('travel') || lower.includes('holiday') || lower.includes('tour') || lower.includes('stay') || lower.includes('villa stay')) {
+    categoryScores.travel_stays += 10
+  }
+
+  // H. Weddings & Events Signals
+  if (lower.includes('wedding') || lower.includes('marriage') || lower.includes('reception') || lower.includes('wazwan') || lower.includes('trousseau') || lower.includes('nikah')) {
+    categoryScores.weddings_events += 25
+  }
+
+  // I. Gifting Signals
+  if (lower.includes('gift box') || lower.includes('hamper') || lower.includes('dry fruit box') || lower.includes('sweets delivery') || lower.includes('anniversary gift')) {
+    categoryScores.gifting_deliveries += 25
+  }
+  if (lower.includes('gift') || lower.includes('deliver sweets')) {
+    categoryScores.gifting_deliveries += 10
+  }
+
+  // J. Crafts & Heritage Signals
+  if (lower.includes('pashmina') || lower.includes('kani') || lower.includes('walnut wood') || lower.includes('hand-knotted') || lower.includes('silk rug')) {
+    categoryScores.crafts_heritage += 25
+  }
+  if (lower.includes('shawl') || lower.includes('carpet') || lower.includes('craft') || lower.includes('rug')) {
+    categoryScores.crafts_heritage += 10
+  }
+
+  // K. Business & Procurement Signals
+  if (lower.includes('factory audit') || lower.includes('supplier audit') || lower.includes('vendor audit') || lower.includes('nabl testing')) {
+    categoryScores.business_procurement += 25
+  }
+  if (lower.includes('business') || lower.includes('procurement') || lower.includes('incorporat') || lower.includes('supplier')) {
+    categoryScores.business_procurement += 10
+  }
+
+  // Determine Winning Category
+  let maxScore = 0
+  let topCategory: ServiceCategoryKey = 'property_management'
+  for (const [catKey, score] of Object.entries(categoryScores)) {
+    if (score > maxScore) {
+      maxScore = score
+      topCategory = catKey as ServiceCategoryKey
+    }
+  }
+
+  let category: ServiceCategoryKey = topCategory
+  let confidence = maxScore >= 20 ? 0.95 : maxScore >= 10 ? 0.85 : 0.70
 
   // 2. Intelligent Context-Aware Location Extraction
   // Find all matching locations and their roles in the sentence
@@ -272,38 +257,44 @@ export function interpretNaturalLanguageRequest(
     destinationState = matchedLocations[0].data.state
   } else if (matchedLocations.length > 1) {
     // Multi-location prompt detected (e.g. "My parents live in Delhi, but the property I need inspected is in Jaipur")
-    // Identify which location is associated with the property vs family
+    // Identify which location is associated with property vs family using clause-safe boundaries
     let propertyTarget: CityNormalization | null = null
     let familyTarget: CityNormalization | null = null
 
     for (const loc of matchedLocations) {
-      const windowBefore = lower.substring(Math.max(0, loc.index - 35), loc.index)
-      const windowAfter = lower.substring(loc.index, Math.min(lower.length, loc.index + loc.key.length + 35))
+      // Safe window before
+      const rawBefore = lower.substring(0, loc.index)
+      const lastBreakBefore = rawBefore.search(/[,;.]\s*(but|while|however|although)\s*$/)
+      const windowBefore = lastBreakBefore !== -1
+        ? rawBefore.substring(lastBreakBefore)
+        : rawBefore.substring(Math.max(0, loc.index - 40))
+
+      // Safe window after (cut off at next clause break)
+      const rawAfter = lower.substring(loc.index + loc.key.length)
+      const nextBreakAfter = rawAfter.search(/[,;.]\s*(but|while|however|although|and)/)
+      const windowAfter = nextBreakAfter !== -1
+        ? rawAfter.substring(0, nextBreakAfter)
+        : rawAfter.substring(0, Math.min(rawAfter.length, 40))
+
+      const combinedWindow = `${windowBefore} ${windowAfter}`
 
       if (
-        windowBefore.includes('property') ||
-        windowBefore.includes('flat') ||
-        windowBefore.includes('house') ||
-        windowBefore.includes('apartment') ||
-        windowBefore.includes('plot') ||
-        windowBefore.includes('inspected') ||
-        windowAfter.includes('property') ||
-        windowAfter.includes('flat') ||
-        windowAfter.includes('house') ||
-        windowAfter.includes('apartment')
+        combinedWindow.includes('property') ||
+        combinedWindow.includes('flat') ||
+        combinedWindow.includes('house') ||
+        combinedWindow.includes('apartment') ||
+        combinedWindow.includes('plot') ||
+        combinedWindow.includes('inspect')
       ) {
         propertyTarget = loc.data
       }
 
       if (
-        windowBefore.includes('parent') ||
-        windowBefore.includes('father') ||
-        windowBefore.includes('mother') ||
-        windowBefore.includes('family') ||
-        windowAfter.includes('parent') ||
-        windowAfter.includes('father') ||
-        windowAfter.includes('mother') ||
-        windowAfter.includes('family')
+        combinedWindow.includes('parent') ||
+        combinedWindow.includes('father') ||
+        combinedWindow.includes('mother') ||
+        combinedWindow.includes('family') ||
+        combinedWindow.includes('elder')
       ) {
         familyTarget = loc.data
       }
@@ -318,8 +309,11 @@ export function interpretNaturalLanguageRequest(
     } else if (familyTarget && (category === 'parent_care' || category === 'healthcare')) {
       destinationCity = familyTarget.city
       destinationState = familyTarget.state
+      if (propertyTarget && propertyTarget.city !== familyTarget.city) {
+        familyCity = propertyTarget.city
+      }
     } else {
-      // Default to the last mentioned location (usually the action destination)
+      // Default to the last mentioned location (usually the operative destination clause)
       const lastLoc = matchedLocations[matchedLocations.length - 1]
       destinationCity = lastLoc.data.city
       destinationState = lastLoc.data.state
