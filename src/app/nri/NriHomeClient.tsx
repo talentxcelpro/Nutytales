@@ -8,78 +8,134 @@ import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
 import { PAN_INDIA_DESTINATIONS } from '@/lib/nri/image-registry'
 
 export default function NriHomePage() {
-  const [activeCategory, setActiveCategory] = useState('property')
+  const [activeCategory, setActiveCategory] = useState<string>('all')
   const [activeProofTab, setActiveProofTab] = useState<'dossier' | 'checklist' | 'milestones' | 'verification'>('dossier')
   const [selectedEvidenceCity, setSelectedEvidenceCity] = useState<'mumbai' | 'delhi' | 'srinagar' | 'bengaluru'>('mumbai')
   const [selectedRegion, setSelectedRegion] = useState<'all' | 'North' | 'West' | 'South' | 'East' | 'Central'>('all')
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
-  // 1. Service Category Strip (All 11 Verticals - Desktop wrap + Mobile fluid)
+  // 1. Visual Service Category Navigation Strip
   const categoryStrip = [
-    { id: 'property', label: 'Property Care', icon: '🏡', href: '/services/property-management' },
+    { id: 'all', label: 'All Services', icon: '✨', href: '#services-grid' },
     { id: 'family', label: 'Parents & Family', icon: '❤️', href: '/services/parent-care' },
+    { id: 'property', label: 'Property Care', icon: '🏡', href: '/services/property-management' },
     { id: 'home', label: 'Home Services', icon: '🔧', href: '/services/home-services' },
     { id: 'healthcare', label: 'Healthcare', icon: '🏥', href: '/services/healthcare' },
-    { id: 'documents', label: 'Legal & Documents', icon: '📜', href: '/services/legal-services' },
-    { id: 'tax', label: 'Tax & Professional', icon: '📊', href: '/services/tax-services' },
+    { id: 'documents', label: 'Documents & Legal', icon: '📜', href: '/services/legal-services' },
     { id: 'travel', label: 'Travel & Stays', icon: '🚗', href: '/services/travel' },
-    { id: 'weddings', label: 'Weddings & Events', icon: '💍', href: '/services/weddings' },
+    { id: 'weddings', label: 'Weddings', icon: '💍', href: '/services/weddings' },
     { id: 'gifting', label: 'Gifting', icon: '🎁', href: '/services/gifting' },
-    { id: 'crafts', label: 'Crafts & Products', icon: '🧣', href: '/services/crafts' },
-    { id: 'business', label: 'Business & Sourcing', icon: '🏢', href: '/services/business' },
+    { id: 'crafts', label: 'Crafts', icon: '🧣', href: '/services/crafts' },
+    { id: 'business', label: 'Business', icon: '🏢', href: '/services/business' },
   ]
 
-  // 2. Six (6) Core Service Discovery Cards (Part 5, Section 6)
+  // 2. Large Image-Led Discovery Cards (Prioritizing Family, Property, Home, Healthcare)
   const discoveryCards = [
     {
+      id: 'family',
       title: 'Care for your family',
-      description: 'Scheduled companion visits, household assistance, prescription medicine coordination, and accompanied doctor consultations for aging parents.',
-      context: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh • Hyderabad',
+      description: 'Scheduled companion visits, prescription pickup & OPD doctor escorts.',
+      context: 'Delhi NCR • Bengaluru • Mumbai • Hyderabad',
+      badge: 'Parents & Family',
       image: '/images/nri/senior-care.jpg',
       href: '/services/parent-care',
       cta: 'Explore Parent Care',
     },
     {
+      id: 'property',
       title: 'Manage your property',
-      description: 'Physical 42-point walkthroughs, GPS-tagged photo dossiers, tenant coordination, society maintenance oversight, and pre-monsoon/winter maintenance.',
+      description: '42-point physical walkthroughs, GPS photo dossiers & tenant handovers.',
       context: 'Mumbai • Delhi NCR • Bengaluru • Pune • Srinagar',
+      badge: 'Property Care',
       image: '/images/nri/mumbai-apartment.jpg',
       href: '/services/property-management',
       cta: 'Explore Property Care',
     },
     {
+      id: 'home',
       title: 'Get home services',
-      description: 'Find trusted professionals for civil repairs, plumbing inspections, electrical installations, painting, carpentry, and pre-arrival deep cleaning.',
-      context: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh • Pune',
+      description: 'Trusted civil repairs, electrical inspections, waterproofing & deep cleaning.',
+      context: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh',
+      badge: 'Home Services',
       image: '/images/nri/home-repair.jpg',
       href: '/services/home-services',
       cta: 'Explore Home Services',
     },
     {
+      id: 'healthcare',
       title: 'Coordinate healthcare',
-      description: 'Arrange specialist consultations, diagnostic lab collections, and accompanied hospital OPD visits at Max, Apollo, Fortis, Manipal, and Medanta.',
-      context: 'Delhi NCR • Mumbai • Bengaluru • Chennai • Hyderabad',
+      description: 'Accompanied consultations & diagnostic lab collections at Max, Apollo & Fortis.',
+      context: 'Delhi NCR • Mumbai • Bengaluru • Chennai',
+      badge: 'Healthcare',
       image: '/images/nri/healthcare-escort.jpg',
       href: '/services/healthcare',
       cta: 'Coordinate Healthcare',
     },
     {
+      id: 'documents',
       title: 'Manage documents & legal',
-      description: 'Find qualified Bar Council advocates for Power of Attorney drafting, consular attestation, Sub-Registrar execution, and land revenue title searches.',
-      context: 'National High Courts • Sub-Registrar Offices Pan-India',
+      description: 'Bar Council advocates for Power of Attorney drafting, consular attestation & title searches.',
+      context: 'High Courts & Sub-Registrar Desks Pan-India',
+      badge: 'Documents & Legal',
       image: '/images/nri/legal-docs.jpg',
       href: '/services/legal-services',
-      cta: 'Explore Legal & Documents',
+      cta: 'Explore Documents & Legal',
     },
     {
+      id: 'travel',
       title: 'Plan your India visit',
-      description: 'Dedicated chauffeur luxury SUV fleets, ancestral village return itineraries, airport transfers, and private heritage homestays across India.',
+      description: 'Dedicated chauffeur luxury SUV fleets, ancestral returns & private heritage stays.',
       context: 'Kerala • Rajasthan • Kashmir Valley • Golden Triangle',
+      badge: 'Travel & Stays',
       image: '/images/nri/kerala-heritage.jpg',
       href: '/services/travel',
       cta: 'Plan Your Visit',
     },
+    {
+      id: 'weddings',
+      title: 'Weddings & events',
+      description: 'Bespoke destination wedding execution, royal trousseau hampers & day-of coordination.',
+      context: 'Rajasthan • Kashmir • Goa • Delhi NCR',
+      badge: 'Weddings & Events',
+      image: '/images/nri/wedding-celebration.jpg',
+      href: '/services/weddings',
+      cta: 'Explore Weddings',
+    },
+    {
+      id: 'gifting',
+      title: 'Gifting & deliveries',
+      description: 'Handcrafted walnut hampers, single-origin dry fruit boxes & milestone gifting.',
+      context: 'Pan-India Insured Doorstep Delivery',
+      badge: 'Gifting',
+      image: '/images/nri/gifting-hamper.jpg',
+      href: '/services/gifting',
+      cta: 'Explore Gifting',
+    },
+    {
+      id: 'crafts',
+      title: 'Crafts & heritage products',
+      description: 'GI-certified luxury Pashmina, master walnut woodcarvings & artisan provenance.',
+      context: 'Direct Artisan Guild Provenance',
+      badge: 'Crafts & Products',
+      image: '/images/nri/kolkata-heritage.jpg',
+      href: '/services/crafts',
+      cta: 'Explore Crafts',
+    },
+    {
+      id: 'business',
+      title: 'Business & sourcing',
+      description: 'Supplier factory audits, NABL testing, corporate entity incorporation & liaison.',
+      context: 'Delhi NCR • Mumbai • Bengaluru Industrial Desks',
+      badge: 'Business Sourcing',
+      image: '/images/nri/delhi-residence.jpg',
+      href: '/services/business',
+      cta: 'Explore Business',
+    },
   ]
+
+  const visibleCards = activeCategory === 'all'
+    ? discoveryCards
+    : discoveryCards.filter((c) => c.id === activeCategory)
 
   // 3. Pan-India High-Demand Requests (With transparent estimate notices)
   const popularServices = [
@@ -168,232 +224,121 @@ export default function NriHomePage() {
 
   return (
     <div className="space-y-24 pb-24 overflow-x-hidden text-[#191919]">
-      {/* ── 1. Editorial Hero (Spacious Centered Layout with Full Horizontal Freedom) ── */}
-      <section className="relative pt-10 sm:pt-16 pb-16 overflow-hidden border-b border-[#EAE6DF] bg-gradient-to-b from-[#FAF9F6] to-[#F5F2EB]/50">
-        <div className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-10 text-center">
+      {/* ── 1. Compact Brand Hero & Prominent Search ── */}
+      <section className="relative pt-6 sm:pt-8 pb-4 border-b border-[#EAE6DF] bg-[#FAF9F6]">
+        <div className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-4 text-center">
           
-          {/* Headline & National Positioning */}
-          <div className="max-w-4xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F3EFE6] text-[#8C6D2D] border border-[#E5DEC9] text-xs font-semibold shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-              <span>Pan-India Ground Coordination for the Global Indian Diaspora</span>
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#191919] leading-[1.12]">
-              India, handled. <span className="block sm:inline font-normal italic text-stone-700">From anywhere in the world.</span>
+          {/* Brand Promise (Compact & Restrained) */}
+          <div className="max-w-3xl mx-auto space-y-1">
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-[#191919] leading-snug">
+              India, handled. <span className="font-normal italic text-stone-600">From anywhere in the world.</span>
             </h1>
-
-            <p className="text-lg sm:text-xl text-stone-600 font-light max-w-2xl mx-auto leading-relaxed">
-              Your trusted team in India, while you live anywhere in the world.
-            </p>
-
-            <p className="text-xs sm:text-sm text-stone-500 font-light max-w-xl mx-auto">
-              Managed through one operating platform with verifiable photographic proof across North, West, South, and East India.
+            <p className="text-xs sm:text-sm text-stone-600 font-light">
+              Trusted local help for your family, home and life in India.
             </p>
           </div>
 
-          {/* Prominent Search Component (Generous Width, Ample Space for All Fields) */}
-          <div className="max-w-5xl mx-auto">
+          {/* Prominent Unified Search Bar */}
+          <div className="max-w-4xl mx-auto">
             <GetSomethingDoneEngine />
-          </div>
-
-          {/* Trust Indicators (Directly Beneath Search) */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 text-xs text-stone-600 pt-1">
-            <div className="flex items-center gap-2 font-medium">
-              <span className="text-[#8C6D2D] text-sm">✓</span>
-              <span>Transparent quotes</span>
-            </div>
-            <div className="flex items-center gap-2 font-medium">
-              <span className="text-[#8C6D2D] text-sm">✓</span>
-              <span>Verified professionals</span>
-            </div>
-            <div className="flex items-center gap-2 font-medium">
-              <span className="text-[#8C6D2D] text-sm">✓</span>
-              <span>GPS proof of work</span>
-            </div>
-            <div className="flex items-center gap-2 font-medium">
-              <span className="text-[#8C6D2D] text-sm">✓</span>
-              <span>Accountable support</span>
-            </div>
-          </div>
-
-          {/* Editorial Pan-India Visual Showcase (3-Card National Triptych) */}
-          <div className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-              {/* Showcase 1: North India Hub */}
-              <div className="group relative h-64 sm:h-72 rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-all">
-                <Image
-                  src="/images/nri/delhi-residence.jpg"
-                  alt="Modern residence and property management in Delhi NCR and North India"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-black/60 text-white backdrop-blur-xs">
-                    North Hub • Delhi NCR &amp; Chandigarh
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="font-serif text-lg font-bold text-white drop-shadow-sm">
-                    Residential Property &amp; Senior Escorts
-                  </h3>
-                  <p className="text-[11px] text-stone-200 line-clamp-1 mt-0.5">
-                    Gurugram apartments, hospital escorts at Max/Medanta &amp; Sub-Registrar POAs.
-                  </p>
-                </div>
-              </div>
-
-              {/* Showcase 2: West India Hub */}
-              <div className="group relative h-64 sm:h-72 rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-all">
-                <Image
-                  src="/images/nri/mumbai-apartment.jpg"
-                  alt="Contemporary residential apartment oversight in Mumbai MMR and Pune"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-black/60 text-white backdrop-blur-xs">
-                    West Hub • Mumbai &amp; Pune
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="font-serif text-lg font-bold text-white drop-shadow-sm">
-                    High-Rise Flat &amp; Society Liaison
-                  </h3>
-                  <p className="text-[11px] text-stone-200 line-clamp-1 mt-0.5">
-                    MMR society coordination, key holding, pre-tenant audits &amp; ICAI 15CA tax certificates.
-                  </p>
-                </div>
-              </div>
-
-              {/* Showcase 3: South India Hub */}
-              <div className="group relative h-64 sm:h-72 rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-all">
-                <Image
-                  src="/images/nri/bengaluru-villa.jpg"
-                  alt="Gated executive villa and plot oversight in Bengaluru and Southern India"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-black/60 text-white backdrop-blur-xs">
-                    South Hub • Bengaluru &amp; Kerala
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="font-serif text-lg font-bold text-white drop-shadow-sm">
-                    Gated Villas &amp; Ancestral Homes
-                  </h3>
-                  <p className="text-[11px] text-stone-200 line-clamp-1 mt-0.5">
-                    Whitefield villa plot walkthroughs, BESCOM net-metering &amp; coastal monsoon sealing.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. Service Category Navigation (All 11 Verticals - Responsive Clean Bar) ── */}
-      <section id="categories" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="border-b border-[#EAE6DF] pb-5">
-          <div className="flex items-center justify-between gap-2 overflow-x-auto lg:overflow-visible no-scrollbar py-2">
+      {/* ── 2. Visual Service-Category Navigation (Immediately Below Search) ── */}
+      <section id="categories" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 pt-3 pb-1">
+        <div className="border-b border-[#EAE6DF] pb-3">
+          <div className="flex items-center justify-between gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1">
             {categoryStrip.map((cat) => {
               const active = activeCategory === cat.id
               return (
-                <Link
+                <button
                   key={cat.id}
-                  href={cat.href}
+                  type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex flex-col items-center gap-1.5 px-3 py-2 rounded-2xl transition-all whitespace-nowrap flex-shrink-0 group ${
+                  className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all whitespace-nowrap flex-shrink-0 group ${
                     active
                       ? 'border-b-2 border-[#191919] text-[#191919] font-bold'
-                      : 'text-stone-500 hover:text-stone-900'
+                      : 'text-stone-500 hover:text-stone-900 border-b-2 border-transparent'
                   }`}
                 >
-                  <span className="text-2xl transition-transform group-hover:scale-110">
+                  <span className="text-xl transition-transform group-hover:scale-110">
                     {cat.icon}
                   </span>
                   <span className="text-xs font-medium">{cat.label}</span>
-                </Link>
+                </button>
               )
             })}
           </div>
         </div>
       </section>
 
-      {/* ── 3. Six (6) Core Service Discovery Cards (Part 5, Section 6) ── */}
-      <section id="discovery" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#EAE6DF] pb-4">
-          <div className="space-y-1">
-            <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
-              Effortless Discovery
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#191919]">
-              Everything you need in India, in one place.
+      {/* ── 3. Large Image-Led Service Discovery Cards ── */}
+      <section id="services-grid" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-6 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+          <div>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-[#191919]">
+              Explore Services in India
             </h2>
-            <p className="text-xs sm:text-sm text-stone-600 font-light max-w-xl">
-              High-touch local coordination for your family, ancestral properties, documents, and travel across India.
+            <p className="text-xs sm:text-sm text-stone-600 font-light mt-0.5">
+              Verified on-ground execution with photographic proof across Indian cities.
             </p>
           </div>
-
           <Link
             href="/services"
             className="text-xs font-semibold text-stone-900 hover:text-[#8C6D2D] transition-colors self-start sm:self-auto"
           >
-            Browse All 11 Verticals →
+            Browse All Verticals →
           </Link>
         </div>
 
-        {/* 6 Large Editorial Cards in 3-Column Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {discoveryCards.map((card, idx) => (
-            <div
+        {/* Large Responsive Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {visibleCards.map((card, idx) => (
+            <Link
               key={idx}
-              className="group bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+              href={card.href}
+              className="group bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-xl transition-all flex flex-col justify-between hover:border-stone-300"
             >
               <div>
-                <div className="relative h-60 w-full overflow-hidden bg-stone-100">
+                <div className="relative h-56 w-full overflow-hidden bg-stone-100">
                   <Image
                     src={card.image}
                     alt={card.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
-                  <div className="absolute bottom-3.5 left-5 right-5">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/90 text-stone-800 backdrop-blur-xs shadow-2xs">
+                      {card.badge}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-3 left-4 right-4">
                     <span className="text-[10px] font-medium text-stone-200 block drop-shadow-sm truncate">
                       {card.context}
                     </span>
-                    <h3 className="font-serif text-xl font-bold text-white drop-shadow-sm mt-0.5">
+                    <h3 className="font-serif text-lg font-bold text-white drop-shadow-sm mt-0.5">
                       {card.title}
                     </h3>
                   </div>
                 </div>
 
-                <div className="p-6 space-y-2">
-                  <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+                <div className="p-4 space-y-1.5">
+                  <p className="text-xs text-stone-600 font-light leading-relaxed line-clamp-2">
                     {card.description}
                   </p>
                 </div>
               </div>
 
-              <div className="px-6 pb-6 pt-1">
-                <Link
-                  href={card.href}
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FAF9F6] hover:bg-[#F3EFE6] text-[#191919] text-xs font-semibold border border-stone-300 transition-colors w-full justify-center"
-                >
+              <div className="px-4 pb-4 pt-1">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 group-hover:text-[#8C6D2D] transition-colors">
                   <span>{card.cta}</span>
-                  <span>→</span>
-                </Link>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

@@ -65,29 +65,21 @@ export default function SIFloatingAssistant() {
 
   return (
     <>
-      {/* ── Floating Launcher Button ────────────────────────────────────────────── */}
-      <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3">
-        {!isOpen && !hasInteracted && (
-          <div
-            onClick={() => setIsOpen(true)}
-            className="cursor-pointer hidden sm:flex items-center gap-2 bg-[#17233B]/95 text-white px-3.5 py-2 rounded-2xl shadow-xl border border-[#C9A45C]/40 text-xs animate-fadeIn hover:bg-[#17233B]"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-serif italic text-stone-200">
-              {contextData.pillText}
-            </span>
-            <span className="font-bold text-[#C9A45C]">Ask SI ✨</span>
-          </div>
-        )}
+      {/* ── Floating Launcher Button (Compact & Non-Intrusive) ────────────────── */}
+      <div className="fixed bottom-5 right-5 z-40 flex items-center">
+        {/* Subtle hover tooltip */}
+        <div className="hidden sm:block absolute right-14 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-stone-900/90 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg whitespace-nowrap shadow-md backdrop-blur-xs">
+          Ask SI Assistant
+        </div>
 
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Open SI Concierge Assistant"
-          className="relative w-14 h-14 rounded-full bg-[#17233B] hover:bg-[#176B68] text-white flex items-center justify-center shadow-2xl border-2 border-[#C9A45C] transition-all hover:scale-105 group"
+          title="Ask SI Assistant"
+          className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#17233B] hover:bg-[#1f3052] text-white flex items-center justify-center shadow-lg border border-[#C9A45C]/60 transition-all hover:scale-105 group"
         >
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#C9A45C] rounded-full border-2 border-[#17233B] animate-ping" />
-          <span className="text-xl group-hover:rotate-12 transition-transform">
+          <span className="text-base group-hover:rotate-12 transition-transform">
             {isOpen ? '✕' : '✨'}
           </span>
         </button>
@@ -233,8 +225,11 @@ export default function SIFloatingAssistant() {
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
+  const isNri = pathname.startsWith('/nri') || hostname.startsWith('nri.') || hostname.includes('nri')
+
   // ── Product: Nuty Tales NRI (nri.nutytales.com / /nri) ───────────────────
-  if (pathname.startsWith('/nri')) {
+  if (isNri) {
     return {
       assistantName: 'SI India Execution Copilot',
       badgeIcon: '🇮🇳',
@@ -428,8 +423,10 @@ function getContextualPrompts(pathname: string) {
 
 function generateSIResponse(query: string, pathname: string): ChatMessage {
   const q = query.toLowerCase()
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
+  const isNri = pathname.startsWith('/nri') || hostname.startsWith('nri.') || hostname.includes('nri')
 
-  if (pathname.startsWith('/nri') || q.includes('property') || q.includes('inspect') || q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('doctor') || q.includes('poa') || q.includes('power of attorney') || q.includes('nri') || q.includes('caregiver')) {
+  if (isNri || q.includes('property') || q.includes('inspect') || q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('doctor') || q.includes('poa') || q.includes('power of attorney') || q.includes('nri') || q.includes('caregiver')) {
     if (q.includes('inspect') || q.includes('property') || q.includes('house') || q.includes('flat')) {
       return {
         id: 'resp-' + Date.now(),

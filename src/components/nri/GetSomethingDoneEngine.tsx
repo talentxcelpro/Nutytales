@@ -121,43 +121,44 @@ export default function GetSomethingDoneEngine() {
           className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0"
         >
           {/* Segment 1: Where in India? */}
-          <div className="flex-1 px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors cursor-pointer text-left">
+          <div className="flex-1 px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors text-left">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
               Where in India?
             </label>
-            <select
+            <input
+              type="text"
+              list="operational-cities-list"
               value={userCity}
               onChange={(e) => setUserCity(e.target.value)}
-              className="w-full bg-transparent text-xs font-semibold text-[#191919] focus:outline-none cursor-pointer truncate"
-            >
-              <option value="">Any Hub (Auto-detect from request)</option>
+              placeholder="City, locality or PIN"
+              className="w-full bg-transparent text-xs font-semibold text-[#191919] placeholder-stone-400 focus:outline-none truncate"
+            />
+            <datalist id="operational-cities-list">
               {OPERATIONAL_CITIES.map((c) => (
-                <option key={c.id} value={c.name}>
-                  {c.name} ({c.state})
-                </option>
+                <option key={c.id} value={c.name} />
               ))}
-            </select>
+            </datalist>
           </div>
 
           <div className="hidden lg:block w-[1px] h-9 bg-stone-200 mx-1" />
 
-          {/* Segment 2: What do you need handled? (Natural Language Input) */}
+          {/* Segment 2: What do you need? (Natural Language Input) */}
           <div className="flex-[2] px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors text-left">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
-              What do you need handled?
+              What do you need?
             </label>
             <input
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g. Inspect parents’ apartment in Mumbai or doctor escort in Delhi NCR..."
+              placeholder="Tell us what you need"
               className="w-full bg-transparent text-xs font-medium text-[#191919] placeholder-stone-400 focus:outline-none truncate"
             />
           </div>
 
           <div className="hidden lg:block w-[1px] h-9 bg-stone-200 mx-1" />
 
-          {/* Segment 3: When? (Timeline / Frequency) */}
+          {/* Segment 3: When? (Timing Selection) */}
           <div className="flex-1 px-4 py-2 hover:bg-stone-50 rounded-xl lg:rounded-full transition-colors cursor-pointer text-left">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
               When?
@@ -167,11 +168,10 @@ export default function GetSomethingDoneEngine() {
               onChange={(e) => setTimeline(e.target.value)}
               className="w-full bg-transparent text-xs font-semibold text-[#191919] focus:outline-none cursor-pointer"
             >
-              {TIMEFRAMES.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
+              <option value="standard">Choose timing</option>
+              <option value="standard">Flexible timing</option>
+              <option value="priority">Urgent (within 48h)</option>
+              <option value="monthly">Standing monthly</option>
             </select>
           </div>
 
@@ -179,8 +179,8 @@ export default function GetSomethingDoneEngine() {
           <div className="px-2 py-1 flex items-center justify-end">
             <button
               type="submit"
-              disabled={isProcessing || !prompt.trim()}
-              className="w-full lg:w-auto px-6 py-3.5 rounded-full bg-[#191919] hover:bg-[#333333] text-white text-xs font-semibold transition-all hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
+              disabled={isProcessing || (!prompt.trim() && !userCity.trim())}
+              className="w-full lg:w-auto px-6 py-3.5 rounded-full bg-[#191919] hover:bg-[#8C6D2D] text-white text-xs font-semibold transition-all hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
               aria-label="Find Help in India"
             >
               {isProcessing ? (
@@ -199,19 +199,30 @@ export default function GetSomethingDoneEngine() {
         </form>
       </div>
 
-      {/* ── Popular Search Suggestions Strip ── */}
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-stone-500 px-2">
-        <span className="font-semibold text-stone-700">Popular:</span>
-        {POPULAR_SUGGESTIONS.slice(0, 4).map((item, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => handleSuggestionClick(item)}
-            className="hover:text-stone-900 hover:underline text-stone-600 transition-colors"
-          >
-            {item} {idx < 3 && '•'}
-          </button>
-        ))}
+      {/* ── 3 Compact Clickable Suggestions ── */}
+      <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2 text-xs text-stone-500 px-2">
+        <span className="font-medium text-stone-400">Suggestions:</span>
+        <button
+          type="button"
+          onClick={() => handleSuggestionClick('Inspect property & 42-point walkthrough with photo dossier')}
+          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+        >
+          Property inspection
+        </button>
+        <button
+          type="button"
+          onClick={() => handleSuggestionClick('Companion care visit & doctor escort for parents')}
+          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+        >
+          Help for parents
+        </button>
+        <button
+          type="button"
+          onClick={() => handleSuggestionClick('Home civil repairs, electrical maintenance & deep cleaning')}
+          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+        >
+          Home repairs
+        </button>
       </div>
 
       {/* ── Extracted Service Plan & Quotation Scoping Card ── */}

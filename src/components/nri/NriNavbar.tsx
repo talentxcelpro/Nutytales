@@ -78,29 +78,29 @@ export default function NriNavbar() {
       }`}
     >
       <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Brand Logo & Editorial Title */}
-          <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white p-1 border border-stone-200 shadow-sm group-hover:border-[#C5A059] transition-all">
+          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white p-0.5 border border-stone-200 shadow-xs group-hover:border-[#C5A059] transition-all">
               <Image
                 src="/images/logo.jpg"
                 alt="Nuty Tales NRI"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 className="object-contain w-full h-full"
                 priority
               />
             </div>
             <div>
               <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#191919]">
+                <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-[#191919]">
                   Nuty Tales
                 </span>
                 <span className="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider bg-[#F3EFE6] text-[#8C6D2D] border border-[#E5DEC9]">
                   NRI
                 </span>
               </div>
-              <span className="text-[11px] tracking-normal text-stone-500 font-light block mt-0.5">
+              <span className="text-[10px] tracking-normal text-stone-500 font-light block mt-0.5">
                 India, handled. From anywhere.
               </span>
             </div>
@@ -109,15 +109,15 @@ export default function NriNavbar() {
           {/* Desktop Primary Navigation */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             <Link
-              href="/#discovery"
-              className="px-3.5 py-2 rounded-full text-sm font-medium text-stone-700 hover:text-[#191919] hover:bg-[#F3EFE6] transition-colors"
+              href="/#services-grid"
+              className="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium text-stone-700 hover:text-[#191919] hover:bg-[#F3EFE6] transition-colors"
             >
               Explore
             </Link>
 
             <Link
               href="/services"
-              className={`px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 pathname === '/services' || pathname?.startsWith('/services/')
                   ? 'text-[#8C6D2D] bg-[#F3EFE6] font-semibold'
                   : 'text-stone-700 hover:text-[#191919] hover:bg-[#F3EFE6]'
@@ -127,19 +127,8 @@ export default function NriNavbar() {
             </Link>
 
             <Link
-              href="/marketplace"
-              className={`px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${
-                pathname === '/marketplace'
-                  ? 'text-[#8C6D2D] bg-[#F3EFE6] font-semibold'
-                  : 'text-stone-700 hover:text-[#191919] hover:bg-[#F3EFE6]'
-              }`}
-            >
-              Marketplace
-            </Link>
-
-            <Link
               href="/dashboard"
-              className={`px-3.5 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5 ${
                 pathname === '/dashboard'
                   ? 'text-[#8C6D2D] bg-[#F3EFE6] font-semibold'
                   : 'text-stone-700 hover:text-[#191919] hover:bg-[#F3EFE6]'
@@ -154,7 +143,7 @@ export default function NriNavbar() {
               <button
                 type="button"
                 onClick={() => setMoreDropdown(!moreDropdown)}
-                className={`px-3 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1 ${
+                className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors flex items-center gap-1 ${
                   moreDropdown ? 'text-[#191919] bg-[#F3EFE6]' : 'text-stone-600 hover:text-[#191919] hover:bg-[#F3EFE6]'
                 }`}
               >
@@ -164,6 +153,13 @@ export default function NriNavbar() {
 
               {moreDropdown && (
                 <div className="absolute left-0 mt-2 w-52 bg-white border border-stone-200 rounded-2xl shadow-xl py-2 z-50 animate-fadeIn">
+                  <Link
+                    href="/marketplace"
+                    onClick={() => setMoreDropdown(false)}
+                    className="block px-4 py-2 text-xs text-stone-700 hover:bg-[#FAF9F6] hover:text-[#8C6D2D] transition-colors"
+                  >
+                    Marketplace &amp; Providers
+                  </Link>
                   <Link
                     href="/how-it-works"
                     onClick={() => setMoreDropdown(false)}
@@ -183,7 +179,7 @@ export default function NriNavbar() {
                     onClick={() => setMoreDropdown(false)}
                     className="block px-4 py-2 text-xs text-stone-700 hover:bg-[#FAF9F6] hover:text-[#8C6D2D] transition-colors"
                   >
-                    Enterprise & Family Offices
+                    Enterprise &amp; Family Offices
                   </Link>
                   <div className="border-t border-stone-100 my-1" />
                   <Link
@@ -206,7 +202,7 @@ export default function NriNavbar() {
               <button
                 type="button"
                 onClick={() => setCurrencyDropdown(!currencyDropdown)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white hover:bg-stone-50 text-stone-700 text-xs font-medium border border-stone-200 transition-colors shadow-2xs"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-stone-50 text-stone-700 text-xs font-medium border border-stone-200 transition-colors shadow-2xs"
                 title="Select Overseas Currency"
               >
                 <span>{currentCurrencyObj.flag}</span>
@@ -237,14 +233,6 @@ export default function NriNavbar() {
                 </div>
               )}
             </div>
-
-            {/* Provider Onboarding Link (Desktop) */}
-            <Link
-              href="/providers"
-              className="hidden xl:inline text-xs font-medium text-stone-600 hover:text-stone-900 px-2 py-1.5 transition-colors"
-            >
-              Become a Provider
-            </Link>
 
             {/* User Account / Sign In */}
             {user ? (
