@@ -69,13 +69,19 @@ export default function ClothingProductCard({
   const currentColor = product.colorOptions[selectedColorIdx] || product.colorOptions[0]
   const loomHours = product.loomHours || product.provenance.artisanHours || 60
 
+  const handleSizeSelect = (e: React.MouseEvent, size: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onQuickAdd(product)
+  }
+
   return (
     <div
-      className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300"
+      className="group relative flex flex-col bg-white rounded-xl overflow-hidden border border-stone-200/90 hover:border-stone-400 hover:shadow-2xl transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* ── Image Presentation Area (Warm Studio Background) ───────────────── */}
+      {/* ── 1. Image Stage with Myntra Fashion Aspect Ratio (3:4) ──────────── */}
       <div className="relative aspect-[3/4] w-full bg-[#FAF6EE] overflow-hidden">
         <Link href={`/crafts/product/${product.slug}`} className="block w-full h-full">
           <Image
@@ -89,7 +95,7 @@ export default function ClothingProductCard({
         </Link>
 
         {/* Top Badges (Origin & Status) */}
-        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
+        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10 pointer-events-none">
           {product.state && (
             <span className="px-2 py-0.5 rounded-md bg-[#10192A]/90 backdrop-blur-xs text-[#C9A45C] text-[9px] font-bold tracking-wider uppercase shadow-xs flex items-center gap-1">
               <span>📍</span> {product.state}
@@ -105,148 +111,125 @@ export default function ClothingProductCard({
               BESTSELLER
             </span>
           )}
-          {discountPercent > 0 && !product.isNew && !product.isBestseller && (
-            <span className="px-2 py-0.5 rounded-md bg-[#176B68] text-white text-[9px] font-bold tracking-widest uppercase shadow-xs">
-              {discountPercent}% OFF
-            </span>
-          )}
         </div>
 
-        {/* Loom Hours Floating Chip */}
-        <div className="absolute bottom-12 right-2.5 z-10 hidden sm:block">
-          <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-stone-200 text-[9px] font-mono font-medium">
-            ⏱️ {loomHours}h Loom
-          </span>
-        </div>
-
-        {/* Wishlist Button */}
+        {/* Wishlist Heart Icon (Top Right) */}
         <button
           type="button"
           onClick={toggleWishlist}
           aria-label="Save to Wishlist"
-          className="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-white/90 hover:bg-white backdrop-blur-sm flex items-center justify-center text-stone-700 shadow-sm transition-transform active:scale-90"
+          className="absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-white/90 hover:bg-white backdrop-blur-sm flex items-center justify-center text-stone-700 shadow-sm transition-transform active:scale-90"
         >
-          <span className={`text-sm ${isWishlisted ? 'text-rose-600 scale-110' : 'text-stone-500 hover:text-stone-800'}`}>
+          <span className={`text-base leading-none ${isWishlisted ? 'text-rose-600 scale-110' : 'text-stone-400 hover:text-stone-700'}`}>
             {isWishlisted ? '♥' : '♡'}
           </span>
         </button>
 
-        {/* Quick Action Overlay Strip (Appears on Hover) */}
-        <div className="absolute bottom-2 inset-x-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-          <button
-            type="button"
-            onClick={() => onQuickAdd(product)}
-            className="flex-1 py-2 bg-[#17233B]/95 hover:bg-[#17233B] text-white rounded-xl text-[10px] font-bold tracking-wider uppercase backdrop-blur-md shadow-lg transition-transform active:scale-95"
-          >
-            + Bag
-          </button>
+        {/* Myntra Signature Rating Badge (Bottom Left) */}
+        <div className="absolute bottom-2.5 left-2.5 z-10 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-stone-800 shadow-xs flex items-center gap-1">
+          <span>
+            {product.reviews && product.reviews.length > 0
+              ? (product.reviews.reduce((acc, r) => acc + (r.rating || 5), 0) / product.reviews.length).toFixed(1)
+              : '4.9'}
+          </span>
+          <span className="text-amber-500 text-[11px] leading-none">★</span>
+          <span className="text-stone-300">|</span>
+          <span className="text-stone-500 font-medium">
+            {(product.reviews?.length || 2) * 45 + 110}
+          </span>
+        </div>
 
-          {onExpressBuy && (
-            <button
-              type="button"
-              onClick={() => onExpressBuy(product)}
-              title="1-Click Express Buy"
-              className="px-2.5 py-2 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl text-[10px] font-bold backdrop-blur-md shadow-lg transition-transform active:scale-95"
-            >
-              ⚡ Buy
-            </button>
-          )}
+        {/* Loom Hours Pill (Bottom Right) */}
+        <div className="absolute bottom-2.5 right-2.5 z-10 hidden sm:block">
+          <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-stone-200 text-[9px] font-mono font-medium">
+            ⏱️ {loomHours}h
+          </span>
+        </div>
 
-          {product.is3DSupported && onOpen3D && (
-            <button
-              type="button"
-              onClick={() => onOpen3D(product)}
-              title="Inspect Garment in 3D"
-              className="px-2 py-2 bg-white/90 hover:bg-white text-[#17233B] rounded-xl text-[10px] font-bold backdrop-blur-md shadow-lg transition-transform active:scale-95"
-            >
-              3D
-            </button>
-          )}
-
-          {product.tryWithSiSupported && onTryWithSi && (
-            <button
-              type="button"
-              onClick={() => onTryWithSi(product)}
-              title="Virtual Drape with SI"
-              className="px-2 py-2 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-[10px] font-bold backdrop-blur-md shadow-lg transition-transform active:scale-95"
-            >
-              SI
-            </button>
-          )}
+        {/* Myntra-Style Hover Size Picker Bar (Slides Up on Hover) */}
+        <div className="absolute inset-x-0 bottom-0 z-20 bg-white/95 backdrop-blur-md p-2.5 transition-all duration-200 transform translate-y-full group-hover:translate-y-0 shadow-lg border-t border-stone-100 flex flex-col gap-1.5">
+          <div className="flex items-center justify-between text-[10px] text-stone-500 font-bold uppercase">
+            <span>Select Size</span>
+            <span className="text-[#176B68] font-mono font-bold">68% to Weaver</span>
+          </div>
+          <div className="flex items-center gap-1 flex-wrap">
+            {product.sizes.slice(0, 5).map((sz) => (
+              <button
+                key={sz}
+                type="button"
+                onClick={(e) => handleSizeSelect(e, sz)}
+                className="flex-1 py-1 px-1.5 rounded-md border border-stone-200 hover:border-[#17233B] hover:bg-[#17233B] hover:text-white text-[10px] font-bold text-stone-800 transition-colors text-center"
+              >
+                {sz}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── Product Commercial Metadata (Clean Minimal Typography) ──────────── */}
-      <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between space-y-2">
-        <div className="space-y-1">
-          {/* Craft & Origin Line */}
-          <div className="flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-[#704B32]">
-            <span className="truncate">{product.craft}</span>
+      {/* ── 2. Myntra-Grade Brand, Title & Commercial Info ───────────────────── */}
+      <div className="p-3.5 flex flex-col flex-1 justify-between space-y-2">
+        <div className="space-y-0.5">
+          {/* Brand / Atelier Name (Bold Uppercase) */}
+          <div className="flex items-center justify-between">
+            <span className="font-extrabold text-xs text-[#17233B] tracking-wider uppercase truncate">
+              {product.provenance.artisanGroup || `${product.craft} Atelier`}
+            </span>
             {product.provenance.giTagCertified && (
               <button
                 type="button"
                 onClick={() => onOpenPassport && onOpenPassport(product)}
-                className="text-[#176B68] hover:underline flex items-center gap-0.5 text-[9px] font-extrabold flex-shrink-0"
+                className="text-[#176B68] hover:underline text-[9px] font-extrabold flex-shrink-0"
                 title="View Verifiable GI Passport"
               >
-                <span>📜</span> GI Cert
+                📜 GI Cert
               </button>
             )}
           </div>
 
-          {/* Product Title */}
+          {/* Product Description / Title */}
           <Link
             href={`/crafts/product/${product.slug}`}
-            className="font-serif font-bold text-xs sm:text-sm text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-2"
+            className="text-xs text-stone-600 hover:text-[#176B68] transition-colors leading-snug truncate block"
           >
             {product.name}
           </Link>
         </div>
 
-        {/* Color Swatch Dots */}
-        {product.colorOptions && product.colorOptions.length > 0 && (
-          <div className="flex items-center gap-1.5 pt-0.5">
-            {product.colorOptions.slice(0, 4).map((color, idx) => (
+        {/* Color Swatch Dots & Fabric info */}
+        <div className="flex items-center justify-between text-[10px] text-stone-500 pt-0.5">
+          <div className="flex items-center gap-1">
+            {product.colorOptions && product.colorOptions.length > 0 && product.colorOptions.slice(0, 3).map((color, idx) => (
               <button
                 key={color.name}
                 type="button"
                 onClick={() => setSelectedColorIdx(idx)}
                 title={color.name}
-                className={`w-3 h-3 rounded-full border transition-all ${
-                  selectedColorIdx === idx
-                    ? 'ring-2 ring-[#17233B] scale-110'
-                    : 'border-black/20 hover:scale-105'
+                className={`w-2.5 h-2.5 rounded-full border ${
+                  selectedColorIdx === idx ? 'ring-2 ring-[#17233B] scale-110' : 'border-black/20'
                 }`}
                 style={{ backgroundColor: color.hex }}
               />
             ))}
-            <span className="text-[10px] text-stone-500 font-medium ml-1 truncate">
-              {currentColor?.name}
-            </span>
+            <span className="truncate ml-1">{product.material.split('(')[0].trim()}</span>
           </div>
-        )}
-
-        {/* Impact & Provenance Line */}
-        <div className="flex items-center justify-between text-[10px] text-stone-500 pt-0.5">
-          <span>{product.material.split('(')[0].trim()}</span>
-          <button
-            type="button"
-            onClick={() => onOpenPassport && onOpenPassport(product)}
-            className="text-[9px] font-mono text-[#176B68] hover:text-[#125350] font-bold"
-          >
-            68% Weaver Direct ➔
-          </button>
+          <span className="text-[#176B68] font-bold">{product.craft}</span>
         </div>
 
-        {/* Pricing Row */}
-        <div className="pt-2 border-t border-stone-100 flex items-baseline justify-between">
+        {/* Pricing Row (Selling Price, MRP strikethrough, Discount % OFF) */}
+        <div className="pt-2 border-t border-stone-100 flex items-baseline justify-between gap-1 flex-wrap">
           <div className="flex items-baseline gap-1.5 flex-wrap">
-            <span className="font-serif font-bold text-sm sm:text-base text-[#17233B]">
+            <span className="font-bold text-sm text-[#17233B]">
               {formatCraftPrice(product.price)}
             </span>
             {product.mrp > product.price && (
               <span className="text-[11px] text-stone-400 line-through">
                 {formatCraftPrice(product.mrp)}
+              </span>
+            )}
+            {discountPercent > 0 && (
+              <span className="text-[11px] font-bold text-rose-600">
+                ({discountPercent}% OFF)
               </span>
             )}
             {isWesternMarket && (
@@ -255,9 +238,38 @@ export default function ClothingProductCard({
               </span>
             )}
           </div>
-          <span className="text-[10px] text-stone-500 font-medium">
-            {product.sizes[0] || 'Free Size'}
-          </span>
+        </div>
+
+        {/* DeepTech Action Strip (Virtual Drape SI & Quick Bag) */}
+        <div className="pt-1.5 border-t border-stone-100 flex items-center justify-between gap-1.5">
+          {product.tryWithSiSupported && onTryWithSi && (
+            <button
+              type="button"
+              onClick={() => onTryWithSi(product)}
+              className="flex-1 py-1 px-2 rounded-lg bg-[#176B68]/10 hover:bg-[#176B68] text-[#176B68] hover:text-white text-[10px] font-bold transition-colors flex items-center justify-center gap-1"
+            >
+              <span>✨</span> Virtual Drape
+            </button>
+          )}
+
+          {product.is3DSupported && onOpen3D && (
+            <button
+              type="button"
+              onClick={() => onOpen3D(product)}
+              className="py-1 px-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold transition-colors"
+              title="Inspect 3D Weave"
+            >
+              3D
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => onQuickAdd(product)}
+            className="flex-1 py-1 px-2 rounded-lg bg-[#17233B] hover:bg-black text-white text-[10px] font-bold uppercase transition-colors text-center"
+          >
+            + Bag
+          </button>
         </div>
       </div>
     </div>
