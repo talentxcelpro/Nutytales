@@ -94,17 +94,12 @@ async function getAccessToken(email: string, key: string): Promise<string> {
 
 const SITEMAPS_TO_SUBMIT = [
   'https://nutytales.com/sitemap.xml',
-  'https://nutytales.com/travel/sitemap.xml',
-  'https://nutytales.com/stays/sitemap.xml',
-  'https://nutytales.com/crafts/sitemap.xml',
-  'https://nutytales.com/gifting/sitemap.xml',
-  'https://nutytales.com/business/sitemap.xml',
-  'https://business.nutytales.com/sitemap.xml',
-  'https://travel.nutytales.com/sitemap.xml',
-  'https://stays.nutytales.com/sitemap.xml',
-  'https://crafts.nutytales.com/sitemap.xml',
   'https://weddings.nutytales.com/sitemap.xml',
   'https://gifting.nutytales.com/sitemap.xml',
+  'https://business.nutytales.com/sitemap.xml',
+  'https://crafts.nutytales.com/sitemap.xml',
+  'https://stays.nutytales.com/sitemap.xml',
+  'https://travel.nutytales.com/sitemap.xml',
   'https://nri.nutytales.com/sitemap.xml',
 ];
 
