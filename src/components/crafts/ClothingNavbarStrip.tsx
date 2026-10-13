@@ -48,7 +48,7 @@ export default function ClothingNavbarStrip({
         {/* ── 1. Primary Department Row ────────────────────────────────────────── */}
         <div className="flex items-center justify-between border-b border-stone-100 py-2.5 overflow-x-auto no-scrollbar gap-4 text-xs font-bold tracking-widest uppercase">
           <nav className="flex items-center space-x-6 sm:space-x-8 whitespace-nowrap">
-            {PRIMARY_CLOTHING_NAV.map((item) => {
+            {PRIMARY_CLOTHING_NAV.map((item: { slug: string; label: string; href: string }) => {
               const isActive = pathname === item.href
               return (
                 <Link
@@ -116,9 +116,9 @@ export default function ClothingNavbarStrip({
         <div className="py-2 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar text-[10px] font-bold tracking-wider uppercase text-stone-600 whitespace-nowrap">
           <div className="flex items-center space-x-5">
             <span className="text-[#C9A45C] font-extrabold flex items-center gap-1">
-              <span>✦</span> AUTUMN &amp; WINTER COLLECTIONS
+              <span>✦</span> ALL-INDIA HANDLOOMS &amp; COUTURE
             </span>
-            {SECONDARY_COLLECTIONS.map((c) => (
+            {SECONDARY_COLLECTIONS.map((c: { id: string; label: string }) => (
               <button
                 key={c.id}
                 type="button"
@@ -135,9 +135,9 @@ export default function ClothingNavbarStrip({
           </div>
 
           <div className="hidden sm:flex items-center gap-2 text-[#704B32] font-semibold text-[10px]">
-            <span>Verified Kashmir Provenance</span>
+            <span>Verified Pan-India Provenance</span>
             <span>•</span>
-            <span>GI Certified Authentic Weaves</span>
+            <span>15 State Artisan Guilds</span>
           </div>
         </div>
       </div>

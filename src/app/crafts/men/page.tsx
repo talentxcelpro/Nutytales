@@ -127,13 +127,13 @@ export default function MenClothingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-3">
               <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">
-                Men's Autumn &amp; Winter Artisan Collection
+                Men's Royal Heritage Couture &amp; Handlooms
               </span>
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#17233B]">
-                Men's Winter &amp; Heritage Wardrobe
+                Men's Pan-India Heritage Wardrobe
               </h1>
               <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed max-w-2xl">
-                Heavyweight handwoven tweed pherans, structured Kani overcoats, tone-on-tone Sozni Nehru jackets, and reversible two-tone Pashmina mufflers. Rugged mountain warmth engineered with tailored precision.
+                Banarasi Katan Silk Shikargah Sherwanis, Kanchipuram Temple Border Silk Coats, Bandhani Gaji Silk Nehru Waistcoats, Kerala Kasavu Gold Zari Kurtas, Sambalpuri Ikat, and Himalayan Tweed Overcoats. Handcrafted by master artisan guilds with verifiable GI provenance.
               </p>
 
               <div className="flex flex-wrap gap-3 pt-2">

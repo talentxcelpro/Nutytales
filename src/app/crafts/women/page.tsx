@@ -130,13 +130,13 @@ export default function WomenClothingPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl space-y-2">
               <span className="text-xs uppercase tracking-[0.25em] text-[#C9A45C] font-bold block">
-                Women's Autumn &amp; Winter Artisan Collection
+                Women's Handcrafted Couture Collection
               </span>
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#17233B]">
-                Women's Kashmir Collection
+                Women's Pan-India Handcrafted Couture
               </h1>
               <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
-                Opulent velvet Tilla pherans, pure wool Aari capes, hand-woven Kani shawls, and contemporary lounge co-ords. Designed for winter weddings, fireside evenings, and timeless mountain warmth.
+                Patan Patola Double Ikat, Kutch Ajrakh Angrakhas, Lucknowi Chikankari &amp; Mukaish, Dhakai Jamdani Muslin, Shantiniketan Kantha, and Royal Kashmiri Tilla Pherans. Verified directly at master weaver looms across India.
               </p>
             </div>
 

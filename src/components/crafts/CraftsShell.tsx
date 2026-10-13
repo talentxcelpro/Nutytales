@@ -10,12 +10,12 @@ import SpeedTelemetryHUD from '@/components/crafts/SpeedTelemetryHUD'
 import CraftCurrencySelector from '@/components/crafts/CraftCurrencySelector'
 
 const CRAFTS_NAV_LINKS = [
-  { label: 'All India Atlas', href: '/india', badge: '15 States' },
+  { label: 'All-India Atlas', href: '/india', badge: '15 States' },
+  { label: 'Sherwanis & Coats', href: '/jackets-coats' },
   { label: 'Kurtas & Tunics', href: '/#catalog' },
-  { label: 'Shawls & Wraps', href: '/shawls-stoles', badge: 'GI Pashmina' },
-  { label: 'Pherans & Coats', href: '/pherans' },
-  { label: 'Jackets & Vests', href: '/jackets-coats' },
-  { label: 'Wholesale & Export', href: '/wholesale', badge: 'B2B' },
+  { label: 'Heirloom Shawls', href: '/shawls-stoles', badge: 'GI Pashmina' },
+  { label: 'Kashmir Pherans', href: '/pherans' },
+  { label: 'B2B Export Desk', href: '/wholesale', badge: '+200% Global' },
 ]
 
 export default function CraftsShell({
@@ -120,16 +120,13 @@ export default function CraftsShell({
           {/* Live Speed Telemetry Badge */}
           <SpeedTelemetryHUD />
 
-          {/* Global Currency Selector (Compact with 200% inflation notice) */}
-          <CraftCurrencySelector variant="compact" />
-
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
               'Hello Nuty Tales Crafts! I am inquiring about all-India GI handlooms, custom artisan tailoring, and heritage fashion.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#C9A45C] font-bold hover:underline flex items-center gap-1 hidden sm:flex"
+            className="text-[#C9A45C] font-bold hover:underline flex items-center gap-1 hidden sm:flex text-[11px]"
           >
             <span>Artisan Concierge</span>
             <span>→</span>

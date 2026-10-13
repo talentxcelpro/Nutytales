@@ -22,49 +22,49 @@ import DemandCaptureModal from '@/components/demand/DemandCaptureModal'
 import SourcingRequestBanner from '@/components/demand/SourcingRequestBanner'
 import CraftsSwatchAndConsignmentDesk from '@/components/crafts/CraftsSwatchAndConsignmentDesk'
 
-// All-India Wardrobe Category Tiles
+// All-India Handcrafted Clothing Category Tiles
 const ALL_INDIA_CATEGORY_TILES = [
   {
-    slug: 'kurtas-tunics',
-    label: 'Kurtas & Tunics',
-    sub: 'Ajrakh · Chikankari · Ikat',
-    image: '/images/crafts-winterwear.jpg',
+    slug: 'sherwanis-coats',
+    label: 'Sherwanis & Coats',
+    sub: 'Banarasi Katan · Nehru Coats',
+    image: '/images/weddings/hero-palace.jpg',
     href: '#catalog',
   },
   {
-    slug: 'pherans',
-    label: 'Pherans & Coats',
-    sub: 'Velvet Tilla · Merino Wool',
-    image: '/images/crafts-pherans.jpg',
-    href: '/crafts/pherans',
+    slug: 'kurtas-tunics',
+    label: 'Royal Kurtas & Tunics',
+    sub: 'Lucknowi Chikankari · Patola · Kasavu',
+    image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80',
+    href: '#catalog',
+  },
+  {
+    slug: 'sarees-drapes',
+    label: 'Heritage Sarees & Drapes',
+    sub: 'Patan Double Ikat · Kanchipuram Brocade',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80',
+    href: '#catalog',
+  },
+  {
+    slug: 'handblock-angrakhas',
+    label: 'Handblock & Angrakhas',
+    sub: 'Kutch Ajrakh · Sanganeri Chanderi',
+    image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80',
+    href: '#catalog',
   },
   {
     slug: 'shawls-stoles',
-    label: 'Shawls & Wraps',
-    sub: 'GI Pashmina · Kani · Sozni',
+    label: 'Heirloom Shawls & Wraps',
+    sub: 'Kashmiri GI Pashmina · Kani Jamawar',
     image: '/images/crafts-shawls.jpg',
     href: '/crafts/shawls-stoles',
   },
   {
     slug: 'jackets-coats',
-    label: 'Jackets & Vests',
-    sub: 'Banarasi · Rabari · Kinnauri',
-    image: '/images/crafts-jackets.jpg',
+    label: 'Artisan Vests & Jackets',
+    sub: 'Rabari Mirrorwork · Nagaland Ao Weaves',
+    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80',
     href: '/crafts/jackets-coats',
-  },
-  {
-    slug: 'silk-heritage',
-    label: 'Silk Heritage',
-    sub: 'Patola · Eri Silk · Tanchoi',
-    image: '/images/crafts-stoles.jpg',
-    href: '#catalog',
-  },
-  {
-    slug: 'heritage-home',
-    label: 'Heritage Keepsakes',
-    sub: 'Carved Walnut · Papier-Mâché',
-    image: '/images/dark-wood-gourmet-tray.jpg',
-    href: '/crafts/heritage-home',
   },
 ]
 
@@ -377,28 +377,85 @@ export default function CraftsHomeClient() {
 
             {/* Right Campaign Showcase */}
             <div className="lg:col-span-5">
-              <div className="relative aspect-[4/3] sm:aspect-[16/12] rounded-3xl overflow-hidden border border-white/15 shadow-2xl group">
-                <Image
-                  src="/images/campaign-wear-the-story.jpg"
-                  alt="Nuty Tales Crafts All India Heritage Lookbook"
-                  fill
-                  priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#10192A]/90 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 bg-[#10192A]/85 backdrop-blur-md p-4 rounded-2xl border border-white/10 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
-                      ✦ The Pan-India Loom Promise
+              <div className="relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-stone-900 group">
+                <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full">
+                  <Image
+                    src="/images/weddings/hero-palace.jpg"
+                    alt="Banarasi Katan Silk Brocade & Pan-India Heritage Couture"
+                    fill
+                    priority
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#10192A] via-[#10192A]/30 to-transparent" />
+
+                  {/* Overlaid Pan-India Regional Quick Chips */}
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
+                    <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[#C9A45C] text-[10px] font-bold uppercase tracking-wider">
+                      ✦ 15-State Couture Archive
                     </span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">
-                      ⚡ 0.9ms Catalog Response
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-950/80 backdrop-blur-md border border-emerald-400/30 text-emerald-300 text-[10px] font-mono font-bold">
+                      ⚡ 0.9ms In-Memory
                     </span>
                   </div>
-                  <p className="text-xs text-stone-200 font-light leading-snug">
-                    From the cold high-altitude looms of Zadibal to the desert block tables of Kutch and the temple pits of Varanasi.
-                  </p>
+
+                  {/* Visual Craft Insets */}
+                  <div className="absolute bottom-16 left-4 right-4 grid grid-cols-3 gap-2">
+                    <div className="relative aspect-video rounded-xl overflow-hidden border border-white/20 shadow-md">
+                      <Image
+                        src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80"
+                        alt="Patan Patola Double Ikat"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/30" />
+                      <span className="absolute bottom-1 left-1.5 text-[8px] font-bold text-white uppercase tracking-wider drop-shadow">
+                        Gujarat Patola
+                      </span>
+                    </div>
+                    <div className="relative aspect-video rounded-xl overflow-hidden border border-white/20 shadow-md">
+                      <Image
+                        src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80"
+                        alt="Lucknowi Chikankari"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/30" />
+                      <span className="absolute bottom-1 left-1.5 text-[8px] font-bold text-white uppercase tracking-wider drop-shadow">
+                        UP Chikankari
+                      </span>
+                    </div>
+                    <div className="relative aspect-video rounded-xl overflow-hidden border border-white/20 shadow-md">
+                      <Image
+                        src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80"
+                        alt="Kutch Ajrakh Indigo"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/30" />
+                      <span className="absolute bottom-1 left-1.5 text-[8px] font-bold text-white uppercase tracking-wider drop-shadow">
+                        Kutch Ajrakh
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Text Pill */}
+                  <div className="absolute bottom-3 left-4 right-4 bg-[#10192A]/90 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-[#C9A45C] block">
+                        Direct From Master Weaver Guilds
+                      </span>
+                      <p className="text-[11px] text-stone-200 font-light leading-tight">
+                        Banaras · Patan · Lucknow · Kutch · Kanchipuram · Bengal · Kashmir
+                      </p>
+                    </div>
+                    <a
+                      href="#catalog"
+                      className="px-3 py-1.5 bg-[#C9A45C] hover:bg-amber-400 text-[#10192A] text-[10px] font-extrabold uppercase rounded-lg transition-colors flex-shrink-0"
+                    >
+                      View All →
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
