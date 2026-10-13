@@ -140,12 +140,12 @@ export default function VendorsMarketplaceClient() {
           >
             <div>
               {/* Photo & Badges */}
-              <div className="relative aspect-[16/10] w-full bg-stone-100">
+              <Link href={`/vendors/${vendor.slug}`} className="block relative aspect-[16/10] w-full bg-stone-100 group overflow-hidden">
                 <Image
                   src={vendor.portfolio[0] || '/images/wedding-celebration.jpg'}
                   alt={vendor.businessName}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-3 left-3 bg-[#2D1520] text-[#C9A45C] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                   {vendor.category.toUpperCase()}
@@ -155,14 +155,16 @@ export default function VendorsMarketplaceClient() {
                   <span>{vendor.rating}</span>
                   <span className="text-stone-400 font-normal">({vendor.reviewsCount})</span>
                 </div>
-              </div>
+              </Link>
 
               {/* Content */}
               <div className="p-6 space-y-4">
                 <div>
-                  <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1">
-                    {vendor.businessName}
-                  </h3>
+                  <Link href={`/vendors/${vendor.slug}`} className="hover:text-[#8E2848] transition-colors">
+                    <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1 hover:underline">
+                      {vendor.businessName}
+                    </h3>
+                  </Link>
                   <div className="flex items-center gap-2 text-xs text-stone-500 mt-1">
                     <span>📍 {vendor.destination}</span>
                     <span>•</span>
@@ -206,16 +208,24 @@ export default function VendorsMarketplaceClient() {
             </div>
 
             {/* Action */}
-            <div className="p-6 pt-0">
-              <button
-                onClick={() => {
-                  setActiveVendorModal(vendor)
-                  setInquirySuccess(false)
-                }}
-                className="w-full py-3 bg-[#17233B] hover:bg-[#8E2848] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
-              >
-                Request Quotation &amp; Align Event →
-              </button>
+            <div className="p-6 pt-0 space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href={`/vendors/${vendor.slug}`}
+                  className="py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors text-center block"
+                >
+                  View Profile →
+                </Link>
+                <button
+                  onClick={() => {
+                    setActiveVendorModal(vendor)
+                    setInquirySuccess(false)
+                  }}
+                  className="py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
+                >
+                  Request Quote
+                </button>
+              </div>
             </div>
           </div>
         ))}

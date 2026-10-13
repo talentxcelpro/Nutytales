@@ -7,6 +7,82 @@ import GetSomethingDoneEngine from '@/components/nri/GetSomethingDoneEngine'
 import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
 import { PAN_INDIA_DESTINATIONS } from '@/lib/nri/image-registry'
 
+function CategorySvgIcon({ id, active }: { id: string; active: boolean }) {
+  const iconColor = active ? 'text-[#8C6D2D]' : 'text-stone-500 group-hover:text-stone-900'
+  const strokeColor = 'currentColor'
+  switch (id) {
+    case 'all':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+        </svg>
+      )
+    case 'family':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      )
+    case 'property':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+        </svg>
+      )
+    case 'home':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.223a4.5 4.5 0 10-5.748-5.748L8.25 6.75" />
+        </svg>
+      )
+    case 'healthcare':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    case 'documents':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </svg>
+      )
+    case 'travel':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
+        </svg>
+      )
+    case 'weddings':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <circle cx="9" cy="12" r="4.5" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="15" cy="12" r="4.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 'gifting':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V21m0-16.125A2.625 2.625 0 1114.625 7.5H12m-9 3.75h18" />
+        </svg>
+      )
+    case 'crafts':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.138 8.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+        </svg>
+      )
+    case 'business':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006A6.027 6.027 0 0112 16.5c-2.477 0-4.735-.747-6.5-2.018m0 0A2.18 2.18 0 014.75 12.82V8.706c0-1.081.768-2.015 1.837-2.175a48.046 48.046 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0015.25 3h-6.5A2.25 2.25 0 006.5 5.25v1.894m7.5 0a48.667 48.667 0 00-7.5 0" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
 export default function NriHomePage() {
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [activeProofTab, setActiveProofTab] = useState<'dossier' | 'checklist' | 'milestones' | 'verification'>('dossier')
@@ -16,17 +92,17 @@ export default function NriHomePage() {
 
   // 1. Visual Service Category Navigation Strip
   const categoryStrip = [
-    { id: 'all', label: 'All Services', icon: '✨', href: '#services-grid' },
-    { id: 'family', label: 'Parents & Family', icon: '❤️', href: '/services/parent-care' },
-    { id: 'property', label: 'Property Care', icon: '🏡', href: '/services/property-management' },
-    { id: 'home', label: 'Home Services', icon: '🔧', href: '/services/home-services' },
-    { id: 'healthcare', label: 'Healthcare', icon: '🏥', href: '/services/healthcare' },
-    { id: 'documents', label: 'Documents & Legal', icon: '📜', href: '/services/legal-services' },
-    { id: 'travel', label: 'Travel & Stays', icon: '🚗', href: '/services/travel' },
-    { id: 'weddings', label: 'Weddings', icon: '💍', href: '/services/weddings' },
-    { id: 'gifting', label: 'Gifting', icon: '🎁', href: '/services/gifting' },
-    { id: 'crafts', label: 'Crafts', icon: '🧣', href: '/services/crafts' },
-    { id: 'business', label: 'Business', icon: '🏢', href: '/services/business' },
+    { id: 'all', label: 'All Services', href: '#services-grid' },
+    { id: 'family', label: 'Parents & Family', href: '/services/parent-care' },
+    { id: 'property', label: 'Property Care', href: '/services/property-management' },
+    { id: 'home', label: 'Home Services', href: '/services/home-services' },
+    { id: 'healthcare', label: 'Healthcare', href: '/services/healthcare' },
+    { id: 'documents', label: 'Documents & Legal', href: '/services/legal-services' },
+    { id: 'travel', label: 'Travel & Stays', href: '/services/travel' },
+    { id: 'weddings', label: 'Weddings', href: '/services/weddings' },
+    { id: 'gifting', label: 'Gifting', href: '/services/gifting' },
+    { id: 'crafts', label: 'Crafts', href: '/services/crafts' },
+    { id: 'business', label: 'Business', href: '/services/business' },
   ]
 
   // 2. Large Image-Led Discovery Cards (Prioritizing Family, Property, Home, Healthcare)
@@ -37,6 +113,8 @@ export default function NriHomePage() {
       description: 'Scheduled companion visits, prescription pickup & OPD doctor escorts.',
       context: 'Delhi NCR • Bengaluru • Mumbai • Hyderabad',
       badge: 'Parents & Family',
+      price: 'From $49 / visit',
+      sla: 'Same-day companion',
       image: '/images/nri/senior-care.jpg',
       href: '/services/parent-care',
       cta: 'Explore Parent Care',
@@ -47,6 +125,8 @@ export default function NriHomePage() {
       description: '42-point physical walkthroughs, GPS photo dossiers & tenant handovers.',
       context: 'Mumbai • Delhi NCR • Bengaluru • Pune • Srinagar',
       badge: 'Property Care',
+      price: 'From $59 (42-pt audit)',
+      sla: '24–48h photo report',
       image: '/images/nri/mumbai-apartment.jpg',
       href: '/services/property-management',
       cta: 'Explore Property Care',
@@ -57,6 +137,8 @@ export default function NriHomePage() {
       description: 'Trusted civil repairs, electrical inspections, waterproofing & deep cleaning.',
       context: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh',
       badge: 'Home Services',
+      price: 'From $39 / repair',
+      sla: 'Verified technicians',
       image: '/images/nri/home-repair.jpg',
       href: '/services/home-services',
       cta: 'Explore Home Services',
@@ -67,6 +149,8 @@ export default function NriHomePage() {
       description: 'Accompanied consultations & diagnostic lab collections at Max, Apollo & Fortis.',
       context: 'Delhi NCR • Mumbai • Bengaluru • Chennai',
       badge: 'Healthcare',
+      price: 'From $45 / visit',
+      sla: 'Doctor escorted',
       image: '/images/nri/healthcare-escort.jpg',
       href: '/services/healthcare',
       cta: 'Coordinate Healthcare',
@@ -77,6 +161,8 @@ export default function NriHomePage() {
       description: 'Bar Council advocates for Power of Attorney drafting, consular attestation & title searches.',
       context: 'High Courts & Sub-Registrar Desks Pan-India',
       badge: 'Documents & Legal',
+      price: 'From $79 / drafting',
+      sla: 'Bar Council advocates',
       image: '/images/nri/legal-docs.jpg',
       href: '/services/legal-services',
       cta: 'Explore Documents & Legal',
@@ -87,6 +173,8 @@ export default function NriHomePage() {
       description: 'Dedicated chauffeur luxury SUV fleets, ancestral returns & private heritage stays.',
       context: 'Kerala • Rajasthan • Kashmir Valley • Golden Triangle',
       badge: 'Travel & Stays',
+      price: 'From $95 / night',
+      sla: 'Dedicated fleets',
       image: '/images/nri/kerala-heritage.jpg',
       href: '/services/travel',
       cta: 'Plan Your Visit',
@@ -97,6 +185,8 @@ export default function NriHomePage() {
       description: 'Bespoke destination wedding execution, royal trousseau hampers & day-of coordination.',
       context: 'Rajasthan • Kashmir • Goa • Delhi NCR',
       badge: 'Weddings & Events',
+      price: 'Bespoke scoping',
+      sla: 'Full-day coordination',
       image: '/images/nri/wedding-celebration.jpg',
       href: '/services/weddings',
       cta: 'Explore Weddings',
@@ -107,6 +197,8 @@ export default function NriHomePage() {
       description: 'Handcrafted walnut hampers, single-origin dry fruit boxes & milestone gifting.',
       context: 'Pan-India Insured Doorstep Delivery',
       badge: 'Gifting',
+      price: 'From $35 / hamper',
+      sla: 'Insured pan-India',
       image: '/images/nri/gifting-hamper.jpg',
       href: '/services/gifting',
       cta: 'Explore Gifting',
@@ -117,6 +209,8 @@ export default function NriHomePage() {
       description: 'GI-certified luxury Pashmina, master walnut woodcarvings & artisan provenance.',
       context: 'Direct Artisan Guild Provenance',
       badge: 'Crafts & Products',
+      price: 'GI-tagged luxury',
+      sla: 'Artisan direct',
       image: '/images/nri/kolkata-heritage.jpg',
       href: '/services/crafts',
       cta: 'Explore Crafts',
@@ -127,6 +221,8 @@ export default function NriHomePage() {
       description: 'Supplier factory audits, NABL testing, corporate entity incorporation & liaison.',
       context: 'Delhi NCR • Mumbai • Bengaluru Industrial Desks',
       badge: 'Business Sourcing',
+      price: 'From $120 / audit',
+      sla: 'Factory & legal desks',
       image: '/images/nri/delhi-residence.jpg',
       href: '/services/business',
       cta: 'Explore Business',
@@ -223,14 +319,14 @@ export default function NriHomePage() {
   ]
 
   return (
-    <div className="space-y-24 pb-24 overflow-x-hidden text-[#191919]">
+    <div className="overflow-x-hidden text-[#191919] pb-24">
       {/* ── 1. Compact Brand Hero & Prominent Search ── */}
-      <section className="relative pt-6 sm:pt-8 pb-4 border-b border-[#EAE6DF] bg-[#FAF9F6]">
-        <div className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-4 text-center">
+      <section className="relative pt-4 sm:pt-6 pb-2.5 border-b border-[#EAE6DF] bg-[#FAF9F6]">
+        <div className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-3 text-center">
           
           {/* Brand Promise (Compact & Restrained) */}
-          <div className="max-w-3xl mx-auto space-y-1">
-            <h1 className="font-serif text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-[#191919] leading-snug">
+          <div className="max-w-3xl mx-auto space-y-0.5">
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-[#191919] leading-snug">
               India, handled. <span className="font-normal italic text-stone-600">From anywhere in the world.</span>
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 font-light">
@@ -246,8 +342,8 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 2. Visual Service-Category Navigation (Immediately Below Search) ── */}
-      <section id="categories" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 pt-3 pb-1">
-        <div className="border-b border-[#EAE6DF] pb-3">
+      <section id="categories" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 pt-2 pb-1">
+        <div className="border-b border-[#EAE6DF] pb-2">
           <div className="flex items-center justify-between gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1">
             {categoryStrip.map((cat) => {
               const active = activeCategory === cat.id
@@ -262,8 +358,8 @@ export default function NriHomePage() {
                       : 'text-stone-500 hover:text-stone-900 border-b-2 border-transparent'
                   }`}
                 >
-                  <span className="text-xl transition-transform group-hover:scale-110">
-                    {cat.icon}
+                  <span className="transition-transform group-hover:scale-110">
+                    <CategorySvgIcon id={cat.id} active={active} />
                   </span>
                   <span className="text-xs font-medium">{cat.label}</span>
                 </button>
@@ -273,9 +369,9 @@ export default function NriHomePage() {
         </div>
       </section>
 
-      {/* ── 3. Large Image-Led Service Discovery Cards ── */}
-      <section id="services-grid" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-6 pt-2">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+      {/* ── 3. Large Image-Led Service Discovery Cards (Above the Fold) ── */}
+      <section id="services-grid" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-4 pt-3 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#EAE6DF] pb-2.5">
           <div>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-[#191919]">
               Explore Services in India
@@ -301,7 +397,7 @@ export default function NriHomePage() {
               className="group bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-xl transition-all flex flex-col justify-between hover:border-stone-300"
             >
               <div>
-                <div className="relative h-56 w-full overflow-hidden bg-stone-100">
+                <div className="relative h-52 w-full overflow-hidden bg-stone-100">
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -325,17 +421,26 @@ export default function NriHomePage() {
                   </div>
                 </div>
 
-                <div className="p-4 space-y-1.5">
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-stone-900">{card.price}</span>
+                    <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                      {card.sla}
+                    </span>
+                  </div>
                   <p className="text-xs text-stone-600 font-light leading-relaxed line-clamp-2">
                     {card.description}
                   </p>
                 </div>
               </div>
 
-              <div className="px-4 pb-4 pt-1">
+              <div className="px-4 pb-3.5 pt-1.5 border-t border-stone-100 flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 group-hover:text-[#8C6D2D] transition-colors">
                   <span>{card.cta}</span>
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+                <span className="text-[10px] text-stone-500 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> GPS Audited
                 </span>
               </div>
             </Link>
@@ -344,7 +449,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 4. Discover Services by Region ("Find Help Where It Matters in India") ── */}
-      <section id="nationwide-coverage" className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8 scroll-mt-24">
+      <section id="nationwide-coverage" className="mt-14 sm:mt-20 w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8 scroll-mt-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#EAE6DF] pb-4">
           <div className="space-y-1">
             <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
@@ -487,7 +592,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 5. How the Platform Works (Part 5, Section 8: Real 5-Step Service Lifecycle) ── */}
-      <section className="bg-[#F3EFE6] py-16 border-y border-[#E5DEC9]">
+      <section className="mt-14 sm:mt-20 bg-[#F3EFE6] py-16 border-y border-[#E5DEC9]">
         <div className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-12">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
@@ -555,7 +660,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 6. Real Trust and Service Evidence (Part 5, Section 9: Multi-City Verifiable Evidence) ── */}
-      <section className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-10">
+      <section className="mt-14 sm:mt-20 w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-10">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
           <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
             Verifiable Field Evidence
@@ -1082,7 +1187,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 7. My India Customer Operating Dashboard Preview (Part 5, Section 10) ── */}
-      <section className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8">
+      <section className="mt-14 sm:mt-20 w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8">
         <div className="rounded-3xl bg-white border border-stone-200 p-8 sm:p-12 shadow-sm space-y-8 text-left">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="space-y-2 max-w-xl">
@@ -1125,7 +1230,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 8. High-Demand Requests (Popular Ways We Help) ── */}
-      <section className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8">
+      <section className="mt-14 sm:mt-20 w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#EAE6DF] pb-4">
           <div className="space-y-1">
             <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
@@ -1187,7 +1292,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 9. Frequently Asked Questions ── */}
-      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-left">
+      <section className="mt-14 sm:mt-20 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-left">
         <div className="text-center space-y-2">
           <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
             Clear Answers
@@ -1225,7 +1330,7 @@ export default function NriHomePage() {
       </section>
 
       {/* ── 10. Final Call to Action ── */}
-      <section className="w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+      <section className="mt-14 sm:mt-20 w-full max-w-[1440px] xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         <div className="rounded-3xl bg-[#F3EFE6] border border-[#E5DEC9] p-8 sm:p-14 text-center space-y-6">
           <div className="space-y-2 max-w-2xl mx-auto">
             <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">

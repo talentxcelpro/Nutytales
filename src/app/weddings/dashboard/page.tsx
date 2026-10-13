@@ -2,20 +2,33 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   getAllProjects,
   getActiveProject,
   saveActiveProject,
+  createNewProject,
   getProjectBudget,
   getProjectEvents,
   getProjectGuests,
   getProjectTasks,
 } from '@/lib/weddings/storage'
-import { WeddingProject } from '@/lib/weddings/types'
+import { WeddingProject, Currency } from '@/lib/weddings/types'
 
 export default function WeddingsDashboardPage() {
+  const router = useRouter()
   const [projects, setProjects] = useState<WeddingProject[]>([])
   const [activeProject, setActiveProject] = useState<WeddingProject>(getActiveProject())
+  const [showCreateModal, setShowCreateModal] = useState(false)
+
+  // New Project Form State
+  const [coupleName, setCoupleName] = useState('')
+  const [destination, setDestination] = useState('Jaipur, Rajasthan')
+  const [weddingDate, setWeddingDate] = useState('')
+  const [guestCount, setGuestCount] = useState(200)
+  const [totalBudget, setTotalBudget] = useState(5000000)
+  const [currency, setCurrency] = useState<Currency>('INR')
+  const [weddingStyle, setWeddingStyle] = useState('Royal Heritage & Contemporary Elegance')
 
   useEffect(() => {
     const list = getAllProjects()
@@ -25,17 +38,38 @@ export default function WeddingsDashboardPage() {
 
   // Aggregate Metrics across all projects
   const totalGmvPlanned = projects.reduce((sum, p) => sum + p.totalBudget, 0)
-  const totalGuests = projects.reduce((sum, p) => sum + p.guestCount, 0)
   const activeEvents = getProjectEvents(activeProject.id)
   const activeBudget = getProjectBudget(activeProject.id)
   const activeGuests = getProjectGuests(activeProject.id)
-  const activeTasks = getProjectTasks(activeProject.id)
 
   const activeContracted = activeBudget.reduce(
     (sum, b) => sum + (b.contractedAmount || b.quotedAmount || 0),
     0
   )
   const activePaid = activeBudget.reduce((sum, b) => sum + (b.paidAmount || 0), 0)
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!coupleName || !weddingDate) return
+
+    const newProject = createNewProject({
+      coupleName,
+      destination,
+      weddingDate,
+      guestCount,
+      totalBudget,
+      currency,
+      weddingStyle,
+    })
+
+    const updatedList = getAllProjects()
+    setProjects(updatedList)
+    setActiveProject(newProject)
+    setShowCreateModal(false)
+
+    // Navigate to active workspace
+    router.push('/workspace')
+  }
 
   return (
     <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-[#17233B]">
@@ -54,6 +88,12 @@ export default function WeddingsDashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="px-4 py-2.5 bg-[#FAF7F2] hover:bg-stone-200 text-[#2D1520] border border-stone-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs"
+          >
+            + New Wedding Project
+          </button>
           <Link
             href="/workspace"
             className="px-5 py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all"
@@ -89,7 +129,7 @@ export default function WeddingsDashboardPage() {
               ₹{(activeContracted / 100000).toFixed(1)}L
             </span>
             <span className="text-[#8E2848] font-bold text-xs">
-              {Math.round((activeContracted / activeProject.totalBudget) * 100)}%
+              {Math.round((activeContracted / (activeProject.totalBudget || 1)) * 100)}%
             </span>
           </div>
           <p className="text-[11px] text-stone-500">
@@ -137,9 +177,17 @@ export default function WeddingsDashboardPage() {
               Persistent workspaces with live timelines, budget ledgers, and verified contracts.
             </p>
           </div>
-          <span className="text-xs font-bold px-3 py-1 bg-stone-100 text-stone-700 rounded-full">
-            {projects.length} Workspace{projects.length > 1 ? 's' : ''}
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="text-xs font-bold px-3 py-1.5 bg-[#8E2848] text-white rounded-xl hover:bg-[#721f39] transition-colors"
+            >
+              + Add Project
+            </button>
+            <span className="text-xs font-bold px-3 py-1 bg-stone-100 text-stone-700 rounded-full">
+              {projects.length} Workspace{projects.length > 1 ? 's' : ''}
+            </span>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -177,7 +225,15 @@ export default function WeddingsDashboardPage() {
                         {isActive ? '● Active Workspace' : proj.status.toUpperCase()}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-3.5 px-4 text-right space-x-3">
+                      <Link
+                        href={`/rsvp/${proj.id}`}
+                        target="_blank"
+                        className="text-xs font-semibold text-stone-500 hover:text-stone-800"
+                        title="View Guest RSVP Link"
+                      >
+                        RSVP Link ↗
+                      </Link>
                       <Link
                         href="/workspace"
                         onClick={() => {
@@ -196,6 +252,161 @@ export default function WeddingsDashboardPage() {
           </table>
         </div>
       </div>
+
+      {/* ── Create New Wedding Project Modal ──────────────────────────────── */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-stone-200 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#8E2848] block">
+                  New Wedding Project Setup
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
+                  Create Wedding Workspace
+                </h3>
+                <p className="text-xs text-stone-500">
+                  Initialize persistent budget ledgers, run of show timelines, and guest management.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-sm font-bold text-stone-600 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateProject} className="space-y-4">
+              <div>
+                <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                  Couple / Wedding Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Tara & Samar"
+                  value={coupleName}
+                  onChange={(e) => setCoupleName(e.target.value)}
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                    Primary Destination *
+                  </label>
+                  <select
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                  >
+                    <option value="Jaipur, Rajasthan">Jaipur, Rajasthan</option>
+                    <option value="Udaipur, Rajasthan">Udaipur, Rajasthan</option>
+                    <option value="Srinagar, Kashmir">Srinagar, Kashmir</option>
+                    <option value="Goa Coastline">Goa Coastline</option>
+                    <option value="Dubai, UAE">Dubai, UAE</option>
+                    <option value="Lake Como, Italy">Lake Como, Italy</option>
+                    <option value="New Delhi NCR">New Delhi NCR</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                    Wedding Date *
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={weddingDate}
+                    onChange={(e) => setWeddingDate(e.target.value)}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                    Estimated Guests
+                  </label>
+                  <input
+                    type="number"
+                    min={20}
+                    max={5000}
+                    value={guestCount}
+                    onChange={(e) => setGuestCount(Number(e.target.value))}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                    Currency
+                  </label>
+                  <select
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value as Currency)}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                  >
+                    <option value="INR">INR (₹)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="AED">AED (د.إ)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                  Target Total Budget ({currency})
+                </label>
+                <input
+                  type="number"
+                  step={50000}
+                  value={totalBudget}
+                  onChange={(e) => setTotalBudget(Number(e.target.value))}
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                />
+                <span className="text-[10px] text-stone-400 mt-0.5 block">
+                  {currency === 'INR' && `Equivalent to ₹${(totalBudget / 100000).toFixed(1)} Lakhs`}
+                </span>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-stone-700 block mb-1">
+                  Celebration Style &amp; Theme
+                </label>
+                <input
+                  type="text"
+                  value={weddingStyle}
+                  onChange={(e) => setWeddingStyle(e.target.value)}
+                  placeholder="e.g. Royal Kashmiri Wazwan & Sufi Nights"
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs text-[#17233B] focus:outline-none focus:ring-1 focus:ring-[#8E2848]"
+                />
+              </div>
+
+              <div className="pt-3 flex justify-end gap-3 border-t border-stone-100">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="px-4 py-2.5 text-stone-600 font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-stone-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all"
+                >
+                  Initialize Project
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

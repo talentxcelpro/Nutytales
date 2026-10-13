@@ -36,8 +36,13 @@ export default function GetSomethingDoneEngine() {
   const [createdRequestId, setCreatedRequestId] = useState<string | null>(null)
 
   const handleInterpret = (textToUse?: string) => {
-    const text = (textToUse || prompt).trim()
-    if (!text) return
+    let text = (textToUse || prompt).trim()
+    if (!text) {
+      text = userCity.trim()
+        ? `Comprehensive property inspection and family coordination in ${userCity.trim()}`
+        : 'Inspect property & 42-point walkthrough with photo dossier'
+      setPrompt(text)
+    }
 
     setIsProcessing(true)
     setTimeout(() => {
@@ -179,8 +184,8 @@ export default function GetSomethingDoneEngine() {
           <div className="px-2 py-1 flex items-center justify-end">
             <button
               type="submit"
-              disabled={isProcessing || (!prompt.trim() && !userCity.trim())}
-              className="w-full lg:w-auto px-6 py-3.5 rounded-full bg-[#191919] hover:bg-[#8C6D2D] text-white text-xs font-semibold transition-all hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
+              disabled={isProcessing}
+              className="w-full lg:w-auto px-6 py-3.5 rounded-full bg-[#191919] hover:bg-[#8C6D2D] active:scale-95 text-white text-xs font-semibold transition-all shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-2 flex-shrink-0"
               aria-label="Find Help in India"
             >
               {isProcessing ? (
@@ -223,6 +228,14 @@ export default function GetSomethingDoneEngine() {
         >
           Home repairs
         </button>
+      </div>
+
+      {/* ── Above-the-Fold Trust & Credibility Strip ── */}
+      <div className="mt-3 pt-2.5 border-t border-stone-200/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] text-stone-600 font-medium">
+        <span className="flex items-center gap-1.5"><span className="text-emerald-600 font-bold">✓</span> 100% Geotagged GPS Dossiers</span>
+        <span className="flex items-center gap-1.5"><span className="text-emerald-600 font-bold">✓</span> Milestone Payment Escrow</span>
+        <span className="flex items-center gap-1.5"><span className="text-emerald-600 font-bold">✓</span> 14+ Indian Operational Desks</span>
+        <span className="flex items-center gap-1.5"><span className="text-emerald-600 font-bold">✓</span> 24/7 NRI Emergency Escalation</span>
       </div>
 
       {/* ── Extracted Service Plan & Quotation Scoping Card ── */}

@@ -197,6 +197,18 @@ export default function NriNavbar() {
 
           {/* Right Action Hub */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* 24/7 NRI Operations Desk Direct Action */}
+            <a
+              href="https://wa.me/919596660144?text=Hello%20Nuty%20Tales%20NRI%20Team%2C%20I%20need%20assistance%20in%20India."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold border border-emerald-200/80 transition-colors shadow-2xs"
+              title="Chat with 24/7 NRI Operations Desk on WhatsApp"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>24/7 Desk</span>
+            </a>
+
             {/* Currency & Country Selector */}
             <div className="relative hidden sm:block" ref={currencyRef}>
               <button

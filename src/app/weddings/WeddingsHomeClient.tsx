@@ -418,12 +418,12 @@ export default function WeddingsHomeClient() {
             >
               <div>
                 {/* Photo Header */}
-                <div className="relative aspect-[16/10] w-full bg-stone-100">
+                <Link href={`/venues/${venue.slug}`} className="block relative aspect-[16/10] w-full bg-stone-100 group overflow-hidden">
                   <Image
                     src={venue.images[0] || '/images/jaipur-heritage.jpg'}
                     alt={venue.name}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[#17233B] shadow-xs flex items-center gap-1">
                     <span>★</span>
@@ -433,13 +433,15 @@ export default function WeddingsHomeClient() {
                   <div className="absolute top-3 right-3 bg-[#2D1520] text-[#C9A45C] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                     {venue.destination}
                   </div>
-                </div>
+                </Link>
 
                 {/* Details */}
                 <div className="p-5 space-y-3">
-                  <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1">
-                    {venue.name}
-                  </h3>
+                  <Link href={`/venues/${venue.slug}`} className="hover:text-[#8E2848] transition-colors">
+                    <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1 hover:underline">
+                      {venue.name}
+                    </h3>
+                  </Link>
                   <div className="flex items-center gap-4 text-xs text-stone-600">
                     <span>Capacity: <strong>{venue.capacityMin}–{venue.capacityMax}</strong></span>
                     <span>•</span>
@@ -473,10 +475,10 @@ export default function WeddingsHomeClient() {
                   Request Quote
                 </button>
                 <Link
-                  href={`/venues`}
+                  href={`/venues/${venue.slug}`}
                   className="px-3.5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl text-xs font-semibold transition-colors"
                 >
-                  Details
+                  View Estate →
                 </Link>
               </div>
             </div>
@@ -513,12 +515,12 @@ export default function WeddingsHomeClient() {
               className="bg-white rounded-3xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="relative aspect-[16/10] w-full bg-stone-100">
+                <Link href={`/vendors/${vendor.slug}`} className="block relative aspect-[16/10] w-full bg-stone-100 group overflow-hidden">
                   <Image
                     src={vendor.portfolio[0] || '/images/wedding-celebration.jpg'}
                     alt={vendor.businessName}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 left-3 bg-[#2D1520] text-[#C9A45C] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                     {vendor.category.toUpperCase()}
@@ -527,12 +529,14 @@ export default function WeddingsHomeClient() {
                     <span>★</span>
                     <span>{vendor.rating}</span>
                   </div>
-                </div>
+                </Link>
 
                 <div className="p-5 space-y-3">
-                  <h3 className="font-serif font-bold text-base text-[#17233B] line-clamp-1">
-                    {vendor.businessName}
-                  </h3>
+                  <Link href={`/vendors/${vendor.slug}`} className="hover:text-[#8E2848] transition-colors">
+                    <h3 className="font-serif font-bold text-base text-[#17233B] line-clamp-1 hover:underline">
+                      {vendor.businessName}
+                    </h3>
+                  </Link>
                   <div className="flex items-center gap-2 text-xs text-stone-500">
                     <span>📍 {vendor.destination}</span>
                     <span>•</span>
@@ -556,13 +560,19 @@ export default function WeddingsHomeClient() {
                 </div>
               </div>
 
-              <div className="p-5 pt-0">
+              <div className="p-5 pt-0 flex items-center gap-2">
                 <button
                   onClick={() => setSelectedVendor(vendor)}
-                  className="w-full py-2.5 bg-[#17233B] hover:bg-[#8E2848] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
+                  className="flex-1 py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
                 >
-                  Request Proposal
+                  Request Quote
                 </button>
+                <Link
+                  href={`/vendors/${vendor.slug}`}
+                  className="px-3.5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl text-xs font-semibold transition-colors"
+                >
+                  View Profile →
+                </Link>
               </div>
             </div>
           ))}

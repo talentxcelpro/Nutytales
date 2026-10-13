@@ -227,12 +227,12 @@ export default function VenuesMarketplaceClient() {
             >
               <div>
                 {/* Photo & Badges */}
-                <div className="relative aspect-[16/10] w-full bg-stone-100">
+                <Link href={`/venues/${venue.slug}`} className="block relative aspect-[16/10] w-full bg-stone-100 group overflow-hidden">
                   <Image
                     src={venue.images[0] || '/images/jaipur-heritage.jpg'}
                     alt={venue.name}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[#17233B] shadow-xs flex items-center gap-1">
                     <span>★</span>
@@ -242,7 +242,7 @@ export default function VenuesMarketplaceClient() {
                   <div className="absolute top-3 right-3 bg-[#2D1520] text-[#C9A45C] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                     {venue.destination}
                   </div>
-                </div>
+                </Link>
 
                 {/* Content */}
                 <div className="p-6 space-y-4">
@@ -250,9 +250,11 @@ export default function VenuesMarketplaceClient() {
                     <span className="text-[10px] uppercase font-bold tracking-widest text-[#8E2848] block mb-1">
                       {venue.venueType.toUpperCase()} · {venue.indoorOutdoor.toUpperCase()}
                     </span>
-                    <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1">
-                      {venue.name}
-                    </h3>
+                    <Link href={`/venues/${venue.slug}`} className="hover:text-[#8E2848] transition-colors">
+                      <h3 className="font-serif font-bold text-lg text-[#17233B] line-clamp-1 hover:underline">
+                        {venue.name}
+                      </h3>
+                    </Link>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-xs text-stone-600 bg-stone-50 p-3 rounded-2xl">
@@ -302,18 +304,26 @@ export default function VenuesMarketplaceClient() {
               </div>
 
               {/* Action Buttons */}
-              <div className="p-6 pt-0 grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => setActiveModalVenue(venue)}
-                  className="py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
-                >
-                  Request Quote
-                </button>
+              <div className="p-6 pt-0 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href={`/venues/${venue.slug}`}
+                    className="py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors text-center block"
+                  >
+                    Explore Estate →
+                  </Link>
+                  <button
+                    onClick={() => setActiveModalVenue(venue)}
+                    className="py-2.5 bg-[#8E2848] hover:bg-[#721f39] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs text-center"
+                  >
+                    Quick Quote
+                  </button>
+                </div>
                 <button
                   onClick={() => handleAddToProject(venue)}
-                  className="py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors text-center"
+                  className="w-full py-2 bg-stone-50 hover:bg-[#C9A45C]/15 text-stone-700 hover:text-[#8E2848] border border-stone-200 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors text-center"
                 >
-                  + Add to Project
+                  + Add to Wedding Workspace
                 </button>
               </div>
             </div>
