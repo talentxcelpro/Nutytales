@@ -3576,7 +3576,7 @@ export const ALL_INDIA_REGIONS = [
 
 export const ALL_INDIA_STATES = [
   'All States',
-  'Kashmir',
+  'Jammu & Kashmir',
   'Himachal Pradesh',
   'Punjab',
   'Gujarat',
@@ -3692,7 +3692,14 @@ export function getClothingByRegion(region: AllIndiaRegion): ClothingProduct[] {
 
 export function getClothingByState(state: string): ClothingProduct[] {
   if (state === 'All States' || !state) return CLOTHING_PRODUCTS
-  return CLOTHING_PRODUCTS.filter((p) => p.state === state || (state === 'Kashmir' && !p.state))
+  const s = state.toLowerCase()
+  return CLOTHING_PRODUCTS.filter((p) => {
+    const ps = (p.state || 'Jammu & Kashmir').toLowerCase()
+    if (s === 'kashmir' || s === 'jammu & kashmir') {
+      return ps.includes('kashmir') || p.provenance.origin.toLowerCase().includes('kashmir')
+    }
+    return ps === s
+  })
 }
 
 export function getClothingByCraft(craft: string): ClothingProduct[] {

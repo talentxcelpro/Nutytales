@@ -101,6 +101,7 @@ export default function GlobalHeader() {
   // Pure Nuty Tales Shop Navigation (The user came to shop)
   const navLinks = [
     { label: 'Shop', href: '/shop' },
+    { label: 'Journal', href: '/gastronomy-journal' },
     { label: 'New', href: '/shop?filter=new' },
     { label: 'Collections', href: '/shop#collections' },
     { label: 'Categories', href: '/shop#categories' },
@@ -232,6 +233,7 @@ export default function GlobalHeader() {
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
                         {[
                           { name: 'Shop', icon: '🌰', href: '/shop' },
+                          { name: 'Journal', icon: '📖', href: '/gastronomy-journal' },
                           { name: 'Business', icon: '🏢', href: '/b2b' },
                           { name: 'Gifting', icon: '🎁', href: '/gifting' },
                           { name: 'Weddings', icon: '💍', href: '/weddings' },

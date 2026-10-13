@@ -77,6 +77,16 @@ const nextConfig: NextConfig = {
         destination: "https://www.nutytales.com/:path*",
         permanent: true,
       },
+      {
+        source: "/journal",
+        destination: "/gastronomy-journal",
+        permanent: true,
+      },
+      {
+        source: "/gastronomy",
+        destination: "/gastronomy-journal",
+        permanent: true,
+      },
     ];
   },
 

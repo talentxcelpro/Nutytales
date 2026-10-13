@@ -90,6 +90,7 @@ export default function GlobalFooter() {
               </h3>
               <ul className="space-y-2 text-xs text-stone-400">
                 <li><Link href="/shop" className="hover:text-white transition">All Gourmet Harvest</Link></li>
+                <li><Link href="/gastronomy-journal" className="text-[#C9A45C] hover:text-white transition font-semibold">📖 Gastronomy Journal</Link></li>
                 <li><Link href="/shop?category=walnuts" className="hover:text-white transition">Kashmiri Kagzi Walnuts</Link></li>
                 <li><Link href="/shop?category=saffron" className="hover:text-white transition">Pampore Mongra Saffron</Link></li>
                 <li><Link href="/shop?category=almonds" className="hover:text-white transition">Mamra &amp; California Badam</Link></li>

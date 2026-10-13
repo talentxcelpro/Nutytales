@@ -176,6 +176,7 @@ export function buildRootCoreSitemap(): MetadataRoute.Sitemap {
     // Tier 1 — Core Brand & Commerce Hubs
     entry('/',                               1.0, 'daily'),
     entry('/shop',                           0.95, 'daily'),
+    entry('/gastronomy-journal',              0.90, 'weekly'),
     entry('/makhana',                        0.90, 'weekly'),
     entry('/festivals',                      0.85, 'weekly'),
     entry('/festivals/diwali',               0.85, 'weekly'),

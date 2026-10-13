@@ -15,7 +15,7 @@ const CRAFTS_NAV_LINKS = [
   { label: 'Kurtas & Tunics', href: '/#catalog' },
   { label: 'Heirloom Shawls', href: '/shawls-stoles', badge: 'GI Pashmina' },
   { label: 'Kashmir Pherans', href: '/pherans' },
-  { label: 'B2B Export Desk', href: '/wholesale', badge: '+200% Global' },
+  { label: 'B2B Export Desk', href: '/wholesale', badge: 'Worldwide' },
 ]
 
 export default function CraftsShell({

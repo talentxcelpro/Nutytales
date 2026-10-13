@@ -8,7 +8,6 @@ import {
   ClothingProduct,
   AllIndiaRegion,
 } from '@/lib/clothing-data'
-import ClothingNavbarStrip from '@/components/crafts/ClothingNavbarStrip'
 import ClothingFilterBar, { FilterState } from '@/components/crafts/ClothingFilterBar'
 import ClothingProductCard from '@/components/crafts/ClothingProductCard'
 import QuickAddModal from '@/components/crafts/QuickAddModal'
@@ -68,6 +67,139 @@ const ALL_INDIA_CATEGORY_TILES = [
   },
 ]
 
+export interface StateCorridor {
+  id: string
+  name: string
+  title: string
+  subtitle: string
+  icon: string
+  region: string
+  giCert: string
+  guild: string
+  antiquity: string
+  craftsList: string
+  match: (p: ClothingProduct) => boolean
+}
+
+export const STATE_CORRIDORS: StateCorridor[] = [
+  {
+    id: 'gujarat',
+    name: 'Gujarat',
+    title: 'Gujarat Heritage Corridor',
+    subtitle: 'Royal Solanki Double Ikat & Great Rann Indigo Vats',
+    icon: '🦁',
+    region: 'Western India · Patan, Dhamadka & Bhuj',
+    giCert: 'GI-IN-GUJ-PATOLA-0044 · GI-IN-GUJ-AJRAKH-0312',
+    guild: 'Salvi Family Guild & Khatri Dhamadka Collective',
+    antiquity: '900+ Years Royal Solanki Heritage',
+    craftsList: 'Patan Patola Double Ikat · Kutch Ajrakh Handblock · Rabari Mirrorwork · Bandhani',
+    match: (p) => p.state === 'Gujarat',
+  },
+  {
+    id: 'up',
+    name: 'Uttar Pradesh',
+    title: 'Uttar Pradesh Heritage Corridor',
+    subtitle: 'Kashi Imperial Silk Brocades & Awadh Court Shadow Work',
+    icon: '🏛️',
+    region: 'Gangetic Plains · Varanasi & Lucknow',
+    giCert: 'GI-IN-UP-BANARAS-0099 · GI-IN-UP-CHIKANKARI-0119',
+    guild: 'Ansari Master Weavers & Begum Akhtar Memorial Guild',
+    antiquity: '600+ Years Imperial Nawabi Looms',
+    craftsList: 'Banarasi Katan Silk Brocade · Lucknowi Chikankari & Mukaish · Kashi Stoles',
+    match: (p) => p.state === 'Uttar Pradesh',
+  },
+  {
+    id: 'rajasthan',
+    name: 'Rajasthan',
+    title: 'Rajasthan Heritage Corridor',
+    subtitle: 'Thar Desert River-Washed Block Prints & Gossamer Khats',
+    icon: '🏰',
+    region: 'Desert & West · Jaipur, Bagru & Kota',
+    giCert: 'GI-IN-RJ-KOTA-0038 · GI-IN-RJ-BAGRU-0210',
+    guild: 'Kaithun Ansari Weavers & Chippa Blockprinters',
+    antiquity: '500+ Years Vedic Pit Looms',
+    craftsList: 'Sanganeri Handblock · Kota Doria Real Zari Handloom · Bagru Dabu Indigo',
+    match: (p) => p.state === 'Rajasthan',
+  },
+  {
+    id: 'south',
+    name: 'Tamil Nadu & South',
+    title: 'Tamil Nadu & South Heritage Corridor',
+    subtitle: 'Sacred Temple Border Weaves, Telia Rumaal & Gold Zari',
+    icon: '🦚',
+    region: 'Southern Peninsular · Kanchipuram, Chettinad & Travancore',
+    giCert: 'GI-IN-TN-KANCHIPURAM-0002 · GI-IN-TG-POCHAMPALLY-0004',
+    guild: 'Kanchipuram Murugan Society & Balaramapuram Co-op',
+    antiquity: '400+ Years Sacred Weaver Guilds',
+    craftsList: 'Kanchipuram Pure Silk Korvai · Chettinad Kandangi · Kasavu Gold Zari · Pochampally Double Ikat',
+    match: (p) => ['Tamil Nadu', 'Kerala', 'Telangana', 'Andhra Pradesh'].includes(p.state || ''),
+  },
+  {
+    id: 'east',
+    name: 'West Bengal & Odisha',
+    title: 'West Bengal & Odisha Heritage Corridor',
+    subtitle: 'UNESCO Discontinuous Weft Muslin & Sacred Bandha Ikat',
+    icon: '🌿',
+    region: 'Eastern India · Phulia, Shantiniketan & Bargarh',
+    giCert: 'GI-IN-WB-JAMDANI-0188 · GI-IN-WB-KANTHA-0142 · GI-IN-OD-SAMBALPUR-0078',
+    guild: 'Phulia Weavers Co-op & Bargarh Meher Handloom Guild',
+    antiquity: 'UNESCO Intangible Cultural Heritage',
+    craftsList: 'Dhakai Jamdani Fine Muslin · Shantiniketan Nakshi Kantha · Sambalpuri Bandha Ikat',
+    match: (p) => ['West Bengal', 'Odisha'].includes(p.state || ''),
+  },
+  {
+    id: 'northeast',
+    name: 'Assam & Nagaland',
+    title: 'Assam & Nagaland Heritage Corridor',
+    subtitle: 'Non-Violent Forest Peace Silk & Ancestral Backstrap Weaves',
+    icon: '🧵',
+    region: 'Northeast India · Brahmaputra Valley & Naga Hills',
+    giCert: 'GI-IN-AS-ERISILK-0315 · GI-IN-NL-NAGA-0244',
+    guild: 'Brahmaputra Peace Silk Guild & Naga Mother Association',
+    antiquity: 'Ancient Indigenous Ahimsa Weaving',
+    craftsList: 'Ahimsa Eri Peace Silk Handloom · Naga Ao Tribal Backstrap Loin Loom',
+    match: (p) => ['Assam', 'Nagaland'].includes(p.state || ''),
+  },
+  {
+    id: 'central',
+    name: 'Madhya Pradesh & Punjab',
+    title: 'Madhya Pradesh & Punjab Heritage Corridor',
+    subtitle: 'Vedic Translucent Gossamer & Royal Phulkari Silk Floss',
+    icon: '👑',
+    region: 'Central & North · Chanderi, Maheshwar & Amritsar',
+    giCert: 'GI-IN-MP-CHANDERI-0021 · GI-IN-MP-MAHESHWAR-0087 · GI-IN-PB-PHULKARI-0092',
+    guild: 'Rehwa Society & Chanderi Master Weavers Guild',
+    antiquity: 'Ahilyabai Holkar Royal Patronage',
+    craftsList: 'Chanderi Handloom Tissue Silk · Maheshwari Reversible Zari · Amritsar Phulkari',
+    match: (p) => ['Madhya Pradesh', 'Punjab'].includes(p.state || ''),
+  },
+  {
+    id: 'kashmir',
+    name: 'Jammu & Kashmir & Himalayas',
+    title: 'Jammu & Kashmir & Himalayan Corridor',
+    subtitle: 'Changthangi Micro-Fiber Pashmina & Imperial Court Pherans',
+    icon: '🏔️',
+    region: 'Himalayas & North · Srinagar, Zadibal, Kanihama & Kullu',
+    giCert: 'GI-JK-PASHMINA-0046 · GI-JK-KANI-0071 · GI-IN-HP-KULLU-0012',
+    guild: 'Mir Tilla Guild Zadibal & Kanihama Cooperative',
+    antiquity: '700+ Years Mughal Imperial Looms',
+    craftsList: 'Certified Changthangi Pashmina · Kani Jamawar · Royal Tilla & Aari Pherans · Pure Tweed · Kullu Wool',
+    match: (p) => !p.state || p.state === 'Jammu & Kashmir' || p.state === 'Himachal Pradesh' || (p.provenance.origin || '').includes('Kashmir'),
+  },
+]
+
+export const STATE_TABS = [
+  { id: 'all', label: 'All India', count: 46, icon: '🇮🇳', stateValue: '' },
+  { id: 'gujarat', label: 'Gujarat', count: 4, icon: '🦁', stateValue: 'Gujarat' },
+  { id: 'up', label: 'Uttar Pradesh', count: 3, icon: '🏛️', stateValue: 'Uttar Pradesh' },
+  { id: 'rajasthan', label: 'Rajasthan', count: 3, icon: '🏰', stateValue: 'Rajasthan' },
+  { id: 'south', label: 'Tamil Nadu & South', count: 5, icon: '🦚', stateValue: 'Tamil Nadu & South' },
+  { id: 'east', label: 'West Bengal & Odisha', count: 3, icon: '🌿', stateValue: 'West Bengal & Odisha' },
+  { id: 'northeast', label: 'Assam & Nagaland', count: 2, icon: '🧵', stateValue: 'Assam & Nagaland' },
+  { id: 'central', label: 'Madhya Pradesh & Punjab', count: 3, icon: '👑', stateValue: 'Madhya Pradesh & Punjab' },
+  { id: 'kashmir', label: 'Jammu & Kashmir', count: 23, icon: '🏔️', stateValue: 'Jammu & Kashmir' },
+]
+
 export default function CraftsHomeClient() {
   // ── State for Modals & Overlays ─────────────────────────────────────────────
   const [selectedProductForQuickAdd, setSelectedProductForQuickAdd] = useState<ClothingProduct | null>(null)
@@ -84,8 +216,9 @@ export default function CraftsHomeClient() {
   const [selectedState, setSelectedState] = useState<string>('')
 
   // ── Filter & Search State ───────────────────────────────────────────────────
-  const [activeCollection, setActiveCollection] = useState<string>('new-arrivals')
-  const [filterLatency, setFilterLatency] = useState<number>(0.9)
+  const [catalogViewMode, setCatalogViewMode] = useState<'corridors' | 'grid'>('corridors')
+  const [activeCollection, setActiveCollection] = useState<string>('all')
+  const [filterLatency, setFilterLatency] = useState<number>(0.8)
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     gender: '',
@@ -122,6 +255,45 @@ export default function CraftsHomeClient() {
     }))
   }
 
+  // Pre-calculate products for each corridor
+  const corridorsWithProducts = useMemo(() => {
+    return STATE_CORRIDORS.map((corridor) => {
+      const items = CLOTHING_PRODUCTS.filter(corridor.match)
+      return {
+        ...corridor,
+        items,
+        count: items.length,
+      }
+    })
+  }, [])
+
+  const displayedCorridors = useMemo(() => {
+    if (!selectedState || selectedState === 'All States' || selectedState === 'All India') {
+      return corridorsWithProducts
+    }
+    const s = selectedState.toLowerCase()
+    return corridorsWithProducts.filter((c) => {
+      const cName = c.name.toLowerCase()
+      const cId = c.id.toLowerCase()
+      if (s === 'kashmir' || s === 'jammu & kashmir') {
+        return cId === 'kashmir'
+      }
+      if (s.includes('south') || s.includes('tamil nadu') || s.includes('kerala')) {
+        return cId === 'south'
+      }
+      if (s.includes('bengal') || s.includes('odisha')) {
+        return cId === 'east'
+      }
+      if (s.includes('assam') || s.includes('nagaland')) {
+        return cId === 'northeast'
+      }
+      if (s.includes('madhya pradesh') || s.includes('punjab')) {
+        return cId === 'central'
+      }
+      return cName.includes(s) || s.includes(cName)
+    })
+  }, [corridorsWithProducts, selectedState])
+
   // ── High-Speed In-Memory Filter Engine (<1ms) ────────────────────────────────
   const filteredProducts = useMemo(() => {
     const startTime = performance.now()
@@ -140,13 +312,26 @@ export default function CraftsHomeClient() {
 
     // 2. State Filter
     if (filters.state || selectedState) {
-      const targetState = filters.state || selectedState
+      const targetState = (filters.state || selectedState).toLowerCase()
       result = result.filter((p) => {
-        if (p.state) return p.state.toLowerCase() === targetState.toLowerCase()
-        if (targetState.toLowerCase() === 'kashmir') {
-          return !p.state || p.provenance.origin.toLowerCase().includes('kashmir')
+        const prodState = (p.state || 'Jammu & Kashmir').toLowerCase()
+        const prodOrigin = (p.provenance.origin || '').toLowerCase()
+        if (targetState === 'kashmir' || targetState === 'jammu & kashmir') {
+          return prodState.includes('kashmir') || prodOrigin.includes('kashmir') || prodState.includes('himachal')
         }
-        return false
+        if (targetState.includes('tamil nadu') || targetState.includes('south') || targetState.includes('kerala')) {
+          return ['tamil nadu', 'kerala', 'telangana', 'andhra pradesh'].includes(prodState)
+        }
+        if (targetState.includes('bengal') || targetState.includes('odisha')) {
+          return ['west bengal', 'odisha'].includes(prodState)
+        }
+        if (targetState.includes('assam') || targetState.includes('nagaland')) {
+          return ['assam', 'nagaland'].includes(prodState)
+        }
+        if (targetState.includes('madhya pradesh') || targetState.includes('punjab')) {
+          return ['madhya pradesh', 'punjab'].includes(prodState)
+        }
+        return prodState.includes(targetState) || prodOrigin.includes(targetState)
       })
     }
 
@@ -471,12 +656,6 @@ export default function CraftsHomeClient() {
         onSelectState={handleSelectState}
       />
 
-      {/* ── 3. Primary Clothing Navigation Strip ──────────────────────────────── */}
-      <ClothingNavbarStrip
-        onSearchChange={(val) => setFilters((prev) => ({ ...prev, search: val }))}
-        activeCollection={activeCollection}
-        onSelectCollection={(col) => setActiveCollection(col)}
-      />
 
       {/* ── 4. Shop by All-India Craft Wardrobe Category ───────────────────────── */}
       <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -528,36 +707,32 @@ export default function CraftsHomeClient() {
         </div>
       </section>
 
-      {/* ── 5. Main Product Catalog & Instant Filter Section ─────────────────── */}
-      <section id="catalog" className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-stone-200 pb-3">
-          <div>
+      {/* ── 5. Main Product Catalog & Statewise Heritage Corridors Section ──── */}
+      <section id="catalog" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-24">
+        {/* Section Header with Telemetry & Quick Desk Actions */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-stone-200 pb-5">
+          <div className="space-y-1.5 max-w-2xl">
             <div className="flex items-center gap-2">
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
-                {selectedState
-                  ? `${selectedState} Handcrafted Collection`
-                  : selectedRegion !== 'All India'
-                  ? `${selectedRegion} Weaves`
-                  : activeCollection === 'new-arrivals'
-                  ? 'New Arrivals (Autumn & Winter 2026)'
-                  : activeCollection === 'bestsellers'
-                  ? 'Bestselling All-India Classics'
-                  : 'All-India Handcrafted Collection'}
-              </h2>
+              <span className="text-xs uppercase font-extrabold tracking-[0.25em] text-[#704B32] block">
+                Pan-India Handcrafted Archive · 15 States
+              </span>
               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
-                ⚡ {filterLatency.toFixed(1)}ms
+                ⚡ {filterLatency.toFixed(1)}ms In-Memory
               </span>
             </div>
-            <p className="text-xs text-stone-500 mt-0.5">
-              Showing {filteredProducts.length} pieces · Instant in-memory filters, 1-Click Express Buy &amp; Verifiable GI Passports.
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B] tracking-tight">
+              Statewise Products &amp; Master Artisan Corridors
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+              Explore 46 authenticated single-origin weaves grouped by state heritage ateliers. Each corridor features verifiable Government GI credentials, documented loom techniques, and direct weaver cooperative remuneration.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 self-start sm:self-auto">
+          <div className="flex items-center gap-3 self-start lg:self-auto flex-wrap">
             <button
               type="button"
               onClick={() => setSizeGuideOpen(true)}
-              className="text-xs font-bold text-[#176B68] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#176B68] hover:underline flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#176B68]/10"
             >
               <span>📏</span>
               <span>Size Guide</span>
@@ -565,7 +740,7 @@ export default function CraftsHomeClient() {
             <button
               type="button"
               onClick={() => setB2bQuoteOpen(true)}
-              className="text-xs font-bold text-[#704B32] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#704B32] hover:underline flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#704B32]/10"
             >
               <span>🏛️</span>
               <span>B2B / Export Desk</span>
@@ -573,65 +748,284 @@ export default function CraftsHomeClient() {
           </div>
         </div>
 
-        {/* Filter and Sort Toolbar with Telemetry */}
-        <ClothingFilterBar
-          filters={filters}
-          onFilterChange={setFilters}
-          totalCount={filteredProducts.length}
-          availableSubcategories={currentSubcategories}
-          filterLatencyMs={filterLatency}
-        />
+        {/* ── Dynamic State Switcher Tabs Bar ───────────────────────────────── */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-xs font-bold">
+            <span className="text-[#704B32] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+              <span>📍</span> Select Indian State / Regional Guild:
+            </span>
+            {selectedState && (
+              <button
+                type="button"
+                onClick={() => handleSelectState('')}
+                className="text-[#176B68] hover:underline text-xs"
+              >
+                Reset to All India (46 Pieces)
+              </button>
+            )}
+          </div>
 
-        {/* ── 4-Column Product Grid ─────────────────────────────────────────── */}
-        {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 pt-4">
-            {filteredProducts.map((product) => (
-              <ClothingProductCard
-                key={product.id}
-                product={product}
-                onQuickAdd={(p) => setSelectedProductForQuickAdd(p)}
-                onTryWithSi={(p) => handleOpenTryWithSi(p)}
-                onOpen3D={(p) => setSelectedProductFor3D(p)}
-                onOpenPassport={(p) => setSelectedProductForPassport(p)}
-                onExpressBuy={(p) => setSelectedProductForExpressBuy(p)}
-              />
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            {STATE_TABS.map((tab) => {
+              const isActive =
+                tab.stateValue === ''
+                  ? !selectedState || selectedState === 'All States' || selectedState === 'All India'
+                  : selectedState.toLowerCase() === tab.stateValue.toLowerCase()
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => handleSelectState(tab.stateValue)}
+                  className={`flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+                    isActive
+                      ? 'bg-[#10192A] text-white border-[#C9A45C] shadow-md ring-2 ring-[#C9A45C]/30 scale-[1.02]'
+                      : 'bg-white hover:bg-stone-100 text-stone-700 border-stone-200 hover:border-stone-300'
+                  }`}
+                >
+                  <span className="text-base">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
+                      isActive ? 'bg-[#C9A45C] text-[#10192A]' : 'bg-stone-100 text-stone-600'
+                    }`}
+                  >
+                    {tab.count}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* ── View Mode Switcher Toggle: State Corridors vs All-India Direct Grid */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-2xl border border-stone-200 shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              Browse Experience:
+            </span>
+            <div className="inline-flex rounded-xl bg-stone-100 p-1 border border-stone-200">
+              <button
+                type="button"
+                onClick={() => setCatalogViewMode('corridors')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  catalogViewMode === 'corridors'
+                    ? 'bg-[#10192A] text-white shadow-xs'
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                <span>🏛️</span>
+                <span>State Corridors</span>
+                <span className="text-[9px] px-1 py-0.2 rounded bg-amber-200 text-amber-900 font-extrabold uppercase">
+                  Curated
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setCatalogViewMode('grid')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  catalogViewMode === 'grid'
+                    ? 'bg-[#10192A] text-white shadow-xs'
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                <span>⚡</span>
+                <span>All-India Fast Grid</span>
+                <span className="text-[9px] px-1 py-0.2 rounded bg-emerald-200 text-emerald-900 font-extrabold uppercase">
+                  In-Memory
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className="text-xs text-stone-500 flex items-center gap-3">
+            <span>
+              Showing{' '}
+              <strong className="text-[#17233B]">
+                {catalogViewMode === 'corridors'
+                  ? displayedCorridors.reduce((acc, c) => acc + c.count, 0)
+                  : filteredProducts.length}
+              </strong>{' '}
+              pieces across{' '}
+              <strong className="text-[#17233B]">
+                {catalogViewMode === 'corridors' ? displayedCorridors.length : '15'}
+              </strong>{' '}
+              state ateliers
+            </span>
+          </div>
+        </div>
+
+        {/* ── VIEW MODE 1: STATE HERITAGE CORRIDORS ─────────────────────────── */}
+        {catalogViewMode === 'corridors' && (
+          <div className="space-y-12 pt-2">
+            {displayedCorridors.map((corridor) => (
+              <div
+                key={corridor.id}
+                id={`corridor-${corridor.id}`}
+                className="space-y-6 scroll-mt-28 bg-[#FAF6EE] rounded-3xl"
+              >
+                {/* State Corridor Header Banner */}
+                <div className="bg-gradient-to-r from-[#10192A] via-[#17233B] to-[#10192A] text-white rounded-3xl p-6 sm:p-8 border border-[#C9A45C]/30 shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A45C]/5 rounded-full blur-3xl pointer-events-none" />
+
+                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div className="space-y-3 max-w-3xl">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-2xl">{corridor.icon}</span>
+                        <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-[#C9A45C] bg-white/10 px-3 py-1 rounded-full border border-white/15">
+                          {corridor.region}
+                        </span>
+                        <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-400/30">
+                          {corridor.count} Masterpieces
+                        </span>
+                        <span className="text-[10px] text-stone-300 font-semibold bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                          ⏱️ {corridor.antiquity}
+                        </span>
+                      </div>
+
+                      <div>
+                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                          {corridor.title}
+                        </h3>
+                        <p className="font-serif italic text-sm sm:text-base text-stone-300 mt-1">
+                          &ldquo;{corridor.subtitle}&rdquo;
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-300 pt-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[#C9A45C]">📜</span>
+                          <span className="font-mono text-[11px] text-stone-200">{corridor.giCert}</span>
+                        </div>
+                        <div className="hidden sm:inline text-white/30">•</div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[#C9A45C]">🏛️</span>
+                          <span className="text-stone-300 font-medium">{corridor.guild}</span>
+                        </div>
+                      </div>
+
+                      <p className="text-xs text-stone-300 font-light leading-relaxed">
+                        <strong className="text-white font-medium">Craft Traditions:</strong> {corridor.craftsList}
+                      </p>
+                    </div>
+
+                    {/* Action shortcuts */}
+                    <div className="flex flex-row lg:flex-col items-stretch gap-2.5 flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenTryWithSi(corridor.items[0])}
+                        className="px-4 py-2.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5"
+                      >
+                        <span>✨</span>
+                        <span>Virtual Drape (SI)</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCatalogViewMode('grid')
+                          handleSelectState(corridor.name)
+                        }}
+                        className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors text-center"
+                      >
+                        Explore in Grid Mode →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Corridor Products Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                  {corridor.items.map((product) => (
+                    <ClothingProductCard
+                      key={product.id}
+                      product={product}
+                      onQuickAdd={(p) => setSelectedProductForQuickAdd(p)}
+                      onTryWithSi={(p) => handleOpenTryWithSi(p)}
+                      onOpen3D={(p) => setSelectedProductFor3D(p)}
+                      onOpenPassport={(p) => setSelectedProductForPassport(p)}
+                      onExpressBuy={(p) => setSelectedProductForExpressBuy(p)}
+                    />
+                  ))}
+                </div>
+
+                {/* Provenance Remuneration Seal */}
+                <div className="flex items-center justify-between px-4 py-2 bg-stone-100 rounded-xl text-[11px] text-stone-600 border border-stone-200/80">
+                  <span className="flex items-center gap-1.5">
+                    <span className="text-emerald-700 font-bold">✓ 68% Remuneration Guarantee:</span>
+                    Direct cooperative settlement to {corridor.guild}.
+                  </span>
+                  <span className="font-mono text-stone-500 font-medium hidden sm:inline">
+                    Pan-India Insured Express Air
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
-        ) : (
-          <div className="py-16 text-center bg-white rounded-3xl border border-stone-200 space-y-3">
-            <span className="text-3xl block">🔍</span>
-            <h3 className="font-serif font-bold text-lg text-[#17233B]">
-              No garments matched your filter criteria
-            </h3>
-            <p className="text-xs text-stone-500 max-w-md mx-auto">
-              Try resetting your region, craft, or search query to browse our 46 Pan-India pieces.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                handleSelectRegion('All India')
-                handleSelectState('')
-                setFilters({
-                  search: '',
-                  gender: '',
-                  subCategory: '',
-                  region: '',
-                  state: '',
-                  size: '',
-                  colour: '',
-                  material: '',
-                  craft: '',
-                  warmth: '',
-                  occasion: '',
-                  inStockOnly: false,
-                  giOnly: false,
-                  sortBy: 'featured',
-                })
-              }}
-              className="px-5 py-2.5 bg-[#17233B] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
-            >
-              Reset All Filters
-            </button>
+        )}
+
+        {/* ── VIEW MODE 2: ALL-INDIA DIRECT IN-MEMORY GRID ──────────────────── */}
+        {catalogViewMode === 'grid' && (
+          <div className="space-y-6">
+            {/* Filter and Sort Toolbar with Telemetry */}
+            <ClothingFilterBar
+              filters={filters}
+              onFilterChange={setFilters}
+              totalCount={filteredProducts.length}
+              availableSubcategories={currentSubcategories}
+              filterLatencyMs={filterLatency}
+            />
+
+            {/* 4-Column Product Grid */}
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 pt-4">
+                {filteredProducts.map((product) => (
+                  <ClothingProductCard
+                    key={product.id}
+                    product={product}
+                    onQuickAdd={(p) => setSelectedProductForQuickAdd(p)}
+                    onTryWithSi={(p) => handleOpenTryWithSi(p)}
+                    onOpen3D={(p) => setSelectedProductFor3D(p)}
+                    onOpenPassport={(p) => setSelectedProductForPassport(p)}
+                    onExpressBuy={(p) => setSelectedProductForExpressBuy(p)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="py-16 text-center bg-white rounded-3xl border border-stone-200 space-y-3">
+                <span className="text-3xl block">🔍</span>
+                <h3 className="font-serif font-bold text-lg text-[#17233B]">
+                  No garments matched your filter criteria
+                </h3>
+                <p className="text-xs text-stone-500 max-w-md mx-auto">
+                  Try resetting your state, craft, or search query to browse our 46 Pan-India pieces.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleSelectRegion('All India')
+                    handleSelectState('')
+                    setFilters({
+                      search: '',
+                      gender: '',
+                      subCategory: '',
+                      region: '',
+                      state: '',
+                      size: '',
+                      colour: '',
+                      material: '',
+                      craft: '',
+                      warmth: '',
+                      occasion: '',
+                      inStockOnly: false,
+                      giOnly: false,
+                      sortBy: 'featured',
+                    })
+                  }}
+                  className="px-5 py-2.5 bg-[#17233B] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
+                >
+                  Reset All Filters
+                </button>
+              </div>
+            )}
           </div>
         )}
       </section>

@@ -250,8 +250,8 @@ export default function ClothingProductCard({
               </span>
             )}
             {isWesternMarket && (
-              <span className="text-[9px] font-bold text-[#C9A45C] bg-[#10192A] px-1 py-0.2 rounded" title="Includes +200% luxury export insured shipping">
-                Export Incl.
+              <span className="text-[9px] font-bold text-[#C9A45C] bg-[#10192A] px-1.5 py-0.5 rounded" title="Insured international express delivery and import duties included">
+                Global Express
               </span>
             )}
           </div>

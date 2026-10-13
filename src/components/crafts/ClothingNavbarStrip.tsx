@@ -43,7 +43,7 @@ export default function ClothingNavbarStrip({
   }
 
   return (
-    <div className="w-full bg-white border-b border-stone-200 sticky top-20 z-30 shadow-xs">
+    <div className="w-full bg-white border-b border-stone-200 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── 1. Primary Department Row ────────────────────────────────────────── */}
         <div className="flex items-center justify-between border-b border-stone-100 py-2.5 overflow-x-auto no-scrollbar gap-4 text-xs font-bold tracking-widest uppercase">

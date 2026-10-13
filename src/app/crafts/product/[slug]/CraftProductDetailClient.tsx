@@ -355,13 +355,13 @@ export default function CraftProductDetailClient() {
                   )}
                   {isWesternMarket && (
                     <span className="text-[10px] font-extrabold text-[#17233B] bg-[#C9A45C] px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      +200% Global Export Inclusive
+                      Insured Worldwide Delivery &amp; Duties Included
                     </span>
                   )}
                 </div>
                 <span className="block text-[11px] text-stone-500 mt-1">
                   {isWesternMarket
-                    ? `Export to ${currency}: Includes 200% international luxury air courier, export customs duties, and artisan guild export reserves.`
+                    ? `Insured export to ${currency}: Includes priority DHL/FedEx Express international air transport, customs clearance, and verified artisan guild settlement.`
                     : 'Inclusive of all taxes · Free insured courier pan-India · 68% Direct Weaver Remuneration'}
                 </span>
               </div>

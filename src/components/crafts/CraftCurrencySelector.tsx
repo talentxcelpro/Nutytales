@@ -143,7 +143,7 @@ export default function CraftCurrencySelector({
           <span className="opacity-70">({activeItem.symbol})</span>
           {isWesternMarket && (
             <span className="hidden sm:inline text-[9px] bg-[#10192A] text-[#C9A45C] px-1 py-0.2 rounded font-extrabold uppercase">
-              +200% Export
+              Global
             </span>
           )}
           <span className="text-[9px] opacity-75">▼</span>
@@ -198,7 +198,7 @@ export default function CraftCurrencySelector({
                               : 'bg-[#C9A45C]/20 text-[#C9A45C] border border-[#C9A45C]/40'
                           }`}
                         >
-                          +200% Export
+                          Express Air
                         </span>
                       ) : (
                         <span
@@ -216,7 +216,7 @@ export default function CraftCurrencySelector({
             </div>
 
             <div className="px-3 py-1.5 border-t border-white/10 text-[9px] text-stone-400 leading-tight">
-              🇺🇸/🇪🇺 American &amp; European currencies feature a 200% export markup for insured global air freight, customs, and artisan guild reserves.
+              🌍 Overseas currencies include insured DHL/FedEx Express worldwide air freight, customs clearance, and verified artisan guild settlement.
             </div>
           </div>
         )}
@@ -291,7 +291,7 @@ export default function CraftCurrencySelector({
                           : 'bg-amber-100 text-amber-900 border border-amber-200'
                       }`}
                     >
-                      +200%
+                      Express Air
                     </span>
                   )}
                 </button>
