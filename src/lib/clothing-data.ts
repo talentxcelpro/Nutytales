@@ -141,7 +141,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: '/images/weddings/hero-palace.jpg',
     textureImage: '/images/weddings/hero-palace.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/weddings/hero-palace.jpg', '/images/campaign-mens-style-story.jpg', '/images/wedding-celebration.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop&q=80', '/images/weddings/hero-palace.jpg'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Imperial Emerald & Antique Gold', hex: '#1B4734' },
@@ -218,7 +218,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80',
     textureImage: '/images/jaipur-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-shawls.jpg', '/images/jaipur-heritage.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80', '/images/jaipur-heritage.jpg'],
     sizes: ['S (38)', 'M (40)', 'L (42)', 'XL (44)'],
     colorOptions: [
       { name: 'Royal Crimson & Emerald', hex: '#7E1928' },
@@ -294,7 +294,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS (36)', 'S (38)', 'M (40)', 'L (42)', 'XL (44)', 'XXL (46)'],
     colorOptions: [
       { name: 'Nawabi Pearl White', hex: '#FDFBF7' },
@@ -371,7 +371,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-winterwear.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'Free Size'],
     colorOptions: [
       { name: 'Indigo & Madder Red', hex: '#1C2841' },
@@ -448,7 +448,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: '/images/weddings/hero-global.jpg',
     textureImage: '/images/weddings/hero-global.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/weddings/hero-global.jpg', '/images/campaign-mens-style-story.jpg', '/images/wedding-celebration.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80', '/images/weddings/hero-global.jpg'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Temple Peacock Blue & Zari', hex: '#123952' },
@@ -525,7 +525,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: '/images/jaipur-heritage.jpg',
     textureImage: '/images/jaipur-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/jaipur-heritage.jpg', '/images/crafts-pherans.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80', '/images/jaipur-heritage.jpg'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
       { name: 'Ivory Lotus & Rose', hex: '#F9F6F0' },
@@ -601,7 +601,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-jackets.jpg', '/images/crafts-winterwear.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80'],
     sizes: ['S (38)', 'M (40)', 'L (42)', 'XL (44)', 'Free Size'],
     colorOptions: [
       { name: 'Indigo River & Rust Stitches', hex: '#1C293D' },
@@ -677,7 +677,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
     textureImage: '/images/nri/kerala-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['/images/nri/kerala-heritage.jpg', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Natural Ecru & Pure Gold Zari', hex: '#FAF6EE' },
@@ -752,7 +752,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-jackets.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Imperial Maroon & Mustard', hex: '#6E1A24' },
@@ -829,7 +829,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/flagged/photo-1551854716-8b811be39e7e?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/flagged/photo-1551854716-8b811be39e7e?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
       { name: 'Cloud White & Charcoal Grey', hex: '#FAF9F6' },
@@ -905,7 +905,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1727835523545-70ee992b5763?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1727835523545-70ee992b5763?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Geometric Slate & Charcoal', hex: '#2A3038' },
@@ -981,7 +981,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-winterwear.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'Free Size'],
     colorOptions: [
       { name: 'Raw Natural Oatmeal', hex: '#EAE4D7' },
@@ -1058,7 +1058,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1615573678157-69c7fce87d54?w=800&auto=format&fit=crop&q=80',
     textureImage: '/images/jaipur-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['/images/jaipur-heritage.jpg', 'https://images.unsplash.com/photo-1615573678157-69c7fce87d54?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'Free Size'],
     colorOptions: [
       { name: 'Pale Champagne & Gold Zari', hex: '#EBE2CC' },
@@ -1134,7 +1134,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1737515024776-03fed700028b?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1737515024776-03fed700028b?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
       { name: 'Mustard Yellow & Resham Silk', hex: '#D69E2E' },
@@ -1210,7 +1210,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1744551358303-46edae8b374b?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1727835523545-70ee992b5763?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1727835523545-70ee992b5763?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1744551358303-46edae8b374b?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Temple Crimson & Onyx Black', hex: '#691823' },
@@ -1286,7 +1286,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1571908599407-cdb918ed83bf?w=800&auto=format&fit=crop&q=80',
     textureImage: '/images/weddings/hero-global.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-jackets.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['/images/weddings/hero-global.jpg', 'https://images.unsplash.com/photo-1571908599407-cdb918ed83bf?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'Free Size'],
     colorOptions: [
       { name: 'Kalamkari Indigo & Madder Red', hex: '#26344A' },
@@ -1362,7 +1362,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-jackets.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)'],
     colorOptions: [
       { name: 'Ao Warrior Crimson & Black', hex: '#1C1B1B' },
@@ -1438,7 +1438,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1610189012906-4c0aa9b9781e?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-stoles.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1610189012906-4c0aa9b9781e?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
       { name: 'Narmada Teal & Gold', hex: '#1C5B56' },
@@ -1514,7 +1514,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Indigo River Blue', hex: '#1F304E' },
@@ -1590,7 +1590,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80',
     textureImage: '/images/jaipur-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-jackets.jpg', '/images/crafts-artisan-hands.jpg'],
+    additionalImages: ['/images/jaipur-heritage.jpg', 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop&q=80'],
     sizes: ['S (38)', 'M (40)', 'L (42)', 'XL (44)'],
     colorOptions: [
       { name: 'Desert Terra Black', hex: '#1F1E1D' },
@@ -1666,7 +1666,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: '/images/weddings/hero-palace.jpg',
     textureImage: '/images/weddings/hero-global.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/crafts-jackets.jpg'],
+    additionalImages: ['/images/weddings/hero-global.jpg', '/images/weddings/hero-palace.jpg'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Royal Peacock Teal & Gold', hex: '#165B5E' },
@@ -1743,7 +1743,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
       { name: 'Warm Sunlit Gold', hex: '#DDB65B' },
@@ -1820,7 +1820,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80',
     textureImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-pherans.jpg', '/images/crafts-stoles.jpg'],
+    additionalImages: ['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80'],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'Free Size'],
     colorOptions: [
       { name: 'Chettinad Mustard & Deep Crimson', hex: '#B87B22' },
@@ -1896,7 +1896,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     detailImage: '/images/jaipur-heritage.jpg',
     textureImage: '/images/jaipur-heritage.jpg',
     packagingImage: '/images/crafts-gifting-box.jpg',
-    additionalImages: ['/images/crafts-jackets.jpg', '/images/campaign-mens-style-story.jpg'],
+    additionalImages: ['/images/campaign-mens-style-story.jpg', '/images/jaipur-heritage.jpg'],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
       { name: 'Himalayan Slate & Kinnauri Border', hex: '#2F353B' },

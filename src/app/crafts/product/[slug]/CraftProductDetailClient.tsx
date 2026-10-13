@@ -10,7 +10,6 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 import TryWithSIModal from '@/components/crafts/TryWithSIModal'
 import SizeGuideModal from '@/components/crafts/SizeGuideModal'
 import GarmentViewer3DModal from '@/components/crafts/GarmentViewer3DModal'
-import ClothingNavbarStrip from '@/components/crafts/ClothingNavbarStrip'
 import ArtisanPassportModal from '@/components/crafts/ArtisanPassportModal'
 import ExpressBuyModal from '@/components/crafts/ExpressBuyModal'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
@@ -188,9 +187,8 @@ export default function CraftProductDetailClient() {
   ).slice(0, 4)
 
   return (
-    <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-20 pb-24">
-      <ClothingNavbarStrip />
-
+    <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-4 sm:pt-6 pb-24">
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-12">
         {/* Breadcrumbs */}
         <nav className="text-xs text-[#704B32] flex items-center gap-2">
@@ -205,7 +203,7 @@ export default function CraftProductDetailClient() {
           <span className="text-[#17233B] font-semibold truncate">{product.name}</span>
         </nav>
 
-        {/* ΓöÇΓöÇ Product Commercial Two-Column Grid ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */}
+        {/* —— Product Commercial Two-Column Grid ——————————————————————————————— */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* LEFT: Large Image Gallery (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
@@ -255,7 +253,7 @@ export default function CraftProductDetailClient() {
               {/* Zoom hint */}
               <div className="absolute top-4 right-4 pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity z-10">
                 <span className="bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-[10px] text-stone-600 font-semibold shadow-xs">
-                  ≡ƒöì Hover to Zoom HD
+                  🔍 Hover to Zoom HD
                 </span>
               </div>
 
@@ -266,7 +264,7 @@ export default function CraftProductDetailClient() {
                   onClick={() => setLightboxOpen(true)}
                   className="px-3.5 py-2 rounded-xl bg-white/95 hover:bg-white text-[#17233B] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
                 >
-                  <span>Γñó</span>
+                  <span>🔍</span>
                   <span>Full View</span>
                 </button>
                 {product.is3DSupported && (
@@ -275,7 +273,7 @@ export default function CraftProductDetailClient() {
                     onClick={() => setViewer3DOpen(true)}
                     className="px-3.5 py-2 rounded-xl bg-[#17233B]/90 hover:bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
                   >
-                    <span>Γ£ª</span>
+                    <span>✨</span>
                     <span>View in 3D</span>
                   </button>
                 )}
@@ -319,7 +317,7 @@ export default function CraftProductDetailClient() {
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-2 border-b border-stone-200 pb-5">
               <div className="flex items-center justify-between text-xs text-[#704B32] font-semibold">
-                <span className="uppercase tracking-widest">{product.categoryLabel} ┬╖ {product.subCategory}</span>
+                <span className="uppercase tracking-widest">{product.categoryLabel} · {product.subCategory}</span>
                 <span className="bg-stone-200 px-2 py-0.5 rounded text-stone-700 text-[10px] font-bold">
                   {product.warmthRating.split(' ')[0]} Warmth
                 </span>
@@ -331,9 +329,9 @@ export default function CraftProductDetailClient() {
 
               {/* Review Stars */}
               <div className="flex items-center gap-2 text-xs pt-0.5">
-                <span className="text-amber-500 font-bold">ΓÿàΓÿàΓÿàΓÿàΓÿà</span>
+                <span className="text-amber-500 font-bold">★★★★★</span>
                 <span className="text-stone-600 font-medium">5.0 ({product.reviews.length} reviews)</span>
-                <span className="text-stone-300">ΓÇó</span>
+                <span className="text-stone-300">•</span>
                 <span className="text-[#176B68] font-bold">100% Handcrafted</span>
               </div>
             </div>
@@ -410,7 +408,7 @@ export default function CraftProductDetailClient() {
                   onClick={() => setSizeGuideOpen(true)}
                   className="text-[11px] text-[#176B68] hover:underline font-bold flex items-center gap-1"
                 >
-                  <span>≡ƒôÅ</span>
+                  <span>📏</span>
                   <span>Size &amp; Fit Guide</span>
                 </button>
               </div>
@@ -442,7 +440,7 @@ export default function CraftProductDetailClient() {
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="px-2.5 py-1.5 text-stone-600 font-bold hover:text-black"
                 >
-                  ΓêÆ
+                  −
                 </button>
                 <span className="px-3 font-bold text-stone-800">{quantity}</span>
                 <button
@@ -463,7 +461,7 @@ export default function CraftProductDetailClient() {
                   onClick={handleAddToCart}
                   className="flex-1 py-4 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>≡ƒ¢Æ</span>
+                  <span>🛍️</span>
                   <span>Add to Bag</span>
                 </button>
 
@@ -502,16 +500,16 @@ export default function CraftProductDetailClient() {
                   onClick={() => setSiModalOpen(true)}
                   className="w-full py-3.5 bg-gradient-to-r from-[#17233B] to-[#176B68] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-sm flex items-center justify-center gap-2 hover:opacity-95"
                 >
-                  <span>Γ£¿</span>
-                  <span>Try with SI ΓÇö Virtual Drape Simulation</span>
+                  <span>✨</span>
+                  <span>Try with SI — Virtual Drape Simulation</span>
                 </button>
               )}
 
               {addedToast && (
                 <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold text-center flex items-center justify-between">
-                  <span>Γ£ô Added to Shopping Bag!</span>
+                  <span>✓ Added to Shopping Bag!</span>
                   <Link href="/cart" className="underline uppercase font-bold">
-                    View Bag ΓåÆ
+                    View Bag →
                   </Link>
                 </div>
               )}
@@ -539,7 +537,7 @@ export default function CraftProductDetailClient() {
               </form>
               {deliveryEstimate && (
                 <p className="text-[11px] text-emerald-700 font-medium pt-1">
-                  Γ£ô {deliveryEstimate}
+                  ✓ {deliveryEstimate}
                 </p>
               )}
             </div>
@@ -589,7 +587,7 @@ export default function CraftProductDetailClient() {
             <div className="p-5 bg-white rounded-2xl border border-[#C9A45C]/40 space-y-3 text-xs shadow-xs">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <span className="font-serif font-bold text-sm text-[#17233B]">
-                  Γ£ª Authenticity &amp; GI Provenance
+                  ✨ Authenticity &amp; GI Provenance
                 </span>
                 {product.provenance.giTagCertified && (
                   <span className="text-[9px] font-extrabold uppercase bg-[#C9A45C] text-[#17233B] px-2 py-0.5 rounded">
@@ -602,7 +600,7 @@ export default function CraftProductDetailClient() {
               </p>
               {product.provenance.giCertificateNo && (
                 <div className="p-2.5 bg-[#FAF6EE] rounded-xl font-mono text-[10px] text-[#176B68] font-bold">
-                  Official J&amp;K GI Registry Code: {product.provenance.giCertificateNo}
+                  Official GI Registry Code: {product.provenance.giCertificateNo}
                 </div>
               )}
             </div>
@@ -719,7 +717,7 @@ export default function CraftProductDetailClient() {
               className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-xl flex items-center justify-center transition-colors"
               aria-label="Close Fullscreen View"
             >
-              Γ£ò
+              ✕
             </button>
           </div>
 
@@ -739,7 +737,7 @@ export default function CraftProductDetailClient() {
           </div>
 
           <p className="text-white/60 text-xs text-center" onClick={(e) => e.stopPropagation()}>
-            HD Uncropped Studio Presentation ┬╖ Click anywhere outside or Γ£ò to exit
+            HD Uncropped Studio Presentation · Click anywhere outside or ✕ to exit
           </p>
         </div>
       )}
