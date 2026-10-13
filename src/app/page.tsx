@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
-import ShopHomeHero from '@/components/shop/ShopHomeHero'
-import ShopCategoriesGrid from '@/components/shop/ShopCategoriesGrid'
-import ShopBestsellersSection from '@/components/shop/ShopBestsellersSection'
-import ShopFeaturedCollections from '@/components/shop/ShopFeaturedCollections'
-import ShopProvenanceStory from '@/components/shop/ShopProvenanceStory'
-import ShopTrustAndGuarantee from '@/components/shop/ShopTrustAndGuarantee'
+import { Suspense } from 'react'
+import { PRODUCTS } from '@/lib/products-data'
+import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
 import { FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -30,6 +27,9 @@ export const metadata: Metadata = {
   },
 }
 
+// Prerender to static edge cache with 1-hour revalidation
+export const revalidate = 3600
+
 export default function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -54,7 +54,7 @@ export default function HomePage() {
       'https://www.google.com/maps/place/Nuty+Tales+(Dry+fruits)/@28.5209169,77.3539445,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7f48d890b99:0x17d4f4be831d96c1!8m2!3d28.5209122!4d77.3565248!16s%2Fg%2F11vyp7r8k6?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://nutytales.com/shop?q={search_term_string}',
+      target: 'https://nutytales.com/?q={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
     contactPoint: {
@@ -113,7 +113,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#17233B]">
+    <>
       {/* Schema.org OnlineStore & FAQPage Structured Data for LLMs and Search Engines */}
       <script
         type="application/ld+json"
@@ -124,23 +124,10 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* ── 1. Hero: Discover Something Exceptional + Instant Product Search ── */}
-      <ShopHomeHero />
-
-      {/* ── 2. Shop Categories Grid ── */}
-      <ShopCategoriesGrid />
-
-      {/* ── 3. Trending Bestsellers with Live Interactive Product Cards ── */}
-      <ShopBestsellersSection />
-
-      {/* ── 4. Signature Harvest Reserves (Featured Collections) ── */}
-      <ShopFeaturedCollections />
-
-      {/* ── 5. Editorial Provenance: Single-Origin Truth ── */}
-      <ShopProvenanceStory />
-
-      {/* ── 6. Standards, Governance & Trust ── */}
-      <ShopTrustAndGuarantee />
-    </div>
+      {/* ── Main Catalog Experience directly on Index Page ── */}
+      <Suspense>
+        <ShopCatalogClient products={PRODUCTS} />
+      </Suspense>
+    </>
   )
 }

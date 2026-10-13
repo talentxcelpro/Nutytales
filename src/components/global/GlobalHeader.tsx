@@ -109,9 +109,10 @@ export default function GlobalHeader() {
   ]
 
   const isLinkActive = (href: string) => {
+    if (href === '/shop') return pathname === '/' || pathname === '/shop'
     if (href === '/') return pathname === '/'
-    if (href.startsWith('/shop?')) return pathname === '/shop'
-    if (href.includes('#')) return pathname === '/shop'
+    if (href.startsWith('/shop?')) return pathname === '/shop' || pathname === '/'
+    if (href.includes('#')) return pathname === '/shop' || pathname === '/'
     return pathname.startsWith(href)
   }
 
