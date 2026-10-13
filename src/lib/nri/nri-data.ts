@@ -2,6 +2,9 @@
 // Operating Platform for Indians Living Abroad | nri.nutytales.com
 
 import { ServiceCategoryKey, OperationalCity, NriProvider } from './types'
+import { ALL_INDIA_TERRITORIES, TERRITORY_COUNTS } from './states-territories'
+
+export { ALL_INDIA_TERRITORIES, TERRITORY_COUNTS }
 
 export interface CategoryInfo {
   key: ServiceCategoryKey
@@ -583,7 +586,7 @@ export const NRI_CATEGORIES: Record<ServiceCategoryKey, CategoryInfo> = {
   },
 }
 
-export const OPERATIONAL_CITIES: OperationalCity[] = [
+const METRO_FLAGSHIP_HUBS: OperationalCity[] = [
   // ── Tier 1: Direct Fulfillment Hubs (Platform Managed Ground Desks) ──
   {
     id: 'delhi-ncr',
@@ -802,22 +805,30 @@ export const OPERATIONAL_CITIES: OperationalCity[] = [
       seniorHelpline: '14567',
     },
   },
-  {
-    id: 'goa',
-    name: 'Goa',
-    state: 'Goa',
-    region: 'West',
-    operationalTier: 'Tier 3 - Expanding Network',
-    coverageStatus: 'Coming Soon',
-    coverageSummary: 'Holiday villa caretaking & pre-monsoon sealing available on request.',
-    leadCoverage: ['Holiday Villa Care', 'Pre-Monsoon Audit', 'Key Holding'],
-    emergencyDirectory: {
-      police: '112',
-      ambulance: '108',
-      fire: '101',
-      seniorHelpline: '14567',
-    },
+]
+
+// ── Master Expansion: All 28 States and 8 Union Territories ──────────────
+const ALL_STATE_TERRITORY_DESKS: OperationalCity[] = ALL_INDIA_TERRITORIES.map((t) => ({
+  id: `territory-${t.id}`,
+  name: t.name,
+  state: `${t.type} • Hub: ${t.capital}`,
+  region: t.region,
+  operationalTier: t.operationalTier,
+  coverageStatus: t.coverageStatus,
+  coverageSummary: t.description,
+  leadCoverage: t.leadServices,
+  emergencyDirectory: {
+    police: '112',
+    ambulance: '108',
+    fire: '101',
+    seniorHelpline: '14567',
+    nriCell: t.emergencyHelpline,
   },
+}))
+
+export const OPERATIONAL_CITIES: OperationalCity[] = [
+  ...METRO_FLAGSHIP_HUBS,
+  ...ALL_STATE_TERRITORY_DESKS,
 ]
 
 // Direct Fulfillment Operations Desks (Zero synthetic ratings or fabricated reviews)

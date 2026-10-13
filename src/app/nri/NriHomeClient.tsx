@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import GetSomethingDoneEngine from '@/components/nri/GetSomethingDoneEngine'
-import { OPERATIONAL_CITIES } from '@/lib/nri/nri-data'
+import { OPERATIONAL_CITIES, TERRITORY_COUNTS } from '@/lib/nri/nri-data'
 import { PAN_INDIA_DESTINATIONS } from '@/lib/nri/image-registry'
 
 function CategorySvgIcon({ id, active }: { id: string; active: boolean }) {
@@ -87,7 +87,7 @@ export default function NriHomePage() {
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [activeProofTab, setActiveProofTab] = useState<'dossier' | 'checklist' | 'milestones' | 'verification'>('dossier')
   const [selectedEvidenceCity, setSelectedEvidenceCity] = useState<'mumbai' | 'delhi' | 'srinagar' | 'bengaluru'>('mumbai')
-  const [selectedRegion, setSelectedRegion] = useState<'all' | 'North' | 'West' | 'South' | 'East' | 'Central'>('all')
+  const [selectedRegion, setSelectedRegion] = useState<'all' | 'North' | 'West' | 'South' | 'East' | 'Central' | 'North-East'>('all')
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
   // 1. Visual Service Category Navigation Strip
@@ -453,30 +453,40 @@ export default function NriHomePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#EAE6DF] pb-4">
           <div className="space-y-1">
             <span className="text-[11px] uppercase tracking-widest text-[#8C6D2D] font-bold">
-              National Ground Presence
+              National Ground Presence • 28 States &amp; 8 Union Territories
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#191919]">
-              Find help where it matters in India.
+              Find help across all 28 States &amp; 8 Union Territories.
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 font-light max-w-2xl">
-              From Delhi NCR to Kochi, and Mumbai to Srinagar. We provide direct fulfillment hubs and vetted specialist partner networks with transparent operational status.
+              From Kashmir to Kanyakumari, and Gujarat to Arunachal Pradesh. Platform-managed direct fulfillment hubs, vetted specialist partner desks, and regional coordinators covering every state and territory with transparent operational status.
             </p>
           </div>
 
           {/* Region Filter Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 bg-[#F3EFE6] p-1 rounded-full border border-[#E5DEC9] self-start md:self-auto text-xs">
-            {(['all', 'North', 'West', 'South', 'East', 'Central'] as const).map((reg) => (
+            {(
+              [
+                { id: 'all', label: `All India (${TERRITORY_COUNTS.total})` },
+                { id: 'North', label: `North (${TERRITORY_COUNTS.byRegion['North']})` },
+                { id: 'West', label: `West (${TERRITORY_COUNTS.byRegion['West']})` },
+                { id: 'South', label: `South (${TERRITORY_COUNTS.byRegion['South']})` },
+                { id: 'East', label: `East (${TERRITORY_COUNTS.byRegion['East']})` },
+                { id: 'Central', label: `Central (${TERRITORY_COUNTS.byRegion['Central']})` },
+                { id: 'North-East', label: `North-East (${TERRITORY_COUNTS.byRegion['North-East']})` },
+              ] as const
+            ).map((tab) => (
               <button
-                key={reg}
+                key={tab.id}
                 type="button"
-                onClick={() => setSelectedRegion(reg)}
+                onClick={() => setSelectedRegion(tab.id)}
                 className={`px-3.5 py-1.5 rounded-full font-semibold transition-all ${
-                  selectedRegion === reg
+                  selectedRegion === tab.id
                     ? 'bg-[#191919] text-white shadow-2xs'
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
-                {reg === 'all' ? 'All India (16 Hubs)' : `${reg} India`}
+                {tab.label}
               </button>
             ))}
           </div>
