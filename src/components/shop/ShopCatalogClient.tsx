@@ -68,6 +68,19 @@ export default function ShopCatalogClient({
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false)
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
 
+  // Listen for SI Assistant bio-target changes
+  React.useEffect(() => {
+    const handleSetTarget = (e: any) => {
+      if (e.detail?.target) {
+        setSelectedHealthTarget(e.detail.target)
+      }
+    }
+    window.addEventListener('nt_set_health_target', handleSetTarget)
+    return () => {
+      window.removeEventListener('nt_set_health_target', handleSetTarget)
+    }
+  }, [])
+
   // Radar comparison handlers
   const handleToggleCompare = (product: Product) => {
     setComparedSlugs((prev) => {

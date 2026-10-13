@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import { PRODUCTS, Product } from '@/lib/products-data'
+import KernelRadarCompareModal from '@/components/shop/KernelRadarCompareModal'
+import BioRationSynthesizerModal from '@/components/shop/BioRationSynthesizerModal'
+import { HealthTargetKey } from '@/components/shop/PrecisionHarvestCommandBar'
 
 interface ChatMessage {
   id: string
@@ -12,18 +16,65 @@ interface ChatMessage {
   actions?: { label: string; href?: string; onClick?: () => void }[]
 }
 
+const HEALTH_TARGETS: { key: HealthTargetKey; label: string; icon: string; tag: string }[] = [
+  { key: 'cognitive', label: 'Brain & Memory', icon: '🧠', tag: 'High Oleic MUFA' },
+  { key: 'cardiovascular', label: 'Cardio & Heart', icon: '❤️', tag: 'Omega-3 ALA' },
+  { key: 'metabolic', label: 'Metabolic Low-GI', icon: '⚡', tag: 'Diabetic Safe' },
+  { key: 'seniorLongevity', label: 'Senior Vitality', icon: '👵', tag: 'Bone & Joints' },
+  { key: 'activeAthletic', label: 'Plant Protein & ATP', icon: '🏋️', tag: 'Pre/Post Workout' },
+  { key: 'ayurvedicRasayana', label: 'Ayurvedic Rasayana', icon: '🕉️', tag: 'Ojas Building' },
+]
+
 export default function SIFloatingAssistant() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  // Modals for Precision Harvest OS (Accessible site-wide via SI)
+  const [isSynthesizerOpen, setIsSynthesizerOpen] = useState(false)
+  const [isRadarOpen, setIsRadarOpen] = useState(false)
+  const [comparedProducts, setComparedProducts] = useState<Product[]>([])
+
+  const isShopRoute =
+    pathname.startsWith('/shop') ||
+    pathname === '/' ||
+    pathname.startsWith('/makhana')
+
   // Context-aware prompt suggestions based on pathname
   const contextData = getContextualPrompts(pathname)
 
-  // Initialize or update welcome message when page changes
+  // Listen to cross-component window events
+  useEffect(() => {
+    const handleOpenSynth = () => setIsSynthesizerOpen(true)
+    const handleOpenRadar = (e: any) => {
+      if (e.detail?.slugA && e.detail?.slugB) {
+        const prodA = PRODUCTS.find((p) => p.slug === e.detail.slugA)
+        const prodB = PRODUCTS.find((p) => p.slug === e.detail.slugB)
+        if (prodA && prodB) setComparedProducts([prodA, prodB])
+      }
+      setIsRadarOpen(true)
+    }
+    const handleOpenSI = (e: any) => {
+      setIsOpen(true)
+      if (e.detail?.query) {
+        handleSendMessage(e.detail.query)
+      }
+    }
+
+    window.addEventListener('nt_open_synthesizer', handleOpenSynth)
+    window.addEventListener('nt_open_radar', handleOpenRadar)
+    window.addEventListener('nt_open_si', handleOpenSI)
+
+    return () => {
+      window.removeEventListener('nt_open_synthesizer', handleOpenSynth)
+      window.removeEventListener('nt_open_radar', handleOpenRadar)
+      window.removeEventListener('nt_open_si', handleOpenSI)
+    }
+  }, [])
+
+  // Initialize welcome message when page changes
   useEffect(() => {
     const welcomeMsg: ChatMessage = {
       id: 'welcome-' + pathname,
@@ -44,7 +95,6 @@ export default function SIFloatingAssistant() {
     const query = (textToSend || inputValue).trim()
     if (!query) return
 
-    setHasInteracted(true)
     const userMsg: ChatMessage = {
       id: 'user-' + Date.now(),
       sender: 'user',
@@ -56,20 +106,47 @@ export default function SIFloatingAssistant() {
 
     // Generate intelligent contextual response
     setTimeout(() => {
-      const response = generateSIResponse(query, pathname)
+      const response = generateSIResponse(
+        query,
+        pathname,
+        () => setIsSynthesizerOpen(true),
+        () => setIsRadarOpen(true)
+      )
       setMessages((prev) => [...prev, response])
-    }, 600)
+    }, 450)
+  }
+
+  // Fast trigger for health targets in SI
+  const handleSelectHealthTargetInSI = (target: HealthTargetKey, label: string) => {
+    // Notify shop catalog if on shop page
+    window.dispatchEvent(
+      new CustomEvent('nt_set_health_target', { detail: { target } })
+    )
+
+    handleSendMessage(`Bio-Nutritional scientific guidance for ${label}`)
+  }
+
+  const handleRemoveFromCompare = (slug: string) => {
+    setComparedProducts((prev) => prev.filter((p) => p.slug !== slug))
+  }
+
+  const handleSelectPresetComparison = (slugA: string, slugB: string) => {
+    const prodA = PRODUCTS.find((p) => p.slug === slugA)
+    const prodB = PRODUCTS.find((p) => p.slug === slugB)
+    if (prodA && prodB) {
+      setComparedProducts([prodA, prodB])
+    }
   }
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   return (
     <>
-      {/* ── Floating Launcher Button (Compact & Non-Intrusive) ────────────────── */}
-      <div className="fixed bottom-5 right-5 z-40 flex items-center">
+      {/* ── Floating Launcher Button (With Precision Harvest Pulse) ───────────── */}
+      <div className="fixed bottom-5 right-5 z-40 flex items-center group">
         {/* Subtle hover tooltip */}
-        <div className="hidden sm:block absolute right-14 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-stone-900/90 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg whitespace-nowrap shadow-md backdrop-blur-xs">
-          Ask SI Assistant
+        <div className="hidden sm:block absolute right-14 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-[#17233B] text-white text-[11px] font-medium px-3 py-1.5 rounded-xl whitespace-nowrap shadow-xl border border-white/10 backdrop-blur-md">
+          {isShopRoute ? '✦ Ask AI Sommelier & Synthesizer' : 'Ask SI Assistant'}
         </div>
 
         <button
@@ -77,9 +154,14 @@ export default function SIFloatingAssistant() {
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Open SI Concierge Assistant"
           title="Ask SI Assistant"
-          className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#17233B] hover:bg-[#1f3052] text-white flex items-center justify-center shadow-lg border border-[#C9A45C]/60 transition-all hover:scale-105 group"
+          className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#17233B] hover:bg-[#10192B] text-white flex items-center justify-center shadow-2xl border-2 border-[#C9A45C] transition-all hover:scale-105 active:scale-95 group"
         >
-          <span className="text-base group-hover:rotate-12 transition-transform">
+          {/* Subtle Ring Glow on Shop */}
+          {isShopRoute && !isOpen && (
+            <span className="absolute -inset-1 rounded-full bg-[#C9A45C]/30 animate-ping pointer-events-none" />
+          )}
+
+          <span className="text-lg group-hover:rotate-12 transition-transform">
             {isOpen ? '✕' : '✨'}
           </span>
         </button>
@@ -87,9 +169,9 @@ export default function SIFloatingAssistant() {
 
       {/* ── Chat Drawer Modal ───────────────────────────────────────────────────── */}
       {isOpen && (
-        <div className="fixed bottom-24 right-4 sm:right-6 z-40 w-[94vw] sm:w-[420px] max-h-[600px] h-[80vh] bg-[#FAF6EE] text-[#17233B] rounded-3xl shadow-2xl border border-[#C9A45C]/50 flex flex-col overflow-hidden animate-fadeIn">
+        <div className="fixed bottom-20 right-3 sm:right-6 z-40 w-[94vw] sm:w-[440px] max-h-[660px] h-[84vh] bg-[#FAF6EE] text-[#17233B] rounded-3xl shadow-2xl border border-[#C9A45C]/50 flex flex-col overflow-hidden animate-fadeIn">
           {/* Header */}
-          <div className="bg-[#17233B] text-white px-5 py-4 flex items-center justify-between border-b border-white/10">
+          <div className="bg-[#17233B] text-white px-5 py-3.5 flex items-center justify-between border-b border-white/10">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#176B68] to-[#C9A45C] flex items-center justify-center text-base font-bold shadow-inner">
                 {contextData.badgeIcon}
@@ -115,6 +197,64 @@ export default function SIFloatingAssistant() {
             </button>
           </div>
 
+          {/* ── Precision Harvest OS Interactive Tool Dock (Embedded in SI) ──────── */}
+          {isShopRoute && (
+            <div className="bg-[#10192B] text-white p-3.5 border-b border-white/10 space-y-2.5 relative overflow-hidden">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[10px] font-mono tracking-wider uppercase text-[#C9A45C] font-bold">
+                    PRECISION HARVEST OS
+                  </span>
+                </div>
+                <span className="text-[9px] text-stone-400 font-mono">
+                  FSSAI 22724441000048
+                </span>
+              </div>
+
+              {/* Quick Actions (Synthesizer & Radar) */}
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSynthesizerOpen(true)}
+                  className="px-2.5 py-2 rounded-xl bg-gradient-to-r from-[#C9A45C] to-[#E5C882] text-[#17233B] font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-md hover:scale-[1.02] active:scale-95 transition-all"
+                >
+                  <span>🧪</span>
+                  <span>Daily 30g Synthesizer</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsRadarOpen(true)}
+                  className="px-2.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-semibold text-[11px] flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+                >
+                  <span>⚖️</span>
+                  <span>Kernel Radar</span>
+                </button>
+              </div>
+
+              {/* Biological Health Targets Strip */}
+              <div className="space-y-1 pt-1 border-t border-white/10">
+                <span className="text-[9px] font-mono uppercase text-stone-400 block tracking-wider">
+                  Targeted Nutrition Guidance:
+                </span>
+                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide py-0.5 text-[10px]">
+                  {HEALTH_TARGETS.map((t) => (
+                    <button
+                      key={t.key}
+                      type="button"
+                      onClick={() => handleSelectHealthTargetInSI(t.key, t.label)}
+                      className="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-stone-200 whitespace-nowrap transition-colors flex items-center gap-1"
+                    >
+                      <span>{t.icon}</span>
+                      <span>{t.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Messages Scroll Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
             {messages.map((msg) => (
@@ -123,7 +263,7 @@ export default function SIFloatingAssistant() {
                 className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl p-3.5 leading-relaxed shadow-sm ${
+                  className={`max-w-[88%] rounded-2xl p-3.5 leading-relaxed shadow-sm ${
                     msg.sender === 'user'
                       ? 'bg-[#17233B] text-white rounded-br-none'
                       : 'bg-white text-stone-800 border border-stone-200 rounded-bl-none'
@@ -149,8 +289,14 @@ export default function SIFloatingAssistant() {
                         <button
                           key={i}
                           type="button"
-                          onClick={() => handleSendMessage(act.label)}
-                          className="px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-[#176B68] hover:text-white text-stone-700 text-[11px] font-semibold border border-stone-200 transition-colors"
+                          onClick={() => {
+                            if (act.onClick) {
+                              act.onClick()
+                            } else {
+                              handleSendMessage(act.label)
+                            }
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-[#FAF5ED] hover:bg-[#17233B] hover:text-white text-[#17233B] text-[11px] font-semibold border border-[#EAE3D5] transition-colors"
                         >
                           {act.label}
                         </button>
@@ -218,354 +364,353 @@ export default function SIFloatingAssistant() {
           </div>
         </div>
       )}
+
+      {/* ── Global Modals Managed Site-Wide via SI ── */}
+      <KernelRadarCompareModal
+        isOpen={isRadarOpen}
+        onClose={() => setIsRadarOpen(false)}
+        comparedProducts={comparedProducts}
+        allProducts={PRODUCTS}
+        onRemoveFromCompare={handleRemoveFromCompare}
+        onSelectPresetComparison={handleSelectPresetComparison}
+      />
+
+      <BioRationSynthesizerModal
+        isOpen={isSynthesizerOpen}
+        onClose={() => setIsSynthesizerOpen(false)}
+      />
     </>
   )
 }
 
 // ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
-// ─── Helpers: Contextual Prompts & AI Decision Engine ──────────────────────────
 function getContextualPrompts(pathname: string) {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
   const isNri = pathname.startsWith('/nri') || hostname.startsWith('nri.') || hostname.includes('nri')
 
-  // ── Product: Nuty Tales NRI (nri.nutytales.com / /nri) ───────────────────
+  // ── Product: Nuty Tales NRI ───────────────────────────────────────────────
   if (isNri) {
     return {
       assistantName: 'SI India Execution Copilot',
       badgeIcon: '🇮🇳',
       tagline: 'Your trusted intelligence & execution team in India',
       pillText: 'Need something handled in India?',
-      inputPlaceholder: 'Tell SI what you need done in India (e.g. Inspect parents’ home in Srinagar, doctor visit in Delhi)...',
+      inputPlaceholder: 'Tell SI what you need done in India...',
       greeting:
-        'Welcome to Nuty Tales NRI. India, handled. From anywhere in the world.\n\nTell me what you need done for your family, property, healthcare, documents, or travel in India. I will interpret your request, estimate timelines, match verified providers, and structure your India Care Plan.',
+        'Welcome to Nuty Tales NRI. India, handled. From anywhere in the world.\n\nTell me what you need done for your family, property, healthcare, documents, or travel in India.',
       actions: [
         { label: '⚡ Get Something Done', href: '/nri#request-engine' },
         { label: '🏛️ My India Dashboard', href: '/nri/dashboard' },
         { label: '🚨 Emergency Assistance', href: '/nri/emergency' },
-        { label: '🤝 Become a Provider', href: '/nri/providers' },
       ],
       quickPrompts: [
         'Inspect parents’ house in Srinagar',
         'Doctor appointment for father in Delhi',
         'Property tax & POA assistance',
-        'Home renovation while in Dubai',
       ],
     }
   }
 
-  // ── Product 1: Nuty Tales Business (business.nutytales.com / /b2b) ─────────
+  // ── Product: Nuty Tales Business ──────────────────────────────────────────
   if (pathname.startsWith('/b2b') || pathname.startsWith('/business-supply')) {
     return {
       assistantName: 'SI Procurement Copilot',
       badgeIcon: '🏢',
       tagline: 'Global B2B Sourcing & Commodity Procurement Desk',
       pillText: 'Need bulk sourcing or RFQ quotes?',
-      inputPlaceholder: 'Tell SI what you need to source (e.g. 5,000 kg almonds monthly)...',
+      inputPlaceholder: 'Tell SI what you need to source...',
       greeting:
-        'Welcome to Nuty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source, your monthly volume, or grade specifications, and I will match verified suppliers with formal quotes.',
+        'Welcome to Nuty Tales Business. I am your B2B Procurement Copilot. Tell me what commodity or ingredient you need to source.',
       actions: [
         { label: 'Create Instant RFQ', href: '/b2b/rfq' },
         { label: 'Wholesale Catalog', href: '/b2b/catalog' },
-        { label: 'Commercial Dashboard', href: '/b2b/dashboard' },
       ],
       quickPrompts: [
         'Quote 5,000 kg Mamra Badam',
         'Bakery almond slices 0.8mm',
         'FSSAI & NABL lab reports',
-        'Standing replenishment agreement',
       ],
     }
   }
 
-  // ── Product 2: Nuty Tales Gifting (gifting.nutytales.com / /gifting) ───────
+  // ── Product: Nuty Tales Gifting ───────────────────────────────────────────
   if (pathname.startsWith('/gifting') || pathname.startsWith('/corporate-gifting')) {
     return {
       assistantName: 'SI Gift Designer & Gifting OS',
       badgeIcon: '🎁',
       tagline: 'Outcome-Based Gifting, Choice Links & Global Fulfillment',
       pillText: 'Need corporate or bulk gifting advice?',
-      inputPlaceholder: "Tell SI what you want this gift to accomplish (e.g. 300 employees across India, UAE & UK)...",
+      inputPlaceholder: 'Tell SI what you want this gift to accomplish...',
       greeting:
-        'Welcome to Nuty Tales Gifting — The Global Gifting OS. Tell me what you want this gift to accomplish (e.g. "Thank our top 25 CXO clients", "Festival gifts for 300 employees across India, UAE, and UK at $75 each", or "500 destination wedding guest favors"). I curate the program, generate recipient choice links, and orchestrate global dispatch.',
+        'Welcome to Nuty Tales Gifting. I curate outcome-based programs, recipient choice links, and PAN-India corporate hampers.',
       actions: [
         { label: '✨ Design a Gift (SI Studio)', href: '/gifting/designer' },
         { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
-        { label: '📊 Operations Dashboard', href: '/gifting/dashboard' },
       ],
       quickPrompts: [
         '300 employees in India, UAE & UK ($75)',
         'Thank best CXO client (₹5,000)',
-        'Send Snappy-style recipient choice link',
-        '500 destination wedding boxes',
       ],
     }
   }
 
-  // ── Product 3: Nuty Tales Weddings (weddings.nutytales.com / /weddings) ─────
+  // ── Product: Nuty Tales Weddings ──────────────────────────────────────────
   if (pathname.startsWith('/weddings')) {
     return {
       assistantName: 'SI Wedding Planner',
       badgeIcon: '💍',
       tagline: 'The Wedding Operating System & Execution Concierge',
       pillText: 'Need wedding favors or planning advice?',
-      inputPlaceholder: "Tell SI how you're planning your wedding (e.g. 400 guests destination in Kashmir)...",
+      inputPlaceholder: "Tell SI how you're planning your wedding...",
       greeting:
-        'Welcome to Nuty Tales Weddings. I am your Wedding Planner Copilot. I help you plan budgets, orchestrate vendor RFQs (venues, decorators, photography), calculate guest favors, and generate multi-day timelines.',
+        'Welcome to Nuty Tales Weddings. I help you plan budgets, orchestrate guest favors, and generate multi-day timelines.',
       actions: [
         { label: 'Launch Wedding Workspace', href: '/weddings/workspace' },
-        { label: 'Wedding Favors & Hampers', href: '/weddings/favors' },
-        { label: 'Planner Dashboard', href: '/weddings/dashboard' },
+        { label: 'Wedding Favors & Hampers', href: '/weddings' },
       ],
       quickPrompts: [
         'Budget split for ₹25 Lakhs',
-        'Destination Kashmir venues',
         '300 Mehendi return gifts',
-        'Multi-day event countdown',
       ],
     }
   }
 
-  // ── Product 4: Nuty Tales Crafts (crafts.nutytales.com / /crafts) ───────────
+  // ── Product: Nuty Tales Crafts ────────────────────────────────────────────
   if (pathname.startsWith('/crafts')) {
     return {
       assistantName: 'SI Style & Craft Advisor',
       badgeIcon: '🧣',
       tagline: 'Global Luxury Weaves, Virtual Drape & Provenance',
       pillText: 'Need drape simulation or weave advice?',
-      inputPlaceholder: 'Tell SI what you want to wear or discover (e.g. GI Kani Pashmina for winter)...',
+      inputPlaceholder: 'Tell SI what you want to wear or discover...',
       greeting:
-        'Welcome to Nuty Tales Crafts. I am your Style & Provenance Advisor. I verify GI-tag authenticity, simulate drape folds in the Virtual Studio, and assist boutique buyers with wholesale craft procurement.',
+        'Welcome to Nuty Tales Crafts. I verify GI-tag authenticity and simulate drape folds in the Virtual Studio.',
       actions: [
         { label: 'Try with SI (Drape Studio)', href: '/crafts/try-with-si' },
         { label: 'B2B Wholesale Weaves', href: '/crafts/wholesale' },
-        { label: 'Artisan Dashboard', href: '/crafts/dashboard' },
       ],
       quickPrompts: [
         'Simulate drape on my height',
         'Verify GI Pashmina certificate',
-        'Wholesale quote for 100 shawls',
-        'Sub-zero warmth pheran',
       ],
     }
   }
 
-  // ── Product 5: Nuty Tales Stays (stays.nutytales.com / /stays) ─────────────
-  if (pathname.startsWith('/stays')) {
-    return {
-      assistantName: 'SI Stay Concierge',
-      badgeIcon: '🏔️',
-      tagline: 'Hospitality, Orchard Suites & Valley Experiences',
-      pillText: 'Need valley stay & villa concierge?',
-      inputPlaceholder: 'Tell SI how you want to stay (e.g. 3 nights Srinagar orchard villa with kahwa)...',
-      greeting:
-        'Welcome to Nuty Tales Stays. I am your Hospitality Concierge. I calculate live seasonal tariffs, orchestrate private orchard buyouts for VIP delegations, and coordinate local culinary experiences.',
-      actions: [
-        { label: 'Reserve Orchard Suite', href: '/stays#booking-engine' },
-        { label: 'Private Buyout & Groups', href: '/stays/group-quote' },
-        { label: 'Host Dashboard', href: '/stays/dashboard' },
-      ],
-      quickPrompts: [
-        'Harwan Srinagar orchard suite',
-        'Peak snow season tariff',
-        'Private property buyout quote',
-        'Airport transfer & shikara',
-      ],
-    }
-  }
-
-  // ── Product 6: Nuty Tales Travel (travel.nutytales.com / /travel) ───────────
-  if (pathname.startsWith('/travel')) {
-    return {
-      assistantName: 'SI Travel Planner',
-      badgeIcon: '✈️',
-      tagline: 'Dynamic Itineraries, 4x4 Snow Safaris & Expeditions',
-      pillText: 'Need itinerary & expedition advice?',
-      inputPlaceholder: 'Tell SI where you want to go (e.g. 7-day family Kashmir winter expedition)...',
-      greeting:
-        'Welcome to Nuty Tales Travel. I am your Travel Planner Copilot. Tell me your travel dates, group size, and interests, and I will build an hour-by-hour itinerary with vetted drivers, stays, and activities.',
-      actions: [
-        { label: 'Build My Trip', href: '/travel/builder' },
-        { label: 'Explore Kashmir Packages', href: '/travel/kashmir' },
-        { label: 'Operator Dashboard', href: '/travel/dashboard' },
-      ],
-      quickPrompts: [
-        '7-day family winter itinerary',
-        'Gulmarg Gondola & ski guide',
-        'Private 4x4 vehicle with driver',
-        'International corridor packages',
-      ],
-    }
-  }
-
-  // ── Product: Nuty Tales Shop (nutytales.com / /shop / default) ────────────
+  // ── Product: Nuty Tales Shop (Default) ───────────────────────────────────
   return {
-    assistantName: 'SI Shopping Concierge',
+    assistantName: 'SI Harvest Sommelier & Bio-Engine',
     badgeIcon: '✦',
-    tagline: 'Harvest Provenance & Quality Sommelier',
-    pillText: 'Need advice on harvest, saffron or almonds?',
-    inputPlaceholder: 'Ask SI about walnuts, Grade-A saffron, mamra almonds...',
+    tagline: 'Precision Harvest OS · NABL Lab Certified',
+    pillText: 'Need scientific harvest or bio-target advice?',
+    inputPlaceholder: "Ask AI Sommelier: 'High oleic nuts for memory', 'Mamra vs California'...",
     greeting:
-      'Welcome to Nuty Tales Shop. I am SI, your gourmet harvest concierge. I can help you select cold-pressed walnut oil, lab-certified Mongra saffron, royal Mamra almonds, or advise on storage, origins, and global delivery.',
+      'Welcome to Precision Harvest OS. I am SI, your gourmet harvest and bio-nutritional sommelier.\n\nI can compare batch lab telemetry, formulate your Daily 30g Micro-Ration, or explain why Himalayan unpasteurized harvests deliver superior bioactive lipids.',
     actions: [
-      { label: 'Grade-A Mongra Saffron', href: '/shop?category=saffron' },
-      { label: 'Kashmir Kagzi Walnuts', href: '/shop?category=walnuts' },
-      { label: 'Mamra Badam Selection', href: '/shop?category=almonds' },
-      { label: 'View All Collections', href: '/shop' },
+      { label: '🧠 Kids Memory & Brain Badam' },
+      { label: '⚖️ Compare Mamra vs California' },
+      { label: '⚡ Low GI Diabetic Makhana' },
+      { label: '🌸 Pure Grade-1 Mongra Saffron' },
     ],
     quickPrompts: [
-      'How to test pure saffron?',
-      'Kagzi vs normal walnuts',
-      'Mamra oil content benefits',
-      'International express delivery',
+      'Compare Mamra vs California',
+      'Kids memory & soaking badam',
+      'Heart health & Kagzi walnuts',
+      'Daily 30g micro-ration box',
     ],
   }
 }
 
-function generateSIResponse(query: string, pathname: string): ChatMessage {
+function generateSIResponse(
+  query: string,
+  pathname: string,
+  onOpenSynthesizer?: () => void,
+  onOpenRadar?: () => void
+): ChatMessage {
   const q = query.toLowerCase()
-  const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
-  const isNri = pathname.startsWith('/nri') || hostname.startsWith('nri.') || hostname.includes('nri')
 
-  if (isNri || q.includes('property') || q.includes('inspect') || q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('doctor') || q.includes('poa') || q.includes('power of attorney') || q.includes('nri') || q.includes('caregiver')) {
-    if (q.includes('inspect') || q.includes('property') || q.includes('house') || q.includes('flat')) {
-      return {
-        id: 'resp-' + Date.now(),
-        sender: 'si',
-        text: '📍 Property Oversight Service: We coordinate comprehensive physical inspections, before-and-after photo evidence, structural health audits, utility-bill clearing, and tenant check-ins across Srinagar, Delhi NCR, Mumbai, Bengaluru, and Chandigarh.\n\nAll inspections include GPS-timestamped photographic reports and vendor verification.',
-        actions: [
-          { label: 'Submit Inspection Request', href: '/nri#request-engine' },
-          { label: 'View Property Plans', href: '/nri/services/property-management' },
-        ],
-      }
-    }
-    if (q.includes('parent') || q.includes('father') || q.includes('mother') || q.includes('elder') || q.includes('doctor') || q.includes('medicine')) {
-      return {
-        id: 'resp-' + Date.now(),
-        sender: 'si',
-        text: '❤️ Family & Senior Care Coordination: Scheduled home visits, companion errands, verified physician appointments, doorstep medicine pickup, and emergency liaison in India.\n\nYour dashboard provides real-time visit check-ins, service notes, and authorized family sharing.',
-        actions: [
-          { label: 'Setup India Care Plan', href: '/nri#request-engine' },
-          { label: 'Senior Care Inclusions', href: '/nri/services/parent-care' },
-        ],
-      }
-    }
+  // ── 1. Mamra vs California / Why Expensive Comparison ───────────────────────
+  if (
+    q.includes('mamra vs') ||
+    q.includes('california') ||
+    q.includes('why expensive') ||
+    q.includes('why pay') ||
+    q.includes('difference') ||
+    q.includes('compare')
+  ) {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: '🇮🇳 India Execution Engine: Describe any responsibility—from legal document pickup to home renovation or family holiday in Kashmir. We match verified local execution partners, provide transparent quotes, and track work to proof-of-completion.',
+      text: `⚖️ **Scientific Benchmark: Kashmiri Mamra vs California Almonds**
+
+• **Essential Oil Divide**: NABL tests show Kashmiri Mamra yields **52.8% cold-pressed oleic acid** vs 40.5% in commercial California Nonpareil (2.7× more bioactive lipids).
+• **Pasteurization**: California almonds undergo mandatory steam pasteurization or PPO chemical treatment. Nuty Tales Mamra is **100% Raw Unpasteurized**, shade-cured in cold Himalayan air.
+• **Pedigree**: Single-tree wild mountain seedling with natural concave kernel dip and rich crunch—never flat or hybrid.`,
       actions: [
-        { label: '⚡ Get Something Done', href: '/nri#request-engine' },
-        { label: '🏛️ My India Dashboard', href: '/nri/dashboard' },
+        { label: '⚖️ Open Kernel Radar Comparator', onClick: onOpenRadar },
+        { label: 'View Kashmiri Mamra', href: '/shop?category=almonds' },
       ],
     }
   }
 
-  if (q.includes('saffron') || q.includes('kesar') || q.includes('mongra')) {
+  // ── 2. Brain & Cognitive Memory ─────────────────────────────────────────────
+  if (
+    q.includes('memory') ||
+    q.includes('brain') ||
+    q.includes('cognitive') ||
+    q.includes('student') ||
+    q.includes('soak')
+  ) {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: 'Our Pampore Grade-A Mongra Saffron is 100% stigma-only with crocin coloring strength > 220, tested in NABL accredited labs. Packaged in sealed airtight gold glass jars to preserve the delicate floral aroma and medicinal potency.',
-      actions: [{ label: 'View Saffron Selection', href: '/shop?category=saffron' }],
+      text: `🧠 **Cognitive & Memory Telemetry (Neuro-Protection)**:
+
+• **Kashmiri Mamra Almonds**: Delivers 52.8% cold-pressed oleic acid and natural alpha-tocopherol (Vit E) to protect acetylcholine precursors and neural synapses.
+• **Snow-White Kagzi Walnuts**: Industry-leading 9.1g/100g plant Omega-3 ALA for cerebral blood flow.
+• **Connoisseur Morning Ritual**: Soak 5 Mamra almonds overnight in pure water, peel the skin at dawn, and consume with a spoonful of raw Acacia honey for sustained executive focus.`,
+      actions: [
+        { label: '🧪 Formulate Brain 30g Dose', onClick: onOpenSynthesizer },
+        { label: 'View Kashmiri Mamra', href: '/shop?category=almonds' },
+        { label: 'View Kagzi Walnuts', href: '/shop?category=walnuts' },
+      ],
     }
   }
 
+  // ── 3. Cardio & Heart Health ────────────────────────────────────────────────
+  if (
+    q.includes('heart') ||
+    q.includes('cardio') ||
+    q.includes('cholesterol') ||
+    q.includes('lipid') ||
+    q.includes('arterial')
+  ) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: `❤️ **Cardiovascular & Arterial Elasticity Telemetry**:
+
+• **Snow-White Kashmiri Walnuts**: 64.2% natural unoxidized oil. Zero chlorine or sulfur bleaching ensures the fragile pellicle retains 100% of its protective ellagitannins.
+• **California Jumbo Pistachios**: High natural L-arginine, a key precursor to nitric oxide that promotes vascular dilation.
+• **Mithila Makhana**: Ultra-low sodium and bioavailable magnesium for cardiovascular rhythm.`,
+      actions: [
+        { label: '🧪 Formulate Cardio 30g Dose', onClick: onOpenSynthesizer },
+        { label: 'View Kashmiri Walnuts', href: '/shop?category=walnuts' },
+      ],
+    }
+  }
+
+  // ── 4. Diabetic & Low GI Metabolic ──────────────────────────────────────────
+  if (
+    q.includes('diabetic') ||
+    q.includes('diabetes') ||
+    q.includes('low gi') ||
+    q.includes('glycemic') ||
+    q.includes('sugar') ||
+    q.includes('makhana')
+  ) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: `⚡ **Metabolic & Low-GI Telemetry (Diabetic Safe)**:
+
+• **Mithila 7-Suta Jumbo Makhana**: Certified Glycemic Index of only 38 (Low GI) with Kaempferol flavonoids. 22mm+ unbroken popped lotus seeds with zero black husk crumbs.
+• **Raw Mamra Almonds**: Ultra-low GI of 12. Consuming 5–8 nuts prior to meals dampens postprandial glucose spikes by slowing carbohydrate absorption.`,
+      actions: [
+        { label: '🧪 Formulate Low-GI Ration', onClick: onOpenSynthesizer },
+        { label: 'View Jumbo Makhana', href: '/shop?category=makhana' },
+      ],
+    }
+  }
+
+  // ── 5. Synthesizer / Daily Micro-Ration ──────────────────────────────────────
+  if (
+    q.includes('synthesizer') ||
+    q.includes('ration') ||
+    q.includes('30g') ||
+    q.includes('vault') ||
+    q.includes('dose') ||
+    q.includes('daily')
+  ) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: `🧪 **Daily 30g Micro-Ration Synthesizer**:
+
+Stop buying oxidized bulk sacks. Engineer your exact personalized daily dose:
+• Calibrate Mamra, Kagzi Walnuts, Jumbo Makhana, Turkish Figs & Pistachios.
+• Sealed in 30 individual **99.8% food-grade nitrogen-flushed daily sachets**.
+• Zero oxygen, zero moisture rancidity, guaranteed fresh for each morning.
+• Costs approx ₹45–₹65/day (less than a cafe coffee).`,
+      actions: [
+        { label: '🧪 Launch 30g Synthesizer Now', onClick: onOpenSynthesizer },
+      ],
+    }
+  }
+
+  // ── 6. Saffron Mongra Grade-1 ───────────────────────────────────────────────
+  if (
+    q.includes('saffron') ||
+    q.includes('kesar') ||
+    q.includes('mongra') ||
+    q.includes('crocin') ||
+    q.includes('purity')
+  ) {
+    return {
+      id: 'resp-' + Date.now(),
+      sender: 'si',
+      text: `🌸 **Kashmir Mongra Saffron (ISO 3632 Category-1)**:
+
+• **Crocin Color Score**: > 240 units (Standard commercial saffron averages 130–160).
+• **100% Stigma-Only**: Zero yellow style threads. Certified under GI Tag 535 and FSSAI 22724441000048.
+• **Authentic Infusion Test**: Pure Mongra releases a delicate golden-crimson hue slowly over 20 minutes without floating dye bleeding artificially into warm water.`,
+      actions: [
+        { label: 'View Grade-1 Saffron', href: '/shop?category=saffron' },
+        { label: '⚖️ Compare in Radar', onClick: onOpenRadar },
+      ],
+    }
+  }
+
+  // ── 7. Walnuts / Akhrot ──────────────────────────────────────────────────────
   if (q.includes('walnut') || q.includes('akhrot') || q.includes('kagzi')) {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: 'Our Kashmir Kagzi Walnuts are hand-cracked fresh from Kupwara and Shopian high-altitude organic orchards. Soft-shell (Kagzi) can be cracked with two fingers, yielding light-amber halves rich in Omega-3 DHA.',
-      actions: [{ label: 'View Walnut Selection', href: '/shop?category=walnuts' }],
-    }
-  }
-
-  if (q.includes('almond') || q.includes('badam') || q.includes('mamra')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'Kashmiri Mamra almonds are prized worldwide for their rich natural oil content (over 50%) and distinct concave shape. Unlike hybrid California almonds, each Mamra almond is 100% non-GMO and wild-pollinated.',
-      actions: [{ label: 'View Mamra Badam', href: '/shop?category=almonds' }],
-    }
-  }
-
-  if (q.includes('gift') || q.includes('diwali') || q.includes('recipient') || q.includes('snappy') || q.includes('sendoso') || q.includes('hamper')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'Nuty Tales Gifting OS designs outcome-based programs tailored to your budget and geography. Whether sending gifts to 300 employees across India, UAE, and the UK or sending a Snappy-style recipient choice link where recipients choose items and input addresses privately, our studio handles curation, branding, and duty-paid delivery.',
+      text: `Our Kashmir Kagzi Walnuts are hand-cracked fresh from Kupwara and Shopian high-altitude organic orchards. Soft-shell (Kagzi) can be cracked with thumb pressure, yielding snow-white halves with 64.2% bioactive Omega-3 ALA oil and zero bleaching.`,
       actions: [
-        { label: '✨ Launch SI Gift Designer', href: '/gifting/designer' },
-        { label: '🔗 Recipient Choice Desk', href: '/gifting/recipients' },
+        { label: 'View Walnut Selection', href: '/shop?category=walnuts' },
+        { label: '⚖️ Compare in Radar', onClick: onOpenRadar },
       ],
     }
   }
 
-  if (q.includes('drape') || q.includes('try') || q.includes('look') || q.includes('wear')) {
+  // ── 8. FSSAI / NABL Lab Certifications ──────────────────────────────────────
+  if (q.includes('fssai') || q.includes('license') || q.includes('lab') || q.includes('nabl') || q.includes('cert')) {
     return {
       id: 'resp-' + Date.now(),
       sender: 'si',
-      text: 'Our Try with SI studio allows you to upload your portrait or choose an avatar model to see exact drape folds, Tilla embroidery shimmer, and styling pairing recommendations!',
-      actions: [{ label: 'Open Try with SI Studio', href: '/crafts/try-with-si' }],
-    }
-  }
+      text: `🛡️ **Official Certification & Quality Infrastructure**:
 
-  if (q.includes('gi') || q.includes('certif') || q.includes('authentic') || q.includes('fake')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'Every Kashmir Pashmina, Kani shawl, and Papier-Mâché piece carries a unique official J&K Handicrafts GI QR-code tag with artisan cooperative tracing and microscopic purity verification.',
-      actions: [{ label: 'Explore Certified Crafts', href: '/crafts/kashmir' }],
-    }
-  }
-
-  if (q.includes('wedding') || q.includes('card') || q.includes('monogram') || q.includes('hamper')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'For weddings, we offer our 6-step configurator: Occasion, Budget Tier (₹500 to ₹5,000+), Contents, Packaging (Rigid, Wood, Potli), Monogram foil stamping, and Multi-City PAN-India dispatch.',
-      actions: [{ label: 'Design Your Wedding Hamper', href: '/weddings' }],
-    }
-  }
-
-  if (q.includes('founder') || q.includes('startup') || q.includes('private label') || q.includes('d2c') || q.includes('moq')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'The Nuty Tales Founder Program provides complete commercial infrastructure for startups: bulk ingredient sourcing at origin rates, small starter MOQs, turnkey private-label pouching, travel inventory access, and multi-hub fulfilment across Noida, Patna & Kashmir.',
+• **FSSAI Registration**: 22724441000048 (Nuty Tales Foods & Crafts, a subsidiary of Nexgenn Services).
+• **Registered HQ**: Sector 128, Noida, Uttar Pradesh 201304.
+• **Himalayan Procurement Hub**: Arshid House, Budgam-Gojra Road, Dadna, Budgam, J&K 191111.
+• **Makhana Aggregation**: Nafis Colony, Patna, Bihar 800004.
+• **Nitrogen Packaging**: 99.8% food-grade oxygen evacuation under cold-room protocols.`,
       actions: [
-        { label: 'Run SI Founder Blueprint', href: '/founders#copilot' },
-        { label: 'Apply for Founder Program', href: '/founders#apply' },
+        { label: 'View Lab Telemetry in Radar', onClick: onOpenRadar },
+        { label: 'Browse Food Collections', href: '/shop' },
       ],
     }
   }
 
-  if (q.includes('b2b') || q.includes('wholesale') || q.includes('bakery') || q.includes('slice') || q.includes('rfq')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'We supply premium grades to five-star hotel chains, industrial bakeries, and mithai manufacturers with custom cut specs (0.8–1.2mm sliced, diced, nut meal) in 25kg vacuum-sealed packs.',
-      actions: [{ label: 'Open B2B Supply Portal', href: '/business-supply' }],
-    }
-  }
-
-  if (q.includes('snow') || q.includes('stay') || q.includes('hotel') || q.includes('srinagar')) {
-    return {
-      id: 'resp-' + Date.now(),
-      sender: 'si',
-      text: 'Our flagship Srinagar property is nestled in a private 4-acre walnut orchard in Harwan. Featuring traditional wood-burning Bukharis, under-floor heating, and direct views of the Zabarwan range.',
-      actions: [
-        { label: 'Check Stay Availability', href: '/stays' },
-        { label: 'Explore Kashmir Tours', href: '/travel/kashmir' },
-      ],
-    }
-  }
-
+  // Default fallback
   return {
     id: 'resp-' + Date.now(),
     sender: 'si',
-    text: `I've noted: "${query}". Nuty Tales connects wholesome dry fruit nutrition, artisan Kashmir crafts, and bespoke boutique stays. How else may I assist you today?`,
+    text: `I've noted: "${query}". I am SI, your gourmet harvest and bio-nutritional sommelier. Would you like me to analyze lab metrics, synthesize a 30-day daily micro-dose, or compare specific harvests?`,
     actions: [
+      { label: '🧪 Open 30g Synthesizer', onClick: onOpenSynthesizer },
+      { label: '⚖️ Open Kernel Radar', onClick: onOpenRadar },
       { label: 'Browse Food Collections', href: '/shop' },
-      { label: 'Explore Kashmir Crafts', href: '/crafts' },
     ],
   }
 }
