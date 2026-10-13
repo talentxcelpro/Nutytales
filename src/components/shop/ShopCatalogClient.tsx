@@ -6,10 +6,6 @@ import { Product } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import ShopProductCard from './ShopProductCard'
 import QuickViewModal from './QuickViewModal'
-import PrecisionHarvestCommandBar, { HealthTargetKey } from './PrecisionHarvestCommandBar'
-import KernelRadarCompareModal from './KernelRadarCompareModal'
-import BioRationSynthesizerModal from './BioRationSynthesizerModal'
-import { getProductTelemetry } from '@/lib/harvest-telemetry'
 
 interface ShopCatalogClientProps {
   products: Product[]
@@ -58,49 +54,9 @@ export default function ShopCatalogClient({
   const [inStockOnly, setInStockOnly] = useState<boolean>(false)
   const [selectedGrade, setSelectedGrade] = useState<string>('all')
 
-  // Precision Harvest OS States
-  const [selectedHealthTarget, setSelectedHealthTarget] = useState<HealthTargetKey>('all')
-  const [comparedSlugs, setComparedSlugs] = useState<string[]>([])
-  const [isRadarModalOpen, setIsRadarModalOpen] = useState<boolean>(false)
-  const [isSynthesizerOpen, setIsSynthesizerOpen] = useState<boolean>(false)
-
   // UI States
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false)
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
-
-  // Listen for SI Assistant bio-target changes
-  React.useEffect(() => {
-    const handleSetTarget = (e: any) => {
-      if (e.detail?.target) {
-        setSelectedHealthTarget(e.detail.target)
-      }
-    }
-    window.addEventListener('nt_set_health_target', handleSetTarget)
-    return () => {
-      window.removeEventListener('nt_set_health_target', handleSetTarget)
-    }
-  }, [])
-
-  // Radar comparison handlers
-  const handleToggleCompare = (product: Product) => {
-    setComparedSlugs((prev) => {
-      if (prev.includes(product.slug)) {
-        return prev.filter((s) => s !== product.slug)
-      }
-      if (prev.length >= 3) {
-        return [prev[1], prev[2], product.slug]
-      }
-      return [...prev, product.slug]
-    })
-  }
-
-  const handleRemoveFromCompare = (slug: string) => {
-    setComparedSlugs((prev) => prev.filter((s) => s !== slug))
-  }
-
-  const handleSelectPresetComparison = (slugA: string, slugB: string) => {
-    setComparedSlugs([slugA, slugB])
-  }
 
   // Filter Logic
   const filteredProducts = useMemo(() => {
@@ -146,17 +102,15 @@ export default function ShopCatalogClient({
         return false
       }
 
-      // Search query filter (checks name, category, origin, tags, shortDesc, and lab telemetry)
+      // Search query filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim()
-        const tel = getProductTelemetry(p.slug, p.categorySlug)
         const matchName = p.name.toLowerCase().includes(q)
         const matchCategory = p.category.toLowerCase().includes(q)
         const matchOrigin = p.origin.toLowerCase().includes(q)
         const matchDesc = (p.shortDesc || '').toLowerCase().includes(q)
-        const matchBio = tel.telemetry.primaryBioactiveCompound.toLowerCase().includes(q)
         const matchTags = p.tags?.some((t) => t.toLowerCase().includes(q))
-        if (!matchName && !matchCategory && !matchOrigin && !matchDesc && !matchBio && !matchTags) {
+        if (!matchName && !matchCategory && !matchOrigin && !matchDesc && !matchTags) {
           return false
         }
       }
@@ -184,7 +138,7 @@ export default function ShopCatalogClient({
     selectedGrade,
   ])
 
-  // Sort Logic (with Bio-Match Priority when health target active)
+  // Sort Logic
   const sortedProducts = useMemo(() => {
     const list = [...filteredProducts]
 
@@ -194,26 +148,13 @@ export default function ShopCatalogClient({
       list.sort((a, b) => b.retailPrice - a.retailPrice)
     } else if (sortBy === 'name-asc') {
       list.sort((a, b) => a.name.localeCompare(b.name))
-    } else if (selectedHealthTarget !== 'all') {
-      // Prioritize items with highest Bio-Match score for active health target
-      list.sort((a, b) => {
-        const scoreA =
-          getProductTelemetry(a.slug, a.categorySlug).healthScores[
-            selectedHealthTarget as keyof ReturnType<typeof getProductTelemetry>['healthScores']
-          ] || 0
-        const scoreB =
-          getProductTelemetry(b.slug, b.categorySlug).healthScores[
-            selectedHealthTarget as keyof ReturnType<typeof getProductTelemetry>['healthScores']
-          ] || 0
-        return scoreB - scoreA
-      })
     } else {
       // Featured first
       list.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
     }
 
     return list
-  }, [filteredProducts, sortBy, selectedHealthTarget])
+  }, [filteredProducts, sortBy])
 
   // Count active filters
   const activeFiltersCount =
@@ -222,8 +163,7 @@ export default function ShopCatalogClient({
     (selectedPriceTier !== 0 ? 1 : 0) +
     (searchQuery.trim() ? 1 : 0) +
     (inStockOnly ? 1 : 0) +
-    (selectedGrade !== 'all' ? 1 : 0) +
-    (selectedHealthTarget !== 'all' ? 1 : 0)
+    (selectedGrade !== 'all' ? 1 : 0)
 
   const resetAllFilters = () => {
     setSelectedCategory('all')
@@ -232,16 +172,8 @@ export default function ShopCatalogClient({
     setSearchQuery('')
     setInStockOnly(false)
     setSelectedGrade('all')
-    setSelectedHealthTarget('all')
     setSortBy('featured')
   }
-
-  // Prepared comparison items
-  const comparedProductObjects = useMemo(() => {
-    return comparedSlugs
-      .map((slug) => products.find((p) => p.slug === slug))
-      .filter((p): p is Product => Boolean(p))
-  }, [comparedSlugs, products])
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#17233B] pt-20">
@@ -258,65 +190,37 @@ export default function ShopCatalogClient({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-6 sm:pt-8 pb-24">
-        {/* ── Precision Harvest Command Bar (AI Sommelier + Health Vectors + Synthesizer Trigger) ── */}
-        <PrecisionHarvestCommandBar
-          selectedHealthTarget={selectedHealthTarget}
-          onSelectHealthTarget={setSelectedHealthTarget}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onOpenSynthesizer={() => setIsSynthesizerOpen(true)}
-          comparedCount={comparedSlugs.length}
-          onOpenCompareRadar={() => setIsRadarModalOpen(true)}
-          onResetFilters={resetAllFilters}
-        />
-
-        {/* ── Compact Header & Main Controls Strip ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D5]">
-          {/* Breadcrumb + Title + Count */}
-          <div className="flex items-baseline gap-2.5">
-            <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#17233B] tracking-tight">
-              Harvest Collection
-            </h1>
-            <span className="text-xs text-[#8C7E70] font-normal">
-              ({sortedProducts.length} items verified)
-            </span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-8 sm:pt-10 pb-24 space-y-8">
+        {/* ── 2. Editorial Luxury Header (Aligned with Global UI) ── */}
+        <div className="space-y-3 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B]/5 border border-[#17233B]/10 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#704B32]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C9A45C]" />
+            <span>Pure Himalayan &amp; Single-Origin Harvest</span>
           </div>
 
-          {/* Inline Controls */}
-          <div className="flex items-center gap-2.5 text-xs">
-            {/* Mobile Filter Button */}
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#17233B] leading-[1.1]">
+            The Harvest Collection
+          </h1>
+
+          <p className="text-xs sm:text-sm text-stone-600 font-light leading-relaxed">
+            Direct single-origin dry fruits, nuts, and Grade-1 saffron from Kashmir orchards, Mithila wetlands, and verified global family estates — vacuum-sealed, lab-tested, and shipped fresh pan-India &amp; worldwide.
+          </p>
+
+          <div className="pt-1 flex items-center gap-2 text-xs text-stone-500">
+            <span>Need personalized bio-nutritional guidance or tailored daily doses?</span>
             <button
               type="button"
-              onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-              className="lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-full border border-[#EAE3D5] bg-white text-xs font-semibold text-[#17233B]"
+              onClick={() => window.dispatchEvent(new CustomEvent('nt_open_si'))}
+              className="inline-flex items-center gap-1 font-semibold text-[#176B68] hover:text-[#17233B] underline underline-offset-2 transition-colors"
             >
-              <span>Filters</span>
-              {activeFiltersCount > 0 && (
-                <span className="bg-[#17233B] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                  {activeFiltersCount}
-                </span>
-              )}
+              <span>Ask SI Sommelier</span>
+              <span>✨</span>
             </button>
-
-            {/* Sort Select */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="text-xs font-medium bg-white border border-[#EAE3D5] rounded-full px-3 py-1.5 text-[#17233B] focus:outline-hidden focus:border-[#17233B] cursor-pointer"
-            >
-              <option value="featured">
-                {selectedHealthTarget !== 'all' ? 'Highest Bio-Match' : 'Featured Curations'}
-              </option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="name-asc">Name: A to Z</option>
-            </select>
           </div>
         </div>
 
-        {/* ── Category Filter Strip (Low-Profile Pills) ── */}
-        <div className="py-2.5 mb-5 border-b border-[#EAE3D5]/60 overflow-x-auto scrollbar-hide flex gap-1.5 items-center">
+        {/* ── 3. Category Filter Strip (Low-Profile Pills) ── */}
+        <div className="py-2 border-y border-[#EAE3D5]/80 overflow-x-auto scrollbar-hide flex gap-1.5 items-center">
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
@@ -349,22 +253,75 @@ export default function ShopCatalogClient({
           })}
         </div>
 
-        {/* ── Active Filters Chips ── */}
-        {activeFiltersCount > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mb-8 text-xs">
-            <span className="text-[#8C7E70]">Active filters:</span>
-            {selectedHealthTarget !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] font-semibold border border-white/20">
-                Health Target: {selectedHealthTarget}
+        {/* ── 4. Main Controls Strip (Search + Filter + Sort + Count) ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D5]">
+          <div className="flex items-baseline gap-2">
+            <span className="font-serif text-lg font-normal text-[#17233B]">
+              {selectedCategory === 'all'
+                ? 'All Verified SKUs'
+                : PRODUCT_CATEGORIES.find((c) => c.slug === selectedCategory)?.name || selectedCategory}
+            </span>
+            <span className="text-xs text-[#8C7E70] font-normal">
+              ({sortedProducts.length} items)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2.5 text-xs">
+            {/* Inline Search Input */}
+            <div className="relative w-44 sm:w-60">
+              <span className="absolute inset-y-0 left-2.5 flex items-center text-[#9E9182] text-xs">
+                🔍
+              </span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search almonds, saffron..."
+                className="w-full pl-7 pr-3 py-1.5 text-xs rounded-full bg-white border border-[#EAE3D5] focus:outline-hidden focus:border-[#17233B] text-[#17233B] placeholder-[#9E9182]"
+              />
+              {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => setSelectedHealthTarget('all')}
-                  className="hover:text-white font-bold ml-1"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-2 text-[#9E9182] hover:text-[#17233B] text-xs"
                 >
                   ✕
                 </button>
-              </span>
-            )}
+              )}
+            </div>
+
+            {/* Mobile Filter Button */}
+            <button
+              type="button"
+              onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+              className="lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-full border border-[#EAE3D5] bg-white text-xs font-semibold text-[#17233B]"
+            >
+              <span>Filters</span>
+              {activeFiltersCount > 0 && (
+                <span className="bg-[#17233B] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </button>
+
+            {/* Sort Select */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="text-xs font-medium bg-white border border-[#EAE3D5] rounded-full px-3 py-1.5 text-[#17233B] focus:outline-hidden focus:border-[#17233B] cursor-pointer"
+            >
+              <option value="featured">Featured Curations</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
+          </div>
+        </div>
+
+        {/* ── 5. Active Filters Chips ── */}
+        {activeFiltersCount > 0 && (
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-[#8C7E70]">Active filters:</span>
             {selectedCategory !== 'all' && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF5ED] border border-[#EAE3D5] text-[#17233B] font-medium">
                 {selectedCategory}
@@ -436,7 +393,7 @@ export default function ShopCatalogClient({
           </div>
         )}
 
-        {/* ── Main Catalog Grid ── */}
+        {/* ── 6. Main Catalog (Slim Sidebar Filters + Products Grid) ── */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
           {/* Left Faceted Filters (Desktop Slim Sidebar) */}
           <aside className="hidden lg:block w-52 xl:w-56 flex-shrink-0">
@@ -580,7 +537,7 @@ export default function ShopCatalogClient({
                   No harvests found
                 </h3>
                 <p className="text-sm text-[#7A6D5E] max-w-sm mx-auto">
-                  Try clearing your bio-target or origin filter to view our complete collection.
+                  Try clearing your filters to view our complete collection.
                 </p>
                 <button
                   type="button"
@@ -597,9 +554,6 @@ export default function ShopCatalogClient({
                     <ShopProductCard
                       product={prod}
                       onQuickView={(p) => setQuickViewProduct(p)}
-                      selectedHealthTarget={selectedHealthTarget}
-                      isCompared={comparedSlugs.includes(prod.slug)}
-                      onToggleCompare={handleToggleCompare}
                     />
 
                     {/* Editorial Breakout #1: Saffron Terroir Spotlight */}
@@ -662,7 +616,7 @@ export default function ShopCatalogClient({
           </div>
         </div>
 
-        {/* ── Mobile Filter Drawer ── */}
+        {/* ── 7. Mobile Filter Drawer ── */}
         {isMobileFilterOpen && (
           <div
             role="dialog"
@@ -760,7 +714,7 @@ export default function ShopCatalogClient({
           </div>
         )}
 
-        {/* ── Understated Heritage & Quality Guarantee ── */}
+        {/* ── 8. Understated Heritage & Quality Guarantee (Global Standard) ── */}
         <section className="mt-24 pt-12 border-t border-[#EAE3D5]">
           <div className="max-w-4xl mx-auto text-center space-y-3 mb-12">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B8934A]">
@@ -818,62 +772,11 @@ export default function ShopCatalogClient({
         </section>
       </div>
 
-      {/* ── Floating Radar Comparator Bottom Dock ── */}
-      {comparedSlugs.length > 0 && (
-        <div className="fixed bottom-6 inset-x-4 sm:inset-x-auto sm:right-8 z-[120] max-w-md bg-[#10192B]/95 backdrop-blur-xl text-white rounded-2xl p-3.5 border border-white/20 shadow-2xl flex items-center justify-between gap-3 animate-in slide-in-from-bottom duration-300">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base">⚖️</span>
-            <div className="min-w-0">
-              <span className="text-xs font-semibold block truncate">
-                {comparedSlugs.length} Harvest{comparedSlugs.length > 1 ? 's' : ''} in Radar
-              </span>
-              <span className="text-[10px] text-stone-400 font-mono">
-                Side-by-side lab benchmark ready
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <button
-              type="button"
-              onClick={() => setIsRadarModalOpen(true)}
-              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#C9A45C] to-[#E5C882] text-[#17233B] text-xs font-bold hover:scale-[1.02] transition-all shadow-sm"
-            >
-              Launch Radar
-            </button>
-            <button
-              type="button"
-              onClick={() => setComparedSlugs([])}
-              className="text-stone-400 hover:text-white text-xs px-2 py-1"
-              title="Clear comparison queue"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* ── Quick View Sensory Modal ── */}
       <QuickViewModal
         product={quickViewProduct}
         isOpen={Boolean(quickViewProduct)}
         onClose={() => setQuickViewProduct(null)}
-      />
-
-      {/* ── Kernel Radar Compare Modal ── */}
-      <KernelRadarCompareModal
-        isOpen={isRadarModalOpen}
-        onClose={() => setIsRadarModalOpen(false)}
-        comparedProducts={comparedProductObjects}
-        allProducts={products}
-        onRemoveFromCompare={handleRemoveFromCompare}
-        onSelectPresetComparison={handleSelectPresetComparison}
-      />
-
-      {/* ── Bio-Ration Synthesizer Modal ── */}
-      <BioRationSynthesizerModal
-        isOpen={isSynthesizerOpen}
-        onClose={() => setIsSynthesizerOpen(false)}
       />
     </div>
   )
