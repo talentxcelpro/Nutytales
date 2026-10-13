@@ -21,7 +21,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Indian Rupee',
     flag: '🇮🇳',
     region: 'India',
-    markupTag: 'Base Weaver Rate (Domestic)',
+    markupTag: 'Direct Weaver Settlement (Domestic)',
     isInflated200: false,
   },
   {
@@ -30,7 +30,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'US Dollar',
     flag: '🇺🇸',
     region: 'America',
-    markupTag: '+200% Luxury Export & Insured Cargo',
+    markupTag: 'Insured Global Air Express & Duties Included',
     isInflated200: true,
   },
   {
@@ -39,7 +39,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Euro',
     flag: '🇪🇺',
     region: 'Europe',
-    markupTag: '+200% European Air Freight & Duties',
+    markupTag: 'European Express Air & Customs Handled',
     isInflated200: true,
   },
   {
@@ -48,7 +48,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'British Pound',
     flag: '🇬🇧',
     region: 'Europe',
-    markupTag: '+200% UK Luxury Handloom Courier',
+    markupTag: 'UK Direct Air Express & VAT Included',
     isInflated200: true,
   },
   {
@@ -57,7 +57,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Canadian Dollar',
     flag: '🇨🇦',
     region: 'America',
-    markupTag: '+200% North American Air Freight',
+    markupTag: 'North American Priority Air Freight',
     isInflated200: true,
   },
   {
@@ -66,7 +66,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'UAE Dirham',
     flag: '🇦🇪',
     region: 'Gulf',
-    markupTag: 'Gulf Air Express',
+    markupTag: 'Gulf Priority Air Express',
     isInflated200: false,
   },
   {
@@ -75,7 +75,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Australian Dollar',
     flag: '🇦🇺',
     region: 'Asia Pacific',
-    markupTag: 'Pacific Insured Cargo',
+    markupTag: 'Pacific Insured Air Cargo',
     isInflated200: false,
   },
   {
@@ -84,7 +84,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Saudi Riyal',
     flag: '🇸🇦',
     region: 'Gulf',
-    markupTag: 'Middle East Express',
+    markupTag: 'Middle East Express Courier',
     isInflated200: false,
   },
   {
@@ -93,7 +93,7 @@ export const CRAFT_CURRENCIES: CurrencyItem[] = [
     label: 'Singapore Dollar',
     flag: '🇸🇬',
     region: 'Asia Pacific',
-    markupTag: 'ASEAN Air Express',
+    markupTag: 'ASEAN Insured Air Delivery',
     isInflated200: false,
   },
 ]
