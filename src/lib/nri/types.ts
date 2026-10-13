@@ -13,6 +13,10 @@ export type ServiceCategoryKey =
   | 'gifting_deliveries'
   | 'crafts_heritage'
   | 'business_procurement'
+  | 'agriculture_orchards'
+  | 'construction_renovation'
+  | 'vehicle_garage_care'
+  | 'memorial_ancestral_care'
 
 export type RequestStatus =
   | 'draft'

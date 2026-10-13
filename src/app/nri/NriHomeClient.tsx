@@ -78,6 +78,30 @@ function CategorySvgIcon({ id, active }: { id: string; active: boolean }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006A6.027 6.027 0 0112 16.5c-2.477 0-4.735-.747-6.5-2.018m0 0A2.18 2.18 0 014.75 12.82V8.706c0-1.081.768-2.015 1.837-2.175a48.046 48.046 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0015.25 3h-6.5A2.25 2.25 0 006.5 5.25v1.894m7.5 0a48.667 48.667 0 00-7.5 0" />
         </svg>
       )
+    case 'agriculture':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18c-4.5 0-7 3.5-7 8 0 4 2.5 7 7 10m0-18c4.5 0 7 3.5 7 8 0 4-2.5 7-7 10M5 13h14" />
+        </svg>
+      )
+    case 'construction':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M6 3v18m12-18v18M9 6.75h6M9 10.5h6M9 14.25h6M9 18h6" />
+        </svg>
+      )
+    case 'vehicles':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h7.5m3 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-13.5-3l1.5-6h13.5l1.5 6m-16.5 0h16.5v3H3.75v-3z" />
+        </svg>
+      )
+    case 'memorial':
+      return (
+        <svg className={`w-5 h-5 ${iconColor}`} fill="none" stroke={strokeColor} viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-6m0 0a4.5 4.5 0 10-4.5-4.5c0 2.485 2.015 4.5 4.5 4.5zm0 0a4.5 4.5 0 114.5-4.5c0 2.485-2.015 4.5-4.5 4.5zM6 21h12" />
+        </svg>
+      )
     default:
       return null
   }
@@ -90,11 +114,15 @@ export default function NriHomePage() {
   const [selectedRegion, setSelectedRegion] = useState<'all' | 'North' | 'West' | 'South' | 'East' | 'Central' | 'North-East'>('all')
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
-  // 1. Visual Service Category Navigation Strip
+  // 1. Visual Service Category Navigation Strip (15 Specialized Physical Verticals)
   const categoryStrip = [
     { id: 'all', label: 'All Services', href: '#services-grid' },
     { id: 'family', label: 'Parents & Family', href: '/services/parent-care' },
     { id: 'property', label: 'Property Care', href: '/services/property-management' },
+    { id: 'agriculture', label: 'Land & Orchards', href: '/services/agriculture-orchards' },
+    { id: 'construction', label: 'Construction Care', href: '/services/construction-renovation' },
+    { id: 'vehicles', label: 'Vehicle & Garage', href: '/services/vehicle-garage-care' },
+    { id: 'memorial', label: 'Memorial Upkeep', href: '/services/memorial-ancestral-care' },
     { id: 'home', label: 'Home Services', href: '/services/home-services' },
     { id: 'healthcare', label: 'Healthcare', href: '/services/healthcare' },
     { id: 'documents', label: 'Documents & Legal', href: '/services/legal-services' },
@@ -130,6 +158,54 @@ export default function NriHomePage() {
       image: '/images/nri/mumbai-apartment.jpg',
       href: '/services/property-management',
       cta: 'Explore Property Care',
+    },
+    {
+      id: 'agriculture',
+      title: 'Ancestral land & orchards',
+      description: 'Physical boundary demarcation, apple & mango orchard audits & harvest monitoring.',
+      context: 'Srinagar • Punjab • Himachal • Maharashtra • Kerala • Assam',
+      badge: 'Land & Orchards',
+      price: 'From $60 / audit',
+      sla: 'On-field agricultural desk',
+      image: '/images/territories/jammu-kashmir.jpg',
+      href: '/services/agriculture-orchards',
+      cta: 'Explore Land & Orchards',
+    },
+    {
+      id: 'construction',
+      title: 'Construction & renovation care',
+      description: 'Civil engineer site inspections, material testing & 120-point pre-possession snagging.',
+      context: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh • Kochi',
+      badge: 'Construction Care',
+      price: 'From $55 / inspection',
+      sla: 'Licensed civil engineers',
+      image: '/images/territories/haryana.jpg',
+      href: '/services/construction-renovation',
+      cta: 'Explore Construction Care',
+    },
+    {
+      id: 'vehicles',
+      title: 'Vehicle & garage caretaking',
+      description: 'In-garage battery trickle-charging, engine warm-ups, authorized service escort & RTO fitness.',
+      context: 'Delhi NCR • Mumbai • Bengaluru • Chandigarh • Pune',
+      badge: 'Vehicle & Garage',
+      price: 'From $30 / month',
+      sla: 'Bi-weekly garage visits',
+      image: '/images/territories/maharashtra.jpg',
+      href: '/services/vehicle-garage-care',
+      cta: 'Explore Vehicle Care',
+    },
+    {
+      id: 'memorial',
+      title: 'Memorial & ancestral gravesite care',
+      description: 'Dignified gravesite cleaning, headstone re-gilding, death anniversary floral wreaths & Langar.',
+      context: 'Srinagar • Punjab • Delhi NCR • Kolkata • Goa • Kerala',
+      badge: 'Memorial Care',
+      price: 'From $35 / visit',
+      sla: 'Exact calendar dates',
+      image: '/images/territories/punjab.jpg',
+      href: '/services/memorial-ancestral-care',
+      cta: 'Explore Memorial Care',
     },
     {
       id: 'home',
@@ -282,6 +358,38 @@ export default function NriHomePage() {
       href: '/services/parent-care',
       pricing: 'Included in Standing Plans',
       coverage: 'Delhi NCR • Mumbai • Bengaluru • Srinagar',
+    },
+    {
+      icon: '🌳',
+      title: 'Ancestral Farmland & Orchard Audit',
+      desc: 'Physical boundary stone verification, orchard pruning check & tenant farmer harvest weighing.',
+      href: '/services/agriculture-orchards',
+      pricing: '₹4,999 / Estate Audit',
+      coverage: 'Srinagar • Punjab • Himachal • Kerala • Assam',
+    },
+    {
+      icon: '🏗️',
+      title: '120-Point Builder Snag List Inspection',
+      desc: 'Independent civil engineer site visit, hollow tile acoustic test & concrete slump check.',
+      href: '/services/construction-renovation',
+      pricing: '₹6,499 / Inspection',
+      coverage: 'Delhi NCR • Bengaluru • Mumbai • Chandigarh',
+    },
+    {
+      icon: '🚗',
+      title: 'Garage Vehicle Care & Engine Exercising',
+      desc: 'Bi-weekly battery trickle-charge, engine warm-up, RTO fitness & authorized dealer service.',
+      href: '/services/vehicle-garage-care',
+      pricing: '₹2,499 / Month Retainer',
+      coverage: 'Delhi NCR • Mumbai • Bengaluru • Chandigarh',
+    },
+    {
+      icon: '🕊️',
+      title: 'Ancestral Memorial Upkeep & Wreaths',
+      desc: 'Dignified gravesite cleaning, headstone inscription re-gilding & exact anniversary floral tributes.',
+      href: '/services/memorial-ancestral-care',
+      pricing: '₹2,999 / Scheduled Visit',
+      coverage: 'Srinagar • Punjab • Delhi NCR • Kolkata • Goa',
     },
   ]
 

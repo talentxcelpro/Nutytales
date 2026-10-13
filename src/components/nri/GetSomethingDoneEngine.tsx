@@ -204,29 +204,43 @@ export default function GetSomethingDoneEngine() {
         </form>
       </div>
 
-      {/* ── 3 Compact Clickable Suggestions ── */}
-      <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2 text-xs text-stone-500 px-2">
-        <span className="font-medium text-stone-400">Suggestions:</span>
+      {/* ── Compact Clickable Physical Service Suggestions ── */}
+      <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5 text-xs text-stone-500 px-2">
+        <span className="font-medium text-stone-400">Popular:</span>
         <button
           type="button"
           onClick={() => handleSuggestionClick('Inspect property & 42-point walkthrough with photo dossier')}
-          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+          className="px-3 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
         >
           Property inspection
         </button>
         <button
           type="button"
           onClick={() => handleSuggestionClick('Companion care visit & doctor escort for parents')}
-          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+          className="px-3 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
         >
           Help for parents
         </button>
         <button
           type="button"
-          onClick={() => handleSuggestionClick('Home civil repairs, electrical maintenance & deep cleaning')}
-          className="px-3.5 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+          onClick={() => handleSuggestionClick('Farmland boundary demarcation and seasonal orchard audit')}
+          className="px-3 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
         >
-          Home repairs
+          Farm &amp; orchards
+        </button>
+        <button
+          type="button"
+          onClick={() => handleSuggestionClick('120-point builder snag list inspection and civil engineering audit')}
+          className="px-3 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+        >
+          Construction snagging
+        </button>
+        <button
+          type="button"
+          onClick={() => handleSuggestionClick('In-garage car battery trickle-charging and dealership service escort')}
+          className="px-3 py-1 rounded-full bg-white hover:bg-stone-100 text-stone-700 border border-stone-200 transition-all text-xs font-medium shadow-2xs hover:border-stone-300"
+        >
+          Garage vehicle care
         </button>
       </div>
 

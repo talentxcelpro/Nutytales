@@ -22,6 +22,10 @@ const SLUG_MAP: Record<string, ServiceCategoryKey> = {
   'gifting-deliveries': 'gifting_deliveries',
   'crafts': 'crafts_heritage',
   'business': 'business_procurement',
+  'agriculture-orchards': 'agriculture_orchards',
+  'construction-renovation': 'construction_renovation',
+  'vehicle-garage-care': 'vehicle_garage_care',
+  'memorial-ancestral-care': 'memorial_ancestral_care',
 }
 
 export async function generateStaticParams() {

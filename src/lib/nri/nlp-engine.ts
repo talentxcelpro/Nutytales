@@ -214,6 +214,10 @@ export function interpretNaturalLanguageRequest(
     gifting_deliveries: 0,
     crafts_heritage: 0,
     business_procurement: 0,
+    agriculture_orchards: 0,
+    construction_renovation: 0,
+    vehicle_garage_care: 0,
+    memorial_ancestral_care: 0,
   }
 
   // A. Property Management Signals
@@ -309,6 +313,38 @@ export function interpretNaturalLanguageRequest(
   }
   if (lower.includes('business') || lower.includes('procurement') || lower.includes('incorporat') || lower.includes('supplier')) {
     categoryScores.business_procurement += 10
+  }
+
+  // L. Agriculture & Orchard Care Signals
+  if (lower.includes('orchard') || lower.includes('boundary demarcation') || lower.includes('farm land') || lower.includes('agricultural land') || lower.includes('crop') || lower.includes('harvest') || lower.includes('borewell') || lower.includes('tube well') || lower.includes('tenant farmer') || lower.includes('fencing')) {
+    categoryScores.agriculture_orchards += 25
+  }
+  if (lower.includes('farm') || lower.includes('apple tree') || lower.includes('mango tree') || lower.includes('plantation') || lower.includes('pruning') || lower.includes('soil test')) {
+    categoryScores.agriculture_orchards += 12
+  }
+
+  // M. Construction & Renovation Signals
+  if (lower.includes('construction') || lower.includes('building a house') || lower.includes('civil work') || lower.includes('contractor audit') || lower.includes('snag list') || lower.includes('pre-possession') || lower.includes('structural engineer')) {
+    categoryScores.construction_renovation += 25
+  }
+  if (lower.includes('renovat') || lower.includes('masonry') || lower.includes('foundation') || lower.includes('slab casting') || lower.includes('tmt steel') || lower.includes('builder snag')) {
+    categoryScores.construction_renovation += 12
+  }
+
+  // N. Vehicle & Garage Care Signals
+  if (lower.includes('car in garage') || lower.includes('vehicle care') || lower.includes('battery trickle') || lower.includes('car service') || lower.includes('rto fitness') || lower.includes('hsrp plate')) {
+    categoryScores.vehicle_garage_care += 25
+  }
+  if (lower.includes('car') || lower.includes('vehicle') || lower.includes('garage') || lower.includes('dealership service') || lower.includes('start the engine')) {
+    categoryScores.vehicle_garage_care += 12
+  }
+
+  // O. Memorial & Ancestral Upkeep Signals
+  if (lower.includes('grave') || lower.includes('gravesite') || lower.includes('cemetery') || lower.includes('samadhi') || lower.includes('kabristan') || lower.includes('death anniversary') || lower.includes('barsi') || lower.includes('shradh') || lower.includes('fatiha') || lower.includes('langar') || lower.includes('niyaz')) {
+    categoryScores.memorial_ancestral_care += 25
+  }
+  if (lower.includes('memorial') || lower.includes('headstone') || lower.includes('floral tribute') || lower.includes('epitaph') || lower.includes('ancestor')) {
+    categoryScores.memorial_ancestral_care += 12
   }
 
   // Determine Winning Category

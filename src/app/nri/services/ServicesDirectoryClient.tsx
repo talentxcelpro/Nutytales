@@ -24,13 +24,13 @@ export default function ServicesDirectoryClient() {
       <div className="space-y-4 max-w-3xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8C6D2D]/10 border border-[#8C6D2D]/20 text-xs text-[#8C6D2D] font-semibold">
           <span>🇮🇳</span>
-          <span>11 SPECIALIZED SERVICE VERTICALS</span>
+          <span>{categoryKeys.length} SPECIALIZED PHYSICAL SERVICE VERTICALS</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#191919] tracking-tight">
           Services Directory for Global Indians
         </h1>
         <p className="text-sm sm:text-base text-stone-600 font-light leading-relaxed">
-          Explore our complete service framework. Each vertical is executed by vetted ground coordinators, Bar Council advocates, and ICAI Chartered Accountants across our operational Indian hubs.
+          Explore our complete ground service framework. Every vertical is strictly physical and executed on-the-ground by vetted local coordinators, civil engineers, agricultural specialists, and Bar Council advocates across our operational Indian hubs.
         </p>
 
         {/* City Filter Pills */}
