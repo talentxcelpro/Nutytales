@@ -6,7 +6,10 @@ import { Product } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import ShopProductCard from './ShopProductCard'
 import QuickViewModal from './QuickViewModal'
-import DynamicCouponStrip from './DynamicCouponStrip'
+import PrecisionHarvestCommandBar, { HealthTargetKey } from './PrecisionHarvestCommandBar'
+import KernelRadarCompareModal from './KernelRadarCompareModal'
+import BioRationSynthesizerModal from './BioRationSynthesizerModal'
+import { getProductTelemetry } from '@/lib/harvest-telemetry'
 
 interface ShopCatalogClientProps {
   products: Product[]
@@ -55,15 +58,35 @@ export default function ShopCatalogClient({
   const [inStockOnly, setInStockOnly] = useState<boolean>(false)
   const [selectedGrade, setSelectedGrade] = useState<string>('all')
 
+  // Precision Harvest OS States
+  const [selectedHealthTarget, setSelectedHealthTarget] = useState<HealthTargetKey>('all')
+  const [comparedSlugs, setComparedSlugs] = useState<string[]>([])
+  const [isRadarModalOpen, setIsRadarModalOpen] = useState<boolean>(false)
+  const [isSynthesizerOpen, setIsSynthesizerOpen] = useState<boolean>(false)
+
   // UI States
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false)
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
-  const [promoCopied, setPromoCopied] = useState<boolean>(false)
 
-  const copyPromo = () => {
-    navigator.clipboard?.writeText('FIRSTHARVEST')
-    setPromoCopied(true)
-    setTimeout(() => setPromoCopied(false), 2000)
+  // Radar comparison handlers
+  const handleToggleCompare = (product: Product) => {
+    setComparedSlugs((prev) => {
+      if (prev.includes(product.slug)) {
+        return prev.filter((s) => s !== product.slug)
+      }
+      if (prev.length >= 3) {
+        return [prev[1], prev[2], product.slug]
+      }
+      return [...prev, product.slug]
+    })
+  }
+
+  const handleRemoveFromCompare = (slug: string) => {
+    setComparedSlugs((prev) => prev.filter((s) => s !== slug))
+  }
+
+  const handleSelectPresetComparison = (slugA: string, slugB: string) => {
+    setComparedSlugs([slugA, slugB])
   }
 
   // Filter Logic
@@ -110,14 +133,17 @@ export default function ShopCatalogClient({
         return false
       }
 
-      // Search query filter
+      // Search query filter (checks name, category, origin, tags, shortDesc, and lab telemetry)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim()
+        const tel = getProductTelemetry(p.slug, p.categorySlug)
         const matchName = p.name.toLowerCase().includes(q)
         const matchCategory = p.category.toLowerCase().includes(q)
         const matchOrigin = p.origin.toLowerCase().includes(q)
+        const matchDesc = (p.shortDesc || '').toLowerCase().includes(q)
+        const matchBio = tel.telemetry.primaryBioactiveCompound.toLowerCase().includes(q)
         const matchTags = p.tags?.some((t) => t.toLowerCase().includes(q))
-        if (!matchName && !matchCategory && !matchOrigin && !matchTags) {
+        if (!matchName && !matchCategory && !matchOrigin && !matchDesc && !matchBio && !matchTags) {
           return false
         }
       }
@@ -145,21 +171,36 @@ export default function ShopCatalogClient({
     selectedGrade,
   ])
 
-  // Sort Logic
+  // Sort Logic (with Bio-Match Priority when health target active)
   const sortedProducts = useMemo(() => {
     const list = [...filteredProducts]
+
     if (sortBy === 'price-low') {
       list.sort((a, b) => a.retailPrice - b.retailPrice)
     } else if (sortBy === 'price-high') {
       list.sort((a, b) => b.retailPrice - a.retailPrice)
     } else if (sortBy === 'name-asc') {
       list.sort((a, b) => a.name.localeCompare(b.name))
+    } else if (selectedHealthTarget !== 'all') {
+      // Prioritize items with highest Bio-Match score for active health target
+      list.sort((a, b) => {
+        const scoreA =
+          getProductTelemetry(a.slug, a.categorySlug).healthScores[
+            selectedHealthTarget as keyof ReturnType<typeof getProductTelemetry>['healthScores']
+          ] || 0
+        const scoreB =
+          getProductTelemetry(b.slug, b.categorySlug).healthScores[
+            selectedHealthTarget as keyof ReturnType<typeof getProductTelemetry>['healthScores']
+          ] || 0
+        return scoreB - scoreA
+      })
     } else {
-      // featured first
+      // Featured first
       list.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
     }
+
     return list
-  }, [filteredProducts, sortBy])
+  }, [filteredProducts, sortBy, selectedHealthTarget])
 
   // Count active filters
   const activeFiltersCount =
@@ -168,7 +209,8 @@ export default function ShopCatalogClient({
     (selectedPriceTier !== 0 ? 1 : 0) +
     (searchQuery.trim() ? 1 : 0) +
     (inStockOnly ? 1 : 0) +
-    (selectedGrade !== 'all' ? 1 : 0)
+    (selectedGrade !== 'all' ? 1 : 0) +
+    (selectedHealthTarget !== 'all' ? 1 : 0)
 
   const resetAllFilters = () => {
     setSelectedCategory('all')
@@ -177,32 +219,45 @@ export default function ShopCatalogClient({
     setSearchQuery('')
     setInStockOnly(false)
     setSelectedGrade('all')
+    setSelectedHealthTarget('all')
     setSortBy('featured')
   }
 
+  // Prepared comparison items
+  const comparedProductObjects = useMemo(() => {
+    return comparedSlugs
+      .map((slug) => products.find((p) => p.slug === slug))
+      .filter((p): p is Product => Boolean(p))
+  }, [comparedSlugs, products])
+
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#17233B] pt-20">
-      {/* ── 1. Elegant, Understated Announcement Strip (Bateel / Fortnum Style) ── */}
-      <div className="bg-[#FAF5ED] border-b border-[#EAE3D5] text-[#5C4F41] py-2.5 px-4 sm:px-6 lg:px-8 text-center">
+      {/* ── 1. Understated Luxury Terroir Assurance Strip ── */}
+      <div className="bg-[#FAF5ED] border-b border-[#EAE3D5] text-[#5C4F41] py-2 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 text-xs tracking-wide">
-          <span>
-            Complimentary express pan-India delivery on orders over ₹999
+          <span className="font-medium text-[#17233B]">
+            Direct Himalayan &amp; Global Single-Origin Orchards
           </span>
+          <span className="text-stone-300">•</span>
+          <span>Hermetic Nitrogen Packaging under FSSAI 22724441000048</span>
           <span className="hidden sm:inline text-stone-300">•</span>
-          <span className="hidden sm:inline">
-            Use code <strong className="font-mono text-[#17233B] font-semibold">FIRSTHARVEST</strong> for 10% off
-          </span>
-          <button
-            type="button"
-            onClick={copyPromo}
-            className="text-[11px] font-semibold underline underline-offset-2 text-[#176B68] hover:text-[#17233B] transition-colors ml-1"
-          >
-            {promoCopied ? '✓ Copied' : 'Copy'}
-          </button>
+          <span className="hidden sm:inline">Complimentary Air Express over ₹999</span>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-5 sm:pt-7 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pt-6 sm:pt-8 pb-24">
+        {/* ── Precision Harvest Command Bar (AI Sommelier + Health Vectors + Synthesizer Trigger) ── */}
+        <PrecisionHarvestCommandBar
+          selectedHealthTarget={selectedHealthTarget}
+          onSelectHealthTarget={setSelectedHealthTarget}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onOpenSynthesizer={() => setIsSynthesizerOpen(true)}
+          comparedCount={comparedSlugs.length}
+          onOpenCompareRadar={() => setIsRadarModalOpen(true)}
+          onResetFilters={resetAllFilters}
+        />
+
         {/* ── Compact Header & Main Controls Strip ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE3D5]">
           {/* Breadcrumb + Title + Count */}
@@ -211,35 +266,12 @@ export default function ShopCatalogClient({
               Harvest Collection
             </h1>
             <span className="text-xs text-[#8C7E70] font-normal">
-              ({sortedProducts.length} items)
+              ({sortedProducts.length} items verified)
             </span>
           </div>
 
-          {/* Inline Search + Sort + Mobile Filters */}
+          {/* Inline Controls */}
           <div className="flex items-center gap-2.5 text-xs">
-            {/* Search Input */}
-            <div className="relative w-44 sm:w-60">
-              <span className="absolute inset-y-0 left-2.5 flex items-center text-[#9E9182] text-xs">
-                🔍
-              </span>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search almonds, saffron..."
-                className="w-full pl-7 pr-3 py-1.5 text-xs rounded-full bg-white border border-[#EAE3D5] focus:outline-hidden focus:border-[#17233B] text-[#17233B] placeholder-[#9E9182]"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute inset-y-0 right-2 text-[#9E9182] hover:text-[#17233B] text-xs"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
             {/* Mobile Filter Button */}
             <button
               type="button"
@@ -260,7 +292,9 @@ export default function ShopCatalogClient({
               onChange={(e) => setSortBy(e.target.value)}
               className="text-xs font-medium bg-white border border-[#EAE3D5] rounded-full px-3 py-1.5 text-[#17233B] focus:outline-hidden focus:border-[#17233B] cursor-pointer"
             >
-              <option value="featured">Featured Curations</option>
+              <option value="featured">
+                {selectedHealthTarget !== 'all' ? 'Highest Bio-Match' : 'Featured Curations'}
+              </option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
               <option value="name-asc">Name: A to Z</option>
@@ -268,12 +302,7 @@ export default function ShopCatalogClient({
           </div>
         </div>
 
-        {/* ── 2. Dynamic Coupons & Quick Perks Strip ── */}
-        <div className="pt-3 pb-1">
-          <DynamicCouponStrip />
-        </div>
-
-        {/* ── Compact Category Filter Strip (Low-Profile Pills) ── */}
+        {/* ── Category Filter Strip (Low-Profile Pills) ── */}
         <div className="py-2.5 mb-5 border-b border-[#EAE3D5]/60 overflow-x-auto scrollbar-hide flex gap-1.5 items-center">
           <button
             type="button"
@@ -307,10 +336,22 @@ export default function ShopCatalogClient({
           })}
         </div>
 
-        {/* ── 5. Active Filters Chips ── */}
+        {/* ── Active Filters Chips ── */}
         {activeFiltersCount > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-8 text-xs">
             <span className="text-[#8C7E70]">Active filters:</span>
+            {selectedHealthTarget !== 'all' && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] font-semibold border border-white/20">
+                Health Target: {selectedHealthTarget}
+                <button
+                  type="button"
+                  onClick={() => setSelectedHealthTarget('all')}
+                  className="hover:text-white font-bold ml-1"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
             {selectedCategory !== 'all' && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF5ED] border border-[#EAE3D5] text-[#17233B] font-medium">
                 {selectedCategory}
@@ -382,7 +423,7 @@ export default function ShopCatalogClient({
           </div>
         )}
 
-        {/* ── 6. Main Catalog (Slim Sidebar Filters + Expanded Products Grid) ── */}
+        {/* ── Main Catalog Grid ── */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
           {/* Left Faceted Filters (Desktop Slim Sidebar) */}
           <aside className="hidden lg:block w-52 xl:w-56 flex-shrink-0">
@@ -502,7 +543,7 @@ export default function ShopCatalogClient({
                 </label>
               </div>
 
-              {/* Wholesale Prompt (Compact) */}
+              {/* Wholesale Prompt */}
               <div className="bg-[#FAF5ED] p-2.5 rounded-xl border border-[#EAE3D5] text-center space-y-1">
                 <p className="text-[10px] font-semibold text-[#17233B]">
                   Wholesale Sacks (5kg+)?
@@ -517,16 +558,16 @@ export default function ShopCatalogClient({
             </div>
           </aside>
 
-          {/* Right: Products Grid (Expanded) */}
+          {/* Right: Products Grid */}
           <div className="flex-1 min-w-0">
             {sortedProducts.length === 0 ? (
               <div className="bg-white rounded-3xl border border-[#EAE3D5] p-16 text-center space-y-4">
                 <span className="text-4xl text-[#B8934A]">✦</span>
                 <h3 className="font-serif text-2xl font-normal text-[#17233B]">
-                  No products found
+                  No harvests found
                 </h3>
                 <p className="text-sm text-[#7A6D5E] max-w-sm mx-auto">
-                  Try clearing your filters or search keywords to view our complete collection.
+                  Try clearing your bio-target or origin filter to view our complete collection.
                 </p>
                 <button
                   type="button"
@@ -543,9 +584,12 @@ export default function ShopCatalogClient({
                     <ShopProductCard
                       product={prod}
                       onQuickView={(p) => setQuickViewProduct(p)}
+                      selectedHealthTarget={selectedHealthTarget}
+                      isCompared={comparedSlugs.includes(prod.slug)}
+                      onToggleCompare={handleToggleCompare}
                     />
 
-                    {/* Editorial Breakout #1: Saffron Terroir Spotlight (rendered after 3rd item when looking at all) */}
+                    {/* Editorial Breakout #1: Saffron Terroir Spotlight */}
                     {idx === 2 && selectedCategory === 'all' && (
                       <div className="bg-[#FAF5ED] rounded-3xl border border-[#EAE3D5] p-6 sm:p-7 flex flex-col justify-between text-[#17233B] relative overflow-hidden group">
                         <div className="space-y-3 relative z-10">
@@ -572,7 +616,7 @@ export default function ShopCatalogClient({
                       </div>
                     )}
 
-                    {/* Editorial Breakout #2: The Connoisseur Morning Ritual (rendered after 6th item) */}
+                    {/* Editorial Breakout #2: The Connoisseur Morning Ritual */}
                     {idx === 5 && selectedCategory === 'all' && (
                       <div className="bg-[#FAF5ED] rounded-3xl border border-[#EAE3D5] p-6 sm:p-7 flex flex-col justify-between text-[#17233B] relative overflow-hidden group">
                         <div className="space-y-3 relative z-10">
@@ -589,9 +633,7 @@ export default function ShopCatalogClient({
                         <div className="pt-6 relative z-10 border-t border-[#EAE3D5]">
                           <button
                             type="button"
-                            onClick={() => {
-                              setSelectedCategory('almonds')
-                            }}
+                            onClick={() => setSelectedCategory('almonds')}
                             className="text-xs font-semibold uppercase tracking-wider text-[#17233B] hover:text-[#176B68] flex items-center gap-1"
                           >
                             <span>View Kashmiri Mamra</span>
@@ -607,7 +649,7 @@ export default function ShopCatalogClient({
           </div>
         </div>
 
-        {/* ── 7. Mobile Filter Drawer ── */}
+        {/* ── Mobile Filter Drawer ── */}
         {isMobileFilterOpen && (
           <div
             role="dialog"
@@ -705,7 +747,7 @@ export default function ShopCatalogClient({
           </div>
         )}
 
-        {/* ── 8. Understated Heritage & Quality Guarantee (Fortnum & Mason Style) ── */}
+        {/* ── Understated Heritage & Quality Guarantee ── */}
         <section className="mt-24 pt-12 border-t border-[#EAE3D5]">
           <div className="max-w-4xl mx-auto text-center space-y-3 mb-12">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B8934A]">
@@ -715,7 +757,7 @@ export default function ShopCatalogClient({
               Purity at Origin. Perfection in Every Pack.
             </h2>
             <p className="text-xs sm:text-sm text-[#7A6D5E] max-w-xl mx-auto font-light leading-relaxed">
-              Every nut, kernel, and saffron strand is sorted by size and moisture index before hermetic nitrogen sealing.
+              Every nut, kernel, and saffron strand is sorted by size and moisture index before hermetic nitrogen sealing under FSSAI license 22724441000048.
             </p>
           </div>
 
@@ -763,11 +805,62 @@ export default function ShopCatalogClient({
         </section>
       </div>
 
-      {/* ── Quick View Modal ── */}
+      {/* ── Floating Radar Comparator Bottom Dock ── */}
+      {comparedSlugs.length > 0 && (
+        <div className="fixed bottom-6 inset-x-4 sm:inset-x-auto sm:right-8 z-[120] max-w-md bg-[#10192B]/95 backdrop-blur-xl text-white rounded-2xl p-3.5 border border-white/20 shadow-2xl flex items-center justify-between gap-3 animate-in slide-in-from-bottom duration-300">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-base">⚖️</span>
+            <div className="min-w-0">
+              <span className="text-xs font-semibold block truncate">
+                {comparedSlugs.length} Harvest{comparedSlugs.length > 1 ? 's' : ''} in Radar
+              </span>
+              <span className="text-[10px] text-stone-400 font-mono">
+                Side-by-side lab benchmark ready
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsRadarModalOpen(true)}
+              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#C9A45C] to-[#E5C882] text-[#17233B] text-xs font-bold hover:scale-[1.02] transition-all shadow-sm"
+            >
+              Launch Radar
+            </button>
+            <button
+              type="button"
+              onClick={() => setComparedSlugs([])}
+              className="text-stone-400 hover:text-white text-xs px-2 py-1"
+              title="Clear comparison queue"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Quick View Sensory Modal ── */}
       <QuickViewModal
         product={quickViewProduct}
         isOpen={Boolean(quickViewProduct)}
         onClose={() => setQuickViewProduct(null)}
+      />
+
+      {/* ── Kernel Radar Compare Modal ── */}
+      <KernelRadarCompareModal
+        isOpen={isRadarModalOpen}
+        onClose={() => setIsRadarModalOpen(false)}
+        comparedProducts={comparedProductObjects}
+        allProducts={products}
+        onRemoveFromCompare={handleRemoveFromCompare}
+        onSelectPresetComparison={handleSelectPresetComparison}
+      />
+
+      {/* ── Bio-Ration Synthesizer Modal ── */}
+      <BioRationSynthesizerModal
+        isOpen={isSynthesizerOpen}
+        onClose={() => setIsSynthesizerOpen(false)}
       />
     </div>
   )

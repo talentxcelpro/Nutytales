@@ -5,15 +5,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products-data'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
+import { getProductTelemetry } from '@/lib/harvest-telemetry'
+import { HealthTargetKey } from './PrecisionHarvestCommandBar'
 
 interface ShopProductCardProps {
   product: Product
   onQuickView?: (product: Product) => void
+  selectedHealthTarget?: HealthTargetKey
+  isCompared?: boolean
+  onToggleCompare?: (product: Product) => void
 }
 
 export default function ShopProductCard({
   product,
   onQuickView,
+  selectedHealthTarget = 'all',
+  isCompared = false,
+  onToggleCompare,
 }: ShopProductCardProps) {
   const { formatPrice } = useMarketCurrency()
   // Default to 1kg or highest variant if available, else first variant
@@ -21,7 +29,7 @@ export default function ShopProductCard({
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(defaultIdx)
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
-  const [activeImageMode, setActiveImageMode] = useState<'pouch' | 'raw'>('pouch')
+  const [activeCanvasMode, setActiveCanvasMode] = useState<'pouch' | 'raw' | 'telemetry'>('pouch')
 
   const currentVariant =
     product.variants[selectedVariantIdx] || product.variants[0]
@@ -32,6 +40,16 @@ export default function ShopProductCard({
 
   const primaryImage = product.image || '/images/almonds-pouch-250g.jpg'
   const secondaryImage = product.sensory?.secondaryImage
+
+  // Telemetry details
+  const telemetryData = getProductTelemetry(product.slug, product.categorySlug)
+  const tel = telemetryData.telemetry
+
+  // Health target score
+  const matchScore =
+    selectedHealthTarget && selectedHealthTarget !== 'all'
+      ? telemetryData.healthScores[selectedHealthTarget as keyof typeof telemetryData.healthScores]
+      : null
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -65,16 +83,9 @@ export default function ShopProductCard({
   return (
     <article className="group bg-white rounded-3xl border border-[#EAE3D5] hover:border-[#B8934A]/80 shadow-2xs hover:shadow-2xl transition-all duration-500 flex flex-col justify-between overflow-hidden relative">
       <div>
-        {/* ── 1. Next-Gen Dual-View Visual Canvas (Packaging ⟷ Raw Harvest Reveal) ── */}
-        <div
-          className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden cursor-pointer"
-          onMouseEnter={() => {
-            if (secondaryImage) setActiveImageMode('raw')
-          }}
-          onMouseLeave={() => {
-            setActiveImageMode('pouch')
-          }}
-        >
+        {/* ── 1. Next-Gen 3-Way Visual Canvas (Packaging ⟷ Raw Reveal ⟷ Lab Telemetry HUD) ── */}
+        <div className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden">
+          {/* Main Content Area */}
           <Link
             href={`/shop/${product.slug}`}
             className="relative w-full h-full flex items-center justify-center block"
@@ -82,7 +93,7 @@ export default function ShopProductCard({
             {/* Primary Packshot (Studio Standing Pouch) */}
             <div
               className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                activeImageMode === 'raw' && secondaryImage ? 'opacity-0 scale-98' : 'opacity-100 scale-100'
+                activeCanvasMode === 'pouch' ? 'opacity-100 scale-100' : 'opacity-0 scale-98 pointer-events-none'
               }`}
             >
               <Image
@@ -99,7 +110,7 @@ export default function ShopProductCard({
             {secondaryImage && (
               <div
                 className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                  activeImageMode === 'raw' ? 'opacity-100 scale-100' : 'opacity-0 scale-102 pointer-events-none'
+                  activeCanvasMode === 'raw' ? 'opacity-100 scale-100' : 'opacity-0 scale-102 pointer-events-none'
                 }`}
               >
                 <Image
@@ -115,40 +126,149 @@ export default function ShopProductCard({
                 </span>
               </div>
             )}
+
+            {/* Mode 3: Lab Telemetry HUD Overlay */}
+            <div
+              className={`absolute inset-0 bg-[#0F172A]/95 backdrop-blur-md rounded-2xl p-4 flex flex-col justify-between text-white transition-opacity duration-500 z-10 ${
+                activeCanvasMode === 'telemetry' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="text-[10px] font-mono text-[#C9A45C] uppercase tracking-wider">
+                    {tel.batchId}
+                  </span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-emerald-500/20 text-emerald-300 font-mono">
+                    ✓ {tel.nablLabCert.split('/')[1] || 'NABL PASS'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-left pt-1">
+                  <div className="bg-white/5 p-2 rounded-lg">
+                    <span className="text-[9px] text-stone-400 block font-mono">Cold Oil %</span>
+                    <span className="text-xs font-bold text-emerald-400 font-mono">
+                      {tel.essentialOilPercent}%
+                    </span>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-lg">
+                    <span className="text-[9px] text-stone-400 block font-mono">Moisture %</span>
+                    <span className="text-xs font-bold text-cyan-300 font-mono">
+                      {tel.moisturePercent}%
+                    </span>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-lg">
+                    <span className="text-[9px] text-stone-400 block font-mono">Elevation</span>
+                    <span className="text-xs font-bold text-stone-200 font-mono">
+                      {tel.altitudeMeters}m
+                    </span>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-lg">
+                    <span className="text-[9px] text-stone-400 block font-mono">ORAC Value</span>
+                    <span className="text-xs font-bold text-amber-300 font-mono">
+                      {tel.oracAntioxidantScore}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-[10px] text-stone-300 line-clamp-2 leading-tight pt-1">
+                  {telemetryData.scientificVerdict}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-[#C9A45C]">
+                <span>{tel.pasteurizationMethod}</span>
+                <span>FSSAI 22724441000048</span>
+              </div>
+            </div>
           </Link>
 
           {/* Terroir & Origin Tag */}
-          <div className="absolute top-3.5 left-3.5 flex flex-col gap-1 z-10 pointer-events-none">
+          <div className="absolute top-3.5 left-3.5 flex flex-col gap-1 z-20 pointer-events-none">
             <span className="px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-xs text-[#5C4F41] text-[10px] font-medium tracking-wider uppercase border border-[#EAE3D5] shadow-2xs">
               {product.origin.split(',')[0]}
             </span>
-            {product.sensory?.altitude && (
-              <span className="px-2 py-0.5 rounded-full bg-[#17233B]/85 text-[#F5EFE6] text-[9px] font-mono tracking-wide">
-                🏔️ {product.sensory.altitude.split('(')[0].trim()}
+            {matchScore !== null && (
+              <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-emerald-600 to-[#17233B] text-white text-[9px] font-mono font-bold tracking-wide shadow-xs animate-pulse">
+                ✦ {matchScore}% Bio-Match
               </span>
             )}
           </div>
 
-          {/* Quick Dual-Mode View Button for Touch / Mobile */}
-          {secondaryImage && (
-            <div className="absolute top-3.5 right-3.5 z-10">
+          {/* Top-Right Control Pills: 3-Way Mode Switcher & Compare Toggle */}
+          <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-1">
+            {/* View Mode Toggle Button */}
+            <div className="flex bg-white/90 backdrop-blur-xs rounded-full p-0.5 border border-[#EAE3D5] shadow-2xs text-[9px]">
               <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  setActiveImageMode((prev) => (prev === 'pouch' ? 'raw' : 'pouch'))
+                  setActiveCanvasMode('pouch')
                 }}
-                className="px-2 py-1 rounded-full bg-white/90 hover:bg-white text-[9px] font-semibold tracking-wider text-[#17233B] border border-[#EAE3D5] shadow-2xs transition-all active:scale-95"
-                title="Toggle between studio packshot and raw harvest"
+                className={`px-1.5 py-0.5 rounded-full transition-colors ${
+                  activeCanvasMode === 'pouch' ? 'bg-[#17233B] text-white font-bold' : 'text-stone-600'
+                }`}
+                title="Packshot view"
               >
-                {activeImageMode === 'raw' ? '📦 Pack' : '👁️ Reveal'}
+                Pack
+              </button>
+              {secondaryImage && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setActiveCanvasMode('raw')
+                  }}
+                  className={`px-1.5 py-0.5 rounded-full transition-colors ${
+                    activeCanvasMode === 'raw' ? 'bg-[#17233B] text-white font-bold' : 'text-stone-600'
+                  }`}
+                  title="Raw harvest macro reveal"
+                >
+                  Raw
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setActiveCanvasMode(activeCanvasMode === 'telemetry' ? 'pouch' : 'telemetry')
+                }}
+                className={`px-1.5 py-0.5 rounded-full transition-colors ${
+                  activeCanvasMode === 'telemetry'
+                    ? 'bg-[#C9A45C] text-[#17233B] font-bold'
+                    : 'text-stone-600'
+                }`}
+                title="Lab Telemetry HUD"
+              >
+                🔬 Lab
               </button>
             </div>
-          )}
 
-          {/* Quick View Sensory Trigger */}
-          {onQuickView && (
+            {/* Compare Pill Trigger */}
+            {onToggleCompare && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onToggleCompare(product)
+                }}
+                className={`px-2 py-1 rounded-full text-[9px] font-semibold tracking-wider transition-all shadow-2xs ${
+                  isCompared
+                    ? 'bg-[#17233B] text-white font-bold border border-[#17233B]'
+                    : 'bg-white/90 hover:bg-white text-stone-700 border border-[#EAE3D5]'
+                }`}
+                title="Add to Kernel Radar comparison"
+              >
+                {isCompared ? '✓ In Radar' : '+ Radar'}
+              </button>
+            )}
+          </div>
+
+          {/* Quick View Sensory Trigger on Desktop Hover */}
+          {onQuickView && activeCanvasMode !== 'telemetry' && (
             <div className="absolute inset-x-4 bottom-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
               <button
                 type="button"
