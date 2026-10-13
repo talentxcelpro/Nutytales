@@ -4,10 +4,18 @@ import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import dynamic from 'next/dynamic'
 import { PRODUCTS, Product } from '@/lib/products-data'
-import KernelRadarCompareModal from '@/components/shop/KernelRadarCompareModal'
-import BioRationSynthesizerModal from '@/components/shop/BioRationSynthesizerModal'
 import { HealthTargetKey } from '@/components/shop/PrecisionHarvestCommandBar'
+
+const KernelRadarCompareModal = dynamic(
+  () => import('@/components/shop/KernelRadarCompareModal'),
+  { ssr: false }
+)
+const BioRationSynthesizerModal = dynamic(
+  () => import('@/components/shop/BioRationSynthesizerModal'),
+  { ssr: false }
+)
 
 interface ChatMessage {
   id: string

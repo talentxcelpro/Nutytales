@@ -1,4 +1,5 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { PRODUCTS } from '@/lib/products-data'
 import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
 
@@ -17,19 +18,13 @@ export const metadata: Metadata = {
   ],
 }
 
-interface ShopPageProps {
-  searchParams: Promise<{ category?: string; origin?: string; sort?: string }>
-}
+// Prerender to static edge cache with 1-hour revalidation
+export const revalidate = 3600
 
-export default async function ShopPage({ searchParams }: ShopPageProps) {
-  const { category, origin, sort } = await searchParams
-
+export default function ShopPage() {
   return (
-    <ShopCatalogClient
-      products={PRODUCTS}
-      initialCategory={category}
-      initialOrigin={origin}
-      initialSort={sort}
-    />
+    <Suspense>
+      <ShopCatalogClient products={PRODUCTS} />
+    </Suspense>
   )
 }

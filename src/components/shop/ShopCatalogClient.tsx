@@ -1,10 +1,15 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import dynamic from 'next/dynamic'
+import { useSearchParams } from 'next/navigation'
 import { Product } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import ShopProductCard from './ShopProductCard'
-import QuickViewModal from './QuickViewModal'
+
+const QuickViewModal = dynamic(() => import('./QuickViewModal'), {
+  ssr: false,
+})
 
 interface ShopCatalogClientProps {
   products: Product[]
@@ -40,16 +45,18 @@ export default function ShopCatalogClient({
   initialOrigin,
   initialSort = 'featured',
 }: ShopCatalogClientProps) {
+  const searchParams = useSearchParams()
+  const paramCategory = searchParams?.get('category') || initialCategory || 'all'
+  const paramOrigin = searchParams?.get('origin') || initialOrigin || 'All Origins'
+  const paramSort = searchParams?.get('sort') || initialSort || 'featured'
+  const paramQuery = searchParams?.get('q') || ''
+
   // Filter States
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    initialCategory || 'all'
-  )
-  const [selectedOrigin, setSelectedOrigin] = useState<string>(
-    initialOrigin || 'All Origins'
-  )
+  const [selectedCategory, setSelectedCategory] = useState<string>(paramCategory)
+  const [selectedOrigin, setSelectedOrigin] = useState<string>(paramOrigin)
   const [selectedPriceTier, setSelectedPriceTier] = useState<number>(0)
-  const [searchQuery, setSearchQuery] = useState<string>('')
-  const [sortBy, setSortBy] = useState<string>(initialSort)
+  const [searchQuery, setSearchQuery] = useState<string>(paramQuery)
+  const [sortBy, setSortBy] = useState<string>(paramSort)
   const [inStockOnly, setInStockOnly] = useState<boolean>(false)
   const [selectedGrade, setSelectedGrade] = useState<string>('all')
 
@@ -358,10 +365,11 @@ export default function ShopCatalogClient({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {sortedProducts.map((prod) => (
+              {sortedProducts.map((prod, idx) => (
                 <ShopProductCard
                   key={prod.id}
                   product={prod}
+                  priority={idx < 4}
                   onQuickView={(p) => setQuickViewProduct(p)}
                 />
               ))}

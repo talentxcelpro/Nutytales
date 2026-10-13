@@ -9,11 +9,13 @@ import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 interface ShopProductCardProps {
   product: Product
   onQuickView?: (product: Product) => void
+  priority?: boolean
 }
 
 export default function ShopProductCard({
   product,
   onQuickView,
+  priority = false,
 }: ShopProductCardProps) {
   const { formatPrice } = useMarketCurrency()
   // Default to 1kg or highest variant if available, else first variant
@@ -85,8 +87,10 @@ export default function ShopProductCard({
                 src={primaryImage}
                 alt={product.name}
                 fill
-                quality={95}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                priority={priority}
+                loading={priority ? undefined : 'lazy'}
+                quality={75}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-contain p-3 transition-transform duration-700 group-hover:scale-103 drop-shadow-2xs"
               />
             </div>
@@ -102,8 +106,9 @@ export default function ShopProductCard({
                   src={secondaryImage}
                   alt={`${product.name} raw harvest`}
                   fill
-                  quality={95}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  loading="lazy"
+                  quality={75}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover rounded-2xl"
                 />
                 <span className="absolute bottom-3 left-3 bg-[#17233B]/85 text-white backdrop-blur-xs text-[9px] uppercase tracking-widest font-semibold px-2.5 py-0.5 rounded-full">

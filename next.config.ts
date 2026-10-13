@@ -21,9 +21,16 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
     // Reasonable device sizes for e-commerce product grids
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  compress: true,
+
+  experimental: {
+    optimizePackageImports: ["@/lib/products-data", "@/lib/constants"],
   },
 
   // ── Server-side external packages ──────────────────────────────────────────
@@ -32,6 +39,13 @@ const nextConfig: NextConfig = {
   // ── Security & SEO HTTP headers ────────────────────────────────────────────
   async headers() {
     return [
+      {
+        // Static images long-term caching
+        source: "/images/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
       {
         // Apply to all routes
         source: "/:path*",
