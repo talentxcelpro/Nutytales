@@ -118,23 +118,39 @@ export default function WeddingsHomeClient() {
     }
   }
 
+  const HERO_SLIDES = [
+    {
+      src: '/images/weddings/hero-palace.jpg',
+      alt: 'Royal Rajasthan Palace Courtyard Celebration at Twilight',
+      caption: 'The Rambagh & Jai Mahal Palace Grounds — Jaipur, India',
+      flag: '🇮🇳 Jaipur Palace',
+    },
+    {
+      src: '/images/weddings/hero-global.jpg',
+      alt: 'Luxury Italian Riviera Terrace Wedding at Sunset',
+      caption: 'Villa Balbiano & Tuscan Estates — Lake Como & Italy',
+      flag: '🇮🇹 Lake Como',
+    },
+  ]
+  const [activeHero, setActiveHero] = useState(0)
+
   return (
     <div className="space-y-16 pb-24 text-[#17233B]">
       {/* ── 1. Editorial Photography Hero ────────────────────────────────────────── */}
-      <section className="relative w-full pt-8 sm:pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-stone-200 aspect-[16/10] sm:aspect-[21/9] min-h-[460px] flex items-center">
+      <section className="relative w-full pt-6 sm:pt-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-stone-200 aspect-[16/10] sm:aspect-[21/9] min-h-[480px] flex items-center">
           <Image
-            src="/images/jaipur-heritage.jpg"
-            alt="Nuty Tales Weddings — Luxury Celebratory Heritage Setting"
+            src={HERO_SLIDES[activeHero].src}
+            alt={HERO_SLIDES[activeHero].alt}
             fill
             priority
-            className="object-cover object-center brightness-[0.78]"
+            className="object-cover object-center transition-all duration-700 brightness-[0.88]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
 
           {/* Hero Content */}
           <div className="relative z-10 max-w-2xl px-6 sm:px-12 py-10 space-y-5 text-white">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[#C9A45C] text-xs font-semibold tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[#E5C378] text-xs font-semibold tracking-wider uppercase">
               <span>💍</span> Nuty Tales Weddings
             </span>
 
@@ -161,6 +177,26 @@ export default function WeddingsHomeClient() {
                 Explore Venues ↓
               </a>
             </div>
+          </div>
+
+          {/* Interactive Destination Switcher */}
+          <div className="absolute bottom-5 right-6 z-20 hidden md:flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-xs text-white">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-stone-300 mr-1">
+              Curated Backdrops:
+            </span>
+            {HERO_SLIDES.map((slide, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveHero(idx)}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  activeHero === idx
+                    ? 'bg-white text-stone-900 shadow-md scale-105'
+                    : 'text-stone-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                {slide.flag}
+              </button>
+            ))}
           </div>
         </div>
       </section>
