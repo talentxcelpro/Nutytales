@@ -1,14 +1,15 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CRAFT_PRODUCTS, CraftProduct } from '@/lib/crafts-data'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface TryWithSIModalProps {
   isOpen: boolean
   onClose: () => void
-  initialProduct?: CraftProduct
+  initialProduct?: any
 }
 
 type ModelGender = 'women' | 'men'
@@ -27,6 +28,7 @@ const AVATAR_MODELS = {
 }
 
 export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryWithSIModalProps) {
+  const { formatCraftPrice } = useMarketCurrency()
   const [activeTab, setActiveTab] = useState<'tryon' | 'advisor'>('tryon')
   const [selectedGender, setSelectedGender] = useState<ModelGender>(
     initialProduct?.gender === 'men' ? 'men' : 'women'
@@ -258,7 +260,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                   <h4 className="font-serif text-lg font-bold leading-tight">{currentProduct.name}</h4>
                   <div className="flex items-center justify-between text-xs mt-1 text-stone-200">
                     <span>Colour: {currentProduct.colorOptions[selectedColorIdx]?.name}</span>
-                    <span className="font-bold text-white">₹{currentProduct.price.toLocaleString('en-IN')}</span>
+                    <span className="font-bold text-white">{formatCraftPrice(currentProduct.price)}</span>
                   </div>
                 </div>
               </div>
@@ -384,7 +386,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                           <p className="text-[11px] text-stone-500">{prod.provenance.origin}</p>
                         </div>
                         <span className="text-xs font-bold text-[#176B68]">
-                          ₹{prod.price.toLocaleString('en-IN')}
+                          {formatCraftPrice(prod.price)}
                         </span>
                       </button>
                     ))}
@@ -443,9 +445,9 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                           {complementaryProduct.provenance.craftTradition}
                         </p>
                         <p className="text-xs font-bold text-[#176B68]">
-                          ₹{Math.round(complementaryProduct.price * 0.9).toLocaleString('en-IN')}{' '}
+                          {formatCraftPrice(Math.round(complementaryProduct.price * 0.9))}{' '}
                           <span className="line-through text-stone-400 font-normal text-[10px]">
-                            ₹{complementaryProduct.price.toLocaleString('en-IN')}
+                            {formatCraftPrice(complementaryProduct.price)}
                           </span>
                         </p>
                       </div>
@@ -455,8 +457,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                       onClick={() => handleAddLookToCart(true)}
                       className="w-full py-2.5 bg-[#17233B] hover:bg-[#10192A] text-white rounded-lg text-xs font-bold tracking-wider uppercase transition-colors shadow-sm"
                     >
-                      Add Both to Basket (Save ₹
-                      {Math.round(complementaryProduct.price * 0.1).toLocaleString('en-IN')})
+                      Add Both to Basket (Save {formatCraftPrice(Math.round(complementaryProduct.price * 0.1))})
                     </button>
                   </div>
                 )}
@@ -475,7 +476,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                     onClick={() => handleAddLookToCart(false)}
                     className="flex-1 py-3 bg-[#176B68] hover:bg-[#125350] text-white rounded-lg text-xs font-bold tracking-wider uppercase transition-colors shadow-sm"
                   >
-                    Add This Garment to Cart (₹{currentProduct.price.toLocaleString('en-IN')})
+                    Add This Garment to Cart ({formatCraftPrice(currentProduct.price)})
                   </button>
                   <Link
                     href={`/crafts/product/${currentProduct.slug}`}
@@ -586,7 +587,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                         {advisorResponse.recommendedProduct.name}
                       </p>
                       <p className="text-xs font-bold text-[#176B68]">
-                        ₹{advisorResponse.recommendedProduct.price.toLocaleString('en-IN')}
+                        {formatCraftPrice(advisorResponse.recommendedProduct.price)}
                       </p>
                     </div>
                   </div>
@@ -609,7 +610,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                           {advisorResponse.pairingProduct.name}
                         </p>
                         <p className="text-xs font-bold text-[#176B68]">
-                          ₹{advisorResponse.pairingProduct.price.toLocaleString('en-IN')}
+                          {formatCraftPrice(advisorResponse.pairingProduct.price)}
                         </p>
                       </div>
                     </div>

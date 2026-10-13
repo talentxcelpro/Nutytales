@@ -7,6 +7,9 @@ import {
   SUPPORTED_CURRENCIES,
   formatGlobalPrice,
   convertFromINR,
+  formatCraftPrice as formatCraftPriceHelper,
+  convertCraftFromINR,
+  getCraftMarkupMultiplier,
 } from '@/lib/global-config'
 
 export function useMarketCurrency() {
@@ -28,11 +31,11 @@ export function useMarketCurrency() {
     }
 
     const handleMarketUpdated = (e: Event) => {
-      const customEvent = e as CustomEvent<{ countryCode: string; currency: CurrencyCode }>
-      if (customEvent.detail?.currency) {
+      const customEvent = e as CustomEvent<{ countryCode?: string; currency?: CurrencyCode }>
+      if (customEvent.detail?.currency && SUPPORTED_CURRENCIES[customEvent.detail.currency]) {
         setCurrency(customEvent.detail.currency)
       }
-      if (customEvent.detail?.countryCode) {
+      if (customEvent.detail?.countryCode && SUPPORTED_COUNTRIES[customEvent.detail.countryCode]) {
         setCountry(customEvent.detail.countryCode)
       }
     }
@@ -41,13 +44,38 @@ export function useMarketCurrency() {
     return () => window.removeEventListener('nt_market_updated', handleMarketUpdated)
   }, [])
 
+  const setMarketCurrency = (newCurrency: CurrencyCode) => {
+    try {
+      localStorage.setItem('nutytales_currency', newCurrency)
+      setCurrency(newCurrency)
+      window.dispatchEvent(
+        new CustomEvent('nt_market_updated', {
+          detail: { currency: newCurrency, countryCode: country },
+        })
+      )
+    } catch {
+      // Ignore
+    }
+  }
+
   const formatPrice = (amountINR: number) => {
     return formatGlobalPrice(amountINR, currency)
+  }
+
+  const formatCraftPrice = (amountINR: number) => {
+    return formatCraftPriceHelper(amountINR, currency)
   }
 
   const getConvertedAmount = (amountINR: number) => {
     return convertFromINR(amountINR, currency)
   }
+
+  const getConvertedCraftAmount = (amountINR: number) => {
+    return convertCraftFromINR(amountINR, currency)
+  }
+
+  const isWesternMarket = ['USD', 'CAD', 'EUR', 'GBP'].includes(currency)
+  const craftMarkupMultiplier = getCraftMarkupMultiplier(currency)
 
   const currencyConfig = SUPPORTED_CURRENCIES[currency] || SUPPORTED_CURRENCIES.INR
   const countryConfig = SUPPORTED_COUNTRIES[country] || SUPPORTED_COUNTRIES.IN
@@ -58,6 +86,11 @@ export function useMarketCurrency() {
     currencyConfig,
     countryConfig,
     formatPrice,
+    formatCraftPrice,
     getConvertedAmount,
+    getConvertedCraftAmount,
+    setMarketCurrency,
+    isWesternMarket,
+    craftMarkupMultiplier,
   }
 }

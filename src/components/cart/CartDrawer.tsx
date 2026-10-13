@@ -20,12 +20,23 @@ export interface CartItem {
 }
 
 export default function CartDrawer() {
-  const { formatPrice } = useMarketCurrency()
+  const { formatPrice, formatCraftPrice, isWesternMarket } = useMarketCurrency()
   const [isOpen, setIsOpen] = useState(false)
   const [cart, setCart] = useState<CartItem[]>([])
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
   const [couponInput, setCouponInput] = useState('')
   const [couponMsg, setCouponMsg] = useState('')
+
+  const isCraftItem = (item?: CartItem) =>
+    item?.productId?.startsWith('clt-') || item?.productId?.startsWith('craft-')
+
+  const hasCraftItems = cart.some((i) => isCraftItem(i))
+
+  const formatItemPrice = (amountINR: number, item?: CartItem) => {
+    if (item && isCraftItem(item)) return formatCraftPrice(amountINR)
+    if (hasCraftItems) return formatCraftPrice(amountINR)
+    return formatPrice(amountINR)
+  }
 
   const loadCart = () => {
     try {
@@ -258,9 +269,9 @@ export default function CartDrawer() {
                     {item.sizeLabel}
                   </p>
                   <p className="text-xs font-extrabold text-[#176B68] mt-1">
-                    {formatPrice(item.totalPrice)}
+                    {formatItemPrice(item.totalPrice, item)}
                     <span className="text-[10px] text-stone-400 font-normal ml-1">
-                      ({formatPrice(item.unitPrice)}/unit)
+                      ({formatItemPrice(item.unitPrice, item)}/unit)
                     </span>
                   </p>
                 </div>
@@ -349,26 +360,31 @@ export default function CartDrawer() {
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between text-stone-600">
                 <span>Subtotal</span>
-                <span className="font-bold text-[#17233B]">{formatPrice(subtotal)}</span>
+                <span className="font-bold text-[#17233B]">{formatItemPrice(subtotal)}</span>
               </div>
               {appliedCoupon && discount > 0 && (
                 <div className="flex justify-between text-emerald-700 font-semibold">
                   <span>Coupon Discount ({appliedCoupon})</span>
-                  <span>-{formatPrice(discount)}</span>
+                  <span>-{formatItemPrice(discount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-stone-600">
                 <span>Estimated Shipping</span>
                 <span className={isFreeShip ? 'text-emerald-700 font-bold' : 'font-bold'}>
-                  {isFreeShip ? 'FREE' : formatPrice(estimatedShipping)}
+                  {isFreeShip ? 'FREE' : formatItemPrice(estimatedShipping)}
                 </span>
               </div>
               <div className="flex justify-between text-sm font-bold text-[#17233B] pt-2 border-t border-stone-100">
                 <span>Estimated Total (Incl. Taxes)</span>
                 <span className="text-[#176B68] text-base">
-                  {formatPrice(finalTotal)}
+                  {formatItemPrice(finalTotal)}
                 </span>
               </div>
+              {isWesternMarket && hasCraftItems && (
+                <p className="text-[10px] text-[#704B32] font-semibold bg-[#FAF6EE] p-2 rounded-xl border border-stone-200 mt-2">
+                  🌍 Global Export Pricing Active: All-inclusive international express courier and export custom duties included.
+                </p>
+              )}
             </div>
 
             <div className="space-y-2 pt-2">

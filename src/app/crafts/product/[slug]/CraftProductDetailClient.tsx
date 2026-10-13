@@ -11,8 +11,12 @@ import TryWithSIModal from '@/components/crafts/TryWithSIModal'
 import SizeGuideModal from '@/components/crafts/SizeGuideModal'
 import GarmentViewer3DModal from '@/components/crafts/GarmentViewer3DModal'
 import ClothingNavbarStrip from '@/components/crafts/ClothingNavbarStrip'
+import ArtisanPassportModal from '@/components/crafts/ArtisanPassportModal'
+import ExpressBuyModal from '@/components/crafts/ExpressBuyModal'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 export default function CraftProductDetailClient() {
+  const { formatCraftPrice, currency, isWesternMarket } = useMarketCurrency()
   const params = useParams()
   const router = useRouter()
   const slug = params?.slug as string
@@ -83,6 +87,8 @@ export default function CraftProductDetailClient() {
   const [addedToast, setAddedToast] = useState(false)
   const [siModalOpen, setSiModalOpen] = useState(false)
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
+  const [passportModalOpen, setPassportModalOpen] = useState(false)
+  const [expressBuyOpen, setExpressBuyOpen] = useState(false)
   const [viewer3DOpen, setViewer3DOpen] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [isZoomed, setIsZoomed] = useState(false)
@@ -333,28 +339,35 @@ export default function CraftProductDetailClient() {
             </div>
 
             {/* Pricing Box */}
-            <div className="p-4 bg-white rounded-2xl border border-stone-200 flex items-baseline justify-between shadow-xs">
+            <div className="p-4 bg-white rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 shadow-xs">
               <div>
-                <div className="flex items-baseline gap-2.5">
+                <div className="flex items-baseline gap-2.5 flex-wrap">
                   <span className="font-serif text-3xl font-bold text-[#17233B]">
-                    Γé╣{product.price.toLocaleString('en-IN')}
+                    {formatCraftPrice(product.price)}
                   </span>
                   {product.mrp > product.price && (
                     <span className="text-sm text-stone-400 line-through">
-                      Γé╣{product.mrp.toLocaleString('en-IN')}
+                      {formatCraftPrice(product.mrp)}
                     </span>
                   )}
                   {product.mrp > product.price && (
                     <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      Save Γé╣{(product.mrp - product.price).toLocaleString('en-IN')}
+                      Save {formatCraftPrice(product.mrp - product.price)}
+                    </span>
+                  )}
+                  {isWesternMarket && (
+                    <span className="text-[10px] font-extrabold text-[#17233B] bg-[#C9A45C] px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      +200% Global Export Inclusive
                     </span>
                   )}
                 </div>
                 <span className="block text-[11px] text-stone-500 mt-1">
-                  Inclusive of all taxes ┬╖ Free insured courier pan-India
+                  {isWesternMarket
+                    ? `Export to ${currency}: Includes 200% international luxury air courier, export customs duties, and artisan guild export reserves.`
+                    : 'Inclusive of all taxes · Free insured courier pan-India · 68% Direct Weaver Remuneration'}
                 </span>
               </div>
-              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 whitespace-nowrap">
+              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 whitespace-nowrap self-start sm:self-auto">
                 {product.stockStatus === 'IN_STOCK' ? 'In Stock' : 'Limited'}
               </span>
             </div>
@@ -456,10 +469,11 @@ export default function CraftProductDetailClient() {
 
                 <button
                   type="button"
-                  onClick={handleBuyNow}
-                  className="flex-1 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
+                  onClick={() => setExpressBuyOpen(true)}
+                  className="flex-1 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-1.5"
                 >
-                  Buy Now
+                  <span>⚡</span>
+                  <span>1-Click Buy</span>
                 </button>
 
                 <button
@@ -468,9 +482,19 @@ export default function CraftProductDetailClient() {
                   title="Save to Wishlist"
                   className="w-13 h-13 rounded-xl bg-white hover:bg-stone-50 border border-stone-300 flex items-center justify-center text-lg text-stone-700 transition-colors shadow-xs"
                 >
-                  {isWishlisted ? 'ΓÖÑ' : 'ΓÖí'}
+                  {isWishlisted ? '♥' : '♡'}
                 </button>
               </div>
+
+              {/* Artisan GI Passport Button */}
+              <button
+                type="button"
+                onClick={() => setPassportModalOpen(true)}
+                className="w-full py-3 bg-white hover:bg-stone-50 text-[#17233B] rounded-xl font-bold text-xs uppercase tracking-wider transition-colors border border-stone-300 flex items-center justify-center gap-2 shadow-xs"
+              >
+                <span>📜</span>
+                <span>Inspect Digital GI &amp; Artisan Lineage Passport</span>
+              </button>
 
               {product.tryWithSiSupported && (
                 <button
@@ -596,7 +620,7 @@ export default function CraftProductDetailClient() {
                   <div className="flex-1 min-w-0">
                     <h4 className="font-serif font-bold text-xs text-[#17233B] truncate">{pairedItem.name}</h4>
                     <p className="text-[11px] text-stone-500">{pairedItem.craft}</p>
-                    <p className="text-xs font-bold text-[#176B68]">Γé╣{pairedItem.price.toLocaleString('en-IN')}</p>
+                    <p className="text-xs font-bold text-[#176B68]">{formatCraftPrice(pairedItem.price)}</p>
                   </div>
                   <Link
                     href={`/crafts/product/${pairedItem.slug}`}
@@ -610,14 +634,14 @@ export default function CraftProductDetailClient() {
           </div>
         </div>
 
-        {/* ΓöÇΓöÇ You May Also Like ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */}
+        {/* ── You May Also Like ──────────────────────────────────────────────── */}
         <section className="pt-12 border-t border-stone-200 space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="font-serif text-2xl font-bold text-[#17233B]">
               You May Also Like
             </h3>
             <Link href="/crafts" className="text-xs font-bold text-[#176B68] hover:underline uppercase">
-              View All Collection ΓåÆ
+              View All Collection →
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
@@ -629,7 +653,7 @@ export default function CraftProductDetailClient() {
                 <div className="space-y-1">
                   <h4 className="font-serif font-bold text-xs text-[#17233B] line-clamp-1">{p.name}</h4>
                   <p className="text-[10px] text-stone-500">{p.craft}</p>
-                  <p className="font-serif font-bold text-xs text-[#17233B]">Γé╣{p.price.toLocaleString('en-IN')}</p>
+                  <p className="font-serif font-bold text-xs text-[#17233B]">{formatCraftPrice(p.price)}</p>
                 </div>
                 <Link
                   href={`/crafts/product/${p.slug}`}
@@ -644,6 +668,18 @@ export default function CraftProductDetailClient() {
       </div>
 
       {/* Modals */}
+      <ArtisanPassportModal
+        product={product}
+        isOpen={passportModalOpen}
+        onClose={() => setPassportModalOpen(false)}
+      />
+
+      <ExpressBuyModal
+        product={product}
+        isOpen={expressBuyOpen}
+        onClose={() => setExpressBuyOpen(false)}
+      />
+
       <SizeGuideModal
         isOpen={sizeGuideOpen}
         onClose={() => setSizeGuideOpen(false)}

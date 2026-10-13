@@ -57,6 +57,57 @@ export function formatGlobalPrice(amountINR: number, targetCurrency: CurrencyCod
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CRAFTS & HERITAGE EXPORT PRICING (ALL-INDIA HANDLOOM LUXURY EXPORT)
+// ─────────────────────────────────────────────────────────────────────────────
+// User Rule: In European (EUR, GBP) and American (USD, CAD) currencies,
+// price is inflated 200% (+200% international luxury markup = 3.0x base multiplier)
+// to incorporate export customs, cross-border insurance, and artisan guild export premiums.
+export function getCraftMarkupMultiplier(currency: CurrencyCode): number {
+  switch (currency) {
+    case 'USD':
+    case 'CAD':
+      // American currencies: inflated 200% (+200% markup = 3.0x base multiplier)
+      return 3.0
+    case 'EUR':
+    case 'GBP':
+      // European currencies: inflated 200% (+200% markup = 3.0x base multiplier)
+      return 3.0
+    case 'AED':
+    case 'SAR':
+      return 2.0
+    case 'AUD':
+    case 'SGD':
+      return 2.2
+    case 'INR':
+    default:
+      return 1.0
+  }
+}
+
+export function convertCraftFromINR(amountINR: number, targetCurrency: CurrencyCode): number {
+  const config = SUPPORTED_CURRENCIES[targetCurrency] || SUPPORTED_CURRENCIES.INR
+  const multiplier = getCraftMarkupMultiplier(targetCurrency)
+  return (amountINR * multiplier) / config.rateToINR
+}
+
+export function formatCraftPrice(amountINR: number, targetCurrency: CurrencyCode = 'INR'): string {
+  const config = SUPPORTED_CURRENCIES[targetCurrency] || SUPPORTED_CURRENCIES.INR
+  const converted = convertCraftFromINR(amountINR, targetCurrency)
+
+  const formattedNum = Math.round(converted).toLocaleString(
+    targetCurrency === 'INR' ? 'en-IN' : 'en-US',
+    {
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    }
+  )
+
+  return config.symbolPosition === 'prefix'
+    ? `${config.symbol}${formattedNum}`
+    : `${formattedNum} ${config.symbol}`
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // 2. GLOBAL COUNTRY & MARKET CONFIGURATION
 // ─────────────────────────────────────────────────────────────────────────────
 

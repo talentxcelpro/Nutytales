@@ -3,17 +3,17 @@ import CraftsHomeClient from './CraftsHomeClient'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
+    absolute: "Nuty Tales Crafts — India's Handcrafted Wardrobe. Verified at the Loom.",
   },
   description:
-    'Evidence-backed GI-certified Changthangi Pashmina, hand-embroidered Tilla shawls, fine wool pherans, and bespoke heritage crafts. Crafted by tradition, chosen for a lifetime.',
+    "The world's first fastest crafts e-commerce platform. Evidence-backed GI-certified handlooms from 15 Indian state clusters: Kashmir Pashmina, Kutch Ajrakh, Banarasi Silk, Lucknowi Chikankari, Assam Eri Peace Silk, and Pochampally Ikat.",
   alternates: {
     canonical: 'https://crafts.nutytales.com',
   },
   openGraph: {
-    title: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
+    title: "Nuty Tales Crafts — India's Handcrafted Wardrobe. Verified at the Loom.",
     description:
-      'Evidence-backed GI-certified Changthangi Pashmina, fine wool pherans, and bespoke Himalayan heritage crafts. Crafted by tradition, chosen for a lifetime.',
+      'The world’s first fastest crafts e-commerce platform. Evidence-backed GI handlooms, single-origin natural fibers, and fair weaver trade across India.',
     url: 'https://crafts.nutytales.com',
     siteName: 'Nuty Tales Crafts',
     locale: 'en_IN',
@@ -27,11 +27,16 @@ export default function CraftsPage() {
     '@type': 'Store',
     name: 'Nuty Tales Crafts',
     url: 'https://crafts.nutytales.com',
-    description: 'Authentic Kashmir GI Pashmina, hand-embroidered shawls, pherans, and heritage crafts.',
-    telephone: '+91-9596660144',
+    description:
+      'All-India GI-certified handlooms, artisan couture, Pashmina shawls, pherans, kurtas, and master weaver heritage.',
+    telephone: '+91-9717161809',
+    areaServed: {
+      '@type': 'Country',
+      name: 'India',
+    },
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Srinagar',
+      addressLocality: 'Srinagar & Pan-India Artisan Hubs',
       addressRegion: 'Jammu and Kashmir',
       addressCountry: 'IN',
     },

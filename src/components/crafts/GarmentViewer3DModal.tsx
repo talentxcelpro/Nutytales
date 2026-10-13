@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { ClothingProduct } from '@/lib/clothing-data'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface GarmentViewer3DModalProps {
   product: ClothingProduct | null
@@ -17,6 +18,7 @@ export default function GarmentViewer3DModal({
   onClose,
   onAddToCart,
 }: GarmentViewer3DModalProps) {
+  const { formatCraftPrice } = useMarketCurrency()
   if (!isOpen || !product) return null
 
   const [activeAngle, setActiveAngle] = useState<'front' | 'back' | 'embroidery' | 'texture'>('front')
@@ -215,10 +217,10 @@ export default function GarmentViewer3DModal({
             <div className="pt-2 space-y-2">
               <div className="flex items-baseline justify-between">
                 <span className="font-serif font-bold text-xl text-[#17233B]">
-                  ₹{product.price.toLocaleString('en-IN')}
+                  {formatCraftPrice(product.price)}
                 </span>
                 <span className="text-xs text-stone-400 line-through">
-                  ₹{product.mrp.toLocaleString('en-IN')}
+                  {formatCraftPrice(product.mrp)}
                 </span>
               </div>
               <button

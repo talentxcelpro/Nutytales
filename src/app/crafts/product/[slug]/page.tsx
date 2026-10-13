@@ -26,11 +26,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const name = item.name
-  const description = item.shortDesc || `Authentic GI Kashmiri craft: ${name}. Handcrafted by master artisans in Kashmir.`
+  const originState = (item as any).state || 'India'
+  const description = item.shortDesc || `Authentic GI handcrafted apparel: ${name}. Handcrafted by master artisans in ${originState}.`
   const canonicalUrl = `https://crafts.nutytales.com/product/${slug}`
 
   return {
-    title: `${name} | Kashmir Heritage Handloom | Nuty Tales Crafts`,
+    title: `${name} | Handcrafted ${originState} Heritage | Nuty Tales Crafts`,
     description,
     alternates: {
       canonical: canonicalUrl,

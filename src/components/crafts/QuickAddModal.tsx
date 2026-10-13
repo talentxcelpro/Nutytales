@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ClothingProduct } from '@/lib/clothing-data'
+import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface QuickAddModalProps {
   product: ClothingProduct | null
@@ -18,6 +19,7 @@ export default function QuickAddModal({
   onClose,
   onOpenSizeGuide,
 }: QuickAddModalProps) {
+  const { formatCraftPrice, isWesternMarket } = useMarketCurrency()
   if (!isOpen || !product) return null
 
   const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'Free Size')
@@ -42,11 +44,13 @@ export default function QuickAddModal({
         image: product.image,
       }
       localStorage.setItem('nt_cart', JSON.stringify([...existing, newItem]))
+      window.dispatchEvent(new Event('nt_cart_updated'))
+      window.dispatchEvent(new Event('nt_open_cart'))
       setAdded(true)
       setTimeout(() => {
         setAdded(false)
         onClose()
-      }, 1600)
+      }, 700)
     } catch {
       // ignore
     }
@@ -82,13 +86,18 @@ export default function QuickAddModal({
               {product.name}
             </h4>
             <p className="text-xs text-[#704B32]">{product.craft} · {product.material}</p>
-            <div className="flex items-center gap-2 pt-0.5">
+            <div className="flex items-center gap-2 pt-0.5 flex-wrap">
               <span className="font-serif font-bold text-base text-[#17233B]">
-                ₹{product.price.toLocaleString('en-IN')}
+                {formatCraftPrice(product.price)}
               </span>
               {product.mrp > product.price && (
                 <span className="text-xs text-stone-400 line-through">
-                  ₹{product.mrp.toLocaleString('en-IN')}
+                  {formatCraftPrice(product.mrp)}
+                </span>
+              )}
+              {isWesternMarket && (
+                <span className="text-[9px] font-bold text-[#C9A45C] bg-[#10192A] px-1.5 py-0.2 rounded">
+                  Export Incl.
                 </span>
               )}
             </div>
@@ -187,10 +196,10 @@ export default function QuickAddModal({
                 : 'bg-[#17233B] hover:bg-[#176B68] text-white'
             }`}
           >
-            {added ? '✓ Added to Shopping Bag!' : `Add to Bag • ₹${(product.price * quantity).toLocaleString('en-IN')}`}
+            {added ? '✓ Added to Shopping Bag!' : `Add to Bag • ${formatCraftPrice(product.price * quantity)}`}
           </button>
           <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1">
-            <span>Free insured Pan-India shipping</span>
+            <span>{isWesternMarket ? 'Insured DHL/FedEx Express Air Courier' : 'Free insured Pan-India shipping'}</span>
             <Link
               href={`/crafts/product/${product.slug}`}
               onClick={onClose}
