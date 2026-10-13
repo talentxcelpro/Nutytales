@@ -182,6 +182,12 @@ Host: ${hostUrl}
       }
       if (pathname === '/workspace') return rewriteVertical('/weddings/workspace')
       if (pathname === '/dashboard') return rewriteVertical('/weddings/dashboard')
+      if (pathname === '/venues') return rewriteVertical('/weddings/venues')
+      if (pathname === '/vendors') return rewriteVertical('/weddings/vendors')
+      if (pathname === '/inspiration') return rewriteVertical('/weddings/inspiration')
+      if (pathname === '/planner') return rewriteVertical('/weddings/planner')
+      if (pathname === '/vendor-portal') return rewriteVertical('/weddings/vendor-portal')
+      if (pathname === '/admin') return rewriteVertical('/weddings/admin')
       if (pathname.startsWith('/weddings')) return nextVertical()
       return rewriteVertical(`/weddings${pathname}`)
     }
