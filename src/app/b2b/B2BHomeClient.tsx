@@ -202,86 +202,110 @@ export default function B2BHomePage() {
   }
 
   return (
-    <div className="space-y-20 pb-24">
-      {/* ── 1. BUYING-FIRST HERO & STRATEGIC POSITIONING ────────────────────────── */}
-      <section className="pt-8 sm:pt-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
-        {/* Positioning Banner & Headline */}
-        <div className="text-center max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
-            <span>🏭</span> NUTY TALES BUSINESS · B2B WHOLESALE PROCUREMENT PLATFORM
+    <div className="space-y-16 pb-24">
+      {/* ── 1. WORLD-CLASS ENTERPRISE PROCUREMENT HERO ────────────────────────── */}
+      <section className="relative pt-6 sm:pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+        {/* Ambient background glow & decorative grid */}
+        <div className="text-center max-w-4xl mx-auto space-y-5">
+          {/* Top Enterprise Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-slate-200 text-xs font-semibold tracking-wide shadow-xs border border-white/10">
+            <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse" />
+            <span className="text-[#FF6B00] font-bold">NEXT-GEN PROCUREMENT OS</span>
+            <span className="text-slate-500">•</span>
+            <span>Direct Orchards to Industrial Lines</span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#17233B] leading-[1.15]">
-            Wholesale procurement, without the guesswork.
+          {/* Main Hero Headline */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0A1830] leading-[1.12]">
+            Wholesale procurement,{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] via-[#E65100] to-[#10B981]">
+              engineered for certainty.
+            </span>
           </h1>
 
-          <p className="text-stone-600 text-base sm:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence.
+          {/* Hero Subheadline */}
+          <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            Discover verified suppliers, benchmark landed cost quotations with freight and 5% GST input credit, and track temperature-controlled reefer deliveries in real time.
           </p>
 
-          {/* Three Core Strategic Action CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
-            <a
-              href="#pricing-matrix"
-              className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
+          {/* Strategic CTA Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href="/b2b/dashboard"
+              className="px-6 py-3.5 bg-[#081830] hover:bg-[#12274A] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 group"
             >
-              <span>Explore Wholesale Products</span>
-              <span>→</span>
-            </a>
+              <span>Launch Procurement Workspace</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
 
             <a
-              href="#multi-supplier-rfq"
-              className="px-6 py-3.5 bg-white hover:bg-stone-50 text-[#17233B] font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"
+              href="#pricing-matrix"
+              className="px-5 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all border border-slate-300 shadow-xs flex items-center gap-2"
             >
-              <span>⚖️ Compare Supplier Quotes</span>
+              <span>📦 Live Price Matrix</span>
             </a>
+
+            <Link
+              href="/b2b/rfq"
+              className="px-5 py-3.5 bg-[#FF6B00] hover:bg-[#E65100] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-xs flex items-center gap-1.5"
+            >
+              <span>⚡ Submit Quick RFQ</span>
+            </Link>
 
             <button
               type="button"
               onClick={() => setIsBecomeSupplierOpen(true)}
-              className="px-5 py-3.5 bg-amber-50 hover:bg-amber-100 text-[#704B32] font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all border border-amber-200 flex items-center gap-1.5"
+              className="px-4 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm rounded-xl transition-all"
             >
-              <span>🌾 Become a Supplier</span>
+              🌾 Become a Supplier
             </button>
           </div>
 
           {/* Three Trust Pillars (Section 8 of Brief) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 max-w-3xl mx-auto text-xs">
-            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
-              <span className="text-base text-[#176B68] font-bold">✓</span>
-              <div>
-                <strong className="block text-[#17233B]">Compare</strong>
-                <span className="text-[11px] text-stone-500">Commercial offers</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 max-w-3xl mx-auto text-xs">
+            <div className="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-center gap-2.5 text-slate-800">
+              <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs font-bold">
+                ✓
+              </span>
+              <div className="text-left">
+                <strong className="block text-slate-900 text-xs">Compare Offers</strong>
+                <span className="text-[11px] text-slate-500">Ex-hub, freight &amp; net landed cost</span>
               </div>
             </div>
-            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
-              <span className="text-base text-[#176B68] font-bold">✓</span>
-              <div>
-                <strong className="block text-[#17233B]">Verify</strong>
-                <span className="text-[11px] text-stone-500">Available evidence</span>
+
+            <div className="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-center gap-2.5 text-slate-800">
+              <span className="w-5 h-5 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center text-xs font-bold">
+                ✓
+              </span>
+              <div className="text-left">
+                <strong className="block text-slate-900 text-xs">Verify Evidence</strong>
+                <span className="text-[11px] text-slate-500">NABL lab assays for moisture &amp; oil</span>
               </div>
             </div>
-            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
-              <span className="text-base text-[#176B68] font-bold">✓</span>
-              <div>
-                <strong className="block text-[#17233B]">Fulfil</strong>
-                <span className="text-[11px] text-stone-500">Clear delivery terms</span>
+
+            <div className="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-center gap-2.5 text-slate-800">
+              <span className="w-5 h-5 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center text-xs font-bold">
+                ✓
+              </span>
+              <div className="text-left">
+                <strong className="block text-slate-900 text-xs">Clear Fulfilment</strong>
+                <span className="text-[11px] text-slate-500">14°C reefer transit &amp; Net-30 credit</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── 2. NATURAL LANGUAGE SOURCING SEARCH BAR (Section 2B of Brief) ──────── */}
-        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xl space-y-4 max-w-5xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
+        {/* ── 2. INTELLIGENT SOURCING SEARCH TERMINAL ───────────────────────── */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-lg space-y-4 max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <div className="flex items-center gap-2">
-              <span className="text-lg">🔍</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#17233B]">
-                Intelligent Natural Language Procurement Search
+              <span className="text-base">🔎</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-900">
+                Natural Language Procurement Search &amp; Route
               </span>
             </div>
-            <span className="text-[11px] text-stone-500">
-              Type product, volume, cut, or destination naturally
+            <span className="text-[11px] text-slate-500 font-medium">
+              Parse commodity, lot size, cut, and destination hub automatically
             </span>
           </div>
 
@@ -291,15 +315,15 @@ export default function B2BHomePage() {
               type="text"
               value={naturalSearchQuery}
               onChange={(e) => setNaturalSearchQuery(e.target.value)}
-              placeholder='Try typing: "Kashmiri walnuts, 100 kg, delivered to Delhi" or "Makhana 6+ sutra, 500 kg"'
-              className="w-full px-5 py-4 pl-12 pr-10 rounded-2xl border border-stone-300 text-sm sm:text-base focus:ring-2 focus:ring-[#176B68] focus:border-transparent outline-none bg-stone-50 text-stone-900 font-medium transition-all"
+              placeholder='Try typing: "Kashmiri walnuts, 100 kg, delivered to Delhi" or "California Almonds Sliced, 500 kg"'
+              className="w-full px-5 py-3.5 pl-11 pr-10 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#081830] focus:border-transparent outline-none bg-slate-50 text-slate-900 font-medium transition-all"
             />
-            <span className="absolute left-4 top-4 text-stone-400 text-lg">🔎</span>
+            <span className="absolute left-3.5 top-3.5 text-slate-400 text-sm">🔍</span>
             {naturalSearchQuery && (
               <button
                 type="button"
                 onClick={() => setNaturalSearchQuery('')}
-                className="absolute right-4 top-4 text-stone-400 hover:text-stone-700 text-sm font-bold"
+                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-700 text-xs font-bold"
               >
                 ✕
               </button>
@@ -307,22 +331,22 @@ export default function B2BHomePage() {
           </div>
 
           {/* Example Prompt Chips */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-stone-600">
-            <span className="text-[11px] font-bold uppercase text-[#704B32] mr-1">
-              Popular searches:
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-slate-600">
+            <span className="text-[11px] font-bold uppercase text-slate-400 mr-1">
+              Sample prompts:
             </span>
             {[
               'Kashmiri walnuts, 100 kg, delivered to Delhi',
-              'Makhana for private-label packaging, 500 kg',
-              'Cashew kernels, a specified grade, with export documents',
               'California almonds, sliced 1 MT, Noida Hub',
-              'Royal Kashmiri Mongra Saffron, 1 kg, Bengaluru',
+              'Makhana for private-label packaging, 500 kg',
+              'Cashew kernels W240, export grade, Mumbai',
+              'Pampore Mongra Saffron, 1 kg, Bengaluru',
             ].map((chip) => (
               <button
                 key={chip}
                 type="button"
                 onClick={() => setNaturalSearchQuery(chip)}
-                className="px-3 py-1 rounded-lg bg-stone-100 hover:bg-[#17233B] hover:text-white text-stone-700 text-[11px] font-medium transition-colors border border-stone-200"
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-[#081830] hover:text-white text-slate-700 text-[11px] font-medium transition-colors border border-slate-200"
               >
                 {chip}
               </button>
@@ -331,9 +355,9 @@ export default function B2BHomePage() {
 
           {/* Parsed Search Feedback Banner */}
           {parsedSearchFeedback && (
-            <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-950 flex flex-wrap items-center justify-between gap-3 animate-fadeIn">
+            <div className="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex flex-wrap items-center justify-between gap-3 animate-fadeIn">
               <div className="flex items-center gap-2">
-                <span className="text-base">🎯</span>
+                <span className="text-sm">🎯</span>
                 <span>
                   Showing <strong>{parsedSearchFeedback.matchCount} matched commodity lots</strong> for{' '}
                   <strong className="text-emerald-900">{parsedSearchFeedback.quantity}</strong> delivered to{' '}
@@ -342,12 +366,113 @@ export default function B2BHomePage() {
               </div>
               <a
                 href="#pricing-matrix"
-                className="font-bold text-[#176B68] hover:underline uppercase text-[11px] tracking-wider"
+                className="font-bold text-emerald-800 hover:underline uppercase text-[11px] tracking-wider"
               >
                 View in Price Matrix ↓
               </a>
             </div>
           )}
+        </div>
+
+        {/* ── 3. LIVE COMMODITY EX-HUB SPOT TICKER CARDS (4 Cards) ─────────────── */}
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            {/* Card 1: California Almonds */}
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-50 text-blue-800">
+                  Import Hub
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">● In Stock</span>
+              </div>
+              <div>
+                <div className="font-bold text-slate-900 text-xs">California Almonds (Sliced)</div>
+                <div className="text-[11px] text-slate-500">Nonpareil Extra #1 · 1.0mm cut</div>
+              </div>
+              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹670 / kg</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-slate-400">MOQ 250 kg</div>
+                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹714</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Kashmiri Walnuts */}
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-50 text-amber-800">
+                  Direct Orchard
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">● Fresh Harvest</span>
+              </div>
+              <div>
+                <div className="font-bold text-slate-900 text-xs">Kashmiri Kagzi Walnuts</div>
+                <div className="text-[11px] text-slate-500">Snow-White Halves (80%+)</div>
+              </div>
+              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹950 / kg</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-slate-400">MOQ 100 kg</div>
+                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹985</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Kashmiri Saffron */}
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-purple-50 text-purple-800">
+                  GI Certified
+                </span>
+                <span className="text-[10px] text-purple-600 font-bold">● Crocin &gt; 250</span>
+              </div>
+              <div>
+                <div className="font-bold text-slate-900 text-xs">Royal Kashmiri Mongra Saffron</div>
+                <div className="text-[11px] text-slate-500">Pure Red Stigma Filaments</div>
+              </div>
+              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹2,60,000 / kg</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-slate-400">MOQ 1.0 kg</div>
+                  <div className="text-[10px] text-slate-500 font-mono">Air Express</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: Mithila Makhana */}
+            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-50 text-emerald-800">
+                  GI Producer Co
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">● Hard-Shell Free</span>
+              </div>
+              <div>
+                <div className="font-bold text-slate-900 text-xs">GI Mithila Makhana</div>
+                <div className="text-[11px] text-slate-500">Hand-Graded 6+ Sutra Jumbo</div>
+              </div>
+              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹680 / kg</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] text-slate-400">MOQ 500 kg</div>
+                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹712</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
