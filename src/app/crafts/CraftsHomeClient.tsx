@@ -25,16 +25,16 @@ import CraftsSwatchAndConsignmentDesk from '@/components/crafts/CraftsSwatchAndC
 
 // ── Top Shoppable Story Avatars (Myntra Studio / Lookbook Circles) ──────────────
 const FASHION_STORIES = [
-  { id: 'all', name: 'All India', count: 46, image: '/images/weddings/hero-palace.jpg', icon: '🇮🇳', state: '' },
+  { id: 'all', name: 'All India', count: 46, image: 'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=800&auto=format&fit=crop&q=80', icon: '🇮🇳', state: '' },
   { id: 'gujarat', name: 'Gujarat Patola', count: 4, image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80', icon: '🦁', state: 'Gujarat' },
-  { id: 'kashi', name: 'Kashi Brocade', count: 3, image: '/images/weddings/hero-palace.jpg', icon: '🏛️', state: 'Uttar Pradesh' },
+  { id: 'kashi', name: 'Kashi Brocade', count: 3, image: 'https://plus.unsplash.com/premium_photo-1681483544221-e04d719060ff?w=800&auto=format&fit=crop&q=80', icon: '🏛️', state: 'Uttar Pradesh' },
   { id: 'kashmir', name: 'Kashmir Pashmina', count: 23, image: '/images/crafts-shawls.jpg', icon: '🏔️', state: 'Jammu & Kashmir' },
-  { id: 'kanchi', name: 'Kanchipuram Silk', count: 5, image: '/images/weddings/hero-global.jpg', icon: '🦚', state: 'Tamil Nadu' },
+  { id: 'kanchi', name: 'Kanchipuram Silk', count: 5, image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80', icon: '🦚', state: 'Tamil Nadu' },
   { id: 'thar', name: 'Thar Handblock', count: 3, image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80', icon: '🏰', state: 'Rajasthan' },
   { id: 'bengal', name: 'Bengal Jamdani', count: 3, image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80', icon: '🌿', state: 'West Bengal' },
-  { id: 'assam', name: 'Assam Peace Silk', count: 2, image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80', icon: '🧵', state: 'Assam' },
+  { id: 'assam', name: 'Assam Peace Silk', count: 2, image: 'https://images.unsplash.com/flagged/photo-1551854716-8b811be39e7e?w=800&auto=format&fit=crop&q=80', icon: '🧵', state: 'Assam' },
   { id: 'chanderi', name: 'Chanderi Zari', count: 3, image: 'https://images.unsplash.com/photo-1610189012906-4c0aa9b9781e?w=800&auto=format&fit=crop&q=80', icon: '👑', state: 'Madhya Pradesh' },
-  { id: 'si', name: 'Virtual Drape', count: 'AI', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80', icon: '✨', action: 'try-si' },
+  { id: 'si', name: 'Virtual Drape', count: 'AI', image: 'https://images.unsplash.com/photo-1727430228383-aa1fb59db8bf?w=800&auto=format&fit=crop&q=80', icon: '✨', action: 'try-si' },
 ]
 
 // ── Categories List for Faceted Filter ──────────────────────────────────────────

@@ -61,9 +61,19 @@ export default function ClothingProductCard({
       ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
       : 0
 
+  const previewImages = [
+    product.image,
+    product.secondaryImage,
+    product.detailImage,
+    product.textureImage,
+    ...(product.additionalImages || []),
+  ].filter(Boolean).slice(0, 5)
+
+  const [hoverImageIdx, setHoverImageIdx] = useState(0)
+
   const activeImage =
-    isHovered && product.secondaryImage
-      ? product.secondaryImage
+    isHovered && previewImages[hoverImageIdx]
+      ? previewImages[hoverImageIdx]
       : product.image
 
   const currentColor = product.colorOptions[selectedColorIdx] || product.colorOptions[0]
@@ -79,7 +89,10 @@ export default function ClothingProductCard({
     <div
       className="group relative flex flex-col bg-white rounded-xl overflow-hidden border border-stone-200/90 hover:border-stone-400 hover:shadow-2xl transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setHoverImageIdx(0)
+      }}
     >
       {/* ── 1. Image Stage with Myntra Fashion Aspect Ratio (3:4) ──────────── */}
       <div className="relative aspect-[3/4] w-full bg-[#FAF6EE] overflow-hidden">
@@ -93,6 +106,28 @@ export default function ClothingProductCard({
             className="object-cover object-[center_top] group-hover:scale-105 transition-transform duration-500 ease-out"
           />
         </Link>
+
+        {/* Multi-angle preview pagination indicator dots on hover */}
+        {isHovered && previewImages.length > 1 && (
+          <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center items-center gap-1.5 px-3 pointer-events-auto">
+            {previewImages.map((_, dotIdx) => (
+              <button
+                key={dotIdx}
+                type="button"
+                onMouseEnter={(e) => {
+                  e.stopPropagation()
+                  setHoverImageIdx(dotIdx)
+                }}
+                className={`h-1.5 rounded-full transition-all ${
+                  hoverImageIdx === dotIdx
+                    ? 'w-5 bg-[#C9A45C]'
+                    : 'w-1.5 bg-white/70 hover:bg-white'
+                }`}
+                aria-label={`Preview angle ${dotIdx + 1}`}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Top Badges (Origin & Status) */}
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10 pointer-events-none">

@@ -10,12 +10,13 @@ import SpeedTelemetryHUD from '@/components/crafts/SpeedTelemetryHUD'
 import CraftCurrencySelector from '@/components/crafts/CraftCurrencySelector'
 
 const CRAFTS_NAV_LINKS = [
-  { label: 'All-India Atlas', href: '/india', badge: '15 States' },
-  { label: 'Sherwanis & Coats', href: '/jackets-coats' },
-  { label: 'Kurtas & Tunics', href: '/#catalog' },
-  { label: 'Heirloom Shawls', href: '/shawls-stoles', badge: 'GI Pashmina' },
-  { label: 'Kashmir Pherans', href: '/pherans' },
-  { label: 'B2B Export Desk', href: '/wholesale', badge: 'Worldwide' },
+  { label: 'MEN', href: '/men', queryParam: 'gender=men' },
+  { label: 'WOMEN', href: '/women', queryParam: 'gender=women' },
+  { label: 'SAREES & LEHENGAS', href: '/#catalog', queryParam: 'category=sarees' },
+  { label: 'SHAWLS & DUPATTAS', href: '/shawls-stoles', badge: 'GI Pashmina' },
+  { label: '15 STATES ATELIER', href: '/india', badge: '15 States' },
+  { label: 'GI CERTIFIED', href: '/#catalog', badge: 'GI Tag', isGi: true },
+  { label: '✨ AI STUDIO', href: '/try-with-si', badge: 'TRY-ON', isSpecial: true },
 ]
 
 export default function CraftsShell({
@@ -80,7 +81,7 @@ export default function CraftsShell({
   }
 
   const isLinkActive = (href: string) => {
-    if (href === '/') {
+    if (href === '/' || href === '/#catalog') {
       return pathname === '/crafts' || pathname === '/'
     }
     const cleanPath = pathname.replace(/^\/crafts/, '') || '/'
@@ -103,183 +104,203 @@ export default function CraftsShell({
         onClose={() => setSearchModalOpen(false)}
       />
 
-      {/* ── Crafts Top Speed & Provenance Ribbon ──────────────────────────────── */}
-      <div className="bg-[#10192A] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-2.5">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-white font-medium">
-            <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
-            <span className="font-bold">Nuty Tales Crafts</span> — All-India Handlooms &amp; Heritage Apparel
-          </span>
-          <span className="hidden lg:inline text-white/30">•</span>
-          <span className="hidden lg:inline text-[#C9A45C]">
-            Pan-India GI Clusters · 100% Single-Origin Weaves · Insured Pan-India &amp; Global Air Freight
-          </span>
-        </div>
-
-        <div className="flex items-center gap-3 text-xs">
-          {/* Live Speed Telemetry Badge */}
-          <SpeedTelemetryHUD />
-
-          <a
-            href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nuty Tales Crafts! I am inquiring about all-India GI handlooms, custom artisan tailoring, and heritage fashion.',
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#C9A45C] font-bold hover:underline flex items-center gap-1 hidden sm:flex text-[11px]"
-          >
-            <span>Artisan Concierge</span>
-            <span>→</span>
-          </a>
-        </div>
-      </div>
-
-      {/* ── Crafts Header ────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-stone-200 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Brand Logo */}
-            <Link href={getLinkHref('/')} className="flex items-center gap-3 group">
-              <div className="relative w-11 h-11 rounded-2xl bg-[#17233B] flex items-center justify-center text-white font-serif text-xl font-bold shadow-md group-hover:scale-105 transition-transform">
-                <span>🇮🇳</span>
-              </div>
-              <div>
-                <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
-                  Nuty Tales <span className="text-[#C9A45C]">Crafts</span>
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  Pan-India Handlooms · GI Certified Weaves
-                </span>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-0.5">
-              {CRAFTS_NAV_LINKS.map((link) => {
-                const active = isLinkActive(link.href)
-                return (
-                  <Link
-                    key={link.label}
-                    href={getLinkHref(link.href)}
-                    className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all relative flex items-center gap-1 ${
-                      active
-                        ? 'bg-[#17233B] text-white shadow-xs'
-                        : 'text-stone-700 hover:text-[#17233B] hover:bg-stone-200/50'
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    {link.badge && (
-                      <span
-                        className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
-                          active
-                            ? 'bg-[#C9A45C] text-[#17233B]'
-                            : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
-                        }`}
-                      >
-                        {link.badge}
-                      </span>
-                    )}
-                  </Link>
-                )
-              })}
-            </nav>
-
-            {/* Action Buttons: Instant Search, Wishlist, Bag, Wholesale */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
-              {/* Instant Search Bar Trigger */}
-              <button
-                type="button"
-                onClick={() => setSearchModalOpen(true)}
-                className="px-3 py-2 rounded-xl bg-stone-200/60 hover:bg-stone-200 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-colors"
-                title="Instant Search across All-India Crafts (Press /)"
-              >
-                <span>🔍</span>
-                <span className="hidden sm:inline">Search</span>
-                <span className="text-[10px] bg-white px-1.5 py-0.2 rounded border border-stone-300 font-mono text-stone-500">
-                  /
-                </span>
-              </button>
-
-              {/* Wishlist Indicator */}
-              <Link
-                href={getLinkHref('/#catalog')}
-                className="relative p-2.5 rounded-xl bg-stone-200/60 hover:bg-stone-200 text-stone-700 text-sm transition-colors"
-                title="Saved to Wishlist"
-              >
-                <span>♥</span>
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-bold flex items-center justify-center">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Shopping Bag Drawer Trigger */}
-              <button
-                type="button"
-                onClick={handleOpenCart}
-                className="relative px-3.5 py-2.5 bg-[#17233B] hover:bg-stone-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-transform active:scale-95 shadow-sm"
-                title="Open Shopping Bag"
-              >
-                <span>🛍️</span>
-                <span className="hidden sm:inline">Bag</span>
-                <span className="w-5 h-5 rounded-full bg-[#C9A45C] text-[#17233B] text-[10px] font-extrabold flex items-center justify-center">
-                  {cartCount}
-                </span>
-              </button>
-
-              {/* Global Currency Selector (Header Pill) */}
-              <div className="hidden sm:block">
-                <CraftCurrencySelector variant="header" />
-              </div>
-
-              {/* Wholesale Desk Link */}
-              <Link
-                href={getLinkHref('/wholesale')}
-                className="hidden xl:flex px-3 py-2 bg-white border border-stone-300 hover:border-[#C9A45C] text-stone-800 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs items-center gap-1"
-              >
-                <span>🌍 B2B Export</span>
-              </Link>
-
-              {/* Mobile Hamburger */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl border border-stone-200 text-stone-700"
-                aria-label="Toggle navigation"
-              >
-                {mobileMenuOpen ? '✕' : '☰'}
-              </button>
-            </div>
+      {/* ── Unified Sticky Header (Zero Overlap, Pure Myntra Experience) ─────── */}
+      <div className="sticky top-0 z-40 shadow-xs">
+        {/* ── Top Micro Announcement Strip ── */}
+        <div className="bg-[#10192A] text-stone-300 text-[11px] py-1.5 px-4 sm:px-8 border-b border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1.5 text-white font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
+              <span className="font-bold tracking-wide">NUTY TALES CRAFTS</span>
+              <span className="text-white/40 hidden sm:inline">|</span>
+              <span className="hidden sm:inline text-stone-300 font-normal">Pan-India GI Clusters &bull; 100% Single-Origin Handlooms</span>
+            </span>
           </div>
-        </div>
 
-        {/* Mobile Nav Drawer */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-stone-200 px-4 py-4 space-y-2">
-            {CRAFTS_NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={getLinkHref(link.href)}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-xs font-semibold text-stone-700 hover:bg-stone-100"
-              >
-                {link.label} {link.badge && `(${link.badge})`}
-              </Link>
-            ))}
-            <div className="pt-2 border-t border-stone-200 flex items-center justify-between">
-              <span className="text-xs font-semibold text-stone-600">Currency:</span>
-              <CraftCurrencySelector variant="header" />
-            </div>
-            <Link
-              href={getLinkHref('/wholesale')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center py-2.5 bg-[#C9A45C] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl mt-2"
+          <div className="flex items-center gap-4 text-xs">
+            <SpeedTelemetryHUD />
+            <a
+              href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                'Hello Nuty Tales Crafts! I am inquiring about all-India GI handlooms, custom artisan tailoring, and heritage fashion.',
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#C9A45C] font-semibold hover:underline flex items-center gap-1 hidden sm:flex text-[11px]"
             >
-              Wholesale &amp; Export Desk
-            </Link>
+              <span>Artisan Concierge</span>
+              <span>&rarr;</span>
+            </a>
           </div>
-        )}
-      </header>
+        </div>
+
+        {/* ── Main Myntra-Style Navigation Bar ── */}
+        <header className="bg-white/95 backdrop-blur-md border-b border-stone-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-18 gap-2 lg:gap-4">
+              
+              {/* Left: Brand Identity */}
+              <Link href={getLinkHref('/')} className="flex items-center gap-2.5 flex-shrink-0 group">
+                <div className="w-10 h-10 rounded-xl bg-[#17233B] flex items-center justify-center text-white font-serif text-lg font-bold shadow-sm group-hover:scale-105 transition-transform">
+                  <span>🇮🇳</span>
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-serif text-lg sm:text-xl font-extrabold text-[#17233B] tracking-tight">
+                      Nuty Tales
+                    </span>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-[#C9A45C] text-[#17233B]">
+                      Crafts
+                    </span>
+                  </div>
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-[#704B32] block -mt-0.5">
+                    Pan-India Handlooms &bull; GI Tagged
+                  </span>
+                </div>
+              </Link>
+
+              {/* Center: Myntra High-Level Categories */}
+              <nav className="hidden xl:flex items-center gap-1 lg:gap-2">
+                {CRAFTS_NAV_LINKS.map((link) => {
+                  const active = isLinkActive(link.href)
+                  return (
+                    <Link
+                      key={link.label}
+                      href={getLinkHref(link.href)}
+                      className={`px-2.5 py-2 text-[12px] font-bold tracking-wider uppercase transition-all relative flex items-center gap-1.5 rounded-lg group ${
+                        active
+                          ? 'text-[#17233B] font-extrabold'
+                          : 'text-stone-700 hover:text-[#17233B] hover:bg-stone-50'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      {link.badge && (
+                        <span
+                          className={`text-[8px] px-1.5 py-0.2 rounded-full font-bold uppercase ${
+                            link.isSpecial
+                              ? 'bg-rose-500 text-white animate-pulse'
+                              : link.isGi
+                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                              : active
+                              ? 'bg-[#C9A45C] text-[#17233B]'
+                              : 'bg-stone-100 text-stone-600 border border-stone-200'
+                          }`}
+                        >
+                          {link.badge}
+                        </span>
+                      )}
+                      {active && (
+                        <span className="absolute bottom-0 left-2.5 right-2.5 h-0.5 bg-[#C9A45C] rounded-full" />
+                      )}
+                    </Link>
+                  )
+                })}
+              </nav>
+
+              {/* Center-Right: Myntra-Style Full Search Input */}
+              <div className="flex-1 max-w-xs sm:max-w-sm hidden md:block">
+                <button
+                  type="button"
+                  onClick={() => setSearchModalOpen(true)}
+                  className="w-full h-10 px-3.5 rounded-xl bg-stone-100 hover:bg-stone-200/80 border border-stone-200 text-stone-500 text-xs flex items-center justify-between transition-colors text-left"
+                >
+                  <span className="flex items-center gap-2 truncate">
+                    <span className="text-stone-400">🔍</span>
+                    <span className="truncate">Search for handlooms, sarees, kurtas, crafts...</span>
+                  </span>
+                  <span className="text-[10px] bg-white px-1.5 py-0.5 rounded border border-stone-300 font-mono text-stone-400">
+                    /
+                  </span>
+                </button>
+              </div>
+
+              {/* Right: Actions (Wishlist, Bag, Currency, B2B) */}
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                {/* Search icon button for mobile */}
+                <button
+                  type="button"
+                  onClick={() => setSearchModalOpen(true)}
+                  className="md:hidden p-2 rounded-xl text-stone-600 hover:bg-stone-100 text-base"
+                  aria-label="Search"
+                >
+                  🔍
+                </button>
+
+                {/* Wishlist Button */}
+                <Link
+                  href={getLinkHref('/#catalog')}
+                  className="relative p-2 sm:px-3 sm:py-2 rounded-xl hover:bg-stone-100 text-stone-700 text-xs font-semibold flex flex-col sm:flex-row items-center gap-1 transition-colors"
+                  title="Wishlist"
+                >
+                  <span className="text-base sm:text-sm">♥</span>
+                  <span className="hidden lg:inline text-[11px] font-bold uppercase tracking-wider">Wishlist</span>
+                  {wishlistCount > 0 && (
+                    <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-bold flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+
+                {/* Bag Button */}
+                <button
+                  type="button"
+                  onClick={handleOpenCart}
+                  className="relative p-2 sm:px-3 sm:py-2 rounded-xl bg-[#17233B] hover:bg-stone-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-transform active:scale-95 shadow-sm"
+                  title="Bag"
+                >
+                  <span className="text-sm">🛍️</span>
+                  <span className="hidden sm:inline text-[11px] font-bold uppercase tracking-wider">Bag</span>
+                  <span className="w-4 h-4 rounded-full bg-[#C9A45C] text-[#17233B] text-[9px] font-extrabold flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                </button>
+
+                {/* Global Multi-Currency Dropdown */}
+                <div className="hidden sm:block">
+                  <CraftCurrencySelector variant="header" />
+                </div>
+
+                {/* Wholesale B2B Desk */}
+                <Link
+                  href={getLinkHref('/wholesale')}
+                  className="hidden xl:flex px-3 py-1.5 bg-stone-50 border border-stone-200 hover:border-[#C9A45C] text-stone-700 hover:text-stone-900 font-bold text-[10px] uppercase tracking-wider rounded-lg transition-colors items-center gap-1"
+                >
+                  <span>🌍 B2B Desk</span>
+                </Link>
+
+                {/* Mobile Menu Hamburger */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="xl:hidden p-2 rounded-xl border border-stone-200 text-stone-700 hover:bg-stone-50 text-sm"
+                  aria-label="Toggle navigation"
+                >
+                  {mobileMenuOpen ? '✕' : '☰'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Nav Drawer */}
+          {mobileMenuOpen && (
+            <div className="xl:hidden bg-white border-t border-stone-200 px-4 py-3 space-y-1">
+              {CRAFTS_NAV_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  href={getLinkHref(link.href)}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-xs font-bold text-stone-700 hover:bg-stone-50 hover:text-[#17233B] flex items-center justify-between"
+                >
+                  <span>{link.label}</span>
+                  {link.badge && (
+                    <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#C9A45C]/20 text-[#17233B] font-bold">
+                      {link.badge}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
+        </header>
+      </div>
 
       {/* ── Main Content ──────────────────────────────────────────────────────── */}
       <main className="flex-1">{children}</main>
