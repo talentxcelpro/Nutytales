@@ -1525,7 +1525,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
-      {name: 'Narmada Teal & Gold', hex: '#1C5B56', image: 'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Royal Sapphire Blue & Blush Peach', hex: '#1C3B72', image: 'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Malwa Maroon & Antique Zari', hex: '#771E2C', image: 'https://plus.unsplash.com/premium_photo-1675597044994-1b04f8b3fec8?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Handloom Tussar Silk-Cotton with Reversible Zari Border',

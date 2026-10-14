@@ -13,6 +13,7 @@ import GarmentViewer3DModal from '@/components/crafts/GarmentViewer3DModal'
 import ArtisanPassportModal from '@/components/crafts/ArtisanPassportModal'
 import ExpressBuyModal from '@/components/crafts/ExpressBuyModal'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
+import { getRecommendedModelForProduct } from '@/lib/models-data'
 
 export default function CraftProductDetailClient() {
   const { formatCraftPrice, currency, isWesternMarket } = useMarketCurrency()
@@ -215,6 +216,11 @@ export default function CraftProductDetailClient() {
   const youMayAlsoLike = CLOTHING_PRODUCTS.filter(
     (p) => p.id !== product.id && (p.primaryCategory === product.primaryCategory || p.gender === product.gender)
   ).slice(0, 4)
+
+  const featuredModel = getRecommendedModelForProduct(
+    product.gender === 'men' ? 'men' : 'women',
+    product.categoryLabel || product.name
+  )
 
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-4 sm:pt-6 pb-24">
@@ -453,6 +459,31 @@ export default function CraftProductDetailClient() {
                 <span className="text-stone-600 font-medium">5.0 ({product.reviews.length} reviews)</span>
                 <span className="text-stone-300">•</span>
                 <span className="text-[#176B68] font-bold">100% Handcrafted</span>
+              </div>
+
+              {/* ASOS / Net-a-Porter Style Model Specifications & 58-Model Agency Drape Access */}
+              <div className="p-3 bg-amber-50/70 border border-amber-200/70 rounded-xl flex items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#C9A45C]/50 flex-shrink-0">
+                    <Image src={featuredModel.avatar} alt={featuredModel.name} fill className="object-cover" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-[#17233B] truncate">
+                      Modeled by <span className="font-bold">{featuredModel.name}</span> ({featuredModel.city})
+                    </p>
+                    <p className="text-[11px] text-stone-600 truncate">
+                      Height: <strong className="text-[#17233B]">{featuredModel.height}</strong> ({featuredModel.heightCm}cm) · Fit: <strong className="text-[#17233B]">{featuredModel.fitType}</strong>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSiModalOpen(true)}
+                  className="px-2.5 py-1.5 rounded-lg bg-[#17233B] hover:bg-[#176B68] text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-colors shadow-xs flex items-center gap-1 flex-shrink-0"
+                >
+                  <span>👗</span>
+                  <span>Try on 58 Models</span>
+                </button>
               </div>
             </div>
 
@@ -832,6 +863,7 @@ export default function CraftProductDetailClient() {
         onClose={() => setSiModalOpen(false)}
         initialProduct={product}
         initialColorIdx={selectedColorIdx}
+        initialModelId={featuredModel.id}
       />
 
       {/* Fullscreen HD Lightbox Modal */}

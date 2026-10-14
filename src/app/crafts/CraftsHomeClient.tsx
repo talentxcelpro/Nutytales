@@ -34,7 +34,7 @@ const FASHION_STORIES = [
   { id: 'bengal', name: 'Bengal Jamdani', count: 3, image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=80', icon: '🌿', state: 'West Bengal' },
   { id: 'assam', name: 'Assam Peace Silk', count: 2, image: 'https://images.unsplash.com/flagged/photo-1551854716-8b811be39e7e?w=800&auto=format&fit=crop&q=80', icon: '🧵', state: 'Assam' },
   { id: 'chanderi', name: 'Chanderi Zari', count: 3, image: 'https://images.unsplash.com/photo-1610189012906-4c0aa9b9781e?w=800&auto=format&fit=crop&q=80', icon: '👑', state: 'Madhya Pradesh' },
-  { id: 'si', name: 'Virtual Drape', count: 'AI', image: 'https://images.unsplash.com/photo-1727430228383-aa1fb59db8bf?w=800&auto=format&fit=crop&q=80', icon: '✨', action: 'try-si' },
+  { id: 'si', name: '58 Models Studio', count: '58', image: 'https://images.unsplash.com/photo-1727430228383-aa1fb59db8bf?w=800&auto=format&fit=crop&q=80', icon: '✨', action: 'try-si' },
 ]
 
 // ── Categories List for Faceted Filter ──────────────────────────────────────────
@@ -416,11 +416,22 @@ export default function CraftsHomeClient() {
           </div>
 
           {/* Quick Shortcuts */}
-          <div className="flex items-center gap-3 text-xs self-start sm:self-auto">
+          <div className="flex items-center gap-2.5 text-xs self-start sm:self-auto flex-wrap">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveSiProduct(undefined)
+                setSiModalOpen(true)
+              }}
+              className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#17233B] to-[#176B68] text-white font-bold flex items-center gap-1.5 shadow-xs hover:opacity-95"
+            >
+              <span>✨</span>
+              <span>58-Model Try-On Studio</span>
+            </button>
             <button
               type="button"
               onClick={() => setSizeGuideOpen(true)}
-              className="text-stone-600 hover:text-[#176B68] font-bold flex items-center gap-1"
+              className="text-stone-600 hover:text-[#176B68] font-bold flex items-center gap-1 px-2 py-1"
             >
               <span>📏</span>
               <span>Size Guide</span>
@@ -428,7 +439,7 @@ export default function CraftsHomeClient() {
             <button
               type="button"
               onClick={() => setB2bQuoteOpen(true)}
-              className="text-stone-600 hover:text-[#704B32] font-bold flex items-center gap-1"
+              className="text-stone-600 hover:text-[#704B32] font-bold flex items-center gap-1 px-2 py-1"
             >
               <span>🏛️</span>
               <span>B2B / Export Desk</span>

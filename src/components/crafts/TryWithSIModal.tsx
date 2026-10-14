@@ -1,84 +1,29 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CRAFT_PRODUCTS, CraftProduct } from '@/lib/crafts-data'
 import { CLOTHING_PRODUCTS, ClothingProduct } from '@/lib/clothing-data'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
+import {
+  ALL_AGENCY_MODELS,
+  FEMALE_MODELS,
+  MALE_MODELS,
+  AgencyModel,
+  getModelsByGender,
+  getRecommendedModelForProduct,
+} from '@/lib/models-data'
 
 interface TryWithSIModalProps {
   isOpen: boolean
   onClose: () => void
   initialProduct?: any
   initialColorIdx?: number
+  initialModelId?: string
 }
 
 type ModelGender = 'women' | 'men'
-
-interface AvatarModel {
-  id: string
-  name: string
-  height: string
-  drapeFit: string
-  perspective: 'front' | 'silhouette' | 'profile'
-  description: string
-}
-
-const AVATAR_MODELS: Record<ModelGender, AvatarModel[]> = {
-  women: [
-    {
-      id: 'w1',
-      name: 'Alia (Kashmir Alpine Light)',
-      height: "5'7\"",
-      drapeFit: 'Athletic Petite',
-      perspective: 'front',
-      description: 'Front Stance & Collar Alignment',
-    },
-    {
-      id: 'w2',
-      name: 'Zoya (Evening Elegance)',
-      height: "5'9\"",
-      drapeFit: 'Hourglass Drape',
-      perspective: 'silhouette',
-      description: 'Full Silhouette & Graceful Fall',
-    },
-    {
-      id: 'w3',
-      name: 'Tara (Classic Ivory)',
-      height: "5'6\"",
-      drapeFit: 'Graceful Traditional',
-      perspective: 'profile',
-      description: 'Artisanal Profile & Weave Texture',
-    },
-  ],
-  men: [
-    {
-      id: 'm1',
-      name: 'Faizan (Himalayan Snow)',
-      height: "6'0\"",
-      drapeFit: 'Broad Tailored',
-      perspective: 'front',
-      description: 'Structured Front Chest Stance',
-    },
-    {
-      id: 'm2',
-      name: 'Kabir (Executive Winter)',
-      height: "5'11\"",
-      drapeFit: 'Structured Fit',
-      perspective: 'silhouette',
-      description: 'Full Silhouette & Shoulder Line',
-    },
-    {
-      id: 'm3',
-      name: 'Dev (Classic Heritage)',
-      height: "5'10\"",
-      drapeFit: 'Relaxed Traditional',
-      perspective: 'profile',
-      description: 'Profile Drape & Pocket Detailing',
-    },
-  ],
-}
 
 type LightMode = 'daylight' | 'golden' | 'evening'
 
@@ -88,7 +33,13 @@ const LIGHT_MODES: Record<LightMode, { label: string; filter: string; icon: stri
   evening: { label: 'Royal Evening', filter: 'brightness(0.96) contrast(1.08) hue-rotate(-6deg) saturate(1.08)', icon: '🌙' },
 }
 
-export default function TryWithSIModal({ isOpen, onClose, initialProduct, initialColorIdx }: TryWithSIModalProps) {
+export default function TryWithSIModal({
+  isOpen,
+  onClose,
+  initialProduct,
+  initialColorIdx,
+  initialModelId,
+}: TryWithSIModalProps) {
   const { formatCraftPrice } = useMarketCurrency()
   const [activeTab, setActiveTab] = useState<'tryon' | 'advisor'>('tryon')
   const [selectedGender, setSelectedGender] = useState<ModelGender>(
@@ -99,11 +50,24 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
   )
   const [selectedColorIdx, setSelectedColorIdx] = useState(initialColorIdx ?? 0)
   const [userPhoto, setUserPhoto] = useState<string | null>(null)
-  const [activeModelIdx, setActiveModelIdx] = useState(0)
   const [ambientLight, setAmbientLight] = useState<LightMode>('daylight')
   const [zoomLevel, setZoomLevel] = useState(false)
   const [addedNotice, setAddedNotice] = useState(false)
   const [isDraping, setIsDraping] = useState(false)
+
+  // ─── 58-Model Agency State ──────────────────────────────────────────────────
+  const [selectedModelId, setSelectedModelId] = useState<string>(() => {
+    if (initialModelId) return initialModelId
+    const rec = getRecommendedModelForProduct(
+      initialProduct?.gender === 'men' ? 'men' : 'women',
+      initialProduct?.categoryLabel
+    )
+    return rec.id
+  })
+  const [isModelDrawerOpen, setIsModelDrawerOpen] = useState(false)
+  const [modelSearchQuery, setModelSearchQuery] = useState('')
+  const [modelRegionFilter, setModelRegionFilter] = useState<string>('All')
+  const [modelHeightFilter, setModelHeightFilter] = useState<'all' | 'petite' | 'regular' | 'tall'>('all')
 
   // Style Advisor state
   const [advisorQuery, setAdvisorQuery] = useState('')
@@ -115,19 +79,57 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
   } | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
 
-  // React to initialProduct and isOpen updates
+  // Reset/sync on initialProduct / open updates
   useEffect(() => {
     if (initialProduct && isOpen) {
       setCurrentProduct(initialProduct)
-      setSelectedGender(initialProduct.gender === 'men' ? 'men' : 'women')
+      const gender = initialProduct.gender === 'men' ? 'men' : 'women'
+      setSelectedGender(gender)
       setSelectedColorIdx(initialColorIdx !== undefined ? initialColorIdx : 0)
       setUserPhoto(null)
       setZoomLevel(false)
-      setActiveModelIdx(0)
+      const rec = getRecommendedModelForProduct(gender, initialProduct.categoryLabel)
+      setSelectedModelId(initialModelId || rec.id)
     }
-  }, [initialProduct, isOpen, initialColorIdx])
+  }, [initialProduct, isOpen, initialColorIdx, initialModelId])
+
+  // Sync selected model gender when user toggles gender
+  useEffect(() => {
+    const available = getModelsByGender(selectedGender)
+    if (!available.some((m) => m.id === selectedModelId)) {
+      setSelectedModelId(available[0]?.id || 'mod-w-01')
+    }
+  }, [selectedGender, selectedModelId])
 
   if (!isOpen) return null
+
+  // Active Agency Model
+  const currentModel: AgencyModel =
+    ALL_AGENCY_MODELS.find((m) => m.id === selectedModelId) ||
+    (selectedGender === 'women' ? FEMALE_MODELS[0] : MALE_MODELS[0])
+
+  // Filtered models for drawer / grid
+  const genderModels = getModelsByGender(selectedGender)
+  const filteredModels = genderModels.filter((m) => {
+    const matchesSearch =
+      !modelSearchQuery ||
+      m.name.toLowerCase().includes(modelSearchQuery.toLowerCase()) ||
+      m.city.toLowerCase().includes(modelSearchQuery.toLowerCase()) ||
+      m.state.toLowerCase().includes(modelSearchQuery.toLowerCase()) ||
+      m.fitType.toLowerCase().includes(modelSearchQuery.toLowerCase())
+
+    const matchesRegion = modelRegionFilter === 'All' || m.region === modelRegionFilter
+
+    let matchesHeight = true
+    if (modelHeightFilter === 'petite') matchesHeight = m.heightCm < 169
+    else if (modelHeightFilter === 'regular') matchesHeight = m.heightCm >= 169 && m.heightCm <= 178
+    else if (modelHeightFilter === 'tall') matchesHeight = m.heightCm > 178
+
+    return matchesSearch && matchesRegion && matchesHeight
+  })
+
+  // Quick 6 top models for one-click pill bar
+  const quickModels = genderModels.slice(0, 6)
 
   // Collect pool of available products ensuring the currentProduct is present
   const allGarments = [
@@ -168,14 +170,12 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
   const currentColorway = currentProduct.colorOptions?.[selectedColorIdx]
   const activeColorImage = currentColorway?.image || currentProduct.image
 
-  // Map avatar model index to angle perspective:
-  // idx 0 (Alia/Faizan): Primary hero shot in chosen colorway
-  // idx 1 (Zoya/Kabir): Full silhouette / secondary view
-  // idx 2 (Tara/Dev): Artisanal close-up / detail view
+  // Dynamic Drape Angle based on model position:
+  const modelIdx = genderModels.findIndex((m) => m.id === currentModel.id)
   const modelDrapeImage = (() => {
-    if (activeModelIdx === 0) {
+    if (modelIdx % 3 === 0) {
       return activeColorImage
-    } else if (activeModelIdx === 1) {
+    } else if (modelIdx % 3 === 1) {
       return (
         (currentProduct as any).secondaryImage ||
         currentProduct.additionalImages?.[0] ||
@@ -240,7 +240,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
           slug: complementaryProduct.slug,
           mode: 'retail' as const,
           sizeLabel: complementaryProduct.sizes?.[0] || 'Free Size',
-          unitPrice: Math.round(complementaryProduct.price * 0.9), // 10% bundle discount
+          unitPrice: Math.round(complementaryProduct.price * 0.9),
           quantity: 1,
           totalPrice: Math.round(complementaryProduct.price * 0.9),
           image: complementaryProduct.image,
@@ -292,16 +292,15 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
     }, 500)
   }
 
-  const activeModel = AVATAR_MODELS[selectedGender]?.[activeModelIdx] || AVATAR_MODELS[selectedGender]?.[0]
   const craftName = currentProduct.craft || currentProduct.provenance?.craftTradition || 'GI Certified Handloom'
   const originName = (currentProduct as any).state || currentProduct.provenance?.origin || 'India'
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
-      <div className="relative bg-[#FAF6EE] text-[#17233B] rounded-2xl max-w-5xl w-full max-h-[92vh] overflow-hidden flex flex-col shadow-2xl border border-[#C9A45C]/30">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-fadeIn">
+      <div className="relative bg-[#FAF6EE] text-[#17233B] rounded-2xl max-w-6xl w-full max-h-[94vh] overflow-hidden flex flex-col shadow-2xl border border-[#C9A45C]/30">
         
         {/* Top Header */}
-        <div className="bg-[#17233B] text-[#FAF6EE] px-6 py-4 flex items-center justify-between border-b border-[#C9A45C]/20">
+        <div className="bg-[#17233B] text-[#FAF6EE] px-6 py-4 flex items-center justify-between border-b border-[#C9A45C]/20 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-[#176B68] flex items-center justify-center text-sm font-black text-white shadow-inner">
               SI
@@ -314,9 +313,12 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#C9A45C] text-[#17233B]">
                   Virtual Drape Studio &amp; Stylist
                 </span>
+                <span className="hidden sm:inline-block text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-white/10 text-stone-200">
+                  58 Diverse Models
+                </span>
               </div>
               <p className="text-xs text-[#FAF6EE]/70 font-light">
-                Physics-based neural fabric drape, real-time shade switching &amp; All-India heritage styling
+                Physics-based neural fabric drape, 58 diverse Indian models &amp; real-time shade switching
               </p>
             </div>
           </div>
@@ -356,14 +358,15 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
         {activeTab === 'tryon' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-y-auto">
             {/* Left Column: Visual Try-On Canvas (7 cols) */}
-            <div className="lg:col-span-7 bg-stone-100 p-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#17233B]/10 relative">
+            <div className="lg:col-span-7 bg-stone-100 p-4 sm:p-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#17233B]/10 relative">
               {/* Controls bar over canvas */}
               <div className="flex items-center justify-between z-10 mb-3 flex-wrap gap-2">
-                <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
+                <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="font-semibold text-[#17233B]">
-                    SI Neural Drape Engine: Active
+                    SI Drape: {currentModel.name}
                   </span>
+                  <span className="text-[#C9A45C] font-mono text-[10px]">({currentModel.height})</span>
                 </div>
 
                 <div className="flex items-center gap-1.5">
@@ -395,7 +398,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
               </div>
 
               {/* Garment / Model Visual Canvas */}
-              <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-xl border border-stone-200 bg-stone-200 group">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl border border-stone-200 bg-stone-200 group">
                 <Image
                   src={activeCanvasImage}
                   alt={currentProduct.name}
@@ -409,15 +412,20 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
 
                 {/* Drape Calibration Shimmer Overlay */}
                 {isDraping && (
-                  <div className="absolute inset-0 bg-[#17233B]/30 backdrop-blur-xs flex items-center justify-center z-20 animate-fadeIn">
-                    <div className="bg-[#17233B]/95 text-white border border-[#C9A45C]/60 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#C9A45C] animate-ping" />
-                      <span>SI Neural Drape Calibrating Topology...</span>
+                  <div className="absolute inset-0 bg-[#17233B]/40 backdrop-blur-xs flex items-center justify-center z-20 animate-fadeIn">
+                    <div className="bg-[#17233B]/95 text-white border border-[#C9A45C]/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
+                      <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#C9A45C] flex-shrink-0">
+                        <Image src={currentModel.avatar} alt="" fill className="object-cover" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-white">Draping for {currentModel.name} ({currentModel.height})</p>
+                        <p className="text-[10px] text-[#C9A45C] font-mono">Calibrating {currentModel.fitType} topology in 120ms...</p>
+                      </div>
                     </div>
                   </div>
                 )}
 
-                {/* Overlaid Badges */}
+                {/* Top-Left Badges */}
                 <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
                   <div className="bg-[#17233B]/85 backdrop-blur-md text-[#FAF6EE] px-3 py-1.5 rounded-md text-[11px] font-medium border border-white/10 flex items-center gap-2 shadow-sm">
                     <span>{craftName}</span>
@@ -432,21 +440,28 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                   </div>
                 </div>
 
-                {/* Simulation Telemetry Badge */}
+                {/* Top-Right Model HUD Pill */}
                 {!userPhoto && (
-                  <div className="absolute top-4 right-4 bg-[#17233B]/90 backdrop-blur-md text-white border border-white/20 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-2 pointer-events-none z-10">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>{activeModel?.name.split(' ')[0]}</span>
-                    <span className="text-stone-300">· {activeModel?.drapeFit}</span>
-                    <span className="text-[#C9A45C]">({activeModel?.height})</span>
+                  <div className="absolute top-4 right-4 bg-[#17233B]/95 backdrop-blur-md text-white border border-white/20 px-3 py-1.5 rounded-full text-xs font-semibold shadow-md flex items-center gap-2 pointer-events-none z-10">
+                    <div className="relative w-5 h-5 rounded-full overflow-hidden border border-[#C9A45C] flex-shrink-0">
+                      <Image src={currentModel.avatar} alt={currentModel.name} fill className="object-cover" />
+                    </div>
+                    <span>{currentModel.name.split(' ')[0]}</span>
+                    <span className="text-stone-300">· {currentModel.height}</span>
+                    <span className="text-[#C9A45C] text-[10px]">({currentModel.fitType})</span>
                   </div>
                 )}
 
                 {/* Bottom Overlay Card */}
-                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/90 via-black/65 to-transparent p-4 rounded-b-xl text-white">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
-                    Now Draped
-                  </span>
+                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-4 rounded-b-2xl text-white">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+                      Now Draped On
+                    </span>
+                    <span className="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      {currentModel.name} ({currentModel.height}) · {currentModel.state}
+                    </span>
+                  </div>
                   <h4 className="font-serif text-lg font-bold leading-tight">{currentProduct.name}</h4>
                   <div className="flex items-center justify-between text-xs mt-1.5 text-stone-200">
                     <span className="flex items-center gap-1.5">
@@ -466,53 +481,82 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                 </div>
               </div>
 
-              {/* Bottom Model / Photo Bar */}
-              <div className="mt-4 pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-semibold text-stone-600">Avatar Drape:</span>
-                  {AVATAR_MODELS[selectedGender]?.map((m, i) => (
-                    <button
-                      key={m.id}
-                      onClick={() => {
-                        triggerDrapeShift(() => {
-                          setUserPhoto(null)
-                          setActiveModelIdx(i)
-                        })
-                      }}
-                      className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
-                        !userPhoto && activeModelIdx === i
-                          ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm ring-1 ring-[#C9A45C]'
-                          : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
-                      }`}
-                    >
-                      <span>{m.name.split(' ')[0]}</span>{' '}
-                      <span className="text-[10px] opacity-75">({m.height})</span>
-                    </button>
-                  ))}
+              {/* Bottom Quick Model Bar (6 Avatars + Browse 50+ Models Trigger) */}
+              <div className="mt-4 pt-4 border-t border-stone-200 space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-semibold text-stone-700 flex items-center gap-1.5">
+                    <span>✨ Select Model:</span>
+                    <span className="text-stone-500 font-normal">({genderModels.length} models available)</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsModelDrawerOpen(true)}
+                    className="text-xs font-bold text-[#176B68] hover:text-[#125350] hover:underline flex items-center gap-1"
+                  >
+                    <span>Browse All {genderModels.length} Models →</span>
+                  </button>
                 </div>
 
-                <label className="cursor-pointer bg-white hover:bg-stone-50 text-[#176B68] font-semibold px-3 py-1.5 rounded-lg border border-[#176B68]/30 shadow-sm transition-colors flex items-center gap-1.5">
-                  <span>📸 Upload Your Photo</span>
-                  <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                </label>
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                  {quickModels.map((m) => {
+                    const isSelected = currentModel.id === m.id
+                    return (
+                      <button
+                        key={m.id}
+                        type="button"
+                        onClick={() => {
+                          triggerDrapeShift(() => {
+                            setUserPhoto(null)
+                            setSelectedModelId(m.id)
+                          })
+                        }}
+                        className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full border text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
+                          !userPhoto && isSelected
+                            ? 'bg-[#17233B] text-white border-[#17233B] ring-2 ring-[#C9A45C] shadow-sm'
+                            : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
+                        }`}
+                      >
+                        <div className="relative w-5 h-5 rounded-full overflow-hidden border border-black/15 flex-shrink-0">
+                          <Image src={m.avatar} alt={m.name} fill className="object-cover" />
+                        </div>
+                        <span>{m.name.split(' ')[0]}</span>
+                        <span className="text-[10px] opacity-75">({m.height})</span>
+                      </button>
+                    )
+                  })}
+
+                  <button
+                    type="button"
+                    onClick={() => setIsModelDrawerOpen(true)}
+                    className="px-3 py-1.5 rounded-full bg-[#176B68] hover:bg-[#125350] text-white text-xs font-bold whitespace-nowrap flex items-center gap-1 shadow-xs flex-shrink-0"
+                  >
+                    <span>+ {genderModels.length - quickModels.length} More Models</span>
+                  </button>
+
+                  <label className="cursor-pointer bg-white hover:bg-stone-50 text-[#176B68] font-semibold px-3 py-1.5 rounded-full border border-[#176B68]/30 shadow-xs transition-colors flex items-center gap-1 text-xs whitespace-nowrap flex-shrink-0 ml-auto">
+                    <span>📸 Upload Photo</span>
+                    <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+                  </label>
+                </div>
               </div>
             </div>
 
             {/* Right Column: Customization & Complete the Look (5 cols) */}
-            <div className="lg:col-span-5 p-6 space-y-6 flex flex-col justify-between overflow-y-auto">
+            <div className="lg:col-span-5 p-4 sm:p-6 space-y-6 flex flex-col justify-between overflow-y-auto">
               <div className="space-y-6">
                 
-                {/* 1. Gender Selector */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
+                {/* 1. Gender Selector & Active Model Summary */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
                     <span className="text-xs uppercase font-bold tracking-wider text-[#704B32]">
-                      1. Gender Wardrobe
+                      1. Wardrobe &amp; Model Gender
                     </span>
                     <div className="flex gap-1 text-[11px]">
                       <button
                         onClick={() => {
                           setSelectedGender('women')
-                          setActiveModelIdx(0)
+                          const rec = getRecommendedModelForProduct('women', currentProduct.categoryLabel)
+                          setSelectedModelId(rec.id)
                           setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
@@ -521,12 +565,13 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                             : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
                         }`}
                       >
-                        Women
+                        Women (30)
                       </button>
                       <button
                         onClick={() => {
                           setSelectedGender('men')
-                          setActiveModelIdx(0)
+                          const rec = getRecommendedModelForProduct('men', currentProduct.categoryLabel)
+                          setSelectedModelId(rec.id)
                           setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
@@ -535,9 +580,33 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                             : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
                         }`}
                       >
-                        Men
+                        Men (28)
                       </button>
                     </div>
+                  </div>
+
+                  {/* Active Model Mini Card */}
+                  <div className="p-3 bg-white rounded-xl border border-stone-200 flex items-center justify-between gap-3 shadow-xs">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#C9A45C] flex-shrink-0 shadow-xs">
+                        <Image src={currentModel.avatar} alt={currentModel.name} fill className="object-cover" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-serif font-bold text-xs text-[#17233B] truncate">
+                          {currentModel.name} ({currentModel.height})
+                        </p>
+                        <p className="text-[11px] text-stone-500 truncate">
+                          {currentModel.city}, {currentModel.state} · {currentModel.fitType}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsModelDrawerOpen(true)}
+                      className="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-[#17233B] text-[11px] font-bold whitespace-nowrap transition-colors"
+                    >
+                      Change Model
+                    </button>
                   </div>
                 </div>
 
@@ -585,7 +654,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                   </div>
                 </div>
 
-                {/* 3. Colour Palette Picker (With Live Drape Guarantee) */}
+                {/* 3. Colour Palette Picker (With Exact Photo Swatch Guarantee) */}
                 {currentProduct.colorOptions && currentProduct.colorOptions.length > 0 && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -850,6 +919,170 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct, initia
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* ─── 58-MODEL AGENCY DRAWER MODAL ─────────────────────────────────────── */}
+        {isModelDrawerOpen && (
+          <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col justify-end sm:justify-center p-0 sm:p-6 animate-fadeIn">
+            <div className="bg-[#FAF6EE] text-[#17233B] rounded-t-3xl sm:rounded-2xl max-w-4xl w-full mx-auto max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-[#C9A45C]/30">
+              {/* Drawer Header */}
+              <div className="bg-[#17233B] text-white p-5 flex items-center justify-between border-b border-[#C9A45C]/20">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-full bg-[#176B68] text-white flex items-center justify-center font-bold text-xs">
+                    58
+                  </span>
+                  <div>
+                    <h3 className="font-serif font-bold text-base sm:text-lg">
+                      Diverse Indian Models — Virtual Fit &amp; Drape Roster
+                    </h3>
+                    <p className="text-xs text-stone-300">
+                      Try on {selectedGender === 'women' ? '30 female' : '28 male'} real models across heights (5&apos;4&quot; - 6&apos;3&quot;), body types, and regions
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsModelDrawerOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Drawer Filters Bar */}
+              <div className="p-4 bg-white border-b border-stone-200 space-y-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      value={modelSearchQuery}
+                      onChange={(e) => setModelSearchQuery(e.target.value)}
+                      placeholder="Search by model name, city (e.g. Srinagar, Jaipur), or fit..."
+                      className="w-full bg-[#FAF6EE] border border-stone-300 rounded-xl px-4 py-2 text-xs text-[#17233B] focus:outline-none focus:ring-2 focus:ring-[#176B68]"
+                    />
+                    {modelSearchQuery && (
+                      <button
+                        onClick={() => setModelSearchQuery('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-xs"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Height Filter Buttons */}
+                  <div className="flex items-center gap-1 bg-[#FAF6EE] p-1 rounded-xl border border-stone-300 text-[11px]">
+                    {(['all', 'petite', 'regular', 'tall'] as const).map((h) => (
+                      <button
+                        key={h}
+                        onClick={() => setModelHeightFilter(h)}
+                        className={`px-2.5 py-1 rounded-lg capitalize font-semibold transition-colors ${
+                          modelHeightFilter === h
+                            ? 'bg-[#17233B] text-white shadow-xs'
+                            : 'text-stone-600 hover:text-[#17233B]'
+                        }`}
+                      >
+                        {h === 'all' ? 'All Heights' : h === 'petite' ? 'Petite (<5\'6")' : h === 'regular' ? 'Mid (5\'6"-5\'9")' : 'Tall (5\'10"+)'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Region Filter Chips */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-[11px]">
+                  {[
+                    'All',
+                    'Kashmir & Himalayas',
+                    'North India',
+                    'Western India',
+                    'South India',
+                    'Eastern India',
+                    'North-East India',
+                    'Central India',
+                  ].map((reg) => (
+                    <button
+                      key={reg}
+                      onClick={() => setModelRegionFilter(reg)}
+                      className={`px-3 py-1 rounded-full whitespace-nowrap font-semibold border transition-all ${
+                        modelRegionFilter === reg
+                          ? 'bg-[#176B68] text-white border-[#176B68] shadow-xs'
+                          : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
+                      }`}
+                    >
+                      {reg === 'All' ? 'All Indian Regions' : reg}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Drawer Models Grid */}
+              <div className="p-4 sm:p-6 overflow-y-auto max-h-[55vh] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {filteredModels.map((m) => {
+                  const isSelected = currentModel.id === m.id
+                  return (
+                    <div
+                      key={m.id}
+                      onClick={() => {
+                        triggerDrapeShift(() => {
+                          setUserPhoto(null)
+                          setSelectedModelId(m.id)
+                          setIsModelDrawerOpen(false)
+                        })
+                      }}
+                      className={`p-3 rounded-2xl border cursor-pointer transition-all flex items-center gap-3 ${
+                        isSelected
+                          ? 'bg-white border-[#17233B] ring-2 ring-[#C9A45C] shadow-md'
+                          : 'bg-white/80 border-stone-200 hover:bg-white hover:border-[#176B68] shadow-xs'
+                      }`}
+                    >
+                      <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#C9A45C]/50 flex-shrink-0 shadow-sm">
+                        <Image src={m.avatar} alt={m.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <p className="font-serif font-bold text-xs text-[#17233B] truncate">
+                            {m.name}
+                          </p>
+                          <span className="text-[10px] font-bold text-[#176B68] bg-[#176B68]/10 px-1.5 py-0.5 rounded">
+                            {m.height}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-stone-600 truncate">
+                          {m.city}, {m.state}
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="text-[9px] font-semibold text-[#704B32] bg-[#FAF6EE] px-1.5 py-0.5 rounded border border-[#C9A45C]/30">
+                            {m.fitType}
+                          </span>
+                          <span className="text-[9px] text-stone-400">
+                            B: {m.bustOrChest} · W: {m.waist}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+
+                {filteredModels.length === 0 && (
+                  <div className="col-span-full py-12 text-center text-stone-500 text-xs">
+                    No models found matching your search. Try resetting filters.
+                  </div>
+                )}
+              </div>
+
+              {/* Drawer Footer */}
+              <div className="p-3 bg-stone-100 border-t border-stone-200 flex items-center justify-between text-xs">
+                <span className="text-stone-600">
+                  Showing <strong>{filteredModels.length}</strong> of {genderModels.length} {selectedGender} models
+                </span>
+                <button
+                  onClick={() => setIsModelDrawerOpen(false)}
+                  className="px-4 py-1.5 bg-[#17233B] text-white rounded-lg font-bold text-xs hover:bg-[#10192A]"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
