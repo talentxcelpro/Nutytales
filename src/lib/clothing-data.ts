@@ -151,7 +151,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Imperial Emerald & Antique Gold', hex: '#1B4734', image: 'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Royal Midnight Navy & Gold', hex: '#142038', image: 'https://images.unsplash.com/photo-1610047402714-307d99a677db?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Deep Crimson & Rose Gold', hex: '#631B26', image: 'https://images.unsplash.com/photo-1610047402714-307d99a677db?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Handloom Katan Silk with Real Zari Brocade',
     craft: 'Banarasi Brocade',
@@ -231,8 +230,8 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     ],
     sizes: ['S (38)', 'M (40)', 'L (42)', 'XL (44)'],
     colorOptions: [
-      {name: 'Royal Crimson & Emerald', hex: '#7E1928', image: 'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Heritage Mustard & Indigo', hex: '#C28B23', image: 'https://plus.unsplash.com/premium_photo-1669977749819-d8737b4408f7?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Royal Orchid Lilac & Gold', hex: '#7B4B8A', image: 'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Peacock Teal & Zari', hex: '#165B54', image: 'https://plus.unsplash.com/premium_photo-1669977749819-d8737b4408f7?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Mulberry Silk (Natural Warp & Weft Resist-Dye)',
     craft: 'Patan Patola Ikat',
@@ -313,8 +312,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     sizes: ['XS (36)', 'S (38)', 'M (40)', 'L (42)', 'XL (44)', 'XXL (46)'],
     colorOptions: [
       {name: 'Nawabi Pearl White', hex: '#FDFBF7', image: 'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Powder Sage Mist', hex: '#CBD4C2', image: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Pale Lavender Mauve', hex: '#DAC8D6', image: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Powder Sage Mist', hex: '#9FB8A4', image: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Silk Georgette with Pure Cotton Thread & Silver Mukaish',
     craft: 'Lucknowi Chikankari',
@@ -396,7 +394,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Indigo & Madder Red', hex: '#1C2841', image: 'https://images.unsplash.com/photo-1739429944341-db4eefcd230a?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Earthy Rust & Henna', hex: '#873B25', image: 'https://images.unsplash.com/photo-1739429942576-61aa75c97403?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Natural Olive Black', hex: '#2A3025', image: 'https://images.unsplash.com/photo-1739429942576-61aa75c97403?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Modal Silk (Natural Vegetable & Mineral Dyes)',
     craft: 'Ajrakh Handblock',
@@ -478,7 +475,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Temple Peacock Blue & Zari', hex: '#123952', image: 'https://plus.unsplash.com/premium_photo-1691030254390-aa56b22e6a45?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Kanchi Crimson & Antique Gold', hex: '#631B26', image: 'https://images.unsplash.com/photo-1744551358303-46edae8b374b?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Sacred Mustard & Charcoal', hex: '#A87922', image: 'https://images.unsplash.com/photo-1744551358303-46edae8b374b?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Heavy Kanchipuram Silk with Silver Zari (Korvai Weave)',
     craft: 'Kanchipuram Silk',
@@ -558,8 +554,8 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     colorOptions: [
-      {name: 'Ivory Lotus & Rose', hex: '#F9F6F0', image: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Peacock Mint & Gold', hex: '#639A88', image: 'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Peacock Mint & Sage', hex: '#639A88', image: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Ivory Lotus & Rose', hex: '#F9F6F0', image: 'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Handloom Chanderi Silk Cotton with Gold Leaf Foil',
     craft: 'Sanganeri Handblock',
@@ -802,7 +798,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Imperial Maroon & Mustard', hex: '#6E1A24', image: 'https://plus.unsplash.com/premium_photo-1691030255948-0276ee6f711e?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Royal Emerald Green', hex: '#174A37', image: 'https://images.unsplash.com/photo-1647689662423-7948c8523256?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Midnight Navy Blue', hex: '#15253F', image: 'https://images.unsplash.com/photo-1647689662423-7948c8523256?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Heavy Gaji Silk (Vegetable Tie-Dye)',
     craft: 'Bandhani Tie-Dye',
@@ -1046,7 +1041,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Raw Natural Oatmeal', hex: '#EAE4D7', image: 'https://images.unsplash.com/photo-1645817954300-96df195432fc?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Lac Beetle Blush Terracotta', hex: '#B86B61', image: 'https://images.unsplash.com/photo-1708534419572-6e6614a53ca1?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'River Indigo Blue', hex: '#263D56', image: 'https://images.unsplash.com/photo-1708534419572-6e6614a53ca1?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Certified Ahimsa Eri Peace Silk (Cruelty-Free)',
     craft: 'Ahimsa Eri Handloom',
@@ -1776,7 +1770,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Royal Peacock Teal & Gold', hex: '#165B5E', image: 'https://images.unsplash.com/photo-1774437791807-362e58f09a2c?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Burnished Copper Rust', hex: '#9E472A', image: 'https://images.unsplash.com/photo-1710242350089-65eef7e49364?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Onyx Black & Charcoal', hex: '#222222', image: 'https://images.unsplash.com/photo-1710242350089-65eef7e49364?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Mulberry Silk Tanchoi Weave',
     craft: 'Banarasi Brocade',
@@ -1858,7 +1851,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Sunlit Gold', hex: '#DDB65B', image: 'https://images.unsplash.com/photo-1651132164857-b61aa4cf7472?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Blush Lotus Mauve', hex: '#D4B0B9', image: 'https://images.unsplash.com/photo-1651132133386-a64fbf794081?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Verdant Forest Emerald', hex: '#235942', image: 'https://images.unsplash.com/photo-1651132133386-a64fbf794081?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Handloom Chanderi Silk Tissue with Zari Butis',
     craft: 'Chanderi Weave',
@@ -2103,9 +2095,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     sizes: ['S (38)', 'M (40)', 'L (42)', 'XL (44)', 'Free Size (Roomy)'],
     colorOptions: [
       {name: 'Imperial Burgundy', hex: '#631B26', image: 'https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Midnight Navy', hex: '#16223B', image: 'https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Deep Forest', hex: '#183B2B', image: 'https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Royal Onyx Black', hex: '#1A1A1A', image: 'https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=85' },
+      {name: 'Midnight Navy & Gold', hex: '#16223B', image: 'https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Heavy Silk Velvet (Silken drape with thermal lining)',
     craft: 'Tilla / Zari Hand Needlework (Pure metallic thread)',
@@ -2187,8 +2177,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Crimson Jamawar', hex: '#631B26', image: 'https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Royal Ivory Gold', hex: '#EAE1CE', image: 'https://plus.unsplash.com/premium_photo-1673757100919-2291c3bfa6b7?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Midnight Navy', hex: '#16223B', image: 'https://plus.unsplash.com/premium_photo-1673757100919-2291c3bfa6b7?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Deep Emerald', hex: '#165B4C', image: 'https://plus.unsplash.com/premium_photo-1673757100919-2291c3bfa6b7?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Changthangi Cashmere / Pashmina (14.5 Microns)',
     craft: 'Traditional Kani Weave (Talim System with Wooden Tujis)',
@@ -2260,8 +2248,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Camel', hex: '#C19A6B', image: 'https://images.unsplash.com/photo-1762344356541-881ac04145e4?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Smoky Charcoal', hex: '#373A3C', image: 'https://images.unsplash.com/photo-1664135240515-d826a40aeac7?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Natural Natural Ivory', hex: '#F5EFE1', image: 'https://images.unsplash.com/photo-1664135240515-d826a40aeac7?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Rust Amber', hex: '#B85D36', image: 'https://images.unsplash.com/photo-1664135240515-d826a40aeac7?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Certified Pashmina (Pure Himalayan Cashmere)',
     craft: 'Fine Sozni Needle Embroidery (Hashidar border motif)',
@@ -2333,8 +2319,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Oatmeal', hex: '#D8C7A5', image: 'https://images.unsplash.com/photo-1694036317158-7a9b7cd5079b?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Forest Moss', hex: '#2C4A3A', image: 'https://plus.unsplash.com/premium_photo-1696949623777-11aaab5da55b?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Rust Clay', hex: '#A34828', image: 'https://plus.unsplash.com/premium_photo-1696949623777-11aaab5da55b?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Charcoal Grey', hex: '#3D4146', image: 'https://plus.unsplash.com/premium_photo-1696949623777-11aaab5da55b?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Kashmir Wool (Soft spun, non-scratch)',
     craft: 'Aari Hook Chain-Stitch Embroidery',
@@ -2407,7 +2391,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Charcoal with Kani Accents', hex: '#2B2E33', image: 'https://images.unsplash.com/photo-1645944692361-721984d57b6c?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Midnight Navy with Kani Accents', hex: '#16223B', image: 'https://images.unsplash.com/photo-1770359993283-a2c2f386584e?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Camel Tan with Kani Accents', hex: '#B89264', image: 'https://images.unsplash.com/photo-1770359993283-a2c2f386584e?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Virgin Melton Wool (600 GSM) with Pure Kani Silk-Wool Insets',
     craft: 'Structured Bespoke Tailoring with Kani Loom Insets',
@@ -2479,8 +2462,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Midnight Navy', hex: '#16223B', image: 'https://images.unsplash.com/photo-1772736243289-872f9ac73cf8?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Forest Green', hex: '#1A3F2C', image: 'https://images.unsplash.com/photo-1779902333025-066060f9ca2c?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Burgundy Maroon', hex: '#5E1B26', image: 'https://images.unsplash.com/photo-1779902333025-066060f9ca2c?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Raw Silk Beige', hex: '#D8CDBA', image: 'https://images.unsplash.com/photo-1779902333025-066060f9ca2c?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Fine Wool (Medium weight, structured canvas)',
     craft: 'Tonal Sozni Hand Needlework',
@@ -2551,8 +2532,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Herringbone Charcoal', hex: '#2E3236', image: 'https://images.unsplash.com/photo-1785613590014-23875bff09f2?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Highland Olive', hex: '#3B4A37', image: 'https://plus.unsplash.com/premium_photo-1691030256404-101d1aadd42c?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Earthy Walnut Brown', hex: '#4B382A', image: 'https://plus.unsplash.com/premium_photo-1691030256404-101d1aadd42c?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Navy Tweed', hex: '#1C283F', image: 'https://plus.unsplash.com/premium_photo-1691030256404-101d1aadd42c?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Heavy Pure Wool Tweed (Windproof, naturally water-resistant)',
     craft: 'Handloom Tweed Weave with Tailored Twill Lining',
@@ -2623,7 +2602,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Ivory', hex: '#FAF5E8', image: 'https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Midnight Navy', hex: '#16223B', image: 'https://images.unsplash.com/photo-1510574457807-3d9bf494ff6b?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Mulberry Wine', hex: '#582138', image: 'https://images.unsplash.com/photo-1510574457807-3d9bf494ff6b?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Fine Merino Wool',
     craft: 'Fine Sozni Silk-Thread Needlework',
@@ -2694,8 +2672,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Slate Teal', hex: '#1E585E', image: 'https://plus.unsplash.com/premium_photo-1696949623886-59baabb54abe?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Oatmeal Beige', hex: '#D2C4A7', image: 'https://images.unsplash.com/photo-1539346471381-191ffce95e06?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Burgundy Wine', hex: '#582138', image: 'https://images.unsplash.com/photo-1539346471381-191ffce95e06?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Jet Black', hex: '#1C1C1C', image: 'https://images.unsplash.com/photo-1539346471381-191ffce95e06?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Fine Himalayan Wool',
     craft: 'Corner Sozni Hand Needlework',
@@ -2765,7 +2741,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Pampore Saffron Gold', hex: '#D49B35', image: 'https://images.unsplash.com/photo-1735052711950-c31c729c2a4e?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Forest Emerald', hex: '#165B4C', image: 'https://images.unsplash.com/photo-1732508531942-f36d9da79d9e?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Vintage Black', hex: '#1C1C1C', image: 'https://images.unsplash.com/photo-1732508531942-f36d9da79d9e?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Wool with Silk Crepe Lining',
     craft: 'Sweeping Hemline Aari Embroidery',
@@ -2836,7 +2811,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Onyx Black & Gold', hex: '#1C1C1C', image: 'https://images.unsplash.com/photo-1735052713120-2323c8ac72e9?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Deep Burgundy & Gold', hex: '#631B26', image: 'https://images.unsplash.com/photo-1735052713346-269849580904?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Royal Emerald & Gold', hex: '#165B4C', image: 'https://images.unsplash.com/photo-1735052713346-269849580904?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Plush Silk Velvet with Satin Lining',
     craft: 'Tilla Metallic & Silk Aari Embroidery',
@@ -2907,7 +2881,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Sand', hex: '#C7B299', image: 'https://images.unsplash.com/photo-1785651523544-b8ecbbfecebe?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Charcoal Grey', hex: '#3E4247', image: 'https://images.unsplash.com/photo-1774437677567-4c3d354daf39?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Deep Indigo', hex: '#1B2A4A', image: 'https://images.unsplash.com/photo-1774437677567-4c3d354daf39?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Merino Wool & Cotton Blend (Breathable winter weave)',
     craft: 'Artisanal Tailoring with Fine Piping',
@@ -2978,7 +2951,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Warm Camel', hex: '#C19A6B', image: 'https://images.unsplash.com/photo-1705921269202-197ceb4c17ba?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Soft Cream', hex: '#F7F3E7', image: 'https://images.unsplash.com/photo-1705921268014-31e69f685470?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Charcoal Melange', hex: '#3E4247', image: 'https://images.unsplash.com/photo-1705921268014-31e69f685470?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '30% Himalayan Cashmere, 70% Extra-Fine Merino Wool',
     craft: '12-Gauge Seamless Rib Knit',
@@ -3048,7 +3020,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Camel Tan', hex: '#C19A6B', image: 'https://images.unsplash.com/photo-1560080146-ba5bc1880522?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Slate Teal', hex: '#265961', image: 'https://plus.unsplash.com/premium_photo-1696949625422-4e4ce7c140cc?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Smoky Charcoal', hex: '#373A3C', image: 'https://plus.unsplash.com/premium_photo-1696949625422-4e4ce7c140cc?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Cashmilon Acrylic-Wool Blend (Soft, anti-pilling, lightweight)',
     craft: 'Minimalist Sozni Needle Accents',
@@ -3118,7 +3089,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Charcoal & Camel (Reversible)', hex: '#373A3C', image: 'https://images.unsplash.com/photo-1681717055630-c62333c22fec?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Navy & Slate (Reversible)', hex: '#16223B', image: 'https://plus.unsplash.com/premium_photo-1682090784102-b5e9fc3fb3bb?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Burgundy & Black (Reversible)', hex: '#582138', image: 'https://plus.unsplash.com/premium_photo-1682090784102-b5e9fc3fb3bb?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Certified Himalayan Pashmina',
     craft: 'Double-Faced Twill Handloom Weave',
@@ -3189,7 +3159,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Highland Olive', hex: '#3B4A37', image: 'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Navy Tweed', hex: '#1C283F', image: 'https://images.unsplash.com/photo-1774267230654-ad5335ecd6f0?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Oatmeal Beige', hex: '#D2C4A7', image: 'https://images.unsplash.com/photo-1774267230654-ad5335ecd6f0?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Pure Wool with 100% Organic Cotton Anti-Itch Lining',
     craft: 'Delicate Chinar Aari Needlework',
@@ -3259,7 +3228,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Ruby Wine', hex: '#6B1F2D', image: 'https://images.unsplash.com/photo-1665960212714-0dfa0702c177?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Emerald Green', hex: '#165B4C', image: 'https://images.unsplash.com/photo-1760613129846-357d4b4ac931?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Midnight Navy', hex: '#16223B', image: 'https://images.unsplash.com/photo-1760613129846-357d4b4ac931?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Soft Silk Micro-Velvet with Cotton Voile Lining',
     craft: 'Gentle Tilla Metallic Needlework',
@@ -3329,7 +3297,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Imperial Burgundy', hex: '#631B26', image: 'https://images.unsplash.com/photo-1735052713180-2dd81cbe3281?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Royal Emerald', hex: '#165B4C', image: 'https://images.unsplash.com/photo-1724856604403-60304b28906c?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Midnight Navy', hex: '#16223B', image: 'https://images.unsplash.com/photo-1724856604403-60304b28906c?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Plush Velvet / Pure Wool with Soft Breathable Linings',
     craft: 'Coordinated Tilla & Aari Hand Needlework',
@@ -3400,7 +3367,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Oatmeal Beige', hex: '#D2C4A7', image: 'https://images.unsplash.com/photo-1517496267011-39d56c54984d?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Charcoal Grey', hex: '#373A3C', image: 'https://images.unsplash.com/flagged/photo-1561057657-ef2963ef83a7?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Deep Burgundy', hex: '#582138', image: 'https://images.unsplash.com/flagged/photo-1561057657-ef2963ef83a7?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Merino Wool with Conductive Touch-Screen Yarn',
     craft: 'Miniature Chinar Aari Needlework',
@@ -3469,7 +3435,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Royal Velvet Burgundy', hex: '#631B26', image: 'https://images.unsplash.com/photo-1724856605022-106d6dd6e842?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Midnight Navy & Gold', hex: '#16223B', image: 'https://plus.unsplash.com/premium_photo-1724762183115-12787b04eadc?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Imperial Emerald & Zari', hex: '#165B4C', image: 'https://plus.unsplash.com/premium_photo-1724762183115-12787b04eadc?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: '100% Pure Silk Velvet with Antique Zari Needlework',
     craft: 'Tilla Zari & Aari Needlework',
@@ -3543,7 +3508,6 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     colorOptions: [
       {name: 'Royal Emerald & Gold', hex: '#165B4C', image: 'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&auto=format&fit=crop&q=85' },
       {name: 'Midnight Navy & Gold', hex: '#16223B', image: 'https://images.unsplash.com/photo-1750075993686-57f1b8eefa42?w=1200&auto=format&fit=crop&q=85' },
-      {name: 'Ivory Floral Gold', hex: '#F7F3E9', image: 'https://images.unsplash.com/photo-1750075993686-57f1b8eefa42?w=1200&auto=format&fit=crop&q=85' },
     ],
     material: 'Recycled paper pulp, amber lacquer, mineral pigments & 24k gold leaf',
     craft: 'Sakhtsazi & Naqqashi Miniature Painting',

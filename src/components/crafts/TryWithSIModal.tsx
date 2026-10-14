@@ -11,19 +11,72 @@ interface TryWithSIModalProps {
   isOpen: boolean
   onClose: () => void
   initialProduct?: any
+  initialColorIdx?: number
 }
 
 type ModelGender = 'women' | 'men'
 
-const AVATAR_MODELS: Record<ModelGender, Array<{ id: string; name: string; height: string; drapeFit: string }>> = {
+interface AvatarModel {
+  id: string
+  name: string
+  height: string
+  drapeFit: string
+  perspective: 'front' | 'silhouette' | 'profile'
+  description: string
+}
+
+const AVATAR_MODELS: Record<ModelGender, AvatarModel[]> = {
   women: [
-    { id: 'w1', name: 'Alia (Kashmir Alpine Light)', height: "5'7\"", drapeFit: 'Athletic Petite' },
-    { id: 'w2', name: 'Zoya (Evening Elegance)', height: "5'9\"", drapeFit: 'Hourglass Drape' },
-    { id: 'w3', name: 'Tara (Classic Ivory)', height: "5'6\"", drapeFit: 'Graceful Traditional' },
+    {
+      id: 'w1',
+      name: 'Alia (Kashmir Alpine Light)',
+      height: "5'7\"",
+      drapeFit: 'Athletic Petite',
+      perspective: 'front',
+      description: 'Front Stance & Collar Alignment',
+    },
+    {
+      id: 'w2',
+      name: 'Zoya (Evening Elegance)',
+      height: "5'9\"",
+      drapeFit: 'Hourglass Drape',
+      perspective: 'silhouette',
+      description: 'Full Silhouette & Graceful Fall',
+    },
+    {
+      id: 'w3',
+      name: 'Tara (Classic Ivory)',
+      height: "5'6\"",
+      drapeFit: 'Graceful Traditional',
+      perspective: 'profile',
+      description: 'Artisanal Profile & Weave Texture',
+    },
   ],
   men: [
-    { id: 'm1', name: 'Faizan (Himalayan Snow)', height: "6'0\"", drapeFit: 'Broad Tailored' },
-    { id: 'm2', name: 'Kabir (Executive Winter)', height: "5'11\"", drapeFit: 'Structured Fit' },
+    {
+      id: 'm1',
+      name: 'Faizan (Himalayan Snow)',
+      height: "6'0\"",
+      drapeFit: 'Broad Tailored',
+      perspective: 'front',
+      description: 'Structured Front Chest Stance',
+    },
+    {
+      id: 'm2',
+      name: 'Kabir (Executive Winter)',
+      height: "5'11\"",
+      drapeFit: 'Structured Fit',
+      perspective: 'silhouette',
+      description: 'Full Silhouette & Shoulder Line',
+    },
+    {
+      id: 'm3',
+      name: 'Dev (Classic Heritage)',
+      height: "5'10\"",
+      drapeFit: 'Relaxed Traditional',
+      perspective: 'profile',
+      description: 'Profile Drape & Pocket Detailing',
+    },
   ],
 }
 
@@ -35,7 +88,7 @@ const LIGHT_MODES: Record<LightMode, { label: string; filter: string; icon: stri
   evening: { label: 'Royal Evening', filter: 'brightness(0.96) contrast(1.08) hue-rotate(-6deg) saturate(1.08)', icon: '🌙' },
 }
 
-export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryWithSIModalProps) {
+export default function TryWithSIModal({ isOpen, onClose, initialProduct, initialColorIdx }: TryWithSIModalProps) {
   const { formatCraftPrice } = useMarketCurrency()
   const [activeTab, setActiveTab] = useState<'tryon' | 'advisor'>('tryon')
   const [selectedGender, setSelectedGender] = useState<ModelGender>(
@@ -44,12 +97,13 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
   const [currentProduct, setCurrentProduct] = useState<any>(
     initialProduct || CLOTHING_PRODUCTS[0] || CRAFT_PRODUCTS[0]
   )
-  const [selectedColorIdx, setSelectedColorIdx] = useState(0)
+  const [selectedColorIdx, setSelectedColorIdx] = useState(initialColorIdx ?? 0)
   const [userPhoto, setUserPhoto] = useState<string | null>(null)
   const [activeModelIdx, setActiveModelIdx] = useState(0)
-  const [ambientLight, setAmbientLight] = useState<'daylight' | 'golden' | 'evening'>('daylight')
+  const [ambientLight, setAmbientLight] = useState<LightMode>('daylight')
   const [zoomLevel, setZoomLevel] = useState(false)
   const [addedNotice, setAddedNotice] = useState(false)
+  const [isDraping, setIsDraping] = useState(false)
 
   // Style Advisor state
   const [advisorQuery, setAdvisorQuery] = useState('')
@@ -66,11 +120,12 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
     if (initialProduct && isOpen) {
       setCurrentProduct(initialProduct)
       setSelectedGender(initialProduct.gender === 'men' ? 'men' : 'women')
-      setSelectedColorIdx(0)
+      setSelectedColorIdx(initialColorIdx !== undefined ? initialColorIdx : 0)
       setUserPhoto(null)
       setZoomLevel(false)
+      setActiveModelIdx(0)
     }
-  }, [initialProduct, isOpen])
+  }, [initialProduct, isOpen, initialColorIdx])
 
   if (!isOpen) return null
 
@@ -100,26 +155,61 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
           (p.gender === selectedGender || p.gender === 'unisex')
       )
 
-  // Determine active canvas drape image
-  const activeColorImage = currentProduct.colorOptions?.[selectedColorIdx]?.image
+  // Trigger dynamic drape simulation transition
+  const triggerDrapeShift = (callback: () => void) => {
+    setIsDraping(true)
+    callback()
+    setTimeout(() => {
+      setIsDraping(false)
+    }, 320)
+  }
+
+  // Active colorway image
+  const currentColorway = currentProduct.colorOptions?.[selectedColorIdx]
+  const activeColorImage = currentColorway?.image || currentProduct.image
+
+  // Map avatar model index to angle perspective:
+  // idx 0 (Alia/Faizan): Primary hero shot in chosen colorway
+  // idx 1 (Zoya/Kabir): Full silhouette / secondary view
+  // idx 2 (Tara/Dev): Artisanal close-up / detail view
+  const modelDrapeImage = (() => {
+    if (activeModelIdx === 0) {
+      return activeColorImage
+    } else if (activeModelIdx === 1) {
+      return (
+        (currentProduct as any).secondaryImage ||
+        currentProduct.additionalImages?.[0] ||
+        activeColorImage
+      )
+    } else {
+      return (
+        (currentProduct as any).detailImage ||
+        currentProduct.additionalImages?.[1] ||
+        (currentProduct as any).textureImage ||
+        activeColorImage
+      )
+    }
+  })()
+
   const detailOrMacroImage =
+    (currentProduct as any).textureImage ||
     (currentProduct as any).detailImage ||
-    (currentProduct as any).secondaryImage ||
-    currentProduct.additionalImages?.[0] ||
-    currentProduct.image
+    activeColorImage
 
   const activeCanvasImage = userPhoto
     ? userPhoto
     : zoomLevel
     ? detailOrMacroImage
-    : activeColorImage || currentProduct.image
+    : modelDrapeImage
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
       reader.onload = (uploadEvent) => {
-        setUserPhoto(uploadEvent.target?.result as string)
+        triggerDrapeShift(() => {
+          setUserPhoto(uploadEvent.target?.result as string)
+        })
       }
       reader.readAsDataURL(file)
     }
@@ -128,7 +218,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
   const handleAddLookToCart = (includePairing = false) => {
     try {
       const existing = JSON.parse(localStorage.getItem('nt_cart') || '[]')
-      const chosenColor = currentProduct.colorOptions?.[selectedColorIdx]?.name || 'Standard'
+      const chosenColor = currentColorway?.name || 'Standard'
       const itemsToAdd = [
         {
           productId: currentProduct.id,
@@ -139,7 +229,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
           unitPrice: currentProduct.price,
           quantity: 1,
           totalPrice: currentProduct.price,
-          image: activeColorImage || currentProduct.image,
+          image: activeColorImage,
         },
       ]
 
@@ -271,7 +361,9 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
               <div className="flex items-center justify-between z-10 mb-3 flex-wrap gap-2">
                 <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-semibold text-[#17233B]">SI Neural Drape Engine: Active</span>
+                  <span className="font-semibold text-[#17233B]">
+                    SI Neural Drape Engine: Active
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-1.5">
@@ -315,6 +407,16 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                   }`}
                 />
 
+                {/* Drape Calibration Shimmer Overlay */}
+                {isDraping && (
+                  <div className="absolute inset-0 bg-[#17233B]/30 backdrop-blur-xs flex items-center justify-center z-20 animate-fadeIn">
+                    <div className="bg-[#17233B]/95 text-white border border-[#C9A45C]/60 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#C9A45C] animate-ping" />
+                      <span>SI Neural Drape Calibrating Topology...</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Overlaid Badges */}
                 <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
                   <div className="bg-[#17233B]/85 backdrop-blur-md text-[#FAF6EE] px-3 py-1.5 rounded-md text-[11px] font-medium border border-white/10 flex items-center gap-2 shadow-sm">
@@ -332,21 +434,30 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
 
                 {/* Simulation Telemetry Badge */}
                 {!userPhoto && (
-                  <div className="absolute top-4 right-4 bg-emerald-950/85 backdrop-blur-md text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-1.5 pointer-events-none">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    <span>Draped for {activeModel?.name.split(' ')[0]} ({activeModel?.drapeFit})</span>
+                  <div className="absolute top-4 right-4 bg-[#17233B]/90 backdrop-blur-md text-white border border-white/20 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-2 pointer-events-none z-10">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>{activeModel?.name.split(' ')[0]}</span>
+                    <span className="text-stone-300">· {activeModel?.drapeFit}</span>
+                    <span className="text-[#C9A45C]">({activeModel?.height})</span>
                   </div>
                 )}
 
                 {/* Bottom Overlay Card */}
-                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 rounded-b-xl text-white">
+                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/90 via-black/65 to-transparent p-4 rounded-b-xl text-white">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
                     Now Draped
                   </span>
                   <h4 className="font-serif text-lg font-bold leading-tight">{currentProduct.name}</h4>
-                  <div className="flex items-center justify-between text-xs mt-1 text-stone-200">
-                    <span>
-                      Colour: <strong>{currentProduct.colorOptions?.[selectedColorIdx]?.name || 'Standard Shade'}</strong>
+                  <div className="flex items-center justify-between text-xs mt-1.5 text-stone-200">
+                    <span className="flex items-center gap-1.5">
+                      <span>Shade:</span>
+                      <strong className="text-white flex items-center gap-1.5">
+                        <span
+                          className="w-3 h-3 rounded-full inline-block border border-white/40"
+                          style={{ backgroundColor: currentColorway?.hex || '#C9A45C' }}
+                        />
+                        {currentColorway?.name || 'Standard Shade'}
+                      </strong>
                     </span>
                     <span className="font-bold text-white text-sm">
                       {formatCraftPrice(currentProduct.price)}
@@ -357,27 +468,30 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
 
               {/* Bottom Model / Photo Bar */}
               <div className="mt-4 pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-stone-600">Avatar:</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-semibold text-stone-600">Avatar Drape:</span>
                   {AVATAR_MODELS[selectedGender]?.map((m, i) => (
                     <button
                       key={m.id}
                       onClick={() => {
-                        setUserPhoto(null)
-                        setActiveModelIdx(i)
+                        triggerDrapeShift(() => {
+                          setUserPhoto(null)
+                          setActiveModelIdx(i)
+                        })
                       }}
-                      className={`px-2.5 py-1 rounded-md border text-[11px] font-medium transition-colors ${
+                      className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
                         !userPhoto && activeModelIdx === i
-                          ? 'bg-[#17233B] text-white border-[#17233B]'
+                          ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm ring-1 ring-[#C9A45C]'
                           : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
                       }`}
                     >
-                      {m.name.split(' ')[0]} ({m.height})
+                      <span>{m.name.split(' ')[0]}</span>{' '}
+                      <span className="text-[10px] opacity-75">({m.height})</span>
                     </button>
                   ))}
                 </div>
 
-                <label className="cursor-pointer bg-white hover:bg-stone-50 text-[#176B68] font-semibold px-3 py-1 rounded-md border border-[#176B68]/30 shadow-sm transition-colors flex items-center gap-1.5">
+                <label className="cursor-pointer bg-white hover:bg-stone-50 text-[#176B68] font-semibold px-3 py-1.5 rounded-lg border border-[#176B68]/30 shadow-sm transition-colors flex items-center gap-1.5">
                   <span>📸 Upload Your Photo</span>
                   <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                 </label>
@@ -399,6 +513,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                         onClick={() => {
                           setSelectedGender('women')
                           setActiveModelIdx(0)
+                          setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
                           selectedGender === 'women'
@@ -412,6 +527,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                         onClick={() => {
                           setSelectedGender('men')
                           setActiveModelIdx(0)
+                          setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
                           selectedGender === 'men'
@@ -435,14 +551,16 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                       {displayList.length} artisanal pieces
                     </span>
                   </div>
-                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1 no-scrollbar">
+                  <div className="space-y-2 max-h-44 overflow-y-auto pr-1 no-scrollbar">
                     {displayList.map((prod) => (
                       <button
                         key={prod.id}
                         onClick={() => {
-                          setCurrentProduct(prod)
-                          setSelectedColorIdx(0)
-                          setZoomLevel(false)
+                          triggerDrapeShift(() => {
+                            setCurrentProduct(prod)
+                            setSelectedColorIdx(0)
+                            setZoomLevel(false)
+                          })
                         }}
                         className={`w-full p-2.5 rounded-lg border text-left flex items-center gap-3 transition-all ${
                           currentProduct.id === prod.id
@@ -467,33 +585,52 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                   </div>
                 </div>
 
-                {/* 3. Colour Palette Picker */}
+                {/* 3. Colour Palette Picker (With Live Drape Guarantee) */}
                 {currentProduct.colorOptions && currentProduct.colorOptions.length > 0 && (
-                  <div>
-                    <span className="text-xs uppercase font-bold tracking-wider text-[#704B32] block mb-2">
-                      3. Shade &amp; Tone:{' '}
-                      <strong className="text-[#17233B]">
-                        {currentProduct.colorOptions[selectedColorIdx]?.name || 'Standard'}
-                      </strong>
-                    </span>
-                    <div className="flex items-center gap-2.5">
-                      {currentProduct.colorOptions.map((col: any, idx: number) => (
-                        <button
-                          key={col.name}
-                          type="button"
-                          onClick={() => {
-                            setSelectedColorIdx(idx)
-                            setZoomLevel(false)
-                          }}
-                          className={`w-9 h-9 rounded-full border-2 transition-transform ${
-                            selectedColorIdx === idx
-                              ? 'scale-115 border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
-                              : 'border-white hover:scale-105'
-                          }`}
-                          style={{ backgroundColor: col.hex }}
-                          title={col.name}
-                        />
-                      ))}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs uppercase font-bold tracking-wider text-[#704B32]">
+                        3. Shade &amp; Tone
+                      </span>
+                      <span className="text-xs font-bold text-[#17233B]">
+                        {currentColorway?.name || 'Standard'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {currentProduct.colorOptions.map((col: any, idx: number) => {
+                        const isSelected = selectedColorIdx === idx
+                        return (
+                          <button
+                            key={col.name}
+                            type="button"
+                            onClick={() => {
+                              triggerDrapeShift(() => {
+                                setSelectedColorIdx(idx)
+                                setZoomLevel(false)
+                              })
+                            }}
+                            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all ${
+                              isSelected
+                                ? 'bg-white border-[#17233B] ring-2 ring-[#C9A45C] shadow-sm'
+                                : 'bg-white/70 border-stone-200 hover:bg-white hover:border-stone-400'
+                            }`}
+                          >
+                            <span
+                              className="w-6 h-6 rounded-full border border-black/15 shadow-xs flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
+                              style={{ backgroundColor: col.hex }}
+                            >
+                              {isSelected && '✓'}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className={`text-xs font-semibold truncate ${isSelected ? 'text-[#17233B]' : 'text-stone-700'}`}>
+                                {col.name}
+                              </p>
+                              <p className="text-[10px] text-stone-400 font-mono uppercase">{col.hex}</p>
+                            </div>
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
                 )}

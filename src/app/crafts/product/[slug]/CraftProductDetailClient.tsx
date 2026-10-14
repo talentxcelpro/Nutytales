@@ -178,14 +178,34 @@ export default function CraftProductDetailClient() {
     router.push('/checkout')
   }
 
-  const galleryImages = [
+  // Priority: 1) Swatch 0 hero image, 2) Swatch 1 hero image (if different),
+  // 3) Secondary angle, 4) Detail/embroidery, 5) Texture, 6) Additional model views, 7) Process/Artisan, 8) Packaging
+  const colorwayImgs = (product.colorOptions?.map((c) => c.image).filter(Boolean) || []) as string[]
+  const rawGallery = [
     product.image,
+    ...colorwayImgs,
     product.secondaryImage,
     product.detailImage,
     product.textureImage,
-    ...(product.colorOptions?.map((c) => c.image).filter(Boolean) || []),
     ...(product.additionalImages || []),
-  ].filter((img, idx, arr) => img && arr.indexOf(img) === idx) as string[]
+  ].filter(Boolean) as string[]
+
+  const galleryImages = Array.from(new Set(rawGallery))
+
+  const handleSelectColor = (idx: number) => {
+    setSelectedColorIdx(idx)
+    const col = product.colorOptions[idx]
+    if (col) {
+      const targetImg = col.image || product.image
+      setSelectedImage(targetImg)
+      const fIdx = galleryImages.indexOf(targetImg)
+      if (fIdx >= 0) {
+        setActiveIdx(fIdx)
+      } else {
+        setActiveIdx(0)
+      }
+    }
+  }
 
   // Pairing item
   const pairedItem = product.pairWithSlug
@@ -295,11 +315,21 @@ export default function CraftProductDetailClient() {
                   )}
                 </div>
 
-                {/* Photo Angle Counter (e.g. Angle 3 of 9) */}
-                <div className="absolute top-4 right-4 z-10 pointer-events-none">
+                {/* Photo Angle Counter & Contextual Badge */}
+                <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-1.5 pointer-events-none">
                   <span className="bg-[#10192A]/85 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider shadow-sm">
                     {activeIdx + 1} of {galleryImages.length} Angles
                   </span>
+                  {selectedImage.includes('artisan') && (
+                    <span className="bg-amber-950/85 backdrop-blur-md text-amber-200 border border-amber-400/30 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-1.5">
+                      <span>🪡 Verified Loom Weaving</span>
+                    </span>
+                  )}
+                  {(selectedImage.includes('box') || selectedImage.includes('gifting')) && (
+                    <span className="bg-[#17233B]/90 backdrop-blur-md text-[#FAF6EE] border border-white/20 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-1.5">
+                      <span>📦 Heirloom Packaging Included</span>
+                    </span>
+                  )}
                 </div>
 
                 {/* Previous & Next Stage Arrows */}
@@ -311,7 +341,10 @@ export default function CraftProductDetailClient() {
                         e.stopPropagation()
                         const prevIdx = (activeIdx - 1 + galleryImages.length) % galleryImages.length
                         setActiveIdx(prevIdx)
-                        setSelectedImage(galleryImages[prevIdx])
+                        const prevImg = galleryImages[prevIdx]
+                        setSelectedImage(prevImg)
+                        const matchCol = product.colorOptions.findIndex((c) => c.image === prevImg)
+                        if (matchCol >= 0) setSelectedColorIdx(matchCol)
                       }}
                       className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#17233B] text-xl font-bold flex items-center justify-center shadow-md transition-transform active:scale-90 opacity-0 group-hover:opacity-100 z-10"
                       aria-label="Previous photo"
@@ -324,7 +357,10 @@ export default function CraftProductDetailClient() {
                         e.stopPropagation()
                         const nextIdx = (activeIdx + 1) % galleryImages.length
                         setActiveIdx(nextIdx)
-                        setSelectedImage(galleryImages[nextIdx])
+                        const nextImg = galleryImages[nextIdx]
+                        setSelectedImage(nextImg)
+                        const matchCol = product.colorOptions.findIndex((c) => c.image === nextImg)
+                        if (matchCol >= 0) setSelectedColorIdx(matchCol)
                       }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#17233B] text-xl font-bold flex items-center justify-center shadow-md transition-transform active:scale-90 opacity-0 group-hover:opacity-100 z-10"
                       aria-label="Next photo"
@@ -456,34 +492,44 @@ export default function CraftProductDetailClient() {
 
             {/* Colour Variant Selector */}
             {product.colorOptions.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs">
-                  <span className="uppercase font-bold tracking-wider text-[#704B32]">
-                    Colour: {product.colorOptions[selectedColorIdx]?.name}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="uppercase font-bold tracking-wider text-[#704B32] flex items-center gap-1.5">
+                    <span>Colour:</span>
+                    <strong className="text-[#17233B]">
+                      {product.colorOptions[selectedColorIdx]?.name || 'Standard'}
+                    </strong>
+                  </span>
+                  <span className="text-[11px] text-stone-500">
+                    {product.colorOptions.length} artisanal shade{product.colorOptions.length > 1 ? 's' : ''}
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
-                  {product.colorOptions.map((col, idx) => (
-                    <button
-                      key={col.name}
-                      type="button"
-                      onClick={() => {
-                        setSelectedColorIdx(idx)
-                        if (col.image) {
-                          setSelectedImage(col.image)
-                          const fIdx = galleryImages.indexOf(col.image)
-                          if (fIdx >= 0) setActiveIdx(fIdx)
-                        }
-                      }}
-                      className={`w-9 h-9 rounded-full border-2 transition-all ${
-                        selectedColorIdx === idx
-                          ? 'scale-110 border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
-                          : 'border-white hover:scale-105'
-                      }`}
-                      style={{ backgroundColor: col.hex }}
-                      title={col.name}
-                    />
-                  ))}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {product.colorOptions.map((col, idx) => {
+                    const isSelected = selectedColorIdx === idx
+                    return (
+                      <button
+                        key={col.name}
+                        type="button"
+                        onClick={() => handleSelectColor(idx)}
+                        className={`group/swatch px-3.5 py-2 rounded-full border-2 flex items-center gap-2.5 transition-all active:scale-95 ${
+                          isSelected
+                            ? 'bg-white border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
+                            : 'bg-white/80 border-stone-200 hover:border-stone-400 hover:bg-white'
+                        }`}
+                      >
+                        <span
+                          className="w-5 h-5 rounded-full border border-black/20 shadow-xs flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
+                          style={{ backgroundColor: col.hex }}
+                        >
+                          {isSelected && '✓'}
+                        </span>
+                        <span className={`text-xs font-semibold ${isSelected ? 'text-[#17233B]' : 'text-stone-600'}`}>
+                          {col.name}
+                        </span>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             )}
@@ -785,6 +831,7 @@ export default function CraftProductDetailClient() {
         isOpen={siModalOpen}
         onClose={() => setSiModalOpen(false)}
         initialProduct={product}
+        initialColorIdx={selectedColorIdx}
       />
 
       {/* Fullscreen HD Lightbox Modal */}
