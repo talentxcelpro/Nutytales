@@ -186,6 +186,8 @@ export default function CraftProductDetailClient() {
     (p) => p.id !== product.id && (p.primaryCategory === product.primaryCategory || p.gender === product.gender)
   ).slice(0, 4)
 
+  const [activeIdx, setActiveIdx] = useState(0)
+
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-4 sm:pt-6 pb-24">
       
@@ -205,100 +207,170 @@ export default function CraftProductDetailClient() {
 
         {/* —— Product Commercial Two-Column Grid ——————————————————————————————— */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          {/* LEFT: Large Image Gallery (7 cols) */}
+          {/* LEFT: Next-Gen Luxury Image Gallery (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
-            {/* Main Stage Image with Interactive HD Magnifier */}
-            <div
-              onMouseEnter={() => setIsZoomed(true)}
-              onMouseLeave={() => setIsZoomed(false)}
-              onMouseMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect()
-                const x = ((e.clientX - rect.left) / rect.width) * 100
-                const y = ((e.clientY - rect.top) / rect.height) * 100
-                setZoomPos({ x, y })
-              }}
-              className="relative aspect-[3/4] sm:aspect-[4/5] w-full rounded-3xl overflow-hidden bg-white shadow-sm border border-stone-200 cursor-crosshair group"
-            >
-              <Image
-                src={selectedImage}
-                alt={product.name}
-                fill
-                priority
-                quality={95}
-                className={`object-cover object-[center_top] transition-transform duration-300 ${
-                  isZoomed ? 'scale-135' : 'scale-100'
-                }`}
-                style={
-                  isZoomed
-                    ? {
-                        transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                      }
-                    : undefined
-                }
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
-
-              {/* Badges Overlay */}
-              <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
-                <span className="bg-[#17233B] text-white px-3 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider shadow-sm">
-                  {product.craft}
-                </span>
-                {product.provenance.giTagCertified && (
-                  <span className="bg-[#C9A45C] text-[#17233B] px-2.5 py-0.5 rounded-md text-[10px] uppercase font-extrabold tracking-wider shadow-sm">
-                    GI Tag Certified
-                  </span>
-                )}
-              </div>
-
-              {/* Zoom hint */}
-              <div className="absolute top-4 right-4 pointer-events-none opacity-80 group-hover:opacity-0 transition-opacity z-10">
-                <span className="bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-[10px] text-stone-600 font-semibold shadow-xs">
-                  🔍 Hover to Zoom HD
-                </span>
-              </div>
-
-              {/* 3D and Fullscreen Zoom Triggers */}
-              <div className="absolute bottom-4 right-4 flex items-center gap-2 z-10">
-                <button
-                  type="button"
-                  onClick={() => setLightboxOpen(true)}
-                  className="px-3.5 py-2 rounded-xl bg-white/95 hover:bg-white text-[#17233B] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
-                >
-                  <span>🔍</span>
-                  <span>Full View</span>
-                </button>
-                {product.is3DSupported && (
-                  <button
-                    type="button"
-                    onClick={() => setViewer3DOpen(true)}
-                    className="px-3.5 py-2 rounded-xl bg-[#17233B]/90 hover:bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
-                  >
-                    <span>✨</span>
-                    <span>View in 3D</span>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Thumbnails Row */}
+            <div className="flex flex-col md:flex-row gap-4">
+            
+            {/* 1. Left Vertical Thumbnail Rail (Desktop: All 8-10 Angles) */}
             {galleryImages.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+              <div className="hidden md:flex flex-col gap-2.5 w-20 flex-shrink-0 max-h-[640px] overflow-y-auto pr-1 no-scrollbar">
                 {galleryImages.map((img, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => setSelectedImage(img)}
-                    className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
+                    onClick={() => {
+                      setSelectedImage(img)
+                      setActiveIdx(idx)
+                    }}
+                    onMouseEnter={() => {
+                      setSelectedImage(img)
+                      setActiveIdx(idx)
+                    }}
+                    className={`relative w-20 aspect-[3/4] rounded-xl overflow-hidden border-2 transition-all ${
                       selectedImage === img
-                        ? 'border-[#176B68] ring-2 ring-[#176B68]/30 scale-105 shadow-sm'
-                        : 'border-stone-200 opacity-70 hover:opacity-100'
+                        ? 'border-[#17233B] ring-2 ring-[#C9A45C] scale-102 shadow-md'
+                        : 'border-stone-200 opacity-60 hover:opacity-100 hover:border-stone-400'
                     }`}
                   >
-                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill className="object-cover" />
+                    <Image src={img} alt={`${product.name} angle ${idx + 1}`} fill className="object-cover" />
+                    <span className="absolute bottom-1 right-1 bg-black/75 backdrop-blur-xs text-white text-[8px] font-bold px-1 rounded">
+                      {idx + 1}
+                    </span>
                   </button>
                 ))}
               </div>
             )}
+
+            {/* 2. Main Stage with Interactive HD Loupe Zoom & Quick Controls */}
+            <div className="flex-1 space-y-3">
+              <div
+                onMouseEnter={() => setIsZoomed(true)}
+                onMouseLeave={() => setIsZoomed(false)}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  const x = ((e.clientX - rect.left) / rect.width) * 100
+                  const y = ((e.clientY - rect.top) / rect.height) * 100
+                  setZoomPos({ x, y })
+                }}
+                className="relative aspect-[3/4] sm:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-white shadow-sm border border-stone-200 cursor-crosshair group"
+              >
+                <Image
+                  src={selectedImage}
+                  alt={product.name}
+                  fill
+                  priority
+                  quality={95}
+                  className={`object-cover object-[center_top] transition-transform duration-300 ${
+                    isZoomed ? 'scale-140' : 'scale-100'
+                  }`}
+                  style={
+                    isZoomed
+                      ? {
+                          transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                        }
+                      : undefined
+                  }
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                />
+
+                {/* Top Badges (Origin & GI Certification) */}
+                <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+                  <span className="bg-[#17233B] text-white px-2.5 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider shadow-sm flex items-center gap-1">
+                    <span>📍</span> {(product as any).state || product.provenance.origin}
+                  </span>
+                  {product.provenance.giTagCertified && (
+                    <span className="bg-[#C9A45C] text-[#17233B] px-2.5 py-0.5 rounded-md text-[10px] uppercase font-extrabold tracking-wider shadow-sm">
+                      GI Certified Handloom
+                    </span>
+                  )}
+                </div>
+
+                {/* Photo Angle Counter (e.g. Angle 3 of 9) */}
+                <div className="absolute top-4 right-4 z-10 pointer-events-none">
+                  <span className="bg-[#10192A]/85 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider shadow-sm">
+                    {activeIdx + 1} of {galleryImages.length} Angles
+                  </span>
+                </div>
+
+                {/* Previous & Next Stage Arrows */}
+                {galleryImages.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const prevIdx = (activeIdx - 1 + galleryImages.length) % galleryImages.length
+                        setActiveIdx(prevIdx)
+                        setSelectedImage(galleryImages[prevIdx])
+                      }}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#17233B] text-xl font-bold flex items-center justify-center shadow-md transition-transform active:scale-90 opacity-0 group-hover:opacity-100 z-10"
+                      aria-label="Previous photo"
+                    >
+                      &#8249;
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const nextIdx = (activeIdx + 1) % galleryImages.length
+                        setActiveIdx(nextIdx)
+                        setSelectedImage(galleryImages[nextIdx])
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#17233B] text-xl font-bold flex items-center justify-center shadow-md transition-transform active:scale-90 opacity-0 group-hover:opacity-100 z-10"
+                      aria-label="Next photo"
+                    >
+                      &#8250;
+                    </button>
+                  </>
+                )}
+
+                {/* 3D and Fullscreen Zoom Triggers */}
+                <div className="absolute bottom-4 right-4 flex items-center gap-2 z-10">
+                  <button
+                    type="button"
+                    onClick={() => setLightboxOpen(true)}
+                    className="px-3 py-1.5 rounded-xl bg-white/95 hover:bg-white text-[#17233B] text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
+                  >
+                    <span>🔍</span>
+                    <span>HD Zoom</span>
+                  </button>
+                  {product.is3DSupported && (
+                    <button
+                      type="button"
+                      onClick={() => setViewer3DOpen(true)}
+                      className="px-3 py-1.5 rounded-xl bg-[#17233B]/90 hover:bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 transition-transform active:scale-95"
+                    >
+                      <span>✨</span>
+                      <span>View in 3D</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Mobile Horizontal Thumbnail Rail */}
+              {galleryImages.length > 1 && (
+                <div className="flex md:hidden gap-2 overflow-x-auto pb-1 no-scrollbar">
+                  {galleryImages.map((img, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => {
+                        setSelectedImage(img)
+                        setActiveIdx(idx)
+                      }}
+                      className={`relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
+                        selectedImage === img
+                          ? 'border-[#17233B] ring-2 ring-[#C9A45C]'
+                          : 'border-stone-200 opacity-60'
+                      }`}
+                    >
+                      <Image src={img} alt="" fill className="object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            </div>
 
             {/* Editorial Craft Story Quote */}
             {product.editorialStory && (

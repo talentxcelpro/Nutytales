@@ -66,11 +66,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Woven in the misty village of Kanihama, where looms have hummed rhythmically since the 15th-century Mughal court of Zain-ul-Abidin.',
     price: 38500,
     mrp: 49000,
-    image: '/images/crafts-shawls.jpg',
+    image: 'https://plus.unsplash.com/premium_photo-1673757112844-0bfbfa7f0e75?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-shawls.jpg',
-      '/images/crafts-artisan-hands.jpg',
-      '/images/crafts-winter-hero.jpg',
+          "https://images.unsplash.com/photo-1785613231239-d8ea073de8a1?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1785613231224-7306d41c0447?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1625432800813-5cad3897cf22?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1677014828997-ca295ceac0c0?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Free Size (200 cm × 100 cm)'],
     colorOptions: [
@@ -109,10 +114,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Crafted in the quiet historic courtyards of Shehr-e-Khaas (Downtown Srinagar), where families have practiced the fine art of the needle for six generations.',
     price: 24500,
     mrp: 32000,
-    image: '/images/crafts-winter-hero.jpg',
+    image: 'https://images.unsplash.com/photo-1785613229921-7b5862b6204e?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-artisan-hands.jpg',
-      '/images/crafts-shawls.jpg',
+          "https://images.unsplash.com/photo-1580854898508-4761a9c769a9?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1773650782990-334debec6f17?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1791598638960-7931c1f83290?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://plus.unsplash.com/premium_photo-1661870716960-c9de57177e8d?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1593619777827-de43bca16687?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Free Size (200 cm × 100 cm)'],
     colorOptions: [
@@ -153,10 +164,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Inspired by the springtime blooming of Badamwari (the historic almond orchard of Srinagar) beneath the foothills of Hari Parbat.',
     price: 12800,
     mrp: 16500,
-    image: '/images/crafts-stoles.jpg',
+    image: 'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-stoles.jpg',
-      '/images/crafts-winterwear.jpg',
+          "https://images.unsplash.com/photo-1750075993686-57f1b8eefa42?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1788944066688-35bed7fc7ff7?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1678233035808-65a0ca67471c?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1763400126795-d83e07d3449e?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1740646638272-d7b381ba0643?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1785613231153-8163a9727cbd?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Stole Size (200 cm × 70 cm)'],
     colorOptions: [
@@ -195,10 +212,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Reflecting the changing colors of Dal Lake from dawn mist to twilight reflection.',
     price: 6400,
     mrp: 8500,
-    image: '/images/crafts-accessories.jpg',
+    image: 'https://images.unsplash.com/photo-1602713876960-09cc90c9869d?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-accessories.jpg',
-      '/images/crafts-stoles.jpg',
+          "https://plus.unsplash.com/premium_photo-1762861940181-4c03b05380d4?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1562846595-61850546c9be?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1758278212585-c050f6ee5742?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1791598639448-63b8f8db91bc?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1544534869-7da404dce14a?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1694036317280-250d7ecce698?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Stole Size (200 cm × 70 cm)'],
     colorOptions: [
@@ -237,10 +260,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Worn with pride by valley residents for over five centuries across the snowy streets of Srinagar, Pahalgam, and Gulmarg.',
     price: 9800,
     mrp: 13500,
-    image: '/images/crafts-pherans.jpg',
+    image: 'https://images.unsplash.com/photo-1712852733591-f28eb06e832d?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-pherans.jpg',
-      '/images/crafts-winterwear.jpg',
+          "https://images.unsplash.com/photo-1712852733710-28067fa73e48?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1712852733605-4776c3e61d94?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1778846414348-ebb8845c90ec?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1789541759782-aab84821a495?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://plus.unsplash.com/premium_photo-1769127518346-db9ff1a13998?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['M (Chest 42")', 'L (Chest 46")', 'XL (Chest 50")', 'Free Silhouette (Chest 48")'],
     colorOptions: [
@@ -278,10 +307,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Echoing the grandeur of royal Kashmiri darbars, where Tilla embroidery was reserved for court nobility.',
     price: 18500,
     mrp: 24000,
-    image: '/images/crafts-winter-hero.jpg',
+    image: 'https://images.unsplash.com/photo-1787220272461-2c53528c9349?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-shawls.jpg',
-      '/images/crafts-artisan-hands.jpg',
+          "https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1673757112844-0bfbfa7f0e75?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1791752141882-dfaaccb61928?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1763400234383-8b9ecbb9c043?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1785613229921-7b5862b6204e?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1773650782990-334debec6f17?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['S (Chest 38")', 'M (Chest 42")', 'L (Chest 46")', 'XL (Chest 50")'],
     colorOptions: [
@@ -323,10 +358,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Worn against the backdrop of snow-covered pines in Pahalgam and ancient walnut carved pavilions.',
     price: 16500,
     mrp: 22000,
-    image: '/images/crafts-jackets.jpg',
+    image: 'https://plus.unsplash.com/premium_photo-1682090781379-4d177df45267?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-jackets.jpg',
-      '/images/crafts-winterwear.jpg',
+          "https://images.unsplash.com/photo-1762709314232-8e6ddc3dd81f?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1658066830454-619ebe6312a8?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1672940950617-ca7c8afb2ce5?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1787554497632-1727c23e58cb?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://plus.unsplash.com/premium_photo-1682090768709-b00ac36f72de?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1624440551690-0ce80688acdc?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['XS (34")', 'S (36")', 'M (38")', 'L (40")', 'XL (42")'],
     colorOptions: [
@@ -364,10 +405,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Combining the warmth of Himalayan wool with timeless Indian formal tailoring.',
     price: 7900,
     mrp: 11000,
-    image: '/images/crafts-winterwear.jpg',
+    image: 'https://images.unsplash.com/photo-1767775498862-d4740ce574ce?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-winterwear.jpg',
-      '/images/crafts-pherans.jpg',
+          "https://images.unsplash.com/photo-1710242350089-65eef7e49364?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1682090774051-77cdd6b1e7cd?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1763368161039-12a2879b55e3?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1768885560958-e4d8d0ba9ae6?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1762709314136-94277d4b7dd2?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1783923134973-d8769979ecb0?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
@@ -406,10 +453,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Worn while sipping steaming kehwa beside the fireplace at our Srinagar hillside property.',
     price: 8900,
     mrp: 12500,
-    image: '/images/crafts-winterwear.jpg',
+    image: 'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-stoles.jpg',
-      '/images/crafts-jackets.jpg',
+          "https://plus.unsplash.com/premium_photo-1677014828997-ca295ceac0c0?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1695792938662-8a28bda660ff?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1789882293195-d29f92e9730f?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1785613231239-d8ea073de8a1?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1673757100919-2291c3bfa6b7?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Free Size (Fits XS - XXL)'],
     colorOptions: [
@@ -448,10 +501,16 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Crafted by women artisans working from home in rural Kashmir, providing sustainable year-round income.',
     price: 2450,
     mrp: 3500,
-    image: '/images/crafts-accessories.jpg',
+    image: 'https://plus.unsplash.com/premium_photo-1769127518346-db9ff1a13998?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-accessories.jpg',
-      '/images/crafts-winter-hero.jpg',
+          "https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1787220272461-2c53528c9349?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1781106699994-9e9246b20aa7?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1773394175834-2c407177ddcf?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1704112582941-94a1c9846703?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['Standard Adult Stretch (Free Size)'],
     colorOptions: [
@@ -490,10 +549,15 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Every swirl of the chisel reflects generations of woodcraft passed down through the guilds of Srinagar.',
     price: 6800,
     mrp: 9500,
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: 'https://plus.unsplash.com/premium_photo-1674747087104-516a4d6d316c?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/dark-wood-gourmet-tray.jpg',
-      '/images/crafts-artisan-hands.jpg',
+          "https://images.unsplash.com/photo-1594734415578-00fc9540929b?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1606259457945-67dc66271ee6?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1619043518800-7f14be467dca?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://plus.unsplash.com/premium_photo-1674747086512-5f73de8f7350?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1732869415090-179de017b6d6?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['10" × 8" × 3.5" (4 Compartments)'],
     colorOptions: [
@@ -530,10 +594,15 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     editorialStory: 'Hand-painted with brushes made from fine cat hair to achieve microscopic line accuracy.',
     price: 3200,
     mrp: 4500,
-    image: '/images/crafts-gifting-box.jpg',
+    image: 'https://images.unsplash.com/photo-1518893063132-36e46dbe2428?w=1200&auto=format&fit=crop&q=80',
     additionalImages: [
-      '/images/crafts-gifting-box.jpg',
-      '/images/crafts-artisan-hands.jpg',
+          "https://images.unsplash.com/photo-1617055407123-3d7130c1f940?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1672681446484-827767f95dab?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1637750586228-179a1a7aef84?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1620763050148-af058ab2fff0?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1618434958571-459c9c972ae8?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-gifting-box.jpg"
     ],
     sizes: ['6" × 4" × 2.5"'],
     colorOptions: [
@@ -575,10 +644,13 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
     mrp: 25000,
     image: '/images/crafts-gifting-box.jpg',
     additionalImages: [
-      '/images/crafts-gifting-box.jpg',
-      '/images/luxury-hamper-jars.png',
-      '/images/crafts-stoles.jpg',
-      '/images/saffron-jar-5g.jpg',
+          "https://plus.unsplash.com/premium_photo-1673757112844-0bfbfa7f0e75?w=1200&auto=format&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=80",
+          "/images/crafts-artisan-hands.jpg",
+          "https://images.unsplash.com/photo-1712852733591-f28eb06e832d?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1785613231239-d8ea073de8a1?w=1200&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=80"
     ],
     sizes: ['Executive Presentation Box (16" × 12" × 5")'],
     colorOptions: [
