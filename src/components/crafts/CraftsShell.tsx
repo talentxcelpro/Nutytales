@@ -113,19 +113,20 @@ export default function CraftsShell({
               <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
               <span className="font-bold tracking-wide">NUTY TALES CRAFTS</span>
               <span className="text-white/40 hidden sm:inline">|</span>
-              <span className="hidden sm:inline text-stone-300 font-normal">Pan-India GI Clusters &bull; 100% Single-Origin Handlooms</span>
+              <span className="hidden sm:inline text-stone-300 font-normal">🚚 Complimentary Insured Shipping Pan-India &bull; 100% Single-Origin Handlooms</span>
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-xs">
-            <SpeedTelemetryHUD />
+            <span className="text-stone-300 font-medium hidden md:inline">Use code <strong className="text-[#C9A45C]">HERITAGE10</strong> for 10% Off</span>
+            <span className="text-white/20 hidden md:inline">|</span>
             <a
               href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
                 'Hello Nuty Tales Crafts! I am inquiring about all-India GI handlooms, custom artisan tailoring, and heritage fashion.',
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#C9A45C] font-semibold hover:underline flex items-center gap-1 hidden sm:flex text-[11px]"
+              className="text-[#C9A45C] font-semibold hover:underline flex items-center gap-1 text-[11px]"
             >
               <span>Artisan Concierge</span>
               <span>&rarr;</span>

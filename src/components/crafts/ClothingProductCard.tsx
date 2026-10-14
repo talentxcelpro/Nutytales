@@ -203,32 +203,57 @@ export default function ClothingProductCard({
       </div>
 
       {/* ── 2. Myntra-Grade Brand, Title & Commercial Info ───────────────────── */}
-      <div className="p-3.5 flex flex-col flex-1 justify-between space-y-2">
-        <div className="space-y-0.5">
-          {/* Brand / Atelier Name (Bold Uppercase) */}
+      <div className="p-3 flex flex-col justify-between space-y-1">
+        <div>
+          {/* Brand / Artisan Guild (Bold Uppercase) */}
           <div className="flex items-center justify-between">
-            <span className="font-extrabold text-xs text-[#17233B] tracking-wider uppercase truncate">
+            <span className="font-extrabold text-[11px] text-[#17233B] tracking-wider uppercase truncate">
               {product.provenance.artisanGroup || `${product.craft} Atelier`}
             </span>
             {product.provenance.giTagCertified && (
-              <button
-                type="button"
-                onClick={() => onOpenPassport && onOpenPassport(product)}
-                className="text-[#176B68] hover:underline text-[9px] font-extrabold flex-shrink-0"
-                title="View Verifiable GI Passport"
-              >
-                📜 GI Cert
-              </button>
+              <span className="text-[#176B68] text-[9px] font-extrabold tracking-wider bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                GI Tag
+              </span>
             )}
           </div>
 
           {/* Product Description / Title */}
           <Link
             href={`/crafts/product/${product.slug}`}
-            className="text-xs text-stone-600 hover:text-[#176B68] transition-colors leading-snug truncate block"
+            className="text-xs text-stone-700 font-medium hover:text-[#176B68] transition-colors leading-snug truncate block mt-0.5"
           >
             {product.name}
           </Link>
+        </div>
+
+        {/* Pricing Row (Selling Price, MRP strikethrough, Discount % OFF) */}
+        <div className="flex items-baseline justify-between gap-1 pt-1">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="font-extrabold text-sm text-[#17233B]">
+              {formatCraftPrice(product.price)}
+            </span>
+            {product.mrp > product.price && (
+              <span className="text-[11px] text-stone-400 line-through">
+                {formatCraftPrice(product.mrp)}
+              </span>
+            )}
+            {discountPercent > 0 && (
+              <span className="text-[11px] font-bold text-rose-600">
+                ({discountPercent}% OFF)
+              </span>
+            )}
+          </div>
+          {product.tryWithSiSupported && onTryWithSi && (
+            <button
+              type="button"
+              onClick={() => onTryWithSi(product)}
+              className="text-[10px] font-bold text-[#176B68] hover:underline flex items-center gap-0.5 flex-shrink-0"
+              title="Virtual Drape Simulation"
+            >
+              <span>✨</span>
+              <span>Try SI</span>
+            </button>
+          )}
         </div>
 
         {/* Color Swatch Dots & Fabric info */}
@@ -248,63 +273,7 @@ export default function ClothingProductCard({
             ))}
             <span className="truncate ml-1">{product.material.split('(')[0].trim()}</span>
           </div>
-          <span className="text-[#176B68] font-bold">{product.craft}</span>
-        </div>
-
-        {/* Pricing Row (Selling Price, MRP strikethrough, Discount % OFF) */}
-        <div className="pt-2 border-t border-stone-100 flex items-baseline justify-between gap-1 flex-wrap">
-          <div className="flex items-baseline gap-1.5 flex-wrap">
-            <span className="font-bold text-sm text-[#17233B]">
-              {formatCraftPrice(product.price)}
-            </span>
-            {product.mrp > product.price && (
-              <span className="text-[11px] text-stone-400 line-through">
-                {formatCraftPrice(product.mrp)}
-              </span>
-            )}
-            {discountPercent > 0 && (
-              <span className="text-[11px] font-bold text-rose-600">
-                ({discountPercent}% OFF)
-              </span>
-            )}
-            {isWesternMarket && (
-              <span className="text-[9px] font-bold text-[#C9A45C] bg-[#10192A] px-1.5 py-0.5 rounded" title="Insured international express delivery and import duties included">
-                Global Express
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* DeepTech Action Strip (Virtual Drape SI & Quick Bag) */}
-        <div className="pt-1.5 border-t border-stone-100 flex items-center justify-between gap-1.5">
-          {product.tryWithSiSupported && onTryWithSi && (
-            <button
-              type="button"
-              onClick={() => onTryWithSi(product)}
-              className="flex-1 py-1 px-2 rounded-lg bg-[#176B68]/10 hover:bg-[#176B68] text-[#176B68] hover:text-white text-[10px] font-bold transition-colors flex items-center justify-center gap-1"
-            >
-              <span>✨</span> Virtual Drape
-            </button>
-          )}
-
-          {product.is3DSupported && onOpen3D && (
-            <button
-              type="button"
-              onClick={() => onOpen3D(product)}
-              className="py-1 px-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold transition-colors"
-              title="Inspect 3D Weave"
-            >
-              3D
-            </button>
-          )}
-
-          <button
-            type="button"
-            onClick={() => onQuickAdd(product)}
-            className="flex-1 py-1 px-2 rounded-lg bg-[#17233B] hover:bg-black text-white text-[10px] font-bold uppercase transition-colors text-center"
-          >
-            + Bag
-          </button>
+          <span className="text-stone-400 font-medium text-[9px] truncate max-w-[80px]">{product.craft}</span>
         </div>
       </div>
     </div>

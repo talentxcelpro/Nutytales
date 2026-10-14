@@ -393,38 +393,10 @@ export default function CraftsHomeClient() {
         </div>
       </section>
 
-      {/* ── 2. Top Promotional Fashion Ribbon Banner ─────────────────────────── */}
-      <section className="bg-gradient-to-r from-[#10192A] via-[#1A263D] to-[#10192A] text-white py-3 px-4 sm:px-6 lg:px-8 border-b border-[#C9A45C]/30 shadow-xs">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-0.5 rounded-full bg-[#C9A45C] text-[#10192A] text-[10px] font-extrabold uppercase tracking-widest">
-              AUTUMN/WINTER 2026 EDIT
-            </span>
-            <span className="text-stone-200 font-medium hidden sm:inline">
-              15 Indian State Weaver Guilds · 100% Single-Origin Weaves Verified at the Loom
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs">
-            <span className="text-[#C9A45C] font-mono font-bold">
-              ⚡ 0.8ms In-Memory
-            </span>
-            <button
-              type="button"
-              onClick={() => handleOpenTryWithSi()}
-              className="text-[#C9A45C] hover:underline font-bold flex items-center gap-1"
-            >
-              <span>✨</span>
-              <span>Virtual Drape (SI)</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. Core E-Commerce Two-Column PLP (Product Listing Page) ─────────── */}
+      {/* ── Core E-Commerce Two-Column PLP (Product Listing Page) ─────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         {/* Breadcrumbs & Catalog Summary Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-stone-200">
           <div>
             <nav className="text-[11px] text-stone-500 flex items-center gap-1.5 font-medium">
               <Link href="/" className="hover:text-stone-800">Home</Link>
@@ -434,14 +406,11 @@ export default function CraftsHomeClient() {
               <span className="text-stone-800 font-bold">Indian Handcrafted &amp; Ethnic Wear</span>
             </nav>
             <div className="flex items-baseline gap-2 mt-1">
-              <h1 className="text-base sm:text-lg font-bold text-stone-900 tracking-tight">
-                Indian Handcrafted Wear
+              <h1 className="text-lg sm:text-xl font-extrabold text-[#17233B] tracking-tight">
+                Indian Handcrafted &amp; Ethnic Wear
               </h1>
-              <span className="text-xs text-stone-500 font-medium">
-                - {filteredProducts.length} items
-              </span>
-              <span className="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
-                ⚡ {filterLatency.toFixed(1)}ms
+              <span className="text-xs text-stone-500 font-medium font-mono">
+                ({filteredProducts.length} items)
               </span>
             </div>
           </div>
