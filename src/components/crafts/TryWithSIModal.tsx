@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CRAFT_PRODUCTS, CraftProduct } from '@/lib/crafts-data'
+import { CLOTHING_PRODUCTS, ClothingProduct } from '@/lib/clothing-data'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface TryWithSIModalProps {
@@ -13,18 +14,25 @@ interface TryWithSIModalProps {
 }
 
 type ModelGender = 'women' | 'men'
-type GarmentType = 'pherans' | 'shawls' | 'stoles' | 'jackets-coats' | 'winter-wear'
 
-const AVATAR_MODELS = {
+const AVATAR_MODELS: Record<ModelGender, Array<{ id: string; name: string; height: string; drapeFit: string }>> = {
   women: [
-    { id: 'w1', name: 'Alia (Kashmir Alpine Light)', image: '/images/crafts-shawls.jpg' },
-    { id: 'w2', name: 'Zoya (Evening Elegance)', image: '/images/crafts-jackets.jpg' },
-    { id: 'w3', name: 'Tara (Classic Ivory)', image: '/images/crafts-stoles.jpg' },
+    { id: 'w1', name: 'Alia (Kashmir Alpine Light)', height: "5'7\"", drapeFit: 'Athletic Petite' },
+    { id: 'w2', name: 'Zoya (Evening Elegance)', height: "5'9\"", drapeFit: 'Hourglass Drape' },
+    { id: 'w3', name: 'Tara (Classic Ivory)', height: "5'6\"", drapeFit: 'Graceful Traditional' },
   ],
   men: [
-    { id: 'm1', name: 'Faizan (Himalayan Snow)', image: '/images/crafts-pherans.jpg' },
-    { id: 'm2', name: 'Kabir (Executive Winter)', image: '/images/crafts-winterwear.jpg' },
+    { id: 'm1', name: 'Faizan (Himalayan Snow)', height: "6'0\"", drapeFit: 'Broad Tailored' },
+    { id: 'm2', name: 'Kabir (Executive Winter)', height: "5'11\"", drapeFit: 'Structured Fit' },
   ],
+}
+
+type LightMode = 'daylight' | 'golden' | 'evening'
+
+const LIGHT_MODES: Record<LightMode, { label: string; filter: string; icon: string }> = {
+  daylight: { label: 'Studio Daylight', filter: 'brightness(1) contrast(1)', icon: '☀️' },
+  golden: { label: 'Golden Hour', filter: 'brightness(1.04) contrast(1.05) sepia(0.08) saturate(1.05)', icon: '🌅' },
+  evening: { label: 'Royal Evening', filter: 'brightness(0.96) contrast(1.08) hue-rotate(-6deg) saturate(1.08)', icon: '🌙' },
 }
 
 export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryWithSIModalProps) {
@@ -33,15 +41,13 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
   const [selectedGender, setSelectedGender] = useState<ModelGender>(
     initialProduct?.gender === 'men' ? 'men' : 'women'
   )
-  const [selectedGarmentType, setSelectedGarmentType] = useState<GarmentType>(
-    (initialProduct?.category as GarmentType) || 'pherans'
-  )
-  const [currentProduct, setCurrentProduct] = useState<CraftProduct>(
-    initialProduct || CRAFT_PRODUCTS[2] // Classic Pheran by default
+  const [currentProduct, setCurrentProduct] = useState<any>(
+    initialProduct || CLOTHING_PRODUCTS[0] || CRAFT_PRODUCTS[0]
   )
   const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [userPhoto, setUserPhoto] = useState<string | null>(null)
   const [activeModelIdx, setActiveModelIdx] = useState(0)
+  const [ambientLight, setAmbientLight] = useState<'daylight' | 'golden' | 'evening'>('daylight')
   const [zoomLevel, setZoomLevel] = useState(false)
   const [addedNotice, setAddedNotice] = useState(false)
 
@@ -49,23 +55,64 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
   const [advisorQuery, setAdvisorQuery] = useState('')
   const [advisorResponse, setAdvisorResponse] = useState<{
     text: string
-    recommendedProduct: CraftProduct
-    pairingProduct?: CraftProduct
+    recommendedProduct: any
+    pairingProduct?: any
     tempRating: string
   } | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
 
+  // React to initialProduct and isOpen updates
+  useEffect(() => {
+    if (initialProduct && isOpen) {
+      setCurrentProduct(initialProduct)
+      setSelectedGender(initialProduct.gender === 'men' ? 'men' : 'women')
+      setSelectedColorIdx(0)
+      setUserPhoto(null)
+      setZoomLevel(false)
+    }
+  }, [initialProduct, isOpen])
+
   if (!isOpen) return null
 
-  // Filter garments available in selected category
-  const categoryProducts = CRAFT_PRODUCTS.filter(
-    (p) => p.category === selectedGarmentType && (p.gender === selectedGender || p.gender === 'unisex')
-  )
+  // Collect pool of available products ensuring the currentProduct is present
+  const allGarments = [
+    ...(initialProduct ? [initialProduct] : []),
+    ...CLOTHING_PRODUCTS,
+    ...CRAFT_PRODUCTS,
+  ].filter((p, idx, arr) => p && arr.findIndex((x) => x.id === p.id) === idx)
 
-  // Find complementary product for "Complete the Look"
+  // Filter garments for the selected gender
+  const availableGarments = allGarments.filter(
+    (p) => p.gender === selectedGender || p.gender === 'unisex' || !p.gender
+  ).slice(0, 10)
+
+  // Guarantee currentProduct is first if gender matches, else prepend
+  const displayList = availableGarments.some((p) => p.id === currentProduct.id)
+    ? availableGarments
+    : [currentProduct, ...availableGarments.slice(0, 9)]
+
+  // Pairing product for Complete the Look
   const complementaryProduct = currentProduct.pairWithSlug
-    ? CRAFT_PRODUCTS.find((p) => p.slug === currentProduct.pairWithSlug)
-    : CRAFT_PRODUCTS.find((p) => p.category === 'stoles' && p.id !== currentProduct.id)
+    ? allGarments.find((p) => p.slug === currentProduct.pairWithSlug)
+    : allGarments.find(
+        (p) =>
+          p.id !== currentProduct.id &&
+          (p.gender === selectedGender || p.gender === 'unisex')
+      )
+
+  // Determine active canvas drape image
+  const activeColorImage = currentProduct.colorOptions?.[selectedColorIdx]?.image
+  const detailOrMacroImage =
+    (currentProduct as any).detailImage ||
+    (currentProduct as any).secondaryImage ||
+    currentProduct.additionalImages?.[0] ||
+    currentProduct.image
+
+  const activeCanvasImage = userPhoto
+    ? userPhoto
+    : zoomLevel
+    ? detailOrMacroImage
+    : activeColorImage || currentProduct.image
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -81,17 +128,18 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
   const handleAddLookToCart = (includePairing = false) => {
     try {
       const existing = JSON.parse(localStorage.getItem('nt_cart') || '[]')
+      const chosenColor = currentProduct.colorOptions?.[selectedColorIdx]?.name || 'Standard'
       const itemsToAdd = [
         {
           productId: currentProduct.id,
-          name: `${currentProduct.name} (${currentProduct.colorOptions[selectedColorIdx]?.name || 'Standard'})`,
+          name: `${currentProduct.name} (${chosenColor})`,
           slug: currentProduct.slug,
           mode: 'retail' as const,
-          sizeLabel: currentProduct.sizes[0] || 'Free Size',
+          sizeLabel: currentProduct.sizes?.[0] || 'Free Size',
           unitPrice: currentProduct.price,
           quantity: 1,
           totalPrice: currentProduct.price,
-          image: currentProduct.image,
+          image: activeColorImage || currentProduct.image,
         },
       ]
 
@@ -101,7 +149,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
           name: `${complementaryProduct.name} (Paired)`,
           slug: complementaryProduct.slug,
           mode: 'retail' as const,
-          sizeLabel: complementaryProduct.sizes[0] || 'Free Size',
+          sizeLabel: complementaryProduct.sizes?.[0] || 'Free Size',
           unitPrice: Math.round(complementaryProduct.price * 0.9), // 10% bundle discount
           quantity: 1,
           totalPrice: Math.round(complementaryProduct.price * 0.9),
@@ -110,6 +158,8 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
       }
 
       localStorage.setItem('nt_cart', JSON.stringify([...existing, ...itemsToAdd]))
+      window.dispatchEvent(new Event('nt_cart_updated'))
+      window.dispatchEvent(new Event('nt_open_cart'))
       setAddedNotice(true)
       setTimeout(() => setAddedNotice(false), 3500)
     } catch {
@@ -124,41 +174,46 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
     setIsAnalyzing(true)
     setTimeout(() => {
       const q = query.toLowerCase()
-      let rec = CRAFT_PRODUCTS[0] // Kani Shawl
-      let pair = CRAFT_PRODUCTS[2] // Classic Pheran
+      let rec = allGarments[0]
+      let pair = allGarments[1]
       let temp = '❄️❄️ Sub-zero certified (-5°C to 5°C)'
 
       if (q.includes('december') || q.includes('snow') || q.includes('gulmarg') || q.includes('kashmir')) {
-        rec = CRAFT_PRODUCTS.find((p) => p.slug === 'classic-kashmiri-wool-tweed-pheran-men') || CRAFT_PRODUCTS[2]
-        pair = CRAFT_PRODUCTS.find((p) => p.slug === 'pure-pashmina-sozni-hand-embroidered-shawl') || CRAFT_PRODUCTS[1]
+        rec = allGarments.find((p) => p.slug?.includes('pheran')) || allGarments[2]
+        pair = allGarments.find((p) => p.slug?.includes('shawl') || p.slug?.includes('pashmina')) || allGarments[1]
         temp = '❄️❄️❄️ Heavy Winter Shield (-10°C to 0°C)'
       } else if (q.includes('wedding') || q.includes('festive') || q.includes('royal')) {
-        rec = CRAFT_PRODUCTS.find((p) => p.slug === 'royal-silk-velvet-tilla-pheran') || CRAFT_PRODUCTS[3]
-        pair = CRAFT_PRODUCTS.find((p) => p.slug === 'royal-kani-pashmina-shawl-floral-jamawar') || CRAFT_PRODUCTS[0]
+        rec = allGarments.find((p) => p.slug?.includes('banarasi') || p.slug?.includes('sherwani') || p.slug?.includes('velvet')) || allGarments[3]
+        pair = allGarments.find((p) => p.slug?.includes('shawl')) || allGarments[0]
         temp = '✨ Regal Warmth (0°C to 12°C)'
       } else if (q.includes('delhi') || q.includes('noida') || q.includes('coat') || q.includes('office') || q.includes('executive')) {
-        rec = CRAFT_PRODUCTS.find((p) => p.slug === 'contemporary-aari-velvet-long-coat') || CRAFT_PRODUCTS[4]
-        pair = CRAFT_PRODUCTS.find((p) => p.slug === 'kashmiri-hand-embroidered-cashmere-stole-floral-ivory') || CRAFT_PRODUCTS[2]
+        rec = allGarments.find((p) => p.slug?.includes('coat') || p.slug?.includes('trench')) || allGarments[4]
+        pair = allGarments.find((p) => p.slug?.includes('stole')) || allGarments[2]
         temp = '🍂 Crisp Evening Drape (8°C to 18°C)'
       }
 
       setAdvisorResponse({
-        text: `Based on your request ("${query}"), SI recommends our authentic Kashmiri heritage layering. In sub-zero temperatures, the combination of virgin wool insulation and fine Changthangi Pashmina traps micro-air pockets to provide royal warmth without bulkiness.`,
+        text: `Based on your request ("${query}"), SI Neural Drape recommends our authentic artisanal handloom layering. Virgin fibers and high-twist weaves trap insulating air micro-chambers while draping with featherlight royal poise.`,
         recommendedProduct: rec,
         pairingProduct: pair,
         tempRating: temp,
       })
       setIsAnalyzing(false)
-    }, 600)
+    }, 500)
   }
 
+  const activeModel = AVATAR_MODELS[selectedGender]?.[activeModelIdx] || AVATAR_MODELS[selectedGender]?.[0]
+  const craftName = currentProduct.craft || currentProduct.provenance?.craftTradition || 'GI Certified Handloom'
+  const originName = (currentProduct as any).state || currentProduct.provenance?.origin || 'India'
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
       <div className="relative bg-[#FAF6EE] text-[#17233B] rounded-2xl max-w-5xl w-full max-h-[92vh] overflow-hidden flex flex-col shadow-2xl border border-[#C9A45C]/30">
+        
         {/* Top Header */}
         <div className="bg-[#17233B] text-[#FAF6EE] px-6 py-4 flex items-center justify-between border-b border-[#C9A45C]/20">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#176B68] flex items-center justify-center text-sm font-bold text-white shadow-inner">
+            <div className="w-9 h-9 rounded-full bg-[#176B68] flex items-center justify-center text-sm font-black text-white shadow-inner">
               SI
             </div>
             <div>
@@ -167,11 +222,11 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                   Nuty Tales — Try with SI
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#C9A45C] text-[#17233B]">
-                  Virtual Studio & Stylist
+                  Virtual Drape Studio &amp; Stylist
                 </span>
               </div>
               <p className="text-xs text-[#FAF6EE]/70 font-light">
-                Virtual draping, drape comparison, and curated Himalayan winter styling
+                Physics-based neural fabric drape, real-time shade switching &amp; All-India heritage styling
               </p>
             </div>
           </div>
@@ -213,54 +268,89 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
             {/* Left Column: Visual Try-On Canvas (7 cols) */}
             <div className="lg:col-span-7 bg-stone-100 p-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#17233B]/10 relative">
               {/* Controls bar over canvas */}
-              <div className="flex items-center justify-between z-10 mb-3">
-                <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
+              <div className="flex items-center justify-between z-10 mb-3 flex-wrap gap-2">
+                <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-semibold text-[#17233B]">SI Neural Drape Physics: Active</span>
+                  <span className="font-semibold text-[#17233B]">SI Neural Drape Engine: Active</span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
+                  {/* Ambient Light Toggles */}
+                  <div className="bg-white/90 p-0.5 rounded-full border border-stone-200 flex text-xs">
+                    {(Object.keys(LIGHT_MODES) as LightMode[]).map((mode) => (
+                      <button
+                        key={mode}
+                        onClick={() => setAmbientLight(mode)}
+                        title={LIGHT_MODES[mode].label}
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                          ambientLight === mode
+                            ? 'bg-[#17233B] text-white shadow-xs'
+                            : 'text-stone-600 hover:text-[#17233B]'
+                        }`}
+                      >
+                        {LIGHT_MODES[mode].icon}
+                      </button>
+                    ))}
+                  </div>
+
                   <button
                     onClick={() => setZoomLevel(!zoomLevel)}
-                    className="bg-white/90 px-3 py-1.5 rounded-full border border-stone-200 text-xs font-semibold text-[#17233B] hover:bg-white shadow-sm transition-colors"
+                    className="bg-white/95 px-3 py-1.5 rounded-full border border-stone-200 text-xs font-semibold text-[#17233B] hover:bg-white shadow-sm transition-colors"
                   >
-                    {zoomLevel ? 'Fit View' : 'Zoom Embroidery'}
+                    {zoomLevel ? 'Fit Drape' : '🔍 Macro Weave'}
                   </button>
                 </div>
               </div>
 
               {/* Garment / Model Visual Canvas */}
-              <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-xl border border-stone-200 bg-stone-200">
+              <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-xl border border-stone-200 bg-stone-200 group">
                 <Image
-                  src={
-                    userPhoto ||
-                    (zoomLevel
-                      ? currentProduct.additionalImages?.[1] || currentProduct.image
-                      : currentProduct.image)
-                  }
+                  src={activeCanvasImage}
                   alt={currentProduct.name}
                   fill
-                  className={`object-cover transition-all duration-500 ${zoomLevel ? 'scale-125' : 'scale-100'}`}
+                  priority
+                  style={{ filter: LIGHT_MODES[ambientLight]?.filter }}
+                  className={`object-cover object-[center_top] transition-all duration-500 ${
+                    zoomLevel ? 'scale-125' : 'scale-100'
+                  }`}
                 />
 
                 {/* Overlaid Badges */}
-                <div className="absolute top-4 left-4 bg-[#17233B]/80 backdrop-blur-md text-[#FAF6EE] px-3 py-1.5 rounded-md text-[11px] font-medium border border-white/10 flex items-center gap-2">
-                  <span>{currentProduct.provenance.craftTradition}</span>
-                  {currentProduct.provenance.giTagCertified && (
-                    <span className="bg-[#C9A45C] text-[#17233B] font-bold text-[9px] px-1.5 py-0.5 rounded">
-                      GI Verified
-                    </span>
-                  )}
+                <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+                  <div className="bg-[#17233B]/85 backdrop-blur-md text-[#FAF6EE] px-3 py-1.5 rounded-md text-[11px] font-medium border border-white/10 flex items-center gap-2 shadow-sm">
+                    <span>{craftName}</span>
+                    {currentProduct.provenance?.giTagCertified && (
+                      <span className="bg-[#C9A45C] text-[#17233B] font-bold text-[9px] px-1.5 py-0.5 rounded">
+                        GI Certified
+                      </span>
+                    )}
+                  </div>
+                  <div className="bg-black/60 backdrop-blur-xs text-white px-2.5 py-1 rounded text-[10px] font-medium self-start">
+                    📍 {originName}
+                  </div>
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 rounded-b-xl text-white">
+                {/* Simulation Telemetry Badge */}
+                {!userPhoto && (
+                  <div className="absolute top-4 right-4 bg-emerald-950/85 backdrop-blur-md text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide shadow-sm flex items-center gap-1.5 pointer-events-none">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span>Draped for {activeModel?.name.split(' ')[0]} ({activeModel?.drapeFit})</span>
+                  </div>
+                )}
+
+                {/* Bottom Overlay Card */}
+                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 rounded-b-xl text-white">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
                     Now Draped
                   </span>
                   <h4 className="font-serif text-lg font-bold leading-tight">{currentProduct.name}</h4>
                   <div className="flex items-center justify-between text-xs mt-1 text-stone-200">
-                    <span>Colour: {currentProduct.colorOptions[selectedColorIdx]?.name}</span>
-                    <span className="font-bold text-white">{formatCraftPrice(currentProduct.price)}</span>
+                    <span>
+                      Colour: <strong>{currentProduct.colorOptions?.[selectedColorIdx]?.name || 'Standard Shade'}</strong>
+                    </span>
+                    <span className="font-bold text-white text-sm">
+                      {formatCraftPrice(currentProduct.price)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -268,8 +358,8 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
               {/* Bottom Model / Photo Bar */}
               <div className="mt-4 pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-stone-600">Model:</span>
-                  {AVATAR_MODELS[selectedGender].map((m, i) => (
+                  <span className="font-semibold text-stone-600">Avatar:</span>
+                  {AVATAR_MODELS[selectedGender]?.map((m, i) => (
                     <button
                       key={m.id}
                       onClick={() => {
@@ -282,7 +372,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                           : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
                       }`}
                     >
-                      {m.name.split(' ')[0]}
+                      {m.name.split(' ')[0]} ({m.height})
                     </button>
                   ))}
                 </div>
@@ -297,80 +387,62 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
             {/* Right Column: Customization & Complete the Look (5 cols) */}
             <div className="lg:col-span-5 p-6 space-y-6 flex flex-col justify-between overflow-y-auto">
               <div className="space-y-6">
-                {/* 1. Select Silhouette & Garment Type */}
+                
+                {/* 1. Gender Selector */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs uppercase font-bold tracking-wider text-[#704B32]">
-                      1. Garment Category
+                      1. Gender Wardrobe
                     </span>
                     <div className="flex gap-1 text-[11px]">
                       <button
-                        onClick={() => setSelectedGender('women')}
-                        className={`px-2 py-0.5 rounded font-semibold ${
+                        onClick={() => {
+                          setSelectedGender('women')
+                          setActiveModelIdx(0)
+                        }}
+                        className={`px-3 py-1 rounded font-semibold transition-colors ${
                           selectedGender === 'women'
                             ? 'bg-[#176B68] text-white'
-                            : 'bg-stone-200 text-stone-700'
+                            : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
                         }`}
                       >
                         Women
                       </button>
                       <button
-                        onClick={() => setSelectedGender('men')}
-                        className={`px-2 py-0.5 rounded font-semibold ${
+                        onClick={() => {
+                          setSelectedGender('men')
+                          setActiveModelIdx(0)
+                        }}
+                        className={`px-3 py-1 rounded font-semibold transition-colors ${
                           selectedGender === 'men'
                             ? 'bg-[#176B68] text-white'
-                            : 'bg-stone-200 text-stone-700'
+                            : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
                         }`}
                       >
                         Men
                       </button>
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-3 gap-1.5 text-xs">
-                    {(['pherans', 'shawls', 'stoles', 'jackets-coats', 'winter-wear'] as GarmentType[]).map(
-                      (cat) => {
-                        const labels: Record<GarmentType, string> = {
-                          pherans: 'Pherans',
-                          shawls: 'Shawls',
-                          stoles: 'Stoles',
-                          'jackets-coats': 'Jackets',
-                          'winter-wear': 'Capes',
-                        }
-                        return (
-                          <button
-                            key={cat}
-                            onClick={() => {
-                              setSelectedGarmentType(cat)
-                              const match = CRAFT_PRODUCTS.find((p) => p.category === cat)
-                              if (match) setCurrentProduct(match)
-                            }}
-                            className={`py-2 px-2 rounded-lg font-semibold border text-center transition-all ${
-                              selectedGarmentType === cat
-                                ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
-                                : 'bg-white text-stone-700 border-stone-200 hover:border-stone-300'
-                            }`}
-                          >
-                            {labels[cat]}
-                          </button>
-                        )
-                      }
-                    )}
-                  </div>
                 </div>
 
                 {/* 2. Garment Selection in Category */}
                 <div>
-                  <span className="text-xs uppercase font-bold tracking-wider text-[#704B32] block mb-2">
-                    2. Select Garment Design
-                  </span>
-                  <div className="space-y-2">
-                    {categoryProducts.map((prod) => (
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs uppercase font-bold tracking-wider text-[#704B32]">
+                      2. Select Garment to Drape
+                    </span>
+                    <span className="text-[11px] text-stone-500">
+                      {displayList.length} artisanal pieces
+                    </span>
+                  </div>
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1 no-scrollbar">
+                    {displayList.map((prod) => (
                       <button
                         key={prod.id}
                         onClick={() => {
                           setCurrentProduct(prod)
                           setSelectedColorIdx(0)
+                          setZoomLevel(false)
                         }}
                         className={`w-full p-2.5 rounded-lg border text-left flex items-center gap-3 transition-all ${
                           currentProduct.id === prod.id
@@ -383,9 +455,11 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-serif font-bold text-xs truncate text-[#17233B]">{prod.name}</p>
-                          <p className="text-[11px] text-stone-500">{prod.provenance.origin}</p>
+                          <p className="text-[11px] text-stone-500">
+                            {(prod as any).state || prod.provenance?.origin || 'India'} · {prod.craft || prod.provenance?.craftTradition}
+                          </p>
                         </div>
-                        <span className="text-xs font-bold text-[#176B68]">
+                        <span className="text-xs font-bold text-[#176B68] flex-shrink-0">
                           {formatCraftPrice(prod.price)}
                         </span>
                       </button>
@@ -394,26 +468,35 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                 </div>
 
                 {/* 3. Colour Palette Picker */}
-                <div>
-                  <span className="text-xs uppercase font-bold tracking-wider text-[#704B32] block mb-2">
-                    3. Shade & Tone: {currentProduct.colorOptions[selectedColorIdx]?.name}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    {currentProduct.colorOptions.map((col, idx) => (
-                      <button
-                        key={col.name}
-                        onClick={() => setSelectedColorIdx(idx)}
-                        className={`w-8 h-8 rounded-full border-2 transition-transform ${
-                          selectedColorIdx === idx
-                            ? 'scale-110 border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
-                            : 'border-white hover:scale-105'
-                        }`}
-                        style={{ backgroundColor: col.hex }}
-                        title={col.name}
-                      />
-                    ))}
+                {currentProduct.colorOptions && currentProduct.colorOptions.length > 0 && (
+                  <div>
+                    <span className="text-xs uppercase font-bold tracking-wider text-[#704B32] block mb-2">
+                      3. Shade &amp; Tone:{' '}
+                      <strong className="text-[#17233B]">
+                        {currentProduct.colorOptions[selectedColorIdx]?.name || 'Standard'}
+                      </strong>
+                    </span>
+                    <div className="flex items-center gap-2.5">
+                      {currentProduct.colorOptions.map((col: any, idx: number) => (
+                        <button
+                          key={col.name}
+                          type="button"
+                          onClick={() => {
+                            setSelectedColorIdx(idx)
+                            setZoomLevel(false)
+                          }}
+                          className={`w-9 h-9 rounded-full border-2 transition-transform ${
+                            selectedColorIdx === idx
+                              ? 'scale-115 border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
+                              : 'border-white hover:scale-105'
+                          }`}
+                          style={{ backgroundColor: col.hex }}
+                          title={col.name}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* 4. Complete the Look Layering Module */}
                 {complementaryProduct && (
@@ -425,7 +508,7 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                           Save 10%
                         </span>
                       </span>
-                      <span className="text-[11px] text-stone-500">Pairing suggestion</span>
+                      <span className="text-[11px] text-stone-500">SI Layering pairing</span>
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -441,8 +524,8 @@ export default function TryWithSIModal({ isOpen, onClose, initialProduct }: TryW
                         <p className="font-serif font-bold text-xs text-[#17233B] truncate">
                           {complementaryProduct.name}
                         </p>
-                        <p className="text-[11px] text-stone-600">
-                          {complementaryProduct.provenance.craftTradition}
+                        <p className="text-[11px] text-stone-600 truncate">
+                          {complementaryProduct.craft || complementaryProduct.provenance?.craftTradition}
                         </p>
                         <p className="text-xs font-bold text-[#176B68]">
                           {formatCraftPrice(Math.round(complementaryProduct.price * 0.9))}{' '}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -92,6 +92,15 @@ export default function CraftProductDetailClient() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [isZoomed, setIsZoomed] = useState(false)
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  // Reset gallery and variant state when product changes
+  useEffect(() => {
+    setSelectedImage(product.image)
+    setSelectedSize(product.sizes[0] || 'Free Size')
+    setSelectedColorIdx(0)
+    setActiveIdx(0)
+  }, [product.id, product.image])
 
   // Pincode delivery check state
   const [pincode, setPincode] = useState('')
@@ -174,8 +183,9 @@ export default function CraftProductDetailClient() {
     product.secondaryImage,
     product.detailImage,
     product.textureImage,
+    ...(product.colorOptions?.map((c) => c.image).filter(Boolean) || []),
     ...(product.additionalImages || []),
-  ].filter((img, idx, arr) => img && arr.indexOf(img) === idx)
+  ].filter((img, idx, arr) => img && arr.indexOf(img) === idx) as string[]
 
   // Pairing item
   const pairedItem = product.pairWithSlug
@@ -185,8 +195,6 @@ export default function CraftProductDetailClient() {
   const youMayAlsoLike = CLOTHING_PRODUCTS.filter(
     (p) => p.id !== product.id && (p.primaryCategory === product.primaryCategory || p.gender === product.gender)
   ).slice(0, 4)
-
-  const [activeIdx, setActiveIdx] = useState(0)
 
   return (
     <main className="min-h-screen bg-[#FAF6EE] text-[#17233B] pt-4 sm:pt-6 pb-24">
@@ -221,6 +229,8 @@ export default function CraftProductDetailClient() {
                     onClick={() => {
                       setSelectedImage(img)
                       setActiveIdx(idx)
+                      const matchCol = product.colorOptions.findIndex((c) => c.image === img)
+                      if (matchCol >= 0) setSelectedColorIdx(matchCol)
                     }}
                     onMouseEnter={() => {
                       setSelectedImage(img)
@@ -357,6 +367,8 @@ export default function CraftProductDetailClient() {
                       onClick={() => {
                         setSelectedImage(img)
                         setActiveIdx(idx)
+                        const matchCol = product.colorOptions.findIndex((c) => c.image === img)
+                        if (matchCol >= 0) setSelectedColorIdx(matchCol)
                       }}
                       className={`relative w-16 aspect-[3/4] rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
                         selectedImage === img
@@ -455,7 +467,14 @@ export default function CraftProductDetailClient() {
                     <button
                       key={col.name}
                       type="button"
-                      onClick={() => setSelectedColorIdx(idx)}
+                      onClick={() => {
+                        setSelectedColorIdx(idx)
+                        if (col.image) {
+                          setSelectedImage(col.image)
+                          const fIdx = galleryImages.indexOf(col.image)
+                          if (fIdx >= 0) setActiveIdx(fIdx)
+                        }
+                      }}
                       className={`w-9 h-9 rounded-full border-2 transition-all ${
                         selectedColorIdx === idx
                           ? 'scale-110 border-[#17233B] shadow-md ring-2 ring-[#C9A45C]'
@@ -765,9 +784,7 @@ export default function CraftProductDetailClient() {
       <TryWithSIModal
         isOpen={siModalOpen}
         onClose={() => setSiModalOpen(false)}
-        initialProduct={
-          CRAFT_PRODUCTS.find((p) => p.slug === product.slug) || CRAFT_PRODUCTS[0]
-        }
+        initialProduct={product}
       />
 
       {/* Fullscreen HD Lightbox Modal */}
