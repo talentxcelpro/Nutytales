@@ -133,19 +133,27 @@ export default function B2BShell({
             {/* Right Quick Actions */}
             <div className="flex items-center gap-3">
               <Link
+                href="/b2b/dashboard"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+              >
+                <span>📊</span>
+                <span>Procurement Workspace</span>
+              </Link>
+
+              <Link
                 href={getLinkHref('/rfq')}
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
               >
                 <span>⚡</span>
-                <span>Instant RFQ</span>
+                <span>New RFQ</span>
               </Link>
 
               <Link
                 href={getLinkHref('/account')}
-                className="px-4 py-2 bg-[#17233B] hover:bg-stone-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm flex items-center gap-2"
+                className="px-3.5 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm flex items-center gap-1.5 border border-stone-300"
               >
                 <span>🏢</span>
-                <span>Business Sign In</span>
+                <span>Sign In</span>
               </Link>
 
               {/* Mobile Menu Toggle */}

@@ -1,211 +1,283 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import {
+  getStoredPurchaseOrders,
+  PurchaseOrderRecord,
+} from '@/lib/b2b-procurement-store'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export default function B2BOrdersPage() {
-  const [poNumber, setPoNumber] = useState('')
-  const [companyName, setCompanyName] = useState('')
-  const [contactPhone, setContactPhone] = useState('')
-  const [uploadNote, setUploadNote] = useState('')
-  const [poSubmitted, setPoSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [orders, setOrders] = useState<PurchaseOrderRecord[]>([])
+  const [selectedPo, setSelectedPo] = useState<PurchaseOrderRecord | null>(null)
+  const [filterStatus, setFilterStatus] = useState<string>('ALL')
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  const recentOrders = [
-    {
-      id: 'NT-PO-2026-9214',
-      date: '04 Oct 2026',
-      org: 'Grand Mirage Hotels & Resorts',
-      items: 'W240 Jumbo Cashews (500kg) + Medjool Dates (250kg)',
-      hub: 'Noida HQ Central Hub',
-      carrier: 'SafeXpress Reefer Logistics',
-      tracking: 'SFX-992140182-IN',
-      status: 'In Transit · Delivery Tomorrow',
-    },
-    {
-      id: 'NT-PO-2026-9201',
-      date: '29 Sep 2026',
-      org: 'Delight Artisan Bakery Network',
-      items: 'California Almond Slices 1.0mm (1,000kg)',
-      hub: 'Noida Processing Hub',
-      carrier: 'GATI KWE Commercial',
-      tracking: 'GAT-88120491-IN',
-      status: 'Delivered · COA Accepted',
-    },
-  ]
+  useEffect(() => {
+    setOrders(getStoredPurchaseOrders())
+  }, [])
 
-  const handlePoSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: companyName || 'PO Processing Officer',
-          phone: contactPhone,
-          businessName: companyName,
-          message: `[B2B Purchase Order Submission] PO Number: ${poNumber} | Notes: ${uploadNote}`,
-          source: 'business-po-upload-desk',
-        }),
-      })
-      setPoSubmitted(true)
-    } catch {
-      //
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  const filteredOrders = orders.filter((o) => {
+    if (filterStatus === 'ALL') return true
+    return o.status === filterStatus
+  })
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12">
-      <div className="space-y-3 border-b border-stone-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-          <span>📦</span> B2B ORDER &amp; PURCHASE ORDER (PO) DISPATCH
+    <div className="space-y-6">
+      {/* ── Breadcrumb & Top Bar ──────────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs text-stone-500 font-medium mb-1">
+            <Link href="/b2b/dashboard" className="hover:text-stone-900">
+              Dashboard
+            </Link>
+            <span>&gt;</span>
+            <span className="text-stone-900 font-bold">Purchase Orders</span>
+          </div>
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
+            Purchase Orders &amp; Logistics Tracking
+          </h1>
+          <p className="text-xs text-stone-600 mt-0.5">
+            Confirmed commercial purchase contracts, cold-chain reefer dispatches, and delivery acknowledgements
+          </p>
         </div>
-        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#17233B]">
-          Corporate Orders &amp; Contract Fulfilment
-        </h1>
-        <p className="text-xs sm:text-sm text-stone-600 max-w-2xl leading-relaxed">
-          Track active refrigerated cargo consignments, upload corporate Purchase Orders (POs) for Net-30 billing, and access laboratory batch dispatch documentation.
-        </p>
+
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/b2b/rfq"
+            className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5 transition-colors"
+          >
+            <span>+</span>
+            <span>New Procurement RFQ</span>
+          </Link>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Active Orders List (7 cols) */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-6">
-            <h2 className="font-serif font-bold text-xl text-[#17233B]">
-              Active Institutional Dispatches
-            </h2>
-
-            <div className="space-y-4">
-              {recentOrders.map((ord) => (
-                <div
-                  key={ord.id}
-                  className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-3 text-xs"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-2.5">
-                    <div>
-                      <span className="font-mono font-bold text-[#17233B] block">{ord.id}</span>
-                      <span className="text-[10px] text-stone-500">Ordered on {ord.date}</span>
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800">
-                      {ord.status}
-                    </span>
-                  </div>
-
-                  <div className="space-y-1">
-                    <span className="text-[10px] uppercase font-bold text-[#704B32] block">
-                      Consignment Manifest:
-                    </span>
-                    <p className="font-semibold text-[#17233B]">{ord.items}</p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 text-[11px] text-stone-600 pt-1">
-                    <div>Fulfillment: <strong>{ord.hub}</strong></div>
-                    <div>Carrier Tracking: <strong className="font-mono text-[#176B68]">{ord.tracking}</strong></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* PO Upload Desk (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5 text-xs">
-          <div className="space-y-1">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
-              Formal Procurement Desk
-            </span>
-            <h2 className="font-serif font-bold text-xl text-[#17233B]">
-              Submit Corporate Purchase Order (PO)
-            </h2>
-            <p className="text-stone-600">
-              Approved corporate clients on Net-30 credit terms can directly log POs for automatic allocation.
-            </p>
-          </div>
-
-          <form onSubmit={handlePoSubmit} className="space-y-4">
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">Company / Organization *</label>
-              <input
-                type="text"
-                required
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="e.g. Radisson Blu / Bikanervala"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">Internal PO Number *</label>
-              <input
-                type="text"
-                required
-                value={poNumber}
-                onChange={(e) => setPoNumber(e.target.value)}
-                placeholder="e.g. PO/2026/OCT/0419"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] outline-none font-mono"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">Procurement WhatsApp / Phone *</label>
-              <input
-                type="tel"
-                required
-                value={contactPhone}
-                onChange={(e) => setContactPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">Items &amp; Delivery Instructions</label>
-              <textarea
-                rows={3}
-                value={uploadNote}
-                onChange={(e) => setUploadNote(e.target.value)}
-                placeholder="Paste PO line items, delivery deadline, or special packaging notes..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#176B68] outline-none"
-              />
-            </div>
-
+      {/* ── Filter Tabs ───────────────────────────────────────────────────────── */}
+      <div className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-1.5">
+          {[
+            { id: 'ALL', label: 'All Orders' },
+            { id: 'REEFER_TRANSIT', label: 'In-Transit (Reefer)' },
+            { id: 'DELIVERED', label: 'Delivered' },
+            { id: 'ACKNOWLEDGED', label: 'Processing' },
+          ].map((tab) => (
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
+              key={tab.id}
+              type="button"
+              onClick={() => setFilterStatus(tab.id)}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-colors ${
+                filterStatus === tab.id
+                  ? 'bg-[#17233B] text-white'
+                  : 'bg-stone-50 text-stone-600 hover:bg-stone-100'
+              }`}
             >
-              {isSubmitting ? 'Registering PO...' : 'Submit PO for Fulfilment'}
+              {tab.label}
             </button>
+          ))}
+        </div>
 
-            {poSubmitted && (
-              <div className="p-3 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-200">
-                ✓ PO successfully logged! Your key account manager will confirm dispatch schedule within 2 hours.
-              </div>
-            )}
-          </form>
-
-          <div className="pt-4 border-t border-stone-200 text-center">
-            <a
-              href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                'Hello Nuty Tales B2B! Submitting a corporate Purchase Order for processing.',
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald-700 font-bold hover:underline"
-            >
-              Or send PO directly on WhatsApp (+91 9717161809) →
-            </a>
-          </div>
+        <div className="text-stone-500 text-[11px] flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Active Reefer Monitoring: 14°C - 18°C Controlled</span>
         </div>
       </div>
+
+      {/* ── Purchase Orders Table ─────────────────────────────────────────────── */}
+      <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
+        <div className="overflow-x-auto text-xs">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-stone-50 text-stone-500 uppercase text-[10px] font-bold tracking-wider border-b border-stone-200">
+                <th className="py-3.5 px-4">PO Ref</th>
+                <th className="py-3.5 px-4">Supplier</th>
+                <th className="py-3.5 px-4">Commodity Lot</th>
+                <th className="py-3.5 px-4">Order Date</th>
+                <th className="py-3.5 px-4">Total Amount</th>
+                <th className="py-3.5 px-4">Payment Terms</th>
+                <th className="py-3.5 px-4">Logistics / Status</th>
+                <th className="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-100 text-stone-800">
+              {filteredOrders.map((po) => {
+                const isTransit = po.status === 'REEFER_TRANSIT'
+                const isDelivered = po.status === 'DELIVERED'
+
+                return (
+                  <tr key={po.id} className="hover:bg-stone-50/60 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-bold text-stone-900">
+                      {po.poNumber}
+                    </td>
+                    <td className="py-3.5 px-4 font-medium">
+                      <div>{po.supplierName}</div>
+                      <span className="text-[10px] text-stone-400">📍 {po.supplierLocation}</span>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      {po.items.map((item) => (
+                        <div key={item.name} className="space-y-0.5">
+                          <span className="font-semibold text-stone-900">{item.name}</span>
+                          <span className="text-[11px] text-stone-500 block">
+                            {item.quantityKg} kg @ ₹{item.unitRate}/kg
+                          </span>
+                        </div>
+                      ))}
+                    </td>
+                    <td className="py-3.5 px-4 text-stone-600">{po.orderDate}</td>
+                    <td className="py-3.5 px-4 font-serif font-bold text-sm text-[#17233B]">
+                      ₹{po.totalAmount.toLocaleString('en-IN')}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-stone-100 text-stone-700">
+                        {po.paymentTerms}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <div className="space-y-1">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            isTransit
+                              ? 'bg-blue-100 text-blue-800'
+                              : isDelivered
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : 'bg-stone-100 text-stone-700'
+                          }`}
+                        >
+                          {po.status === 'REEFER_TRANSIT' ? '🚚 In Reefer Transit' : po.status}
+                        </span>
+                        {po.trackingNumber && (
+                          <div className="text-[10px] text-stone-500 font-mono">
+                            {po.trackingNumber} ({po.reeferTempCelcius}°C)
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPo(po)}
+                          className="px-3 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg font-bold text-[11px]"
+                        >
+                          Invoice &amp; Specs
+                        </button>
+                        <Link
+                          href={`/b2b/deliveries?po=${po.poNumber}`}
+                          className="px-3 py-1 bg-[#17233B] hover:bg-[#176B68] text-white rounded-lg font-bold text-[11px]"
+                        >
+                          Track
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── Purchase Order Modal Dossier ─────────────────────────────────────── */}
+      {selectedPo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-stone-200 shadow-2xl max-w-xl w-full overflow-hidden text-xs">
+            <div className="p-6 bg-[#17233B] text-white flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                  Official Purchase Order Record
+                </span>
+                <h3 className="font-serif text-xl font-bold">{selectedPo.poNumber}</h3>
+                <span className="text-[11px] text-stone-300">Supplier: {selectedPo.supplierName}</span>
+              </div>
+              <button
+                onClick={() => setSelectedPo(null)}
+                className="text-stone-400 hover:text-white text-xl font-bold p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4 text-stone-700">
+              <div className="grid grid-cols-2 gap-3 p-3 bg-stone-50 rounded-xl border border-stone-200 text-[11px]">
+                <div>
+                  <span className="text-stone-500 block">Linked RFQ:</span>
+                  <strong className="text-stone-900 font-mono">{selectedPo.rfqNumber}</strong>
+                </div>
+                <div>
+                  <span className="text-stone-500 block">Proforma Invoice:</span>
+                  <strong className="text-stone-900 font-mono">{selectedPo.invoiceNumber || 'NT-INV-PENDING'}</strong>
+                </div>
+                <div>
+                  <span className="text-stone-500 block">Delivery Destination:</span>
+                  <strong className="text-stone-900">{selectedPo.destination}</strong>
+                </div>
+                <div>
+                  <span className="text-stone-500 block">Target ETA:</span>
+                  <strong className="text-stone-900">{selectedPo.deliveryDeadline}</strong>
+                </div>
+              </div>
+
+              {/* Items Table */}
+              <div className="border border-stone-200 rounded-xl overflow-hidden">
+                <table className="w-full text-left">
+                  <thead className="bg-stone-50 text-stone-500 text-[10px] uppercase font-bold border-b border-stone-200">
+                    <tr>
+                      <th className="py-2 px-3">Item Description</th>
+                      <th className="py-2 px-3">Qty</th>
+                      <th className="py-2 px-3">Rate</th>
+                      <th className="py-2 px-3 text-right">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-100">
+                    {selectedPo.items.map((i) => (
+                      <tr key={i.name}>
+                        <td className="py-2.5 px-3 font-medium text-stone-900">{i.name}</td>
+                        <td className="py-2.5 px-3">{i.quantityKg} kg</td>
+                        <td className="py-2.5 px-3">₹{i.unitRate}/kg</td>
+                        <td className="py-2.5 px-3 text-right font-bold">₹{i.total.toLocaleString('en-IN')}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1.5 text-[11px]">
+                <div className="flex justify-between">
+                  <span>Subtotal:</span>
+                  <strong className="text-stone-900">₹{selectedPo.subtotal.toLocaleString('en-IN')}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Insured Freight:</span>
+                  <strong className="text-stone-900">₹{selectedPo.freightAmount.toLocaleString('en-IN')}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>GST (5% ITC Eligible):</span>
+                  <strong className="text-stone-900">₹{selectedPo.gstAmount.toLocaleString('en-IN')}</strong>
+                </div>
+                <div className="flex justify-between text-stone-900 font-bold border-t border-stone-200 pt-1.5 text-sm">
+                  <span>Total Order Payable:</span>
+                  <strong className="text-[#17233B]">₹{selectedPo.totalAmount.toLocaleString('en-IN')}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-stone-100 border-t border-stone-200 flex justify-between items-center">
+              <span className="text-[11px] text-stone-500">
+                FSSAI Central Lic. {FSSAI_NUMBER}
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedPo(null)}
+                className="px-4 py-2 bg-stone-800 text-white rounded-xl font-bold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

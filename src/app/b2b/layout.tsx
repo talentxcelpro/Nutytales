@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import B2BShell from '@/components/b2b/B2BShell'
+import B2BRoutingShell from '@/components/b2b/B2BRoutingShell'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://business.nutytales.com'),
@@ -47,5 +47,5 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <B2BShell>{children}</B2BShell>
+  return <B2BRoutingShell>{children}</B2BRoutingShell>
 }

@@ -1,154 +1,360 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
+import {
+  getStoredQuotes,
+  getStoredRfqs,
+  saveStoredPurchaseOrder,
+  QuotationRecord,
+  RFQRecord,
+  PurchaseOrderRecord,
+} from '@/lib/b2b-procurement-store'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 export default function B2BQuotesPage() {
+  const [quotes, setQuotes] = useState<QuotationRecord[]>([])
+  const [rfqs, setRfqs] = useState<RFQRecord[]>([])
+  const [selectedRfqId, setSelectedRfqId] = useState<string>('all')
+  const [acceptedPoMsg, setAcceptedPoMsg] = useState<string | null>(null)
+  const [detailQuote, setDetailQuote] = useState<QuotationRecord | null>(null)
+
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  const sampleQuotes = [
-    {
-      id: 'NT-QT-2026-0841',
-      date: '05 Oct 2026',
-      org: 'Premier Bakery & Patisserie Group',
-      commodity: 'California Almonds (Sliced 1.0mm)',
-      volume: '500 kg',
-      ratePerKg: '₹670',
-      totalLanded: '₹3,51,750 (incl. 5% GST & Freight)',
-      status: 'Price Locked (Valid 5 Days)',
-      hub: 'Noida Central Processing Hub',
-      coaAttached: true,
-    },
-    {
-      id: 'NT-QT-2026-0839',
-      date: '02 Oct 2026',
-      org: 'Heritage Mithai & Sweets Corp',
-      commodity: 'Cashew Tukda (Splits JH) + Mongra Saffron',
-      volume: '1,200 kg + 2 kg',
-      ratePerKg: '₹530 / kg + ₹2,60,000 / kg',
-      totalLanded: '₹12,18,000 (incl. GST)',
-      status: 'PO Approved / In Packaging',
-      hub: 'Noida HQ & Kashmir Saffron Vault',
-      coaAttached: true,
-    },
-    {
-      id: 'NT-QT-2026-0833',
-      date: '28 Sep 2026',
-      org: 'Grand Horizon Luxury Resort',
-      commodity: 'Kashmiri Kagzi Walnuts (Extra Light Halves 80%)',
-      volume: '300 kg',
-      ratePerKg: '₹1,080',
-      totalLanded: '₹3,40,200',
-      status: 'Dispatched / In Reefer Transit',
-      hub: 'Kashmir Valley Hub',
-      coaAttached: true,
-    },
-  ]
+  useEffect(() => {
+    setQuotes(getStoredQuotes())
+    setRfqs(getStoredRfqs())
+  }, [])
+
+  const filteredQuotes = useMemo(() => {
+    if (selectedRfqId === 'all') return quotes
+    return quotes.filter((q) => q.rfqId === selectedRfqId)
+  }, [quotes, selectedRfqId])
+
+  // Accept Quote and Generate PO
+  const handleAcceptQuote = (quote: QuotationRecord) => {
+    const poNumber = `NT-PO-2026-${Math.floor(1000 + Math.random() * 9000)}`
+    const newPO: PurchaseOrderRecord = {
+      id: `po-${Date.now()}`,
+      poNumber,
+      rfqNumber: quote.rfqNumber,
+      quoteId: quote.id,
+      supplierId: quote.supplierId,
+      supplierName: quote.supplierName,
+      supplierLocation: quote.supplierLocation,
+      orderDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+      deliveryDeadline: quote.validUntil,
+      destination: quote.destinationHub,
+      status: 'ACKNOWLEDGED',
+      items: [
+        {
+          name: `${quote.commodityName} (${quote.cut})`,
+          quantityKg: quote.quantityKg,
+          unitRate: quote.exHubRatePerKg,
+          total: quote.subtotal,
+        },
+      ],
+      subtotal: quote.subtotal,
+      freightAmount: quote.freightTotal,
+      gstAmount: quote.gstTotal,
+      totalAmount: quote.totalAmount,
+      paymentStatus: 'NET_30_PENDING',
+      paymentTerms: quote.paymentTerms,
+      carrierName: 'Nuty Tales Cold-Chain Logistics Hub',
+      trackingNumber: `TRK-PO-${poNumber.slice(-4)}`,
+      reeferTempCelcius: 15.8,
+      etaDays: quote.leadTimeDays,
+      invoiceNumber: `NT-INV-${poNumber.slice(-4)}`,
+    }
+
+    saveStoredPurchaseOrder(newPO)
+    setAcceptedPoMsg(`Purchase Order ${poNumber} created and dispatched to ${quote.supplierName}!`)
+    setTimeout(() => setAcceptedPoMsg(null), 8000)
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-stone-200 pb-8">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-            <span>📑</span> COMMERCIAL QUOTES &amp; PROPOSALS DESK
+    <div className="space-y-6">
+      {/* ── Breadcrumb & Top Bar ──────────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs text-stone-500 font-medium mb-1">
+            <Link href="/b2b/dashboard" className="hover:text-stone-900">
+              Dashboard
+            </Link>
+            <span>&gt;</span>
+            <span className="text-stone-900 font-bold">Quote Comparison</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#17233B]">
-            Commercial Proposals &amp; Proforma Archive
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
+            Quotation Comparison &amp; Landed Bids
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 max-w-2xl">
-            Review formal commercial bids, lab specification sheets, quarterly price locks, and proforma tax invoices generated for your organization.
+          <p className="text-xs text-stone-600 mt-0.5">
+            Commercial side-by-side analysis of verified supplier quotes, landed freight, and payment terms
           </p>
         </div>
 
-        <Link
-          href="/b2b/rfq"
-          className="px-6 py-3 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2 whitespace-nowrap"
-        >
-          <span>+ Create New RFQ</span>
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/b2b/rfq"
+            className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5 transition-colors"
+          >
+            <span>+</span>
+            <span>Create New RFQ</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Active Quotes Table */}
-      <div className="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden space-y-4">
-        <div className="p-6 border-b border-stone-100 flex items-center justify-between">
-          <h2 className="font-serif font-bold text-lg text-[#17233B]">
-            Representative Commercial Contracts
-          </h2>
-          <span className="text-xs text-stone-500">
-            FSSAI Central Lic. {FSSAI_NUMBER}
+      {acceptedPoMsg && (
+        <div className="p-4 bg-emerald-50 text-emerald-950 rounded-2xl border border-emerald-300 text-xs flex items-center justify-between animate-fadeIn">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🎉</span>
+            <span className="font-bold">{acceptedPoMsg}</span>
+          </div>
+          <Link
+            href="/b2b/orders"
+            className="font-bold text-[#176B68] hover:underline uppercase text-[11px]"
+          >
+            View in Purchase Orders →
+          </Link>
+        </div>
+      )}
+
+      {/* ── RFQ Filter Pills ──────────────────────────────────────────────────── */}
+      <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-stone-700">Filter by RFQ Package:</span>
+          <select
+            value={selectedRfqId}
+            onChange={(e) => setSelectedRfqId(e.target.value)}
+            className="px-3 py-1.5 rounded-xl border border-stone-300 bg-stone-50 font-semibold text-stone-900 outline-none focus:ring-2 focus:ring-[#176B68]"
+          >
+            <option value="all">All Active RFQs ({quotes.length} Bids)</option>
+            {rfqs.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.rfqNumber} — {r.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3 text-stone-500 text-[11px]">
+          <span className="flex items-center gap-1 text-emerald-700 font-semibold">
+            <span>✓</span> NABL COA Required
           </span>
-        </div>
-
-        <div className="overflow-x-auto text-xs">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-stone-50 text-[#704B32] uppercase text-[10px] tracking-wider border-b border-stone-200">
-                <th className="py-3 px-6 font-bold">Quote Ref</th>
-                <th className="py-3 px-4 font-bold">Date</th>
-                <th className="py-3 px-4 font-bold">Client / Org</th>
-                <th className="py-3 px-4 font-bold">Commodity Spec</th>
-                <th className="py-3 px-4 font-bold">Volume</th>
-                <th className="py-3 px-4 font-bold">Unit Rate</th>
-                <th className="py-3 px-4 font-bold">Total Landed</th>
-                <th className="py-3 px-4 font-bold">Status</th>
-                <th className="py-3 px-6 font-bold text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100 text-stone-800">
-              {sampleQuotes.map((q) => (
-                <tr key={q.id} className="hover:bg-[#FAF6EE]/50 transition-colors">
-                  <td className="py-4 px-6 font-mono font-bold text-[#17233B]">{q.id}</td>
-                  <td className="py-4 px-4 text-stone-500">{q.date}</td>
-                  <td className="py-4 px-4 font-medium">{q.org}</td>
-                  <td className="py-4 px-4 text-stone-600">{q.commodity}</td>
-                  <td className="py-4 px-4 font-bold text-[#176B68]">{q.volume}</td>
-                  <td className="py-4 px-4 font-medium">{q.ratePerKg}</td>
-                  <td className="py-4 px-4 font-bold text-[#17233B]">{q.totalLanded}</td>
-                  <td className="py-4 px-4">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800">
-                      {q.status}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 text-right">
-                    <a
-                      href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                        `Hello Nuty Tales B2B! Inquiring regarding Quote Reference: ${q.id}. Please connect with the account manager.`,
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#176B68] hover:underline font-bold"
-                    >
-                      Connect Manager →
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <span>•</span>
+          <span className="flex items-center gap-1 text-emerald-700 font-semibold">
+            <span>✓</span> Net-30 Invoicing
+          </span>
+          <span>•</span>
+          <span>FSSAI Central Lic. {FSSAI_NUMBER}</span>
         </div>
       </div>
 
-      {/* Proforma FAQ & Contact Card */}
-      <div className="bg-[#FAF6EE] rounded-3xl border border-stone-200 p-8 space-y-4">
-        <h3 className="font-serif font-bold text-xl text-[#17233B]">
-          How Nuty Tales Commercial Quotes Work
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-stone-600 leading-relaxed">
-          <div className="space-y-1">
-            <strong className="text-[#17233B] block">1. 7-Day Firm Price Protection</strong>
-            <p>Once generated, your quoted raw ingredient rate is locked against spot market volatility for 7 full calendar days.</p>
-          </div>
-          <div className="space-y-1">
-            <strong className="text-[#17233B] block">2. NABL Lab COA Guarantee</strong>
-            <p>Every commercial invoice includes physical lot testing: moisture, FFA, aflatoxin, and optical defect report.</p>
-          </div>
-          <div className="space-y-1">
-            <strong className="text-[#17233B] block">3. Multi-Plant Hub Billing</strong>
-            <p>Split a single contract into multiple dispatches across your NCR, Mumbai, Bengaluru, and Kolkata facilities.</p>
+      {/* ── Side-by-Side Quotation Comparison Grid ───────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {filteredQuotes.map((q) => {
+          const isExpiringSoon = q.validUntil.includes('17') || q.validUntil.includes('18')
+
+          return (
+            <div
+              key={q.id}
+              className="bg-white rounded-3xl border border-stone-200 p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-6 text-xs"
+            >
+              <div className="space-y-4">
+                {/* Header: Quote ID & Status */}
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-stone-500">
+                    {q.quoteNumber}
+                  </span>
+                  <span
+                    className={`text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${
+                      isExpiringSoon
+                        ? 'bg-amber-50 text-amber-800 border-amber-300'
+                        : 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                    }`}
+                  >
+                    Valid until {q.validUntil}
+                  </span>
+                </div>
+
+                {/* Supplier Identity */}
+                <div className="space-y-1">
+                  <h3 className="font-serif font-bold text-lg text-stone-900 leading-snug">
+                    {q.supplierName}
+                  </h3>
+                  <div className="flex items-center gap-2 text-[11px] text-stone-500">
+                    <span>📍 {q.supplierLocation}</span>
+                    <span>•</span>
+                    <span className="text-emerald-700 font-bold">★ {q.supplierRating}</span>
+                  </div>
+                </div>
+
+                {/* Landed Unit Cost Callout */}
+                <div className="p-4 bg-[#FAF6EE] rounded-2xl border border-stone-200 text-center space-y-0.5">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500 block">
+                    Delivered Landed Cost (All-Inclusive)
+                  </span>
+                  <div className="font-serif text-3xl font-extrabold text-[#17233B]">
+                    ₹{q.netLandedPerKg.toLocaleString('en-IN')}
+                    <span className="text-xs font-normal text-stone-500"> / kg</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-700 font-semibold block">
+                    Includes Packaging + Freight + 5% GST (Input Credit)
+                  </span>
+                </div>
+
+                {/* Commercial Cost Breakdown */}
+                <div className="space-y-2 border-t border-stone-100 pt-3 text-stone-600">
+                  <div className="flex justify-between">
+                    <span>Ex-Hub Rate:</span>
+                    <strong className="text-stone-900">₹{q.exHubRatePerKg}/kg</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Order Volume:</span>
+                    <strong className="text-stone-900">{q.quantityKg} kg</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Subtotal:</span>
+                    <strong className="text-stone-900">₹{q.subtotal.toLocaleString('en-IN')}</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Insured Freight to {q.destinationHub.split('/')[0].trim()}:</span>
+                    <strong className="text-stone-900">₹{q.freightTotal.toLocaleString('en-IN')}</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>GST (5% 100% Tax Deductible):</span>
+                    <strong className="text-stone-900">₹{q.gstTotal.toLocaleString('en-IN')}</strong>
+                  </div>
+                  <div className="flex justify-between text-stone-900 font-bold border-t border-stone-200 pt-1.5 text-sm">
+                    <span>Total Purchase Order:</span>
+                    <span className="text-[#17233B]">₹{q.totalAmount.toLocaleString('en-IN')}</span>
+                  </div>
+                </div>
+
+                {/* Commercial Terms & SLA */}
+                <div className="p-3 bg-stone-50 rounded-xl space-y-1.5 border border-stone-200 text-[11px] text-stone-700">
+                  <div>
+                    <span className="text-stone-500 block">Dispatch SLA:</span>
+                    <strong className="text-stone-900">{q.leadTimeDays} Business Days</strong>
+                  </div>
+                  <div>
+                    <span className="text-stone-500 block">Payment Terms:</span>
+                    <span className="font-semibold text-stone-900">{q.paymentTerms}</span>
+                  </div>
+                  <div>
+                    <span className="text-stone-500 block">Lab Certificate:</span>
+                    <span className="text-emerald-700 font-bold">✓ NABL Batch COA Guaranteed</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="space-y-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => handleAcceptQuote(q)}
+                  className="w-full py-3 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-xs transition-colors shadow-xs"
+                >
+                  Accept Quote &amp; Issue PO
+                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setDetailQuote(q)}
+                    className="flex-1 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl font-bold text-center transition-colors text-[11px]"
+                  >
+                    View Breakdown
+                  </button>
+                  <a
+                    href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                      `Hello Nuty Tales Sourcing Desk! I am reviewing Quote ${q.quoteNumber} from ${q.supplierName} for ${q.commodityName} (${q.quantityKg} kg). Let's finalize proforma terms.`,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl font-bold text-[11px] border border-emerald-200"
+                  >
+                    Negotiate
+                  </a>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* ── Quote Detail Modal ────────────────────────────────────────────────── */}
+      {detailQuote && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-3xl border border-stone-200 shadow-2xl max-w-lg w-full overflow-hidden text-xs">
+            <div className="p-6 bg-[#17233B] text-white flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
+                  Commercial Proforma Breakdown
+                </span>
+                <h3 className="font-serif text-xl font-bold">{detailQuote.quoteNumber}</h3>
+                <span className="text-[11px] text-stone-300">{detailQuote.supplierName}</span>
+              </div>
+              <button
+                onClick={() => setDetailQuote(null)}
+                className="text-stone-400 hover:text-white text-xl font-bold p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4 text-stone-700">
+              <div className="space-y-2 border-b border-stone-200 pb-3">
+                <div className="flex justify-between">
+                  <span>Commodity:</span>
+                  <strong className="text-stone-900">{detailQuote.commodityName}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Mechanical Cut / Form:</span>
+                  <strong className="text-stone-900">{detailQuote.cut}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Packaging Spec:</span>
+                  <strong className="text-stone-900">{detailQuote.packaging}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Delivery Destination:</span>
+                  <strong className="text-stone-900">{detailQuote.destinationHub}</strong>
+                </div>
+              </div>
+
+              <div className="p-4 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1.5 text-[11px]">
+                <div className="flex justify-between">
+                  <span>Net Landed Unit Rate:</span>
+                  <strong className="text-stone-900 text-sm">₹{detailQuote.netLandedPerKg} / kg</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Total Commercial Invoice:</span>
+                  <strong className="text-[#17233B] text-sm">₹{detailQuote.totalAmount.toLocaleString('en-IN')}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-stone-100 border-t border-stone-200 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  handleAcceptQuote(detailQuote)
+                  setDetailQuote(null)
+                }}
+                className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px]"
+              >
+                Accept &amp; Generate PO
+              </button>
+              <button
+                type="button"
+                onClick={() => setDetailQuote(null)}
+                className="px-4 py-2 bg-white border border-stone-300 text-stone-700 rounded-xl font-bold"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
