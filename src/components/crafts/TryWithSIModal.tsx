@@ -54,6 +54,8 @@ export default function TryWithSIModal({
   const [zoomLevel, setZoomLevel] = useState(false)
   const [addedNotice, setAddedNotice] = useState(false)
   const [isDraping, setIsDraping] = useState(false)
+  const [canvasViewMode, setCanvasViewMode] = useState<'model' | 'garment'>('model')
+  const [modelAngle, setModelAngle] = useState<'drape' | 'editorial' | 'detail'>('drape')
 
   // ─── 58-Model Agency State ──────────────────────────────────────────────────
   const [selectedModelId, setSelectedModelId] = useState<string>(() => {
@@ -88,6 +90,8 @@ export default function TryWithSIModal({
       setSelectedColorIdx(initialColorIdx !== undefined ? initialColorIdx : 0)
       setUserPhoto(null)
       setZoomLevel(false)
+      setCanvasViewMode('model')
+      setModelAngle('drape')
       const rec = getRecommendedModelForProduct(gender, initialProduct.categoryLabel)
       setSelectedModelId(initialModelId || rec.id)
     }
@@ -170,25 +174,15 @@ export default function TryWithSIModal({
   const currentColorway = currentProduct.colorOptions?.[selectedColorIdx]
   const activeColorImage = currentColorway?.image || currentProduct.image
 
-  // Dynamic Drape Angle based on model position:
-  const modelIdx = genderModels.findIndex((m) => m.id === currentModel.id)
-  const modelDrapeImage = (() => {
-    if (modelIdx % 3 === 0) {
-      return activeColorImage
-    } else if (modelIdx % 3 === 1) {
-      return (
-        (currentProduct as any).secondaryImage ||
-        currentProduct.additionalImages?.[0] ||
-        activeColorImage
-      )
-    } else {
-      return (
-        (currentProduct as any).detailImage ||
-        currentProduct.additionalImages?.[1] ||
-        (currentProduct as any).textureImage ||
-        activeColorImage
-      )
+  // Resolve the active agency model's actual image (Full drape vs runway editorial vs macro detail)
+  const activeModelPhoto = (() => {
+    if (modelAngle === 'editorial' && currentModel.editorialShot) {
+      return currentModel.editorialShot
     }
+    if (modelAngle === 'detail' && currentModel.detailShot) {
+      return currentModel.detailShot
+    }
+    return currentModel.drapeImage || currentModel.avatar
   })()
 
   const detailOrMacroImage =
@@ -196,11 +190,14 @@ export default function TryWithSIModal({
     (currentProduct as any).detailImage ||
     activeColorImage
 
+  // Display the selected model's drape photo by default, or garment cut when chosen
   const activeCanvasImage = userPhoto
     ? userPhoto
     : zoomLevel
     ? detailOrMacroImage
-    : modelDrapeImage
+    : canvasViewMode === 'model'
+    ? activeModelPhoto
+    : activeColorImage
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -358,18 +355,77 @@ export default function TryWithSIModal({
         {activeTab === 'tryon' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-y-auto">
             {/* Left Column: Visual Try-On Canvas (7 cols) */}
-            <div className="lg:col-span-7 bg-stone-100 p-4 sm:p-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#17233B]/10 relative">
+            <div className="lg:col-span-7 bg-stone-100 p-4 sm:p-5 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#17233B]/10 relative overflow-y-auto">
               {/* Controls bar over canvas */}
               <div className="flex items-center justify-between z-10 mb-3 flex-wrap gap-2">
-                <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full border border-stone-200 text-xs shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-semibold text-[#17233B]">
-                    SI Drape: {currentModel.name}
-                  </span>
-                  <span className="text-[#C9A45C] font-mono text-[10px]">({currentModel.height})</span>
+                {/* View Switcher: Drape on Model vs Garment Flatlay */}
+                <div className="flex items-center gap-1 bg-stone-200/90 p-0.5 rounded-xl text-xs font-semibold shadow-xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerDrapeShift(() => {
+                        setCanvasViewMode('model')
+                      })
+                    }}
+                    className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${
+                      canvasViewMode === 'model'
+                        ? 'bg-[#17233B] text-white shadow-xs'
+                        : 'text-stone-700 hover:text-black'
+                    }`}
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Draped on {currentModel.name.split(' ')[0]}</span>
+                    <span className="text-[10px] text-[#C9A45C] font-mono">({currentModel.height})</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerDrapeShift(() => {
+                        setCanvasViewMode('garment')
+                      })
+                    }}
+                    className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${
+                      canvasViewMode === 'garment'
+                        ? 'bg-[#17233B] text-white shadow-xs'
+                        : 'text-stone-700 hover:text-black'
+                    }`}
+                  >
+                    <span>🧵</span>
+                    <span>Garment Cut</span>
+                    {currentColorway && (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full border border-black/30"
+                        style={{ backgroundColor: currentColorway.hex }}
+                      />
+                    )}
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-1.5">
+                  {/* Model Angle Switcher */}
+                  {canvasViewMode === 'model' && (
+                    <div className="bg-white/95 p-0.5 rounded-lg border border-stone-200 flex text-[11px] font-semibold">
+                      <button
+                        type="button"
+                        onClick={() => setModelAngle('drape')}
+                        className={`px-2 py-1 rounded-md transition-all ${
+                          modelAngle === 'drape' ? 'bg-[#176B68] text-white' : 'text-stone-600 hover:text-[#17233B]'
+                        }`}
+                      >
+                        Drape
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setModelAngle('editorial')}
+                        className={`px-2 py-1 rounded-md transition-all ${
+                          modelAngle === 'editorial' ? 'bg-[#176B68] text-white' : 'text-stone-600 hover:text-[#17233B]'
+                        }`}
+                      >
+                        Editorial
+                      </button>
+                    </div>
+                  )}
+
                   {/* Ambient Light Toggles */}
                   <div className="bg-white/90 p-0.5 rounded-full border border-stone-200 flex text-xs">
                     {(Object.keys(LIGHT_MODES) as LightMode[]).map((mode) => (
@@ -392,16 +448,16 @@ export default function TryWithSIModal({
                     onClick={() => setZoomLevel(!zoomLevel)}
                     className="bg-white/95 px-3 py-1.5 rounded-full border border-stone-200 text-xs font-semibold text-[#17233B] hover:bg-white shadow-sm transition-colors"
                   >
-                    {zoomLevel ? 'Fit Drape' : '🔍 Macro Weave'}
+                    {zoomLevel ? 'Fit' : '🔍 Zoom'}
                   </button>
                 </div>
               </div>
 
               {/* Garment / Model Visual Canvas */}
-              <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl border border-stone-200 bg-stone-200 group">
+              <div className="relative aspect-[3/4] max-h-[470px] w-full max-w-sm sm:max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl border border-stone-300 bg-stone-900 group">
                 <Image
                   src={activeCanvasImage}
-                  alt={currentProduct.name}
+                  alt={canvasViewMode === 'model' ? `${currentModel.name} draped in ${currentProduct.name}` : currentProduct.name}
                   fill
                   priority
                   style={{ filter: LIGHT_MODES[ambientLight]?.filter }}
@@ -412,14 +468,14 @@ export default function TryWithSIModal({
 
                 {/* Drape Calibration Shimmer Overlay */}
                 {isDraping && (
-                  <div className="absolute inset-0 bg-[#17233B]/40 backdrop-blur-xs flex items-center justify-center z-20 animate-fadeIn">
-                    <div className="bg-[#17233B]/95 text-white border border-[#C9A45C]/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
-                      <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#C9A45C] flex-shrink-0">
+                  <div className="absolute inset-0 bg-[#17233B]/45 backdrop-blur-xs flex items-center justify-center z-30 animate-fadeIn">
+                    <div className="bg-[#17233B]/95 text-white border border-[#C9A45C]/70 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
+                      <div className="relative w-9 h-9 rounded-full overflow-hidden border-2 border-[#C9A45C] flex-shrink-0">
                         <Image src={currentModel.avatar} alt="" fill className="object-cover" />
                       </div>
                       <div>
-                        <p className="font-bold text-white">Draping for {currentModel.name} ({currentModel.height})</p>
-                        <p className="text-[10px] text-[#C9A45C] font-mono">Calibrating {currentModel.fitType} topology in 120ms...</p>
+                        <p className="font-bold text-white">Draping onto {currentModel.name} ({currentModel.height})</p>
+                        <p className="text-[10px] text-[#C9A45C] font-mono">Calibrating {currentModel.fitType} fit in {currentModel.city} studio...</p>
                       </div>
                     </div>
                   </div>
@@ -452,13 +508,57 @@ export default function TryWithSIModal({
                   </div>
                 )}
 
-                {/* Bottom Overlay Card */}
-                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-4 rounded-b-2xl text-white">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
-                      Now Draped On
+                {/* Interactive Picture-in-Picture (PIP) Floating Lens */}
+                <div
+                  onClick={() => {
+                    triggerDrapeShift(() => {
+                      setCanvasViewMode(canvasViewMode === 'model' ? 'garment' : 'model')
+                    })
+                  }}
+                  className="absolute bottom-28 right-4 bg-white/95 backdrop-blur-md border-2 border-[#C9A45C] hover:border-[#17233B] p-1.5 rounded-2xl shadow-xl flex items-center gap-2.5 cursor-pointer transition-all hover:scale-105 z-20 group/pip"
+                  title={canvasViewMode === 'model' ? 'Click to inspect full Garment Cut' : 'Click to drape on Model'}
+                >
+                  <div className="relative w-12 h-14 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0 border border-black/10">
+                    <Image
+                      src={canvasViewMode === 'model' ? activeColorImage : currentModel.avatar}
+                      alt="Preview Lens"
+                      fill
+                      className="object-cover"
+                    />
+                    <span className="absolute bottom-0 inset-x-0 bg-black/75 text-[8px] text-center text-white font-mono py-0.5">
+                      {canvasViewMode === 'model' ? 'GARMENT' : 'MODEL'}
                     </span>
-                    <span className="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  </div>
+                  <div className="pr-1.5 min-w-[85px]">
+                    <span className="text-[9px] uppercase font-bold text-stone-500 block">
+                      {canvasViewMode === 'model' ? 'Active Shade' : 'Active Model'}
+                    </span>
+                    <p className="font-bold text-[11px] text-[#17233B] truncate max-w-[105px] flex items-center gap-1">
+                      {canvasViewMode === 'model' && (
+                        <span
+                          className="w-2.5 h-2.5 rounded-full border border-black/20 flex-shrink-0"
+                          style={{ backgroundColor: currentColorway?.hex || '#C9A45C' }}
+                        />
+                      )}
+                      <span className="truncate">
+                        {canvasViewMode === 'model' ? (currentColorway?.name || 'Standard') : currentModel.name.split(' ')[0]}
+                      </span>
+                    </p>
+                    <span className="text-[9px] font-bold text-[#176B68] flex items-center gap-0.5 mt-0.5 group-hover/pip:underline">
+                      <span>⇄</span>
+                      <span>{canvasViewMode === 'model' ? 'View Cut' : 'View Drape'}</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Overlay Card */}
+                <div className="absolute bottom-4 left-4 right-4 bg-gradient-to-t from-black/95 via-black/75 to-transparent p-4 rounded-b-2xl text-white z-10">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
+                      {canvasViewMode === 'model' ? 'Now Draped On' : 'Garment Studio Cut'}
+                    </span>
+                    <span className="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       {currentModel.name} ({currentModel.height}) · {currentModel.state}
                     </span>
                   </div>
@@ -468,7 +568,7 @@ export default function TryWithSIModal({
                       <span>Shade:</span>
                       <strong className="text-white flex items-center gap-1.5">
                         <span
-                          className="w-3 h-3 rounded-full inline-block border border-white/40"
+                          className="w-3.5 h-3.5 rounded-full inline-block border border-white/50 shadow-xs"
                           style={{ backgroundColor: currentColorway?.hex || '#C9A45C' }}
                         />
                         {currentColorway?.name || 'Standard Shade'}
@@ -508,6 +608,7 @@ export default function TryWithSIModal({
                           triggerDrapeShift(() => {
                             setUserPhoto(null)
                             setSelectedModelId(m.id)
+                            setCanvasViewMode('model')
                           })
                         }}
                         className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full border text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
@@ -557,6 +658,7 @@ export default function TryWithSIModal({
                           setSelectedGender('women')
                           const rec = getRecommendedModelForProduct('women', currentProduct.categoryLabel)
                           setSelectedModelId(rec.id)
+                          setCanvasViewMode('model')
                           setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
@@ -572,6 +674,7 @@ export default function TryWithSIModal({
                           setSelectedGender('men')
                           const rec = getRecommendedModelForProduct('men', currentProduct.categoryLabel)
                           setSelectedModelId(rec.id)
+                          setCanvasViewMode('model')
                           setSelectedColorIdx(0)
                         }}
                         className={`px-3 py-1 rounded font-semibold transition-colors ${
@@ -586,27 +689,57 @@ export default function TryWithSIModal({
                   </div>
 
                   {/* Active Model Mini Card */}
-                  <div className="p-3 bg-white rounded-xl border border-stone-200 flex items-center justify-between gap-3 shadow-xs">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#C9A45C] flex-shrink-0 shadow-xs">
-                        <Image src={currentModel.avatar} alt={currentModel.name} fill className="object-cover" />
+                  <div className="p-3 bg-white rounded-xl border border-stone-200 space-y-2.5 shadow-xs">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-[#C9A45C] flex-shrink-0 shadow-xs">
+                          <Image src={currentModel.avatar} alt={currentModel.name} fill className="object-cover" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-serif font-bold text-xs text-[#17233B] truncate">
+                            {currentModel.name} ({currentModel.height})
+                          </p>
+                          <p className="text-[11px] text-stone-500 truncate">
+                            {currentModel.city}, {currentModel.state} · {currentModel.fitType}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <p className="font-serif font-bold text-xs text-[#17233B] truncate">
-                          {currentModel.name} ({currentModel.height})
-                        </p>
-                        <p className="text-[11px] text-stone-500 truncate">
-                          {currentModel.city}, {currentModel.state} · {currentModel.fitType}
-                        </p>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsModelDrawerOpen(true)}
+                        className="px-3 py-1.5 rounded-lg bg-[#17233B] hover:bg-[#176B68] text-white text-[11px] font-bold whitespace-nowrap transition-colors shadow-xs"
+                      >
+                        Change Model ({genderModels.length})
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsModelDrawerOpen(true)}
-                      className="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-[#17233B] text-[11px] font-bold whitespace-nowrap transition-colors"
-                    >
-                      Change Model
-                    </button>
+
+                    {/* Quick Pick Model Chips */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pt-1 border-t border-stone-100 no-scrollbar">
+                      <span className="text-[10px] uppercase font-bold text-stone-400 mr-0.5 flex-shrink-0">Quick Models:</span>
+                      {genderModels.slice(0, 5).map((qm) => {
+                        const isQmSelected = currentModel.id === qm.id
+                        return (
+                          <button
+                            key={qm.id}
+                            type="button"
+                            onClick={() => {
+                              triggerDrapeShift(() => {
+                                setUserPhoto(null)
+                                setSelectedModelId(qm.id)
+                                setCanvasViewMode('model')
+                              })
+                            }}
+                            className={`px-2 py-0.5 rounded-md text-[11px] font-semibold flex-shrink-0 transition-all ${
+                              isQmSelected
+                                ? 'bg-[#17233B] text-white ring-1 ring-[#C9A45C] font-bold'
+                                : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                            }`}
+                          >
+                            {qm.name.split(' ')[0]} ({qm.height})
+                          </button>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
 
@@ -1026,6 +1159,7 @@ export default function TryWithSIModal({
                         triggerDrapeShift(() => {
                           setUserPhoto(null)
                           setSelectedModelId(m.id)
+                          setCanvasViewMode('model')
                           setIsModelDrawerOpen(false)
                         })
                       }}

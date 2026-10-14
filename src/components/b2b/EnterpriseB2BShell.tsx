@@ -39,21 +39,29 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
     router.push(n.link)
   }
 
-  // Active check matching the screenshot
+  // Active check matching current route
   const isItemActive = (href: string, key: string) => {
-    if (key === 'procurement') {
-      return (
-        pathname === '/b2b/dashboard' ||
-        pathname === '/dashboard' ||
-        pathname === '/b2b' ||
-        pathname.includes('/procurement')
-      )
+    if (key === 'exchange') {
+      return pathname === '/b2b' || pathname === '/'
+    }
+    if (key === 'dashboard') {
+      return pathname === '/b2b/dashboard' || pathname === '/dashboard'
     }
     return pathname.startsWith(href)
   }
 
-  // Exact 10 navigation items as in reference screenshot
+  // Navigation items: Global Exchange + 10 enterprise workflow modules
   const SIDEBAR_ITEMS = [
+    {
+      key: 'exchange',
+      label: 'Global Exchange',
+      href: '/b2b',
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+    },
     {
       key: 'dashboard',
       label: 'Dashboard',
@@ -115,16 +123,6 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
       ),
     },
     {
-      key: 'procurement',
-      label: 'Procurement',
-      href: '/b2b/dashboard',
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-        </svg>
-      ),
-    },
-    {
       key: 'stock-alerts',
       label: 'Stock Alerts',
       href: '/b2b/deliveries',
@@ -179,7 +177,7 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
             </svg>
           </button>
 
-          <Link href="/b2b/dashboard" className="flex items-center gap-2.5 group">
+          <Link href="/b2b" className="flex items-center gap-2.5 group">
             <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white/10 p-0.5 border border-white/20 shadow-xs flex-shrink-0 group-hover:scale-105 transition-transform">
               <Image
                 src="/images/logo.jpg"
@@ -204,11 +202,17 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search vendors, quotes, POs..."
+              placeholder="Search commodities, lots, vendors, quotes, POs..."
               className="w-full pl-9 pr-4 py-1.5 bg-[#12274A] hover:bg-[#16305A] focus:bg-[#16305A] border border-white/10 focus:border-white/30 rounded-lg text-xs text-white placeholder-stone-400 outline-none transition-all"
             />
             <span className="absolute left-3 top-2 text-stone-400 text-xs">🔍</span>
           </form>
+        </div>
+
+        {/* Center-Right: Global Market Status Ribbon */}
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-emerald-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span>GLOBAL COMMODITY SOURCING TERMINAL · ACTIVE</span>
         </div>
 
         {/* Right: Notifications Bell & User Profile Pill */}
@@ -347,15 +351,23 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
             })}
           </nav>
 
-          {/* Storefront return link */}
-          <div className="p-3 border-t border-white/10 bg-[#050F1E] text-[11px]">
-            <Link
-              href="/b2b"
-              className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-stone-400 hover:text-white transition-colors"
-            >
-              <span>Public Storefront</span>
-              <span>↗</span>
-            </Link>
+          {/* Regulatory & Trade Desk Hotline */}
+          <div className="p-3 border-t border-white/10 bg-[#050F1E] text-[11px] space-y-1.5">
+            <div className="flex items-center justify-between text-stone-400">
+              <span className="text-[9px] uppercase font-bold tracking-wider text-[#C9A45C]">FSSAI Central Lic.</span>
+              <span className="text-[9px] font-mono text-stone-300">#22724441000048</span>
+            </div>
+            <div className="text-[10px] text-stone-400 flex items-center justify-between">
+              <span>Trade Desk</span>
+              <a
+                href={`https://wa.me/${whatsappPhone}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FF6B00] font-bold hover:underline"
+              >
+                +91 9717161809
+              </a>
+            </div>
           </div>
         </aside>
 
@@ -363,23 +375,23 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
         <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
           <div className="flex-1">{children}</div>
 
-          {/* Footer matching screenshot */}
+          {/* Platform Footer */}
           <footer className="mt-12 pt-4 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-stone-500">
-            <div>© 2026 Plasma Workflow. All rights reserved.</div>
+            <div>© 2026 Nuty Tales Business · Global Enterprise Procurement OS · FSSAI Central Lic. #22724441000048 · APEDA Export Reg.</div>
             <div className="flex items-center gap-4">
-              <Link href="/privacy" className="hover:text-stone-800">
-                Privacy Policy
+              <Link href="/b2b/certificates" className="hover:text-stone-800">
+                NABL Quality Standards
               </Link>
               <span>·</span>
-              <Link href="/terms" className="hover:text-stone-800">
-                Terms of Use
+              <Link href="/b2b/deliveries" className="hover:text-stone-800">
+                Reefer Logistics
               </Link>
               <span>·</span>
               <a href={`https://wa.me/${whatsappPhone}`} className="hover:text-stone-800">
-                Support
+                Trade Desk
               </a>
             </div>
-            <div className="font-mono text-stone-400">v2.4.0</div>
+            <div className="font-mono text-stone-400">v3.1.0-ENTERPRISE</div>
           </footer>
         </main>
       </div>
