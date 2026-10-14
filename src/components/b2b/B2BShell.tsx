@@ -109,30 +109,24 @@ export default function B2BShell({
               </Link>
             </div>
 
-            {/* Amazon Business 3-Step Indicator Preview (Visible on large screens) */}
+            {/* Trust Before Transaction Pillars (Visible on large screens) */}
             <div className="hidden xl:flex items-center gap-2 bg-[#FAF6EE] px-4 py-2 rounded-full border border-stone-200 text-xs">
               <span className="text-[10px] uppercase font-bold text-[#704B32] tracking-wider mr-1">
-                Fast Onboarding:
+                Trust Before Transaction:
               </span>
               <div className="flex items-center gap-1.5 font-bold text-[#17233B]">
-                <span className="w-5 h-5 rounded-full bg-[#17233B] text-white flex items-center justify-center text-[10px]">
-                  1
-                </span>
-                <span className="text-[11px]">Work Email</span>
+                <span className="text-xs">🔍</span>
+                <span className="text-[11px]">Compare Offers</span>
               </div>
               <span className="text-stone-300">→</span>
-              <div className="flex items-center gap-1.5 text-stone-500">
-                <span className="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-[10px]">
-                  2
-                </span>
-                <span className="text-[11px]">Business &amp; GSTIN</span>
+              <div className="flex items-center gap-1.5 font-bold text-[#176B68]">
+                <span className="text-xs">🛡️</span>
+                <span className="text-[11px]">Verify Evidence</span>
               </div>
               <span className="text-stone-300">→</span>
-              <div className="flex items-center gap-1.5 text-stone-500">
-                <span className="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-[10px]">
-                  3
-                </span>
-                <span className="text-[11px]">Wholesale Tier Active</span>
+              <div className="flex items-center gap-1.5 font-bold text-[#17233B]">
+                <span className="text-xs">🚚</span>
+                <span className="text-[11px]">Clear Fulfilment</span>
               </div>
             </div>
 

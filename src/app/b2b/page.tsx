@@ -3,17 +3,17 @@ import B2BHomeClient from './B2BHomeClient'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
+    absolute: 'Nuty Tales Business — Wholesale Procurement, Without the Guesswork',
   },
   description:
-    'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana & saffron with wholesale tier pricing. Source better, supply smarter, grow together.',
+    'Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence. Direct farm-to-enterprise procurement for commercial bakeries, FMCG brands, HORECA, and institutional buyers.',
   alternates: {
     canonical: 'https://business.nutytales.com',
   },
   openGraph: {
-    title: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
+    title: 'Nuty Tales Business — Wholesale Procurement, Without the Guesswork',
     description:
-      'Direct farm-to-enterprise procurement portal for commercial food production, bakery chains, and institutional dry fruit buyers. Source better, supply smarter, grow together.',
+      'Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence.',
     url: 'https://business.nutytales.com',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',

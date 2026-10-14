@@ -7,17 +7,45 @@ import {
   B2B_COMMODITIES,
   B2B_HUBS,
   B2BCommodity,
+  BUYER_PERSONAS,
+  BuyerPersona,
 } from '@/lib/b2b-data'
 import {
   INDUSTRIES,
-  ENTERPRISE_FEATURES,
   IndustryProfile,
 } from '@/lib/business-supply-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
+import QualityPassportModal from '@/components/b2b/QualityPassportModal'
+import PriceScenarioCalculator from '@/components/b2b/PriceScenarioCalculator'
+import MultiSupplierQuoteComparison from '@/components/b2b/MultiSupplierQuoteComparison'
+import ProcurementDeskModal from '@/components/b2b/ProcurementDeskModal'
+import BecomeSupplierModal from '@/components/b2b/BecomeSupplierModal'
 
 export default function B2BHomePage() {
-  // ── 1. Amazon Business Onboarding State ────────────────────────────────────
+  // ── 1. Modals & Drawers State ─────────────────────────────────────────────
+  const [inspectedCommodity, setInspectedCommodity] = useState<B2BCommodity | null>(null)
+  const [isProcurementDeskOpen, setIsProcurementDeskOpen] = useState(false)
+  const [isBecomeSupplierOpen, setIsBecomeSupplierOpen] = useState(false)
+
+  // ── 2. Natural Language Sourcing Search State ─────────────────────────────
+  const [naturalSearchQuery, setNaturalSearchQuery] = useState('')
+  const [selectedDestinationForFilter, setSelectedDestinationForFilter] = useState('Delhi NCR / Noida Hub')
+
+  // ── 3. Active Filters & Category State ────────────────────────────────────
+  const [activeCategory, setActiveCategory] = useState<string>('All')
+  const [activeOriginFilter, setActiveOriginFilter] = useState<string>('All')
+  const [activeCapabilityTab, setActiveCapabilityTab] = useState<
+    'price' | 'quality' | 'desk' | 'privatelabel' | 'export'
+  >('price')
+
+  // ── 4. Interactive Buyer Persona State ─────────────────────────────────────
+  const [selectedPersona, setSelectedPersona] = useState<BuyerPersona>(BUYER_PERSONAS[0])
+
+  // ── 5. "What Do You Make?" Sector Dossier State ───────────────────────────
+  const [selectedIndustry, setSelectedIndustry] = useState<IndustryProfile>(INDUSTRIES[2]) // Bakeries
+
+  // ── 6. Contextual Account Onboarding State (Preserved for corporate accounts)
   const [onboardingStep, setOnboardingStep] = useState<1 | 2 | 3>(1)
   const [workEmail, setWorkEmail] = useState('')
   const [contactName, setContactName] = useState('')
@@ -36,80 +64,81 @@ export default function B2BHomePage() {
   const [onboardingError, setOnboardingError] = useState<string | null>(null)
   const [isSignInMode, setIsSignInMode] = useState(false)
 
-  // ── 2. Live Wholesale Tier Pricing Matrix State ─────────────────────────────
-  const [activeCategory, setActiveCategory] = useState<string>('All')
-
-  // ── 3. Interactive RFQ Terminal State ───────────────────────────────────────
-  const [rfqCommodityId, setRfqCommodityId] = useState<string>(B2B_COMMODITIES[1].id) // California Almonds
-  const [rfqCut, setRfqCut] = useState<string>('Sliced 0.8–1.2mm')
-  const [rfqPackaging, setRfqPackaging] = useState<string>('25kg Vacuum Poly Liner')
-  const [rfqVolumeKg, setRfqVolumeKg] = useState<number>(500)
-  const [rfqDestination, setRfqDestination] = useState<string>('Delhi NCR / Noida Hub')
-  const [rfqSuccessMsg, setRfqSuccessMsg] = useState(false)
-  const [isSubmittingRfq, setIsSubmittingRfq] = useState(false)
-
-  // ── 4. "What Do You Make?" Industry Selector State ──────────────────────────
-  const [selectedIndustry, setSelectedIndustry] = useState<IndustryProfile>(INDUSTRIES[2]) // Bakeries
-
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  // Selected Commodity for RFQ Calculation
-  const selectedCommodity = useMemo(() => {
-    return B2B_COMMODITIES.find((c) => c.id === rfqCommodityId) || B2B_COMMODITIES[0]
-  }, [rfqCommodityId])
+  // ── Destination Freight Per Kg Lookup ─────────────────────────────────────
+  const getFreightPerKg = (dest: string) => {
+    if (dest.includes('Delhi') || dest.includes('Noida')) return 5
+    if (dest.includes('Mumbai') || dest.includes('Pune')) return 12
+    if (dest.includes('Bengaluru') || dest.includes('Karnataka')) return 15
+    if (dest.includes('Srinagar') || dest.includes('Kashmir')) return 8
+    if (dest.includes('Patna') || dest.includes('Kolkata')) return 11
+    if (dest.includes('Ahmedabad') || dest.includes('Gujarat')) return 10
+    return 10
+  }
 
-  // Live RFQ Price Calculator
-  const calculatedQuote = useMemo(() => {
-    const c = selectedCommodity
-    const v = rfqVolumeKg
+  // ── Natural Search Parsing & Filtering ────────────────────────────────────
+  const { filteredCommodities, parsedSearchFeedback, suggestedAlternatives } = useMemo(() => {
+    const query = naturalSearchQuery.toLowerCase().trim()
 
-    let tierPrice = c.tierPrices.tier1.pricePerKg
-    let tierName = c.tierPrices.tier1.label
-    let discountPct = 0
+    let commodities = B2B_COMMODITIES.filter((item) => {
+      const matchesCategory = activeCategory === 'All' || item.category === activeCategory
+      const matchesOrigin =
+        activeOriginFilter === 'All' ||
+        item.origin.toLowerCase().includes(activeOriginFilter.toLowerCase())
+      return matchesCategory && matchesOrigin
+    })
 
-    if (v >= c.tierPrices.container.minKg) {
-      tierPrice = c.tierPrices.container.pricePerKg
-      tierName = c.tierPrices.container.label
-      discountPct = c.tierPrices.container.savingsPercent
-    } else if (v >= c.tierPrices.tier3.minKg) {
-      tierPrice = c.tierPrices.tier3.pricePerKg
-      tierName = c.tierPrices.tier3.label
-      discountPct = c.tierPrices.tier3.savingsPercent
-    } else if (v >= c.tierPrices.tier2.minKg) {
-      tierPrice = c.tierPrices.tier2.pricePerKg
-      tierName = c.tierPrices.tier2.label
-      discountPct = c.tierPrices.tier2.savingsPercent
+    if (!query) {
+      return {
+        filteredCommodities: commodities,
+        parsedSearchFeedback: null,
+        suggestedAlternatives: [],
+      }
     }
 
-    const subtotal = tierPrice * v
-    const standardBaseTotal = c.tierPrices.tier1.pricePerKg * v
-    const savingsAmount = standardBaseTotal - subtotal
-    const gstAmount = Math.round(subtotal * (c.gstPercent / 100))
-    const totalWithGst = subtotal + gstAmount
+    // Extract keywords
+    const keywords = query.split(/[\s,]+/).filter(Boolean)
 
-    // Freight estimate
-    let freightEstimate = 0
-    if (v < 100) freightEstimate = 1200
-    else if (v < 500) freightEstimate = 3200
-    else if (v < 2000) freightEstimate = 7500
-    else freightEstimate = 14000 // Container freight subsidy
+    // Detect destination in query
+    let detectedDest = selectedDestinationForFilter
+    if (query.includes('delhi') || query.includes('noida')) detectedDest = 'Delhi NCR / Noida Hub'
+    else if (query.includes('mumbai') || query.includes('pune')) detectedDest = 'Mumbai / Pune Industrial Corridor'
+    else if (query.includes('bengaluru') || query.includes('bangalore')) detectedDest = 'Bengaluru / Karnataka Hub'
+    else if (query.includes('kashmir') || query.includes('srinagar')) detectedDest = 'Srinagar / Kashmir Direct'
+    else if (query.includes('bihar') || query.includes('patna') || query.includes('kolkata')) detectedDest = 'Patna / Kolkata Eastern Hub'
+    else if (query.includes('gujarat') || query.includes('ahmedabad')) detectedDest = 'Ahmedabad / Gujarat Belt'
 
-    const netLandedPerKg = Math.round((totalWithGst + freightEstimate) / v)
+    // Detect quantity in query (e.g. 100 kg, 500kg, 1 mt, 2.5 ton)
+    let detectedQty = '500 kg'
+    const qtyMatch = query.match(/(\d+(?:\.\d+)?)\s*(kg|kilos|mt|tons|ton|g)/i)
+    if (qtyMatch) {
+      detectedQty = `${qtyMatch[1]} ${qtyMatch[2].toUpperCase()}`
+    }
+
+    const matches = commodities.filter((item) => {
+      const textToSearch = `${item.name} ${item.origin} ${item.grade} ${item.category} ${item.cuts.join(' ')} ${item.code}`.toLowerCase()
+      return keywords.some((k) => textToSearch.includes(k))
+    })
+
+    let alternatives: B2BCommodity[] = []
+    if (matches.length === 0) {
+      // Find fallback alternatives
+      alternatives = B2B_COMMODITIES.slice(0, 3)
+    }
 
     return {
-      tierPrice,
-      tierName,
-      discountPct,
-      subtotal,
-      savingsAmount,
-      gstAmount,
-      totalWithGst,
-      freightEstimate,
-      netLandedPerKg,
+      filteredCommodities: matches.length > 0 ? matches : [],
+      parsedSearchFeedback: {
+        destination: detectedDest,
+        quantity: detectedQty,
+        matchCount: matches.length,
+      },
+      suggestedAlternatives: alternatives,
     }
-  }, [selectedCommodity, rfqVolumeKg])
+  }, [activeCategory, activeOriginFilter, naturalSearchQuery, selectedDestinationForFilter])
 
-  // Toggle Need Item
+  // Toggle Need Item in Onboarding Form
   const toggleNeed = (item: string) => {
     if (selectedNeeds.includes(item)) {
       setSelectedNeeds(selectedNeeds.filter((n) => n !== item))
@@ -118,8 +147,8 @@ export default function B2BHomePage() {
     }
   }
 
-  // Handle Onboarding Next Step
-  const handleOnboardingNext = async (e: React.FormEvent) => {
+  // Handle Onboarding Submit
+  const handleOnboardingSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setOnboardingError(null)
 
@@ -153,8 +182,8 @@ export default function B2BHomePage() {
             phone,
             businessName: companyName,
             city: cityPincode,
-            message: `[B2B Amazon-Style Account Creation] Email: ${workEmail} | Org: ${companyName} | Type: ${businessType} | GSTIN: ${gstin || 'Pending'} | Needs: ${selectedNeeds.join(', ')} | Volume: ${estMonthlyKg}`,
-            source: 'business-subdomain-onboarding',
+            message: `[B2B Corporate Account Activation] Email: ${workEmail} | Org: ${companyName} | Type: ${businessType} | GSTIN: ${gstin || 'Pending'} | Needs: ${selectedNeeds.join(', ')} | Volume: ${estMonthlyKg}`,
+            source: 'business-corporate-onboarding',
           }),
         })
 
@@ -172,61 +201,942 @@ export default function B2BHomePage() {
     }
   }
 
-  // Handle RFQ Quick Submit
-  const handleRfqQuickSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmittingRfq(true)
-
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: contactName || 'B2B RFQ Lead',
-          email: workEmail || 'procurement@nutytales.com',
-          phone: phone || '+91-Enterprise',
-          businessName: companyName || 'Corporate Client',
-          city: rfqDestination,
-          message: `[B2B RFQ Terminal] Commodity: ${selectedCommodity.name} | Cut: ${rfqCut} | Pack: ${rfqPackaging} | Qty: ${rfqVolumeKg} kg | Dest: ${rfqDestination} | Landed/kg: ₹${calculatedQuote.netLandedPerKg} | Total: ₹${calculatedQuote.totalWithGst}`,
-          source: 'business-rfq-terminal',
-        }),
-      })
-
-      setRfqSuccessMsg(true)
-      setTimeout(() => setRfqSuccessMsg(false), 5000)
-    } catch {
-      // Fallback
-    } finally {
-      setIsSubmittingRfq(false)
-    }
-  }
-
-  const whatsappQuoteUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-    `Hello Nuty Tales B2B Desk! 🏭\n\nI want to lock in a wholesale price contract:\n• Commodity: ${selectedCommodity.name}\n• Mechanical Cut: ${rfqCut}\n• Packaging: ${rfqPackaging}\n• Volume: ${rfqVolumeKg} kg\n• Estimated Landed Rate: ₹${calculatedQuote.netLandedPerKg}/kg\n• Delivery Destination: ${rfqDestination}\n• Org: ${companyName || 'Corporate Procurement'}\n\nPlease share the formal proforma invoice with COA lab batch specs!`,
-  )}`
-
   return (
-    <div className="space-y-20 pb-20">
-      {/* ── 1. AMAZON BUSINESS REFERENCE SPLIT-CARD HERO ─────────────────────── */}
-      <section className="pt-8 sm:pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
-        {/* Executive Headline Banner */}
-        <div className="text-left space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
-            <span>🏭</span> NUTY TALES BUSINESS · ENTERPRISE SOURCING ENGINE
+    <div className="space-y-20 pb-24">
+      {/* ── 1. BUYING-FIRST HERO & STRATEGIC POSITIONING ────────────────────────── */}
+      <section className="pt-8 sm:pt-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+        {/* Positioning Banner & Headline */}
+        <div className="text-center max-w-4xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#17233B] text-[#C9A45C] text-xs font-bold uppercase tracking-widest shadow-sm">
+            <span>🏭</span> NUTY TALES BUSINESS · B2B WHOLESALE PROCUREMENT PLATFORM
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#17233B] leading-tight">
-            Source Better. Supply Smarter. Grow Together.
+
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#17233B] leading-[1.15]">
+            Wholesale procurement, without the guesswork.
           </h1>
-          <p className="text-stone-600 text-sm sm:text-lg font-light max-w-3xl leading-relaxed">
-            Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. NABL-tested, FSSAI-certified bulk almonds, walnuts, cashews, makhana &amp; saffron with wholesale tier pricing and multi-point logistics.
+
+          <p className="text-stone-600 text-base sm:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+            Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence.
+          </p>
+
+          {/* Three Core Strategic Action CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+            <a
+              href="#pricing-matrix"
+              className="px-6 py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
+            >
+              <span>Explore Wholesale Products</span>
+              <span>→</span>
+            </a>
+
+            <a
+              href="#multi-supplier-rfq"
+              className="px-6 py-3.5 bg-white hover:bg-stone-50 text-[#17233B] font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"
+            >
+              <span>⚖️ Compare Supplier Quotes</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setIsBecomeSupplierOpen(true)}
+              className="px-5 py-3.5 bg-amber-50 hover:bg-amber-100 text-[#704B32] font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all border border-amber-200 flex items-center gap-1.5"
+            >
+              <span>🌾 Become a Supplier</span>
+            </button>
+          </div>
+
+          {/* Three Trust Pillars (Section 8 of Brief) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 max-w-3xl mx-auto text-xs">
+            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
+              <span className="text-base text-[#176B68] font-bold">✓</span>
+              <div>
+                <strong className="block text-[#17233B]">Compare</strong>
+                <span className="text-[11px] text-stone-500">Commercial offers</span>
+              </div>
+            </div>
+            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
+              <span className="text-base text-[#176B68] font-bold">✓</span>
+              <div>
+                <strong className="block text-[#17233B]">Verify</strong>
+                <span className="text-[11px] text-stone-500">Available evidence</span>
+              </div>
+            </div>
+            <div className="p-3 bg-white rounded-2xl border border-stone-200 flex items-center justify-center gap-2 text-stone-800 shadow-xs">
+              <span className="text-base text-[#176B68] font-bold">✓</span>
+              <div>
+                <strong className="block text-[#17233B]">Fulfil</strong>
+                <span className="text-[11px] text-stone-500">Clear delivery terms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 2. NATURAL LANGUAGE SOURCING SEARCH BAR (Section 2B of Brief) ──────── */}
+        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xl space-y-4 max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🔍</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#17233B]">
+                Intelligent Natural Language Procurement Search
+              </span>
+            </div>
+            <span className="text-[11px] text-stone-500">
+              Type product, volume, cut, or destination naturally
+            </span>
+          </div>
+
+          {/* Search Input Box */}
+          <div className="relative">
+            <input
+              type="text"
+              value={naturalSearchQuery}
+              onChange={(e) => setNaturalSearchQuery(e.target.value)}
+              placeholder='Try typing: "Kashmiri walnuts, 100 kg, delivered to Delhi" or "Makhana 6+ sutra, 500 kg"'
+              className="w-full px-5 py-4 pl-12 pr-10 rounded-2xl border border-stone-300 text-sm sm:text-base focus:ring-2 focus:ring-[#176B68] focus:border-transparent outline-none bg-stone-50 text-stone-900 font-medium transition-all"
+            />
+            <span className="absolute left-4 top-4 text-stone-400 text-lg">🔎</span>
+            {naturalSearchQuery && (
+              <button
+                type="button"
+                onClick={() => setNaturalSearchQuery('')}
+                className="absolute right-4 top-4 text-stone-400 hover:text-stone-700 text-sm font-bold"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Example Prompt Chips */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-stone-600">
+            <span className="text-[11px] font-bold uppercase text-[#704B32] mr-1">
+              Popular searches:
+            </span>
+            {[
+              'Kashmiri walnuts, 100 kg, delivered to Delhi',
+              'Makhana for private-label packaging, 500 kg',
+              'Cashew kernels, a specified grade, with export documents',
+              'California almonds, sliced 1 MT, Noida Hub',
+              'Royal Kashmiri Mongra Saffron, 1 kg, Bengaluru',
+            ].map((chip) => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => setNaturalSearchQuery(chip)}
+                className="px-3 py-1 rounded-lg bg-stone-100 hover:bg-[#17233B] hover:text-white text-stone-700 text-[11px] font-medium transition-colors border border-stone-200"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+
+          {/* Parsed Search Feedback Banner */}
+          {parsedSearchFeedback && (
+            <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-950 flex flex-wrap items-center justify-between gap-3 animate-fadeIn">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🎯</span>
+                <span>
+                  Showing <strong>{parsedSearchFeedback.matchCount} matched commodity lots</strong> for{' '}
+                  <strong className="text-emerald-900">{parsedSearchFeedback.quantity}</strong> delivered to{' '}
+                  <strong className="text-emerald-900">{parsedSearchFeedback.destination}</strong>.
+                </span>
+              </div>
+              <a
+                href="#pricing-matrix"
+                className="font-bold text-[#176B68] hover:underline uppercase text-[11px] tracking-wider"
+              >
+                View in Price Matrix ↓
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── 3. FIVE DISTINCTIVE CAPABILITIES SHOWCASE (Section 3 of Brief) ─────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
+            <span>⭐</span> FIVE DISTINCTIVE CAPABILITIES
+          </div>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#17233B]">
+            Built Around What Wholesalers Cannot Easily Copy
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600">
+            A technology-led procurement vertical that sells a completed buying outcome—backed by evidence, verified suppliers, and delivered economics.
           </p>
         </div>
 
+        {/* 5 Capability Switcher Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 text-xs">
+          {[
+            { id: 'price', label: '1. Price Intelligence', priority: 'Highest Priority' },
+            { id: 'quality', label: '2. Quality Passport', priority: 'Lot Evidence' },
+            { id: 'desk', label: '3. Procurement Desk', priority: 'Managed Outcome' },
+            { id: 'privatelabel', label: '4. Private Label Growth', priority: 'Brand Packaging' },
+            { id: 'export', label: '5. Cross-Border Sourcing', priority: 'Global Export' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveCapabilityTab(tab.id as typeof activeCapabilityTab)}
+              className={`px-4 py-2.5 rounded-xl font-bold transition-all border flex items-center gap-2 ${
+                activeCapabilityTab === tab.id
+                  ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
+                  : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+              }`}
+            >
+              <span>{tab.label}</span>
+              <span
+                className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase ${
+                  activeCapabilityTab === tab.id
+                    ? 'bg-[#C9A45C] text-[#17233B]'
+                    : 'bg-stone-100 text-stone-600'
+                }`}
+              >
+                {tab.priority}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Capability Feature Spotlight Card */}
+        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-sm">
+          {activeCapabilityTab === 'price' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  CAPABILITY 1 · HIGHEST STRATEGIC PRIORITY
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                  Nuty Tales Price Intelligence
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  A buyer enters a product, quantity, and delivery destination. Nuty Tales compares available verified supplier quotes and computes the estimated total landed purchase cost—including packaging, insured freight, and GST input credit.
+                </p>
+                <div className="p-4 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2">
+                  <div className="font-bold text-[#17233B] text-xs">
+                    💡 Example: 100 kg of Kashmiri Walnuts delivered to Noida
+                  </div>
+                  <p className="text-[11px] text-stone-600 leading-relaxed">
+                    Includes ex-orchard rate (₹1,150/kg) + ₹500 packaging + ₹500 insured logistics + 5% GST (100% tax deductible with GSTIN). The platform distinguishes the lowest nominal price from the best overall offer.
+                  </p>
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <a
+                    href="#pricing-matrix"
+                    className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px]"
+                  >
+                    Test Landed Cost Matrix ↓
+                  </a>
+                  <a
+                    href="#multi-supplier-rfq"
+                    className="px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl font-bold uppercase tracking-wider text-[11px]"
+                  >
+                    Compare Supplier Bids
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-[#10192A] text-white rounded-2xl p-6 border border-white/10 space-y-4">
+                <span className="text-[10px] uppercase font-bold text-[#C9A45C] tracking-widest block">
+                  Competitive Advantage
+                </span>
+                <div className="font-serif text-lg font-bold">
+                  Transparent Price Discovery Without Calling 10 Wholesalers
+                </div>
+                <div className="space-y-2 text-[11px] text-stone-300">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400">✓</span>
+                    <span>No hidden broker commissions or unexpected freight charges.</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400">✓</span>
+                    <span>Distinguishes confirmed spot rates from indicative supplier quotes.</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400">✓</span>
+                    <span>Anonymized quotation history to track market-price movements.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeCapabilityTab === 'quality' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  CAPABILITY 2 · TRUST BEFORE TRANSACTION
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                  Nuty Tales Quality Passport
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  Every eligible product lot receives a digital record containing harvest details, single-origin provenance, packaging batch, FSSAI compliance, and NABL analytical laboratory test results for moisture, purity, and aflatoxin.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="text-[10px] text-stone-500 block">Moisture Assay</span>
+                    <strong className="text-stone-900">&lt; 4.5% Standard</strong>
+                  </div>
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="text-[10px] text-stone-500 block">Aflatoxin Residue</span>
+                    <strong className="text-emerald-700">&lt; 1.5 ppb Tested</strong>
+                  </div>
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="text-[10px] text-stone-500 block">Sample Pre-Test</span>
+                    <strong className="text-[#17233B]">500g Commercial Kit</strong>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setInspectedCommodity(B2B_COMMODITIES[0])}
+                    className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px]"
+                  >
+                    View Sample Quality Passport Modal
+                  </button>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-[#FAF6EE] rounded-2xl p-6 border border-stone-200 space-y-3">
+                <span className="text-[10px] uppercase font-bold text-[#704B32] tracking-widest block">
+                  Evidence-Backed Buying
+                </span>
+                <h4 className="font-serif text-lg font-bold text-[#17233B]">
+                  Buy with Lab Proof, Not Verbal Assurances
+                </h4>
+                <p className="text-[11px] text-stone-600 leading-relaxed">
+                  Traditional wholesalers rely on handshake trust that fails when quality fluctuates. Nuty Tales ties each dispatch to audited batch COA test certificates. Optional 3rd-party SGS inspection available for orders over 2 MT.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeCapabilityTab === 'desk' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  CAPABILITY 3 · MANAGED SOURCING OUTCOME
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                  Nuty Tales Procurement Desk
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  Offer managed procurement for enterprises that do not want to manage multiple suppliers. Submit a shopping list or upload an Excel bill of materials; our specialized desk sources competing quotes, consolidates batches, and coordinates delivered freight.
+                </p>
+                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1 text-emerald-950">
+                  <div className="font-bold">✓ Human-Assisted + Automated Turnaround</div>
+                  <p className="text-[11px] text-emerald-800">
+                    Guaranteed formal comparative proforma quotation delivered within 4 business hours by an assigned Category Specialist.
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsProcurementDeskOpen(true)}
+                    className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px]"
+                  >
+                    📋 Open Managed Procurement Desk
+                  </button>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-[#17233B] text-white rounded-2xl p-6 border border-[#C9A45C]/30 space-y-3">
+                <span className="text-[10px] uppercase font-bold text-[#C9A45C] tracking-widest block">
+                  Outcome-Based Value
+                </span>
+                <h4 className="font-serif text-lg font-bold">
+                  We Sell a Sourcing Outcome, Not Just a Listing Directory
+                </h4>
+                <p className="text-[11px] text-stone-300 leading-relaxed">
+                  Marketplaces leave the burden of supplier negotiation, shipping follow-up, and fraud risk on the buyer. Our Procurement Desk takes end-to-end accountability for quality and delivery.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeCapabilityTab === 'privatelabel' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  CAPABILITY 4 · PRIVATE LABEL &amp; WHOLESALE GROWTH
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                  From Bulk Procurement to Your Own Branded Products
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  Provide retailers, e-commerce brands, hospitality chains, and distributors a frictionless path from raw ingredients to private-label packaged retail units. Custom pouch packaging, nitrogen tins, barcode integration, and certified back-of-pack labels.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="font-bold text-stone-900 block">Stand-Up Pouches</span>
+                    <span className="text-[10px] text-stone-500">100g, 250g, 500g, 1kg</span>
+                  </div>
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="font-bold text-stone-900 block">Nitrogen Tins</span>
+                    <span className="text-[10px] text-stone-500">12+ months crisp freshness</span>
+                  </div>
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <span className="font-bold text-stone-900 block">FSSAI Co-Packing</span>
+                    <span className="text-[10px] text-stone-500">Central Lic. Compliance</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-[#FAF6EE] rounded-2xl p-6 border border-stone-200 space-y-3">
+                <span className="text-[10px] uppercase font-bold text-[#704B32] tracking-widest block">
+                  Growth Partnership
+                </span>
+                <h4 className="font-serif text-lg font-bold text-[#17233B]">
+                  Help Customers Build Their Brand, Not Just Stock Inventory
+                </h4>
+                <p className="text-[11px] text-stone-600 leading-relaxed">
+                  We only promise private-label specifications and batch volumes that our vetted processing network can reliably execute with zero quality deviations.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeCapabilityTab === 'export' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32] block">
+                  CAPABILITY 5 · CROSS-BORDER SOURCING ASSISTANT
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
+                  Export Procurement for International Importers
+                </h3>
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  Help overseas buyers source Indian-origin GI-tagged Saffron, Kashmiri Kagzi Walnuts, and Mithila Makhana with export-ready documentation, APEDA clearance, Phytosanitary certificates, Incoterms (FOB Mumbai / CIF Destination), and container stuffing coordination.
+                </p>
+                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-1">
+                  <div className="font-bold text-stone-900">Initial Export Corridor:</div>
+                  <p className="text-[11px] text-stone-600">
+                    GCC (Dubai / Riyadh), UK, EU, and North America. Dedicated Reefer container allocations from JNPT and cold chain aggregation in Srinagar.
+                  </p>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 bg-[#17233B] text-white rounded-2xl p-6 border border-[#C9A45C]/30 space-y-3">
+                <span className="text-[10px] uppercase font-bold text-[#C9A45C] tracking-widest block">
+                  Cross-Border Sourcing
+                </span>
+                <h4 className="font-serif text-lg font-bold">
+                  Source from India Without a Local Procurement Team
+                </h4>
+                <p className="text-[11px] text-stone-300 leading-relaxed">
+                  We validate the suppliers, phytosanitary lab tests, and shipping economics before taking overseas orders—eliminating customs rejections and cross-border payment friction.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── 4. COMMODITY BOARD & PROCUREMENT DECISION TOOL (Section 2C & 2D) ─── */}
+      <section id="pricing-matrix" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-stone-200 pb-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
+              <span>📈</span> B2B COMMODITY BOARD &amp; DECISION MATRIX
+            </div>
+            <h2 className="font-serif text-3xl font-bold text-[#17233B]">
+              Transparent Volume Tier Pricing Matrix
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              Real-time landed cost calculation based on your delivery destination, GST treatment (5% with 100% input tax credit), and confirmed supplier status.
+            </p>
+          </div>
+
+          {/* Destination Selector for Live Landed Cost Calculation */}
+          <div className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs space-y-1 text-xs">
+            <label className="block text-[10px] uppercase font-bold tracking-wider text-[#704B32]">
+              Select Delivery Destination for Landed Cost:
+            </label>
+            <select
+              value={selectedDestinationForFilter}
+              onChange={(e) => setSelectedDestinationForFilter(e.target.value)}
+              className="px-3 py-2 rounded-xl border border-stone-300 font-bold text-[#17233B] outline-none bg-stone-50 focus:ring-2 focus:ring-[#176B68]"
+            >
+              <option value="Delhi NCR / Noida Hub">Delhi NCR / Noida Hub (+₹5/kg Freight)</option>
+              <option value="Mumbai / Pune Industrial Corridor">Mumbai / Pune Corridor (+₹12/kg Freight)</option>
+              <option value="Bengaluru / Karnataka Hub">Bengaluru / Karnataka (+₹15/kg Freight)</option>
+              <option value="Srinagar / Kashmir Direct">Srinagar / Kashmir (+₹8/kg Direct)</option>
+              <option value="Patna / Kolkata Eastern Hub">Patna / Kolkata Hub (+₹11/kg Freight)</option>
+              <option value="Ahmedabad / Gujarat Belt">Ahmedabad / Gujarat (+₹10/kg Freight)</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Category & Origin Filters */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex flex-wrap gap-1.5">
+            {['All', 'Tree Nuts', 'Saffron', 'Makhana', 'Dried Fruits'].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-lg font-bold transition-all border ${
+                  activeCategory === cat
+                    ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
+                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2 text-stone-500 text-[11px]">
+            <span>Filter Origin:</span>
+            {['All', 'Kashmir', 'California', 'Bihar', 'Afghanistan'].map((origin) => (
+              <button
+                key={origin}
+                type="button"
+                onClick={() => setActiveOriginFilter(origin)}
+                className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-colors ${
+                  activeOriginFilter === origin
+                    ? 'bg-[#704B32] text-white'
+                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                }`}
+              >
+                {origin}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Commodity Board Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCommodities.map((item) => {
+            const destFreight = getFreightPerKg(selectedDestinationForFilter)
+            const starterLanded = Math.round(
+              item.tierPrices.tier1.pricePerKg * (1 + item.gstPercent / 100) + destFreight,
+            )
+            const bulkLanded = Math.round(
+              item.tierPrices.tier3.pricePerKg * (1 + item.gstPercent / 100) + destFreight,
+            )
+
+            return (
+              <div
+                key={item.id}
+                className="bg-white rounded-3xl border border-stone-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-3.5">
+                  {/* Status & MOQ Header */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                        {item.origin}
+                      </span>
+                      <h3 className="font-serif font-bold text-lg text-[#17233B]">
+                        {item.name}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-stone-500 font-mono">
+                        <span>{item.code}</span>
+                        <span>•</span>
+                        <span>HSN {item.hsnCode}</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded whitespace-nowrap">
+                      MOQ {item.moqKg} kg
+                    </span>
+                  </div>
+
+                  {/* Confirmed Status & Verified Supplier Profile Badge */}
+                  <div className="space-y-2 text-xs">
+                    {/* Price Status Flag */}
+                    <div className="flex items-center justify-between p-2 rounded-xl bg-stone-50 border border-stone-200 text-[11px]">
+                      <span className="flex items-center gap-1.5 font-bold text-emerald-800">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>{item.priceConfidence?.status || 'Confirmed Spot Rate'}</span>
+                      </span>
+                      <span className="text-[10px] text-stone-500">
+                        Valid: {item.priceConfidence?.validityDays || 7} days
+                      </span>
+                    </div>
+
+                    {/* Evidence-Backed Supplier Profile Badge */}
+                    {item.supplier && (
+                      <div className="p-2.5 rounded-xl bg-[#FAF6EE] border border-stone-200 text-[11px] space-y-1">
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-[#17233B]">{item.supplier.name}</span>
+                          <span className="text-[10px] text-emerald-700 font-bold">
+                            ✓ {item.supplier.physicalAuditStatus}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-stone-500 text-[10px]">
+                          <span>Hub: {item.supplier.location}</span>
+                          <span>Fulfillment: <strong className="text-stone-800">{item.supplier.fulfillmentRate}</strong></span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Product Specification Box */}
+                  <div className="p-3 bg-stone-50 rounded-xl text-xs space-y-1 border border-stone-200">
+                    <div className="flex justify-between">
+                      <span className="text-stone-500">Grade / Spec:</span>
+                      <span className="font-semibold text-stone-800 text-right">{item.grade}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-500">Moisture Spec:</span>
+                      <span className="font-semibold text-stone-800">{item.moisture}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-500">Fulfillment Hub:</span>
+                      <span className="font-semibold text-[#176B68]">{item.dispatchHub}</span>
+                    </div>
+                  </div>
+
+                  {/* 4-Tier Volume Price Ladder */}
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between items-center py-1 border-b border-stone-100">
+                      <span className="text-stone-600">{item.tierPrices.tier1.label}</span>
+                      <span className="font-bold text-[#17233B]">
+                        ₹{item.tierPrices.tier1.pricePerKg.toLocaleString('en-IN')}/kg
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-stone-100 bg-emerald-50/50 px-1 rounded">
+                      <span className="text-emerald-900 font-medium">{item.tierPrices.tier2.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] bg-emerald-200 text-emerald-900 px-1 rounded font-bold">
+                          -{item.tierPrices.tier2.savingsPercent}%
+                        </span>
+                        <span className="font-bold text-emerald-800">
+                          ₹{item.tierPrices.tier2.pricePerKg.toLocaleString('en-IN')}/kg
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-stone-100 bg-emerald-50 px-1 rounded">
+                      <span className="text-emerald-950 font-bold">{item.tierPrices.tier3.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] bg-emerald-300 text-emerald-950 px-1 rounded font-bold">
+                          -{item.tierPrices.tier3.savingsPercent}%
+                        </span>
+                        <span className="font-bold text-emerald-900">
+                          ₹{item.tierPrices.tier3.pricePerKg.toLocaleString('en-IN')}/kg
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center py-1 bg-amber-50 px-1 rounded">
+                      <span className="text-amber-950 font-bold">{item.tierPrices.container.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] bg-[#C9A45C] text-[#17233B] px-1 rounded font-bold">
+                          -{item.tierPrices.container.savingsPercent}%
+                        </span>
+                        <span className="font-bold text-amber-900">
+                          ₹{item.tierPrices.container.pricePerKg.toLocaleString('en-IN')}/kg
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Estimated Net Landed Cost Highlight */}
+                  <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 text-xs flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                        Estimated Landed ({selectedDestinationForFilter.split('/')[0].trim()}):
+                      </span>
+                      <span className="text-[10px] text-stone-500">Includes 5% GST + Insured Freight</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-serif text-base font-bold text-[#17233B]">
+                        ₹{bulkLanded.toLocaleString('en-IN')}/kg
+                      </span>
+                      <span className="text-[10px] text-emerald-700 block font-semibold">Bulk Rate</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Action Buttons */}
+                <div className="space-y-2 pt-2 text-xs">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById('multi-supplier-rfq')
+                        if (el) el.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      className="flex-1 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider transition-colors text-center"
+                    >
+                      Compare Bids
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInspectedCommodity(item)}
+                      className="px-3 py-2.5 bg-white border border-stone-300 hover:bg-stone-50 text-stone-800 rounded-xl font-bold transition-colors"
+                      title="Inspect Quality Passport & Lab Assay"
+                    >
+                      🛡️ Passport
+                    </button>
+                  </div>
+
+                  <a
+                    href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                      `Hello Nuty Tales B2B! I want to request a 500g Commercial Sample Kit for: ${item.name} (${item.code}).`,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl font-semibold text-center transition-colors text-[11px]"
+                  >
+                    Request 500g Sample Kit
+                  </a>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Fallback Alternative Products Banner if Search Yields No Match */}
+        {filteredCommodities.length === 0 && (
+          <div className="p-8 bg-amber-50 rounded-3xl border border-amber-200 text-center space-y-4">
+            <span className="text-3xl block">🔍</span>
+            <h3 className="font-serif text-xl font-bold text-amber-950">
+              No exact match for &quot;{naturalSearchQuery}&quot;
+            </h3>
+            <p className="text-xs text-amber-800 max-w-md mx-auto">
+              We couldn&apos;t find an exact inventory lot matching this exact string, but here are comparable wholesale commodities in stock:
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
+              {suggestedAlternatives.map((alt) => (
+                <button
+                  key={alt.id}
+                  type="button"
+                  onClick={() => setNaturalSearchQuery(alt.name)}
+                  className="px-4 py-2 bg-white border border-amber-300 text-stone-800 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors"
+                >
+                  {alt.name} (₹{alt.tierPrices.tier2.pricePerKg}/kg)
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setNaturalSearchQuery('')}
+                className="px-4 py-2 bg-[#17233B] text-white rounded-xl text-xs font-bold"
+              >
+                Reset Search
+              </button>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ── 5. MULTI-SUPPLIER RFQ COMPARISON ENGINE (Section 2E of Brief) ──────── */}
+      <section id="multi-supplier-rfq" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <MultiSupplierQuoteComparison />
+      </section>
+
+      {/* ── 6. IMMEDIATE B2B CASHFLOW: 5KG SAMPLE PACK & PROFORMA WIRE DESK ───── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <CommercialSampleDesk />
+      </section>
+
+      {/* ── 7. DIFFERENT EXPERIENCE FOR EACH BUYER PERSONA (Section 5 of Brief) ─── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
+            <span>👥</span> BUYER-CENTRIC PROCUREMENT PATHWAYS
+          </div>
+          <h2 className="font-serif text-3xl font-bold text-[#17233B]">
+            Built for Your Specific Buying Model
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600">
+            The same platform serves different procurement realities without forcing everyone through a generic checkout.
+          </p>
+        </div>
+
+        {/* Persona Selector Tabs */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {BUYER_PERSONAS.map((persona) => (
+            <button
+              key={persona.id}
+              type="button"
+              onClick={() => setSelectedPersona(persona)}
+              className={`p-4 rounded-2xl border text-center transition-all flex flex-col items-center justify-between gap-2 ${
+                selectedPersona.id === persona.id
+                  ? 'bg-[#17233B] text-white border-[#17233B] shadow-md'
+                  : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+              }`}
+            >
+              <span className="text-2xl">{persona.icon}</span>
+              <span className="font-serif font-bold text-xs leading-snug">{persona.role}</span>
+              <span
+                className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-full ${
+                  selectedPersona.id === persona.id ? 'bg-[#C9A45C] text-[#17233B]' : 'bg-stone-100 text-stone-500'
+                }`}
+              >
+                MOQ {persona.typicalMoq}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Active Persona Deep-Dive Card */}
+        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-xs">
+          <div className="lg:col-span-8 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">{selectedPersona.icon}</span>
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                  Tailored Procurement Solution
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-[#17233B]">
+                  {selectedPersona.role}
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                  What You Need:
+                </span>
+                <p className="font-medium text-stone-900 text-sm">{selectedPersona.whatTheyNeed}</p>
+              </div>
+
+              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1">
+                <span className="text-[10px] uppercase font-bold text-emerald-800 block">
+                  Nuty Tales Verifiable Offer:
+                </span>
+                <p className="font-bold text-emerald-950 text-sm">{selectedPersona.nutyTalesOffer}</p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 text-stone-700">
+              <strong>Key Commercial Benefit:</strong> {selectedPersona.keyBenefit}
+            </div>
+          </div>
+
+          <div className="lg:col-span-4 bg-[#17233B] text-white rounded-2xl p-6 border border-[#C9A45C]/30 space-y-4 text-center">
+            <span className="text-[10px] uppercase font-bold text-[#C9A45C] tracking-widest block">
+              Dedicated Account Manager
+            </span>
+            <div className="font-serif text-lg font-bold">
+              Speak with a Category Specialist
+            </div>
+            <p className="text-[11px] text-stone-300">
+              Get custom volume tier contracts and scheduled standing deliveries structured for your business.
+            </p>
+            <a
+              href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                `Hello Nuty Tales! I am a ${selectedPersona.role}. I am interested in discussing: ${selectedPersona.whatTheyNeed}.`,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block w-full py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] rounded-xl font-bold uppercase tracking-wider text-xs transition-colors shadow-sm"
+            >
+              Consult Procurement Desk
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. 90-DAY PRACTICAL EXECUTION PLAN (Section 6 of Brief) ───────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
+            <span>🗓️</span> DISCIPLINED EXECUTION ROADMAP
+          </div>
+          <h2 className="font-serif text-3xl font-bold text-[#17233B]">
+            Practical 90-Day Execution Plan
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600">
+            Establishing a repeatable wholesale operation before expanding heavily into speculative global marketplace listings.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          {/* Phase 1 */}
+          <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-wider">
+                  Days 1–30
+                </span>
+                <span className="text-[11px] text-emerald-700 font-bold">Phase 1</span>
+              </div>
+              <h3 className="font-serif font-bold text-xl text-[#17233B]">
+                Prove Supply &amp; Pricing
+              </h3>
+              <ul className="space-y-2 text-stone-600 leading-relaxed list-disc pl-4 text-[11px]">
+                <li>Narrow focus to 6–8 launch SKUs (Kashmir walnuts, almonds, saffron, makhana).</li>
+                <li>Secure comparable quotes from at least 3 credible suppliers per core SKU.</li>
+                <li>Verify samples, NABL grades, packaging, and dispatch SLAs.</li>
+                <li>Establish live landed-cost calculation for Noida, Kashmir, and Patna hubs.</li>
+                <li>Recruit 20–30 prospective commercial buyers for initial paid orders.</li>
+              </ul>
+            </div>
+            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-[11px]">
+              <strong className="text-stone-900 block">Success Measure:</strong>
+              <span className="text-stone-600">Reliable supplier shortlist &amp; confirmed buyer purchase intent.</span>
+            </div>
+          </div>
+
+          {/* Phase 2 */}
+          <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-[#176B68] text-white text-[10px] font-bold uppercase tracking-wider">
+                  Days 31–60
+                </span>
+                <span className="text-[11px] text-[#176B68] font-bold">Phase 2</span>
+              </div>
+              <h3 className="font-serif font-bold text-xl text-[#17233B]">
+                Launch Procurement Experience
+              </h3>
+              <ul className="space-y-2 text-stone-600 leading-relaxed list-disc pl-4 text-[11px]">
+                <li>Make product discovery available before mandatory account creation.</li>
+                <li>Introduce structured RFQs, sample requests, and comparable quotations.</li>
+                <li>Deploy human-assisted managed Procurement Desk for Excel/BOM uploads.</li>
+                <li>Track quote response time, conversion, and gross contribution per order.</li>
+                <li>Direct outreach to commercial bakeries and distributors.</li>
+              </ul>
+            </div>
+            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-[11px]">
+              <strong className="text-stone-900 block">Success Measure:</strong>
+              <span className="text-stone-600">Real paid commercial orders &amp; documented buyer feedback.</span>
+            </div>
+          </div>
+
+          {/* Phase 3 */}
+          <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-[#704B32] text-white text-[10px] font-bold uppercase tracking-wider">
+                  Days 61–90
+                </span>
+                <span className="text-[11px] text-[#704B32] font-bold">Phase 3</span>
+              </div>
+              <h3 className="font-serif font-bold text-xl text-[#17233B]">
+                Create Repeat Purchasing
+              </h3>
+              <ul className="space-y-2 text-stone-600 leading-relaxed list-disc pl-4 text-[11px]">
+                <li>Introduce saved purchase lists and 1-click replenishment requests.</li>
+                <li>Give returning buyers faster quotations and order-history access.</li>
+                <li>Pilot private-label packaging with qualified customer brands.</li>
+                <li>Test initial cross-border export shipments for verified Indian-origin goods.</li>
+                <li>Expand only SKUs with positive gross contribution margins.</li>
+              </ul>
+            </div>
+            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-[11px]">
+              <strong className="text-stone-900 block">Success Measure:</strong>
+              <span className="text-stone-600">Repeat reorder velocity &amp; improving customer acquisition economics.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. WHOLESALE BUSINESS SCENARIO CALCULATOR (Section 7 of Brief) ─────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PriceScenarioCalculator />
+      </section>
+
+      {/* ── 10. CONTEXTUAL ACCOUNT ONBOARDING / SIGN-IN (Preserved & Refactored) ─ */}
+      <section id="business-onboarding" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl border border-stone-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-          {/* Left Split Card: "Let us create your free Nuty Tales Business account" */}
-          <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 space-y-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-stone-200">
+          {/* Left Form (7 cols) */}
+          <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 space-y-6 border-b lg:border-b-0 lg:border-r border-stone-200">
             <div>
-              {/* Step indicator header */}
               <div className="flex items-center gap-3 text-xs mb-4">
                 <span
                   className={`flex items-center gap-1.5 font-bold px-3 py-1 rounded-full ${
@@ -280,28 +1190,28 @@ export default function B2BHomePage() {
                     <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] tracking-tight">
                       {isSignInMode
                         ? 'Sign in to your Nuty Tales Business account'
-                        : 'Let us create your free Nuty Tales Business account'}
+                        : 'Unlock Corporate Net-30 Credit & Saved Quotes'}
                     </h2>
                     <p className="text-xs sm:text-sm text-stone-600">
-                      Access exclusive volume pricing, GST invoice tax credit, and direct orchard allocations.
+                      Save your quotation history, track recurring replenishment schedules, and access negotiated commercial pricing.
                     </p>
                   </div>
 
-                  {/* Multi-Step Onboarding Form */}
-                  <form onSubmit={handleOnboardingNext} className="mt-6 space-y-4">
+                  {/* Multi-Step Form */}
+                  <form onSubmit={handleOnboardingSubmit} className="mt-6 space-y-4 text-xs">
                     {onboardingStep === 1 && (
                       <div className="space-y-4">
                         <div>
                           <label className="block text-xs sm:text-sm font-bold text-[#17233B] mb-1.5">
-                            Enter an email. Work email preferred.
+                            Enter an official work email:
                           </label>
                           <input
                             type="email"
                             required
                             value={workEmail}
                             onChange={(e) => setWorkEmail(e.target.value)}
-                            placeholder="Enter work email address (e.g. procurement@bakery.com)"
-                            className="w-full px-4 py-3 rounded-xl border border-stone-300 text-sm sm:text-base focus:ring-2 focus:ring-[#176B68] focus:border-transparent outline-none bg-stone-50"
+                            placeholder="Enter work email (e.g. procurement@bakery.com)"
+                            className="w-full px-4 py-3 rounded-xl border border-stone-300 text-sm sm:text-base focus:ring-2 focus:ring-[#176B68] outline-none bg-stone-50"
                           />
                         </div>
 
@@ -337,7 +1247,7 @@ export default function B2BHomePage() {
                           type="submit"
                           className="w-full py-3.5 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
                         >
-                          <span>Get started</span>
+                          <span>Continue to Business Details</span>
                           <span>→</span>
                         </button>
                       </div>
@@ -356,7 +1266,7 @@ export default function B2BHomePage() {
                           </button>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div>
                             <label className="block font-bold text-[#17233B] mb-1">
                               Organization / Company Name *
@@ -392,7 +1302,7 @@ export default function B2BHomePage() {
 
                           <div>
                             <label className="block font-bold text-[#17233B] mb-1">
-                              GSTIN (Optional for 18% Credit)
+                              GSTIN (For 100% Tax Credit)
                             </label>
                             <input
                               type="text"
@@ -439,10 +1349,10 @@ export default function B2BHomePage() {
                     )}
 
                     {onboardingStep === 3 && (
-                      <div className="space-y-4 animate-fadeIn text-xs">
+                      <div className="space-y-4 animate-fadeIn">
                         <div>
                           <label className="block font-bold text-[#17233B] mb-2">
-                            Select Commodities Needed (Tick all that apply):
+                            Select Commodities Needed:
                           </label>
                           <div className="grid grid-cols-2 gap-2">
                             {[
@@ -525,7 +1435,7 @@ export default function B2BHomePage() {
                     <span className="text-stone-600">
                       {isSignInMode
                         ? 'New organisation? '
-                        : 'Already a Nuty Tales Business customer? '}
+                        : 'Already registered with Nuty Tales Business? '}
                     </span>
                     <button
                       type="button"
@@ -537,11 +1447,11 @@ export default function B2BHomePage() {
                   </div>
                 </>
               ) : (
-                /* Welcome Confirmation State */
+                /* Welcome Confirmation */
                 <div className="space-y-4 p-6 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-950 animate-fadeIn">
                   <div className="flex items-center gap-2 text-base font-serif font-bold text-emerald-800">
                     <span className="text-2xl">🎉</span>
-                    <span>Nuty Tales Business Account Created &amp; Verified!</span>
+                    <span>Business Account Created &amp; Verified!</span>
                   </div>
                   <p className="text-emerald-900 leading-relaxed">
                     Welcome aboard, <strong>{companyName || 'Corporate Partner'}</strong>. Your commercial wholesale pricing tiers are now unlocked.
@@ -559,7 +1469,7 @@ export default function B2BHomePage() {
                       View Live Wholesale Rates ↓
                     </a>
                     <a
-                      href={whatsappQuoteUrl}
+                      href={`https://wa.me/${whatsappPhone}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-4 py-2 bg-emerald-700 text-white rounded-xl font-bold uppercase text-[11px] tracking-wider"
@@ -571,568 +1481,78 @@ export default function B2BHomePage() {
               )}
             </div>
 
-            {/* Disclaimer & Authority Binding Note (Exact match to Amazon Business screenshot) */}
             <div className="pt-6 border-t border-stone-200 text-[11px] text-stone-500 leading-relaxed">
-              By clicking get started, you agree to Nuty Tales&apos; Conditions of Use, Privacy Notice, and the Business Supply Terms and Conditions. You agree that you are creating this business account on behalf of your organisation and have authority to bind your organisation.
+              By clicking get started, you agree to Nuty Tales Conditions of Use, Privacy Notice, and the Business Supply Terms and Conditions. You agree that you are creating this business account on behalf of your organisation and have authority to bind your organisation.
             </div>
           </div>
 
-          {/* Right Split Card: "Reshape buying for your organisation" (Amazon Business style) */}
+          {/* Right Card: Value Propositions (5 cols) */}
           <div className="lg:col-span-5 p-6 sm:p-10 lg:p-12 bg-[#FAF6EE] flex flex-col justify-between space-y-8">
-            <div className="space-y-8">
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B] leading-tight">
-                Reshape buying for your organisation
-              </h2>
+            <div className="space-y-6">
+              <h3 className="font-serif text-2xl font-bold text-[#17233B] leading-tight">
+                Enterprise Sourcing Benefits
+              </h3>
 
-              <div className="space-y-6">
-                {/* Value Prop 1: Free Delivery */}
+              <div className="space-y-5 text-xs">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-xl flex-shrink-0">
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-lg flex-shrink-0">
                     🚚
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-serif font-bold text-base text-[#17233B]">
-                      Free Delivery on first order
-                    </h3>
-                    <p className="text-xs text-stone-600 leading-relaxed">
-                      Get free insured logistics freight on your first commercial purchase with Nuty Tales Business.
+                  <div className="space-y-0.5">
+                    <h4 className="font-serif font-bold text-sm text-[#17233B]">
+                      Insured Pan-India Logistics
+                    </h4>
+                    <p className="text-stone-600 leading-relaxed">
+                      Scheduled dispatches with live vehicle tracking and transit temperature preservation.
                     </p>
                   </div>
                 </div>
 
-                {/* Value Prop 2: GST Invoice & Bulk Discounts */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-xl flex-shrink-0">
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-lg flex-shrink-0">
                     🏷️
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-serif font-bold text-base text-[#17233B]">
-                      GST Invoice &amp; Bulk Discounts
-                    </h3>
-                    <p className="text-xs text-stone-600 leading-relaxed">
-                      Save up to 18% more with GST input credit and avail transparent tiered wholesale discounts on multi-unit, pallet, and container purchases.
+                  <div className="space-y-0.5">
+                    <h4 className="font-serif font-bold text-sm text-[#17233B]">
+                      100% Tax Credit GST Invoicing
+                    </h4>
+                    <p className="text-stone-600 leading-relaxed">
+                      Full GST input tax credit with verified HSN codes on every commercial invoice.
                     </p>
                   </div>
                 </div>
 
-                {/* Value Prop 3: Business Analytics & RFQ Desk */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-xl flex-shrink-0">
-                    📊
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-center text-lg flex-shrink-0">
+                    🔬
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-serif font-bold text-base text-[#17233B]">
-                      Business Analytics &amp; RFQ Desk
-                    </h3>
-                    <p className="text-xs text-stone-600 leading-relaxed">
-                      Track and monitor spending by your organisation with dynamic charts, batch COA quality test reports, and a dedicated relationship manager.
+                  <div className="space-y-0.5">
+                    <h4 className="font-serif font-bold text-sm text-[#17233B]">
+                      NABL Batch Quality Certificates
+                    </h4>
+                    <p className="text-stone-600 leading-relaxed">
+                      Every dispatched lot includes an authentic Certificate of Analysis from accredited laboratories.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Link */}
-            <div className="pt-6 border-t border-stone-300">
-              <a
-                href="#rfq-terminal"
-                className="text-xs font-bold text-[#176B68] hover:underline flex items-center gap-1.5"
-              >
-                <span>Learn more about Nuty Tales Business Supply</span>
-                <span>→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. ALIBABA-GRADE LIVE WHOLESALE PRICE TIER MATRIX ─────────────────── */}
-      <section id="pricing-matrix" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17233B] text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-              <span>📈</span> ALIBABA-GRADE WHOLESALE COMMODITY BOARD
-            </div>
-            <h2 className="font-serif text-3xl font-bold text-[#17233B]">
-              Transparent Volume Tier Pricing Matrix
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-600">
-              Live factory-direct pricing across volume brackets. All prices per kg, exclusive of GST.
-            </p>
-          </div>
-
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1.5 text-xs">
-            {['All', 'Tree Nuts', 'Saffron', 'Makhana', 'Dried Fruits'].map((cat) => (
+            <div className="pt-6 border-t border-stone-300 text-xs">
               <button
-                key={cat}
                 type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-lg font-bold transition-all border ${
-                  activeCategory === cat
-                    ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
-                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
-                }`}
+                onClick={() => setIsProcurementDeskOpen(true)}
+                className="font-bold text-[#176B68] hover:underline flex items-center gap-1.5"
               >
-                {cat}
+                <span>Have an existing PO or BOM? Upload to Desk</span>
+                <span>→</span>
               </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Commodity Board Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {B2B_COMMODITIES.filter(
-            (c) => activeCategory === 'All' || c.category === activeCategory,
-          ).map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-3xl border border-stone-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-5"
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
-                      {item.origin}
-                    </span>
-                    <h3 className="font-serif font-bold text-lg text-[#17233B]">
-                      {item.name}
-                    </h3>
-                    <span className="text-[10px] text-stone-500 font-mono">{item.code}</span>
-                  </div>
-                  <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded">
-                    MOQ {item.moqKg} kg
-                  </span>
-                </div>
-
-                <div className="p-3 bg-[#FAF6EE] rounded-xl text-xs space-y-1 border border-stone-200">
-                  <div className="flex justify-between">
-                    <span className="text-stone-500">Grade / Spec:</span>
-                    <span className="font-semibold text-stone-800 text-right">{item.grade}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-500">Moisture:</span>
-                    <span className="font-semibold text-stone-800">{item.moisture}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-stone-500">Fulfillment Hub:</span>
-                    <span className="font-semibold text-[#176B68]">{item.dispatchHub}</span>
-                  </div>
-                </div>
-
-                {/* 4-Tier Pricing Ladder */}
-                <div className="space-y-1.5 text-xs">
-                  <div className="flex justify-between items-center py-1 border-b border-stone-100">
-                    <span className="text-stone-600">{item.tierPrices.tier1.label}</span>
-                    <span className="font-bold text-[#17233B]">₹{item.tierPrices.tier1.pricePerKg.toLocaleString('en-IN')}/kg</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1 border-b border-stone-100 bg-emerald-50/50 px-1 rounded">
-                    <span className="text-emerald-900 font-medium">{item.tierPrices.tier2.label}</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] bg-emerald-200 text-emerald-900 px-1 rounded font-bold">
-                        -{item.tierPrices.tier2.savingsPercent}%
-                      </span>
-                      <span className="font-bold text-emerald-800">
-                        ₹{item.tierPrices.tier2.pricePerKg.toLocaleString('en-IN')}/kg
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-1 border-b border-stone-100 bg-emerald-50 px-1 rounded">
-                    <span className="text-emerald-950 font-bold">{item.tierPrices.tier3.label}</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] bg-emerald-300 text-emerald-950 px-1 rounded font-bold">
-                        -{item.tierPrices.tier3.savingsPercent}%
-                      </span>
-                      <span className="font-bold text-emerald-900">
-                        ₹{item.tierPrices.tier3.pricePerKg.toLocaleString('en-IN')}/kg
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-1 bg-amber-50 px-1 rounded">
-                    <span className="text-amber-950 font-bold">{item.tierPrices.container.label}</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] bg-[#C9A45C] text-[#17233B] px-1 rounded font-bold">
-                        -{item.tierPrices.container.savingsPercent}%
-                      </span>
-                      <span className="font-bold text-amber-900">
-                        ₹{item.tierPrices.container.pricePerKg.toLocaleString('en-IN')}/kg
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setRfqCommodityId(item.id)
-                    setRfqCut(item.cuts[0] || 'Standard Cut')
-                    const el = document.getElementById('rfq-terminal')
-                    if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  }}
-                  className="flex-1 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors text-center"
-                >
-                  Configure in RFQ
-                </button>
-                <a
-                  href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                    `Hello Nuty Tales B2B! I would like to request a 500g Commercial Sample Kit for: ${item.name} (${item.code}).`,
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-colors"
-                  title="Request Lab Sample Kit"
-                >
-                  Sample Kit
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 2.5 IMMEDIATE B2B CASHFLOW: 5KG SAMPLE PACK & PROFORMA WIRE DESK ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <CommercialSampleDesk />
-      </section>
-
-      {/* ── 3. INTERACTIVE LIVE RFQ PROCUREMENT TERMINAL ─────────────────────── */}
-      <section id="rfq-terminal" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#17233B] text-white rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#C9A45C]/30 shadow-2xl space-y-8">
-          <div className="max-w-3xl space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#C9A45C] text-[10px] font-bold uppercase tracking-widest">
-              <span>⚡</span> REAL-TIME PROCUREMENT CALCULATOR
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold">
-              Instant B2B Request for Quote (RFQ) Terminal
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-300 font-light">
-              Select your commodity, mechanical cut, packaging format, and order quantity. Live freight, GST tax credit, and net landed cost per kg are calculated instantly.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left: Interactive Configurator (7 cols) */}
-            <form onSubmit={handleRfqQuickSubmit} className="lg:col-span-7 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-stone-300 font-bold mb-1.5">
-                    1. Select Commodity *
-                  </label>
-                  <select
-                    value={rfqCommodityId}
-                    onChange={(e) => {
-                      setRfqCommodityId(e.target.value)
-                      const match = B2B_COMMODITIES.find((c) => c.id === e.target.value)
-                      if (match) setRfqCut(match.cuts[0] || 'Whole')
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-[#10192A] text-white text-xs sm:text-sm focus:ring-2 focus:ring-[#C9A45C] outline-none"
-                  >
-                    {B2B_COMMODITIES.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-stone-300 font-bold mb-1.5">
-                    2. Precision Cut / Form *
-                  </label>
-                  <select
-                    value={rfqCut}
-                    onChange={(e) => setRfqCut(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-[#10192A] text-white text-xs sm:text-sm focus:ring-2 focus:ring-[#C9A45C] outline-none"
-                  >
-                    {selectedCommodity.cuts.map((cut) => (
-                      <option key={cut} value={cut}>
-                        {cut}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-stone-300 font-bold mb-1.5">
-                    3. Packaging Format *
-                  </label>
-                  <select
-                    value={rfqPackaging}
-                    onChange={(e) => setRfqPackaging(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-[#10192A] text-white text-xs sm:text-sm focus:ring-2 focus:ring-[#C9A45C] outline-none"
-                  >
-                    {selectedCommodity.packaging.map((pack) => (
-                      <option key={pack} value={pack}>
-                        {pack}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-stone-300 font-bold mb-1.5">
-                    4. Required Order Volume (kg) *
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="number"
-                      min={selectedCommodity.moqKg}
-                      step={selectedCommodity.category === 'Saffron' ? 0.1 : 10}
-                      value={rfqVolumeKg}
-                      onChange={(e) => setRfqVolumeKg(Number(e.target.value) || selectedCommodity.moqKg)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-[#10192A] text-white text-xs sm:text-sm focus:ring-2 focus:ring-[#C9A45C] outline-none font-bold"
-                    />
-                    <span className="text-stone-400 font-bold uppercase text-[11px]">kg</span>
-                  </div>
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-stone-300 font-bold mb-1.5">
-                    5. Delivery Destination / Plant Hub *
-                  </label>
-                  <select
-                    value={rfqDestination}
-                    onChange={(e) => setRfqDestination(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-[#10192A] text-white text-xs sm:text-sm focus:ring-2 focus:ring-[#C9A45C] outline-none"
-                  >
-                    <option value="Delhi NCR / Noida Hub">Delhi NCR / Noida Hub (Same Day - 24h)</option>
-                    <option value="Mumbai / Pune Industrial Corridor">Mumbai / Pune Industrial Corridor (48 - 72h)</option>
-                    <option value="Bengaluru / Karnataka Hub">Bengaluru / Karnataka Hub (3 - 4 Days)</option>
-                    <option value="Ahmedabad / Gujarat Belt">Ahmedabad / Gujarat Belt (48h)</option>
-                    <option value="Srinagar / Kashmir Direct">Srinagar / Kashmir Direct Orchard (Same Day)</option>
-                    <option value="Patna / Kolkata Eastern Hub">Patna / Kolkata Eastern Hub (24 - 36h)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <button
-                  type="submit"
-                  disabled={isSubmittingRfq}
-                  className="flex-1 py-3.5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
-                >
-                  {isSubmittingRfq ? 'Generating Formal RFQ...' : '⚡ Submit RFQ & Lock Price Online'}
-                </button>
-                <a
-                  href={whatsappQuoteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors shadow-md flex items-center justify-center gap-1.5"
-                >
-                  <span>Chat on WhatsApp</span>
-                  <span>→</span>
-                </a>
-              </div>
-
-              {rfqSuccessMsg && (
-                <div className="p-3 bg-emerald-500/20 text-emerald-300 rounded-xl border border-emerald-500/40 text-xs">
-                  ✓ RFQ Recorded! A formal proforma quotation and NABL specification sheet have been dispatched to our corporate desk.
-                </div>
-              )}
-            </form>
-
-            {/* Right: Live Landed Cost Summary Card (5 cols) */}
-            <div className="lg:col-span-5 bg-[#10192A] rounded-2xl p-6 border border-white/15 space-y-5 text-xs shadow-xl">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C]">
-                  Live Quotation Breakdown
-                </span>
-                <span className="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded font-bold">
-                  Active Tier: {calculatedQuote.tierName}
-                </span>
-              </div>
-
-              <div className="space-y-2.5 text-stone-300">
-                <div className="flex justify-between">
-                  <span>Selected Commodity:</span>
-                  <span className="font-bold text-white text-right">{selectedCommodity.name}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Base Wholesale Rate:</span>
-                  <span className="font-bold text-white">₹{calculatedQuote.tierPrice.toLocaleString('en-IN')} / kg</span>
-                </div>
-                {calculatedQuote.discountPct > 0 && (
-                  <div className="flex justify-between text-emerald-400">
-                    <span>Applied Volume Discount:</span>
-                    <span className="font-bold">-{calculatedQuote.discountPct}% (Save ₹{calculatedQuote.savingsAmount.toLocaleString('en-IN')})</span>
-                  </div>
-                )}
-                <div className="flex justify-between">
-                  <span>Order Quantity:</span>
-                  <span className="font-bold text-white">{rfqVolumeKg} kg</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Subtotal:</span>
-                  <span className="font-bold text-white">₹{calculatedQuote.subtotal.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>GST ({selectedCommodity.gstPercent}% Input Credit):</span>
-                  <span className="font-bold text-white">₹{calculatedQuote.gstAmount.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Insured Logistics ({rfqDestination.split('(')[0].trim()}):</span>
-                  <span className="font-bold text-white">₹{calculatedQuote.freightEstimate.toLocaleString('en-IN')}</span>
-                </div>
-              </div>
-
-              {/* Net Landed Unit Cost Callout */}
-              <div className="p-4 bg-white/5 rounded-xl border border-white/10 space-y-1 text-center">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C9A45C] block">
-                  Net Landed Rate (All Inclusive)
-                </span>
-                <div className="font-serif text-3xl font-bold text-white">
-                  ₹{calculatedQuote.netLandedPerKg.toLocaleString('en-IN')}
-                  <span className="text-xs font-normal text-stone-300"> / kg</span>
-                </div>
-                <span className="text-[10px] text-emerald-400 block">
-                  Total Commercial Invoice: ₹{calculatedQuote.totalWithGst.toLocaleString('en-IN')}
-                </span>
-              </div>
-
-              <div className="text-[10px] text-stone-400 space-y-1">
-                <p>• 100% Tax Deductible with GSTIN Input Credit.</p>
-                <p>• Net-30 credit terms available for verified corporate clients.</p>
-                <p>• Batch COA test certificate shipped with cargo.</p>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 4. ALIBABA TRADE ASSURANCE & VERIFIED CREDENTIALS ─────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-stone-200 p-8 sm:p-12 shadow-sm space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs uppercase font-bold tracking-[0.25em] text-[#704B32]">
-              Global Standard B2B Trust
-            </span>
-            <h2 className="font-serif text-3xl font-bold text-[#17233B]">
-              Nuty Tales Trade Assurance &amp; Quality Guarantee
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-600">
-              Procure with absolute institutional confidence. We eliminate middleman tampering and provide laboratory certification with every consignment.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
-            <div className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2">
-              <span className="text-2xl block">🏅</span>
-              <h3 className="font-serif font-bold text-base text-[#17233B]">100% Origin Guaranteed</h3>
-              <p className="text-stone-600 leading-relaxed">
-                Direct orchard aggregation in Kashmir and Bihar. Zero synthetic bleaching, zero foreign oil blending.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2">
-              <span className="text-2xl block">🔬</span>
-              <h3 className="font-serif font-bold text-base text-[#17233B]">NABL Lab Batch COA</h3>
-              <p className="text-stone-600 leading-relaxed">
-                Every dispatched pallet includes an authentic Certificate of Analysis for moisture, fat, aflatoxin, and microbiotics.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2">
-              <span className="text-2xl block">📦</span>
-              <h3 className="font-serif font-bold text-base text-[#17233B]">Industrial Vacuum Packaging</h3>
-              <p className="text-stone-600 leading-relaxed">
-                High-barrier vacuum sacks and nitrogen-flushed 10kg tins ensure 12+ months of crisp freshness with zero rancidity.
-              </p>
-            </div>
-
-            <div className="p-5 bg-[#FAF6EE] rounded-2xl border border-stone-200 space-y-2">
-              <span className="text-2xl block">🛡️</span>
-              <h3 className="font-serif font-bold text-base text-[#17233B]">Insured Dispatch &amp; Return</h3>
-              <p className="text-stone-600 leading-relaxed">
-                If any batch fails optical or moisture specs agreed upon in your contract, we replace or refund within 48 hours.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. "WHAT DO YOU MAKE?" INTERACTIVE SECTOR DOSSIER ────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
-            Interactive Manufacturing Solutions
-          </span>
-          <h2 className="font-serif text-3xl font-bold text-[#17233B]">
-            What Does Your Organisation Make?
-          </h2>
-          <p className="text-xs sm:text-sm text-stone-600">
-            Select your sector below to view specialized precision cuts, moisture specifications, and contract parameters.
-          </p>
-        </div>
-
-        {/* Sector Tabs */}
-        <div className="flex flex-wrap justify-center gap-2">
-          {INDUSTRIES.slice(0, 8).map((ind) => (
-            <button
-              key={ind.id}
-              type="button"
-              onClick={() => setSelectedIndustry(ind)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border flex items-center gap-2 ${
-                selectedIndustry.id === ind.id
-                  ? 'bg-[#17233B] text-white border-[#17233B] shadow-sm'
-                  : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
-              }`}
-            >
-              <span>{ind.icon}</span>
-              <span>{ind.name}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Selected Sector Profile Card */}
-        <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-          <div className="space-y-2">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#176B68]">
-              {selectedIndustry.categoryLabel} Specifications
-            </span>
-            <h3 className="font-serif text-2xl font-bold text-[#17233B]">
-              {selectedIndustry.name}
-            </h3>
-            <p className="text-stone-600 leading-relaxed">
-              {selectedIndustry.tagline}
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-              <span className="text-[10px] uppercase font-bold text-[#704B32] block">
-                Primary Raw Ingredients:
-              </span>
-              <p className="font-medium text-[#17233B]">{selectedIndustry.primaryProducts.join(', ')}</p>
-            </div>
-            <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-              <span className="text-[10px] uppercase font-bold text-[#704B32] block">
-                Mechanical Cuts Supplied:
-              </span>
-              <p className="font-medium text-[#17233B]">{selectedIndustry.cutTypes.join(', ')}</p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="p-3 bg-[#FAF6EE] rounded-xl border border-stone-200 space-y-1">
-              <span className="text-[10px] uppercase font-bold text-[#704B32] block">
-                Typical Commercial Volume:
-              </span>
-              <p className="font-bold text-[#176B68]">{selectedIndustry.typicalMonthlyKg}</p>
-            </div>
-            <a
-              href="#rfq-terminal"
-              className="inline-block w-full py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-center font-bold uppercase tracking-wider text-[11px] transition-colors"
-            >
-              Request Supply Schedule →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. THREE REGIONAL FULFILLMENT HUBS ─────────────────────────────────── */}
+      {/* ── 11. THREE REGIONAL FULFILLMENT HUBS ─────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs uppercase tracking-[0.25em] text-[#704B32] font-bold">
@@ -1176,6 +1596,22 @@ export default function B2BHomePage() {
           ))}
         </div>
       </section>
+
+      {/* ── Modals & Drawers ─────────────────────────────────────────────────── */}
+      <QualityPassportModal
+        commodity={inspectedCommodity}
+        onClose={() => setInspectedCommodity(null)}
+      />
+
+      <ProcurementDeskModal
+        isOpen={isProcurementDeskOpen}
+        onClose={() => setIsProcurementDeskOpen(false)}
+      />
+
+      <BecomeSupplierModal
+        isOpen={isBecomeSupplierOpen}
+        onClose={() => setIsBecomeSupplierOpen(false)}
+      />
     </div>
   )
 }

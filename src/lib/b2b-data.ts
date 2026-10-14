@@ -1,5 +1,38 @@
 // ─── Nuty Tales Business Supply — B2B Commodities & Wholesale Engine ─────────
-// Dedicated to business.nutytales.com wholesale procurement portal
+// Dedicated to business.nutytales.com wholesale procurement platform
+
+export interface SupplierProfile {
+  id: string
+  name: string
+  type: 'Direct Grower Co-op' | 'Primary Processor' | 'Direct Importer' | 'Aggregator'
+  location: string
+  fssaiNumber: string
+  gstinVerified: boolean
+  physicalAuditStatus: 'Audited & Verified' | 'Audit in Progress'
+  fulfillmentRate: string
+  rating: number
+  leadTimeDays: number
+  annualCapacity: string
+}
+
+export interface QualityPassport {
+  lotNumber: string
+  harvestSeason: string
+  labCertification: 'NABL Certified' | 'GI Tagged & NABL Tested' | 'Export Grade Tested' | 'FSSAI Standard'
+  aflatoxinPpb: string
+  purityPercent: string
+  moistureContent: string
+  oilContent?: string
+  lastTestedDate: string
+  coaAvailable: boolean
+}
+
+export interface PriceConfidence {
+  status: 'Confirmed Spot Rate' | 'Indicative Supplier Quote'
+  lastConfirmedHoursAgo: number
+  validityDays: number
+  confidenceScore: number // 0-100
+}
 
 export interface B2BCommodity {
   id: string
@@ -23,6 +56,10 @@ export interface B2BCommodity {
   gstPercent: number
   hsnCode: string
   featured?: boolean
+  supplier?: SupplierProfile
+  qualityPassport?: QualityPassport
+  priceConfidence?: PriceConfidence
+  suggestedAlternatives?: string[]
 }
 
 export const B2B_COMMODITIES: B2BCommodity[] = [
@@ -48,6 +85,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '08021200',
     featured: true,
+    supplier: {
+      id: 'sup-kashmir-mamra',
+      name: 'Kashmir Valley Orchard Federation',
+      type: 'Direct Grower Co-op',
+      location: 'Pulwama / Shopian, J&K',
+      fssaiNumber: '11024001000492',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '99.4% On-Time',
+      rating: 4.9,
+      leadTimeDays: 2,
+      annualCapacity: '120 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-KMR-MAMRA-2026-A1',
+      harvestSeason: 'Autumn 2025/2026 Season',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: '< 1.0 ppb (Compliant)',
+      purityPercent: '99.85%',
+      moistureContent: '3.9%',
+      oilContent: '53.8% Pure Almond Oil',
+      lastTestedDate: '06 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 2,
+      validityDays: 7,
+      confidenceScore: 98,
+    },
+    suggestedAlternatives: ['california-almonds-independence'],
   },
   {
     id: 'california-almonds-independence',
@@ -71,6 +139,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '08021200',
     featured: true,
+    supplier: {
+      id: 'sup-central-valley',
+      name: 'Pacific Almond Aggregation & Import Terminal',
+      type: 'Direct Importer',
+      location: 'JNPT / Noida Cold Chain Port',
+      fssaiNumber: '10021011000219',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '98.8% On-Time',
+      rating: 4.8,
+      leadTimeDays: 1,
+      annualCapacity: '650 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-CAL-IND-26-88B',
+      harvestSeason: 'California New Crop 2025/2026',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: '< 1.5 ppb (US & FSSAI Compliant)',
+      purityPercent: '99.9%',
+      moistureContent: '4.4%',
+      oilContent: '49.5%',
+      lastTestedDate: '10 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 1,
+      validityDays: 5,
+      confidenceScore: 99,
+    },
+    suggestedAlternatives: ['kashmiri-mamra-almonds'],
   },
   {
     id: 'kashmiri-kagzi-walnut-halves',
@@ -94,6 +193,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '08023200',
     featured: true,
+    supplier: {
+      id: 'sup-kashmir-walnut',
+      name: 'North Kashmir Agro Producers Guild',
+      type: 'Direct Grower Co-op',
+      location: 'Kupwara / Baramulla, J&K',
+      fssaiNumber: '11023002000812',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '99.1% On-Time',
+      rating: 4.9,
+      leadTimeDays: 2,
+      annualCapacity: '180 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-KMR-WAL-26-09C',
+      harvestSeason: 'Fresh Autumn Harvest 2025/2026',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: 'Not Detected (< 0.5 ppb)',
+      purityPercent: '99.7%',
+      moistureContent: '4.1%',
+      oilContent: '64.0% Omega-3 Rich',
+      lastTestedDate: '08 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 3,
+      validityDays: 7,
+      confidenceScore: 97,
+    },
+    suggestedAlternatives: ['kashmiri-mamra-almonds'],
   },
   {
     id: 'kashmir-super-mongra-saffron',
@@ -117,6 +247,36 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '09102010',
     featured: true,
+    supplier: {
+      id: 'sup-pampore-saffron',
+      name: 'Pampore GI Saffron Cultivators Society',
+      type: 'Direct Grower Co-op',
+      location: 'Pampore Plateau, Pulwama, J&K',
+      fssaiNumber: '11024002000301',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '100% On-Time',
+      rating: 5.0,
+      leadTimeDays: 1,
+      annualCapacity: '1.2 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-GI-SAF-PAMPORE-26',
+      harvestSeason: 'November 2025 Reserve Lot',
+      labCertification: 'GI Tagged & NABL Tested',
+      aflatoxinPpb: 'Nil',
+      purityPercent: '100% All-Red Stigma',
+      moistureContent: '6.8%',
+      oilContent: 'Crocin 252 · Safranal 41.2',
+      lastTestedDate: '12 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 4,
+      validityDays: 10,
+      confidenceScore: 100,
+    },
   },
   {
     id: 'cashews-w240-king-jumbo',
@@ -140,6 +300,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '08013210',
     featured: true,
+    supplier: {
+      id: 'sup-coastal-cashews',
+      name: 'Konkan Coast Cashew Processors Consortium',
+      type: 'Primary Processor',
+      location: 'Mangalore / Goa Industrial Corridor',
+      fssaiNumber: '11222333000541',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '98.5% On-Time',
+      rating: 4.8,
+      leadTimeDays: 2,
+      annualCapacity: '400 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-CSH-W240-2026-K1',
+      harvestSeason: 'Spring 2026 Indian Crop',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: '< 1.1 ppb',
+      purityPercent: '99.8%',
+      moistureContent: '4.6%',
+      oilContent: '46.8%',
+      lastTestedDate: '09 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 2,
+      validityDays: 5,
+      confidenceScore: 98,
+    },
+    suggestedAlternatives: ['california-almonds-independence'],
   },
   {
     id: 'phool-makhana-jumbo-6-sutra',
@@ -163,6 +354,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     gstPercent: 5,
     hsnCode: '19041090',
     featured: true,
+    supplier: {
+      id: 'sup-mithila-makhana',
+      name: 'Mithila Lotus Agro Producer Company',
+      type: 'Direct Grower Co-op',
+      location: 'Darbhanga / Madhubani, Bihar',
+      fssaiNumber: '10423001000189',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '99.0% On-Time',
+      rating: 4.9,
+      leadTimeDays: 2,
+      annualCapacity: '250 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-MAK-6SUT-26-04D',
+      harvestSeason: 'Monsoon 2026 Fresh Puffs',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: 'Not Detected',
+      purityPercent: '99.5% Hard Shell Free',
+      moistureContent: '6.9%',
+      oilContent: 'Low Fat (< 0.2%) · High Protein 9.7%',
+      lastTestedDate: '11 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 1,
+      validityDays: 7,
+      confidenceScore: 99,
+    },
+    suggestedAlternatives: ['cashews-w240-king-jumbo'],
   },
   {
     id: 'afghan-green-raisins-kishmish',
@@ -185,6 +407,36 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     dispatchHub: 'Noida HQ Central Hub',
     gstPercent: 5,
     hsnCode: '08062010',
+    supplier: {
+      id: 'sup-afghan-raisins',
+      name: 'Kandahar Sun-Dried Fruit Exporters',
+      type: 'Direct Importer',
+      location: 'Attari Border / Noida Central Depot',
+      fssaiNumber: '10023011000954',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '97.9% On-Time',
+      rating: 4.7,
+      leadTimeDays: 2,
+      annualCapacity: '300 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-AFG-RAIS-26-11',
+      harvestSeason: 'Autumn 2025/2026 Lot',
+      labCertification: 'Export Grade Tested',
+      aflatoxinPpb: '< 1.8 ppb',
+      purityPercent: '99.4%',
+      moistureContent: '13.2%',
+      lastTestedDate: '04 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 5,
+      validityDays: 5,
+      confidenceScore: 95,
+    },
+    suggestedAlternatives: ['afghani-anjeer-jumbo-figs'],
   },
   {
     id: 'afghani-anjeer-jumbo-figs',
@@ -207,6 +459,36 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     dispatchHub: 'Noida HQ Central Hub',
     gstPercent: 5,
     hsnCode: '08042000',
+    supplier: {
+      id: 'sup-zabul-figs',
+      name: 'Zabul Valley Horticulture Guild',
+      type: 'Direct Importer',
+      location: 'Noida Central Depot',
+      fssaiNumber: '10023011000954',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '98.2% On-Time',
+      rating: 4.8,
+      leadTimeDays: 2,
+      annualCapacity: '150 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-FIG-AFG-26-7A',
+      harvestSeason: 'Late Summer 2025/2026',
+      labCertification: 'Export Grade Tested',
+      aflatoxinPpb: '< 1.4 ppb',
+      purityPercent: '99.6%',
+      moistureContent: '15.1%',
+      lastTestedDate: '07 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 6,
+      validityDays: 7,
+      confidenceScore: 96,
+    },
+    suggestedAlternatives: ['afghan-green-raisins-kishmish'],
   },
   {
     id: 'iranian-super-long-pistachios',
@@ -229,6 +511,37 @@ export const B2B_COMMODITIES: B2BCommodity[] = [
     dispatchHub: 'Noida HQ Central Hub',
     gstPercent: 5,
     hsnCode: '08025100',
+    supplier: {
+      id: 'sup-rafsanjan-pista',
+      name: 'Rafsanjan Pistachio Growers Trading House',
+      type: 'Direct Importer',
+      location: 'Nhava Sheva / Noida Cold Storage',
+      fssaiNumber: '10022011000678',
+      gstinVerified: true,
+      physicalAuditStatus: 'Audited & Verified',
+      fulfillmentRate: '98.9% On-Time',
+      rating: 4.9,
+      leadTimeDays: 2,
+      annualCapacity: '280 MT',
+    },
+    qualityPassport: {
+      lotNumber: 'LOT-IRN-PIS-26-03',
+      harvestSeason: 'Autumn 2025/2026 Batch',
+      labCertification: 'NABL Certified',
+      aflatoxinPpb: '< 1.0 ppb (Strict EU & FSSAI Standards)',
+      purityPercent: '99.9%',
+      moistureContent: '4.5%',
+      oilContent: '52.1%',
+      lastTestedDate: '05 Oct 2026',
+      coaAvailable: true,
+    },
+    priceConfidence: {
+      status: 'Confirmed Spot Rate',
+      lastConfirmedHoursAgo: 2,
+      validityDays: 5,
+      confidenceScore: 98,
+    },
+    suggestedAlternatives: ['cashews-w240-king-jumbo'],
   },
 ]
 
@@ -282,11 +595,78 @@ export const B2B_HUBS: B2BHub[] = [
   },
 ]
 
+export interface BuyerPersona {
+  id: string
+  role: string
+  whatTheyNeed: string
+  nutyTalesOffer: string
+  typicalMoq: string
+  keyBenefit: string
+  icon: string
+}
+
+export const BUYER_PERSONAS: BuyerPersona[] = [
+  {
+    id: 'small-retailer',
+    role: 'Small Retailer & Grocery',
+    whatTheyNeed: 'Low initial commitment & fresh inventory',
+    nutyTalesOffer: 'Smaller wholesale lots (20-50 kg) & pre-tested sample kits',
+    typicalMoq: '20 - 50 kg',
+    keyBenefit: 'Preserve working capital without paying retail distributor markups',
+    icon: '🏪',
+  },
+  {
+    id: 'wholesaler',
+    role: 'Wholesaler or Distributor',
+    whatTheyNeed: 'Better gross margins & repeat availability',
+    nutyTalesOffer: 'Tiered volume pricing, container/truckload runs & repeat contracts',
+    typicalMoq: '1,000 - 5,000 kg',
+    keyBenefit: 'Guaranteed supply allocations with predictable price locks',
+    icon: '🚛',
+  },
+  {
+    id: 'horeca',
+    role: 'Hotel, Restaurant or Bakery (HORECA)',
+    whatTheyNeed: 'Consistent mechanical cuts & zero rancidity',
+    nutyTalesOffer: 'Precision sliced, slivered & diced cuts with recurring deliveries',
+    typicalMoq: '100 - 500 kg',
+    keyBenefit: 'Zero kitchen prep labor + certified moisture specs for baking stability',
+    icon: '🥐',
+  },
+  {
+    id: 'private-label',
+    role: 'D2C or Private-Label Brand',
+    whatTheyNeed: 'Turnkey product sourcing & custom packaging',
+    nutyTalesOffer: 'Custom pouch sizes, nitrogen tins, label specifications & co-packing',
+    typicalMoq: '250 - 1,000 kg',
+    keyBenefit: 'Launch consumer brand SKUs with certified lab COA on back-of-pack',
+    icon: '🏷️',
+  },
+  {
+    id: 'corporate',
+    role: 'Corporate Gifting Buyer',
+    whatTheyNeed: 'Multiple commodities & predictable fulfilment',
+    nutyTalesOffer: 'Consolidated multi-SKU quotation, business invoicing & pan-India logistics',
+    typicalMoq: '50 - 500 kg',
+    keyBenefit: '100% GST input tax credit + premium aesthetic packaging',
+    icon: '🎁',
+  },
+  {
+    id: 'international',
+    role: 'International Importer',
+    whatTheyNeed: 'Export documentation & freight clarity',
+    nutyTalesOffer: 'Export-ready phytosanitary certificates, Incoterms (FOB/CIF) & port stuffing',
+    typicalMoq: '2,500 - 10,000 kg',
+    keyBenefit: 'Direct Indian-origin supply with complete origin provenance proof',
+    icon: '🌐',
+  },
+]
+
 export const B2B_NAV_LINKS = [
   { label: 'Products', href: '/catalog', badge: 'Live Rates' },
   { label: 'Suppliers', href: '/#suppliers' },
   { label: 'Categories', href: '/#categories' },
-  { label: 'RFQ', href: '/rfq', badge: 'Instant Freight' },
+  { label: 'RFQ Comparison', href: '/rfq', badge: 'Instant Freight' },
   { label: 'Orders', href: '/orders' },
-  { label: 'Procurement', href: '/replenishment', badge: 'Contracts' },
+  { label: 'Procurement Desk', href: '/replenishment', badge: 'White Glove' },
 ]

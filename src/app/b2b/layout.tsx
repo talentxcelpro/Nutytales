@@ -4,11 +4,11 @@ import B2BShell from '@/components/b2b/B2BShell'
 export const metadata: Metadata = {
   metadataBase: new URL('https://business.nutytales.com'),
   title: {
-    default: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
+    default: 'Nuty Tales Business — Wholesale Procurement, Without the Guesswork',
     template: '%s | Nuty Tales Business',
   },
   description:
-    'Direct farm-to-enterprise procurement portal for commercial bakeries, FMCG brands, HORECA, and institutional buyers. Source better, supply smarter, grow together.',
+    'Wholesale B2B procurement platform. Compare verified supplier quotes, calculate landed costs, inspect NABL quality lot passports, and arrange reliable delivery across India and globally.',
   icons: {
     icon: [
       { url: 'https://nutytales.com/favicon.ico', sizes: 'any' },

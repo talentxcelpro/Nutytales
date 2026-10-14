@@ -2,13 +2,15 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { B2B_COMMODITIES } from '@/lib/b2b-data'
+import { B2B_COMMODITIES, B2BCommodity } from '@/lib/b2b-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
+import QualityPassportModal from '@/components/b2b/QualityPassportModal'
 
 export default function B2BCatalogPage() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
+  const [inspectedCommodity, setInspectedCommodity] = useState<B2BCommodity | null>(null)
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const categories = ['All', 'Tree Nuts', 'Saffron', 'Makhana', 'Dried Fruits']
@@ -34,7 +36,7 @@ export default function B2BCatalogPage() {
             Commercial Wholesale Commodities
           </h1>
           <p className="text-xs sm:text-sm text-stone-600 max-w-2xl">
-            Live wholesale rates across tree nuts, GI-tagged Kashmiri saffron, Mithila makhana, and dried fruits. Cleaned, machine-graded, and moisture-controlled for industrial production.
+            Live wholesale rates across tree nuts, GI-tagged Kashmiri saffron, Mithila makhana, and dried fruits. Cleaned, machine-graded, and moisture-controlled for industrial production with digital Lot Quality Passports.
           </p>
         </div>
 
@@ -44,8 +46,8 @@ export default function B2BCatalogPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search commodity or grade..."
-              className="px-4 py-2.5 pl-9 rounded-xl border border-stone-300 text-xs sm:text-sm w-full sm:w-64 focus:ring-2 focus:ring-[#176B68] outline-none bg-white"
+              placeholder="Search commodity, origin, grade..."
+              className="px-4 py-2.5 pl-9 rounded-xl border border-stone-300 text-xs sm:text-sm w-full sm:w-64 focus:ring-2 focus:ring-[#176B68] outline-none bg-white font-medium"
             />
             <span className="absolute left-3 top-2.5 text-stone-400 text-sm">🔍</span>
           </div>
@@ -104,6 +106,28 @@ export default function B2BCatalogPage() {
                 </span>
               </div>
 
+              {/* Verified Supplier & Price Confidence Badge */}
+              <div className="space-y-1.5 text-xs">
+                <div className="flex items-center justify-between p-2 rounded-xl bg-stone-50 border border-stone-200 text-[11px]">
+                  <span className="flex items-center gap-1.5 font-bold text-emerald-800">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>{item.priceConfidence?.status || 'Confirmed Spot Rate'}</span>
+                  </span>
+                  <span className="text-[10px] text-stone-500">
+                    Checked {item.priceConfidence?.lastConfirmedHoursAgo || 2}h ago
+                  </span>
+                </div>
+
+                {item.supplier && (
+                  <div className="p-2.5 rounded-xl bg-[#FAF6EE] border border-stone-200 text-[11px] flex justify-between items-center">
+                    <span className="font-semibold text-stone-800">{item.supplier.name}</span>
+                    <span className="text-[10px] text-emerald-700 font-bold">
+                      ✓ {item.supplier.physicalAuditStatus}
+                    </span>
+                  </div>
+                )}
+              </div>
+
               {/* Spec Overview */}
               <div className="p-3.5 bg-[#FAF6EE] rounded-2xl border border-stone-200 text-xs space-y-1.5">
                 <div className="flex justify-between">
@@ -158,23 +182,33 @@ export default function B2BCatalogPage() {
             </div>
 
             {/* CTAs */}
-            <div className="pt-2 flex gap-2">
-              <Link
-                href={`/b2b/rfq?commodity=${item.id}`}
-                className="flex-1 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors text-center"
-              >
-                Request Quote
-              </Link>
+            <div className="space-y-2 pt-2 text-xs">
+              <div className="flex gap-2">
+                <Link
+                  href={`/b2b/rfq?commodity=${item.id}`}
+                  className="flex-1 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider transition-colors text-center"
+                >
+                  Configure RFQ
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setInspectedCommodity(item)}
+                  className="px-3 py-2.5 bg-white border border-stone-300 hover:bg-stone-50 text-stone-800 rounded-xl font-bold transition-colors"
+                  title="Inspect Quality Passport & Lab Assay"
+                >
+                  🛡️ Passport
+                </button>
+              </div>
+
               <a
                 href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
                   `Hello Nuty Tales B2B! I would like to request a 500g Commercial Sample Kit & Specification Sheet for: ${item.name} (${item.code}).`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-colors"
-                title="Request 500g Lab Sample"
+                className="block w-full py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl font-semibold text-center transition-colors text-[11px]"
               >
-                Sample Kit
+                Request 500g Sample Kit
               </a>
             </div>
           </div>
@@ -183,6 +217,12 @@ export default function B2BCatalogPage() {
 
       {/* Immediate Cashflow: 5kg Quality Pack & Proforma Wire Desk */}
       <CommercialSampleDesk />
+
+      {/* Quality Passport Modal */}
+      <QualityPassportModal
+        commodity={inspectedCommodity}
+        onClose={() => setInspectedCommodity(null)}
+      />
     </div>
   )
 }
