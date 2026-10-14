@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import {
   getStoredRfqs,
@@ -16,11 +17,12 @@ import {
 } from '@/lib/b2b-procurement-store'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
-// Screenshot 6-Vendor Grid Seed matching exact layout and colors
+// Screenshot 6-Vendor Grid with Real Product Photos, Pricing, and Verified Registry
 interface ScreenshotVendor {
   id: string
   code: string
   avatarBg: string
+  image: string
   name: string
   category: string
   status: 'Approved' | 'Pending' | 'Under Review'
@@ -28,87 +30,128 @@ interface ScreenshotVendor {
   deliveriesCount: number
   rating: number
   totalSpend: string
+  ratePerKg: number
+  landedPerKg: number
+  fssaiNumber: string
+  lotNumber: string
+  moqKg: number
   tags: string[]
 }
 
 const SCREENSHOT_VENDORS: ScreenshotVendor[] = [
   {
-    id: 'v-apex',
+    id: 'v-walnuts',
     code: 'SC',
     avatarBg: 'bg-[#1E3A8A] text-white',
-    name: 'Srinagar Agri Orchards & Kernels',
-    category: 'Raw Tree Nuts & Processed Kernels',
+    image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+    name: 'North Kashmir Agro Producers Guild',
+    category: 'Kashmiri Kagzi Walnuts (Snow-White Halves 80%+)',
     status: 'Approved',
-    location: 'Srinagar, J&K',
+    location: 'Kupwara / Baramulla, J&K',
     deliveriesCount: 142,
     rating: 4.9,
     totalSpend: '₹42.5L',
-    tags: ['Walnuts', 'Kagzi', 'Halves'],
+    ratePerKg: 1080,
+    landedPerKg: 1142,
+    fssaiNumber: '11023002000812',
+    lotNumber: 'LOT-KMR-WAL-26-09C',
+    moqKg: 20,
+    tags: ['Walnuts', 'Kagzi Halves', 'NABL Lot 09C'],
   },
   {
-    id: 'v-rk',
+    id: 'v-almonds',
     code: 'PA',
     avatarBg: 'bg-[#0E7490] text-white',
-    name: 'Pacific Almond Aggregation Hub',
-    category: 'Direct California Import Terminal',
+    image: '/images/almonds-pouch-250g.jpg',
+    name: 'Pacific Almond Aggregation & Import Terminal',
+    category: 'California Almonds (Extra #1, Sliced 1.0mm)',
     status: 'Approved',
-    location: 'Noida, NCR',
+    location: 'JNPT / Noida Cold Hub',
     deliveriesCount: 94,
     rating: 4.8,
     totalSpend: '₹35.2L',
-    tags: ['Almonds', 'Nonpareil', 'Sliced'],
+    ratePerKg: 670,
+    landedPerKg: 714,
+    fssaiNumber: '10021011000219',
+    lotNumber: 'LOT-CAL-IND-26-88B',
+    moqKg: 50,
+    tags: ['Almonds', 'Nonpareil 23/25', 'Sliced 1.0mm'],
   },
   {
-    id: 'v-um',
+    id: 'v-makhana',
     code: 'ML',
     avatarBg: 'bg-[#15803D] text-white',
-    name: 'Mithila Lotus Makhana Co-op',
-    category: 'GI-Tagged Lotus Seed Processing',
+    image: '/images/makhana-pouch-250g.jpg',
+    name: 'Mithila Lotus Agro Producer Company',
+    category: 'GI Mithila Makhana (6+ Sutra Jumbo Puff)',
     status: 'Pending',
-    location: 'Darbhanga, BR',
+    location: 'Darbhanga, Bihar',
     deliveriesCount: 64,
     rating: 4.7,
     totalSpend: '₹28.4L',
-    tags: ['Makhana', 'Jumbo', 'Puff'],
+    ratePerKg: 690,
+    landedPerKg: 725,
+    fssaiNumber: '10423001000184',
+    lotNumber: 'LOT-MAK-6SUT-26-04D',
+    moqKg: 20,
+    tags: ['Makhana', '6+ Sutra', 'Hard-Shell Free'],
   },
   {
-    id: 'v-nl',
+    id: 'v-reefer',
     code: 'NL',
     avatarBg: 'bg-[#C2410C] text-white',
-    name: 'Northstar Reefer Logistics Hub',
-    category: '14°C Cold-Chain Freight & Line Haul',
+    image: '/images/kashmir-orchard-estate.jpg',
+    name: 'Northstar Reefer Logistics Line',
+    category: '14°C Cold-Chain Reefer Line & Fleet Telemetry',
     status: 'Approved',
-    location: 'Noida, NCR',
+    location: 'Noida HQ Logistics Port',
     deliveriesCount: 310,
     rating: 4.9,
     totalSpend: '₹12.4L',
-    tags: ['Reefer', 'GPS Track', 'Cold Chain'],
+    ratePerKg: 12,
+    landedPerKg: 12,
+    fssaiNumber: '10022011000888',
+    lotNumber: 'TRK-REEFER-9844-DEL',
+    moqKg: 100,
+    tags: ['14°C Reefer', 'GPS Track', 'POD Digital'],
   },
   {
-    id: 'v-pp',
+    id: 'v-saffron',
     code: 'PS',
     avatarBg: 'bg-[#6D28D9] text-white',
-    name: 'Pampore Royal Saffron Syndicate',
-    category: 'GI Grade A1 Pure Mongra Filaments',
+    image: '/images/saffron-threads-macro.jpg',
+    name: 'Pampore GI Saffron Cultivators Society',
+    category: 'Royal Kashmiri Mongra Saffron (Crocin > 240)',
     status: 'Approved',
-    location: 'Pampore, J&K',
+    location: 'Pampore Plateau, J&K',
     deliveriesCount: 38,
-    rating: 4.9,
+    rating: 5.0,
     totalSpend: '₹21.5L',
-    tags: ['Saffron', 'Mongra', 'Grade A1'],
+    ratePerKg: 260000,
+    landedPerKg: 262500,
+    fssaiNumber: '11024002000301',
+    lotNumber: 'LOT-GI-SAF-PAMPORE-26',
+    moqKg: 0.1,
+    tags: ['GI Saffron', 'Crocin 252', 'Grade A1'],
   },
   {
-    id: 'v-di',
+    id: 'v-cashews',
     code: 'DI',
     avatarBg: 'bg-[#B91C1C] text-white',
-    name: 'Deccan Cashew & Dry Fruit Guild',
-    category: 'King Jumbo W240 & Splits',
+    image: '/images/cashews-w180-macro.jpg',
+    name: 'Konkan Coast Cashew Processors Consortium',
+    category: 'King Jumbo W240 & Clean Splits (JH)',
     status: 'Approved',
-    location: 'Mangalore, KA',
+    location: 'Mangalore / Goa Belt',
     deliveriesCount: 178,
-    rating: 4.7,
+    rating: 4.8,
     totalSpend: '₹19.8L',
-    tags: ['Cashews', 'W240', 'Splits'],
+    ratePerKg: 760,
+    landedPerKg: 808,
+    fssaiNumber: '11222333000541',
+    lotNumber: 'LOT-CSH-W240-2026-K1',
+    moqKg: 25,
+    tags: ['Cashews W240', 'King Jumbo', 'Vacuum Tin'],
   },
 ]
 
@@ -412,15 +455,24 @@ export default function B2BProcurementDashboardPage() {
                 key={vendor.id}
                 className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between space-y-4"
               >
-                {/* Top Row: Avatar + Name + Status */}
+                {/* Top Row: Avatar + Real Product Photo + Name + Status */}
                 <div>
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
-                      {/* Avatar Square */}
-                      <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xs tracking-wider flex-shrink-0 shadow-2xs ${vendor.avatarBg}`}
-                      >
-                        {vendor.code}
+                      {/* Real Product Photo Thumbnail */}
+                      <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-stone-200 flex-shrink-0 bg-stone-100 shadow-2xs group">
+                        <Image
+                          src={vendor.image}
+                          alt={vendor.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                        <span
+                          className={`absolute bottom-0 right-0 px-1 py-0.2 rounded-tl text-[8px] font-bold ${vendor.avatarBg}`}
+                        >
+                          {vendor.code}
+                        </span>
                       </div>
 
                       {/* Name & Category */}
@@ -428,7 +480,12 @@ export default function B2BProcurementDashboardPage() {
                         <div className="font-bold text-stone-900 text-xs sm:text-sm leading-snug">
                           {vendor.name}
                         </div>
-                        <div className="text-[11px] text-stone-500 mt-0.5">{vendor.category}</div>
+                        <div className="text-[11px] text-stone-500 mt-0.5 line-clamp-1">
+                          {vendor.category}
+                        </div>
+                        <div className="text-[9px] text-[#C9A45C] font-mono mt-0.5">
+                          FSSAI Lic. #{vendor.fssaiNumber} · {vendor.lotNumber}
+                        </div>
                       </div>
                     </div>
 
@@ -445,53 +502,69 @@ export default function B2BProcurementDashboardPage() {
                   </div>
 
                   {/* 2x2 Details Grid (Location, Deliveries, Rating, Total Spend) */}
-                  <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 pt-3.5 mt-3 border-t border-stone-100 text-xs">
+                  <div className="grid grid-cols-2 gap-y-2 gap-x-4 pt-3 mt-2.5 border-t border-stone-100 text-xs">
                     <div>
-                      <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      <div className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">
                         LOCATION
                       </div>
-                      <div className="font-semibold text-stone-800 text-[11px] mt-0.5">
+                      <div className="font-semibold text-stone-800 text-[11px]">
                         {vendor.location}
                       </div>
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      <div className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">
                         RATING
                       </div>
-                      <div className="font-semibold text-stone-800 text-[11px] mt-0.5 flex items-center gap-1">
+                      <div className="font-semibold text-stone-800 text-[11px] flex items-center gap-1">
                         <span className="text-amber-500">★</span>
                         <span>{vendor.rating.toFixed(1)}</span>
                       </div>
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      <div className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">
                         DELIVERIES
                       </div>
-                      <div className="font-bold font-mono text-stone-900 text-xs mt-0.5">
-                        {vendor.deliveriesCount}
+                      <div className="font-bold font-mono text-stone-900 text-xs">
+                        {vendor.deliveriesCount} orders
                       </div>
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      <div className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">
                         TOTAL SPEND
                       </div>
-                      <div className="font-bold font-mono text-stone-900 text-xs mt-0.5">
+                      <div className="font-bold font-mono text-stone-900 text-xs">
                         {vendor.totalSpend}
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Real Pricing Strip (Ex-Hub & Landed 5% GST) */}
+                  <div className="mt-2.5 pt-2 border-t border-stone-100 flex items-center justify-between text-xs bg-stone-50/70 p-2 rounded-lg">
+                    <div>
+                      <span className="text-[9px] text-stone-400 uppercase font-bold block">Ex-Hub Spot Rate</span>
+                      <span className="font-mono font-bold text-stone-900 text-xs">
+                        ₹{vendor.ratePerKg.toLocaleString('en-IN')}/kg
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[9px] text-emerald-800 uppercase font-bold block">Est. Landed (5% GST)</span>
+                      <span className="font-mono font-bold text-emerald-700 text-xs">
+                        ₹{vendor.landedPerKg.toLocaleString('en-IN')}/kg
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Row: Tags + "Get Quote" Button */}
-                <div className="flex items-center justify-between gap-2 pt-2 border-t border-stone-100">
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-stone-100">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     {vendor.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 bg-stone-100 text-stone-600 rounded text-[10px] font-medium"
+                        className="px-2 py-0.5 bg-stone-100 text-stone-600 rounded text-[9px] font-medium"
                       >
                         {tag}
                       </span>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   getStoredNotifications,
@@ -178,16 +179,20 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
             </svg>
           </button>
 
-          <Link href="/b2b/dashboard" className="flex items-center gap-2">
-            {/* Orange Square Logo Icon matching screenshot */}
-            <div className="w-7 h-7 rounded-lg bg-[#FF6B00] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
+          <Link href="/b2b/dashboard" className="flex items-center gap-2.5 group">
+            <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white/10 p-0.5 border border-white/20 shadow-xs flex-shrink-0 group-hover:scale-105 transition-transform">
+              <Image
+                src="/images/logo.jpg"
+                alt="Nuty Tales"
+                fill
+                className="object-contain rounded-md"
+                sizes="32px"
+                priority
+              />
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="font-bold text-white text-sm tracking-tight lowercase">plasma</span>
-              <span className="font-light text-stone-300 text-sm tracking-tight lowercase">workflow</span>
+              <span className="font-bold text-white text-sm tracking-tight">nuty tales</span>
+              <span className="font-light text-[#FF6B00] text-sm tracking-tight italic">business</span>
             </div>
           </Link>
         </div>

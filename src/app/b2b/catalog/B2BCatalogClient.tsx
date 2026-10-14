@@ -2,10 +2,21 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { B2B_COMMODITIES, B2BCommodity } from '@/lib/b2b-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
 import QualityPassportModal from '@/components/b2b/QualityPassportModal'
+
+const getCommodityImage = (id: string) => {
+  if (id.includes('mamra')) return '/images/mamra-almonds-pouch-250g.jpg'
+  if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.jpg'
+  if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.jpg'
+  if (id.includes('saffron') || id.includes('kesar')) return '/images/saffron-threads-macro.jpg'
+  if (id.includes('makhana')) return '/images/makhana-pouch-250g.jpg'
+  if (id.includes('cashew')) return '/images/cashews-w180-macro.jpg'
+  return '/images/almonds-pouch-250g.jpg'
+}
 
 export default function B2BCatalogPage() {
   const [activeCategory, setActiveCategory] = useState('All')
@@ -87,18 +98,29 @@ export default function B2BCatalogPage() {
             className="bg-white rounded-3xl border border-stone-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-6"
           >
             <div className="space-y-4">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
-                    {item.origin}
-                  </span>
-                  <h3 className="font-serif font-bold text-lg text-[#17233B] leading-snug">
-                    {item.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-1 text-[10px] text-stone-500 font-mono">
-                    <span>{item.code}</span>
-                    <span>•</span>
-                    <span>HSN: {item.hsnCode}</span>
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-stone-200 bg-stone-100 flex-shrink-0 shadow-2xs">
+                    <Image
+                      src={getCommodityImage(item.id)}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                      {item.origin}
+                    </span>
+                    <h3 className="font-serif font-bold text-base text-[#17233B] leading-snug">
+                      {item.name}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-0.5 text-[10px] text-stone-500 font-mono">
+                      <span>{item.code}</span>
+                      <span>•</span>
+                      <span>HSN: {item.hsnCode}</span>
+                    </div>
                   </div>
                 </div>
                 <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded flex-shrink-0">

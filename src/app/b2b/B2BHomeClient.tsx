@@ -77,6 +77,17 @@ export default function B2BHomePage() {
     return 10
   }
 
+  // ── Real Product Image Resolver ───────────────────────────────────────────
+  const getCommodityImage = (id: string) => {
+    if (id.includes('mamra')) return '/images/mamra-almonds-pouch-250g.jpg'
+    if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.jpg'
+    if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.jpg'
+    if (id.includes('saffron') || id.includes('kesar')) return '/images/saffron-threads-macro.jpg'
+    if (id.includes('makhana')) return '/images/makhana-pouch-250g.jpg'
+    if (id.includes('cashew')) return '/images/cashews-w180-macro.jpg'
+    return '/images/almonds-pouch-250g.jpg'
+  }
+
   // ── Natural Search Parsing & Filtering ────────────────────────────────────
   const { filteredCommodities, parsedSearchFeedback, suggestedAlternatives } = useMemo(() => {
     const query = naturalSearchQuery.toLowerCase().trim()
@@ -374,101 +385,157 @@ export default function B2BHomePage() {
           )}
         </div>
 
-        {/* ── 3. LIVE COMMODITY EX-HUB SPOT TICKER CARDS (4 Cards) ─────────────── */}
+        {/* ── 3. LIVE COMMODITY EX-HUB SPOT TICKER CARDS (4 Real Commodities) ── */}
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             {/* Card 1: California Almonds */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-50 text-blue-800">
-                  Import Hub
-                </span>
-                <span className="text-[10px] text-emerald-600 font-bold">● In Stock</span>
+            <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-50 text-blue-800">
+                    Import Hub
+                  </span>
+                  <span className="text-[10px] text-emerald-600 font-bold">● In Stock (Noida)</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 flex-shrink-0">
+                    <Image
+                      src="/images/almonds-pouch-250g.jpg"
+                      alt="California Almonds"
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-900 text-xs">California Almonds</div>
+                    <div className="text-[10px] text-slate-500">Nonpareil Extra #1 · Sliced 1.0mm</div>
+                    <div className="text-[9px] text-[#C9A45C] font-mono">FSSAI #10021011000219</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-slate-900 text-xs">California Almonds (Sliced)</div>
-                <div className="text-[11px] text-slate-500">Nonpareil Extra #1 · 1.0mm cut</div>
-              </div>
-              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+              <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
                 <div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="text-[9px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
                   <div className="font-mono font-bold text-slate-900 text-sm">₹670 / kg</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-slate-400">MOQ 250 kg</div>
-                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹714</div>
+                  <div className="text-[9px] text-slate-400">MOQ 50 kg</div>
+                  <div className="text-[10px] text-emerald-700 font-mono font-semibold">Landed ~₹714</div>
                 </div>
               </div>
             </div>
 
             {/* Card 2: Kashmiri Walnuts */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-50 text-amber-800">
-                  Direct Orchard
-                </span>
-                <span className="text-[10px] text-emerald-600 font-bold">● Fresh Harvest</span>
+            <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-50 text-amber-800">
+                    Direct Orchard
+                  </span>
+                  <span className="text-[10px] text-emerald-600 font-bold">● Fresh Crop (Kashmir)</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 flex-shrink-0">
+                    <Image
+                      src="/images/kashmir-kagzi-akhrot-250g.jpg"
+                      alt="Kashmiri Kagzi Walnuts"
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-900 text-xs">Kashmiri Kagzi Walnuts</div>
+                    <div className="text-[10px] text-slate-500">Snow-White Halves (80%+)</div>
+                    <div className="text-[9px] text-[#C9A45C] font-mono">FSSAI #11023002000812</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-slate-900 text-xs">Kashmiri Kagzi Walnuts</div>
-                <div className="text-[11px] text-slate-500">Snow-White Halves (80%+)</div>
-              </div>
-              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+              <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
                 <div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
-                  <div className="font-mono font-bold text-slate-900 text-sm">₹950 / kg</div>
+                  <div className="text-[9px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹1,080 / kg</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-slate-400">MOQ 100 kg</div>
-                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹985</div>
+                  <div className="text-[9px] text-slate-400">MOQ 20 kg</div>
+                  <div className="text-[10px] text-emerald-700 font-mono font-semibold">Landed ~₹1,135</div>
                 </div>
               </div>
             </div>
 
             {/* Card 3: Kashmiri Saffron */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-purple-50 text-purple-800">
-                  GI Certified
-                </span>
-                <span className="text-[10px] text-purple-600 font-bold">● Crocin &gt; 250</span>
+            <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-purple-50 text-purple-800">
+                    GI Certified
+                  </span>
+                  <span className="text-[10px] text-purple-600 font-bold">● Crocin &gt; 240</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 flex-shrink-0">
+                    <Image
+                      src="/images/saffron-threads-macro.jpg"
+                      alt="Royal Kashmiri Mongra Saffron"
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-900 text-xs">Royal Kashmiri Saffron</div>
+                    <div className="text-[10px] text-slate-500">Pure Red Mongra Filaments</div>
+                    <div className="text-[9px] text-[#C9A45C] font-mono">FSSAI #11024002000301</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-slate-900 text-xs">Royal Kashmiri Mongra Saffron</div>
-                <div className="text-[11px] text-slate-500">Pure Red Stigma Filaments</div>
-              </div>
-              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+              <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
                 <div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="text-[9px] text-slate-400 uppercase font-bold">Bulk Lot Rate</div>
                   <div className="font-mono font-bold text-slate-900 text-sm">₹2,60,000 / kg</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-slate-400">MOQ 1.0 kg</div>
-                  <div className="text-[10px] text-slate-500 font-mono">Air Express</div>
+                  <div className="text-[9px] text-slate-400">MOQ 100g (₹260/g)</div>
+                  <div className="text-[10px] text-purple-700 font-mono font-semibold">Air Express</div>
                 </div>
               </div>
             </div>
 
             {/* Card 4: Mithila Makhana */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-50 text-emerald-800">
-                  GI Producer Co
-                </span>
-                <span className="text-[10px] text-emerald-600 font-bold">● Hard-Shell Free</span>
+            <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5 text-xs flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-50 text-emerald-800">
+                    GI Producer Co
+                  </span>
+                  <span className="text-[10px] text-emerald-600 font-bold">● Hard-Shell Free</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-slate-200 bg-slate-50 flex-shrink-0">
+                    <Image
+                      src="/images/makhana-pouch-250g.jpg"
+                      alt="GI Mithila Makhana"
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-900 text-xs">GI Mithila Makhana</div>
+                    <div className="text-[10px] text-slate-500">Hand-Graded 6+ Sutra Jumbo</div>
+                    <div className="text-[9px] text-[#C9A45C] font-mono">FSSAI #10423001000184</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-slate-900 text-xs">GI Mithila Makhana</div>
-                <div className="text-[11px] text-slate-500">Hand-Graded 6+ Sutra Jumbo</div>
-              </div>
-              <div className="pt-1 border-t border-slate-100 flex items-baseline justify-between">
+              <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
                 <div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
-                  <div className="font-mono font-bold text-slate-900 text-sm">₹680 / kg</div>
+                  <div className="text-[9px] text-slate-400 uppercase font-bold">Ex-Hub Rate</div>
+                  <div className="font-mono font-bold text-slate-900 text-sm">₹690 / kg</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-slate-400">MOQ 500 kg</div>
-                  <div className="text-[10px] text-slate-500 font-mono">Landed ~₹712</div>
+                  <div className="text-[9px] text-slate-400">MOQ 20 kg</div>
+                  <div className="text-[10px] text-emerald-700 font-mono font-semibold">Landed ~₹725</div>
                 </div>
               </div>
             </div>
@@ -848,22 +915,33 @@ export default function B2BHomePage() {
                 className="bg-white rounded-3xl border border-stone-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-5"
               >
                 <div className="space-y-3.5">
-                  {/* Status & MOQ Header */}
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
-                        {item.origin}
-                      </span>
-                      <h3 className="font-serif font-bold text-lg text-[#17233B]">
-                        {item.name}
-                      </h3>
-                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-stone-500 font-mono">
-                        <span>{item.code}</span>
-                        <span>•</span>
-                        <span>HSN {item.hsnCode}</span>
+                  {/* Status & MOQ Header with Real Product Photo */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                      <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-stone-200 bg-stone-100 flex-shrink-0 shadow-2xs">
+                        <Image
+                          src={getCommodityImage(item.id)}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-[#704B32] block">
+                          {item.origin}
+                        </span>
+                        <h3 className="font-serif font-bold text-base text-[#17233B] leading-snug">
+                          {item.name}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-0.5 text-[10px] text-stone-500 font-mono">
+                          <span>{item.code}</span>
+                          <span>•</span>
+                          <span>HSN {item.hsnCode}</span>
+                        </div>
                       </div>
                     </div>
-                    <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded whitespace-nowrap">
+                    <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded whitespace-nowrap flex-shrink-0">
                       MOQ {item.moqKg} kg
                     </span>
                   </div>
