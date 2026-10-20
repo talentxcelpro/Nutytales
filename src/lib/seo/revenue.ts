@@ -165,7 +165,7 @@ export const BUSINESS_PRIMARY_CTAS: Record<NutyBusiness, {
 // WHATSAPP ENQUIRY LINKS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+919999999999';
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+919717161809';
 
 /**
  * Generates a WhatsApp pre-filled message link for a given page context.

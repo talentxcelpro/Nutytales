@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { RegionalConfig, RegionalProductItem, RegionKey } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice } from '@/lib/global-config'
+import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export default function RegionalLandingClient({
   config,
@@ -15,6 +16,7 @@ export default function RegionalLandingClient({
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const storeHref = `${config.pathPrefix}/store`
+  const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   return (
     <div className="space-y-24 pb-20">
@@ -338,8 +340,8 @@ export default function RegionalLandingClient({
               Open {config.brandName} Catalog
             </Link>
             <a
-              href={`https://wa.me/919999999999?text=${encodeURIComponent(
-                `Hello Nuty Tales, I want to book a ${config.packagingBadge} for delivery via ${config.subdomain}.`
+              href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                `Hello ${config.brandName}, I want to book a ${config.packagingBadge} for delivery via ${config.subdomain}.`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

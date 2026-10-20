@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { RegionalConfig, RegionKey, REGIONAL_CONFIGS } from '@/lib/regional-data'
 import { CurrencyCode, SUPPORTED_CURRENCIES } from '@/lib/global-config'
+import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 export default function RegionalShell({
   config,
@@ -23,6 +24,7 @@ export default function RegionalShell({
   const [activeCurrency, setActiveCurrency] = useState<CurrencyCode>(
     currentCurrency || config.defaultCurrency
   )
+  const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const [currencyMenuOpen, setCurrencyMenuOpen] = useState(false)
   const [regionMenuOpen, setRegionMenuOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -283,8 +285,8 @@ export default function RegionalShell({
 
               {/* WhatsApp Regional Concierge */}
               <a
-                href={`https://wa.me/919999999999?text=${encodeURIComponent(
-                  `Hello Nuty Tales ${config.brandName}, I would like assistance with an international delivery.`
+                href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                  `Hello ${config.brandName}, I would like assistance with an international delivery.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
