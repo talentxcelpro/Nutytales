@@ -273,7 +273,7 @@ export default function RegionalShell({
 
               {/* Cart Drawer Link */}
               <Link
-                href="/cart"
+                href={`${config.pathPrefix}/cart`}
                 className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-semibold flex items-center gap-2 transition"
               >
                 <span>🛒</span>

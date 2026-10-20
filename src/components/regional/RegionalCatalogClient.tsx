@@ -110,7 +110,7 @@ export default function RegionalCatalogClient({
         <div className="fixed bottom-6 right-6 z-50 animate-in fade-in slide-in-from-bottom-5 bg-emerald-600 text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
           <span>✓</span>
           <span>{toastMessage}</span>
-          <Link href="/cart" className="underline ml-2 text-stone-100 hover:text-white">
+          <Link href={`${config.pathPrefix}/cart`} className="underline ml-2 text-stone-100 hover:text-white">
             View Cart
           </Link>
         </div>

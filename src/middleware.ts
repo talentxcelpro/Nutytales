@@ -244,6 +244,8 @@ Host: ${hostUrl}
       if (pathname === '/') return rewriteVertical('/me')
       if (pathname === '/store') return rewriteVertical('/me/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/me${pathname}`)
+      if (pathname === '/cart') return rewriteVertical('/me/cart')
+      if (pathname === '/checkout') return rewriteVertical('/me/checkout')
       if (pathname.startsWith('/me')) return nextVertical()
       return rewriteVertical(`/me${pathname}`)
     }
@@ -253,6 +255,8 @@ Host: ${hostUrl}
       if (pathname === '/') return rewriteVertical('/eu')
       if (pathname === '/store') return rewriteVertical('/eu/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/eu${pathname}`)
+      if (pathname === '/cart') return rewriteVertical('/eu/cart')
+      if (pathname === '/checkout') return rewriteVertical('/eu/checkout')
       if (pathname.startsWith('/eu')) return nextVertical()
       return rewriteVertical(`/eu${pathname}`)
     }
@@ -262,6 +266,8 @@ Host: ${hostUrl}
       if (pathname === '/') return rewriteVertical('/us')
       if (pathname === '/store') return rewriteVertical('/us/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/us${pathname}`)
+      if (pathname === '/cart') return rewriteVertical('/us/cart')
+      if (pathname === '/checkout') return rewriteVertical('/us/checkout')
       if (pathname.startsWith('/us')) return nextVertical()
       return rewriteVertical(`/us${pathname}`)
     }

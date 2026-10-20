@@ -429,13 +429,60 @@ export function formatRegionalPrice(amount: number, currency: CurrencyCode): str
 }
 
 /**
+ * Sanitizes a product for international regional markets by stripping domestic INR launch promos
+ * (e.g. ₹899/kg badges, domestic rupee launch graphics, etc.) and replacing them with export-grade imagery and descriptions.
+ */
+export function sanitizeProductForRegionalMarket(product: Product): Product {
+  let image = product.image
+  let images = product.images ? [...product.images] : []
+
+  // Replace promotional graphics that display domestic INR prices like "₹899 per kg only"
+  if (image && (image.includes('899') || image.includes('promo-makhana'))) {
+    image = '/images/makhana-pouch-250g.jpg'
+  }
+
+  images = images.map((img) => {
+    if (img.includes('899') || img.includes('promo-makhana')) {
+      return '/images/makhana-pouch-250g.jpg'
+    }
+    return img
+  })
+
+  // Clean out any domestic ₹899 text from name, shortDesc, and longDesc
+  const cleanDesc = (text?: string) => {
+    if (!text) return ''
+    return text
+      .replace(/\(Special Launch Offer ₹899\/kg\)/gi, '')
+      .replace(/Special price:\s*₹?899\s*(\/kg|per kg)?\s*only\.?/gi, 'Specially packed in our export signature edition.')
+      .replace(/•\s*₹?899\s*(per kg|\/kg)\s*special introductory price[^\n]*/gi, '• Export Grade Jumbo Size (6 Suta) with superior crunch')
+      .replace(/₹\s*899\s*(per\s*kg|\/kg)?/gi, '')
+      .replace(/899\s*(per\s*kg|\/kg)/gi, '')
+      .trim()
+  }
+
+  const name = product.name
+    .replace(/\(Special Launch Offer ₹899\/kg\)/gi, '')
+    .trim()
+
+  return {
+    ...product,
+    name,
+    image,
+    images,
+    shortDesc: cleanDesc(product.shortDesc),
+    longDesc: cleanDesc(product.longDesc),
+  }
+}
+
+/**
  * Generates all regional products for a specific region with authentic destination market pricing.
  */
 export function getRegionalProducts(regionKey: RegionKey, currency?: CurrencyCode): RegionalProductItem[] {
   const config = REGIONAL_CONFIGS[regionKey]
   const targetCurrency = currency || config.defaultCurrency
 
-  return PRODUCTS.map((prod) => {
+  return PRODUCTS.map((rawProd) => {
+    const prod = sanitizeProductForRegionalMarket(rawProd)
     const regionalSlug = `${prod.slug}${config.slugSuffix}`
     const regionalPrice = getRegionalProductPrice(prod, regionKey, targetCurrency)
     const formattedPrice = formatRegionalPrice(regionalPrice, targetCurrency)
@@ -491,23 +538,24 @@ export function resolveRegionalProduct(
 
   if (!matched) return undefined
 
-  const regionalSlug = `${matched.slug}${config.slugSuffix}`
-  const regionalPrice = getRegionalProductPrice(matched, regionKey, targetCurrency)
+  const prod = sanitizeProductForRegionalMarket(matched)
+  const regionalSlug = `${prod.slug}${config.slugSuffix}`
+  const regionalPrice = getRegionalProductPrice(prod, regionKey, targetCurrency)
   const formattedPrice = formatRegionalPrice(regionalPrice, targetCurrency)
 
-  let regionalEditionTitle = `${matched.name} (${config.packagingBadge})`
+  let regionalEditionTitle = `${prod.name} (${config.packagingBadge})`
   if (regionKey === 'me') {
-    regionalEditionTitle = `${matched.name} — Luxury Gift Hamper`
+    regionalEditionTitle = `${prod.name} — Luxury Gift Hamper`
   } else if (regionKey === 'eu') {
-    regionalEditionTitle = `${matched.name} — Organic Heritage Pack`
+    regionalEditionTitle = `${prod.name} — Organic Heritage Pack`
   } else if (regionKey === 'us') {
-    regionalEditionTitle = `${matched.name} — Gourmet Orchard Selection`
+    regionalEditionTitle = `${prod.name} — Gourmet Orchard Selection`
   }
 
   return {
-    baseProduct: matched,
+    baseProduct: prod,
     regionalSlug,
-    regionalName: matched.name,
+    regionalName: prod.name,
     regionalEditionTitle,
     regionalPrice,
     formattedPrice,
