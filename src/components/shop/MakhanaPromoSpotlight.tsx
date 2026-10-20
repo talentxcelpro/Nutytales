@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -29,6 +29,20 @@ export default function MakhanaPromoSpotlight() {
   const [pincodeStatus, setPincodeStatus] = useState<string | null>(null)
   const [isAdding, setIsAdding] = useState(false)
   const [addedMessage, setAddedMessage] = useState('')
+
+  // Media switcher state: 'poster' | 'video' | 'pouch'
+  const [activeMedia, setActiveMedia] = useState<'poster' | 'video' | 'pouch'>('poster')
+  const [isMuted, setIsMuted] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const handlePlayVideo = () => {
+    setActiveMedia('video')
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {})
+      }
+    }, 100)
+  }
 
   const selectedPack = PACK_OPTIONS[selectedPackIndex]
   const totalPrice = selectedPack.price * quantity
@@ -139,25 +153,192 @@ export default function MakhanaPromoSpotlight() {
 
         {/* Main Split Grid: Poster Creative + Interactive Buying Console */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Visual Poster Display */}
-          <div className="lg:col-span-5 relative group">
-            <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#C9A45C]/30 bg-stone-900 group-hover:border-[#C9A45C] transition-all">
-              <Image
-                src="/images/promo-makhana-899.png"
-                alt="NutyTales Premium Makhana Jumbo 6 Suta - ₹899 per kg only"
-                fill
-                priority
-                className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 45vw"
-              />
-              {/* Corner ribbon */}
-              <div className="absolute top-4 right-4 bg-[#0A1830] text-[#C9A45C] border border-[#C9A45C]/40 px-3 py-1.5 rounded-full shadow-lg text-xs font-bold font-mono tracking-wide">
-                ₹899 / kg ONLY
-              </div>
+          {/* Left Column: Visual Media Showcase (Poster + HD Farm Video + Packaging) */}
+          <div className="lg:col-span-5 relative space-y-3">
+            {/* Media Selector Tabs */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveMedia('poster')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  activeMedia === 'poster'
+                    ? 'bg-[#17233B] text-[#C9A45C] shadow-sm'
+                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                }`}
+              >
+                <span>📸</span>
+                <span>Offer Poster</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePlayVideo}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  activeMedia === 'video'
+                    ? 'bg-[#17233B] text-emerald-400 shadow-sm ring-2 ring-emerald-500/30'
+                    : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200'
+                }`}
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>🎬 Watch Video (HD)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMedia('pouch')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  activeMedia === 'pouch'
+                    ? 'bg-[#17233B] text-[#C9A45C] shadow-sm'
+                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                }`}
+              >
+                <span>📦</span>
+                <span>Packaging</span>
+              </button>
+            </div>
+
+            {/* Main Media Stage (Strictly 1:1 Aspect Ratio to Guarantee Zero Cropping of Poster) */}
+            <div className="relative aspect-square w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-[#C9A45C]/40 bg-[#0B1528] group transition-all">
+              {activeMedia === 'poster' && (
+                <>
+                  <Image
+                    src="/images/promo-makhana-899.png"
+                    alt="NutyTales Premium Makhana Jumbo 6 Suta - ₹899 per kg only"
+                    fill
+                    priority
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                  {/* Top-Right Price Ribbon */}
+                  <div className="absolute top-3 right-3 bg-[#0A1830]/95 backdrop-blur-md text-[#C9A45C] border border-[#C9A45C]/50 px-3 py-1 rounded-full shadow-lg text-[11px] font-bold font-mono tracking-wide z-10">
+                    ₹899 / kg ONLY
+                  </div>
+                  {/* Quick-switch to Video CTA Button */}
+                  <button
+                    type="button"
+                    onClick={handlePlayVideo}
+                    className="absolute bottom-3 left-3 bg-[#17233B]/95 hover:bg-[#17233B] text-white hover:text-emerald-300 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full shadow-lg text-xs font-semibold flex items-center gap-2 transition-all hover:scale-105 z-10 group/btn"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 text-stone-950 flex items-center justify-center text-[10px] font-bold group-hover/btn:scale-110 transition-transform">
+                      ▶
+                    </span>
+                    <span>Watch Harvest Video</span>
+                  </button>
+                </>
+              )}
+
+              {activeMedia === 'video' && (
+                <div className="relative w-full h-full bg-black flex items-center justify-center">
+                  <video
+                    ref={videoRef}
+                    src="/videos/makhana-showcase.mp4"
+                    poster="/images/promo-makhana-899.png"
+                    autoPlay
+                    playsInline
+                    loop
+                    muted={isMuted}
+                    controls
+                    className="w-full h-full object-contain bg-black"
+                  />
+                  {/* Top-Left HD Tag */}
+                  <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white border border-white/20 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase flex items-center gap-1.5 pointer-events-none z-10">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                    <span>HD Farm Video</span>
+                  </div>
+                  {/* Sound Toggle Pill */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (videoRef.current) {
+                        videoRef.current.muted = !videoRef.current.muted
+                        setIsMuted(videoRef.current.muted)
+                      }
+                    }}
+                    className="absolute top-3 right-3 bg-black/80 hover:bg-black text-white border border-white/20 px-3 py-1 rounded-full text-[11px] font-medium flex items-center gap-1.5 transition-all shadow-md z-10"
+                  >
+                    <span>{isMuted ? '🔇 Tap for Sound' : '🔊 Sound On'}</span>
+                  </button>
+                </div>
+              )}
+
+              {activeMedia === 'pouch' && (
+                <div className="relative w-full h-full bg-[#FBF9F5] flex items-center justify-center p-6">
+                  <Image
+                    src="/images/makhana-pouch-250g.jpg"
+                    alt="NutyTales Premium Makhana Nitrogen-Sealed Fresh Pouch"
+                    fill
+                    className="object-contain p-4"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                  <div className="absolute top-3 left-3 bg-emerald-900/90 text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase shadow-xs">
+                    Fresh Nitrogen Seal
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick-Switch Thumbnails Row */}
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveMedia('poster')}
+                className={`rounded-xl border p-1.5 bg-white text-left transition-all flex items-center gap-2 ${
+                  activeMedia === 'poster'
+                    ? 'border-[#17233B] bg-stone-50 ring-2 ring-[#17233B]/20 shadow-xs'
+                    : 'border-stone-200 hover:border-stone-300 opacity-80 hover:opacity-100'
+                }`}
+              >
+                <div className="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-stone-900">
+                  <Image src="/images/promo-makhana-899.png" alt="Offer Poster" fill className="object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <span className="block text-[11px] font-bold text-stone-800 truncate">Offer Poster</span>
+                  <span className="block text-[9px] text-emerald-700 font-semibold">₹899 Special</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePlayVideo}
+                className={`rounded-xl border p-1.5 bg-white text-left transition-all flex items-center gap-2 ${
+                  activeMedia === 'video'
+                    ? 'border-emerald-600 bg-emerald-50/50 ring-2 ring-emerald-500/30 shadow-xs'
+                    : 'border-stone-200 hover:border-stone-300 opacity-80 hover:opacity-100'
+                }`}
+              >
+                <div className="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-stone-950 flex items-center justify-center text-emerald-400 font-bold">
+                  ▶
+                </div>
+                <div className="min-w-0">
+                  <span className="block text-[11px] font-bold text-stone-800 truncate">Harvest Video</span>
+                  <span className="block text-[9px] text-emerald-700 font-semibold">Watch in HD</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMedia('pouch')}
+                className={`rounded-xl border p-1.5 bg-white text-left transition-all flex items-center gap-2 ${
+                  activeMedia === 'pouch'
+                    ? 'border-[#17233B] bg-stone-50 ring-2 ring-[#17233B]/20 shadow-xs'
+                    : 'border-stone-200 hover:border-stone-300 opacity-80 hover:opacity-100'
+                }`}
+              >
+                <div className="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-stone-100">
+                  <Image src="/images/makhana-pouch-250g.jpg" alt="Pouch" fill className="object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <span className="block text-[11px] font-bold text-stone-800 truncate">Retail Pack</span>
+                  <span className="block text-[9px] text-stone-500">Nitrogen Sealed</span>
+                </div>
+              </button>
             </div>
 
             {/* Sub-strip with 4 Recipe Ideas from Poster */}
-            <div className="grid grid-cols-4 gap-2 pt-3 text-center text-[10px]">
+            <div className="grid grid-cols-4 gap-2 pt-1 text-center text-[10px]">
               <div className="bg-white p-2 rounded-xl border border-stone-200 shadow-2xs">
                 <span className="text-sm block">🥣</span>
                 <span className="font-bold text-stone-800 block">Roasted Snack</span>

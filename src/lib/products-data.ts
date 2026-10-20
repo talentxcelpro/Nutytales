@@ -54,6 +54,7 @@ export interface Product {
   stockStatus: StockStatus
   image?: string
   images?: string[]
+  video?: string
   sensory?: SensoryProfile
   isFeatured: boolean
   shelfLifeMonths: number
@@ -119,6 +120,7 @@ export const PRODUCTS: Product[] = [
       '/images/makhana-pouch-250g.jpg',
       '/images/hero-lifestyle-bowl.png',
     ],
+    video: '/videos/makhana-showcase.mp4',
     sensory: {
       tastingNotes: ['Crisp Cloud Crunch', 'Subtle Nutty Sweetness', 'Clean Earthy Finish'],
       altitude: 'Mithila Wetlands, Bihar',

@@ -30,6 +30,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   // Multi-angle Dynamic 6-10 HD Gallery
   const gallery = product.images && product.images.length > 3 ? product.images : getProductDynamicGallery(product)
   const [activeImage, setActiveImage] = useState(gallery[0] || product.image)
+  const [isVideoActive, setIsVideoActive] = useState(false)
 
   // Magnifier Zoom state
   const [isZoomed, setIsZoomed] = useState(false)
@@ -205,7 +206,19 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             onMouseMove={handleMouseMove}
             className="relative aspect-square rounded-3xl overflow-hidden bg-[#FAF8F5] border border-stone-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-center cursor-crosshair group"
           >
-            {activeImage ? (
+            {isVideoActive && product.video ? (
+              <div className="relative w-full h-full bg-black flex items-center justify-center">
+                <video
+                  src={product.video}
+                  poster={product.image}
+                  autoPlay
+                  controls
+                  playsInline
+                  loop
+                  className="w-full h-full object-contain bg-black"
+                />
+              </div>
+            ) : activeImage ? (
               <Image
                 src={activeImage}
                 alt={product.name}
@@ -216,8 +229,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 className={`transition-transform duration-300 ${
                   isZoomed ? 'scale-125' : 'scale-100'
                 } ${
-                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box')
-                    ? 'object-contain p-8'
+                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box') || activeImage.includes('promo')
+                    ? 'object-contain p-4'
                     : 'object-cover'
                 }`}
                 style={
@@ -263,13 +276,31 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
           {/* Clean Curated Thumbnails Row (Strictly Relevant Product Angles Only) */}
           <div className="flex items-center gap-3 overflow-x-auto py-1 scrollbar-none">
+            {product.video && (
+              <button
+                type="button"
+                onClick={() => setIsVideoActive(true)}
+                className={`relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden bg-stone-900 border-2 transition-all p-1.5 flex-shrink-0 flex flex-col items-center justify-center text-white ${
+                  isVideoActive
+                    ? 'border-emerald-500 ring-2 ring-emerald-500/20 scale-102 shadow-xs'
+                    : 'border-stone-200/80 opacity-80 hover:opacity-100 hover:border-stone-400'
+                }`}
+                aria-label="Play Product Video"
+              >
+                <span className="text-xl">▶</span>
+                <span className="text-[9px] font-bold mt-1 text-emerald-400 uppercase">Video</span>
+              </button>
+            )}
             {gallery.map((img, idx) => (
               <button
                 key={idx}
                 type="button"
-                onClick={() => setActiveImage(img)}
+                onClick={() => {
+                  setIsVideoActive(false)
+                  setActiveImage(img)
+                }}
                 className={`relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden bg-[#FAF8F5] border-2 transition-all p-1.5 flex-shrink-0 flex items-center justify-center ${
-                  activeImage === img
+                  !isVideoActive && activeImage === img
                     ? 'border-[#17233B] ring-2 ring-[#17233B]/20 scale-102 shadow-xs'
                     : 'border-stone-200/80 opacity-70 hover:opacity-100 hover:border-stone-400'
                 }`}
@@ -282,7 +313,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   quality={90}
                   sizes="90px"
                   className={
-                    img.includes('pouch') || img.includes('jar') || img.includes('box')
+                    img.includes('pouch') || img.includes('jar') || img.includes('box') || img.includes('promo')
                       ? 'object-contain p-1'
                       : 'object-cover'
                   }
