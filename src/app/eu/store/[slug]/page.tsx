@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { REGIONAL_CONFIGS, resolveRegionalProduct } from '@/lib/regional-data'
+import { REGIONAL_CONFIGS, resolveRegionalProduct, getRegionalProducts } from '@/lib/regional-data'
 import RegionalProductClient from '@/components/regional/RegionalProductClient'
 
 interface Props {
@@ -46,6 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const products = getRegionalProducts('eu')
+  return products.map((p) => ({
+    slug: p.regionalSlug,
+  }))
+}
 
 export default async function EuropeProductPage({ params }: Props) {
   const { slug } = await params

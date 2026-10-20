@@ -10,12 +10,17 @@ interface CartItem {
   productId: string
   name: string
   slug: string
-  mode: 'retail' | 'wholesale'
-  sizeLabel: string
-  unitPrice: number
+  mode?: 'retail' | 'wholesale'
+  sizeLabel?: string
+  unitPrice?: number
   quantity: number
-  totalPrice: number
+  totalPrice?: number
+  price?: number
+  formattedPrice?: string
+  currency?: string
+  variant?: string
   image?: string
+  region?: string
 }
 
 export default function CartPage() {
@@ -76,7 +81,8 @@ export default function CartPage() {
     }
     const updated = [...cart]
     updated[index].quantity = newQty
-    updated[index].totalPrice = updated[index].unitPrice * newQty
+    const unitPrice = updated[index].unitPrice ?? updated[index].price ?? 0
+    updated[index].totalPrice = unitPrice * newQty
     updateCart(updated)
   }
 
@@ -89,7 +95,10 @@ export default function CartPage() {
     updateCart([])
   }
 
-  const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
+  const subtotal = cart.reduce((acc, item) => {
+    const itemTotal = item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)
+    return acc + itemTotal
+  }, 0)
   const discount = calculateDiscount(subtotal, appliedCoupon)
   const hasWholesale = cart.some((item) => item.mode === 'wholesale')
   const freeShippingThreshold = 999
@@ -222,7 +231,7 @@ export default function CartPage() {
                     </div>
 
                     <p className="text-xs text-[#704B32] font-semibold mt-0.5">
-                      {item.sizeLabel}{' '}
+                      {item.sizeLabel || item.variant || 'Standard Pack'}{' '}
                       {item.mode === 'wholesale' && (
                         <span className="ml-2 px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] uppercase font-bold">
                           Wholesale
@@ -252,9 +261,11 @@ export default function CartPage() {
 
                       {/* Line Total */}
                       <div className="text-right">
-                        <span className="text-[10px] text-stone-500 block">₹{item.unitPrice} each</span>
+                        <span className="text-[10px] text-stone-500 block">
+                          {item.formattedPrice ? item.formattedPrice : `₹${item.unitPrice ?? item.price ?? 0} each`}
+                        </span>
                         <span className="text-base font-bold text-[#17233B]">
-                          ₹{item.totalPrice.toLocaleString('en-IN')}
+                          {item.formattedPrice || `₹${(item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)).toLocaleString('en-IN')}`}
                         </span>
                       </div>
                     </div>

@@ -11,12 +11,17 @@ interface CartItem {
   productId: string
   name: string
   slug: string
-  mode: 'retail' | 'wholesale'
-  sizeLabel: string
-  unitPrice: number
+  mode?: 'retail' | 'wholesale'
+  sizeLabel?: string
+  unitPrice?: number
   quantity: number
-  totalPrice: number
+  totalPrice?: number
+  price?: number
+  formattedPrice?: string
+  currency?: string
+  variant?: string
   image?: string
+  region?: string
 }
 
 export default function CheckoutPage() {
@@ -97,7 +102,10 @@ export default function CheckoutPage() {
     }
   }
 
-  const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
+  const subtotal = cart.reduce((acc, item) => {
+    const itemTotal = item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)
+    return acc + itemTotal
+  }, 0)
   const discount = calculateDiscount(subtotal, appliedCoupon)
   const shipping = subtotal > 999 || subtotal === 0 || appliedCoupon === 'FREESHIP' ? 0 : 99
   const estimatedTotal = Math.max(0, subtotal - discount + shipping)
@@ -714,12 +722,12 @@ export default function CheckoutPage() {
                             {item.name}
                           </span>
                           <span className="text-[10px] text-stone-500">
-                            {item.sizeLabel} × {item.quantity}
+                            {item.sizeLabel || item.variant || 'Standard Pack'} × {item.quantity}
                           </span>
                         </div>
                       </div>
                       <span className="font-bold text-[#17233B] flex-shrink-0">
-                        ₹{item.totalPrice.toLocaleString('en-IN')}
+                        {item.formattedPrice || `₹${(item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)).toLocaleString('en-IN')}`}
                       </span>
                     </div>
                   ))}

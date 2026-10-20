@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { RegionalConfig, RegionalProductItem, cleanRegionalSlug, REGIONAL_CONFIGS } from '@/lib/regional-data'
+import { RegionalConfig, RegionalProductItem, cleanRegionalSlug, REGIONAL_CONFIGS, getRegionalProductPrice, formatRegionalPrice } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice, convertFromINR, SUPPORTED_CURRENCIES } from '@/lib/global-config'
 
 export default function RegionalProductClient({
@@ -23,17 +23,33 @@ export default function RegionalProductClient({
   const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   const product = productItem.baseProduct
-  const variants = product.variants && product.variants.length > 0
-    ? product.variants
-    : [
-        { sizeG: 500, label: '500g Presentation Pack', retailPrice: Math.round(product.retailPrice * 0.55) },
-        { sizeG: 1000, label: '1kg Signature Hamper Pack', retailPrice: product.retailPrice },
-        { sizeG: 2000, label: '2kg Family / Hospitality Box', retailPrice: Math.round(product.retailPrice * 1.9) },
-      ]
 
-  const activeVariant = variants[selectedVariantIndex] || variants[0]
-  const variantPriceConverted = Math.round(convertFromINR(activeVariant.retailPrice, activeCurrency))
-  const formattedVariantPrice = formatGlobalPrice(activeVariant.retailPrice, activeCurrency)
+  // Calculate authentic 1kg destination market price in active currency
+  const base1kgMarketPrice = getRegionalProductPrice(product, config.key, activeCurrency)
+
+  const regionalVariants = [
+    {
+      sizeG: 500,
+      label: config.key === 'me' ? '500g Presentation Hamper' : config.key === 'eu' ? '500g Heritage Glass/Kraft Pack' : '500g Standup Barrier Pouch',
+      price: Math.round(base1kgMarketPrice * 0.55),
+      formattedPrice: formatRegionalPrice(Math.round(base1kgMarketPrice * 0.55), activeCurrency),
+    },
+    {
+      sizeG: 1000,
+      label: config.key === 'me' ? '1kg Luxury Silk-Lined Hamper' : config.key === 'eu' ? '1kg Organic Heritage Pack' : '1kg Gourmet Orchard Edition',
+      price: base1kgMarketPrice,
+      formattedPrice: formatRegionalPrice(base1kgMarketPrice, activeCurrency),
+    },
+    {
+      sizeG: 2000,
+      label: config.key === 'me' ? '2kg Royal Grand Trunk Hamper' : config.key === 'eu' ? '2kg Organic Family Reserve' : '2kg Pantry Multi-Pack',
+      price: Math.round(base1kgMarketPrice * 1.88),
+      formattedPrice: formatRegionalPrice(Math.round(base1kgMarketPrice * 1.88), activeCurrency),
+    },
+  ]
+
+  const activeVariant = regionalVariants[selectedVariantIndex] || regionalVariants[1]
+  const formattedVariantPrice = activeVariant.formattedPrice
 
   const handleAddToCart = () => {
     try {
@@ -43,10 +59,12 @@ export default function RegionalProductClient({
         productId: product.id,
         name: `${productItem.regionalName} (${productItem.packagingBadge})`,
         slug: productItem.regionalSlug,
-        price: activeVariant.retailPrice,
+        price: activeVariant.price,
+        formattedPrice: activeVariant.formattedPrice,
+        currency: activeCurrency,
         image: product.image || '/images/luxury-hamper-jars.png',
         quantity: quantity,
-        variant: activeVariant.label,
+        variant: `${activeVariant.label} (${activeVariant.sizeG}g)`,
         region: config.key,
       }
 
@@ -60,7 +78,7 @@ export default function RegionalProductClient({
       localStorage.setItem('nt_cart', JSON.stringify(existing))
       window.dispatchEvent(new Event('nt_cart_updated'))
 
-      setToastMessage(`Added ${quantity}x "${productItem.regionalName} (${activeVariant.label})" to cart!`)
+      setToastMessage(`Added ${quantity}x "${productItem.regionalName} (${activeVariant.label})" (${activeVariant.formattedPrice}) to cart!`)
       setTimeout(() => setToastMessage(null), 3500)
     } catch {
       // Ignore
@@ -203,7 +221,7 @@ export default function RegionalProductClient({
                 Select Edition / Weight:
               </span>
               <div className="grid grid-cols-3 gap-2">
-                {variants.map((v, idx) => (
+                {regionalVariants.map((v, idx) => (
                   <button
                     key={idx}
                     type="button"
@@ -216,7 +234,7 @@ export default function RegionalProductClient({
                   >
                     <span className="font-bold text-xs block">{v.sizeG}g</span>
                     <span className="text-[10px] text-stone-400 block truncate">
-                      {formatGlobalPrice(v.retailPrice, activeCurrency)}
+                      {v.formattedPrice}
                     </span>
                   </button>
                 ))}

@@ -12,11 +12,16 @@ export interface CartItem {
   name: string
   slug: string
   mode?: 'retail' | 'wholesale'
-  sizeLabel: string
-  unitPrice: number
+  sizeLabel?: string
+  unitPrice?: number
   quantity: number
-  totalPrice: number
+  totalPrice?: number
+  price?: number
+  formattedPrice?: string
+  currency?: string
+  variant?: string
   image?: string
+  region?: string
 }
 
 export default function CartDrawer() {
@@ -32,10 +37,12 @@ export default function CartDrawer() {
 
   const hasCraftItems = cart.some((i) => isCraftItem(i))
 
-  const formatItemPrice = (amountINR: number, item?: CartItem) => {
-    if (item && isCraftItem(item)) return formatCraftPrice(amountINR)
-    if (hasCraftItems) return formatCraftPrice(amountINR)
-    return formatPrice(amountINR)
+  const formatItemPrice = (amountINR?: number, item?: CartItem) => {
+    if (item?.formattedPrice) return item.formattedPrice
+    const price = amountINR ?? item?.price ?? 0
+    if (item && isCraftItem(item)) return formatCraftPrice(price)
+    if (hasCraftItems) return formatCraftPrice(price)
+    return formatPrice(price)
   }
 
   const loadCart = () => {
@@ -124,7 +131,8 @@ export default function CartDrawer() {
       updated.splice(idx, 1)
     } else {
       updated[idx].quantity = newQty
-      updated[idx].totalPrice = updated[idx].unitPrice * newQty
+      const unitPrice = updated[idx].unitPrice ?? updated[idx].price ?? 0
+      updated[idx].totalPrice = unitPrice * newQty
     }
     updateCart(updated)
   }
@@ -134,7 +142,10 @@ export default function CartDrawer() {
     updateCart(updated)
   }
 
-  const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0)
+  const subtotal = cart.reduce((acc, item) => {
+    const itemTotal = item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)
+    return acc + itemTotal
+  }, 0)
   const discount = calculateDiscount(subtotal, appliedCoupon)
   const freeShippingTarget = 999
   const freeShippingProgress = Math.min(100, Math.round((subtotal / freeShippingTarget) * 100))
@@ -145,7 +156,12 @@ export default function CartDrawer() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const whatsappSummary = cart
-    .map((item) => `• ${item.name} (${item.sizeLabel}) × ${item.quantity} = ₹${item.totalPrice}`)
+    .map(
+      (item) =>
+        `• ${item.name} (${item.sizeLabel || item.variant || 'Standard Pack'}) × ${item.quantity} = ${
+          item.formattedPrice || `₹${item.totalPrice ?? ((item.unitPrice ?? item.price ?? 0) * item.quantity)}`
+        }`
+    )
     .join('\n')
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
@@ -266,13 +282,15 @@ export default function CartDrawer() {
                     {item.name}
                   </h4>
                   <p className="text-[11px] text-[#704B32] font-medium mt-0.5">
-                    {item.sizeLabel}
+                    {item.sizeLabel || item.variant || 'Standard Pack'}
                   </p>
                   <p className="text-xs font-extrabold text-[#176B68] mt-1">
-                    {formatItemPrice(item.totalPrice, item)}
-                    <span className="text-[10px] text-stone-400 font-normal ml-1">
-                      ({formatItemPrice(item.unitPrice, item)}/unit)
-                    </span>
+                    {item.formattedPrice || formatItemPrice(item.totalPrice, item)}
+                    {!item.formattedPrice && item.unitPrice ? (
+                      <span className="text-[10px] text-stone-400 font-normal ml-1">
+                        ({formatItemPrice(item.unitPrice, item)}/unit)
+                      </span>
+                    ) : null}
                   </p>
                 </div>
 

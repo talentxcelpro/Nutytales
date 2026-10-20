@@ -47,6 +47,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const revalidate = 3600
 
+export async function generateStaticParams() {
+  const products = getRegionalProducts('me')
+  return products.map((p) => ({
+    slug: p.regionalSlug,
+  }))
+}
+
 export default async function MiddleEastProductPage({ params }: Props) {
   const { slug } = await params
   const item = resolveRegionalProduct(slug, 'me')

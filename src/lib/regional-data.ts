@@ -272,6 +272,76 @@ export const REGIONAL_CONFIGS: Record<RegionKey, RegionalConfig> = {
   },
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// REGIONAL DESTINATION MARKET PRICING ENGINE
+// ─────────────────────────────────────────────────────────────────────────────
+// Calibrated to local consumer retail, specialty gourmet grocers, and luxury
+// gifting benchmarks in each target destination market:
+//
+// 1. Middle East (middleeast.nutytales.com):
+//    - Base currency: AED (with SAR at 1.02x, USD at 0.272x)
+//    - Accounts for: Silk-lined presentation box, gold-foil jars, DDP pre-cleared
+//      customs & VAT, and refrigerated JAFZA hub air logistics.
+//
+// 2. Europe (europe.nutytales.com):
+//    - Base currency: EUR (with GBP at 0.86x, USD at 1.085x)
+//    - Accounts for: UK FSA & EU organic phyto-sanitary compliance, certified organic
+//      traceability, biodegradable kraft & glass packaging, and Heathrow gateway air courier.
+//
+// 3. Americas (america.nutytales.com):
+//    - Base currency: USD (with CAD at 1.36x)
+//    - Accounts for: US FDA registered facility compliance, automated Prior Notice,
+//      triple-barrier nitrogen-flushed standup pouches, and dual-coast FedEx Priority.
+
+export const MARKET_FLAGSHIP_PRICING: Record<string, { me: number; eu: number; us: number }> = {
+  // Saffron (10g / royal gift box)
+  'kashmiri-mongra-saffron':              { me: 395, eu: 98,  us: 110 },
+  'iranian-super-negin-saffron':           { me: 360, eu: 89,  us: 99 },
+
+  // Almonds (1kg presentation)
+  'mamra-almonds-kashmiri-badam':          { me: 320, eu: 79,  us: 88 },
+  'california-almonds-premium':            { me: 125, eu: 32,  us: 34 },
+  'roasted-salted-almonds':                { me: 135, eu: 34,  us: 36 },
+  'kashmiri-kagzi-badam-soft-shell':       { me: 145, eu: 36,  us: 39 },
+  'gurbandi-badam-afghan-almonds':         { me: 175, eu: 44,  us: 48 },
+
+  // Walnuts (1kg presentation)
+  'kashmiri-walnuts-in-shell':             { me: 120, eu: 30,  us: 32 },
+  'walnut-kernels-halves-pieces':          { me: 175, eu: 44,  us: 48 },
+  'kinnaur-wild-walnuts':                  { me: 195, eu: 49,  us: 54 },
+
+  // Makhana / Fox Nuts (1kg signature edition)
+  'makhana-grade-a-fox-nuts':              { me: 115, eu: 29,  us: 32 },
+  'makhana-grade-b-fox-nuts-economy':      { me: 95,  eu: 24,  us: 26 },
+  'masala-makhana-roasted':                { me: 125, eu: 32,  us: 35 },
+  'desi-ghee-pink-salt-roasted-makhana':   { me: 135, eu: 34,  us: 38 },
+
+  // Cashews (1kg)
+  'w240-premium-cashews':                  { me: 135, eu: 35,  us: 38 },
+  'king-jumbo-w180-cashews':               { me: 165, eu: 42,  us: 46 },
+  'roasted-cashews-unsalted':              { me: 145, eu: 36,  us: 39 },
+  'malabar-black-pepper-cashews':          { me: 155, eu: 38,  us: 42 },
+
+  // Dates & Figs (1kg)
+  'royal-ajwa-dates-madinah':              { me: 195, eu: 49,  us: 54 },
+  'safawi-dates-saudi':                    { me: 165, eu: 42,  us: 45 },
+  'medjool-dates-premium':                 { me: 185, eu: 46,  us: 49 },
+  'mabroom-dates-madinah':                 { me: 175, eu: 44,  us: 48 },
+  'dried-anjeer-turkish-figs':             { me: 145, eu: 36,  us: 39 },
+  'afghan-kandahari-mala-anjeer':          { me: 195, eu: 49,  us: 54 },
+
+  // Honey & Specialties (1kg / specialty jar)
+  'pure-kashmiri-acacia-honey':            { me: 145, eu: 38,  us: 42 },
+  'kashmiri-wild-forest-sidr-honey':       { me: 185, eu: 46,  us: 50 },
+  'iranian-pistachios-roasted-salted':     { me: 185, eu: 46,  us: 52 },
+  'raw-pistachios-unsalted':               { me: 175, eu: 44,  us: 48 },
+  'ladakh-halman-wild-apricots':           { me: 135, eu: 34,  us: 36 },
+  'afghan-hindu-kush-chilgoza':            { me: 450, eu: 110, us: 125 },
+  'diwali-dry-fruit-gift-box-premium':     { me: 260, eu: 65,  us: 72 },
+  'dry-fruit-family-pack':                 { me: 220, eu: 55,  us: 60 },
+  'premium-mixed-nuts-7-variety':          { me: 165, eu: 42,  us: 46 },
+}
+
 export interface RegionalProductItem {
   baseProduct: Product
   regionalSlug: string
@@ -297,17 +367,69 @@ export function cleanRegionalSlug(slug: string): string {
 }
 
 /**
+ * Calculates authentic destination market price for a product in the given region and currency.
+ */
+export function getRegionalProductPrice(
+  product: Product,
+  regionKey: RegionKey,
+  targetCurrency?: CurrencyCode
+): number {
+  const config = REGIONAL_CONFIGS[regionKey]
+  const currency = targetCurrency || config.defaultCurrency
+
+  // 1. Check if product has an explicit flagship market retail price
+  const cleanSlug = cleanRegionalSlug(product.slug)
+  const flagship = MARKET_FLAGSHIP_PRICING[cleanSlug]
+
+  let basePriceInRegionCurrency = 0
+
+  if (flagship && flagship[regionKey]) {
+    basePriceInRegionCurrency = flagship[regionKey]
+  } else {
+    // 2. Fallback to calibrated regional market multiplier
+    // me: 2.6x base export value / 22.9 AED rate
+    // eu: 2.9x base export value / 91.8 EUR rate
+    // us: 2.8x base export value / 84.0 USD rate
+    if (regionKey === 'me') {
+      basePriceInRegionCurrency = Math.round((product.retailPrice * 2.6) / 22.9)
+    } else if (regionKey === 'eu') {
+      basePriceInRegionCurrency = Math.round((product.retailPrice * 2.9) / 91.8)
+    } else {
+      basePriceInRegionCurrency = Math.round((product.retailPrice * 2.8) / 84.0)
+    }
+  }
+
+  // 3. Convert from region default currency to selected currency if user switched
+  if (regionKey === 'me') {
+    // Base is AED
+    if (currency === 'SAR') return Math.round(basePriceInRegionCurrency * 1.02)
+    if (currency === 'USD') return Math.round(basePriceInRegionCurrency / 3.6725)
+    return basePriceInRegionCurrency
+  }
+
+  if (regionKey === 'eu') {
+    // Base is EUR
+    if (currency === 'GBP') return Math.round(basePriceInRegionCurrency * 0.86)
+    if (currency === 'USD') return Math.round(basePriceInRegionCurrency * 1.085)
+    return basePriceInRegionCurrency
+  }
+
+  // us: Base is USD
+  if (currency === 'CAD') return Math.round(basePriceInRegionCurrency * 1.36)
+  return basePriceInRegionCurrency
+}
+
+/**
  * Returns formatted price for a given regional product in its default or selected currency
  */
-export function formatRegionalCurrency(amountINR: number, currency: CurrencyCode): string {
-  const config = SUPPORTED_CURRENCIES[currency] || SUPPORTED_CURRENCIES.INR
-  const converted = convertFromINR(amountINR, currency)
-  const formatted = Math.round(converted).toLocaleString(currency === 'INR' ? 'en-IN' : 'en-US')
+export function formatRegionalPrice(amount: number, currency: CurrencyCode): string {
+  const config = SUPPORTED_CURRENCIES[currency] || SUPPORTED_CURRENCIES.USD
+  const formatted = Math.round(amount).toLocaleString(currency === 'INR' ? 'en-IN' : 'en-US')
   return config.symbolPosition === 'prefix' ? `${config.symbol}${formatted}` : `${formatted} ${config.symbol}`
 }
 
 /**
- * Generates all regional products for a specific region.
+ * Generates all regional products for a specific region with authentic destination market pricing.
  */
 export function getRegionalProducts(regionKey: RegionKey, currency?: CurrencyCode): RegionalProductItem[] {
   const config = REGIONAL_CONFIGS[regionKey]
@@ -315,8 +437,8 @@ export function getRegionalProducts(regionKey: RegionKey, currency?: CurrencyCod
 
   return PRODUCTS.map((prod) => {
     const regionalSlug = `${prod.slug}${config.slugSuffix}`
-    const regionalPrice = Math.round(convertFromINR(prod.retailPrice, targetCurrency))
-    const formattedPrice = formatRegionalCurrency(prod.retailPrice, targetCurrency)
+    const regionalPrice = getRegionalProductPrice(prod, regionKey, targetCurrency)
+    const formattedPrice = formatRegionalPrice(regionalPrice, targetCurrency)
 
     let regionalEditionTitle = `${prod.name} (${config.packagingBadge})`
     if (regionKey === 'me') {
@@ -343,7 +465,7 @@ export function getRegionalProducts(regionKey: RegionKey, currency?: CurrencyCod
 }
 
 /**
- * Resolves a single product by slug for a specific region.
+ * Resolves a single product by slug for a specific region with authentic destination market pricing.
  */
 export function resolveRegionalProduct(
   slug: string,
@@ -370,8 +492,8 @@ export function resolveRegionalProduct(
   if (!matched) return undefined
 
   const regionalSlug = `${matched.slug}${config.slugSuffix}`
-  const regionalPrice = Math.round(convertFromINR(matched.retailPrice, targetCurrency))
-  const formattedPrice = formatRegionalCurrency(matched.retailPrice, targetCurrency)
+  const regionalPrice = getRegionalProductPrice(matched, regionKey, targetCurrency)
+  const formattedPrice = formatRegionalPrice(regionalPrice, targetCurrency)
 
   let regionalEditionTitle = `${matched.name} (${config.packagingBadge})`
   if (regionKey === 'me') {

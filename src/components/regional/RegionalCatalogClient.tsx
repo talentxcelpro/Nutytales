@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { RegionalConfig, RegionalProductItem } from '@/lib/regional-data'
+import { RegionalConfig, RegionalProductItem, getRegionalProductPrice, formatRegionalPrice } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice, SUPPORTED_CURRENCIES } from '@/lib/global-config'
 
 export default function RegionalCatalogClient({
@@ -31,8 +31,21 @@ export default function RegionalCatalogClient({
     return ['all', ...Array.from(set)]
   }, [products])
 
+  const displayProducts = useMemo(() => {
+    return products.map((p) => {
+      if (activeCurrency === p.currency) return p
+      const price = getRegionalProductPrice(p.baseProduct, config.key, activeCurrency)
+      return {
+        ...p,
+        regionalPrice: price,
+        formattedPrice: formatRegionalPrice(price, activeCurrency),
+        currency: activeCurrency,
+      }
+    })
+  }, [products, activeCurrency, config.key])
+
   const filteredProducts = useMemo(() => {
-    return products
+    return displayProducts
       .filter((p) => {
         const matchCategory =
           selectedCategory === 'all' ||
@@ -49,7 +62,7 @@ export default function RegionalCatalogClient({
         if (sortBy === 'price-desc') return b.regionalPrice - a.regionalPrice
         return 0
       })
-  }, [products, searchQuery, selectedCategory, sortBy])
+  }, [displayProducts, searchQuery, selectedCategory, sortBy])
 
   const handleAddToCart = (e: React.MouseEvent, item: RegionalProductItem) => {
     e.preventDefault()
@@ -62,7 +75,9 @@ export default function RegionalCatalogClient({
         productId: item.baseProduct.id,
         name: `${item.regionalName} (${item.packagingBadge})`,
         slug: item.regionalSlug,
-        price: item.baseProduct.retailPrice,
+        price: item.regionalPrice,
+        formattedPrice: item.formattedPrice,
+        currency: activeCurrency,
         image: item.baseProduct.image || '/images/luxury-hamper-jars.png',
         quantity: 1,
         variant: '1kg / Standard Pack',
@@ -79,7 +94,7 @@ export default function RegionalCatalogClient({
       localStorage.setItem('nt_cart', JSON.stringify(existing))
       window.dispatchEvent(new Event('nt_cart_updated'))
 
-      setToastMessage(`Added "${item.regionalName}" to your international bag!`)
+      setToastMessage(`Added "${item.regionalName}" (${item.formattedPrice}) to your international bag!`)
       setTimeout(() => setToastMessage(null), 3500)
     } catch {
       // Ignore
@@ -150,18 +165,38 @@ export default function RegionalCatalogClient({
             )}
           </div>
 
-          {/* Sort Selector */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-stone-400 hidden sm:inline">Sort by:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#121B2D] border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-semibold"
-            >
-              <option value="featured">Featured Editions</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+          {/* Currency Switcher & Sort Selector */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Currency Selector */}
+            <div className="flex items-center gap-1 bg-[#121B2D] p-1 rounded-xl border border-white/10">
+              {config.supportedCurrencies.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setActiveCurrency(c)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition ${
+                    activeCurrency === c
+                      ? 'bg-amber-500 text-stone-950 font-bold shadow'
+                      : 'text-stone-400 hover:text-white'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-stone-400 hidden sm:inline">Sort:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="bg-[#121B2D] border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-semibold"
+              >
+                <option value="featured">Featured Editions</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+            </div>
           </div>
         </div>
 
