@@ -96,7 +96,7 @@ export default function B2BShell({
                     <span className="bg-[#0A1830] text-white text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded">
                       Enterprise OS
                     </span>
-                    <span className="text-[10px] text-slate-500 font-medium">
+                    <span className="hidden sm:inline text-[10px] text-slate-500 font-medium">
                       Wholesale Procurement Platform
                     </span>
                   </div>
@@ -142,7 +142,7 @@ export default function B2BShell({
             </div>
 
             {/* Right Action Controls */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {/* Quick RFQ link */}
               <Link
                 href={getLinkHref('/rfq')}
@@ -164,10 +164,11 @@ export default function B2BShell({
               {/* High-Contrast "Procurement Workspace" Action */}
               <Link
                 href="/b2b/dashboard"
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-[#081830] hover:bg-[#12274A] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-[#081830] hover:bg-[#12274A] text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
               >
                 <span className="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse" />
-                <span>Procurement Workspace</span>
+                <span className="hidden sm:inline">Procurement </span>
+                <span>Workspace</span>
                 <span>→</span>
               </Link>
 

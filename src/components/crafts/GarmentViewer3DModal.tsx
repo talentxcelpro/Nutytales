@@ -19,14 +19,14 @@ export default function GarmentViewer3DModal({
   onAddToCart,
 }: GarmentViewer3DModalProps) {
   const { formatCraftPrice } = useMarketCurrency()
-  if (!isOpen || !product) return null
-
   const [activeAngle, setActiveAngle] = useState<'front' | 'back' | 'embroidery' | 'texture'>('front')
   const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [zoomLevel, setZoomLevel] = useState(1)
   const [rotationDeg, setRotationDeg] = useState(0)
 
-  const currentColor = product.colorOptions[selectedColorIdx] || product.colorOptions[0]
+  if (!isOpen || !product) return null
+
+  const currentColor = product.colorOptions?.[selectedColorIdx] || product.colorOptions?.[0]
 
   const getImageForAngle = () => {
     switch (activeAngle) {

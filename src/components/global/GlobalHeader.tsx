@@ -28,27 +28,7 @@ export default function GlobalHeader() {
   const [activeCountry, setActiveCountry] = useState('IN')
   const [activeCurrency, setActiveCurrency] = useState<CurrencyCode>('INR')
   const [cartCount, setCartCount] = useState(0)
-
-  // Suppress global gateway header when rendering dedicated standalone company shells or subdomains
-  const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
-
-  if (
-    isSubdomain ||
-    pathname?.startsWith('/b2b') ||
-    pathname?.startsWith('/gifting') ||
-    pathname?.startsWith('/weddings') ||
-    pathname?.startsWith('/crafts') ||
-    pathname?.startsWith('/stays') ||
-    pathname?.startsWith('/travel') ||
-    pathname?.startsWith('/nri') ||
-    pathname?.startsWith('/me') ||
-    pathname?.startsWith('/eu') ||
-    pathname?.startsWith('/us')
-  ) {
-    return null
-  }
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
 
   // Listen for scroll
   useEffect(() => {
@@ -99,7 +79,26 @@ export default function GlobalHeader() {
     }
   }, [])
 
-  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
+  // Suppress global gateway header when rendering dedicated standalone company shells or subdomains
+  const isSubdomain =
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
+
+  if (
+    isSubdomain ||
+    pathname?.startsWith('/b2b') ||
+    pathname?.startsWith('/gifting') ||
+    pathname?.startsWith('/weddings') ||
+    pathname?.startsWith('/crafts') ||
+    pathname?.startsWith('/stays') ||
+    pathname?.startsWith('/travel') ||
+    pathname?.startsWith('/nri') ||
+    pathname?.startsWith('/me') ||
+    pathname?.startsWith('/eu') ||
+    pathname?.startsWith('/us')
+  ) {
+    return null
+  }
 
   // Pure Nuty Tales Shop Navigation (The user came to shop)
   const navLinks = [

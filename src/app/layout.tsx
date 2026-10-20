@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -9,6 +9,13 @@ import { AuthProvider } from "@/context/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
 import CartDrawer from "@/components/cart/CartDrawer";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#F7F2E8",
+};
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const geistSans = Geist({

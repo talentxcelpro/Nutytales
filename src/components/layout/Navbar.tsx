@@ -27,27 +27,6 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0)
   const pathname = usePathname()
 
-  // Suppress consumer retail navbar when rendering dedicated standalone company shells or subdomains
-  const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
-
-  if (
-    isSubdomain ||
-    pathname?.startsWith('/b2b') ||
-    pathname?.startsWith('/gifting') ||
-    pathname?.startsWith('/weddings') ||
-    pathname?.startsWith('/crafts') ||
-    pathname?.startsWith('/stays') ||
-    pathname?.startsWith('/travel') ||
-    pathname?.startsWith('/nri') ||
-    pathname?.startsWith('/me') ||
-    pathname?.startsWith('/eu') ||
-    pathname?.startsWith('/us')
-  ) {
-    return null
-  }
-
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   useEffect(() => {
@@ -79,6 +58,27 @@ export default function Navbar() {
     setMobileOpen(false)
   }, [pathname])
 
+  // Suppress consumer retail navbar when rendering dedicated standalone company shells or subdomains
+  const isSubdomain =
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
+
+  if (
+    isSubdomain ||
+    pathname?.startsWith('/b2b') ||
+    pathname?.startsWith('/gifting') ||
+    pathname?.startsWith('/weddings') ||
+    pathname?.startsWith('/crafts') ||
+    pathname?.startsWith('/stays') ||
+    pathname?.startsWith('/travel') ||
+    pathname?.startsWith('/nri') ||
+    pathname?.startsWith('/me') ||
+    pathname?.startsWith('/eu') ||
+    pathname?.startsWith('/us')
+  ) {
+    return null
+  }
+
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
@@ -109,7 +109,7 @@ export default function Navbar() {
                 <span className="font-serif text-2xl font-bold tracking-tight text-[#17233B] group-hover:text-[#176B68] transition-colors leading-none">
                   Nuty Tales
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-[#704B32] font-medium mt-1">
+                <span className="hidden sm:block text-[10px] tracking-widest uppercase text-[#704B32] font-medium mt-1">
                   Taste · Gift · Wear · Stay · Explore
                 </span>
               </div>

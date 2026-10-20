@@ -20,14 +20,14 @@ export default function QuickAddModal({
   onOpenSizeGuide,
 }: QuickAddModalProps) {
   const { formatCraftPrice, isWesternMarket } = useMarketCurrency()
-  if (!isOpen || !product) return null
-
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'Free Size')
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || 'Free Size')
   const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
 
-  const selectedColor = product.colorOptions[selectedColorIdx] || { name: 'Standard', hex: '#631B26' }
+  if (!isOpen || !product) return null
+
+  const selectedColor = product.colorOptions?.[selectedColorIdx] || { name: 'Standard', hex: '#631B26' }
 
   const handleAddToCart = () => {
     try {

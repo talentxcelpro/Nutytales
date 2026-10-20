@@ -183,7 +183,7 @@ export default function RegionalProductClient({
 
           {/* Pricing & Currency Switcher */}
           <div className="p-5 rounded-3xl bg-white/5 border border-white/15 space-y-4">
-            <div className="flex items-baseline justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
               <div>
                 <span className="text-[10px] text-stone-400 uppercase tracking-wider block">
                   International Price (Taxes &amp; Duties Pre-Cleared)
@@ -197,7 +197,7 @@ export default function RegionalProductClient({
               </div>
 
               {/* Currency Toggle */}
-              <div className="flex items-center gap-1 bg-[#121B2D] p-1 rounded-xl border border-white/10">
+              <div className="flex items-center self-start sm:self-auto gap-1 bg-[#121B2D] p-1 rounded-xl border border-white/10">
                 {config.supportedCurrencies.map((c) => (
                   <button
                     key={c}
@@ -242,40 +242,42 @@ export default function RegionalProductClient({
             </div>
 
             {/* Quantity & Buy Buttons */}
-            <div className="pt-2 flex items-center gap-3">
-              <div className="flex items-center border border-white/20 rounded-2xl bg-white/5">
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center border border-white/20 rounded-2xl bg-white/5">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-3 py-3 text-stone-300 hover:text-white font-bold"
+                  >
+                    −
+                  </button>
+                  <span className="px-3 font-mono font-bold text-sm text-white">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="px-3 py-3 text-stone-300 hover:text-white font-bold"
+                  >
+                    +
+                  </button>
+                </div>
+
                 <button
                   type="button"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3 py-3 text-stone-300 hover:text-white font-bold"
+                  onClick={handleAddToCart}
+                  className="flex-1 sm:flex-initial py-3.5 px-4 sm:px-6 rounded-2xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm tracking-wide shadow-xl transition flex items-center justify-center gap-2"
                 >
-                  −
-                </button>
-                <span className="px-3 font-mono font-bold text-sm text-white">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="px-3 py-3 text-stone-300 hover:text-white font-bold"
-                >
-                  +
+                  <span>🛒</span>
+                  <span>Add to {config.packagingBadge}</span>
                 </button>
               </div>
-
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="flex-1 py-3.5 px-6 rounded-2xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm tracking-wide shadow-xl transition flex items-center justify-center gap-2"
-              >
-                <span>🛒</span>
-                <span>Add to {config.packagingBadge}</span>
-              </button>
 
               <Link
                 href={`${config.pathPrefix}/checkout`}
                 onClick={handleAddToCart}
-                className="py-3.5 px-6 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/20 transition"
+                className="w-full sm:w-auto text-center py-3.5 px-6 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/20 transition"
               >
                 Instant Checkout
               </Link>

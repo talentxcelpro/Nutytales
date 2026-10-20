@@ -18,9 +18,7 @@ export default function ExpressBuyModal({
   onClose,
 }: ExpressBuyModalProps) {
   const { formatCraftPrice, currency, isWesternMarket } = useMarketCurrency()
-  if (!isOpen || !product) return null
-
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'Free Size')
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || 'Free Size')
   const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -28,6 +26,8 @@ export default function ExpressBuyModal({
   const [address, setAddress] = useState('')
   const [isCompleted, setIsCompleted] = useState(false)
   const [orderRef, setOrderRef] = useState('')
+
+  if (!isOpen || !product) return null
 
   const currentColor = product.colorOptions[selectedColorIdx] || product.colorOptions[0]
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')

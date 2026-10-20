@@ -197,7 +197,7 @@ export default function RegionalShell({
                       {config.subdomain.split('.')[0]}
                     </span>
                   </div>
-                  <span className="text-[10px] tracking-wide text-stone-400 font-medium block">
+                  <span className="text-[10px] tracking-wide text-stone-400 font-medium block truncate max-w-[130px] sm:max-w-none">
                     {config.tagline.replace('Nuty Tales regional offering; ', '')}
                   </span>
                 </div>
