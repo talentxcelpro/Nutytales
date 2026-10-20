@@ -1,4 +1,4 @@
-// Test script to audit all 9 production hostnames
+// Test script to audit all 12 production hostnames
 const HOSTS = [
   'https://nri.nutytales.com',
   'https://travel.nutytales.com',
@@ -7,6 +7,9 @@ const HOSTS = [
   'https://weddings.nutytales.com',
   'https://gifting.nutytales.com',
   'https://business.nutytales.com',
+  'https://middleeast.nutytales.com',
+  'https://europe.nutytales.com',
+  'https://america.nutytales.com',
   'https://nutytales.com',
   'https://www.nutytales.com',
 ];

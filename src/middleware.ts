@@ -26,6 +26,9 @@ function getActiveVertical(request: NextRequest): string | null {
   if (host.startsWith('crafts.nutytales.com') || host.startsWith('crafts.localhost')) return 'crafts'
   if (host.startsWith('stays.nutytales.com') || host.startsWith('stays.localhost')) return 'stays'
   if (host.startsWith('travel.nutytales.com') || host.startsWith('travel.localhost')) return 'travel'
+  if (host.startsWith('middleeast.nutytales.com') || host.startsWith('middleeast.localhost') || queryParam === 'middleeast' || queryParam === 'me') return 'middleeast'
+  if (host.startsWith('europe.nutytales.com') || host.startsWith('europe.localhost') || queryParam === 'europe' || queryParam === 'eu') return 'europe'
+  if (host.startsWith('america.nutytales.com') || host.startsWith('america.localhost') || queryParam === 'america' || queryParam === 'us') return 'america'
 
   return null
 }
@@ -234,6 +237,33 @@ Host: ${hostUrl}
       if (pathname === '/partners') return rewriteVertical('/travel/partners')
       if (pathname.startsWith('/travel')) return nextVertical()
       return rewriteVertical(`/travel${pathname}`)
+    }
+
+    if (vertical === 'middleeast' || vertical === 'me') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/me/sitemap.xml')
+      if (pathname === '/') return rewriteVertical('/me')
+      if (pathname === '/store') return rewriteVertical('/me/store')
+      if (pathname.startsWith('/store/')) return rewriteVertical(`/me${pathname}`)
+      if (pathname.startsWith('/me')) return nextVertical()
+      return rewriteVertical(`/me${pathname}`)
+    }
+
+    if (vertical === 'europe' || vertical === 'eu') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/eu/sitemap.xml')
+      if (pathname === '/') return rewriteVertical('/eu')
+      if (pathname === '/store') return rewriteVertical('/eu/store')
+      if (pathname.startsWith('/store/')) return rewriteVertical(`/eu${pathname}`)
+      if (pathname.startsWith('/eu')) return nextVertical()
+      return rewriteVertical(`/eu${pathname}`)
+    }
+
+    if (vertical === 'america' || vertical === 'us') {
+      if (pathname === '/sitemap.xml') return rewriteVertical('/us/sitemap.xml')
+      if (pathname === '/') return rewriteVertical('/us')
+      if (pathname === '/store') return rewriteVertical('/us/store')
+      if (pathname.startsWith('/store/')) return rewriteVertical(`/us${pathname}`)
+      if (pathname.startsWith('/us')) return nextVertical()
+      return rewriteVertical(`/us${pathname}`)
     }
   }
 

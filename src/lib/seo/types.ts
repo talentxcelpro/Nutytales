@@ -21,17 +21,23 @@ export type NutyBusiness =
   | 'weddings'   // weddings.nutytales.com
   | 'crafts'     // crafts.nutytales.com
   | 'stays'      // stays.nutytales.com
-  | 'travel';    // travel.nutytales.com
+  | 'travel'     // travel.nutytales.com
+  | 'middleeast' // middleeast.nutytales.com (GCC & Middle East diaspora delivery)
+  | 'europe'     // europe.nutytales.com (UK & Europe organic dry fruit delivery)
+  | 'america';   // america.nutytales.com (US & Canada North American distribution)
 
 export const BUSINESS_DOMAINS: Record<NutyBusiness, string> = {
-  root:     'https://nutytales.com',
-  nri:      'https://nri.nutytales.com',
-  business: 'https://business.nutytales.com',
-  gifting:  'https://gifting.nutytales.com',
-  weddings: 'https://weddings.nutytales.com',
-  crafts:   'https://crafts.nutytales.com',
-  stays:    'https://stays.nutytales.com',
-  travel:   'https://travel.nutytales.com',
+  root:       'https://nutytales.com',
+  nri:        'https://nri.nutytales.com',
+  business:   'https://business.nutytales.com',
+  gifting:    'https://gifting.nutytales.com',
+  weddings:   'https://weddings.nutytales.com',
+  crafts:     'https://crafts.nutytales.com',
+  stays:      'https://stays.nutytales.com',
+  travel:     'https://travel.nutytales.com',
+  middleeast: 'https://middleeast.nutytales.com',
+  europe:     'https://europe.nutytales.com',
+  america:    'https://america.nutytales.com',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -30,14 +30,17 @@ import { BUSINESS_DOMAINS } from './types';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const BRAND_NAMES: Record<NutyBusiness, string> = {
-  root:     'Nuty Tales',
-  nri:      'Nuty Tales NRI',
-  business: 'Nuty Tales Business',
-  gifting:  'Nuty Tales Gifting',
-  weddings: 'Nuty Tales Weddings',
-  crafts:   'Nuty Tales Crafts',
-  stays:    'Nuty Tales Stays',
-  travel:   'Nuty Tales Travel',
+  root:       'Nuty Tales',
+  nri:        'Nuty Tales NRI',
+  business:   'Nuty Tales Business',
+  gifting:    'Nuty Tales Gifting',
+  weddings:   'Nuty Tales Weddings',
+  crafts:     'Nuty Tales Crafts',
+  stays:      'Nuty Tales Stays',
+  travel:     'Nuty Tales Travel',
+  middleeast: 'Nuty Tales Middle East',
+  europe:     'Nuty Tales Europe',
+  america:    'Nuty Tales Americas',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

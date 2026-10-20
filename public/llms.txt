@@ -34,8 +34,10 @@
 - [Noida Wholesale Depot](https://nutytales.com/wholesale-dry-fruits/noida): Express supply across Delhi NCR, Gurugram, and Greater Noida.
 - [Patna Makhana Wholesale](https://nutytales.com/wholesale-dry-fruits/patna): Machine-graded 6-Suta and 7-Suta jumbo fox nuts directly from Mithila wetlands.
 - [Phool Makhana Catalog](https://nutytales.com/makhana): In-depth harvest guide and grades of fox nuts.
-- [Insured Shipping Network](https://nutytales.com/shipping): Tri-hub zero-loss logistics and transit insurance.
 - [B2B Bulk Quote (RFQ)](https://nutytales.com/bulk-quote): Request wholesale price quotations.
+- [Middle East Regional Offering](https://middleeast.nutytales.com): GCC & Middle East diaspora luxury hampers (/store/[product]-luxury-hamper) with direct Dubai JAFZA hub delivery.
+- [Europe Regional Offering](https://europe.nutytales.com): UK & Europe organic dry fruit delivery (/store/[product]-organic-heritage) with Heathrow gateway air dispatch.
+- [Americas Regional Offering](https://america.nutytales.com): US & Canada North American distribution (/store/[product]-gourmet-orchard) with US FDA compliance and FedEx Priority delivery.
 
 ## Customer & Commercial Concierge
 - WhatsApp Order Desk: +91 9717161809

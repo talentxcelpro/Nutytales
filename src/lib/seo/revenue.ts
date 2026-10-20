@@ -83,6 +83,9 @@ export const BUSINESS_CONVERSION_PATHS: Record<NutyBusiness, ConversionType[]> =
   crafts: ['order', 'rfq', 'lead', 'whatsapp_enquiry'],
   stays: ['stay_booking', 'lead', 'rfq', 'phone_call'],
   travel: ['travel_booking', 'rfq', 'lead', 'quote'],
+  middleeast: ['order', 'quote', 'whatsapp_enquiry'],
+  europe: ['order', 'quote', 'whatsapp_enquiry'],
+  america: ['order', 'quote', 'whatsapp_enquiry'],
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -141,6 +144,21 @@ export const BUSINESS_PRIMARY_CTAS: Record<NutyBusiness, {
     conversionType: 'travel_booking',
     trackingGoal: 'travel_builder_started',
   },
+  middleeast: {
+    label: 'Order Luxury Hamper',
+    conversionType: 'order',
+    trackingGoal: 'me_hamper_order_started',
+  },
+  europe: {
+    label: 'Order Organic Heritage',
+    conversionType: 'order',
+    trackingGoal: 'eu_heritage_order_started',
+  },
+  america: {
+    label: 'Order Gourmet Orchard',
+    conversionType: 'order',
+    trackingGoal: 'us_orchard_order_started',
+  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -162,14 +180,17 @@ export function buildWhatsappLink(params: {
   const { business, pageContext, quantity, location } = params;
 
   const businessMessages: Record<NutyBusiness, string> = {
-    root:     `Hi, I found your website and wanted to enquire about${pageContext ? ` ${pageContext}` : ' your products'}.`,
-    nri:      `Hi, I need assistance managing a service or property in India. Please connect me with your ground coordinator desk.`,
-    business: `Hi, I'm interested in${pageContext ? ` ${pageContext}` : ' wholesale dry fruits'}${quantity ? ` (approx. ${quantity})` : ''}${location ? ` for ${location}` : ''}. Please share your B2B price list.`,
-    gifting:  `Hi, I'd like to enquire about${pageContext ? ` ${pageContext}` : ' corporate gifting'}${quantity ? ` for ${quantity}` : ''}. Please share your gifting catalogue.`,
-    weddings: `Hi, I'm planning a${pageContext ? ` ${pageContext}` : ' wedding'} and would like to get a quote. Can you share your packages?`,
-    crafts:   `Hi, I'm interested in${pageContext ? ` ${pageContext}` : ' your Kashmir crafts'}. Can you share more details and pricing?`,
-    stays:    `Hi, I'd like to check availability for${pageContext ? ` ${pageContext}` : ' a stay'}${location ? ` in ${location}` : ''}. Can you please assist?`,
-    travel:   `Hi, I'm planning a trip${pageContext ? ` to ${pageContext}` : ''}. Can you share your package options and pricing?`,
+    root:       `Hi, I found your website and wanted to enquire about${pageContext ? ` ${pageContext}` : ' your products'}.`,
+    nri:        `Hi, I need assistance managing a service or property in India. Please connect me with your ground coordinator desk.`,
+    business:   `Hi, I'm interested in${pageContext ? ` ${pageContext}` : ' wholesale dry fruits'}${quantity ? ` (approx. ${quantity})` : ''}${location ? ` for ${location}` : ''}. Please share your B2B price list.`,
+    gifting:    `Hi, I'd like to enquire about${pageContext ? ` ${pageContext}` : ' corporate gifting'}${quantity ? ` for ${quantity}` : ''}. Please share your gifting catalogue.`,
+    weddings:   `Hi, I'm planning a${pageContext ? ` ${pageContext}` : ' wedding'} and would like to get a quote. Can you share your packages?`,
+    crafts:     `Hi, I'm interested in${pageContext ? ` ${pageContext}` : ' your Kashmir crafts'}. Can you share more details and pricing?`,
+    stays:      `Hi, I'd like to check availability for${pageContext ? ` ${pageContext}` : ' a stay'}${location ? ` in ${location}` : ''}. Can you please assist?`,
+    travel:     `Hi, I'm planning a trip${pageContext ? ` to ${pageContext}` : ''}. Can you share your package options and pricing?`,
+    middleeast: `Hi, I'm interested in GCC & Middle East diaspora luxury hampers. Can you assist with delivery to UAE/Saudi Arabia?`,
+    europe:     `Hi, I'm interested in UK & Europe organic dry fruits delivery. Can you assist with dispatch details?`,
+    america:    `Hi, I'm interested in North American gourmet orchard delivery. Can you assist with US/Canada distribution?`,
   };
 
   const message = encodeURIComponent(businessMessages[business]);

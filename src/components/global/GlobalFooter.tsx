@@ -15,8 +15,8 @@ export default function GlobalFooter() {
 
   // Suppress global footer when rendering dedicated standalone company shells or subdomains
   const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri)/i.test(document.cookie))
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
 
   if (
     isSubdomain ||
@@ -26,7 +26,10 @@ export default function GlobalFooter() {
     pathname?.startsWith('/crafts') ||
     pathname?.startsWith('/stays') ||
     pathname?.startsWith('/travel') ||
-    pathname?.startsWith('/nri')
+    pathname?.startsWith('/nri') ||
+    pathname?.startsWith('/me') ||
+    pathname?.startsWith('/eu') ||
+    pathname?.startsWith('/us')
   ) {
     return null
   }
@@ -163,7 +166,10 @@ export default function GlobalFooter() {
             <div className="space-y-1 text-center md:text-left">
               <p>© {currentYear} Nuty Tales Foods &amp; Crafts · A subsidiary of Nexgenn Services. All rights reserved.</p>
               <p className="text-[11px] text-stone-500">
-                Part of Nuty Tales technology ecosystem ·{' '}
+                Part of Nuty Tales global ecosystem ·{' '}
+                <a href="https://middleeast.nutytales.com" className="hover:underline text-amber-400">Middle East (GCC)</a> ·{' '}
+                <a href="https://europe.nutytales.com" className="hover:underline text-emerald-400">Europe</a> ·{' '}
+                <a href="https://america.nutytales.com" className="hover:underline text-blue-400">Americas</a> ·{' '}
                 <a href="https://business.nutytales.com" className="hover:underline text-stone-400">Business</a> ·{' '}
                 <a href="https://gifting.nutytales.com" className="hover:underline text-stone-400">Gifting</a> ·{' '}
                 <a href="https://weddings.nutytales.com" className="hover:underline text-stone-400">Weddings</a> ·{' '}

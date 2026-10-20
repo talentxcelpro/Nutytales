@@ -318,6 +318,42 @@ export const BUSINESS_NAV_TREES: Record<NutyBusiness, NavNode[]> = {
       label: 'Italy Travel',
     },
   ],
+
+  middleeast: [
+    {
+      href: '/store',
+      label: 'GCC Luxury Hampers',
+      children: [
+        { href: '/store/kashmiri-mongra-saffron-luxury-hamper', label: 'Mongra Saffron Hamper' },
+        { href: '/store/mamra-almonds-kashmiri-badam-luxury-hamper', label: 'Mamra Badam Hamper' },
+        { href: '/store/royal-ajwa-dates-madinah-luxury-hamper', label: 'Royal Ajwa Dates' },
+      ],
+    },
+  ],
+
+  europe: [
+    {
+      href: '/store',
+      label: 'UK & Europe Organic Heritage',
+      children: [
+        { href: '/store/kashmiri-mongra-saffron-organic-heritage', label: 'Organic Saffron' },
+        { href: '/store/kashmiri-walnuts-in-shell-organic-heritage', label: 'Organic Walnuts' },
+        { href: '/store/ladakh-halman-wild-apricots-organic-heritage', label: 'Wild Apricots' },
+      ],
+    },
+  ],
+
+  america: [
+    {
+      href: '/store',
+      label: 'North America Gourmet Orchard',
+      children: [
+        { href: '/store/california-almonds-premium-gourmet-orchard', label: 'Gourmet Almonds' },
+        { href: '/store/makhana-grade-a-fox-nuts-gourmet-orchard', label: 'Jumbo Makhana' },
+        { href: '/store/kashmiri-walnuts-in-shell-gourmet-orchard', label: 'Kashmiri Walnuts' },
+      ],
+    },
+  ],
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,14 +372,17 @@ export function buildBreadcrumbs(
 
   if (business !== 'root') {
     const businessLabels: Record<NutyBusiness, string> = {
-      root:     'Nuty Tales',
-      nri:      'Nuty Tales NRI',
-      business: 'Nuty Tales Business',
-      gifting:  'Gifting',
-      weddings: 'Weddings',
-      crafts:   'Crafts',
-      stays:    'Stays',
-      travel:   'Travel',
+      root:       'Nuty Tales',
+      nri:        'Nuty Tales NRI',
+      business:   'Nuty Tales Business',
+      gifting:    'Gifting',
+      weddings:   'Weddings',
+      crafts:     'Crafts',
+      stays:      'Stays',
+      travel:     'Travel',
+      middleeast: 'Middle East',
+      europe:     'Europe',
+      america:    'Americas',
     };
     crumbs.push({ label: businessLabels[business], href: domain });
   }

@@ -101,6 +101,9 @@ const SITEMAPS_TO_SUBMIT = [
   'https://stays.nutytales.com/sitemap.xml',
   'https://travel.nutytales.com/sitemap.xml',
   'https://nri.nutytales.com/sitemap.xml',
+  'https://middleeast.nutytales.com/sitemap.xml',
+  'https://europe.nutytales.com/sitemap.xml',
+  'https://america.nutytales.com/sitemap.xml',
 ];
 
 async function main() {

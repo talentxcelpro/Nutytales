@@ -246,7 +246,7 @@ export function getSeoEngineTelemetry(): SeoEngineTelemetry {
   const candidates = buildAllCandidates();
   const summary = summarizeBatch(candidates);
 
-  const businesses: NutyBusiness[] = ['root', 'nri', 'business', 'gifting', 'weddings', 'crafts', 'stays', 'travel'];
+  const businesses: NutyBusiness[] = ['root', 'nri', 'business', 'gifting', 'weddings', 'crafts', 'stays', 'travel', 'middleeast', 'europe', 'america'];
   const breakdown: SeoEngineTelemetry['businessBreakdown'] = {} as any;
 
   for (const biz of businesses) {

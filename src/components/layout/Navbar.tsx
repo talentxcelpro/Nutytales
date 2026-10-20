@@ -29,8 +29,8 @@ export default function Navbar() {
 
   // Suppress consumer retail navbar when rendering dedicated standalone company shells or subdomains
   const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel)/i.test(document.cookie))
+    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
 
   if (
     isSubdomain ||
@@ -39,7 +39,11 @@ export default function Navbar() {
     pathname?.startsWith('/weddings') ||
     pathname?.startsWith('/crafts') ||
     pathname?.startsWith('/stays') ||
-    pathname?.startsWith('/travel')
+    pathname?.startsWith('/travel') ||
+    pathname?.startsWith('/nri') ||
+    pathname?.startsWith('/me') ||
+    pathname?.startsWith('/eu') ||
+    pathname?.startsWith('/us')
   ) {
     return null
   }
