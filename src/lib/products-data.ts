@@ -85,6 +85,56 @@ function buildVariants(pricePerKg: number, mrpMultiplier = 1.18): ProductVariant
 
 // ─── Product Catalog ────────────────────────────────────────────────────────────
 export const PRODUCTS: Product[] = [
+  // ── ★ Spotlight Feature: NutyTales Premium Makhana (Special Launch Offer ₹899/kg) ──
+  {
+    id: 'mkh-001',
+    name: 'NutyTales Premium Makhana (Jumbo 6 Suta Whole)',
+    slug: 'makhana-grade-a-fox-nuts',
+    category: 'Makhana',
+    categorySlug: 'makhana',
+    origin: 'Darbhanga & Mithila, Bihar, India',
+    grade: 'Jumbo 6 Suta Whole',
+    shortDesc: 'NutyTales Premium Makhana — Jumbo 6 Suta whole lotus seeds straight from nature to your home. 100% natural, no preservatives, high protein & fibre. Special price: ₹899/kg only.',
+    longDesc: `NutyTales Premium Makhana (Jumbo 6 Suta Whole) is sourced directly from certified wetland farms in Mithila, Bihar. Carefully cleaned, hand-graded, and hygienically packed with zero preservatives.\n\n• ₹899 per kg special introductory price (MRP ₹1,499 — 40% OFF)\n• Jumbo Size (6 Suta) with superior crunch\n• 100% Natural, No Preservatives, Non-GMO\n• Rich in plant protein & dietary fibre, low calorie, heart friendly\n• Enjoy your way: roasted snack in ghee, delicious kheer, curries & gravy, or healthy snack bowl\n• Ideal for fasting (vrat), gym nutrition, and daily family health\n\nCentral FSSAI Lic. #22724441000048 certified. Nitrogen-sealed for 12 months crisp freshness. Shipped nationwide with express delivery.`,
+    retailPrice: 899,
+    b2bPricePerKg: 690,
+    mrp: 1499,
+    variants: [
+      { sizeG: 250, label: '250g Trial Pack', retailPrice: 249, mrp: 399 },
+      { sizeG: 500, label: '500g Family Pack', retailPrice: 479, mrp: 799 },
+      { sizeG: 1000, label: '1 kg Best Value Pack', retailPrice: 899, mrp: 1499 },
+      { sizeG: 2000, label: '2 kg Mega Saver Pack', retailPrice: 1749, mrp: 2998 },
+    ],
+    b2bTiers: [
+      { minQtyKg: 5, maxQtyKg: 9, pricePerKg: 790, savingsPercent: 12 },
+      { minQtyKg: 10, maxQtyKg: 24, pricePerKg: 740, savingsPercent: 18 },
+      { minQtyKg: 25, maxQtyKg: 49, pricePerKg: 710, savingsPercent: 21 },
+      { minQtyKg: 50, maxQtyKg: 99, pricePerKg: 690, savingsPercent: 23 },
+      { minQtyKg: 100, maxQtyKg: null, pricePerKg: 0, savingsPercent: 0 },
+    ],
+    stockStatus: 'IN_STOCK',
+    image: '/images/promo-makhana-899.png',
+    images: [
+      '/images/promo-makhana-899.png',
+      '/images/makhana-pouch-250g.jpg',
+      '/images/hero-lifestyle-bowl.png',
+    ],
+    sensory: {
+      tastingNotes: ['Crisp Cloud Crunch', 'Subtle Nutty Sweetness', 'Clean Earthy Finish'],
+      altitude: 'Mithila Wetlands, Bihar',
+      harvestSeason: 'Fresh Harvest 2025/2026',
+      oilIndex: 'Zero Trans Fat · Naturally Low Calorie',
+      crunchScore: 5,
+      secondaryImage: '/images/makhana-pouch-250g.jpg',
+    },
+    isFeatured: true,
+    shelfLifeMonths: 12,
+    storage: 'Store in an airtight container in a cool, dry place. Keep away from moisture.',
+    allergens: 'No known allergens. Lotus seed product. Produced in a facility handling tree nuts.',
+    nutrition: { servingSize: '30g', calories: 107, protein: 3.8, carbs: 20, fat: 0.1, fiber: 0.5, sodium: 0 },
+    tags: ['makhana', 'jumbo-makhana', '6-suta', 'fox-nuts', 'superfood', 'healthy-snack', 'vrat', 'best-seller', 'special-offer-899'],
+  },
+
   // ── Almonds (3) ──────────────────────────────────────────────────────────────
   {
     id: 'alm-001',
@@ -779,31 +829,7 @@ export const PRODUCTS: Product[] = [
   },
 
 
-  // ── Makhana (3) ──────────────────────────────────────────────────────────────
-  {
-    id: 'mkh-001',
-    name: 'Makhana Grade A (Fox Nuts)',
-    slug: 'makhana-grade-a-fox-nuts',
-    category: 'Makhana',
-    categorySlug: 'makhana',
-    origin: 'Darbhanga, Bihar, India',
-    grade: 'Grade A',
-    shortDesc: 'Premium Grade A Makhana from Bihar — large, crispy lotus seeds perfect for roasting and kheer.',
-    longDesc: `Makhana (Fox Nuts / Lotus Seeds) is a superfood cultivated in the wetlands of Bihar, India. Nuty Tales sources Grade A Makhana directly from farmers in Darbhanga and Madhubani — the heart of India's Makhana belt.\n\nGrade A Makhana are characterised by large, uniform size (Sutta 6 grade), brilliant white colour, and exceptional crispness. Zero additives, zero processing, straight from the farm.\n\nPerfect for roasting with ghee and spices, making Makhana kheer, trail mixes, and baby food. Our Makhana is sourced fresh at harvest season and vacuum-packed for maximum shelf life.`,
-    retailPrice: 2100,
-    b2bPricePerKg: 1850,
-    mrp: 2499,
-    variants: buildVariants(2100),
-    b2bTiers: buildTiers(1850),
-    stockStatus: 'IN_STOCK',
-    image: '/images/makhana-pouch-250g.jpg',
-    isFeatured: true,
-    shelfLifeMonths: 12,
-    storage: 'Store in an airtight container in a cool, dry place. Keep away from moisture.',
-    allergens: 'No known allergens. Lotus seed product. Produced in a facility handling tree nuts.',
-    nutrition: { servingSize: '30g', calories: 107, protein: 3.8, carbs: 20, fat: 0.1, fiber: 0.5, sodium: 0 },
-    tags: ['makhana', 'fox-nuts', 'lotus-seeds', 'bihar', 'grade-a', 'superfood'],
-  },
+  // ── Makhana ──────────────────────────────────────────────────────────────────
   {
     id: 'mkh-002',
     name: 'Makhana Grade B (Fox Nuts Economy)',

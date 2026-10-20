@@ -27,6 +27,7 @@ export default function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
   const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false)
+  const [placedOrderId, setPlacedOrderId] = useState<string>('')
 
   // Form state
   const [fullName, setFullName] = useState('')
@@ -106,6 +107,8 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    const generatedId = `NT-ORD-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`
+    let confirmedOrderId = generatedId
 
     // Format order payload
     const orderPayload = {
@@ -127,22 +130,52 @@ export default function CheckoutPage() {
       shipping,
       total: estimatedTotal,
       notes,
+      referenceId: generatedId,
       createdAt: new Date().toISOString(),
     }
 
     // Try posting to local order endpoint or save locally
     try {
-      await fetch('/api/orders', {
+      const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderPayload),
       })
+      const data = await res.json()
+      if (data?.orderId) {
+        confirmedOrderId = data.orderId
+      }
     } catch {
       // In case api route is mock or pending DB auth
     }
 
+    setPlacedOrderId(confirmedOrderId)
+
+    // Save full order record to localStorage
+    const fullOrderRecord = {
+      orderId: confirmedOrderId,
+      customer: orderPayload.customer,
+      items: cart,
+      subtotal,
+      shipping,
+      total: estimatedTotal,
+      paymentMethod,
+      createdAt: new Date().toISOString(),
+      estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    }
+
+    try {
+      localStorage.setItem('nt_last_order', JSON.stringify(fullOrderRecord))
+      const history = JSON.parse(localStorage.getItem('nt_order_history') || '[]')
+      history.unshift(fullOrderRecord)
+      localStorage.setItem('nt_order_history', JSON.stringify(history.slice(0, 20)))
+    } catch {
+      // ignore
+    }
+
     // Clear cart
     localStorage.removeItem('nt_cart')
+    window.dispatchEvent(new Event('nt_cart_updated'))
     setIsSubmitting(false)
     setSubmitted(true)
   }
@@ -156,7 +189,7 @@ export default function CheckoutPage() {
     const discountInfo = appliedCoupon && discount > 0 ? `\n• *Coupon (${appliedCoupon}):* -₹${discount}` : ''
 
     const text = encodeURIComponent(
-      `Hello Nuty Tales! 👋\n\nI just placed an order:\n\n*Customer:* ${fullName} (${phone})\n*Delivery:* ${address}, ${city}, ${state} - ${pincode}${b2bInfo}\n*Payment Method:* ${paymentMethod.toUpperCase()}\n\n*Items:*\n${summary}\n\n*Subtotal:* ₹${subtotal}${discountInfo}\n*Shipping:* ${shipping === 0 ? 'FREE' : `₹${shipping}`}\n*Total Amount:* ₹${estimatedTotal}\n\nPlease share dispatch timeline and tracking details!`
+      `Hello Nuty Tales! 👋\n\nI just placed order: *${placedOrderId || 'NEW ORDER'}*\n\n*Customer:* ${fullName} (${phone})\n*Delivery:* ${address}, ${city}, ${state} - ${pincode}${b2bInfo}\n*Payment Method:* ${paymentMethod.toUpperCase()}\n\n*Items:*\n${summary}\n\n*Subtotal:* ₹${subtotal}${discountInfo}\n*Shipping:* ${shipping === 0 ? 'FREE' : `₹${shipping}`}\n*Total Amount:* ₹${estimatedTotal}\n\nPlease share dispatch timeline and tracking details!`
     )
 
     return `https://wa.me/${whatsappPhone}?text=${text}`
@@ -171,61 +204,92 @@ export default function CheckoutPage() {
   }
 
   if (submitted) {
+    const estDeliveryStr = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+    })
+
     return (
-      <main className="min-h-screen bg-[#F7F2E8] pt-28 sm:pt-36 pb-24 text-[#17233B]">
+      <main className="min-h-screen bg-[#FDFBF7] pt-28 sm:pt-36 pb-24 text-[#17233B]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#17233B]/10 shadow-sm text-center space-y-6">
-            <div className="w-20 h-20 rounded-full bg-emerald-50 text-emerald-700 text-3xl mx-auto flex items-center justify-center border border-emerald-200">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-stone-200 shadow-sm text-center space-y-6">
+            <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-700 text-2xl mx-auto flex items-center justify-center border border-emerald-200">
               ✓
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs uppercase font-bold tracking-widest text-[#176B68]">
-                Order Received
+              <span className="text-xs uppercase font-bold tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+                Order Confirmed · Ready for Dispatch
               </span>
-              <h1 className="font-serif text-3xl font-bold text-[#17233B]">
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#17233B]">
                 Thank you, {fullName || 'Valued Customer'}!
               </h1>
-              <p className="text-sm text-[#17233B]/70 max-w-md mx-auto leading-relaxed">
-                Your order is confirmed. Our dispatch team is packaging your dry fruits fresh under FSSAI Lic. {FSSAI_NUMBER}.
+              <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+                Your order is confirmed. Fresh packaging and nitrogen seal underway under Central FSSAI Lic. #{FSSAI_NUMBER}.
               </p>
             </div>
 
+            {/* Order Reference Box */}
+            <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 text-left text-xs space-y-2">
+              <div className="flex items-center justify-between border-b border-stone-200 pb-2">
+                <span className="text-stone-500 uppercase font-bold text-[10px]">Order ID</span>
+                <span className="font-mono font-bold text-[#17233B] text-sm">{placedOrderId}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Estimated Delivery</span>
+                <span className="font-bold text-emerald-800">{estDeliveryStr} (2-3 Days)</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Delivery Address</span>
+                <span className="font-medium text-stone-800 text-right truncate max-w-[200px]">
+                  {address}, {city} - {pincode}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-stone-500">Total Amount</span>
+                <span className="font-mono font-bold text-stone-900 text-sm">₹{estimatedTotal}</span>
+              </div>
+            </div>
+
             {paymentMethod === 'neft' && (
-              <div className="bg-[#F7F2E8] p-5 rounded-2xl text-left border border-[#17233B]/10 text-xs space-y-2">
-                <p className="font-bold text-[#17233B] uppercase tracking-wider text-[11px]">
-                  B2B Bank Transfer Account (NEFT / RTGS / IMPS):
+              <div className="bg-[#F7F2E8] p-4 rounded-2xl text-left border border-[#17233B]/10 text-xs space-y-2">
+                <p className="font-bold text-[#17233B] uppercase tracking-wider text-[10px]">
+                  B2B Bank Transfer Details (NEFT / RTGS / IMPS):
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-700">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-700 text-[11px]">
                   <div><strong>Account Name:</strong> Nuty Tales Foods &amp; Crafts</div>
                   <div><strong>Parent Entity:</strong> Nexgenn Services</div>
                   <div><strong>Bank:</strong> HDFC Bank / ICICI Bank</div>
-                  <div><strong>Branch:</strong> Sector 128, Noida, UP 201304</div>
                   <div><strong>Account No:</strong> 50200088910412</div>
                   <div><strong>IFSC Code:</strong> HDFC0001234</div>
-                  <div><strong>FSSAI Lic:</strong> 22724441000048</div>
                   <div><strong>GSTIN:</strong> 09AAECN1234F1Z5</div>
                 </div>
-                <p className="text-[11px] text-[#704B32] pt-1">
-                  Please share the UTR / transfer screenshot on WhatsApp for instant clearance.
-                </p>
               </div>
             )}
 
-            <div className="pt-2 flex flex-col sm:flex-row justify-center gap-4">
+            {/* Action Buttons */}
+            <div className="pt-2 flex flex-col sm:flex-row justify-center gap-3">
+              <Link
+                href={`/orders/track?id=${placedOrderId}`}
+                className="px-6 py-3.5 bg-[#17233B] hover:bg-[#203050] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2"
+              >
+                <span>📦 Track Live Delivery</span>
+                <span>→</span>
+              </Link>
               <a
                 href={buildWhatsAppRedirect()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors shadow-sm flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-semibold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2"
               >
-                <span>💬 Track Order on WhatsApp (+91 9717161809)</span>
+                <span>💬 WhatsApp Updates</span>
               </a>
               <Link
                 href="/shop"
-                className="px-8 py-3.5 bg-white border border-[#17233B]/20 text-[#17233B] hover:text-[#176B68] rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors"
+                className="px-6 py-3.5 bg-white border border-stone-300 text-stone-700 hover:text-stone-900 rounded-xl text-xs font-semibold uppercase tracking-wider transition"
               >
-                Return to Shop
+                Continue Shopping
               </Link>
             </div>
           </div>
