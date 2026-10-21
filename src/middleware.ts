@@ -58,7 +58,9 @@ export function middleware(request: NextRequest) {
       ? `https://${vertical}.nutytales.com`
       : 'https://nutytales.com'
 
-    const robotsTxt = `# Nuty Tales Search Engine Crawl Governance
+    const robotsTxt = `# Nuty Tales — Search Engine and AI Crawler Policy
+# Public pages may be crawled; private and transactional paths are restricted.
+
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -66,27 +68,42 @@ Disallow: /admin/
 Disallow: /account
 Disallow: /account/
 Disallow: /cart
+Disallow: /cart/
 Disallow: /checkout
+Disallow: /checkout/
 Disallow: /api/
-Disallow: /_next/
 Disallow: /login
+Disallow: /login/
 Disallow: /register
-Disallow: /search?
-Disallow: /*?*utm_*
+Disallow: /register/
+Disallow: /search
+Disallow: /search/
+Disallow: /*?*utm_
 Disallow: /*?*session_*
 Disallow: /*.json$
 
-# AI Scraper Policy
+# OpenAI crawler for potential search discovery
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI crawler used for model training
 User-agent: GPTBot
-Disallow: /
+Allow: /
+
+# Google AI training and grounding crawler
 User-agent: Google-Extended
-Disallow: /
-User-agent: CCBot
-Disallow: /
-User-agent: anthropic-ai
-Disallow: /
+Allow: /
+
+# Anthropic crawler
+User-agent: ClaudeBot
+Allow: /
+
 User-agent: Claude-Web
-Disallow: /
+Allow: /
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
 
 Sitemap: ${sitemapUrl}
 Host: ${hostUrl}
