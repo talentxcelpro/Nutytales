@@ -3,6 +3,7 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import {
   RegionalConfig,
   formatRegionalPrice,
@@ -33,6 +34,10 @@ export default function RegionalCheckoutClient({
   config: RegionalConfig
   initialCurrency?: CurrencyCode
 }) {
+  const pathname = usePathname()
+  const homeHref = pathname?.startsWith(config.pathPrefix) ? config.pathPrefix : '/'
+  const storeHref = pathname?.startsWith(config.pathPrefix) ? `${config.pathPrefix}/store` : '/store'
+
   const [cart, setCart] = useState<CartItem[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
   const [activeCurrency, setActiveCurrency] = useState<CurrencyCode>(
@@ -275,11 +280,11 @@ export default function RegionalCheckoutClient({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center gap-2 text-xs text-stone-400">
-        <Link href={config.pathPrefix} className="hover:text-white transition">
+        <Link href={homeHref} className="hover:text-white transition">
           {config.brandName}
         </Link>
         <span>/</span>
-        <Link href={`${config.pathPrefix}/store`} className="hover:text-white transition">
+        <Link href={storeHref} className="hover:text-white transition">
           Catalog
         </Link>
         <span>/</span>

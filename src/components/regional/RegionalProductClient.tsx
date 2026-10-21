@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { RegionalConfig, RegionalProductItem, cleanRegionalSlug, REGIONAL_CONFIGS, getRegionalProductPrice, formatRegionalPrice } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice, convertFromINR, SUPPORTED_CURRENCIES } from '@/lib/global-config'
 
@@ -15,6 +16,8 @@ export default function RegionalProductClient({
   productItem: RegionalProductItem
   initialCurrency?: CurrencyCode
 }) {
+  const pathname = usePathname()
+  const checkoutHref = pathname?.startsWith(config.pathPrefix) ? `${config.pathPrefix}/checkout` : '/checkout'
   const [activeCurrency, setActiveCurrency] = useState<CurrencyCode>(
     initialCurrency || config.defaultCurrency
   )
@@ -275,7 +278,7 @@ export default function RegionalProductClient({
               </div>
 
               <Link
-                href={`${config.pathPrefix}/checkout`}
+                href={checkoutHref}
                 onClick={handleAddToCart}
                 className="w-full sm:w-auto text-center py-3.5 px-6 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/20 transition"
               >

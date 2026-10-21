@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { RegionalConfig, RegionalProductItem, getRegionalProductPrice, formatRegionalPrice } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice, SUPPORTED_CURRENCIES } from '@/lib/global-config'
 
@@ -101,7 +102,8 @@ export default function RegionalCatalogClient({
     }
   }
 
-  const storeHref = `${config.pathPrefix}/store`
+  const pathname = usePathname()
+  const storeHref = pathname?.startsWith(config.pathPrefix) ? `${config.pathPrefix}/store` : '/store'
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">

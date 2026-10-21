@@ -114,6 +114,85 @@ Host: ${hostUrl}
 
   // 4. Subdomain-aware routing & rewrites
   if (vertical) {
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1')
+    const protocol = isLocalhost ? 'http' : 'https'
+
+    // ─── 4A. Cross-Subdomain Portal Redirection ───
+    // When a request reaches one subdomain but asks for another regional portal or vertical,
+    // redirect gracefully to the canonical portal instead of failing with 404.
+
+    // Middle East Portal (/me)
+    if (pathname === '/me' || pathname.startsWith('/me/')) {
+      const clean = pathname.replace(/^\/me/, '') || '/'
+      if (vertical === 'middleeast' || vertical === 'me') {
+        return NextResponse.redirect(new URL(clean + request.nextUrl.search, request.url), 302)
+      } else {
+        const targetHost = isLocalhost
+          ? (host.includes('.localhost') ? 'middleeast.localhost:3000' : 'localhost:3000/me')
+          : 'middleeast.nutytales.com'
+        const dest = isLocalhost && !host.includes('.localhost')
+          ? `${protocol}://${targetHost}${clean === '/' ? '' : clean}`
+          : `${protocol}://${targetHost}${clean}`
+        return NextResponse.redirect(dest + request.nextUrl.search, 302)
+      }
+    }
+
+    // UK & Europe Portal (/eu)
+    if (pathname === '/eu' || pathname.startsWith('/eu/')) {
+      const clean = pathname.replace(/^\/eu/, '') || '/'
+      if (vertical === 'europe' || vertical === 'eu') {
+        return NextResponse.redirect(new URL(clean + request.nextUrl.search, request.url), 302)
+      } else {
+        const targetHost = isLocalhost
+          ? (host.includes('.localhost') ? 'europe.localhost:3000' : 'localhost:3000/eu')
+          : 'europe.nutytales.com'
+        const dest = isLocalhost && !host.includes('.localhost')
+          ? `${protocol}://${targetHost}${clean === '/' ? '' : clean}`
+          : `${protocol}://${targetHost}${clean}`
+        return NextResponse.redirect(dest + request.nextUrl.search, 302)
+      }
+    }
+
+    // North America Portal (/us)
+    if (pathname === '/us' || pathname.startsWith('/us/')) {
+      const clean = pathname.replace(/^\/us/, '') || '/'
+      if (vertical === 'america' || vertical === 'us') {
+        return NextResponse.redirect(new URL(clean + request.nextUrl.search, request.url), 302)
+      } else {
+        const targetHost = isLocalhost
+          ? (host.includes('.localhost') ? 'america.localhost:3000' : 'localhost:3000/us')
+          : 'america.nutytales.com'
+        const dest = isLocalhost && !host.includes('.localhost')
+          ? `${protocol}://${targetHost}${clean === '/' ? '' : clean}`
+          : `${protocol}://${targetHost}${clean}`
+        return NextResponse.redirect(dest + request.nextUrl.search, 302)
+      }
+    }
+
+    // Cross-subdomain mappings for core verticals
+    const CROSS_PORTALS: { prefix: string; verticalKey: string; subdomain: string }[] = [
+      { prefix: '/b2b', verticalKey: 'business', subdomain: 'business.nutytales.com' },
+      { prefix: '/business-supply', verticalKey: 'business', subdomain: 'business.nutytales.com' },
+      { prefix: '/gifting', verticalKey: 'gifting', subdomain: 'gifting.nutytales.com' },
+      { prefix: '/weddings', verticalKey: 'weddings', subdomain: 'weddings.nutytales.com' },
+      { prefix: '/crafts', verticalKey: 'crafts', subdomain: 'crafts.nutytales.com' },
+      { prefix: '/stays', verticalKey: 'stays', subdomain: 'stays.nutytales.com' },
+      { prefix: '/travel', verticalKey: 'travel', subdomain: 'travel.nutytales.com' },
+      { prefix: '/nri', verticalKey: 'nri', subdomain: 'nri.nutytales.com' },
+    ]
+
+    for (const portal of CROSS_PORTALS) {
+      if (pathname === portal.prefix || pathname.startsWith(`${portal.prefix}/`)) {
+        if (vertical !== portal.verticalKey) {
+          const clean = pathname.replace(new RegExp(`^\\${portal.prefix}`), '') || '/'
+          const dest = isLocalhost
+            ? (host.includes('.localhost') ? `http://${portal.verticalKey}.localhost:3000${clean}` : `http://localhost:3000${portal.prefix}${clean === '/' ? '' : clean}`)
+            : `https://${portal.subdomain}${clean}`
+          return NextResponse.redirect(dest + request.nextUrl.search, 302)
+        }
+      }
+    }
+
     const rewriteVertical = (targetPath: string) => {
       const res = NextResponse.rewrite(new URL(targetPath, request.url))
       res.cookies.set('nt_active_vertical', vertical, { path: '/' })
@@ -242,8 +321,9 @@ Host: ${hostUrl}
     if (vertical === 'middleeast' || vertical === 'me') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/me/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/me')
-      if (pathname === '/store') return rewriteVertical('/me/store')
+      if (pathname === '/store' || pathname === '/shop') return rewriteVertical('/me/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/me${pathname}`)
+      if (pathname.startsWith('/shop/')) return rewriteVertical(`/me/store${pathname.replace(/^\/shop/, '')}`)
       if (pathname === '/cart') return rewriteVertical('/me/cart')
       if (pathname === '/checkout') return rewriteVertical('/me/checkout')
       if (pathname.startsWith('/me')) return nextVertical()
@@ -253,8 +333,9 @@ Host: ${hostUrl}
     if (vertical === 'europe' || vertical === 'eu') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/eu/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/eu')
-      if (pathname === '/store') return rewriteVertical('/eu/store')
+      if (pathname === '/store' || pathname === '/shop') return rewriteVertical('/eu/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/eu${pathname}`)
+      if (pathname.startsWith('/shop/')) return rewriteVertical(`/eu/store${pathname.replace(/^\/shop/, '')}`)
       if (pathname === '/cart') return rewriteVertical('/eu/cart')
       if (pathname === '/checkout') return rewriteVertical('/eu/checkout')
       if (pathname.startsWith('/eu')) return nextVertical()
@@ -264,8 +345,9 @@ Host: ${hostUrl}
     if (vertical === 'america' || vertical === 'us') {
       if (pathname === '/sitemap.xml') return rewriteVertical('/us/sitemap.xml')
       if (pathname === '/') return rewriteVertical('/us')
-      if (pathname === '/store') return rewriteVertical('/us/store')
+      if (pathname === '/store' || pathname === '/shop') return rewriteVertical('/us/store')
       if (pathname.startsWith('/store/')) return rewriteVertical(`/us${pathname}`)
+      if (pathname.startsWith('/shop/')) return rewriteVertical(`/us/store${pathname.replace(/^\/shop/, '')}`)
       if (pathname === '/cart') return rewriteVertical('/us/cart')
       if (pathname === '/checkout') return rewriteVertical('/us/checkout')
       if (pathname.startsWith('/us')) return nextVertical()

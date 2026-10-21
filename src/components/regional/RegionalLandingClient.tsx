@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { RegionalConfig, RegionalProductItem, RegionKey } from '@/lib/regional-data'
 import { CurrencyCode, formatGlobalPrice } from '@/lib/global-config'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
@@ -14,8 +15,9 @@ export default function RegionalLandingClient({
   config: RegionalConfig
   featuredProducts: RegionalProductItem[]
 }) {
+  const pathname = usePathname()
   const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const storeHref = `${config.pathPrefix}/store`
+  const storeHref = pathname?.startsWith(config.pathPrefix) ? `${config.pathPrefix}/store` : '/store'
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   return (
