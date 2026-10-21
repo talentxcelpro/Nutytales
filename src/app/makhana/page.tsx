@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Mithila Makhana Wholesale & Retail — Bihar Fox Nuts | Nuty Tales',
   description:
     'Procure authentic GI-tagged Mithila Phool Makhana directly from Bihar origin. Grade A Jumbo (6+ count) and Standard grades. Retail packs (100g–500g) and wholesale 10kg–25kg sacks.',
+  alternates: {
+    canonical: 'https://nutytales.com/makhana',
+  },
   keywords: [
     'mithila makhana wholesale',
     'buy phool makhana online',

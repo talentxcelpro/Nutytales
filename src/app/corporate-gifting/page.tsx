@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'Festive Corporate Gift Hampers | Custom Dry Fruit Hampers | Nuty Tales',
   description:
     'Premium Corporate festive gift hampers with customized logo boxes, personalized greeting cards, and pan-India delivery. Almonds, Cashews, Kashmiri Walnuts, Afghan Anjeer & Saffron. Request a bulk quote.',
+  alternates: {
+    canonical: 'https://nutytales.com/corporate-gifting',
+  },
   keywords: [
     'festive corporate gift hampers',
     'dry fruit corporate gifts',

@@ -1,5 +1,22 @@
-﻿import Image from 'next/image'
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'World Crafts Atlas — Artisan Master Traditions | Nuty Tales Crafts',
+  description:
+    'Discover world artisan heritage: Fez glazed ceramics, Iznik hand-painted pottery, Herat glassware, and Margilan Ikat weaves directly from indigenous artisans.',
+  alternates: {
+    canonical: 'https://crafts.nutytales.com/world',
+  },
+  openGraph: {
+    title: 'World Crafts Atlas | Nuty Tales Crafts',
+    description:
+      'Indigenous artisan traditions across Morocco, Turkey, Afghanistan, and Central Asia.',
+    url: 'https://crafts.nutytales.com/world',
+    siteName: 'Nuty Tales Crafts',
+  },
+}
 
 const WORLD_REGIONS = [
   {

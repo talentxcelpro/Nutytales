@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Shop Premium Dry Fruits Online | Retail & Wholesale | Nuty Tales',
   description:
     'Browse our full dry fruits catalog. California Almonds, Kashmiri Mamra Badam, W240 Cashews, Kashmiri Walnuts, Saffron, Turkish Anjeer & Bihar Makhana. Fast express dispatch across India. FSSAI & GI certified.',
+  alternates: {
+    canonical: 'https://nutytales.com/shop',
+  },
   keywords: [
     'buy dry fruits online',
     'shop almonds cashews online',
