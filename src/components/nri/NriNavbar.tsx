@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const CURRENCIES = [
   { code: 'USD', symbol: '$', label: 'US Dollar', flag: '🇺🇸' },
@@ -18,6 +19,7 @@ const CURRENCIES = [
 ]
 
 export default function NriNavbar() {
+  const whatsappPhone = (WHATSAPP_NUMBERS.NRI || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
   const pathname = usePathname()
   const { user, profile, openAuthModal, signOut } = useAuth()
   const [currency, setCurrency] = useState('USD')
@@ -199,7 +201,7 @@ export default function NriNavbar() {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* 24/7 NRI Operations Desk Direct Action */}
             <a
-              href="https://wa.me/919596660144?text=Hello%20Nuty%20Tales%20NRI%20Team%2C%20I%20need%20assistance%20in%20India."
+              href={`https://wa.me/${whatsappPhone}?text=Hello%20Nuty%20Tales%20NRI%20Team%2C%20I%20need%20assistance%20in%20India.`}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold border border-emerald-200/80 transition-colors shadow-2xs"

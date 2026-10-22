@@ -28,7 +28,7 @@ export default function NriHomePage() {
     name: 'Nuty Tales NRI',
     description: 'India-management platform and on-ground execution for global NRIs and diaspora families.',
     url: 'https://nri.nutytales.com',
-    telephone: '+91-9596660144',
+    telephone: '+91-9717161809',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Srinagar',
