@@ -9,19 +9,8 @@
 #   • Bucket C: Creates new landing pages in Prisma DB for zero-click buyer-intent queries
 #   • Sends a Telegram digest to owner (+91 9717161809 linked)
 #
-# Cost: ₹0 — uses GitHub Actions free tier (2,000 min/mo) + Gemini 1.5 Flash free tier
-#
-# Required GitHub Secrets (set at Settings → Secrets → Actions):
-#   GSC_CLIENT_EMAIL       — Google Cloud Service Account email (already in .env.local)
-#   GSC_PRIVATE_KEY        — Service Account private key (already in .env.local)
-#   GEMINI_API_KEY         — Free key from aistudio.google.com
-#   DATABASE_URL           — Your Postgres DATABASE_URL (already in .env.local)
-#   DIRECT_URL             — Your Postgres DIRECT_URL  (already in .env.local)
-#   NEXT_PUBLIC_APP_URL    — https://nutytales.com
-#   GSC_AGENT_SECRET       — A random secret string (generate with: openssl rand -hex 32)
-#   TELEGRAM_BOT_TOKEN     — From @BotFather on Telegram (optional but recommended)
-#   TELEGRAM_CHAT_ID       — Your Telegram chat ID (optional)
-#   VERCEL_DEPLOY_HOOK     — From Vercel Dashboard → Project → Settings → Git → Deploy Hooks (optional)
+# Cost: ₹0 — uses GitHub Actions free tier (2,000 min/mo) + Gemini 3.8 Flash free tier
+# Supports both GitHub Secrets and GitHub Variables seamlessly.
 ##############################################################################
 
 name: GSC Customer Acquisition Agent
@@ -47,7 +36,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -56,33 +45,33 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL || vars.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || vars.DIRECT_URL }}
 
       - name: Run GSC Acquisition Agent
         run: npx tsx scripts/gsc-acquisition-agent.ts
         env:
           # Google Search Console auth
-          GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
-          GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
+          GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL || vars.GSC_CLIENT_EMAIL }}
+          GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY || vars.GSC_PRIVATE_KEY }}
 
           # AI brain (free tier)
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || vars.GEMINI_API_KEY }}
 
           # Database
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL || vars.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || vars.DIRECT_URL }}
 
           # Internal API auth
-          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
-          GSC_AGENT_SECRET: ${{ secrets.GSC_AGENT_SECRET }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL || vars.NEXT_PUBLIC_APP_URL }}
+          GSC_AGENT_SECRET: ${{ secrets.GSC_AGENT_SECRET || vars.GSC_AGENT_SECRET }}
 
           # Owner notifications
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || vars.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || vars.TELEGRAM_CHAT_ID }}
 
           # Cache revalidation
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK || vars.VERCEL_DEPLOY_HOOK }}
 
       - name: Report success
         if: success()
