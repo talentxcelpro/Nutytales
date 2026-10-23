@@ -13,23 +13,40 @@ export default function GlobalFooter() {
   const currentYear = new Date().getFullYear()
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  // Suppress global footer when rendering dedicated standalone company shells or subdomains
+  // Suppress global footer when rendering dedicated standalone company shells or subdomains,
+  // but preserve it on shared commerce & utility pages (e.g. /checkout, /cart, /orders, /login)
   const isSubdomain =
     (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
     (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
 
+  const isSharedPage =
+    pathname === '/checkout' ||
+    pathname?.startsWith('/checkout/') ||
+    pathname === '/cart' ||
+    pathname?.startsWith('/cart/') ||
+    pathname?.startsWith('/orders') ||
+    pathname === '/login' ||
+    pathname === '/search' ||
+    pathname === '/contact' ||
+    pathname === '/privacy' ||
+    pathname === '/terms' ||
+    pathname === '/shipping' ||
+    pathname === '/shop' ||
+    pathname?.startsWith('/shop/')
+
   if (
-    isSubdomain ||
-    pathname?.startsWith('/b2b') ||
-    pathname?.startsWith('/gifting') ||
-    pathname?.startsWith('/weddings') ||
-    pathname?.startsWith('/crafts') ||
-    pathname?.startsWith('/stays') ||
-    pathname?.startsWith('/travel') ||
-    pathname?.startsWith('/nri') ||
-    pathname?.startsWith('/me') ||
-    pathname?.startsWith('/eu') ||
-    pathname?.startsWith('/us')
+    !isSharedPage &&
+    (isSubdomain ||
+      pathname?.startsWith('/b2b') ||
+      pathname?.startsWith('/gifting') ||
+      pathname?.startsWith('/weddings') ||
+      pathname?.startsWith('/crafts') ||
+      pathname?.startsWith('/stays') ||
+      pathname?.startsWith('/travel') ||
+      pathname?.startsWith('/nri') ||
+      pathname?.startsWith('/me') ||
+      pathname?.startsWith('/eu') ||
+      pathname?.startsWith('/us'))
   ) {
     return null
   }

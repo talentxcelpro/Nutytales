@@ -3,18 +3,18 @@ import GiftingHomeClient from './GiftingHomeClient'
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Nuty Tales Gifting — Make Every Gift Mean More',
+    absolute: 'Nuty Tales Gifting — Gifts for Every Occasion & Every Relationship',
   },
   description:
-    'Global corporate gifting and festive hamper solutions. Enterprise multi-recipient desk, custom branding, and scheduled dispatch across India and worldwide. Make every gift mean more.',
+    'Discover luxury dry fruit hampers, personalized engraved keepsakes, GI-tagged Kashmiri saffron, and celebratory gift boxes for birthdays, weddings, anniversaries, and corporate events. Pan-India & global delivery.',
   alternates: {
-    canonical: 'https://gifting.nutytales.com',
+    canonical: 'https://nutytales.com/gifting',
   },
   openGraph: {
-    title: 'Nuty Tales Gifting — Make Every Gift Mean More',
+    title: 'Nuty Tales Gifting — Gifts for Every Occasion & Every Relationship',
     description:
-      'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch. Make every gift mean more.',
-    url: 'https://gifting.nutytales.com',
+      'Discover luxury dry fruit hampers, personalized engraved keepsakes, GI-tagged Kashmiri saffron, and celebratory gift boxes. Pan-India & global express air delivery.',
+    url: 'https://nutytales.com/gifting',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
     type: 'website',
@@ -24,10 +24,14 @@ export const metadata: Metadata = {
 export default function GiftingPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Nuty Tales Gifting',
-    url: 'https://gifting.nutytales.com',
-    description: 'Bespoke corporate gifting, employee festive kits, and luxury dry fruit hampers.',
+    '@type': 'Store',
+    name: 'Nuty Tales Gifting Marketplace',
+    url: 'https://nutytales.com/gifting',
+    description:
+      'Curated e-commerce marketplace for luxury dry fruit gift hampers, personalized keepsakes, and occasion celebration gifts.',
+    priceRange: '₹599 - ₹4950',
+    telephone: '+919717161809',
+    areaServed: ['IN', 'AE', 'GB', 'US'],
     provider: {
       '@type': 'Organization',
       name: 'Nuty Tales',

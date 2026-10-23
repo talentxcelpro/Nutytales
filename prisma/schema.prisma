@@ -1298,3 +1298,240 @@ model GscOptimizationLog {
   @@index([bucket, outcome])
   @@map("gsc_optimization_logs")
 }
+
+// ==============================================================
+// NUTY TALES STAYS — HOSPITALITY MARKETPLACE SCHEMA
+// ==============================================================
+
+model StayHost {
+  id                   String        @id @default(cuid())
+  userId               String?
+  displayName          String
+  legalName            String?
+  phone                String
+  email                String
+  avatarUrl            String?
+  bio                  String?       @db.Text
+  identityVerified     Boolean       @default(false)
+  propertyDeedVerified Boolean       @default(false)
+  superhostStatus      Boolean       @default(false)
+  responseRatePercent  Int           @default(98)
+  responseTimeMinutes  Int           @default(15)
+  payoutBankAccount    String?
+  payoutIfsc           String?
+  payoutPan            String?
+  payoutGstin          String?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  listings             StayListing[]
+  reservations         StayReservation[]
+
+  @@map("stay_hosts")
+}
+
+model StayListing {
+  id                    String            @id @default(cuid())
+  hostId                String?
+  slug                  String            @unique
+  title                 String
+  tagline               String
+  description           String?           @db.Text
+  propertyType          String            // villa, estate, chalet, houseboat, penthouse
+  category              String            // orchards, corporate_suites, ski_chalets, houseboats, heritage, buyouts, global
+  secondaryCategories   String[]
+  destination           String            // Kashmir, Srinagar, Gulmarg, Pahalgam, Delhi-NCR, Patna, Dubai, London
+  city                  String
+  state                 String
+  country               String            @default("India")
+  hubZone               String            // Kashmir, Delhi-NCR, Patna, Global
+  addressLine           String
+  latitude              Float?
+  longitude             Float?
+  mapUrl                String?
+  
+  bedrooms              Int               @default(1)
+  beds                  Int               @default(1)
+  bathrooms             Float             @default(1.0)
+  maxGuests             Int               @default(2)
+  squareFeet            Int?
+  wifiSpeedMbps         Int               @default(100)
+  workFriendly          Boolean           @default(true)
+  curatedCollection     Boolean           @default(true)
+  instantBook           Boolean           @default(true)
+  cancellationPolicy    String            @default("Flexible")
+  
+  currency              String            @default("INR")
+  baseNightlyPrice      Float
+  weekendPrice          Float?
+  cleaningFee           Float             @default(0.0)
+  securityDeposit       Float             @default(0.0)
+  estateBuyoutPrice     Float?
+  weeklyDiscountPercent Float?            @default(10.0)
+  monthlyDiscountPercent Float?           @default(25.0)
+  
+  featuredImage         String
+  galleryImages         String[]
+  amenities             String[]
+  accessibilityFeatures String[]
+  houseRules            String[]
+  checkInTime           String            @default("14:00")
+  checkOutTime          String            @default("11:00")
+  
+  status                String            @default("published")
+  rating                Float             @default(5.0)
+  reviewsCount          Int               @default(0)
+  
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  host                  StayHost?         @relation(fields: [hostId], references: [id])
+  rooms                 StayRoom[]
+  reservations          StayReservation[]
+  reviews               StayReview[]
+
+  @@map("stay_listings")
+}
+
+model StayRoom {
+  id                String       @id @default(cuid())
+  listingId         String
+  name              String
+  roomType          String
+  basePricePerNight Float
+  maxGuests         Int          @default(2)
+  bedConfig         String
+  sizeSqFt          Int?
+  amenities         String[]
+  images            String[]
+  description       String?      @db.Text
+  createdAt         DateTime     @default(now())
+
+  listing           StayListing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  reservations      StayReservation[]
+
+  @@map("stay_rooms")
+}
+
+model StayReservation {
+  id                     String      @id @default(cuid())
+  bookingRef             String      @unique
+  listingId              String
+  roomId                 String?
+  hostId                 String?
+  guestUserId            String?
+  
+  guestName              String
+  guestEmail             String
+  guestPhone             String
+  companyName            String?
+  gstin                  String?
+  specialRequests        String?     @db.Text
+  
+  checkIn                DateTime
+  checkOut               DateTime
+  nights                 Int
+  adults                 Int         @default(1)
+  children               Int         @default(0)
+  infants                Int         @default(0)
+  totalGuests            Int
+  isBuyout               Boolean     @default(false)
+  
+  currency               String      @default("INR")
+  nightlyRate            Float
+  subtotal               Float
+  cleaningFee            Float       @default(0.0)
+  serviceFee             Float       @default(0.0)
+  gstTax                 Float       @default(0.0)
+  addOnsTotal            Float       @default(0.0)
+  discountAmount         Float       @default(0.0)
+  totalTariff            Float
+  
+  paymentMode            String      @default("advance-token")
+  advanceAmountPaid      Float       @default(0.0)
+  balanceDue             Float       @default(0.0)
+  paymentStatus          String      @default("PENDING")
+  paymentGatewayOrderId  String?
+  paymentGatewayPaymentId String?
+  
+  status                 String      @default("CONFIRMED")
+  cancellationPolicy     String      @default("Flexible")
+  cancelledAt            DateTime?
+  cancellationRefundAmount Float?
+  
+  selectedAddOns         Json?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  listing                StayListing @relation(fields: [listingId], references: [id])
+  room                   StayRoom?   @relation(fields: [roomId], references: [id])
+  host                   StayHost?   @relation(fields: [hostId], references: [id])
+  reviews                StayReview[]
+
+  @@index([listingId, checkIn, checkOut, status])
+  @@map("stay_reservations")
+}
+
+model StayReview {
+  id             String          @id @default(cuid())
+  listingId      String
+  reservationId  String?
+  guestUserId    String?
+  guestName      String
+  guestCity      String?
+  stayDate       DateTime?
+  ratingOverall  Float
+  cleanliness    Float           @default(5.0)
+  accuracy       Float           @default(5.0)
+  communication  Float           @default(5.0)
+  locationRating Float           @default(5.0)
+  checkinRating  Float           @default(5.0)
+  valueRating    Float           @default(5.0)
+  reviewTitle    String?
+  reviewText     String          @db.Text
+  hostResponse   String?         @db.Text
+  isVerifiedStay Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+
+  listing        StayListing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  reservation    StayReservation? @relation(fields: [reservationId], references: [id])
+
+  @@map("stay_reviews")
+}
+
+model StayTrip {
+  id                    String    @id @default(cuid())
+  creatorUserId         String?
+  title                 String
+  destination           String?
+  startDate             DateTime?
+  endDate               DateTime?
+  invitedEmails         Json?
+  shortlistedListingIds Json?
+  propertyVotes         Json?
+  itineraryDays         Json?
+  collaborativeNotes    Json?
+  isPublic              Boolean   @default(false)
+  shareToken            String?   @unique
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("stay_trips")
+}
+
+model StayService {
+  id            String   @id @default(cuid())
+  title         String
+  category      String   // transfer, culinary, excursion, wellness, gear
+  destination   String
+  description   String?  @db.Text
+  pricePerUnit  Float
+  unitType      String   @default("per_person")
+  imageUrl      String?
+  providerName  String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@map("stay_services")
+}
+

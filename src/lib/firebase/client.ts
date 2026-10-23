@@ -15,16 +15,13 @@ import {
 } from 'firebase/auth'
 
 function getFirebaseConfig() {
-  let authDomain = 'nutty-tales-1c667.firebaseapp.com'
+  let authDomain = 'nutytales.com'
   if (typeof window !== 'undefined') {
     const host = window.location.hostname
     if (host === 'nutytales.com' || host.endsWith('.nutytales.com')) {
-      // Use current host (e.g. nri.nutytales.com, nutytales.com) so auth handler is on the exact same origin
-      authDomain = host
-    } else if (host === 'localhost' || host === '127.0.0.1') {
-      authDomain = 'nutty-tales-1c667.firebaseapp.com'
+      authDomain = 'nutytales.com'
     }
-  } else if (process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN) {
+  } else if (process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN && !process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN.includes('firebaseapp.com')) {
     authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
   }
 
@@ -64,10 +61,8 @@ export function getFirebaseErrorMessage(error: unknown): string {
     const err = error as any
     if (err.code) {
       switch (err.code) {
-        case 'auth/unauthorized-domain': {
-          const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'nutytales.com'
-          return `Domain "${currentHost}" is not authorized. Please add "${currentHost}" in Firebase Console > Authentication > Settings > Authorized domains and Google Cloud Console OAuth origins.`
-        }
+        case 'auth/unauthorized-domain':
+          return 'Domain nutytales.com is not authorized. Please add nutytales.com in Firebase Console > Authentication > Settings > Authorized domains.'
         case 'auth/operation-not-allowed':
           if (err.message && err.message.includes('BILLING_NOT_ENABLED')) {
             return 'Real SMS delivery requires Firebase Blaze (pay-as-you-go) plan. Please upgrade in Firebase Console.'

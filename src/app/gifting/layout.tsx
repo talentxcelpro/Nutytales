@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import GiftingShell from '@/components/gifting/GiftingShell'
+import GiftingMarketplaceShell from '@/components/gifting/GiftingMarketplaceShell'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://gifting.nutytales.com'),
@@ -46,5 +46,5 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <GiftingShell>{children}</GiftingShell>
+  return <GiftingMarketplaceShell>{children}</GiftingMarketplaceShell>
 }

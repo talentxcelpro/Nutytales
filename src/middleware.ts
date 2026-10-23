@@ -47,6 +47,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl, { status: 301 })
   }
 
+  // 2. Firebase Auth custom domain proxy handler
+  // Must intercept /__/auth/* before any subdomain routing so that OAuth popups
+  // on subdomains (nri.nutytales.com, crafts.nutytales.com, etc.) are proxied
+  // directly to Firebase Auth Hosting instead of getting 404
+  if (pathname.includes('/__/auth')) {
+    const authPath = pathname.substring(pathname.indexOf('/__/auth'))
+    const targetUrl = new URL(`https://nutty-tales-1c667.firebaseapp.com${authPath}${request.nextUrl.search}`)
+    return NextResponse.rewrite(targetUrl)
+  }
+
   const vertical = getActiveVertical(request)
 
   // 2. Hostname-specific robots.txt generation
@@ -222,6 +232,63 @@ Host: ${hostUrl}
       res.cookies.set('nt_active_vertical', vertical, { path: '/' })
       res.headers.set('x-nutytales-vertical', vertical)
       return res
+    }
+
+    // ─── 4B. Shared Global Commerce & Utility Routes ───
+    // Preserve unified root commerce and utility routes instead of rewriting to non-existent
+    // vertical subdirectories (e.g. /crafts/checkout -> 404).
+    const isRegionalVertical =
+      vertical === 'middleeast' ||
+      vertical === 'me' ||
+      vertical === 'europe' ||
+      vertical === 'eu' ||
+      vertical === 'america' ||
+      vertical === 'us'
+
+    // Root checkout & cart (regional subdomains have dedicated /me, /eu, /us versions)
+    if (!isRegionalVertical) {
+      if (pathname === '/checkout' || pathname.startsWith('/checkout/')) {
+        return nextVertical()
+      }
+      if (pathname === '/cart' || pathname.startsWith('/cart/')) {
+        return nextVertical()
+      }
+    }
+
+    // Direct redirects for any legacy or accidental vertical prefixes to checkout/cart
+    if (pathname === '/crafts/checkout' || pathname === '/b2b/checkout' || pathname === '/gifting/checkout' || pathname === '/weddings/checkout') {
+      return NextResponse.redirect(new URL('/checkout', request.url), 302)
+    }
+    if (pathname === '/crafts/cart' || pathname === '/b2b/cart' || pathname === '/gifting/cart' || pathname === '/weddings/cart') {
+      return NextResponse.redirect(new URL('/cart', request.url), 302)
+    }
+
+    // Order tracking & live delivery status
+    if (pathname === '/orders/track' || pathname.startsWith('/orders/track/')) {
+      return nextVertical()
+    }
+    if (pathname === '/orders' && vertical !== 'business') {
+      return NextResponse.redirect(new URL('/orders/track', request.url), 302)
+    }
+
+    // Shared universal pages (auth, policies, search, shop catalog, gastronomy journal)
+    if (
+      pathname === '/login' ||
+      pathname === '/search' ||
+      pathname === '/contact' ||
+      pathname === '/privacy' ||
+      pathname === '/terms' ||
+      pathname === '/shipping' ||
+      pathname === '/founders' ||
+      pathname === '/technology' ||
+      pathname === '/shop' ||
+      pathname.startsWith('/shop/') ||
+      pathname === '/gastronomy-journal' ||
+      pathname.startsWith('/gastronomy-journal/') ||
+      pathname === '/bulk-quote' ||
+      pathname.startsWith('/bulk-quote/')
+    ) {
+      return nextVertical()
     }
 
     if (vertical === 'nri') {
