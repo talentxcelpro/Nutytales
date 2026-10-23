@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import LiveStaysDiscovery from '@/components/stays/LiveStaysDiscovery'
@@ -55,7 +56,9 @@ export default function StaysPage() {
 
       {/* ── 2. The Core Marketplace Engine (Search + Discovery + Cards + Services) ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <LiveStaysDiscovery />
+        <Suspense fallback={<div className="min-h-[400px] flex items-center justify-center text-stone-400">Loading stays...</div>}>
+          <LiveStaysDiscovery />
+        </Suspense>
       </main>
 
       {/* ── 3. The Unfair Ecosystem Advantage Strip ──────────────────────────── */}
