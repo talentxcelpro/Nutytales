@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
+import StayIcalSyncModal from '@/components/stays/StayIcalSyncModal'
 
 export default function StaysHostPortalPage() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -49,6 +50,7 @@ export default function StaysHostPortalPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submissionSuccessRef, setSubmissionSuccessRef] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [icalModalOpen, setIcalModalOpen] = useState(false)
 
   // Revenue Estimator
   const estimatedMonthlyRevenue = useMemo(() => {
@@ -545,9 +547,36 @@ export default function StaysHostPortalPage() {
                 </li>
               </ul>
             </div>
+
+            {/* iCal Cross-Platform Channel Sync Tool */}
+            <div className="p-5 bg-[#FAF8F5] rounded-3xl border border-stone-200 space-y-3 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🔄</span>
+                <strong className="text-[#17233B] font-bold">Two-Way iCal Channel Sync</strong>
+              </div>
+              <p className="text-[11px] text-stone-600 leading-relaxed">
+                Already on Airbnb or Booking.com? Connect feeds to auto-block booked dates across platforms in real-time.
+              </p>
+              <button
+                type="button"
+                onClick={() => setIcalModalOpen(true)}
+                className="w-full py-2.5 bg-white hover:bg-stone-100 border border-stone-300 rounded-xl font-bold text-xs text-stone-800 transition-all flex items-center justify-center gap-1.5 shadow-2xs"
+              >
+                <span>⚡</span>
+                <span>Open iCal Sync Hub</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
+
+      {/* iCal Modal */}
+      <StayIcalSyncModal
+        propertySlug="harwan-orchard-estate"
+        propertyName="The Harwan Royal Walnut Orchard Estate (Demo Listing)"
+        isOpen={icalModalOpen}
+        onClose={() => setIcalModalOpen(false)}
+      />
     </div>
   )
 }

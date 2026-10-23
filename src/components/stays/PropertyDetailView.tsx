@@ -7,6 +7,10 @@ import { StayProperty, STAY_PROPERTIES } from '@/lib/stays-data'
 import { calculateStayPricing } from '@/lib/stays/pricing'
 import { useStaysContext } from './StaysShell'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import StayAvailabilityCalendar from './StayAvailabilityCalendar'
+import StayReviewSection from './StayReviewSection'
+import StayHostChatModal from './StayHostChatModal'
+import StayIcalSyncModal from './StayIcalSyncModal'
 
 interface PropertyDetailViewProps {
   property: StayProperty
@@ -52,6 +56,10 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
   // Share Modal
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
+
+  // In-App Host Messaging & iCal Sync Modals
+  const [chatModalOpen, setChatModalOpen] = useState(false)
+  const [icalModalOpen, setIcalModalOpen] = useState(false)
 
   // FAQ Accordion State
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
@@ -263,21 +271,42 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
         {/* Left Column: Property Specifics */}
         <div className="lg:col-span-7 space-y-10">
           {/* Host & Accommodation Summary */}
-          <div className="p-6 bg-white rounded-3xl border border-[#E7E2D9] shadow-xs flex items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h3 className="font-serif font-bold text-lg text-[#17233B]">
-                Entire {property.propertyType} hosted by {property.host.name}
-              </h3>
-              <p className="text-xs text-stone-500">
-                {property.maxTotalGuests} Guests · {property.bedrooms} Chambers · {property.beds} Beds · {property.baths} Bathrooms
-                {property.squareFeet ? ` · ${property.squareFeet} sq ft` : ''}
-              </p>
-              <p className="text-[11px] text-emerald-700 font-semibold pt-1">
-                ✓ Identity Verified · Responds {property.host.responseTime} ({property.host.responseRate}% rate)
-              </p>
+          <div className="p-6 bg-white rounded-3xl border border-[#E7E2D9] shadow-xs space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <h3 className="font-serif font-bold text-lg text-[#17233B]">
+                  Entire {property.propertyType} hosted by {property.host.name}
+                </h3>
+                <p className="text-xs text-stone-500">
+                  {property.maxTotalGuests} Guests · {property.bedrooms} Chambers · {property.beds} Beds · {property.baths} Bathrooms
+                  {property.squareFeet ? ` · ${property.squareFeet} sq ft` : ''}
+                </p>
+                <p className="text-[11px] text-emerald-700 font-semibold pt-1">
+                  ✓ Identity Verified · Responds {property.host.responseTime} ({property.host.responseRate}% rate)
+                </p>
+              </div>
+              <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#C9A45C]">
+                <Image src={property.host.avatar} alt={property.host.name} fill className="object-cover" />
+              </div>
             </div>
-            <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#C9A45C]">
-              <Image src={property.host.avatar} alt={property.host.name} fill className="object-cover" />
+
+            <div className="pt-3 border-t border-stone-100 flex flex-wrap items-center gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setChatModalOpen(true)}
+                className="px-3.5 py-1.5 rounded-xl bg-[#17233B] hover:bg-[#1E3048] text-white font-bold flex items-center gap-1.5 transition-all shadow-2xs"
+              >
+                <span>💬</span>
+                <span>Direct Message Host</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIcalModalOpen(true)}
+                className="px-3.5 py-1.5 rounded-xl border border-stone-200 bg-[#FAF8F5] hover:bg-stone-100 text-stone-700 font-semibold flex items-center gap-1.5 transition-all"
+              >
+                <span>🔄</span>
+                <span>Two-Way iCal Sync</span>
+              </button>
             </div>
           </div>
 
@@ -366,6 +395,22 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
             </div>
           )}
 
+          {/* Day-by-Day Availability Heatmap & Dynamic Calendar */}
+          <div id="availability-calendar-section" className="space-y-4">
+            <StayAvailabilityCalendar
+              propertySlug={property.slug}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onDatesChange={(newIn, newOut) => {
+                setCheckIn(newIn)
+                setCheckOut(newOut)
+              }}
+              isBuyout={isBuyout}
+              roomId={isBuyout ? undefined : selectedRoomId}
+              baseRate={property.estateBuyoutPrice}
+            />
+          </div>
+
           {/* House Rules & Policies */}
           <div className="p-8 bg-white rounded-3xl border border-[#E7E2D9] shadow-xs space-y-4">
             <h3 className="font-serif text-xl font-bold text-[#17233B]">Things to know</h3>
@@ -391,66 +436,14 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
             </div>
           </div>
 
-          {/* Verified Guest Reviews */}
-          <div className="space-y-6">
-            <div className="flex items-baseline gap-2">
-              <h3 className="font-serif text-2xl font-bold text-[#17233B]">
-                ★ {property.rating.toFixed(2)}
-              </h3>
-              <span className="text-stone-500 text-sm">· {property.reviewsCount} verified reviews</span>
-            </div>
-
-            {/* 6-Category Rating Breakdown */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-6 bg-white rounded-3xl border border-[#E7E2D9] text-xs">
-              <div>
-                <span className="text-stone-500 block">Cleanliness</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.cleanliness.toFixed(1)} / 5</strong>
-              </div>
-              <div>
-                <span className="text-stone-500 block">Accuracy</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.accuracy.toFixed(1)} / 5</strong>
-              </div>
-              <div>
-                <span className="text-stone-500 block">Communication</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.communication.toFixed(1)} / 5</strong>
-              </div>
-              <div>
-                <span className="text-stone-500 block">Location</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.location.toFixed(1)} / 5</strong>
-              </div>
-              <div>
-                <span className="text-stone-500 block">Check-in</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.checkIn.toFixed(1)} / 5</strong>
-              </div>
-              <div>
-                <span className="text-stone-500 block">Value</span>
-                <strong className="text-sm font-bold">{property.ratingsBreakdown.value.toFixed(1)} / 5</strong>
-              </div>
-            </div>
-
-            {/* Individual Reviews */}
-            <div className="space-y-4">
-              {property.reviews.map((rev) => (
-                <div key={rev.id} className="p-6 bg-white rounded-3xl border border-[#E7E2D9] space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <strong className="block text-sm text-[#17233B]">{rev.guestName}</strong>
-                      <span className="text-[11px] text-stone-500">{rev.guestCity} · {rev.date}</span>
-                    </div>
-                    <span className="text-amber-500 text-xs">★★★★★</span>
-                  </div>
-                  <h4 className="font-bold text-xs text-stone-800">&ldquo;{rev.title}&rdquo;</h4>
-                  <p className="text-xs text-stone-600 leading-relaxed font-light">{rev.comment}</p>
-                  {rev.hostResponse && (
-                    <div className="p-3 bg-[#FAF8F5] rounded-xl border border-stone-200 text-[11px] text-stone-600 space-y-1">
-                      <strong className="text-stone-800">Response from host {property.host.name}:</strong>
-                      <p>{rev.hostResponse}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Verified Guest Reviews Engine */}
+          <StayReviewSection
+            propertySlug={property.slug}
+            hostName={property.host.name}
+            initialRating={property.rating}
+            initialReviewsCount={property.reviewsCount}
+            initialBreakdown={property.ratingsBreakdown}
+          />
 
           {/* Location & Map Section */}
           <div className="p-8 bg-white rounded-3xl border border-[#E7E2D9] shadow-xs space-y-4">
@@ -560,33 +553,43 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
                 )}
 
                 {/* Dates Picker */}
-                <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200">
-                  <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block mb-0.5">
-                      Check-In
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      min={todayStr}
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
-                      className="w-full bg-transparent font-bold text-stone-900 focus:outline-none"
-                    />
+                <div className="space-y-1">
+                  <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200">
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block mb-0.5">
+                        Check-In
+                      </label>
+                      <input
+                        type="date"
+                        required
+                        min={todayStr}
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="w-full bg-transparent font-bold text-stone-900 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block mb-0.5">
+                        Check-Out ({pricing.nights}N)
+                      </label>
+                      <input
+                        type="date"
+                        required
+                        min={checkIn || todayStr}
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="w-full bg-transparent font-bold text-stone-900 focus:outline-none"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-stone-500 block mb-0.5">
-                      Check-Out ({pricing.nights}N)
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      min={checkIn || todayStr}
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
-                      className="w-full bg-transparent font-bold text-stone-900 focus:outline-none"
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('availability-calendar-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="text-[10px] text-[#176B68] font-bold hover:underline flex items-center gap-1 px-1"
+                  >
+                    <span>📅</span>
+                    <span>View interactive calendar heatmap &amp; rates</span>
+                  </button>
                 </div>
 
                 {/* Guests */}
@@ -806,16 +809,26 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
             {/* Host Messaging Shortcut */}
             <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
               <span className="text-stone-500">Have questions for {property.host.name}?</span>
-              <a
-                href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                  `Hello Nuty Tales Concierge! I have questions regarding ${property.name} in ${property.city}.`,
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#176B68] font-bold hover:underline"
-              >
-                Chat with Concierge →
-              </a>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setChatModalOpen(true)}
+                  className="text-[#176B68] font-bold hover:underline"
+                >
+                  💬 In-App Chat
+                </button>
+                <span className="text-stone-300">·</span>
+                <a
+                  href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                    `Hello! I have pre-arrival questions regarding ${property.name} in ${property.city}.`,
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-700 font-bold hover:underline"
+                >
+                  WhatsApp →
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -943,6 +956,25 @@ export default function PropertyDetailView({ property }: PropertyDetailViewProps
           </div>
         </div>
       )}
+
+      {/* ── 8. In-App Host / Butler Direct Chat Modal ───────────────────────── */}
+      <StayHostChatModal
+        propertySlug={property.slug}
+        propertyName={property.name}
+        host={property.host}
+        isOpen={chatModalOpen}
+        onClose={() => setChatModalOpen(false)}
+        initialGuestName={guestName}
+        initialGuestPhone={guestPhone}
+      />
+
+      {/* ── 9. Two-Way iCal Channel Synchronization Modal ──────────────────── */}
+      <StayIcalSyncModal
+        propertySlug={property.slug}
+        propertyName={property.name}
+        isOpen={icalModalOpen}
+        onClose={() => setIcalModalOpen(false)}
+      />
     </div>
   )
 }

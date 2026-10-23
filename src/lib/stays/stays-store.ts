@@ -4,6 +4,7 @@
 import { getSupabaseAdmin, getSupabaseClient } from '@/lib/supabase'
 import { STAY_PROPERTIES, StayProperty } from '@/lib/stays-data'
 import { calculateStayPricing, DetailedStayPriceBreakdown } from './pricing'
+import { checkIcalConflict } from './ical-sync'
 
 export interface CreateReservationInput {
   propertySlug: string
@@ -188,7 +189,25 @@ export async function checkDateAvailability(
     }
   }
 
+  // 3. Validate against external iCal feeds (Airbnb, VRBO, Booking.com)
+  const icalCheck = checkIcalConflict(propertySlug, checkIn, checkOut)
+  if (icalCheck.conflict) {
+    return {
+      available: false,
+      conflictReason: icalCheck.reason || 'Dates are blocked via external calendar sync (Airbnb / Booking.com).',
+    }
+  }
+
   return { available: true }
+}
+
+/**
+ * Returns all confirmed reservations for a property (used for iCal export and calendar views).
+ */
+export function getConfirmedReservationsForProperty(propertySlug: string): StoredStayReservation[] {
+  return MEMORY_RESERVATIONS.filter(
+    (r) => r.propertySlug === propertySlug && r.reservationStatus !== 'CANCELLED',
+  )
 }
 
 /**
