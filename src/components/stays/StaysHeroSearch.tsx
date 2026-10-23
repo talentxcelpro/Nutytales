@@ -8,12 +8,12 @@ const POPULAR_DESTINATIONS = [
   { name: 'Srinagar, Kashmir', label: 'Walnut Orchards & Dal Lake Houseboats', tag: 'Kashmir' },
   { name: 'Gulmarg, Kashmir', label: 'Alpine Ski Chalets & Mt. Apharwat', tag: 'Kashmir' },
   { name: 'Pahalgam, Kashmir', label: 'Glacial Lidder Riverfront Villas', tag: 'Kashmir' },
-  { name: 'Noida (Delhi NCR)', label: 'Cyber City Executive Residences & Boardrooms', tag: 'Delhi-NCR' },
-  { name: 'Patna, Bihar', label: 'Mithila Courtyard Manor & Makhana Sourcing', tag: 'Patna' },
+  { name: 'Noida (Delhi NCR)', label: 'Executive Penthouse & Boardrooms', tag: 'Delhi-NCR' },
+  { name: 'Patna, Bihar', label: 'Mithila Courtyard Haveli & Sourcing', tag: 'Patna' },
   { name: 'Bengaluru, Karnataka', label: 'Indiranagar Tropical Garden Villas', tag: 'Bengaluru' },
-  { name: 'Kumarakom, Kerala', label: 'Lake Vembanad Nalukettu & Spice Estates', tag: 'Kerala' },
-  { name: 'Downtown Dubai', label: 'Burj Khalifa Skyline Villas & DIFC Suites', tag: 'Global' },
-  { name: 'South Kensington, London', label: 'Cobblestone Mews & Townhouses', tag: 'Global' },
+  { name: 'Kumarakom, Kerala', label: 'Lake Vembanad Nalukettu & Water Villas', tag: 'Kerala' },
+  { name: 'Downtown Dubai', label: 'Palm Jumeirah Luxury Beach Villas', tag: 'Global' },
+  { name: 'South Kensington, London', label: 'Victorian Mews & Townhouses', tag: 'Global' },
 ]
 
 interface StaysHeroSearchProps {
@@ -77,7 +77,6 @@ export default function StaysHeroSearch({
     if (children > 0) params.set('children', children.toString())
     if (infants > 0) params.set('infants', infants.toString())
 
-    // Preserve any existing filter tags
     const category = searchParams.get('category')
     if (category) params.set('category', category)
     const discovery = searchParams.get('discovery')
@@ -87,45 +86,33 @@ export default function StaysHeroSearch({
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto relative z-30">
+    <div className="w-full max-w-4xl mx-auto relative z-30 mb-6">
       <form
         onSubmit={handleSearchSubmit}
-        className="bg-white/95 backdrop-blur-md rounded-3xl p-3 sm:p-4 shadow-xl border border-[#E7E2D9] grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3 items-center"
+        className="bg-white rounded-full p-2 sm:p-2.5 shadow-md hover:shadow-xl transition-shadow border border-stone-200 flex flex-wrap md:flex-nowrap items-center divide-y md:divide-y-0 md:divide-x divide-stone-200"
       >
         {/* 1. Destination Input */}
-        <div ref={destRef} className="relative md:col-span-4 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-stone-400 transition-colors">
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
-            Where to?
+        <div ref={destRef} className="relative flex-1 px-4 sm:px-6 py-2 w-full md:w-auto">
+          <label className="block text-[11px] font-bold text-stone-900 tracking-tight">
+            Where
           </label>
-          <div className="flex items-center gap-2">
-            <span className="text-stone-400 text-sm">📍</span>
-            <input
-              type="text"
-              value={destination}
-              onChange={(e) => {
-                setDestination(e.target.value)
-                setDestinationDropdownOpen(true)
-              }}
-              onFocus={() => setDestinationDropdownOpen(true)}
-              placeholder="Srinagar, Gulmarg, Noida, Dubai..."
-              className="w-full bg-transparent text-xs sm:text-sm font-semibold text-[#17233B] placeholder-stone-400 focus:outline-none"
-            />
-            {destination && (
-              <button
-                type="button"
-                onClick={() => setDestination('')}
-                className="text-stone-400 hover:text-stone-700 text-xs px-1"
-              >
-                ×
-              </button>
-            )}
-          </div>
+          <input
+            type="text"
+            value={destination}
+            onChange={(e) => {
+              setDestination(e.target.value)
+              setDestinationDropdownOpen(true)
+            }}
+            onFocus={() => setDestinationDropdownOpen(true)}
+            placeholder="Search destinations..."
+            className="w-full bg-transparent text-xs sm:text-sm text-stone-800 placeholder-stone-400 focus:outline-none truncate font-normal"
+          />
 
           {/* Autocomplete Dropdown */}
           {destinationDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-stone-200 p-2 z-50 max-h-72 overflow-y-auto animate-fadeIn">
-              <span className="text-[10px] uppercase font-bold text-stone-400 px-3 py-1.5 block">
-                Popular Destinations
+            <div className="absolute top-full left-0 mt-3 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-stone-200 p-3 z-50 max-h-80 overflow-y-auto">
+              <span className="text-[10px] uppercase font-bold text-stone-400 px-3 py-1 block">
+                Popular Stays
               </span>
               {POPULAR_DESTINATIONS.map((dest, i) => (
                 <button
@@ -135,15 +122,15 @@ export default function StaysHeroSearch({
                     setDestination(dest.name)
                     setDestinationDropdownOpen(false)
                   }}
-                  className="w-full p-2.5 rounded-xl hover:bg-stone-50 text-left transition-colors flex items-center justify-between group"
+                  className="w-full p-2.5 rounded-2xl hover:bg-stone-50 text-left transition-colors flex items-center justify-between group"
                 >
-                  <div>
-                    <strong className="block text-xs text-[#17233B] group-hover:text-[#176B68]">
+                  <div className="pr-2">
+                    <strong className="block text-xs text-stone-900 group-hover:text-[#176B68]">
                       {dest.name}
                     </strong>
-                    <span className="text-[11px] text-stone-500">{dest.label}</span>
+                    <span className="text-[11px] text-stone-500 line-clamp-1">{dest.label}</span>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-600">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 flex-shrink-0">
                     {dest.tag}
                   </span>
                 </button>
@@ -153,68 +140,67 @@ export default function StaysHeroSearch({
         </div>
 
         {/* 2. Check-In & Check-Out Dates */}
-        <div className="md:col-span-3 grid grid-cols-2 gap-2 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200">
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
-              Check-In
+        <div className="flex-1 px-4 sm:px-6 py-2 flex items-center gap-3 w-full md:w-auto">
+          <div className="flex-1">
+            <label className="block text-[11px] font-bold text-stone-900 tracking-tight">
+              Check in
             </label>
             <input
               type="date"
               value={checkIn}
               min={todayStr}
               onChange={(e) => setCheckIn(e.target.value)}
-              className="w-full bg-transparent text-xs font-semibold text-[#17233B] focus:outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs text-stone-700 focus:outline-none cursor-pointer"
             />
           </div>
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
-              Check-Out
+          <div className="flex-1">
+            <label className="block text-[11px] font-bold text-stone-900 tracking-tight">
+              Check out
             </label>
             <input
               type="date"
               value={checkOut}
               min={checkIn || todayStr}
               onChange={(e) => setCheckOut(e.target.value)}
-              className="w-full bg-transparent text-xs font-semibold text-[#17233B] focus:outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs text-stone-700 focus:outline-none cursor-pointer"
             />
           </div>
         </div>
 
-        {/* 3. Guests Selector Popover */}
-        <div ref={guestRef} className="relative md:col-span-2 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200 hover:border-stone-400 transition-colors">
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-0.5">
+        {/* 3. Guests Popover */}
+        <div ref={guestRef} className="relative px-4 sm:px-6 py-2 w-full md:w-44">
+          <label className="block text-[11px] font-bold text-stone-900 tracking-tight">
             Who
           </label>
           <button
             type="button"
             onClick={() => setGuestDropdownOpen(!guestDropdownOpen)}
-            className="w-full text-left text-xs sm:text-sm font-semibold text-[#17233B] flex items-center justify-between"
+            className="w-full text-left text-xs sm:text-sm text-stone-700 flex items-center justify-between"
           >
-            <span>
+            <span className="truncate">
               {totalGuests} {totalGuests === 1 ? 'Guest' : 'Guests'}
-              {infants > 0 ? `, ${infants} Inf` : ''}
             </span>
             <span className="text-xs text-stone-400">▾</span>
           </button>
 
           {/* Guest Breakdown Popover */}
           {guestDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 sm:right-auto sm:w-64 mt-2 bg-white rounded-2xl shadow-2xl border border-stone-200 p-4 z-50 space-y-4 animate-fadeIn">
-              {/* Adults */}
+            <div className="absolute top-full right-0 mt-3 w-72 bg-white rounded-3xl shadow-2xl border border-stone-200 p-4 z-50 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <strong className="block text-xs text-[#17233B]">Adults</strong>
-                  <span className="text-[10px] text-stone-500">Age 13+</span>
+                  <strong className="block text-xs text-stone-900">Adults</strong>
+                  <span className="text-[11px] text-stone-500">Ages 13 or above</span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setAdults(Math.max(1, adults - 1))}
-                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm hover:border-black"
+                    disabled={adults <= 1}
+                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm disabled:opacity-30"
                   >
-                    -
+                    –
                   </button>
-                  <span className="text-xs font-bold w-4 text-center">{adults}</span>
+                  <span className="w-5 text-center font-bold text-xs">{adults}</span>
                   <button
                     type="button"
                     onClick={() => setAdults(adults + 1)}
@@ -225,49 +211,24 @@ export default function StaysHeroSearch({
                 </div>
               </div>
 
-              {/* Children */}
-              <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+              <div className="flex items-center justify-between">
                 <div>
-                  <strong className="block text-xs text-[#17233B]">Children</strong>
-                  <span className="text-[10px] text-stone-500">Ages 2-12</span>
+                  <strong className="block text-xs text-stone-900">Children</strong>
+                  <span className="text-[11px] text-stone-500">Ages 2–12</span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setChildren(Math.max(0, children - 1))}
-                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm hover:border-black"
+                    disabled={children <= 0}
+                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm disabled:opacity-30"
                   >
-                    -
+                    –
                   </button>
-                  <span className="text-xs font-bold w-4 text-center">{children}</span>
+                  <span className="w-5 text-center font-bold text-xs">{children}</span>
                   <button
                     type="button"
                     onClick={() => setChildren(children + 1)}
-                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm hover:border-black"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Infants */}
-              <div className="flex items-center justify-between pt-2 border-t border-stone-100">
-                <div>
-                  <strong className="block text-xs text-[#17233B]">Infants</strong>
-                  <span className="text-[10px] text-stone-500">Under 2</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setInfants(Math.max(0, infants - 1))}
-                    className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm hover:border-black"
-                  >
-                    -
-                  </button>
-                  <span className="text-xs font-bold w-4 text-center">{infants}</span>
-                  <button
-                    type="button"
-                    onClick={() => setInfants(infants + 1)}
                     className="w-7 h-7 rounded-full border border-stone-300 text-stone-700 flex items-center justify-center text-sm hover:border-black"
                   >
                     +
@@ -286,53 +247,27 @@ export default function StaysHeroSearch({
           )}
         </div>
 
-        {/* 4. Filter Button & Submit Action */}
-        <div className="md:col-span-3 flex items-center gap-2">
-          {onOpenFilterModal && (
-            <button
-              type="button"
-              onClick={onOpenFilterModal}
-              className={`p-3.5 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeFiltersCount > 0
-                  ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B]'
-                  : 'bg-[#FAF8F5] text-stone-700 border-stone-200 hover:bg-stone-100'
-              }`}
-              title="Open Advanced Property Filters"
-            >
-              <span>⚙️</span>
-              <span className="hidden xl:inline">Filters</span>
-              {activeFiltersCount > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#C9A45C] text-[#17233B] text-[10px] font-black flex items-center justify-center">
-                  {activeFiltersCount}
-                </span>
-              )}
-            </button>
-          )}
+        {/* 4. Action Buttons (AI Concierge + Search) */}
+        <div className="p-1 flex items-center gap-2 w-full md:w-auto justify-end">
+          <button
+            type="button"
+            onClick={() => openAiConcierge()}
+            className="px-3 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            title="Ask AI Concierge"
+          >
+            <span>✨</span>
+            <span className="hidden lg:inline text-[11px]">AI</span>
+          </button>
 
           <button
             type="submit"
-            className="flex-1 py-3.5 px-6 bg-[#C9A45C] hover:bg-[#b89347] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-2xl transition-all shadow-md flex items-center justify-center gap-2"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#17233B] hover:bg-[#1E3048] text-white flex items-center justify-center transition-transform hover:scale-105 shadow-md flex-shrink-0"
+            title="Search verified stays"
           >
-            <span>🔍</span>
-            <span>Search Stays</span>
+            <span className="text-sm">🔍</span>
           </button>
         </div>
       </form>
-
-      {/* Voice / AI Natural Language Shortcut */}
-      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-stone-600">
-        <span className="text-stone-400">Prefer conversational search?</span>
-        <button
-          type="button"
-          onClick={() => openAiConcierge()}
-          className="text-[#17233B] font-bold underline hover:text-[#176B68] flex items-center gap-1"
-        >
-          <span>✨ Try AI Concierge</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#C9A45C]/20 text-[#704B32] font-semibold">
-            &ldquo;Villa in Kashmir for 8 with mountain view&rdquo;
-          </span>
-        </button>
-      </div>
     </div>
   )
 }

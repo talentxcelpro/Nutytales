@@ -12,6 +12,7 @@ interface PropertyCardProps {
   checkIn?: string
   checkOut?: string
   guests?: number
+  showTotalWithTaxes?: boolean
 }
 
 export default function PropertyCard({
@@ -20,6 +21,7 @@ export default function PropertyCard({
   checkIn,
   checkOut,
   guests = 2,
+  showTotalWithTaxes = false,
 }: PropertyCardProps) {
   const { isWishlisted, toggleWishlist, isCompared, addToCompare, removeFromCompare } =
     useStaysContext()
@@ -29,9 +31,11 @@ export default function PropertyCard({
   const wishlisted = isWishlisted(property.slug)
   const compared = isCompared(property.slug)
 
-  // Estimated Total for default nights
+  // Authoritative estimated total for default nights with transparent breakdown
   const totalTariff = Math.round(
-    property.estateBuyoutPrice * nights * 1.18 + property.cleaningFee + property.estateBuyoutPrice * nights * 0.05,
+    property.estateBuyoutPrice * nights * 1.18 +
+      property.cleaningFee +
+      property.estateBuyoutPrice * nights * 0.05,
   )
 
   const nextImage = (e: React.MouseEvent) => {
@@ -47,16 +51,16 @@ export default function PropertyCard({
   }
 
   return (
-    <div className="group bg-white rounded-3xl border border-[#E7E2D9] overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative">
-      {/* ── 1. Image Carousel Container ────────────────────────────────────────── */}
-      <div className="relative aspect-4/3 w-full overflow-hidden bg-stone-100">
+    <div className="group relative flex flex-col transition-all duration-300">
+      {/* ── 1. Image Carousel Container (Edge-to-edge Luxury Frame) ───────── */}
+      <div className="relative aspect-[20/19] w-full overflow-hidden rounded-2xl bg-stone-100 shadow-2xs group-hover:shadow-lg transition-shadow duration-300">
         <Link href={`/stays/${property.slug}`} className="block w-full h-full">
           <Image
             src={images[currentImageIdx]}
             alt={property.name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
+            className="object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
           />
         </Link>
 
@@ -66,26 +70,27 @@ export default function PropertyCard({
             <button
               type="button"
               onClick={prevImage}
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-stone-800 text-xs font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-              aria-label="Previous image"
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 text-sm font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+              aria-label="Previous photo"
             >
               ‹
             </button>
             <button
               type="button"
               onClick={nextImage}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-stone-800 text-xs font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-              aria-label="Next image"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white text-stone-800 text-sm font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+              aria-label="Next photo"
             >
               ›
             </button>
-            {/* Dots */}
-            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+
+            {/* Pagination Dots */}
+            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10">
               {images.map((_, i) => (
                 <div
                   key={i}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${
-                    i === currentImageIdx ? 'bg-white w-3' : 'bg-white/60'
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === currentImageIdx ? 'bg-white w-4' : 'bg-white/60 w-1.5'
                   }`}
                 />
               ))}
@@ -94,14 +99,14 @@ export default function PropertyCard({
         )}
 
         {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
+        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
           {property.curatedCollection && (
-            <span className="px-2.5 py-1 rounded-full bg-[#17233B]/90 text-white text-[10px] font-bold tracking-wide backdrop-blur-xs border border-white/20">
-              Curated Estate
+            <span className="px-3 py-1 rounded-full bg-white/95 text-stone-900 text-[11px] font-bold tracking-tight shadow-md backdrop-blur-xs flex items-center gap-1">
+              <span>🏆</span> Guest favourite
             </span>
           )}
           {property.instantBook && (
-            <span className="px-2 py-1 rounded-full bg-emerald-600/90 text-white text-[10px] font-bold tracking-wide backdrop-blur-xs">
+            <span className="px-2.5 py-1 rounded-full bg-[#17233B]/90 text-white text-[10px] font-bold tracking-wide backdrop-blur-xs shadow-xs">
               ⚡ Instant Book
             </span>
           )}
@@ -115,110 +120,104 @@ export default function PropertyCard({
             e.stopPropagation()
             toggleWishlist(property.slug)
           }}
-          className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all z-10 shadow-md ${
-            wishlisted
-              ? 'bg-red-50 text-red-500 scale-110'
-              : 'bg-white/80 hover:bg-white text-stone-600 hover:text-red-500'
+          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-transform z-10 hover:scale-115 ${
+            wishlisted ? 'scale-110' : ''
           }`}
           title={wishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
           aria-label={wishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
         >
-          <span className="text-sm">{wishlisted ? '❤️' : '🤍'}</span>
+          <svg
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+            role="presentation"
+            focusable="false"
+            className={`w-6 h-6 drop-shadow-sm transition-colors ${
+              wishlisted
+                ? 'fill-red-500 stroke-red-500'
+                : 'fill-black/30 stroke-white stroke-[2.5px] hover:fill-black/40'
+            }`}
+          >
+            <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05A6.98 6.98 0 0 0 9 4a6.98 6.98 0 0 0-7 7c0 7 7 12.27 14 17z" />
+          </svg>
+        </button>
+
+        {/* Quick Compare Trigger */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            if (compared) removeFromCompare(property.slug)
+            else addToCompare(property)
+          }}
+          className={`absolute bottom-3 right-3 px-2 py-1 rounded-lg text-[10px] font-bold z-10 transition-all opacity-0 group-hover:opacity-100 shadow-md ${
+            compared
+              ? 'bg-[#17233B] text-[#C9A45C]'
+              : 'bg-white/95 text-stone-700 hover:bg-white'
+          }`}
+          title="Compare property side-by-side"
+        >
+          {compared ? '✓ Compared' : '⚖️ Compare'}
         </button>
       </div>
 
-      {/* ── 2. Content Body ────────────────────────────────────────────────────── */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-        <div className="space-y-2">
-          {/* Rating & Location Row */}
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-stone-500 font-medium">
-              📍 {property.city}, {property.state}
-            </span>
-            <div className="flex items-center gap-1 font-bold text-stone-800">
-              <span className="text-amber-500">★</span>
-              <span>{property.rating.toFixed(2)}</span>
-              <span className="text-stone-400 font-normal">({property.reviewsCount})</span>
-            </div>
-          </div>
-
-          {/* Property Name */}
-          <Link href={`/stays/${property.slug}`} className="block group-hover:text-[#176B68] transition-colors">
-            <h3 className="font-serif text-lg font-bold text-[#17233B] line-clamp-1 leading-snug">
-              {property.name}
-            </h3>
-          </Link>
-
-          {/* Tagline */}
-          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
-            {property.tagline}
-          </p>
-
-          {/* Capacity Spec Pill */}
-          <div className="flex items-center gap-2 pt-1 text-[11px] text-stone-500">
-            <span>{property.bedrooms} Chambers</span>
-            <span>•</span>
-            <span>{property.beds} Beds</span>
-            <span>•</span>
-            <span>Up to {property.maxTotalGuests} Guests</span>
-          </div>
-
-          {/* Key Feature Badges */}
-          <div className="flex flex-wrap gap-1.5 pt-1">
-            {property.propertyAmenities.slice(0, 2).map((amenity, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-stone-200 text-[10px] text-stone-600 truncate max-w-[190px]"
-              >
-                {amenity}
-              </span>
-            ))}
+      {/* ── 2. Content Body (Clean Airbnb-style Typography) ────────────────── */}
+      <Link href={`/stays/${property.slug}`} className="block pt-2 space-y-0.5 text-stone-900">
+        {/* Row 1: Location & Rating */}
+        <div className="flex items-center justify-between gap-2 text-sm leading-tight">
+          <span className="font-semibold text-stone-900 truncate">
+            {property.city}, {property.state}
+          </span>
+          <div className="flex items-center gap-1 font-semibold text-stone-900 flex-shrink-0 text-sm">
+            <span className="text-stone-900 text-xs">★</span>
+            <span>{property.rating.toFixed(2)}</span>
+            <span className="text-stone-400 font-normal text-xs">({property.reviewsCount})</span>
           </div>
         </div>
 
-        {/* ── 3. Footer: Pricing & Compare Trigger ─────────────────────────────── */}
-        <div className="pt-4 border-t border-[#E7E2D9] flex items-end justify-between">
-          <div>
-            <span className="text-[10px] text-stone-400 uppercase font-semibold block">From</span>
-            <div className="flex items-baseline gap-1">
-              <span className="font-mono text-base sm:text-lg font-extrabold text-[#17233B]">
+        {/* Row 2: Property Title */}
+        <div className="font-serif text-stone-800 text-sm font-medium truncate group-hover:text-[#176B68] transition-colors">
+          {property.name}
+        </div>
+
+        {/* Row 3: Highlight / View */}
+        <p className="text-xs text-stone-500 truncate">
+          {property.tagline}
+        </p>
+
+        {/* Row 4: Capacity */}
+        <p className="text-xs text-stone-500">
+          {property.bedrooms} Chambers · {property.beds} Beds · Up to {property.maxTotalGuests} guests
+        </p>
+
+        {/* Row 5: Pricing */}
+        <div className="pt-1.5 leading-tight">
+          {showTotalWithTaxes ? (
+            <div>
+              <div className="flex items-baseline gap-1">
+                <span className="font-bold text-stone-900 text-sm sm:text-base">
+                  ₹{totalTariff.toLocaleString('en-IN')}
+                </span>
+                <span className="text-xs text-stone-600 font-normal">total ({nights} nights)</span>
+              </div>
+              <span className="text-[11px] text-[#176B68] font-medium block">
+                Taxes &amp; cleaning included · Zero surprises
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-baseline gap-1 text-sm">
+              <span className="font-bold text-stone-900">
                 ₹{property.estateBuyoutPrice.toLocaleString('en-IN')}
               </span>
-              <span className="text-xs text-stone-500 font-normal">/ night</span>
+              <span className="text-xs text-stone-600 font-normal">night</span>
+              <span className="text-stone-400 mx-0.5">·</span>
+              <span className="text-xs text-stone-500 underline font-normal">
+                ₹{totalTariff.toLocaleString('en-IN')} total
+              </span>
             </div>
-            <span className="text-[10px] text-stone-500 block">
-              ₹{totalTariff.toLocaleString('en-IN')} total ({nights} nights incl. tax)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* Compare Toggle */}
-            <button
-              type="button"
-              onClick={() => {
-                if (compared) removeFromCompare(property.slug)
-                else addToCompare(property)
-              }}
-              className={`p-2 rounded-xl text-xs font-bold border transition-all ${
-                compared
-                  ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B]'
-                  : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'
-              }`}
-              title="Add to side-by-side comparison"
-            >
-              ⚖️
-            </button>
-
-            {/* View Details CTA */}
-            <Link
-              href={`/stays/${property.slug}`}
-              className="py-2.5 px-4 bg-[#17233B] hover:bg-[#176B68] text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-colors shadow-xs"
-            >
-              Reserve →
-            </Link>
-          </div>
+          )}
         </div>
-      </div>
+      </Link>
     </div>
   )
 }

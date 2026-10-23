@@ -39,6 +39,8 @@ export default function LiveStaysDiscovery() {
   const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid')
   const [sortBy, setSortBy] = useState<'relevance' | 'price_asc' | 'price_desc' | 'rating_desc'>('relevance')
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  const [showTotalWithTaxes, setShowTotalWithTaxes] = useState(false)
+  const [showExperienceSection, setShowExperienceSection] = useState(false)
 
   // Advanced Filters State
   const [advancedFilters, setAdvancedFilters] = useState<PropertyFilterState>({
@@ -99,51 +101,67 @@ export default function LiveStaysDiscovery() {
       // 1. Text Destination search
       if (urlDestination.trim()) {
         const q = urlDestination.toLowerCase()
-        const match =
+        const matchesLocation =
+          prop.name.toLowerCase().includes(q) ||
           prop.city.toLowerCase().includes(q) ||
           prop.state.toLowerCase().includes(q) ||
           prop.country.toLowerCase().includes(q) ||
-          prop.hubZone.toLowerCase().includes(q) ||
-          prop.name.toLowerCase().includes(q) ||
-          prop.tagline.toLowerCase().includes(q)
-        if (!match) return false
+          prop.hubZone.toLowerCase().includes(q)
+        if (!matchesLocation) return false
       }
 
-      // 2. Category Filter
-      if (selectedCategory !== 'all') {
-        const matchesCategory =
-          prop.category === selectedCategory ||
-          prop.secondaryCategories.includes(selectedCategory)
-        if (!matchesCategory) return false
+      // 2. Primary Category
+      if (selectedCategory && selectedCategory !== 'all') {
+        const matchesCat =
+          prop.category === selectedCategory || prop.secondaryCategories.includes(selectedCategory)
+        if (!matchesCat) return false
       }
 
-      // 3. Discovery Collection Filter
+      // 3. Curated Discovery Collection
       if (selectedDiscovery) {
         if (!prop.discoveryCollections.includes(selectedDiscovery)) {
           return false
         }
       }
 
-      // 4. Guests count
-      if (urlGuests > 0 && prop.maxTotalGuests < urlGuests) {
+      // 4. Capacity Filter
+      if (urlGuests > prop.maxTotalGuests) {
         return false
       }
 
       // 5. Advanced Filters
-      if (prop.estateBuyoutPrice < advancedFilters.minPrice) return false
-      if (prop.estateBuyoutPrice > advancedFilters.maxPrice) return false
-      if (advancedFilters.bedrooms > 0 && prop.bedrooms < advancedFilters.bedrooms) return false
-      if (advancedFilters.propertyType && prop.propertyType !== advancedFilters.propertyType) return false
-      if (advancedFilters.instantBook && !prop.instantBook) return false
-      if (advancedFilters.freeCancellation && !prop.freeCancellation) return false
-      if (advancedFilters.verifiedHost && !prop.host.verified) return false
-      if (advancedFilters.workFriendly && (!prop.workFriendly || prop.wifiSpeedMbps < 100)) return false
-      if (advancedFilters.minRating > 0 && prop.rating < advancedFilters.minRating) return false
+      if (advancedFilters.minPrice > 0 && prop.estateBuyoutPrice < advancedFilters.minPrice) {
+        return false
+      }
+      if (advancedFilters.maxPrice < 100000 && prop.estateBuyoutPrice > advancedFilters.maxPrice) {
+        return false
+      }
+      if (advancedFilters.bedrooms > 0 && prop.bedrooms < advancedFilters.bedrooms) {
+        return false
+      }
+      if (advancedFilters.propertyType && prop.propertyType !== advancedFilters.propertyType) {
+        return false
+      }
+      if (advancedFilters.instantBook && !prop.instantBook) {
+        return false
+      }
+      if (advancedFilters.freeCancellation && !prop.freeCancellation) {
+        return false
+      }
+      if (advancedFilters.verifiedHost && !prop.host.verified) {
+        return false
+      }
+      if (advancedFilters.workFriendly && !prop.workFriendly) {
+        return false
+      }
+      if (advancedFilters.minRating > 0 && prop.rating < advancedFilters.minRating) {
+        return false
+      }
 
       // Amenities
       if (advancedFilters.amenities.length > 0) {
-        const allText = prop.propertyAmenities.join(' ').toLowerCase()
-        const hasAll = advancedFilters.amenities.every((a) => allText.includes(a.toLowerCase()))
+        const allAmenities = prop.propertyAmenities.join(' ').toLowerCase()
+        const hasAll = advancedFilters.amenities.every((a) => allAmenities.includes(a.toLowerCase()))
         if (!hasAll) return false
       }
 
@@ -181,15 +199,7 @@ export default function LiveStaysDiscovery() {
     const params = new URLSearchParams(searchParams.toString())
     if (catId === 'all') params.delete('category')
     else params.set('category', catId)
-    router.replace(`/stays?${params.toString()}#marketplace-results`, { scroll: false })
-  }
-
-  const handleDiscoverySelect = (discId: DiscoveryCollection | '') => {
-    setSelectedDiscovery(discId)
-    const params = new URLSearchParams(searchParams.toString())
-    if (!discId) params.delete('discovery')
-    else params.set('discovery', discId)
-    router.replace(`/stays?${params.toString()}#marketplace-results`, { scroll: false })
+    router.replace(`/stays?${params.toString()}`, { scroll: false })
   }
 
   const handleClearAll = () => {
@@ -209,159 +219,99 @@ export default function LiveStaysDiscovery() {
       amenities: [],
       accessibility: [],
     })
-    router.replace('/stays#marketplace-results', { scroll: false })
+    router.replace('/stays', { scroll: false })
   }
 
   return (
-    <div className="space-y-12">
-      {/* ── 1. Floating Hero Search Bar ───────────────────────────────────────── */}
+    <div className="space-y-6">
+      {/* ── 1. Compact Top Search Pill (Airbnb-inspired) ─────────────────────── */}
       <StaysHeroSearch
         onOpenFilterModal={() => setIsFilterModalOpen(true)}
         activeFiltersCount={activeFiltersCount}
       />
 
-      {/* ── 2. Primary Category Horizontal Carousel ──────────────────────────── */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-[#E7E2D9]">
-        {STAY_CATEGORIES.map((cat) => {
-          const isActive = selectedCategory === cat.id
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => handleCategorySelect(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all flex-shrink-0 cursor-pointer ${
-                isActive
-                  ? 'bg-[#17233B] text-white shadow-xs'
-                  : 'bg-white hover:bg-stone-100 text-stone-700 border border-[#E7E2D9]'
-              }`}
-            >
-              <span className="text-sm">{cat.icon}</span>
-              <span>{cat.label}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* ── 3. Discovery Collections Secondary Strip ─────────────────────────── */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">
-            Explore Curated Collections ({DISCOVERY_COLLECTIONS.length})
-          </span>
-          {selectedDiscovery && (
-            <button
-              type="button"
-              onClick={() => handleDiscoverySelect('')}
-              className="text-xs text-[#704B32] font-semibold hover:underline"
-            >
-              Show all collections
-            </button>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {DISCOVERY_COLLECTIONS.map((disc) => {
-            const isSelected = selectedDiscovery === disc.id
+      {/* ── 2. Category Filter & Controls Bar ─────────────────────────────────── */}
+      <div className="sticky top-20 z-20 bg-[#FAF8F5]/95 backdrop-blur-md py-2 border-b border-stone-200/70 flex items-center justify-between gap-4">
+        {/* Horizontal Category Icons */}
+        <div className="flex items-center gap-6 overflow-x-auto pb-1 scrollbar-none flex-1">
+          {STAY_CATEGORIES.map((cat) => {
+            const isActive = selectedCategory === cat.id
             return (
               <button
-                key={disc.id}
+                key={cat.id}
                 type="button"
-                onClick={() => handleDiscoverySelect(isSelected ? '' : disc.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all flex-shrink-0 border ${
-                  isSelected
-                    ? 'bg-[#C9A45C] text-[#17233B] border-[#C9A45C] shadow-xs'
-                    : 'bg-[#FAF8F5] text-stone-700 border-stone-200 hover:border-stone-400'
+                onClick={() => handleCategorySelect(cat.id)}
+                className={`flex flex-col items-center gap-1.5 pb-2 transition-all flex-shrink-0 cursor-pointer border-b-2 ${
+                  isActive
+                    ? 'border-stone-900 text-stone-900 font-bold opacity-100'
+                    : 'border-transparent text-stone-500 hover:text-stone-900 hover:border-stone-300 font-medium opacity-75 hover:opacity-100'
                 }`}
               >
-                <span>{disc.icon}</span>
-                <span>{disc.title}</span>
+                <span className="text-xl">{cat.icon}</span>
+                <span className="text-[11px] whitespace-nowrap">{cat.label}</span>
               </button>
             )
           })}
         </div>
-      </div>
 
-      {/* ── 4. Discovery Control Toolbar (Result Count + Map/Grid + Sort) ─────── */}
-      <div id="marketplace-results" className="scroll-mt-28 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E2D9] pb-4">
-        <div>
-          <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#17233B]">
-            {selectedDiscovery
-              ? DISCOVERY_COLLECTIONS.find((d) => d.id === selectedDiscovery)?.title || 'Curated Stays'
-              : selectedCategory !== 'all'
-              ? STAY_CATEGORIES.find((c) => c.id === selectedCategory)?.label || 'Curated Stays'
-              : 'Extraordinary Stays'}
-          </h2>
-          <p className="text-xs text-stone-500 mt-0.5">
-            Showing {filteredProperties.length} verified {filteredProperties.length === 1 ? 'property' : 'properties'}
-            {urlDestination ? ` matching &ldquo;${urlDestination}&rdquo;` : ' across active hubs'} · Zero hidden booking fees
-          </p>
-        </div>
+        {/* Right Controls: Filters & Transparent Total Toggle */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Filters Button */}
+          <button
+            type="button"
+            onClick={() => setIsFilterModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:border-stone-900 text-xs font-semibold text-stone-800 shadow-2xs transition-colors"
+          >
+            <span>⚙️</span>
+            <span>Filters</span>
+            {activeFiltersCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-stone-900 text-white text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Active filters badge */}
-          {activeFiltersCount > 0 && (
+          {/* Transparent Total Toggle Switch (Better than Airbnb) */}
+          <div className="hidden lg:flex items-center gap-3 px-4 py-2 rounded-xl border border-stone-200 bg-white shadow-2xs">
+            <span className="text-xs font-medium text-stone-700">Display total with zero hidden fees</span>
             <button
               type="button"
-              onClick={handleClearAll}
-              className="px-2.5 py-1.5 rounded-xl bg-amber-100 text-amber-900 text-xs font-bold flex items-center gap-1 hover:bg-amber-200 transition-colors"
-            >
-              <span>Filters ({activeFiltersCount})</span>
-              <span className="text-sm">×</span>
-            </button>
-          )}
-
-          {/* Sort By Dropdown */}
-          <div className="flex items-center gap-1.5 p-1.5 bg-white border border-[#E7E2D9] rounded-xl text-xs">
-            <span className="text-stone-400 pl-1 text-[11px]">Sort:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-transparent font-semibold text-stone-800 focus:outline-none cursor-pointer pr-1"
-            >
-              <option value="relevance">Relevance</option>
-              <option value="rating_desc">Highest Rated</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-            </select>
-          </div>
-
-          {/* View Toggle (Grid vs Map) */}
-          <div className="flex bg-white p-1 rounded-xl border border-[#E7E2D9]">
-            <button
-              type="button"
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                viewMode === 'grid'
-                  ? 'bg-[#17233B] text-white shadow-2xs'
-                  : 'text-stone-600 hover:text-black'
+              role="switch"
+              aria-checked={showTotalWithTaxes}
+              onClick={() => setShowTotalWithTaxes(!showTotalWithTaxes)}
+              className={`w-11 h-6 rounded-full transition-colors relative focus:outline-none p-0.5 cursor-pointer ${
+                showTotalWithTaxes ? 'bg-[#17233B]' : 'bg-stone-300'
               }`}
-              title="Grid View"
             >
-              <span>▦</span>
-              <span className="hidden sm:inline">Grid</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('map')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
-                viewMode === 'map'
-                  ? 'bg-[#17233B] text-white shadow-2xs'
-                  : 'text-stone-600 hover:text-black'
-              }`}
-              title="Interactive Map View"
-            >
-              <span>🗺️</span>
-              <span className="hidden sm:inline">Map</span>
+              <div
+                className={`w-5 h-5 rounded-full bg-white transition-transform ${
+                  showTotalWithTaxes ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
             </button>
           </div>
         </div>
       </div>
 
-      {/* ── 5. Main Results Canvas (Grid or Map) ──────────────────────────────── */}
+      {/* Active filters notice if any */}
+      {activeFiltersCount > 0 && (
+        <div className="flex items-center justify-between text-xs py-2 px-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">
+          <span>{activeFiltersCount} active search filter(s) applied</span>
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="font-bold underline hover:text-black cursor-pointer"
+          >
+            Clear all
+          </button>
+        </div>
+      )}
+
+      {/* ── 3. Main Results Canvas (4-Column Luxury Grid or Full Map) ─────────── */}
       {filteredProperties.length === 0 ? (
-        <div className="p-12 text-center bg-white rounded-3xl border border-[#E7E2D9] space-y-4">
+        <div className="p-16 text-center bg-white rounded-3xl border border-stone-200 space-y-4 my-8">
           <span className="text-4xl block">🔍</span>
-          <h3 className="font-serif text-xl font-bold text-[#17233B]">
+          <h3 className="font-serif text-xl font-bold text-stone-900">
             No verified stays match your current filters
           </h3>
           <p className="text-xs text-stone-600 max-w-md mx-auto leading-relaxed">
@@ -371,21 +321,21 @@ export default function LiveStaysDiscovery() {
             <button
               type="button"
               onClick={handleClearAll}
-              className="px-5 py-2.5 bg-[#17233B] text-white font-bold text-xs rounded-xl"
+              className="px-5 py-2.5 bg-stone-900 text-white font-bold text-xs rounded-xl"
             >
               Reset Filters
             </button>
             <button
               type="button"
               onClick={() => openAiConcierge(`I was looking for ${urlDestination || 'a stay'} with specific requirements. Suggest best alternatives.`)}
-              className="px-5 py-2.5 bg-[#C9A45C] text-[#17233B] font-bold text-xs rounded-xl"
+              className="px-5 py-2.5 bg-[#C9A45C] text-stone-900 font-bold text-xs rounded-xl"
             >
               Ask AI Concierge for Options →
             </button>
           </div>
         </div>
       ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
           {filteredProperties.map((prop) => (
             <PropertyCard
               key={prop.id}
@@ -394,49 +344,53 @@ export default function LiveStaysDiscovery() {
               checkIn={urlCheckIn}
               checkOut={urlCheckOut}
               guests={urlGuests}
+              showTotalWithTaxes={showTotalWithTaxes}
             />
           ))}
         </div>
       ) : (
-        <InteractiveMapView properties={filteredProperties} nights={nights} />
+        <div className="rounded-3xl overflow-hidden border border-stone-200 shadow-md">
+          <InteractiveMapView properties={filteredProperties} nights={nights} />
+        </div>
       )}
 
-      {/* ── 6. In-Stay Travel Services Catalogue ─────────────────────────────── */}
-      <ServicesCatalogueSection />
+      {/* ── 4. Floating Map / List Toggle Button (Airbnb Signature) ───────────── */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40">
+        <button
+          type="button"
+          onClick={() => setViewMode(viewMode === 'grid' ? 'map' : 'grid')}
+          className="px-6 py-3 rounded-full bg-[#17233B] text-white text-xs sm:text-sm font-bold shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-white/20"
+        >
+          <span>{viewMode === 'grid' ? 'Show map 🗺️' : 'Show list 📋'}</span>
+        </button>
+      </div>
 
-      {/* ── 7. Split-Stay Multi-Property Journeys ────────────────────────────── */}
-      <SplitStaySection />
+      {/* ── 5. Secondary Services & Split Stays Accordion Drawer ─────────────── */}
+      <div className="pt-12 border-t border-stone-200 space-y-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h3 className="font-serif text-lg font-bold text-stone-900">
+              Exclusive In-Stay Services &amp; Split Journeys
+            </h3>
+            <p className="text-xs text-stone-500">
+              Private 4x4 snow transit, master wazwan chefs, harvest walks, and multi-property itineraries.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowExperienceSection(!showExperienceSection)}
+            className="text-xs font-bold text-[#176B68] hover:underline cursor-pointer"
+          >
+            {showExperienceSection ? 'Hide Services & Itineraries ▲' : 'Explore Local Services & Itineraries ▼'}
+          </button>
+        </div>
 
-      {/* ── 8. Trust & Safety Marketplace Guarantee ─────────────────────────── */}
-      <div className="p-8 sm:p-10 bg-gradient-to-br from-[#17233B] to-[#1E3048] rounded-3xl text-white shadow-xl grid grid-cols-1 md:grid-cols-4 gap-6 border border-[#C9A45C]/30">
-        <div className="space-y-1">
-          <div className="text-2xl mb-1">🛡️</div>
-          <h4 className="font-serif text-base font-bold">100% Inspected Residences</h4>
-          <p className="text-xs text-stone-300 font-light">
-            Every estate, chalet, and houseboat is verified on-site for water, fiber, heating, and hygiene.
-          </p>
-        </div>
-        <div className="space-y-1">
-          <div className="text-2xl mb-1">⚡</div>
-          <h4 className="font-serif text-base font-bold">Anti-Double Booking Guarantee</h4>
-          <p className="text-xs text-stone-300 font-light">
-            Server-side transactional lock prevents calendar collisions. Your dates are reserved authoritatively.
-          </p>
-        </div>
-        <div className="space-y-1">
-          <div className="text-2xl mb-1">🧾</div>
-          <h4 className="font-serif text-base font-bold">18% Corporate GST Invoicing</h4>
-          <p className="text-xs text-stone-300 font-light">
-            Instant GST credit tax receipts for company retreats, executive travel, and agricultural sourcing offsites.
-          </p>
-        </div>
-        <div className="space-y-1">
-          <div className="text-2xl mb-1">👑</div>
-          <h4 className="font-serif text-base font-bold">End-to-End Concierge Care</h4>
-          <p className="text-xs text-stone-300 font-light">
-            Heated 4x4 airport transit, wazwan master chefs, and 24/7 dedicated local assistance throughout your stay.
-          </p>
-        </div>
+        {showExperienceSection && (
+          <div className="space-y-12 animate-fadeIn">
+            <ServicesCatalogueSection />
+            <SplitStaySection />
+          </div>
+        )}
       </div>
 
       {/* Modals */}
