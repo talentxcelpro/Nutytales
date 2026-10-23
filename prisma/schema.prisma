@@ -1266,3 +1266,35 @@ model SeoGscTelemetryRecord {
   @@index([property, date])
   @@map("seo_gsc_telemetry")
 }
+
+// ==============================================================
+// GSC ACQUISITION AGENT — OPTIMIZATION AUDIT LOG
+// Enforces the 14-day freeze rule per URL to prevent Google spam penalties.
+// ==============================================================
+
+model GscOptimizationLog {
+  id                String    @id @default(cuid())
+  url               String    // The exact URL that was optimized
+  property          String    // GSC property: sc-domain:nutytales.com etc.
+  bucket            String    // A (ctr_fix) | B (page2_boost) | C (new_page)
+  action            String    // rewrite_meta | inject_faq | create_page | rollback
+  oldTitle          String?   @db.Text
+  newTitle          String?   @db.Text
+  oldDescription    String?   @db.Text
+  newDescription    String?   @db.Text
+  faqInjected       Json?     // FAQ blocks injected for Bucket B
+  pageSlug          String?   // SeoPageRecord.slug if a new page was created (Bucket C)
+  ctrBefore         Float?    // CTR at time of change
+  ctrAfter          Float?    // CTR measured 14 days later
+  impressionsBefore Int?
+  clicksBefore      Int?
+  positionBefore    Float?
+  evaluatedAt       DateTime? // When the 14-day outcome check ran
+  outcome           String?   // kept | rolled_back | pending
+  frozenUntil       DateTime  // Earliest next-optimization date (createdAt + 14 days)
+  createdAt         DateTime  @default(now())
+
+  @@index([url, frozenUntil])
+  @@index([bucket, outcome])
+  @@map("gsc_optimization_logs")
+}
