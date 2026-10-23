@@ -104,7 +104,7 @@ export default async function StaySlugPage({ params }: PageProps) {
     });
 
     return (
-      <div className="min-h-screen bg-[#FAF7F2] pt-24 pb-20 md:pt-32 text-[#17233B]">
+      <div className="min-h-screen bg-[#FAF8F5] pt-6 pb-20 text-[#17233B]">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: schemaToJsonLd(breadcrumbSchema) }}
@@ -114,111 +114,7 @@ export default async function StaySlugPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: schemaToJsonLd(lodgingSchema) }}
         />
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs text-stone-500">
-            <Link href="/" className="hover:text-[#176B68]">Home</Link>
-            <span>/</span>
-            <Link href="/stays" className="hover:text-[#176B68]">Stays</Link>
-            <span>/</span>
-            <span className="text-stone-800 font-semibold">{prop.name}</span>
-          </nav>
-
-          {/* Hero */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-300">
-                ⭐ {prop.rating} ({prop.reviewsCount} verified guest reviews)
-              </span>
-              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-semibold">
-                📍 {prop.locationNote}
-              </span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#17233B] font-serif leading-tight">
-              {prop.name}
-            </h1>
-            <p className="text-base text-stone-600 leading-relaxed max-w-3xl">
-              {prop.tagline}
-            </p>
-          </div>
-
-          {/* Quick Specifications */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="bg-white p-4 rounded-2xl border border-stone-200 text-center">
-              <span className="text-xs text-stone-500 block">Bedrooms</span>
-              <span className="text-lg font-bold text-[#17233B]">{prop.bedrooms} Chambers</span>
-            </div>
-            <div className="bg-white p-4 rounded-2xl border border-stone-200 text-center">
-              <span className="text-xs text-stone-500 block">Capacity</span>
-              <span className="text-lg font-bold text-[#17233B]">Up to {prop.maxTotalGuests} Guests</span>
-            </div>
-            <div className="bg-white p-4 rounded-2xl border border-stone-200 text-center">
-              <span className="text-xs text-stone-500 block">Connectivity</span>
-              <span className="text-lg font-bold text-[#17233B]">{prop.wifiSpeedMbps} Mbps Fiber</span>
-            </div>
-            <div className="bg-white p-4 rounded-2xl border border-stone-200 text-center">
-              <span className="text-xs text-stone-500 block">Estate Buyout</span>
-              <span className="text-lg font-bold text-emerald-700">₹{prop.estateBuyoutPrice.toLocaleString('en-IN')}/nt</span>
-            </div>
-          </div>
-
-          {/* Amenities */}
-          <div className="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm space-y-4">
-            <h2 className="text-xl font-bold font-serif text-[#17233B]">Residency Amenities &amp; Features</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {prop.propertyAmenities.map((amenity, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-stone-700">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  <span>{amenity}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Cross Links */}
-          <div className="bg-stone-50 p-6 rounded-2xl border border-stone-200 space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-stone-500">
-              Related Kashmir Experiences
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/travel/kashmir" className="text-xs font-semibold text-[#176B68] hover:underline">
-                → Private Kashmir 4x4 Travel Packages
-              </Link>
-              <span className="text-stone-300">|</span>
-              <Link href="/crafts/kashmir" className="text-xs font-semibold text-[#176B68] hover:underline">
-                → Certified Kashmir Crafts &amp; Pashminas
-              </Link>
-            </div>
-          </div>
-
-          {/* Conversion CTA */}
-          <div className="bg-gradient-to-r from-[#17233B] to-[#176B68] text-white p-8 rounded-3xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-bold">Check Availability &amp; Reserve</h2>
-              <p className="text-xs text-stone-200">
-                Direct reservation with concierge. Instant confirmation and private airport transfer coordination.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/stays/group-quote"
-                className="px-6 py-3 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold rounded-xl text-xs uppercase tracking-wider shadow-md transition-colors"
-              >
-                Request Dates &amp; Quote
-              </Link>
-              <a
-                href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                  `Hello Nuty Tales Concierge, I would like to check availability for ${prop.name} in ${prop.city}.`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-xs uppercase tracking-wider border border-white/20 shadow-md inline-flex items-center gap-1.5 transition-colors"
-              >
-                <span>WhatsApp Concierge</span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <PropertyDetailView property={prop} />
       </div>
     );
   }
