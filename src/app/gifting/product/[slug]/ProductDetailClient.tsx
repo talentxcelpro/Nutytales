@@ -139,6 +139,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 alt={product.name}
                 fill
                 priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={92}
                 className="object-cover"
               />
             </div>
@@ -176,7 +178,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   }`}
                 >
                   <div className="relative w-full h-full rounded-xl overflow-hidden">
-                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill className="object-cover" />
+                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill sizes="80px" quality={85} className="object-cover" />
                   </div>
                 </button>
               ))}

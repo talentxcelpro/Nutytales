@@ -379,6 +379,8 @@ export default function GiftingExploreClient() {
                             src={product.primaryImage}
                             alt={product.name}
                             fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
+                            quality={90}
                             className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
                           />
                         </Link>

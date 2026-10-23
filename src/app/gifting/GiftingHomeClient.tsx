@@ -131,6 +131,8 @@ export default function GiftingHomeClient() {
                   alt="Nuty Tales Gifting luxury hampers showcase"
                   fill
                   priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  quality={90}
                   className="object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#FBF8F3] via-transparent to-transparent hidden lg:block w-24" />
@@ -181,6 +183,8 @@ export default function GiftingHomeClient() {
                     src={cat.image}
                     alt={cat.name}
                     fill
+                    sizes="120px"
+                    quality={90}
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
@@ -239,6 +243,8 @@ export default function GiftingHomeClient() {
                 src={occ.image}
                 alt={occ.name}
                 fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
+                quality={90}
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#10192A]/90 via-[#10192A]/30 to-transparent" />
@@ -309,6 +315,8 @@ export default function GiftingHomeClient() {
                         src={product.primaryImage}
                         alt={product.name}
                         fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
+                        quality={90}
                         className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
                       />
                     </Link>
@@ -427,6 +435,8 @@ export default function GiftingHomeClient() {
                 src="/images/gifting/banner-personalized-split.jpg"
                 alt="Personalized wooden boxes"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={90}
                 className="object-cover object-right"
               />
             </div>
@@ -459,6 +469,8 @@ export default function GiftingHomeClient() {
                 src="/images/gifting/banner-corporate-split.jpg"
                 alt="Corporate luxury gift boxes"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={90}
                 className="object-cover object-right"
               />
             </div>
@@ -573,6 +585,8 @@ export default function GiftingHomeClient() {
                 src="/images/gifting/editorial-premium.jpg"
                 alt="Nuty Tales Premium Hampers"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                quality={90}
                 className="object-cover object-right"
               />
             </div>
@@ -598,6 +612,8 @@ export default function GiftingHomeClient() {
                 src="/images/gifting/editorial-kashmiri.jpg"
                 alt="Kashmiri Specialties"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                quality={90}
                 className="object-cover object-right"
               />
             </div>
@@ -623,6 +639,8 @@ export default function GiftingHomeClient() {
                 src="/images/gifting/editorial-hampers.jpg"
                 alt="Curated gift hampers"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                quality={90}
                 className="object-cover object-right"
               />
             </div>

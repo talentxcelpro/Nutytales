@@ -58,6 +58,8 @@ export default function QuickViewModal({
               src={activeImg}
               alt={product.name}
               fill
+              sizes="400px"
+              quality={90}
               className="object-cover"
             />
             {product.badge && (
