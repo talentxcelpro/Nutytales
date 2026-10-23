@@ -102,6 +102,10 @@ const nextConfig: NextConfig = {
         source: "/__/auth/:path*",
         destination: "https://nutty-tales-1c667.firebaseapp.com/__/auth/:path*",
       },
+      {
+        source: "/:vertical/__/auth/:path*",
+        destination: "https://nutty-tales-1c667.firebaseapp.com/__/auth/:path*",
+      },
       { source: "/almonds-wholesale", destination: "/wholesale-dry-fruits/almonds" },
       { source: "/cashews-wholesale", destination: "/wholesale-dry-fruits/cashews" },
       { source: "/makhana-wholesale", destination: "/wholesale-dry-fruits/makhana" },
