@@ -72,20 +72,20 @@ export default function TravelActivationDepositDesk() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A45C]/20 text-[#C9A45C] text-xs font-bold uppercase tracking-widest border border-[#C9A45C]/30">
-            <span>🏔️</span> VIP JOURNEY ACTIVATION &amp; CONCIERGE DESK
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A45C]/15 text-[#C9A45C] text-xs font-semibold uppercase tracking-wider border border-[#C9A45C]/30">
+            <span>🏔️</span> Priority Vehicle &amp; Alpine Pass Allocation
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-white">
-            Lock High-Altitude Vehicles &amp; Gondola Passes: <span className="text-[#C9A45C]">Instant ₹10,000 Activation</span>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+            Secure Peak Season Fleets &amp; Gondola Passes: <span className="text-[#C9A45C]">₹10,000 Retainer</span>
           </h2>
           <p className="text-stone-300 text-xs sm:text-sm max-w-3xl leading-relaxed font-light">
-            During peak snow and autumn seasons, 4x4 mountain vehicles and Gulmarg Gondola slots book out weeks in advance. Place a <strong>₹10,000 refundable planning deposit</strong> to guarantee vehicle priority, ski passes, and dedicated 24/7 mountain concierge. <strong>100% credited against your final itinerary</strong>.
+            During high winter and autumn peak periods, luxury 4x4 vehicles and Gulmarg Gondola slots book out weeks in advance. Place a <strong>₹10,000 refundable planning retainer</strong> to lock vehicle priority, certified ski guides, and your dedicated 24/7 concierge. <strong>100% credited toward your final itinerary</strong>.
           </p>
         </div>
 
         <div className="text-right flex-shrink-0">
-          <div className="text-xs uppercase font-bold text-[#C9A45C] tracking-wider">Refundable Planning Credit</div>
-          <div className="text-lg font-serif font-bold text-white">100% PO Adjustment</div>
+          <div className="text-xs uppercase font-medium text-[#C9A45C] tracking-wider">Refundable Planning Credit</div>
+          <div className="text-lg font-serif font-bold text-white">100% Itinerary Adjustment</div>
         </div>
       </div>
 

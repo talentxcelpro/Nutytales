@@ -150,8 +150,37 @@ export default function B2BQuotesPage() {
       </div>
 
       {/* ── Side-by-Side Quotation Comparison Grid ───────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {filteredQuotes.map((q) => {
+      {filteredQuotes.length === 0 ? (
+        <div className="bg-white rounded-3xl border border-dashed border-stone-300 p-12 sm:p-16 text-center space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-stone-50 border border-stone-200 text-stone-700 flex items-center justify-center text-3xl mx-auto">
+            📋
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-serif text-lg sm:text-xl font-bold text-stone-900">
+              No Active Quotations Found
+            </h3>
+            <p className="text-xs text-stone-500 max-w-md mx-auto">
+              Post a Quick RFQ for bulk dry fruits or submit your custom multi-commodity Bill of Materials (BOM) to receive direct landed bids from verified origin hubs.
+            </p>
+          </div>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/b2b/rfq"
+              className="px-5 py-2.5 bg-[#FF6B00] hover:bg-[#E65100] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            >
+              + Post Procurement RFQ
+            </Link>
+            <Link
+              href="/b2b/desk"
+              className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
+            >
+              Hand Over BOM to Trade Desk
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {filteredQuotes.map((q) => {
           const isExpiringSoon = q.validUntil.includes('17') || q.validUntil.includes('18')
 
           return (
@@ -279,7 +308,8 @@ export default function B2BQuotesPage() {
             </div>
           )
         })}
-      </div>
+        </div>
+      )}
 
       {/* ── Quote Detail Modal ────────────────────────────────────────────────── */}
       {detailQuote && (

@@ -8,10 +8,10 @@ import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 
 const TRAVEL_NAV_LINKS = [
   { label: 'Destinations', href: '/kashmir' },
-  { label: 'Trips', href: '/#trips' },
-  { label: 'Experiences', href: '/#experiences' },
-  { label: 'Itineraries', href: '/builder', badge: 'SI Builder' },
-  { label: 'Concierge', href: '/partners', badge: 'DMC Network' },
+  { label: 'Signature Journeys', href: '/#trips' },
+  { label: 'Private Experiences', href: '/#experiences' },
+  { label: 'Curate Itinerary', href: '/builder' },
+  { label: 'Private Concierge', href: '/partners' },
 ]
 
 export default function TravelShell({
@@ -42,79 +42,66 @@ export default function TravelShell({
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#17233B] flex flex-col font-sans">
       {/* ── Travel Top Ribbon ─────────────────────────────────────────────────── */}
-      <div className="bg-[#10192A] text-stone-200 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-[#0e1726] text-stone-300 text-[11px] py-2 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-white font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-bold text-[#C9A45C]">NUTY TALES TRAVEL</span>
-            <span className="text-stone-300">· The World&apos;s Intelligent Journey Marketplace</span>
+          <span className="text-[#C9A45C] font-serif font-medium tracking-wider text-[11px]">
+            NUTY TALES TRAVEL
           </span>
-          <span className="hidden md:inline text-white/30">•</span>
-          <span className="hidden md:inline text-stone-300 italic">
-            &ldquo;Don&apos;t search for your trip. Tell us what you want. SI plans it. Nuty Tales puts it together.&rdquo;
+          <span className="hidden md:inline text-white/20">|</span>
+          <span className="hidden md:inline text-stone-300 font-light">
+            Handcrafted private expeditions and curated journeys across Kashmir, Ladakh &amp; the Himalayas
           </span>
         </div>
 
         <div className="flex items-center gap-4 text-xs">
           <a
             href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-              'Hello Nuty Tales Travel Desk! I want to plan a custom trip to Kashmir / Himalayas.',
+              'Hello Nuty Tales Travel Desk! I would like to design a custom journey to Kashmir / Himalayas.',
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-400 font-bold hover:underline flex items-center gap-1"
+            className="text-[#C9A45C] hover:text-[#e0ba6e] font-medium flex items-center gap-1.5 transition-colors"
           >
-            <span>Trip Concierge</span>
+            <span>Private Concierge Desk</span>
             <span>→</span>
           </a>
         </div>
       </div>
 
       {/* ── Travel Header ────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+      <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-stone-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
             <Link href={getLinkHref('/')} className="flex items-center gap-3 group">
-              <div className="relative w-11 h-11 rounded-2xl bg-[#17233B] flex items-center justify-center text-white font-serif text-xl font-bold shadow-md group-hover:scale-105 transition-transform">
-                <span>✈️</span>
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#17233B] to-[#0A101D] border border-[#C9A45C]/30 flex items-center justify-center text-[#C9A45C] font-serif text-lg font-bold shadow-sm group-hover:scale-105 transition-transform">
+                <span>✦</span>
               </div>
               <div>
                 <span className="font-serif text-xl font-extrabold text-[#17233B] tracking-tight block">
                   Nuty Tales <span className="text-[#C9A45C]">Travel</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#704B32]">
-                  Intelligent Journey Marketplace · Operating Layer
+                <span className="text-[10px] uppercase font-semibold tracking-widest text-stone-500">
+                  Bespoke Journeys &amp; Private Expeditions
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1.5">
               {TRAVEL_NAV_LINKS.map((link) => {
                 const active = isLinkActive(link.href)
                 return (
                   <Link
                     key={link.label}
                     href={getLinkHref(link.href)}
-                    className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all relative flex items-center gap-1.5 ${
+                    className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all relative ${
                       active
                         ? 'bg-[#17233B] text-white shadow-sm'
-                        : 'text-stone-700 hover:text-[#17233B] hover:bg-stone-200/50'
+                        : 'text-stone-700 hover:text-[#17233B] hover:bg-stone-200/60'
                     }`}
                   >
                     <span>{link.label}</span>
-                    {link.badge && (
-                      <span
-                        className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
-                          active
-                            ? 'bg-[#C9A45C] text-[#17233B]'
-                            : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
-                        }`}
-                      >
-                        {link.badge}
-                      </span>
-                    )}
                   </Link>
                 )
               })}
@@ -124,9 +111,9 @@ export default function TravelShell({
             <div className="hidden sm:flex items-center gap-3">
               <Link
                 href={getLinkHref('/builder')}
-                className="px-5 py-2.5 bg-[#17233B] hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+                className="px-5 py-2.5 bg-[#17233B] hover:bg-[#223352] text-[#FAF7F2] font-semibold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm"
               >
-                Launch Trip Builder
+                Curate Your Journey
               </Link>
             </div>
 
@@ -157,9 +144,9 @@ export default function TravelShell({
             <Link
               href={getLinkHref('/builder')}
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center py-2.5 bg-[#C9A45C] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl mt-2"
+              className="block w-full text-center py-2.5 bg-[#17233B] text-white font-bold text-xs uppercase tracking-wider rounded-xl mt-2"
             >
-              Build My Trip
+              Curate Your Journey
             </Link>
           </div>
         )}
@@ -222,8 +209,8 @@ export default function TravelShell({
           <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
             <span>© {new Date().getFullYear()} Nuty Tales Travel. All rights reserved.</span>
             <div className="flex gap-4">
-              <Link href={getLinkHref('/builder')} className="hover:text-white">SI Trip Builder</Link>
-              <Link href={getLinkHref('/dashboard')} className="hover:text-white">Travel Dashboard</Link>
+              <Link href={getLinkHref('/builder')} className="hover:text-white">Bespoke Itinerary Curator</Link>
+              <Link href={getLinkHref('/dashboard')} className="hover:text-white">Guest Portal</Link>
               <a href="https://www.nutytales.com" className="hover:text-white">Nuty Tales Gateway</a>
             </div>
           </div>

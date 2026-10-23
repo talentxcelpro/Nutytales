@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { getStoredPurchaseOrders } from '@/lib/b2b-procurement-store'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
 
 interface InvoiceItem {
@@ -94,11 +95,33 @@ const SEED_INVOICES: InvoiceItem[] = [
 ]
 
 export default function B2BInvoicesPage() {
-  const [invoices] = useState<InvoiceItem[]>(SEED_INVOICES)
+  const [invoices, setInvoices] = useState<InvoiceItem[]>([])
   const [activeTab, setActiveTab] = useState<'ALL' | 'DUE' | 'PAID'>('ALL')
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceItem | null>(null)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
+
+  useEffect(() => {
+    const pos = getStoredPurchaseOrders()
+    const dynamicInvoices: InvoiceItem[] = pos.map((po, idx) => ({
+      id: `INV-${po.poNumber}`,
+      invoiceNumber: po.invoiceNumber || `NT-INV-2026-${(1000 + idx).toString()}`,
+      poNumber: po.poNumber,
+      supplier: po.supplierName,
+      date: po.orderDate,
+      dueDate: po.deliveryDeadline,
+      items: po.items.map((i) => `${i.name} (${i.quantityKg} kg)`).join(', '),
+      quantityKg: po.items.reduce((acc, i) => acc + i.quantityKg, 0),
+      taxableAmount: po.subtotal,
+      gstAmount: po.gstAmount,
+      totalAmount: po.totalAmount,
+      hsnCode: '0802.12.00',
+      status: po.paymentStatus === 'PAID' ? 'PAID' : 'PAYMENT_DUE',
+      paymentMethod: po.paymentTerms || 'Net-30 Corporate Facility',
+      gstinSupplier: '01AABCK1234F1Z8',
+    }))
+    setInvoices(dynamicInvoices)
+  }, [])
 
   const filteredInvoices = invoices.filter((inv) => {
     if (activeTab === 'DUE') return inv.status === 'PAYMENT_DUE'
@@ -223,75 +246,103 @@ export default function B2BInvoicesPage() {
           </div>
         </div>
 
-        {/* Invoices Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-stone-700">
-            <thead className="bg-stone-100 text-stone-600 font-bold uppercase text-[10px] tracking-wider border-b border-stone-200">
-              <tr>
-                <th className="p-3.5 pl-5">Invoice &amp; PO Ref</th>
-                <th className="p-3.5">Vendor / Supplier</th>
-                <th className="p-3.5">HSN &amp; Commodity</th>
-                <th className="p-3.5 text-right">Taxable (₹)</th>
-                <th className="p-3.5 text-right">GST (5%)</th>
-                <th className="p-3.5 text-right">Total (₹)</th>
-                <th className="p-3.5 text-center">Due Date</th>
-                <th className="p-3.5 text-center">Status</th>
-                <th className="p-3.5 text-right pr-5">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {filteredInvoices.map((inv) => (
-                <tr key={inv.id} className="hover:bg-stone-50/80 transition-colors">
-                  <td className="p-3.5 pl-5 font-medium">
-                    <div className="font-bold text-stone-900 font-mono">{inv.invoiceNumber}</div>
-                    <div className="text-[11px] text-stone-500 font-mono">{inv.poNumber}</div>
-                  </td>
-                  <td className="p-3.5">
-                    <div className="font-semibold text-stone-900">{inv.supplier}</div>
-                    <div className="text-[10px] text-stone-500 font-mono">GSTIN: {inv.gstinSupplier}</div>
-                  </td>
-                  <td className="p-3.5">
-                    <div className="text-stone-800 line-clamp-1">{inv.items}</div>
-                    <div className="text-[10px] text-stone-500 font-mono">
-                      HSN {inv.hsnCode} · {inv.quantityKg} kg
-                    </div>
-                  </td>
-                  <td className="p-3.5 text-right font-mono font-medium text-stone-800">
-                    ₹{inv.taxableAmount.toLocaleString('en-IN')}
-                  </td>
-                  <td className="p-3.5 text-right font-mono text-emerald-700 font-semibold">
-                    ₹{inv.gstAmount.toLocaleString('en-IN')}
-                  </td>
-                  <td className="p-3.5 text-right font-mono font-bold text-stone-900">
-                    ₹{inv.totalAmount.toLocaleString('en-IN')}
-                  </td>
-                  <td className="p-3.5 text-center text-[11px] font-mono text-stone-600">
-                    {inv.dueDate}
-                  </td>
-                  <td className="p-3.5 text-center">
-                    <span
-                      className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                        inv.status === 'PAID'
-                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                          : 'bg-amber-100 text-amber-800 border border-amber-200'
-                      }`}
-                    >
-                      {inv.status === 'PAID' ? 'Settled' : 'Payment Due'}
-                    </span>
-                  </td>
-                  <td className="p-3.5 text-right pr-5">
-                    <button
-                      onClick={() => setSelectedInvoice(inv)}
-                      className="px-3 py-1 rounded-lg border border-stone-300 hover:border-stone-400 bg-white text-[11px] font-bold text-[#0A1322] shadow-sm"
-                    >
-                      View Invoice
-                    </button>
-                  </td>
+        {/* Invoices Table or Empty State */}
+        {filteredInvoices.length === 0 ? (
+          <div className="p-12 sm:p-16 text-center space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-stone-50 border border-stone-200 text-stone-700 flex items-center justify-center text-3xl mx-auto">
+              🧾
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-stone-900">No Tax Invoices Yet</h3>
+              <p className="text-xs text-stone-500 max-w-md mx-auto">
+                Official GST-compliant e-invoices with 5% input tax credit and HSN classifications are generated automatically upon purchase order issuance.
+              </p>
+            </div>
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/b2b/rfq"
+                className="px-5 py-2.5 bg-[#FF6B00] hover:bg-[#E65100] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs inline-block"
+              >
+                + Post Procurement RFQ
+              </Link>
+              <Link
+                href="/b2b/quotes"
+                className="px-5 py-2.5 bg-[#0A1322] hover:bg-[#17233B] text-white rounded-xl text-xs font-bold transition-colors shadow-xs inline-block"
+              >
+                Review Active Quotes
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-stone-700">
+              <thead className="bg-stone-100 text-stone-600 font-bold uppercase text-[10px] tracking-wider border-b border-stone-200">
+                <tr>
+                  <th className="p-3.5 pl-5">Invoice &amp; PO Ref</th>
+                  <th className="p-3.5">Vendor / Supplier</th>
+                  <th className="p-3.5">HSN &amp; Commodity</th>
+                  <th className="p-3.5 text-right">Taxable (₹)</th>
+                  <th className="p-3.5 text-right">GST (5%)</th>
+                  <th className="p-3.5 text-right">Total (₹)</th>
+                  <th className="p-3.5 text-center">Due Date</th>
+                  <th className="p-3.5 text-center">Status</th>
+                  <th className="p-3.5 text-right pr-5">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {filteredInvoices.map((inv) => (
+                  <tr key={inv.id} className="hover:bg-stone-50/80 transition-colors">
+                    <td className="p-3.5 pl-5 font-medium">
+                      <div className="font-bold text-stone-900 font-mono">{inv.invoiceNumber}</div>
+                      <div className="text-[11px] text-stone-500 font-mono">{inv.poNumber}</div>
+                    </td>
+                    <td className="p-3.5">
+                      <div className="font-semibold text-stone-900">{inv.supplier}</div>
+                      <div className="text-[10px] text-stone-500 font-mono">GSTIN: {inv.gstinSupplier}</div>
+                    </td>
+                    <td className="p-3.5">
+                      <div className="text-stone-800 line-clamp-1">{inv.items}</div>
+                      <div className="text-[10px] text-stone-500 font-mono">
+                        HSN {inv.hsnCode} · {inv.quantityKg} kg
+                      </div>
+                    </td>
+                    <td className="p-3.5 text-right font-mono font-medium text-stone-800">
+                      ₹{inv.taxableAmount.toLocaleString('en-IN')}
+                    </td>
+                    <td className="p-3.5 text-right font-mono text-emerald-700 font-semibold">
+                      ₹{inv.gstAmount.toLocaleString('en-IN')}
+                    </td>
+                    <td className="p-3.5 text-right font-mono font-bold text-stone-900">
+                      ₹{inv.totalAmount.toLocaleString('en-IN')}
+                    </td>
+                    <td className="p-3.5 text-center text-[11px] font-mono text-stone-600">
+                      {inv.dueDate}
+                    </td>
+                    <td className="p-3.5 text-center">
+                      <span
+                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                          inv.status === 'PAID'
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            : 'bg-amber-100 text-amber-800 border border-amber-200'
+                        }`}
+                      >
+                        {inv.status === 'PAID' ? 'Settled' : 'Payment Due'}
+                      </span>
+                    </td>
+                    <td className="p-3.5 text-right pr-5">
+                      <button
+                        onClick={() => setSelectedInvoice(inv)}
+                        className="px-3 py-1 rounded-lg border border-stone-300 hover:border-stone-400 bg-white text-[11px] font-bold text-[#0A1322] shadow-sm cursor-pointer"
+                      >
+                        View Invoice
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Invoice Details Modal */}

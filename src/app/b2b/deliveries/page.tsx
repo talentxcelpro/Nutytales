@@ -94,58 +94,80 @@ export default function B2BDeliveriesPage() {
         <h2 className="font-bold text-stone-900 text-sm">Active &amp; Recent Consignments</h2>
 
         <div className="space-y-4">
-          {orders.map((po) => (
-            <div
-              key={po.id}
-              className="p-5 rounded-2xl border border-stone-200 bg-stone-50/50 hover:bg-[#FAF6EE]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
-            >
-              <div className="space-y-1.5 max-w-md">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-stone-900">{po.poNumber}</span>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                      po.status === 'REEFER_TRANSIT'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-emerald-100 text-emerald-800'
-                    }`}
-                  >
-                    {po.status === 'REEFER_TRANSIT' ? '🚚 In Reefer Transit' : '✓ Delivered & Accepted'}
-                  </span>
-                </div>
-                <div className="text-stone-700 font-medium">
-                  {po.items.map((i) => `${i.name} (${i.quantityKg} kg)`).join(', ')}
-                </div>
-                <div className="text-stone-500 text-[11px]">
-                  Carrier: <strong>{po.carrierName || 'Northstar Reefer Transport'}</strong> · Tracking:{' '}
-                  <strong className="font-mono">{po.trackingNumber || 'Pending'}</strong>
-                </div>
+          {orders.length === 0 ? (
+            <div className="py-12 text-center space-y-3">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-2xl mx-auto">
+                🚚
               </div>
-
-              {/* Transit Sensor Telemetry */}
-              <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-stone-200">
-                <div>
-                  <span className="text-[10px] text-stone-400 block font-bold uppercase">Reefer Sensor</span>
-                  <strong className="text-emerald-700 font-serif text-base font-bold">
-                    {po.reeferTempCelcius ? `${po.reeferTempCelcius}°C` : '16.0°C'}
-                  </strong>
-                </div>
-                <div className="border-l border-stone-200 pl-4">
-                  <span className="text-[10px] text-stone-400 block font-bold uppercase">Destination</span>
-                  <strong className="text-stone-900 text-xs block truncate max-w-[150px]">
-                    {po.destination}
-                  </strong>
-                </div>
+              <h3 className="font-serif text-base font-bold text-stone-900">
+                No Active In-Transit Consignments
+              </h3>
+              <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                Live cold-chain telematics (14°C - 18°C), GPS transit tracks, and digital proof of delivery (POD) are mapped once an order is dispatched.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/b2b/rfq"
+                  className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold transition-colors inline-block"
+                >
+                  Post Procurement RFQ
+                </Link>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setSelectedDelivery(po)}
-                className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px] whitespace-nowrap"
-              >
-                Inspect Telemetry
-              </button>
             </div>
-          ))}
+          ) : (
+            orders.map((po) => (
+              <div
+                key={po.id}
+                className="p-5 rounded-2xl border border-stone-200 bg-stone-50/50 hover:bg-[#FAF6EE]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
+              >
+                <div className="space-y-1.5 max-w-md">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-stone-900">{po.poNumber}</span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                        po.status === 'REEFER_TRANSIT'
+                          ? 'bg-blue-100 text-blue-800'
+                          : 'bg-emerald-100 text-emerald-800'
+                      }`}
+                    >
+                      {po.status === 'REEFER_TRANSIT' ? '🚚 In Reefer Transit' : '✓ Delivered & Accepted'}
+                    </span>
+                  </div>
+                  <div className="text-stone-700 font-medium">
+                    {po.items.map((i) => `${i.name} (${i.quantityKg} kg)`).join(', ')}
+                  </div>
+                  <div className="text-stone-500 text-[11px]">
+                    Carrier: <strong>{po.carrierName || 'Northstar Reefer Transport'}</strong> · Tracking:{' '}
+                    <strong className="font-mono">{po.trackingNumber || 'Pending'}</strong>
+                  </div>
+                </div>
+
+                {/* Transit Sensor Telemetry */}
+                <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-stone-200">
+                  <div>
+                    <span className="text-[10px] text-stone-400 block font-bold uppercase">Reefer Sensor</span>
+                    <strong className="text-emerald-700 font-serif text-base font-bold">
+                      {po.reeferTempCelcius ? `${po.reeferTempCelcius}°C` : '16.0°C'}
+                    </strong>
+                  </div>
+                  <div className="border-l border-stone-200 pl-4">
+                    <span className="text-[10px] text-stone-400 block font-bold uppercase">Destination</span>
+                    <strong className="text-stone-900 text-xs block truncate max-w-[150px]">
+                      {po.destination}
+                    </strong>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedDelivery(po)}
+                  className="px-4 py-2 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl font-bold uppercase tracking-wider text-[11px] whitespace-nowrap"
+                >
+                  Inspect Telemetry
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

@@ -1,17 +1,20 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { B2B_COMMODITIES } from '@/lib/b2b-data'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import { useAuth } from '@/context/AuthContext'
 import {
   saveStoredRfq,
   saveStoredQuote,
+  getStoredBusinessAccount,
   RFQRecord,
   QuotationRecord,
 } from '@/lib/b2b-procurement-store'
 
 export default function B2BRfqPage() {
+  const { user, profile } = useAuth()
   const [commodityId, setCommodityId] = useState(B2B_COMMODITIES[0].id)
   const [cut, setCut] = useState(B2B_COMMODITIES[0].cuts[0])
   const [packaging, setPackaging] = useState(B2B_COMMODITIES[0].packaging[0])
@@ -26,6 +29,22 @@ export default function B2BRfqPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+  useEffect(() => {
+    const acc = getStoredBusinessAccount()
+    if (acc) {
+      if (acc.companyName) setCompanyName(acc.companyName)
+      if (acc.contactPerson) setContactName(acc.contactPerson)
+      if (acc.phone) setPhone(acc.phone)
+      if (acc.email) setEmail(acc.email)
+      if (acc.gstin) setGstin(acc.gstin)
+      if (acc.city) setCityPincode(acc.city)
+    } else if (user) {
+      if (user.displayName || profile?.name) setContactName(user.displayName || profile?.name || '')
+      if (user.email) setEmail(user.email)
+      if (user.phoneNumber) setPhone(user.phoneNumber)
+    }
+  }, [user, profile])
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 

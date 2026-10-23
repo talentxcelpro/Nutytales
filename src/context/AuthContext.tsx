@@ -5,6 +5,9 @@ import { User, ConfirmationResult } from 'firebase/auth'
 import {
   signInWithGoogle,
   signInWithGoogleCredential,
+  signInWithEmail,
+  signUpWithEmail,
+  sendPasswordReset,
   setupRecaptchaVerifier,
   sendPhoneOtp,
   confirmOtp,
@@ -26,6 +29,9 @@ interface AuthContextType {
   closeAuthModal: () => void
   signInWithGoogle: () => Promise<void>
   signInWithGoogleCredential: (idToken: string) => Promise<void>
+  signInWithEmail: (email: string, pass: string) => Promise<void>
+  signUpWithEmail: (email: string, pass: string, name?: string) => Promise<void>
+  sendPasswordReset: (email: string) => Promise<void>
   sendPhoneOtp: (phoneNumber: string, containerId: string) => Promise<ConfirmationResult>
   confirmOtp: (confirmationResult: ConfirmationResult, otpCode: string) => Promise<void>
   signOut: () => Promise<void>
@@ -43,6 +49,9 @@ const AuthContext = createContext<AuthContextType>({
   closeAuthModal: () => {},
   signInWithGoogle: async () => {},
   signInWithGoogleCredential: async () => {},
+  signInWithEmail: async () => {},
+  signUpWithEmail: async () => {},
+  sendPasswordReset: async () => {},
   sendPhoneOtp: async () => { throw new Error('Not implemented') },
   confirmOtp: async () => {},
   signOut: async () => {},
@@ -189,6 +198,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const handleSignInWithEmail = async (email: string, pass: string) => {
+    setLoading(true)
+    try {
+      const loggedInUser = await signInWithEmail(email, pass)
+      if (loggedInUser) {
+        setUser(loggedInUser)
+        await syncWithSupabase(loggedInUser, 'password')
+        setIsModalOpen(false)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSignUpWithEmail = async (email: string, pass: string, name?: string) => {
+    setLoading(true)
+    try {
+      const loggedInUser = await signUpWithEmail(email, pass, name)
+      if (loggedInUser) {
+        setUser(loggedInUser)
+        await syncWithSupabase(loggedInUser, 'password')
+        setIsModalOpen(false)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSendPasswordReset = async (email: string) => {
+    await sendPasswordReset(email)
+  }
+
   const handleSignOut = async () => {
     setLoading(true)
     try {
@@ -215,6 +256,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         closeAuthModal: () => setIsModalOpen(false),
         signInWithGoogle: handleSignInWithGoogle,
         signInWithGoogleCredential: handleSignInWithGoogleCredential,
+        signInWithEmail: handleSignInWithEmail,
+        signUpWithEmail: handleSignUpWithEmail,
+        sendPasswordReset: handleSendPasswordReset,
         sendPhoneOtp: handleSendPhoneOtp,
         confirmOtp: handleConfirmOtp,
         signOut: handleSignOut,

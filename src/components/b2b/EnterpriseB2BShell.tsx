@@ -4,12 +4,16 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 import {
   getStoredNotifications,
   EnterpriseNotification,
   markNotificationAsRead,
+  getStoredBusinessAccount,
+  BusinessAccountRecord,
 } from '@/lib/b2b-procurement-store'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import B2BAuthModal from '@/components/b2b/B2BAuthModal'
 
 interface EnterpriseB2BShellProps {
   children: React.ReactNode
@@ -18,17 +22,48 @@ interface EnterpriseB2BShellProps {
 export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const { user, profile, signOut } = useAuth()
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [notifications, setNotifications] = useState<EnterpriseNotification[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authModalMode, setAuthModalMode] = useState<'signin' | 'register'>('signin')
+  const [businessAccount, setBusinessAccount] = useState<BusinessAccountRecord | null>(null)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   useEffect(() => {
     setNotifications(getStoredNotifications())
-  }, [])
+    setBusinessAccount(getStoredBusinessAccount())
+  }, [user])
+
+  const userDisplayName =
+    user?.displayName ||
+    profile?.name ||
+    businessAccount?.contactPerson ||
+    (user?.email ? user.email.split('@')[0] : 'Guest Buyer')
+
+  const userCompanyName =
+    businessAccount?.companyName ||
+    (user ? 'Verified Commercial Buyer' : 'Wholesale Sourcing')
+
+  const userEmail = user?.email || businessAccount?.email || ''
+
+  const initials = (() => {
+    if (businessAccount?.companyName) {
+      const parts = businessAccount.companyName.trim().split(/\s+/)
+      if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase()
+      return businessAccount.companyName.slice(0, 2).toUpperCase()
+    }
+    if (userDisplayName && userDisplayName !== 'Guest Buyer') {
+      const parts = userDisplayName.trim().split(/\s+/)
+      if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase()
+      return userDisplayName.slice(0, 2).toUpperCase()
+    }
+    return 'GB'
+  })()
 
   const unreadCount = notifications.filter((n) => !n.read).length
 
@@ -263,50 +298,89 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
             )}
           </div>
 
-          {/* User Profile Pill Avatar (Matching Screenshot: "AS Arvind Sharma ▾") */}
-          <div className="relative">
-            <button
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-colors"
-            >
-              <div className="w-6 h-6 rounded-full bg-[#2563EB] text-white flex items-center justify-center font-bold text-[10px]">
-                AS
-              </div>
-              <span className="hidden sm:inline-block font-medium text-xs">Arvind Sharma</span>
-              <span className="text-[9px] text-stone-400">▾</span>
-            </button>
-
-            {userMenuOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white text-stone-800 rounded-2xl border border-stone-200 shadow-xl py-2 z-50 text-xs">
-                <div className="px-4 py-2 border-b border-stone-100">
-                  <div className="font-bold text-stone-900">Arvind Sharma</div>
-                  <div className="text-[10px] text-stone-500">arvind@confectionery.in</div>
+          {/* User Profile Pill Avatar OR Sign In / Register Buttons */}
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-colors"
+              >
+                <div className="w-6 h-6 rounded-full bg-[#2563EB] text-white flex items-center justify-center font-bold text-[10px]">
+                  {initials}
                 </div>
-                <Link
-                  href="/b2b/account"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="block px-4 py-2 hover:bg-stone-50 text-stone-700"
-                >
-                  Commercial Account &amp; GSTIN
-                </Link>
-                <Link
-                  href="/b2b"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="block px-4 py-2 hover:bg-stone-50 text-stone-700"
-                >
-                  Public Storefront
-                </Link>
-                <a
-                  href={`https://wa.me/${whatsappPhone}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 hover:bg-stone-50 text-emerald-700 font-bold"
-                >
-                  Help Desk WhatsApp
-                </a>
-              </div>
-            )}
-          </div>
+                <span className="hidden sm:inline-block font-medium text-xs max-w-[120px] truncate">
+                  {userDisplayName}
+                </span>
+                <span className="text-[9px] text-stone-400">▾</span>
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white text-stone-800 rounded-2xl border border-stone-200 shadow-xl py-2 z-50 text-xs">
+                  <div className="px-4 py-2 border-b border-stone-100">
+                    <div className="font-bold text-stone-900 truncate">{userDisplayName}</div>
+                    <div className="text-[11px] text-[#081830] font-medium truncate">{userCompanyName}</div>
+                    {userEmail && <div className="text-[10px] text-stone-500 truncate">{userEmail}</div>}
+                  </div>
+                  <Link
+                    href="/b2b/account"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 hover:bg-stone-50 text-stone-700"
+                  >
+                    🏢 Commercial Account &amp; GSTIN
+                  </Link>
+                  <Link
+                    href="/b2b"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 hover:bg-stone-50 text-stone-700"
+                  >
+                    🌐 Live Exchange Floor
+                  </Link>
+                  <a
+                    href={`https://wa.me/${whatsappPhone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 hover:bg-stone-50 text-emerald-700 font-bold"
+                  >
+                    💬 Trade Desk WhatsApp
+                  </a>
+                  <div className="border-t border-stone-100 mt-1 pt-1">
+                    <button
+                      onClick={async () => {
+                        setUserMenuOpen(false)
+                        await signOut()
+                      }}
+                      className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 font-semibold cursor-pointer"
+                    >
+                      🚪 Sign Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('signin')
+                  setAuthModalOpen(true)
+                }}
+                className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-colors cursor-pointer"
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('register')
+                  setAuthModalOpen(true)
+                }}
+                className="px-3.5 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#E65100] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
+              >
+                Register Business
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -318,14 +392,39 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
             mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          {/* User Badge: Sourcing Specialist / Arvind Sharma */}
-          <div className="p-4 mx-3 my-3 bg-white/5 rounded-xl border border-white/10 space-y-1">
-            <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-[#78350F] text-[#FDE68A]">
-              Sourcing Specialist
-            </span>
-            <div className="font-bold text-white text-xs">Arvind Sharma</div>
-            <div className="text-[10px] text-stone-400">arvind@confectionery.in</div>
-          </div>
+          {/* User Badge: Real Authenticated Trade Account OR Guest CTA */}
+          {user ? (
+            <div className="p-3.5 mx-3 my-3 bg-white/5 rounded-xl border border-white/10 space-y-1">
+              <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-500/30">
+                Verified Trade Account
+              </span>
+              <div className="font-bold text-white text-xs truncate">{userDisplayName}</div>
+              <div className="text-[11px] text-[#FF6B00] font-medium truncate">{userCompanyName}</div>
+              {userEmail && <div className="text-[10px] text-stone-400 truncate">{userEmail}</div>}
+            </div>
+          ) : (
+            <div className="p-3.5 mx-3 my-3 bg-gradient-to-b from-white/10 to-white/5 rounded-xl border border-white/15 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-stone-800 text-stone-300">
+                  Guest Buyer
+                </span>
+                <span className="text-[10px] text-[#FF6B00] font-mono">Spot Rates</span>
+              </div>
+              <div className="text-[11px] text-stone-200 leading-tight">
+                Register your firm for <strong>Net-30 Terms</strong>, custom RFQs &amp; GST tax invoicing.
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('register')
+                  setAuthModalOpen(true)
+                }}
+                className="w-full py-1.5 bg-[#FF6B00] hover:bg-[#E65100] text-white font-bold rounded-lg text-[11px] transition-colors shadow-xs cursor-pointer"
+              >
+                Create Trade Account
+              </button>
+            </div>
+          )}
 
           {/* Navigation Links (Matching Screenshot's 10 Items) */}
           <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-1 text-xs">
@@ -395,6 +494,14 @@ export default function EnterpriseB2BShell({ children }: EnterpriseB2BShellProps
           </footer>
         </main>
       </div>
+
+      {/* B2B Dedicated Auth & Onboarding Modal */}
+      <B2BAuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authModalMode}
+        onSuccess={() => setBusinessAccount(getStoredBusinessAccount())}
+      />
     </div>
   )
 }

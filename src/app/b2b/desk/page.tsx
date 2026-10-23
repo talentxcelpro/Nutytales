@@ -1,8 +1,14 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE, FSSAI_NUMBER } from '@/lib/constants'
+import { useAuth } from '@/context/AuthContext'
+import {
+  getStoredBusinessAccount,
+  saveStoredRfq,
+  RFQRecord,
+} from '@/lib/b2b-procurement-store'
 
 interface ProcurementMandate {
   id: string
@@ -16,33 +22,9 @@ interface ProcurementMandate {
   notes: string
 }
 
-const SEED_MANDATES: ProcurementMandate[] = [
-  {
-    id: 'DESK-2026-104',
-    title: 'Diwali Confectionery Production Pack (5-Item Custom BOM)',
-    submittedAt: 'Today, 10:15 AM',
-    slaDeadline: 'Today, 2:15 PM (4h SLA)',
-    assignedSpecialist: 'Tariq Ahmad (Senior Trade Desk)',
-    itemsCount: 5,
-    targetBudget: '₹14,50,000',
-    status: 'ANALYZING',
-    notes: 'Requires 800kg Sliced California Almonds, 400kg Kashmiri Walnut Halves, 50kg Green Cardamom 8mm, and 2kg Pampore Saffron Mongra with NABL assays.',
-  },
-  {
-    id: 'DESK-2026-098',
-    title: 'Q4 Roasted Nut Bar Ingredients (Bulk Vacuum Pack)',
-    submittedAt: 'Oct 11, 2026',
-    slaDeadline: 'Fulfilled on time',
-    assignedSpecialist: 'Priya Sundaram (Food Technologist & Procurement)',
-    itemsCount: 3,
-    targetBudget: '₹28,00,000',
-    status: 'BIDS_READY',
-    notes: 'Makhana 6-Suta 1500kg and Cashew W320 2000kg. 3 verified supplier bids benchmarked.',
-  },
-]
-
 export default function B2BProcurementDeskPage() {
-  const [mandates, setMandates] = useState<ProcurementMandate[]>(SEED_MANDATES)
+  const { user } = useAuth()
+  const [mandates, setMandates] = useState<ProcurementMandate[]>([])
   const [bomText, setBomText] = useState('')
   const [projectTitle, setProjectTitle] = useState('')
   const [targetBudget, setTargetBudget] = useState('')
@@ -52,15 +34,43 @@ export default function B2BProcurementDeskPage() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
-  const handleSubmitBOM = (e: React.FormEvent) => {
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('nt_b2b_mandates_v1')
+      if (raw) {
+        setMandates(JSON.parse(raw))
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
+
+  const handleSubmitBOM = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!bomText.trim()) return
 
     setIsSubmitting(true)
-    setTimeout(() => {
+    const newId = `DESK-2026-${Math.floor(100 + Math.random() * 900)}`
+    const acc = getStoredBusinessAccount()
+
+    try {
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: user?.displayName || acc?.contactPerson || 'Managed BOM Buyer',
+          phone: acc?.phone || user?.phoneNumber || '',
+          email: user?.email || acc?.email || '',
+          businessName: acc?.companyName || projectTitle.trim() || 'Commercial Buyer',
+          city: deliveryPincode || acc?.city || 'Delhi NCR',
+          message: `[Managed Desk BOM Mandate - ${newId}] Title: ${projectTitle} | Target Budget: ${targetBudget || 'Flexible'} | Pincode: ${deliveryPincode} | BOM Spec:\n${bomText}`,
+          source: 'managed-procurement-desk',
+        }),
+      }).catch(() => {})
+
       const newMandate: ProcurementMandate = {
-        id: `DESK-2026-${Math.floor(100 + Math.random() * 900)}`,
-        title: projectTitle.trim() || 'Custom Bulk BOM Request',
+        id: newId,
+        title: projectTitle.trim() || 'Custom Multi-Commodity BOM',
         submittedAt: 'Just now',
         slaDeadline: 'Within 4 business hours',
         assignedSpecialist: 'Tariq Ahmad (Senior Trade Desk)',
@@ -70,13 +80,48 @@ export default function B2BProcurementDeskPage() {
         notes: bomText.trim(),
       }
 
-      setMandates([newMandate, ...mandates])
-      setIsSubmitting(false)
+      const updated = [newMandate, ...mandates]
+      setMandates(updated)
+      try {
+        localStorage.setItem('nt_b2b_mandates_v1', JSON.stringify(updated))
+      } catch {
+        // ignore
+      }
+
+      // Also register as an RFQ in the quotes system
+      const newRfq: RFQRecord = {
+        id: `rfq-${Date.now()}`,
+        rfqNumber: `NT-RFQ-${newId}`,
+        title: projectTitle.trim() || 'Custom Bill of Materials (BOM)',
+        createdAt: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        deadline: 'Within 24 Hours',
+        requiredByDate: 'Commercial Batch Schedule',
+        destinationHub: deliveryPincode || acc?.city || 'Delhi NCR / Noida Hub',
+        status: 'OPEN',
+        items: [
+          {
+            commodityId: 'custom-bom',
+            commodityName: projectTitle.trim() || 'Custom BOM Commodity Batch',
+            cut: 'Commercial Custom Cut',
+            packaging: 'Factory Bulk Packs',
+            quantityKg: 500,
+          },
+        ],
+        commercialTerms: 'Delivered Landed Cost with 5% GST input credit.',
+        certificatesRequired: ['NABL Batch Assay', 'FSSAI Lic. Verification'],
+        invitations: [],
+        notes: bomText.trim(),
+      }
+      saveStoredRfq(newRfq)
+
       setSubmittedSuccess(true)
       setBomText('')
       setProjectTitle('')
       setTargetBudget('')
-    }, 700)
+      setDeliveryPincode('')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -308,7 +353,14 @@ export default function B2BProcurementDeskPage() {
             </div>
 
             <div className="space-y-3">
-              {mandates.map((m) => (
+              {mandates.length === 0 ? (
+                <div className="py-8 text-center text-stone-400 space-y-1">
+                  <div className="text-2xl">📋</div>
+                  <div className="font-medium text-xs text-stone-600">No active custom mandates yet</div>
+                  <div className="text-[11px] text-stone-400">Submit your production Bill of Materials on the left to receive audited bids.</div>
+                </div>
+              ) : (
+                mandates.map((m) => (
                 <div
                   key={m.id}
                   className="p-3.5 rounded-xl border border-stone-200 hover:border-stone-300 bg-stone-50/50 space-y-2 text-xs"
@@ -351,7 +403,7 @@ export default function B2BProcurementDeskPage() {
                     )}
                   </div>
                 </div>
-              ))}
+              )))}
             </div>
           </div>
         </div>

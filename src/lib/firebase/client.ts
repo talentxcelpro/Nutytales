@@ -4,6 +4,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithCredential,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendPasswordResetEmail,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   signOut,
@@ -91,10 +95,20 @@ export function getFirebaseErrorMessage(error: unknown): string {
           return 'reCAPTCHA verification failed. Please refresh the page and try again.'
         case 'auth/network-request-failed':
           return 'Network error. Please check your internet connection.'
+        case 'auth/invalid-credential':
+        case 'auth/wrong-password':
+        case 'auth/user-not-found':
+          return 'Invalid email or password. Please verify your credentials or create a new trade account.'
+        case 'auth/email-already-in-use':
+          return 'An account already exists with this email address. Please sign in instead.'
+        case 'auth/weak-password':
+          return 'Password must be at least 6 characters long.'
+        case 'auth/invalid-email':
+          return 'Please provide a valid corporate email address.'
         case 'auth/account-exists-with-different-credential':
-          return 'An account already exists with this email using a different sign-in method.'
+          return 'An account already exists with this email using Google Sign-In.'
         case 'auth/invalid-api-key':
-          return 'Invalid Firebase API key. Please check Firebase credentials in project settings.'
+          return 'Invalid Firebase configuration. Please check project settings.'
         default:
           return `Authentication error (${err.code}): ${err.message || 'Please try again.'}`
       }
@@ -186,4 +200,37 @@ export function onAuthStateChange(callback: (user: User | null) => void) {
   const auth = getFirebaseAuth()
   if (!auth) return () => {}
   return onAuthStateChanged(auth, callback)
+}
+
+export async function signInWithEmail(email: string, password: string): Promise<User> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) {
+    throw new Error('Firebase Auth is not configured.')
+  }
+  const cred = await signInWithEmailAndPassword(firebaseAuth, email.trim(), password)
+  return cred.user
+}
+
+export async function signUpWithEmail(
+  email: string,
+  password: string,
+  displayName?: string
+): Promise<User> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) {
+    throw new Error('Firebase Auth is not configured.')
+  }
+  const cred = await createUserWithEmailAndPassword(firebaseAuth, email.trim(), password)
+  if (displayName && cred.user) {
+    await updateProfile(cred.user, { displayName }).catch(() => {})
+  }
+  return cred.user
+}
+
+export async function sendPasswordReset(email: string): Promise<void> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) {
+    throw new Error('Firebase Auth is not configured.')
+  }
+  await sendPasswordResetEmail(firebaseAuth, email.trim())
 }

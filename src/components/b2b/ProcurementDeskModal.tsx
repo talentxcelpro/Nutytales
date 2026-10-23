@@ -1,7 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
+import { useAuth } from '@/context/AuthContext'
+import {
+  getStoredBusinessAccount,
+  saveStoredRfq,
+  RFQRecord,
+} from '@/lib/b2b-procurement-store'
 
 interface ProcurementDeskModalProps {
   isOpen: boolean
@@ -12,6 +18,7 @@ export default function ProcurementDeskModal({
   isOpen,
   onClose,
 }: ProcurementDeskModalProps) {
+  const { user, profile } = useAuth()
   const [companyName, setCompanyName] = useState('')
   const [contactName, setContactName] = useState('')
   const [email, setEmail] = useState('')
@@ -23,6 +30,23 @@ export default function ProcurementDeskModal({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      const acc = getStoredBusinessAccount()
+      if (acc) {
+        if (acc.companyName) setCompanyName(acc.companyName)
+        if (acc.contactPerson) setContactName(acc.contactPerson)
+        if (acc.email) setEmail(acc.email)
+        if (acc.phone) setPhone(acc.phone)
+        if (acc.city) setDestination(acc.city)
+      } else if (user) {
+        if (user.displayName || profile?.name) setContactName(user.displayName || profile?.name || '')
+        if (user.email) setEmail(user.email)
+        if (user.phoneNumber) setPhone(user.phoneNumber)
+      }
+    }
+  }, [isOpen, user, profile])
 
   if (!isOpen) return null
 
@@ -39,6 +63,8 @@ export default function ProcurementDeskModal({
     setIsSubmitting(true)
     setErrorMsg(null)
 
+    const rfqNumber = `NT-RFQ-2026-${Math.floor(1000 + Math.random() * 9000)}`
+
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
@@ -49,13 +75,38 @@ export default function ProcurementDeskModal({
           phone,
           businessName: companyName,
           city: destination,
-          message: `[Managed B2B Procurement Desk] Org: ${companyName} | Contact: ${contactName} | Dest: ${destination} | File Attached: ${fileName || 'None'} | Requirements: ${shoppingList} | Notes: ${specialNeeds}`,
+          message: `[Quick B2B RFQ - ${rfqNumber}] Org: ${companyName} | Contact: ${contactName} | Dest: ${destination} | File Attached: ${fileName || 'None'} | Requirements: ${shoppingList} | Notes: ${specialNeeds}`,
           source: 'managed-procurement-desk',
         }),
       })
 
       const data = await res.json()
       if (res.ok && data.success && data.result?.success !== false) {
+        // Save to real user RFQ store
+        const newRfq: RFQRecord = {
+          id: `rfq-${Date.now()}`,
+          rfqNumber,
+          title: shoppingList ? shoppingList.slice(0, 45) : `${companyName || 'Corporate'} Procurement BOM`,
+          createdAt: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+          deadline: 'Within 24 Hours',
+          requiredByDate: 'Urgent Spot Dispatch',
+          destinationHub: destination,
+          status: 'OPEN',
+          items: [
+            {
+              commodityId: 'custom-bom',
+              commodityName: shoppingList || 'Commercial BOM Item',
+              cut: 'Standard',
+              packaging: 'Bulk Commercial Packaging',
+              quantityKg: 250,
+            },
+          ],
+          commercialTerms: 'Delivered Landed Cost with 5% GST input credit.',
+          certificatesRequired: ['NABL Assay', 'FSSAI Lic. Verification'],
+          invitations: [],
+          notes: specialNeeds || shoppingList,
+        }
+        saveStoredRfq(newRfq)
         setIsSuccess(true)
       } else {
         setErrorMsg(data.error || 'Failed to submit procurement list. Please use WhatsApp.')

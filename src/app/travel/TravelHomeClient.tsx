@@ -383,58 +383,30 @@ export default function TravelMarketplacePage() {
 
   return (
     <div className="bg-[#FAF7F2] text-[#17233B]">
-      {/* ── 1. The Core Manifesto Ribbon ────────────────────────────────────── */}
-      <div className="bg-[#0A101D] text-white border-b border-[#C9A45C]/30 py-3 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-            <div>
-              <span className="font-extrabold uppercase tracking-widest text-[#C9A45C] text-[11px] mr-2">
-                THE INTELLIGENT JOURNEY MARKETPLACE
-              </span>
-              <span className="text-stone-300 hidden sm:inline">
-                Not another hotel or flight search engine. The orchestration layer that sits above legacy OTAs.
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-semibold">
-            <span className="text-emerald-400 flex items-center gap-1.5">
-              <span>🛡️</span> Zero-Hallucination Supply Verified
-            </span>
-            <span className="text-white/20">|</span>
-            <Link href="/travel/dashboard" className="text-[#C9A45C] hover:underline flex items-center gap-1">
-              <span>Command Center</span>
-              <span>→</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ── 2. The Killer Hero Section ───────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#0A101D] via-[#121B2F] to-[#17233B] text-white py-14 sm:py-20 border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* ── Hero Section: Refined Editorial Luxury ──────────────────────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#090F1C] via-[#10192A] to-[#17233B] text-white py-16 sm:py-24 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           {/* Main Statement */}
-          <div className="text-center max-w-4xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#C9A45C] text-xs font-bold uppercase tracking-widest border border-white/15">
-              <span>✦</span> INTENT → SUPPLY → EXECUTION
+          <div className="text-center max-w-4xl mx-auto space-y-5">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-[#C9A45C] text-xs font-semibold uppercase tracking-widest border border-[#C9A45C]/30 backdrop-blur-sm">
+              <span>✦</span> Bespoke Private Expeditions &amp; Alpine Escapes
             </div>
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-              Travel India Beyond the Ordinary.
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              Curated Journeys Beyond the Ordinary.
             </h1>
             <p className="text-stone-300 text-sm sm:text-lg font-light max-w-2xl mx-auto leading-relaxed">
-              Bespoke expeditions, private alpine convoys, and curated journeys across Kashmir, Ladakh, and India. Tell us what you want—we orchestrate flights, boutique estates, private chauffeurs, and master guides into one seamless trip.
+              Handcrafted expeditions, private mountain convoys, and boutique heritage chalets across Kashmir, Ladakh, and India. Tailored seamlessly to your personal pace and style.
             </p>
           </div>
 
-          {/* ── The 5-Mode Navigation Switcher ── */}
-          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-white/20 flex flex-wrap items-center justify-between gap-1 text-xs font-bold">
+          {/* ── The Curated Experience Tabs ── */}
+          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-white/15 flex flex-wrap items-center justify-between gap-1 text-xs">
             {[
-              { id: 'explore' as TripMode, label: '1. EXPLORE', subtitle: 'Where should I go?' },
-              { id: 'plan' as TripMode, label: '2. PLAN', subtitle: 'Build me a trip' },
-              { id: 'book' as TripMode, label: '3. BOOK', subtitle: 'Make it real' },
-              { id: 'experience' as TripMode, label: '4. EXPERIENCE', subtitle: 'Travelling now' },
-              { id: 'remember' as TripMode, label: '5. REMEMBER', subtitle: 'Past trips & style' },
+              { id: 'plan' as TripMode, label: 'Curate Itinerary', subtitle: 'Describe your vision' },
+              { id: 'explore' as TripMode, label: 'Signature Collections', subtitle: 'Curated corridors' },
+              { id: 'book' as TripMode, label: 'Confirmed Stays & Fleet', subtitle: 'Direct vetted supply' },
+              { id: 'experience' as TripMode, label: 'On-Trip Concierge', subtitle: '24/7 mountain care' },
+              { id: 'remember' as TripMode, label: 'Style Profile', subtitle: 'Tailored preferences' },
             ].map((m) => {
               const active = activeMode === m.id
               return (
@@ -442,33 +414,33 @@ export default function TravelMarketplacePage() {
                   key={m.id}
                   type="button"
                   onClick={() => setActiveMode(m.id)}
-                  className={`flex-1 min-w-[140px] py-2.5 px-3 rounded-xl transition-all text-center flex flex-col items-center justify-center ${
+                  className={`flex-1 min-w-[130px] py-2.5 px-3 rounded-xl transition-all text-center flex flex-col items-center justify-center ${
                     active
-                      ? 'bg-[#C9A45C] text-[#10192A] shadow-lg font-black'
-                      : 'text-stone-300 hover:text-white hover:bg-white/10'
+                      ? 'bg-[#C9A45C] text-[#10192A] shadow-md font-bold'
+                      : 'text-stone-300 hover:text-white hover:bg-white/10 font-medium'
                   }`}
                 >
-                  <span className="text-[11px] tracking-wider uppercase">{m.label}</span>
-                  <span className={`text-[10px] font-normal ${active ? 'text-[#10192A]/80 font-semibold' : 'text-stone-400'}`}>
-                    &ldquo;{m.subtitle}&rdquo;
+                  <span className="text-[11px] tracking-wider uppercase font-semibold">{m.label}</span>
+                  <span className={`text-[10px] font-normal ${active ? 'text-[#10192A]/80 font-medium' : 'text-stone-400'}`}>
+                    {m.subtitle}
                   </span>
                 </button>
               )
             })}
           </div>
 
-          {/* ── MODE 1: EXPLORE VIEW ── */}
+          {/* ── MODE 1: SIGNATURE COLLECTIONS VIEW ── */}
           {activeMode === 'explore' && (
             <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-[#17233B] space-y-6 animate-fadeIn">
               <div className="border-b border-stone-200 pb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#704B32] block">
-                  Mode 1: Autonomous Destination Discovery
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#704B32] block">
+                  Signature Collections
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-[#17233B] pt-1">
-                  &ldquo;Where should I go?&rdquo;
+                  Handcrafted Himalayan &amp; Global Corridors
                 </h3>
                 <p className="text-xs text-stone-600 pt-1">
-                  Tell SI your vibe, season, travel companions, or budget, and discover curated corridors with guaranteed supply.
+                  Select an inspired corridor curated with guaranteed private chalets, 4x4 mountain convoys, and master local guides.
                 </p>
               </div>
 
@@ -497,7 +469,7 @@ export default function TravelMarketplacePage() {
                       {card.desc}
                     </p>
                     <span className="text-[10px] text-[#C9A45C] font-bold block pt-1">
-                      Build This Journey →
+                      Curate This Journey →
                     </span>
                   </button>
                 ))}
@@ -507,47 +479,47 @@ export default function TravelMarketplacePage() {
 
           {/* ── MODE 2: PLAN VIEW (Natural Language Intent Console) ── */}
           {activeMode === 'plan' && (
-            <div className="max-w-4xl mx-auto bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border-2 border-[#C9A45C]/40 text-[#17233B] space-y-4 animate-fadeIn">
+            <div className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-6 shadow-2xl border border-[#C9A45C]/40 text-[#17233B] space-y-4 animate-fadeIn">
               <div className="relative">
-                <label htmlFor="travel-intent-input" className="sr-only">Describe your travel journey</label>
+                <label htmlFor="travel-intent-input" className="sr-only">Describe your ideal journey</label>
                 <textarea
                   id="travel-intent-input"
                   rows={3}
                   value={userPrompt}
                   onChange={(e) => setUserPrompt(e.target.value)}
-                  placeholder="Describe what you want: E.g., I want to take my wife to Italy for 10 days in September. ₹5 lakh budget. We love food, architecture and small towns..."
+                  placeholder="Describe your ideal journey: E.g., A 6-day winter escape across Kashmir with powder snow in Gulmarg, heritage lake suites in Srinagar, and a dedicated 4x4 mountain chauffeur..."
                   className="w-full text-sm sm:text-base p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#704B32] resize-none text-[#17233B] font-medium leading-relaxed"
                 />
                 <button
                   type="button"
                   onClick={handleSynthesizePrompt}
                   disabled={isSynthesizing}
-                  className="w-full sm:w-auto mt-2 sm:mt-0 sm:absolute sm:bottom-4 sm:right-4 px-6 py-3.5 bg-[#17233B] hover:bg-[#704B32] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto mt-2 sm:mt-0 sm:absolute sm:bottom-4 sm:right-4 px-6 py-3.5 bg-[#17233B] hover:bg-[#223352] text-[#FAF7F2] rounded-xl text-xs font-semibold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>{isSynthesizing ? '⚙️ Synthesizing...' : '✦ Recompose Journey with SI'}</span>
+                  <span>{isSynthesizing ? '✦ Curating Itinerary...' : '✦ Tailor My Itinerary'}</span>
                 </button>
               </div>
 
-              {/* Quick Inspiration Intent Chips */}
+              {/* Inspiration Chips */}
               <div className="space-y-1.5 pt-1">
-                <div className="flex items-center justify-between text-[11px] text-stone-500 font-semibold px-1">
-                  <span>Selected or Inspiration Corridors:</span>
-                  <span className="text-[#704B32] hidden sm:inline">Multi-Modal Journey Assembly</span>
+                <div className="flex items-center justify-between text-[11px] text-stone-500 font-medium px-1">
+                  <span>Featured Journey Inspirations:</span>
+                  <span className="text-[#704B32] hidden sm:inline">Handcrafted Corridors</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {[
-                    { key: 'italy_slow', label: '🇮🇹 Italy 10D: Slow Food, Tuscany & Amalfi (< ₹5L)' },
-                    { key: 'family_winter', label: '❄️ Kashmir 6D: Family Snow & Gulmarg (< ₹1.5L)' },
+                    { key: 'italy_slow', label: '🇮🇹 Italy 10D: Slow Food, Tuscany & Amalfi' },
+                    { key: 'family_winter', label: '❄️ Kashmir 6D: Alpine Snow, Gulmarg & Houseboat' },
                     { key: 'honeymoon_luxury', label: '💍 Kashmir 5D: Royal Houseboat & Ski Chalet' },
-                    { key: 'corporate_mice_120', label: '🏢 Corporate 120-Pax: Pahalgam Rafting & RFQ' },
-                    { key: 'wedding_200', label: '👑 Wedding 200-Guests: Palace Buyout & 40 Cars' },
+                    { key: 'corporate_mice_120', label: '🏢 Executive Retreat: Pahalgam Pine Valley' },
+                    { key: 'wedding_200', label: '👑 Destination Wedding: Palace Buyout & Fleet' },
                     { key: 'switzerland_alpine', label: '🇨🇭 Switzerland 7D: Glacier Express & Matterhorn' },
                   ].map((chip) => (
                     <button
                       key={chip.key}
                       type="button"
                       onClick={() => handleSelectPreset(chip.key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
                         selectedPresetKey === chip.key
                           ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B] shadow-sm'
                           : 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200'
@@ -561,72 +533,72 @@ export default function TravelMarketplacePage() {
             </div>
           )}
 
-          {/* ── MODE 3: BOOK VIEW (Supply Verification & Escrow Lock) ── */}
+          {/* ── MODE 3: BOOK VIEW (Guaranteed Stays & Fleet) ── */}
           {activeMode === 'book' && (
             <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-[#17233B] space-y-6 animate-fadeIn">
               <div className="flex items-center justify-between border-b border-stone-200 pb-4">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
-                    <span>🛡️</span> Mode 3: Supply-Verified Booking &amp; Escrow
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#704B32] flex items-center gap-1.5">
+                    <span>🛡️</span> Guaranteed Stays &amp; Private Fleet
                   </span>
                   <h3 className="font-serif text-2xl font-bold text-[#17233B] pt-1">
-                    &ldquo;Make It Real&rdquo; — Zero Hallucination Guarantee
+                    Vetted Luxury Properties &amp; Dedicated Mountain Chauffeurs
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold">
-                  {currentItinerary.supply.trustStatus}
+                <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold border border-emerald-200">
+                  Direct Vetted Supply
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">✈️ Flight Supply Engine</span>
+                  <span className="font-bold text-[#17233B] block">✈️ Flight &amp; Airport Concierge</span>
                   <p className="text-stone-600">{currentItinerary.supply.flights}</p>
                 </div>
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">🏨 Stay &amp; Lodge Supply</span>
+                  <span className="font-bold text-[#17233B] block">🏨 Heritage Suites &amp; Chalets</span>
                   <p className="text-stone-600">{currentItinerary.supply.stays}</p>
                 </div>
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">🚗 Transit &amp; Fleet Execution</span>
+                  <span className="font-bold text-[#17233B] block">🚗 Dedicated Chauffeur &amp; 4x4 Fleet</span>
                   <p className="text-stone-600">{currentItinerary.supply.transit}</p>
                 </div>
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">🎿 Experience &amp; Guides</span>
+                  <span className="font-bold text-[#17233B] block">🎿 Master Guides &amp; Experiences</span>
                   <p className="text-stone-600">{currentItinerary.supply.experiences}</p>
                 </div>
               </div>
 
               <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between text-xs text-amber-900">
                 <div className="space-y-0.5">
-                  <span className="font-bold">Cancellation &amp; Contingency:</span>
+                  <span className="font-bold">Weather Protection &amp; Flexibility:</span>
                   <p>{currentItinerary.supply.cancellation}</p>
                 </div>
                 <button
                   type="button"
                   onClick={handleInstantBook}
-                  className="px-6 py-3 bg-[#17233B] hover:bg-[#704B32] text-white font-bold rounded-xl uppercase tracking-wider flex-shrink-0"
+                  className="px-6 py-3 bg-[#17233B] hover:bg-[#223352] text-white font-semibold rounded-xl uppercase tracking-wider flex-shrink-0 transition-colors"
                 >
-                  Confirm Escrow Lock
+                  Reserve Itinerary
                 </button>
               </div>
             </div>
           )}
 
-          {/* ── MODE 4: EXPERIENCE VIEW (Trip Command Center) ── */}
+          {/* ── MODE 4: EXPERIENCE VIEW (On-Trip Concierge) ── */}
           {activeMode === 'experience' && (
             <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-[#17233B] space-y-6 animate-fadeIn">
               <div className="flex items-center justify-between border-b border-stone-200 pb-4">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-800 flex items-center gap-1.5">
-                    <span>🛰️</span> Mode 4: Real-Time Trip Command Center
+                  <span className="text-xs font-semibold uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
+                    <span>🛰️</span> Dedicated On-Ground Concierge
                   </span>
                   <h3 className="font-serif text-2xl font-bold text-[#17233B] pt-1">
-                    &ldquo;I’m Travelling Now&rdquo; — Live In-Trip Concierge
+                    Real-Time Mountain Care &amp; Dedicated Dispatch
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold animate-pulse">
-                  Live Dispatch Active
+                <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-semibold border border-blue-200">
+                  Concierge Desk Active
                 </span>
               </div>
 
@@ -637,7 +609,7 @@ export default function TravelMarketplacePage() {
                     <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">ON TIME</span>
                   </div>
                   <p className="text-stone-600 font-mono">Flight AI-825 · SXR Arrival 11:45 AM</p>
-                  <p className="text-[11px] text-stone-500">Chauffeur Bilal standing at Gate 3 with paging sign.</p>
+                  <p className="text-[11px] text-stone-500">Private chauffeur standing at arrival gate with personalized paging.</p>
                 </div>
 
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
@@ -645,66 +617,66 @@ export default function TravelMarketplacePage() {
                     <span className="font-bold text-stone-800">Mountain Weather</span>
                     <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded">SNOW ADVISORY</span>
                   </div>
-                  <p className="text-stone-600">Gulmarg Pass: Snow chains fitted.</p>
-                  <p className="text-[11px] text-stone-500">SI has adjusted Gondola booking to Phase 1 slot at 2:00 PM.</p>
+                  <p className="text-stone-600">Gulmarg Pass: Snow chains fitted on private 4x4.</p>
+                  <p className="text-[11px] text-stone-500">Concierge has adjusted Gondola pass timing for optimal sunlight.</p>
                 </div>
 
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-stone-800">24/7 SI + Concierge</span>
-                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">ONLINE</span>
+                    <span className="font-bold text-stone-800">Private Travel Desk</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">AVAILABLE</span>
                   </div>
-                  <p className="text-stone-600">Emergency &amp; Dining Hotwire</p>
+                  <p className="text-stone-600">Direct VIP WhatsApp Line</p>
                   <a
                     href={`https://wa.me/${whatsappPhone}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-[11px] text-[#704B32] font-bold underline"
+                    className="inline-block text-[11px] text-[#704B32] font-semibold underline"
                   >
-                    Open WhatsApp Concierge Desk →
+                    Open Private Concierge Desk →
                   </a>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ── MODE 5: REMEMBER VIEW (Traveller Memory Graph) ── */}
+          {/* ── MODE 5: REMEMBER VIEW (Style Profile) ── */}
           {activeMode === 'remember' && (
             <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-[#17233B] space-y-6 animate-fadeIn">
               <div className="border-b border-stone-200 pb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-purple-800 flex items-center gap-1.5">
-                  <span>🧠</span> Mode 5: Autonomous Traveller Memory Graph
+                <span className="text-xs font-semibold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                  <span>✦</span> Bespoke Style Profile
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-[#17233B] pt-1">
-                  &ldquo;Plan My Next Trip&rdquo; — Style &amp; Preference Continuity
+                  Tailored Travel Preferences &amp; Continuity
                 </h3>
                 <p className="text-xs text-stone-600 pt-1">
-                  SI remembers your travel style, room preferences, dietary restrictions, and pace across all journeys — with complete privacy controls.
+                  We curate every journey around your personal travel rhythm, preferred room aesthetic, and dietary nuances.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">Learned Style Profile</span>
+                  <span className="font-bold text-[#17233B] block">Personal Travel Rhythm</span>
                   <ul className="space-y-1 text-stone-600">
-                    <li>• Pace: Slow Travel (No rushed 5-stop days)</li>
-                    <li>• Stays: Boutique Heritage Suites over big-box hotels</li>
-                    <li>• Palate: Artisanal dining, farm-to-table, local food walks</li>
-                    <li>• Ground Transit: Private chauffeur with luggage escort</li>
+                    <li>• Pace: Unhurried, slow travel with dedicated leisure hours</li>
+                    <li>• Stays: Heritage lakefront suites &amp; boutique chalets</li>
+                    <li>• Dining: Authentic royal Wazwan, farm-to-table &amp; fine dining</li>
+                    <li>• Ground Transit: Private 4x4 convoy with dedicated local chauffeur</li>
                   </ul>
                 </div>
 
                 <div className="p-4 bg-[#FAF7F2] rounded-2xl border border-stone-200 space-y-2">
-                  <span className="font-bold text-[#17233B] block">Proactive Next Trip Suggestions</span>
+                  <span className="font-bold text-[#17233B] block">Curated Future Escapes</span>
                   <ul className="space-y-1.5 text-stone-600">
                     <li className="flex items-center justify-between">
                       <span>🌸 Spring Blossom in Kyoto, Japan (10D)</span>
                       <button
                         type="button"
                         onClick={() => setActiveMode('plan')}
-                        className="text-[#704B32] font-bold text-[10px] underline"
+                        className="text-[#704B32] font-semibold text-[10px] underline"
                       >
-                        Synthesize
+                        Explore
                       </button>
                     </li>
                     <li className="flex items-center justify-between">
@@ -712,9 +684,9 @@ export default function TravelMarketplacePage() {
                       <button
                         type="button"
                         onClick={() => setActiveMode('plan')}
-                        className="text-[#704B32] font-bold text-[10px] underline"
+                        className="text-[#704B32] font-semibold text-[10px] underline"
                       >
-                        Synthesize
+                        Explore
                       </button>
                     </li>
                   </ul>
@@ -725,101 +697,95 @@ export default function TravelMarketplacePage() {
 
           {/* Multi-Component Horizontal Sub-Bar */}
           <div className="max-w-4xl mx-auto pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-[11px] text-stone-300">
-            <span className="font-bold text-[#C9A45C]">Orchestrated Life-Event Layers:</span>
-            <div className="flex flex-wrap items-center gap-3 text-stone-300">
-              <span>✈️ Flights</span>
+            <span className="font-serif font-medium text-[#C9A45C]">Every Bespoke Journey Includes:</span>
+            <div className="flex flex-wrap items-center gap-3 text-stone-300 font-light">
+              <span>✈️ Flights &amp; VIP Escort</span>
               <span>•</span>
-              <span>🏨 Stays</span>
+              <span>🏨 Heritage Suites</span>
               <span>•</span>
-              <span>🚄 High-Speed Trains</span>
+              <span>🚙 Private 4x4 Convoy</span>
               <span>•</span>
-              <span>🚙 Chauffeur</span>
+              <span>🎿 Master Guides</span>
               <span>•</span>
-              <span>🎿 Experiences</span>
+              <span>🍷 Curated Dining</span>
               <span>•</span>
-              <span>🍷 Dining</span>
-              <span>•</span>
-              <span>🧵 Crafts</span>
-              <span>•</span>
-              <span>🎁 Gifting</span>
-              <span>•</span>
-              <span>🛡️ Protection</span>
+              <span>🛡️ Mountain Weather Care</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 3. The Core Product: Live Journey Assembly & Optimization Console ── */}
+      {/* ── 3. The Core Product: Live Journey Dossier & Customization ── */}
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Header & Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-200 pb-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-bold uppercase tracking-wider">
-              <span>✦</span> SI TRIP INTENT GRAPH ACTIVE · ONE UNIFIED JOURNEY
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF0DC] text-[#704B32] text-[10px] font-bold uppercase tracking-wider border border-[#C9A45C]/30">
+              <span>✦</span> BESPOKE ITINERARY DOSSIER · DEDICATED CONCIERGE CARE
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
-              Your Journey, Synthesized by SI
+              Your Tailored Journey Dossier
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm font-light max-w-2xl">
-              SI has assembled every flight, stay, vehicle, meal, and mountain guide into a unified, synchronized operating plan. No fragmented booking vouchers.
+              Every flight, boutique heritage stay, private mountain convoy, and exclusive dining experience orchestrated into one seamless, synchronized itinerary.
             </p>
           </div>
 
           {/* Steering Controls */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold text-stone-500 mr-1">Steer SI:</span>
+            <span className="text-xs font-semibold text-stone-500 mr-1">Refine Style:</span>
             <button
               type="button"
               onClick={handleMakeLuxury}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 luxuryMultiplier > 1
                   ? 'bg-[#17233B] text-white border-[#17233B]'
                   : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
               }`}
             >
-              💎 Make it Luxury
+              ✨ Upgrade to Luxury Suite
             </button>
             <button
               type="button"
               onClick={handleReduceBudget}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 budgetOffset < 0
                   ? 'bg-[#17233B] text-white border-[#17233B]'
                   : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
               }`}
             >
-              📉 Reduce Cost
+              🌿 Value Optimized
             </button>
             <button
               type="button"
               onClick={handleToggleAnniversary}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 anniversaryAddon
                   ? 'bg-[#17233B] text-[#C9A45C] border-[#17233B]'
                   : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-50'
               }`}
             >
-              🍷 Add Private Dining
+              🍷 Private Sommelier &amp; Wazwan
             </button>
           </div>
         </div>
 
         {/* Order Confirmation Banner */}
         {orderConfirmed && (
-          <div className="p-6 bg-emerald-50 rounded-3xl border-2 border-emerald-500 text-emerald-900 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
+          <div className="p-6 bg-emerald-50 rounded-3xl border border-emerald-300 text-emerald-900 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
             <div className="space-y-1">
               <span className="font-bold text-sm flex items-center gap-2">
-                <span>🎉</span> Journey Reserved Successfully! (Reference: <strong>{orderConfirmed}</strong>)
+                <span>✦</span> Itinerary Reserved Successfully (Reference: <strong>{orderConfirmed}</strong>)
               </span>
               <p className="text-xs text-emerald-800">
-                Our Mountain Concierge and Dispatch Desk have locked your supply nodes. An itemized travel dossier and escrow link have been dispatched.
+                Our Private Concierge Desk has secured your vehicle and property reservations. An itemized travel dossier has been prepared for your review.
               </p>
             </div>
             <Link
               href="/travel/dashboard"
-              className="px-6 py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex-shrink-0"
+              className="px-6 py-3 bg-[#17233B] hover:bg-[#223352] text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm flex-shrink-0"
             >
-              Open Trip Command Center →
+              View Guest Portal →
             </Link>
           </div>
         )}
@@ -866,13 +832,13 @@ export default function TravelMarketplacePage() {
                   onClick={handleInstantBook}
                   className="flex-1 py-3 px-5 bg-[#C9A45C] hover:bg-[#b5924d] text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
                 >
-                  ⚡ Lock Journey with SI
+                  Reserve This Journey
                 </button>
                 <Link
                   href={`/travel/builder?preset=${selectedPresetKey}&total=${calculatedTotal}`}
-                  className="py-3 px-4 bg-white/20 hover:bg-white/30 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/20"
+                  className="py-3 px-4 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/20"
                 >
-                  Customizer
+                  Customize
                 </Link>
               </div>
             </div>
@@ -884,10 +850,10 @@ export default function TravelMarketplacePage() {
             <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <span className="font-bold text-[#17233B] flex items-center gap-1.5 text-sm">
-                  <span>✈️</span> Flight Assembly
+                  <span>✈️</span> Flights &amp; VIP Escort
                 </span>
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">
-                  GDS Verified
+                <span className="text-[10px] bg-emerald-50 text-emerald-800 font-semibold px-2 py-0.5 rounded border border-emerald-200">
+                  Confirmed Slots
                 </span>
               </div>
               <p className="text-stone-600 leading-relaxed">{currentItinerary.flights}</p>
@@ -901,9 +867,9 @@ export default function TravelMarketplacePage() {
             <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <span className="font-bold text-[#17233B] flex items-center gap-1.5 text-sm">
-                  <span>🏨</span> Stays Orchestration
+                  <span>🏨</span> Heritage Stays &amp; Chalets
                 </span>
-                <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded">
+                <span className="text-[10px] bg-amber-50 text-amber-900 font-semibold px-2 py-0.5 rounded border border-amber-200">
                   {currentItinerary.nights} Nights
                 </span>
               </div>
@@ -925,9 +891,9 @@ export default function TravelMarketplacePage() {
             <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <span className="font-bold text-[#17233B] flex items-center gap-1.5 text-sm">
-                  <span>🚙</span> Chauffeur &amp; Rail
+                  <span>🚙</span> Private Chauffeur &amp; 4x4
                 </span>
-                <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">
+                <span className="text-[10px] bg-blue-50 text-blue-800 font-semibold px-2 py-0.5 rounded border border-blue-200">
                   Private Escort
                 </span>
               </div>
@@ -942,10 +908,10 @@ export default function TravelMarketplacePage() {
             <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-stone-100 pb-2">
                 <span className="font-bold text-[#17233B] flex items-center gap-1.5 text-sm">
-                  <span>🎿</span> Experiences &amp; Culture
+                  <span>🎿</span> Curated Experiences
                 </span>
-                <span className="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded">
-                  VIP Fast-Track
+                <span className="text-[10px] bg-purple-50 text-purple-800 font-semibold px-2 py-0.5 rounded border border-purple-200">
+                  Priority Access
                 </span>
               </div>
               <ul className="space-y-1.5 text-stone-600">
@@ -957,8 +923,8 @@ export default function TravelMarketplacePage() {
                 ))}
               </ul>
               <div className="pt-2 text-[11px] text-stone-500 font-medium border-t border-stone-100 flex items-center justify-between">
-                <span>Licensed Guides:</span>
-                <strong className="text-emerald-700">Verified</strong>
+                <span>Master Guides:</span>
+                <strong className="text-emerald-700">Certified Local</strong>
               </div>
             </div>
           </div>
@@ -995,125 +961,105 @@ export default function TravelMarketplacePage() {
         <TravelActivationDepositDesk />
       </section>
 
-      {/* ── 4. The Operating Layer Architecture (The Strategic Thesis) ───────── */}
-      <section className="py-20 bg-[#0A101D] text-white border-y border-[#C9A45C]/20">
+      {/* ── 4. The Nuty Tales Standard: The Art of Unhurried Luxury ───────── */}
+      <section className="py-20 bg-[#090F1C] text-white border-y border-[#C9A45C]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
-              Strategic Architecture 2026
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#C9A45C]">
+              The Nuty Tales Standard
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-black text-white">
-              The Operating Layer That Sits Above The OTAs
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white">
+              The Art of Unhurried Luxury
             </h2>
             <p className="text-stone-300 text-xs sm:text-sm font-light leading-relaxed">
-              Booking.com, Expedia, and MakeMyTrip have mastered inventory. Nuty Tales masters intent, orchestration, and real-world execution.
+              True luxury is effortless. Every journey is anchored by directly verified ground operations, private alpine convoys, and personal concierge care.
             </p>
           </div>
 
-          {/* Visual Architecture Flow Diagram */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-white/5 border border-white/10 space-y-6">
-            <div className="text-center space-y-2">
-              <span className="text-xs font-mono uppercase text-[#C9A45C] tracking-widest">
-                HOW NUTY TALES ORCHESTRATES THE JOURNEY
-              </span>
-            </div>
-
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-semibold">
-              <div className="p-4 rounded-2xl bg-white/10 border border-white/20 text-center w-full md:w-auto">
-                <span className="text-xl block">👤</span>
-                <span className="text-white font-bold block">1. TRAVELLER</span>
-                <span className="text-stone-400 text-[10px]">Natural Intent</span>
+          {/* 4 Pillars of Luxury */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3 hover:border-[#C9A45C]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#C9A45C]/10 text-[#C9A45C] flex items-center justify-center text-xl font-serif">
+                🏰
               </div>
-              <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-[#17233B] to-[#704B32] border border-[#C9A45C]/40 text-center w-full md:w-auto">
-                <span className="text-xl block">✦</span>
-                <span className="text-[#C9A45C] font-bold block">2. NUTY TALES SI</span>
-                <span className="text-stone-200 text-[10px]">Intent Graph Builder</span>
-              </div>
-              <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
-              <div className="p-4 rounded-2xl bg-white/10 border border-white/20 text-center w-full md:w-auto">
-                <span className="text-xl block">🧩</span>
-                <span className="text-white font-bold block">3. MULTI-SUPPLY</span>
-                <span className="text-stone-400 text-[10px]">Flights · Stays · Cars · DMCs</span>
-              </div>
-              <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
-              <div className="p-4 rounded-2xl bg-white/10 border border-white/20 text-center w-full md:w-auto">
-                <span className="text-xl block">⚡</span>
-                <span className="text-white font-bold block">4. ONE JOURNEY</span>
-                <span className="text-stone-400 text-[10px]">Optimized &amp; Verified</span>
-              </div>
-              <span className="text-[#C9A45C] font-mono text-xl rotate-90 md:rotate-0">→</span>
-              <div className="p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/50 text-center w-full md:w-auto">
-                <span className="text-xl block">🛰️</span>
-                <span className="text-emerald-400 font-bold block">5. COMMAND CENTER</span>
-                <span className="text-emerald-200 text-[10px]">Live In-Trip Execution</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Global Landscape Comparison Matrix */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="font-bold text-lg text-white">Booking / Expedia</h4>
-                <span className="text-[10px] bg-stone-800 text-stone-300 px-2 py-0.5 rounded font-mono">SUPPLY LAYER</span>
-              </div>
-              <p className="text-stone-400 leading-relaxed">
-                Dominant global inventory (hotels, flights, cars). But travelers must search, filter, assemble, and hold 6 different vouchers. Acquired AI tools (like Expedia acquiring Layla), but suffer from the OTA trust gap.
+              <h4 className="font-serif font-bold text-base text-white">
+                Heritage Suites &amp; Chalets
+              </h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Handpicked cedar houseboats on quiet Nigeen Lake, heated ski chalets in Gulmarg pine glades, and secluded riverside retreats in Pahalgam.
               </p>
-              <div className="text-[11px] text-amber-400 font-semibold pt-1">
-                Don’t compete on hotel listings. Orchestrate their inventory.
+              <div className="text-[11px] text-[#C9A45C] font-medium pt-1">
+                Directly vetted &amp; reserved
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="font-bold text-lg text-white">Viator / Klook / GetYourGuide</h4>
-                <span className="text-[10px] bg-stone-800 text-stone-300 px-2 py-0.5 rounded font-mono">EXPERIENCE LAYER</span>
+            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3 hover:border-[#C9A45C]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#C9A45C]/10 text-[#C9A45C] flex items-center justify-center text-xl font-serif">
+                🚙
               </div>
-              <p className="text-stone-400 leading-relaxed">
-                400,000+ experiences and homes. Great catalogs, but totally unbundled from the traveller&apos;s full journey timeline, luggage transfers, or chauffeur schedules.
+              <h4 className="font-serif font-bold text-base text-white">
+                Dedicated Mountain Convoys
+              </h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Late-model 4x4s with dedicated local chauffeurs, fitted snow chains, mountain safety gear, and real-time pass monitoring.
               </p>
-              <div className="text-[11px] text-amber-400 font-semibold pt-1">
-                Compose their activities into synchronized daily itineraries.
+              <div className="text-[11px] text-[#C9A45C] font-medium pt-1">
+                Private chauffeur for all days
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#17233B] via-[#704B32]/30 to-[#10192A] border-2 border-[#C9A45C] space-y-3 shadow-xl">
-              <div className="flex items-center justify-between">
-                <h4 className="font-bold text-lg text-[#C9A45C]">Nuty Tales Travel</h4>
-                <span className="text-[10px] bg-[#C9A45C] text-[#10192A] px-2 py-0.5 rounded font-bold font-mono">OPERATING LAYER</span>
+            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3 hover:border-[#C9A45C]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#C9A45C]/10 text-[#C9A45C] flex items-center justify-center text-xl font-serif">
+                🎨
               </div>
-              <p className="text-stone-200 leading-relaxed">
-                Conversational intent + verified external supply + directly controlled ground operations in flagship corridors (Kashmir, India, UAE). End-to-end journey execution.
+              <h4 className="font-serif font-bold text-base text-white">
+                Private Cultural Access
+              </h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                Private sessions with 5th-generation Pashmina artisans, historical Old Srinagar curator walks, and certified alpine ski guides.
               </p>
-              <div className="text-[11px] text-emerald-400 font-bold pt-1">
-                One price. One journey. 24/7 Command Center dispatch.
+              <div className="text-[11px] text-[#C9A45C] font-medium pt-1">
+                Authentic heritage access
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-3 hover:border-[#C9A45C]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#C9A45C]/10 text-[#C9A45C] flex items-center justify-center text-xl font-serif">
+                🛎️
+              </div>
+              <h4 className="font-serif font-bold text-base text-white">
+                Dedicated Concierge Desk
+              </h4>
+              <p className="text-stone-400 leading-relaxed font-light">
+                A dedicated personal travel manager handling every reservation, baggage transfer, flight tarmac meet, and weather adjustment.
+              </p>
+              <div className="text-[11px] text-[#C9A45C] font-medium pt-1">
+                24/7 on-call mountain care
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 5. The 6-Company Ecosystem: Life-Event Commerce ─────────────────── */}
+      {/* ── 5. Signature Occasions & Private Group Expeditions ─────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-200 pb-6">
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
-              Nuty Tales Ecosystem
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#C9A45C]">
+              Signature Occasions
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#17233B]">
-              Life-Event Commerce: How The 6 Businesses Unite
+              Private Group Expeditions &amp; Milestone Celebrations
             </h2>
             <p className="text-stone-600 text-xs sm:text-sm font-light max-w-2xl">
-              No single OTA can touch this. When a guest books a journey, wedding, or corporate retreat, all six Nuty Tales companies activate in harmony.
+              From executive leadership retreats to royal Himalayan weddings, our travel desk coordinates complete bespoke hospitality with seamless grace.
             </p>
           </div>
           <Link
             href="/travel/partners"
-            className="px-6 py-3.5 bg-[#17233B] text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-stone-800 transition-colors shadow-sm flex-shrink-0"
+            className="px-6 py-3.5 bg-[#17233B] text-white text-xs font-semibold uppercase tracking-wider rounded-xl hover:bg-[#223352] transition-colors shadow-sm flex-shrink-0"
           >
-            Explore B2B Network →
+            Explore Partner Network →
           </Link>
         </div>
 
@@ -1125,25 +1071,25 @@ export default function TravelMarketplacePage() {
                 🏢
               </div>
               <h3 className="font-serif text-xl font-bold text-[#17233B]">
-                Corporate Offsites (40 to 120 Pax)
+                Corporate Offsites (40 to 120 Guests)
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
-                Turns a travel inquiry into a complete B2B corporate transaction: group flights, resort buyouts, AV conference staging, Lidder rafting, and branded hampers from Nuty Tales Gifting.
+              <p className="text-xs text-stone-600 leading-relaxed font-light">
+                Complete retreat execution: private resort buyouts, Lidder river expeditions, conference AV infrastructure, and artisanal corporate gifting.
               </p>
-              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#704B32] font-semibold">
-                Single Corporate RFQ with GST credit &amp; centralized invoicing
+              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#704B32] font-medium">
+                Single corporate invoice with GST credit &amp; dedicated host
               </div>
             </div>
             <button
               type="button"
               onClick={() => {
                 setModalTitle('Request Corporate Offsite Proposal')
-                setModalSubtitle('Share expected headcount (e.g. 120 pax), preferred dates, and conference requirements.')
+                setModalSubtitle('Share expected headcount (e.g. 120 guests), preferred dates, and conference requirements.')
                 setQuoteModalOpen(true)
               }}
-              className="w-full py-3 bg-[#17233B] hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
+              className="w-full py-3 bg-[#17233B] hover:bg-[#223352] text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all"
             >
-              Generate Corporate RFQ (120 Pax) →
+              Request Corporate Proposal →
             </button>
           </div>
 
@@ -1154,20 +1100,20 @@ export default function TravelMarketplacePage() {
                 💍
               </div>
               <h3 className="font-serif text-xl font-bold text-[#17233B]">
-                Destination Weddings (200 Guests)
+                Destination Weddings (Up to 200 Guests)
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
-                Orchestrates a ₹50L+ event ecosystem: palace buyout, 40-vehicle fleet convoys, Nuty Tales Crafts bridal shawls, Gifting trousseau hampers, and 36-course Wazwan catering.
+              <p className="text-xs text-stone-600 leading-relaxed font-light">
+                Palace venue buyout, 40-vehicle chauffeured convoy, Nuty Tales Crafts bridal trousseau, and traditional 36-course royal Wazwan banquets.
               </p>
-              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#8E2848] font-semibold">
-                Unified life-event orchestration without vendor chaos
+              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-[#8E2848] font-medium">
+                Unified celebration planning with zero vendor fragmentation
               </div>
             </div>
             <Link
               href="/weddings/workspace"
-              className="w-full py-3 text-center bg-[#8E2848] hover:bg-[#721f39] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all block"
+              className="w-full py-3 text-center bg-[#8E2848] hover:bg-[#721f39] text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all block"
             >
-              Launch Wedding Workspace →
+              Explore Wedding Workspace →
             </Link>
           </div>
 
@@ -1178,20 +1124,20 @@ export default function TravelMarketplacePage() {
                 🌍
               </div>
               <h3 className="font-serif text-xl font-bold text-[#17233B]">
-                B2B DMC &amp; Global Partner API
+                Private DMC &amp; Global Partner Network
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
-                Enables agencies in Mumbai, Dubai, and London to distribute Nuty Tales verified alpine itineraries, licensed guides, and premium 4x4 fleets through our direct API.
+              <p className="text-xs text-stone-600 leading-relaxed font-light">
+                Direct DMC partner coordination for luxury travel advisors, family offices, and agencies across Mumbai, Dubai, and London.
               </p>
-              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-emerald-800 font-semibold">
-                Wholesale DMC rates with guaranteed ground execution
+              <div className="p-3 bg-[#FAF6EE] rounded-xl text-[11px] text-emerald-800 font-medium">
+                Wholesale DMC rates with guaranteed on-ground execution
               </div>
             </div>
             <Link
               href="/travel/partners"
-              className="w-full py-3 text-center bg-[#176B68] hover:bg-[#125350] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all block"
+              className="w-full py-3 text-center bg-[#176B68] hover:bg-[#125350] text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all block"
             >
-              Access DMC Partner Portal →
+              Access DMC Partner Desk →
             </Link>
           </div>
         </div>
@@ -1199,39 +1145,39 @@ export default function TravelMarketplacePage() {
 
       {/* ── 6. Concierge Action Banner ────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="bg-gradient-to-r from-[#17233B] via-[#704B32] to-[#17233B] text-white p-8 sm:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-gradient-to-r from-[#17233B] via-[#223352] to-[#17233B] text-white p-8 sm:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10">
           <div className="space-y-2 text-center md:text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#C9A45C]">
-              24/7 Human + SI Concierge Desk
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#C9A45C]">
+              Private Travel Advisory
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-              Have a bespoke request or complex multi-destination journey?
+              Have a bespoke vision or complex multi-destination journey?
             </h3>
-            <p className="text-xs sm:text-sm text-stone-200 max-w-xl font-light">
-              Speak directly with our senior journey orchestrators in Srinagar, Delhi, and Dubai.
+            <p className="text-xs sm:text-sm text-stone-300 max-w-xl font-light">
+              Speak directly with our senior travel curators in Srinagar, Delhi, and Dubai.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4">
             <a
               href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
-                `Hello Nuty Tales Travel OS! I want to plan: ${currentItinerary.title} (Est. ₹${calculatedTotal.toLocaleString('en-IN')}).`,
+                `Hello Nuty Tales Travel Desk! I would like to consult on designing: ${currentItinerary.title}.`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
+              className="px-6 py-4 bg-[#C9A45C] hover:bg-[#b5924d] text-[#10192A] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2"
             >
               <span>💬</span>
-              <span>WhatsApp Travel Desk</span>
+              <span>WhatsApp Concierge</span>
             </a>
             <button
               type="button"
               onClick={() => {
-                setModalTitle('Request Custom Journey Quotation')
-                setModalSubtitle('Our Senior Travel Concierge will respond within 2 hours with an optimized itinerary.')
+                setModalTitle('Request Tailored Journey Dossier')
+                setModalSubtitle('Our Senior Travel Concierge will respond with a personalized itinerary proposal.')
                 setQuoteModalOpen(true)
               }}
-              className="px-6 py-4 bg-white hover:bg-stone-100 text-[#17233B] font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md"
+              className="px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider rounded-xl transition-all border border-white/20"
             >
               Request Custom Dossier
             </button>

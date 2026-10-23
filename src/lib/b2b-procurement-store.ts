@@ -717,7 +717,27 @@ export const INITIAL_NOTIFICATIONS: EnterpriseNotification[] = [
 ]
 
 // ─── LOCAL STORAGE KEYS ───────────────────────────────────────────────────────
+export interface BusinessAccountRecord {
+  companyName: string
+  contactPerson: string
+  phone: string
+  email: string
+  gstin?: string
+  businessType?: string
+  city?: string
+  state?: string
+  address?: string
+  pincode?: string
+  expectedMonthlyQty?: number
+  isVerified?: boolean
+  creditStatus?: string
+  assignedSpecialist?: string
+  tradePhone?: string
+}
+
+// ─── LOCAL STORAGE KEYS ───────────────────────────────────────────────────────
 const STORAGE_KEYS = {
+  ACCOUNT: 'nt_b2b_account_v2',
   RFQS: 'nt_b2b_rfqs_v2',
   QUOTES: 'nt_b2b_quotes_v2',
   POS: 'nt_b2b_pos_v2',
@@ -728,13 +748,32 @@ const STORAGE_KEYS = {
 
 // ─── STATE PERSISTENCE HELPERS ────────────────────────────────────────────────
 
+export function getStoredBusinessAccount(): BusinessAccountRecord | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.ACCOUNT)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+export function saveStoredBusinessAccount(acc: BusinessAccountRecord): void {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(STORAGE_KEYS.ACCOUNT, JSON.stringify(acc))
+  } catch (err) {
+    console.error('Failed to save business account to local storage:', err)
+  }
+}
+
 export function getStoredRfqs(): RFQRecord[] {
-  if (typeof window === 'undefined') return INITIAL_RFQS
+  if (typeof window === 'undefined') return []
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.RFQS)
-    return raw ? JSON.parse(raw) : INITIAL_RFQS
+    return raw ? JSON.parse(raw) : []
   } catch {
-    return INITIAL_RFQS
+    return []
   }
 }
 
@@ -750,12 +789,12 @@ export function saveStoredRfq(rfq: RFQRecord): void {
 }
 
 export function getStoredQuotes(): QuotationRecord[] {
-  if (typeof window === 'undefined') return INITIAL_QUOTES
+  if (typeof window === 'undefined') return []
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.QUOTES)
-    return raw ? JSON.parse(raw) : INITIAL_QUOTES
+    return raw ? JSON.parse(raw) : []
   } catch {
-    return INITIAL_QUOTES
+    return []
   }
 }
 
@@ -771,12 +810,12 @@ export function saveStoredQuote(quote: QuotationRecord): void {
 }
 
 export function getStoredPurchaseOrders(): PurchaseOrderRecord[] {
-  if (typeof window === 'undefined') return INITIAL_PURCHASE_ORDERS
+  if (typeof window === 'undefined') return []
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.POS)
-    return raw ? JSON.parse(raw) : INITIAL_PURCHASE_ORDERS
+    return raw ? JSON.parse(raw) : []
   } catch {
-    return INITIAL_PURCHASE_ORDERS
+    return []
   }
 }
 

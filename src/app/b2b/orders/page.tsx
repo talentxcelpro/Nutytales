@@ -86,11 +86,38 @@ export default function B2BOrdersPage() {
       </div>
 
       {/* ── Purchase Orders Table ─────────────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
-        <div className="overflow-x-auto text-xs">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-stone-50 text-stone-500 uppercase text-[10px] font-bold tracking-wider border-b border-stone-200">
+      {filteredOrders.length === 0 ? (
+        <div className="bg-white rounded-3xl border border-dashed border-stone-300 p-12 sm:p-16 text-center space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-stone-50 border border-stone-200 text-stone-700 flex items-center justify-center text-3xl mx-auto">
+            📦
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-serif text-lg sm:text-xl font-bold text-stone-900">No Purchase Orders Issued Yet</h3>
+            <p className="text-xs text-stone-500 max-w-md mx-auto">
+              Once you accept a supplier quotation or confirm a spot contract, your official purchase contract, reefer telemetry, and tax invoice will appear here.
+            </p>
+          </div>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/b2b/rfq"
+              className="px-5 py-2.5 bg-[#FF6B00] hover:bg-[#E65100] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+            >
+              + Post New Procurement RFQ
+            </Link>
+            <Link
+              href="/b2b/quotes"
+              className="px-5 py-2.5 bg-[#17233B] hover:bg-[#176B68] text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
+            >
+              View Quotes Desk
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs">
+          <div className="overflow-x-auto text-xs">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-stone-50 text-stone-500 uppercase text-[10px] font-bold tracking-wider border-b border-stone-200">
                 <th className="py-3.5 px-4">PO Ref</th>
                 <th className="py-3.5 px-4">Supplier</th>
                 <th className="py-3.5 px-4">Commodity Lot</th>
@@ -178,6 +205,7 @@ export default function B2BOrdersPage() {
           </table>
         </div>
       </div>
+    )}
 
       {/* ── Purchase Order Modal Dossier ─────────────────────────────────────── */}
       {selectedPo && (
