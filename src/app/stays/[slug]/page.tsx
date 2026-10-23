@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { STAY_PROPERTIES, type StayProperty } from '@/lib/stays-data';
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants';
 import { generatePageMetadata, buildBreadcrumbSchema, buildLodgingSchema, schemaToJsonLd } from '@/lib/seo/metadata';
+import PropertyDetailView from '@/components/stays/PropertyDetailView';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
