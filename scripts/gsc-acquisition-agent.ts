@@ -119,12 +119,21 @@ async function getGscAccessToken(): Promise<string> {
 
 const GSC_PROPERTIES = [
   'sc-domain:nutytales.com',
+  'sc-domain:nri.nutytales.com',
+  'sc-domain:crafts.nutytales.com',
+  'sc-domain:weddings.nutytales.com',
+  'sc-domain:gifting.nutytales.com',
+  'sc-domain:business.nutytales.com',
+  'sc-domain:stays.nutytales.com',
+  'sc-domain:travel.nutytales.com',
 ];
 
 async function fetchGscRows(token: string, property: string): Promise<GscRow[]> {
+  // Google Search Console performance data typically lags by 2-3 days
   const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(endDate.getDate() - 7);
+  endDate.setDate(endDate.getDate() - 3);
+  const startDate = new Date(endDate);
+  startDate.setDate(endDate.getDate() - 28); // 28-day historical window
 
   const fmt = (d: Date) => d.toISOString().split('T')[0];
 
@@ -258,8 +267,9 @@ async function callGemini(prompt: string): Promise<string> {
   if (!GEMINI_API_KEY) {
     throw new Error('GEMINI_API_KEY not set — get a free key at aistudio.google.com');
   }
+  const model = 'gemini-3.8-flash';
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
