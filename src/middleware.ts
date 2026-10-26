@@ -275,6 +275,7 @@ Host: ${hostUrl}
     // Shared universal pages (auth, policies, search, shop catalog, gastronomy journal, sitemap index, verification txt)
     if (
       pathname === '/sitemap_index.xml' ||
+      pathname.startsWith('/sitemaps/') ||
       pathname.endsWith('.txt') ||
       pathname === '/login' ||
       pathname === '/search' ||

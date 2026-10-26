@@ -67,6 +67,21 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Programmatic sitemap shards — Cloudflare CDN 7-day edge cache
+        source: "/sitemaps/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400" },
+          { key: "Content-Type", value: "application/xml; charset=utf-8" },
+        ],
+      },
+      {
+        // Programmatic wholesale & pincode pages — Cloudflare CDN 30-day edge cache
+        source: "/wholesale-dry-fruits/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=2592000, stale-while-revalidate=86400" },
+        ],
+      },
+      {
         // Apply to all routes
         source: "/:path*",
         headers: [

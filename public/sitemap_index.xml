@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Master Sitemaps -->
   <sitemap>
     <loc>https://nutytales.com/sitemap.xml</loc>
     <lastmod>2026-10-26</lastmod>
@@ -42,6 +43,44 @@
   </sitemap>
   <sitemap>
     <loc>https://nutytales.com/me/sitemap.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+
+  <!-- Programmatic Scaled Shards (1 Million Endpoints Matrix) -->
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/b2b-matrix-1.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/b2b-matrix-2.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/pincodes-north.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/pincodes-west.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/pincodes-south.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/pincodes-east.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/crafts-geo.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/stays-geo.xml</loc>
+    <lastmod>2026-10-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://nutytales.com/sitemaps/gifting-geo.xml</loc>
     <lastmod>2026-10-26</lastmod>
   </sitemap>
 </sitemapindex>
