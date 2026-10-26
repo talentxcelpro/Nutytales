@@ -1,0 +1,23 @@
+name: Daily IndexNow Pipeline Runner
+
+on:
+  schedule:
+    # Runs daily at 02:30 AM UTC (08:00 AM IST)
+    - cron: '30 2 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+jobs:
+  ping-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Daily IndexNow Ingress
+        run: |
+          echo "Executing daily IndexNow automated push to Bing, Yandex, Seznam, Naver & Yep..."
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" "https://nutytales.com/api/cron/indexnow?token=nutytales_daily_index")
+          echo "$RESPONSE"
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+          if [ "$STATUS" -ne 200 ]; then
+            echo "Failed with HTTP status $STATUS"
+            exit 1
+          fi
+          echo "Daily IndexNow pipeline executed successfully."

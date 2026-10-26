@@ -8,6 +8,7 @@ import { INITIAL_VENUES, INITIAL_VENDORS } from "@/lib/weddings/data";
 import { getAllGifts } from "@/lib/gifting-marketplace-data";
 import { INDUSTRIES } from "@/lib/business-supply-data";
 import { GEO_ENTITIES } from "@/lib/seo/geo";
+import { COMMERCIAL_HUBS } from "@/lib/seo/commercial-hubs";
 import { buildRootCoreSitemap } from "@/lib/seo/sitemap";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
@@ -167,6 +168,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  // 11. Combinatorial Product + City High-Intent Matrix
+  const topWholesaleProducts = [
+    'mamra-almonds-kashmiri-badam',
+    'california-almonds-premium',
+    'kashmiri-walnuts-inshell-snow-white',
+    'w240-jumbo-cashews-goa-mangalore',
+    'pampore-mongra-saffron-grade-a1',
+    'makhana-grade-a-fox-nuts',
+    'afghan-green-raisins-kishmish',
+    'afghani-anjeer-dried-figs',
+  ];
+  const wholesaleProductCityPages: MetadataRoute.Sitemap = [];
+  for (const productSlug of topWholesaleProducts) {
+    for (const hub of COMMERCIAL_HUBS.slice(0, 15)) {
+      wholesaleProductCityPages.push({
+        url: `${APP_URL}/wholesale-dry-fruits/${productSlug}/${hub.slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.85,
+      });
+    }
+  }
+
+  // 12. Indian Postal Circle Priority PIN Codes
+  const priorityPincodes = [
+    '110001', '110006', '110020', '400001', '400003', '400703', '395001', '395003',
+    '380001', '380002', '560001', '560002', '500001', '500002', '600001', '700001',
+    '302001', '452001', '411001', '226001', '141001', '143001', '160001', '190001',
+  ];
+  const wholesalePincodePages: MetadataRoute.Sitemap = priorityPincodes.map((pin) => ({
+    url: `${APP_URL}/wholesale-dry-fruits/pincode/${pin}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.80,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
@@ -180,6 +217,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...giftingPages,
     ...wholesaleIndustryPages,
     ...wholesaleCityPages,
+    ...wholesaleProductCityPages,
+    ...wholesalePincodePages,
   ];
 
   const seenUrls = new Set<string>();
