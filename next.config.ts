@@ -64,7 +64,6 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "Cache-Control", value: "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400" },
           { key: "Content-Type", value: "application/xml; charset=utf-8" },
-          { key: "X-Robots-Tag", value: "noindex" },
         ],
       },
       {
