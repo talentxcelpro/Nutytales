@@ -51,6 +51,14 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // IndexNow and crawler verification key CDN edge caching
+        source: "/479c5a2c20774a35b128562761895a28.txt",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+        ],
+      },
+      {
         // Apply to all routes
         source: "/:path*",
         headers: [
