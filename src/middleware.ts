@@ -116,6 +116,7 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: ${sitemapUrl}
+Sitemap: https://nutytales.com/sitemap_index.xml
 Host: ${hostUrl}
 `
     return new NextResponse(robotsTxt, {
@@ -271,8 +272,10 @@ Host: ${hostUrl}
       return NextResponse.redirect(new URL('/orders/track', request.url), 302)
     }
 
-    // Shared universal pages (auth, policies, search, shop catalog, gastronomy journal)
+    // Shared universal pages (auth, policies, search, shop catalog, gastronomy journal, sitemap index, verification txt)
     if (
+      pathname === '/sitemap_index.xml' ||
+      pathname.endsWith('.txt') ||
       pathname === '/login' ||
       pathname === '/search' ||
       pathname === '/contact' ||

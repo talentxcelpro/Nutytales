@@ -13,8 +13,8 @@ interface PageProps {
 
 export async function generateStaticParams() {
   const industrySlugs = INDUSTRIES.map((i) => ({ slug: i.slug }));
-  const citySlugs = ['delhi', 'mumbai', 'bangalore', 'bihar'];
-  return [...industrySlugs, ...citySlugs.map((c) => ({ slug: c }))];
+  const geoSlugs = GEO_ENTITIES.filter((g) => g.isLaunched && (g.type === 'city' || g.type === 'state')).map((g) => ({ slug: g.slug }));
+  return [...industrySlugs, ...geoSlugs];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
