@@ -468,6 +468,9 @@ Host: ${hostUrl}
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
+    // Exclude static assets and the static sitemap_index.xml (served from /public).
+    // Does NOT exclude sitemap.xml so that vertical subdomain rewrites still work
+    // (e.g. nri.nutytales.com/sitemap.xml → /nri/sitemap.xml via middleware).
+    '/((?!_next/static|_next/image|favicon.ico|sitemap_index\\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt)$).*)',
   ],
 }
