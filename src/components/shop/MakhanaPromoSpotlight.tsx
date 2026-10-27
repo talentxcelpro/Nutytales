@@ -135,43 +135,43 @@ export default function MakhanaPromoSpotlight() {
   )
 
   return (
-    <section className="relative bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EB] to-white border-b border-stone-200/90 pt-14 sm:pt-16 pb-3 overflow-hidden">
+    <section className="relative bg-gradient-to-b from-[#FAF8F5] via-[#FDFBF7] to-white border-b border-stone-200/80 pt-24 sm:pt-28 pb-6 sm:pb-8 overflow-hidden">
       {/* Subtle luxury ambient glow */}
-      <div className="absolute top-0 right-1/4 w-[450px] h-[250px] bg-amber-200/15 blur-3xl rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-0 right-1/4 w-[450px] h-[250px] bg-amber-100/20 blur-3xl rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Slimline Trust Bar (Compact, Direct Fit) */}
-        <div className="flex flex-wrap items-center justify-between gap-1 border-b border-stone-200/60 pb-1.5 mb-2.5 text-[11px]">
+        {/* Top Slimline Trust Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200/60 pb-3 mb-4 text-xs">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold text-[#17233B] tracking-wide uppercase text-[10px] sm:text-[11px]">
+            <span className="font-semibold text-[#17233B] tracking-tight uppercase text-[11px] sm:text-xs">
               NutyTales · Mithila Wetland Harvest
             </span>
             <span className="text-stone-300 hidden sm:inline">•</span>
-            <span className="text-stone-500 font-medium text-[11px] hidden sm:inline">
+            <span className="text-stone-500 font-normal text-xs hidden sm:inline">
               FSSAI Lic. #{FSSAI_NUMBER}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-stone-600 font-medium">
-            <span className="text-emerald-700 font-bold">★ 4.9 Rating (2,400+ Orders)</span>
+          <div className="flex items-center gap-2 text-xs text-stone-600 font-medium">
+            <span className="text-emerald-700 font-semibold">★ 4.9 Rating (2,400+ Verified Orders)</span>
             <span className="text-stone-300">•</span>
-            <span className="text-[#C9A45C] font-semibold">Pan-India Express Air Shipping</span>
+            <span className="text-[#8B6D3B] font-medium">Pan-India Express Air Shipping</span>
           </div>
         </div>
 
-        {/* Main Split Grid: Responsive Cinema Stage + Compact Buying Console */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-start">
-          {/* ──────────────── Left Column: Cinema Media Showcase (Zero Cropping, Zero Cutoff) ──────────────── */}
-          <div className="lg:col-span-5 space-y-2">
+        {/* Main Split Grid: Cinema Stage + Buying Console */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* ──────────────── Left Column: Cinema Media Showcase (Zero Cropping, Crisp Presentation) ──────────────── */}
+          <div className="lg:col-span-5 space-y-2.5">
             {/* Media Selector Tabs */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
               <button
                 type="button"
                 onClick={handlePlayVideo}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
                   activeMedia === 'video'
-                    ? 'bg-[#17233B] text-emerald-400 shadow-sm ring-2 ring-emerald-500/30'
-                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                    ? 'bg-[#17233B] text-emerald-400 shadow-xs ring-1 ring-black/10'
+                    : 'bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/80'
                 }`}
               >
                 <span className="relative flex h-2 w-2">
@@ -184,10 +184,10 @@ export default function MakhanaPromoSpotlight() {
               <button
                 type="button"
                 onClick={() => setActiveMedia('pouch')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
                   activeMedia === 'pouch'
-                    ? 'bg-[#17233B] text-[#C9A45C] shadow-sm'
-                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                    ? 'bg-[#17233B] text-[#C9A45C] shadow-xs'
+                    : 'bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/80'
                 }`}
               >
                 <span>📦</span>
@@ -197,10 +197,10 @@ export default function MakhanaPromoSpotlight() {
               <button
                 type="button"
                 onClick={() => setActiveMedia('poster')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
                   activeMedia === 'poster'
-                    ? 'bg-[#17233B] text-[#C9A45C] shadow-sm'
-                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                    ? 'bg-[#17233B] text-[#C9A45C] shadow-xs'
+                    : 'bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/80'
                 }`}
               >
                 <span>📜</span>
@@ -210,10 +210,10 @@ export default function MakhanaPromoSpotlight() {
               <button
                 type="button"
                 onClick={() => setActiveMedia('bowl')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 cursor-pointer ${
                   activeMedia === 'bowl'
-                    ? 'bg-[#17233B] text-[#C9A45C] shadow-sm'
-                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
+                    ? 'bg-[#17233B] text-[#C9A45C] shadow-xs'
+                    : 'bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/80'
                 }`}
               >
                 <span>🥣</span>
@@ -222,7 +222,7 @@ export default function MakhanaPromoSpotlight() {
             </div>
 
             {/* Main Media Stage (16:10 Ratio, max-h 315px, object-contain to PREVENT ANY CROPPING) */}
-            <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[16/10] max-h-[315px] w-full rounded-2xl overflow-hidden shadow-lg border-2 border-[#C9A45C]/35 bg-black group transition-all flex items-center justify-center">
+            <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[16/10] max-h-[315px] w-full rounded-2xl overflow-hidden shadow-xs border border-stone-200/80 bg-black group transition-all flex items-center justify-center">
               {/* Mode 1: HD Cinematic Video Player (Object-Contain so 100% of text and image is visible!) */}
               {activeMedia === 'video' && (
                 <div className="relative w-full h-full bg-black flex items-center justify-center">
@@ -238,7 +238,7 @@ export default function MakhanaPromoSpotlight() {
                     className="w-full h-full object-contain bg-black"
                   />
                   {/* Floating HD Badge */}
-                  <div className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-md text-white border border-white/20 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase flex items-center gap-1.5 pointer-events-none z-10">
+                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white border border-white/15 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase flex items-center gap-1.5 pointer-events-none z-10">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                     <span>Live HD Video</span>
                   </div>
@@ -246,12 +246,12 @@ export default function MakhanaPromoSpotlight() {
                   <button
                     type="button"
                     onClick={handleToggleSound}
-                    className="absolute top-2.5 right-2.5 bg-black/80 hover:bg-black text-white border border-white/20 px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 transition-all shadow-md z-10 cursor-pointer"
+                    className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white backdrop-blur-md border border-white/15 px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1 transition-all shadow-xs z-10 cursor-pointer"
                   >
                     <span>{isMuted ? '🔇 Sound Off' : '🔊 Sound On'}</span>
                   </button>
                   {/* Corner Ribbon */}
-                  <div className="absolute bottom-2.5 right-2.5 bg-[#0A1830]/90 backdrop-blur-md text-[#C9A45C] border border-[#C9A45C]/50 px-2 py-0.5 rounded-full shadow-lg text-[10px] font-bold font-mono tracking-wide z-10">
+                  <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md text-[#F3E5C8] border border-white/20 px-3 py-1 rounded-full shadow-xs text-[11px] font-bold font-mono tracking-wide z-10">
                     ₹899 / kg ONLY
                   </div>
                 </div>
@@ -267,10 +267,10 @@ export default function MakhanaPromoSpotlight() {
                     className="object-contain p-2"
                     sizes="(max-width: 1024px) 100vw, 45vw"
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-emerald-900/90 text-white px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase shadow-xs">
+                  <div className="absolute top-3 left-3 bg-emerald-900/90 text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase shadow-xs">
                     Nitrogen Crisp Seal
                   </div>
-                  <div className="absolute top-2.5 right-2.5 bg-[#0A1830] text-[#C9A45C] px-2 py-0.5 rounded-full text-[9px] font-bold font-mono">
+                  <div className="absolute top-3 right-3 bg-[#0A1830] text-[#C9A45C] px-2.5 py-1 rounded-full text-[10px] font-bold font-mono">
                     Grade: 6 Suta Whole
                   </div>
                 </div>
@@ -287,14 +287,14 @@ export default function MakhanaPromoSpotlight() {
                     className="object-contain"
                     sizes="(max-width: 1024px) 100vw, 45vw"
                   />
-                  <div className="absolute top-2.5 right-2.5 bg-[#0A1830]/95 backdrop-blur-md text-[#C9A45C] border border-[#C9A45C]/50 px-2 py-0.5 rounded-full shadow-lg text-[10px] font-bold font-mono tracking-wide z-10">
+                  <div className="absolute top-3 right-3 bg-[#0A1830]/95 backdrop-blur-md text-[#C9A45C] border border-[#C9A45C]/50 px-3 py-1 rounded-full shadow-xs text-[11px] font-bold font-mono tracking-wide z-10">
                     ₹899 / kg ONLY
                   </div>
                   {/* Enlarge Trigger */}
                   <button
                     type="button"
                     onClick={() => setIsPosterModalOpen(true)}
-                    className="absolute bottom-2.5 right-2.5 bg-[#17233B]/90 hover:bg-[#17233B] text-white backdrop-blur-md border border-white/20 px-2 py-0.5 rounded-full text-[9px] font-semibold flex items-center gap-1 shadow-md transition-all cursor-pointer z-10"
+                    className="absolute bottom-3 right-3 bg-[#17233B]/90 hover:bg-[#17233B] text-white backdrop-blur-md border border-white/20 px-2.5 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1 shadow-xs transition-all cursor-pointer z-10"
                   >
                     <span>🔍 Fullscreen Flyer</span>
                   </button>
@@ -311,83 +311,83 @@ export default function MakhanaPromoSpotlight() {
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 45vw"
                   />
-                  <div className="absolute bottom-2.5 left-2.5 bg-black/75 text-white backdrop-blur-md px-2.5 py-0.5 rounded-full text-[9px] font-bold">
+                  <div className="absolute bottom-3 left-3 bg-black/75 text-white backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-semibold">
                     🥣 Crisp Cloud Crunch (0% Trans Fat)
                   </div>
                 </div>
               )}
             </div>
 
-            {/* 4 Culinary Recipe Chips (Compact Single Row, No Viewport Overflow) */}
-            <div className="grid grid-cols-4 gap-1.5 text-center text-[10px] pt-0.5">
-              <div className="bg-white/90 p-1.5 rounded-lg border border-stone-200/80 shadow-2xs">
-                <span className="block font-bold text-stone-800">🥣 Roasted Ghee</span>
-                <span className="text-[8.5px] text-stone-500">Pure Crunch</span>
+            {/* 4 Culinary Recipe Chips (Crisp Apple Style Cards) */}
+            <div className="grid grid-cols-4 gap-2 text-center pt-1.5">
+              <div className="bg-white/80 hover:bg-white p-2 rounded-xl border border-stone-200/70 shadow-2xs hover:shadow-xs transition-all">
+                <span className="block font-semibold text-stone-800 text-[11px]">🥣 Roasted Ghee</span>
+                <span className="text-[9.5px] text-stone-500 mt-0.5 block">Pure Crunch</span>
               </div>
-              <div className="bg-white/90 p-1.5 rounded-lg border border-stone-200/80 shadow-2xs">
-                <span className="block font-bold text-stone-800">🍮 Kesar Kheer</span>
-                <span className="text-[8.5px] text-stone-500">Royal Sweet</span>
+              <div className="bg-white/80 hover:bg-white p-2 rounded-xl border border-stone-200/70 shadow-2xs hover:shadow-xs transition-all">
+                <span className="block font-semibold text-stone-800 text-[11px]">🍮 Kesar Kheer</span>
+                <span className="text-[9.5px] text-stone-500 mt-0.5 block">Royal Sweet</span>
               </div>
-              <div className="bg-white/90 p-1.5 rounded-lg border border-stone-200/80 shadow-2xs">
-                <span className="block font-bold text-stone-800">🍛 Curry &amp; Gravy</span>
-                <span className="text-[8.5px] text-stone-500">Mithila Feast</span>
+              <div className="bg-white/80 hover:bg-white p-2 rounded-xl border border-stone-200/70 shadow-2xs hover:shadow-xs transition-all">
+                <span className="block font-semibold text-stone-800 text-[11px]">🍛 Curry &amp; Gravy</span>
+                <span className="text-[9.5px] text-stone-500 mt-0.5 block">Mithila Feast</span>
               </div>
-              <div className="bg-white/90 p-1.5 rounded-lg border border-stone-200/80 shadow-2xs">
-                <span className="block font-bold text-stone-800">🥗 Clean Snack</span>
-                <span className="text-[8.5px] text-stone-500">High Protein</span>
+              <div className="bg-white/80 hover:bg-white p-2 rounded-xl border border-stone-200/70 shadow-2xs hover:shadow-xs transition-all">
+                <span className="block font-semibold text-stone-800 text-[11px]">🥗 Clean Snack</span>
+                <span className="text-[9.5px] text-stone-500 mt-0.5 block">High Protein</span>
               </div>
             </div>
           </div>
 
-          {/* ──────────────── Right Column: Compact Buying Console (Fits 100% Above the Fold) ──────────────── */}
-          <div className="lg:col-span-7 space-y-2.5">
+          {/* ──────────────── Right Column: Compact Buying Console (Apple-Grade Typography & Spacing) ──────────────── */}
+          <div className="lg:col-span-7 space-y-3.5 sm:space-y-4">
             {/* Offer Callout Banner */}
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase tracking-wider">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-[10px] font-bold uppercase tracking-wider">
                 Special Introductory Offer · 40% OFF
               </span>
-              <span className="text-[11px] font-semibold text-[#8B6D3B]">
+              <span className="text-xs font-medium text-stone-500">
                 Mithila GI Harvest · Jumbo 6 Suta Whole
               </span>
             </div>
 
             {/* Product Title & Sensory Subtitle */}
-            <div className="space-y-0.5">
-              <h1 className="font-serif text-2xl sm:text-3xl font-extrabold text-[#17233B] tracking-tight leading-tight">
+            <div className="space-y-1">
+              <h1 className="font-serif text-2xl sm:text-3xl lg:text-[34px] font-bold text-[#17233B] tracking-tight leading-tight">
                 NutyTales Premium Makhana
               </h1>
-              <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-600 line-clamp-2 leading-relaxed">
                 100% natural, sun-popped jumbo lotus seeds from Mithila. Rich in plant protein &amp; fibre, zero trans fats, and perfect for fasting (vrat), gym nutrition &amp; clean family snacking.
               </p>
             </div>
 
             {/* Integrated Price & In-Stock Status */}
-            <div className="p-2 sm:p-2.5 rounded-xl bg-white border border-stone-200/90 shadow-2xs flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-baseline gap-2">
-                <span className="font-serif text-2xl sm:text-3xl font-extrabold text-[#17233B]">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-white border border-stone-200/80 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-sans text-2xl sm:text-3xl font-extrabold text-[#17233B] tracking-tight">
                   ₹{totalPrice.toLocaleString('en-IN')}
                 </span>
-                <span className="text-xs text-stone-400 line-through">
+                <span className="text-sm text-stone-400 line-through font-normal">
                   ₹{totalMrp.toLocaleString('en-IN')}
                 </span>
-                <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-[11px] font-semibold">
                   Save ₹{totalSavings.toLocaleString('en-IN')} ({savingsPercent}% OFF)
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-emerald-700">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50/60 px-2.5 py-1 rounded-full border border-emerald-100">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Fresh Harvest In Stock · Dispatches 24h</span>
               </div>
             </div>
 
             {/* Pack Size Selector Pills */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-[11px]">
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs">
                 <span className="font-bold uppercase tracking-wider text-[#17233B]">Select Pack Size:</span>
                 <span className="text-stone-500 font-medium">Standard Price: ₹899 / kg</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
                 {PACK_OPTIONS.map((pack, idx) => {
                   const isSelected = selectedPackIndex === idx
                   return (
@@ -395,34 +395,34 @@ export default function MakhanaPromoSpotlight() {
                       key={pack.sizeG}
                       type="button"
                       onClick={() => setSelectedPackIndex(idx)}
-                      className={`p-1.5 sm:p-2 rounded-xl border text-left transition-all relative cursor-pointer ${
+                      className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all relative cursor-pointer ${
                         isSelected
-                          ? 'border-[#17233B] bg-[#17233B] text-white shadow-md'
-                          : 'border-stone-200 bg-white text-stone-800 hover:border-stone-300 hover:bg-stone-50'
+                          ? 'border-[#17233B] bg-[#17233B] text-white shadow-xs ring-1 ring-[#17233B]'
+                          : 'border-stone-200/90 bg-white text-stone-800 hover:border-stone-300 hover:bg-stone-50/50 shadow-2xs'
                       }`}
                     >
                       {pack.badge && (
                         <span
-                          className={`absolute -top-1.5 right-1.5 px-1.5 py-0.2 rounded text-[8px] font-bold ${
+                          className={`absolute -top-2 right-2 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide shadow-2xs ${
                             isSelected
                               ? 'bg-[#C9A45C] text-[#17233B]'
-                              : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                              : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                           }`}
                         >
                           {pack.badge}
                         </span>
                       )}
-                      <div className="font-bold text-[11px]">{pack.label}</div>
+                      <div className="font-semibold text-xs">{pack.label}</div>
                       <div
-                        className={`text-xs sm:text-sm font-bold font-mono mt-0.5 ${
-                          isSelected ? 'text-[#C9A45C]' : 'text-[#17233B]'
+                        className={`text-base font-bold font-sans mt-1 ${
+                          isSelected ? 'text-[#F3E5C8]' : 'text-[#17233B]'
                         }`}
                       >
                         ₹{pack.price}
                       </div>
                       <div
-                        className={`text-[9px] line-through ${
-                          isSelected ? 'text-white/60' : 'text-stone-400'
+                        className={`text-[10px] line-through mt-0.5 ${
+                          isSelected ? 'text-white/50' : 'text-stone-400'
                         }`}
                       >
                         ₹{pack.mrp}
@@ -433,24 +433,24 @@ export default function MakhanaPromoSpotlight() {
               </div>
             </div>
 
-            {/* ⚡ High-Converting Primary Action Cluster (Fully Above Fold) */}
-            <div className="space-y-1.5 pt-0.5">
-              <div className="flex items-stretch gap-2">
+            {/* ⚡ High-Converting Primary Action Cluster */}
+            <div className="space-y-2 pt-0.5">
+              <div className="flex items-stretch gap-2.5">
                 {/* Quantity Stepper */}
-                <div className="flex items-center justify-between border-2 border-stone-200 bg-white rounded-xl px-2 py-1 w-22 shrink-0 shadow-2xs">
+                <div className="flex items-center justify-between border border-stone-200/90 bg-white rounded-xl px-2 h-12 w-24 shrink-0 shadow-2xs">
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="text-stone-500 hover:text-stone-900 font-bold text-base px-1 cursor-pointer"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-stone-100 text-stone-600 hover:text-stone-900 font-medium text-lg transition-colors cursor-pointer"
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
-                  <span className="font-mono font-bold text-stone-900 text-xs sm:text-sm">{quantity}</span>
+                  <span className="font-sans font-bold text-stone-900 text-sm">{quantity}</span>
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="text-stone-500 hover:text-stone-900 font-bold text-base px-1 cursor-pointer"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-stone-100 text-stone-600 hover:text-stone-900 font-medium text-lg transition-colors cursor-pointer"
                     aria-label="Increase quantity"
                   >
                     +
@@ -461,9 +461,9 @@ export default function MakhanaPromoSpotlight() {
                 <button
                   type="button"
                   onClick={handleInstantBuy}
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-[#17233B] hover:bg-[#203050] text-[#F3E5C8] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group cursor-pointer border border-[#C9A45C]/40"
+                  className="flex-1 h-12 px-5 rounded-xl bg-[#17233B] hover:bg-[#203050] text-[#F3E5C8] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-xs hover:shadow-sm flex items-center justify-center gap-2 group cursor-pointer border border-[#C9A45C]/35 active:scale-[0.99]"
                 >
-                  <span className="text-amber-400 animate-pulse">⚡</span>
+                  <span className="text-amber-400">⚡</span>
                   <span>BUY NOW — INSTANT CHECKOUT</span>
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </button>
@@ -473,7 +473,7 @@ export default function MakhanaPromoSpotlight() {
                   type="button"
                   onClick={() => handleAddToCart(true)}
                   disabled={isAdding}
-                  className="py-2.5 px-3.5 rounded-xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-xs uppercase tracking-wider border-2 border-stone-300 transition-colors shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+                  className="h-12 px-4 rounded-xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-xs uppercase tracking-wider border border-stone-300 transition-colors shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer shrink-0 active:scale-[0.99]"
                 >
                   <span>🛒</span>
                   <span className="hidden sm:inline">Add to Cart</span>
@@ -481,16 +481,16 @@ export default function MakhanaPromoSpotlight() {
               </div>
 
               {addedMessage && (
-                <div className="p-1.5 bg-emerald-50 text-emerald-900 rounded-lg border border-emerald-200 text-xs font-bold text-center">
+                <div className="p-2 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-200 text-xs font-semibold text-center">
                   ✓ {addedMessage}
                 </div>
               )}
             </div>
 
             {/* Delivery Pincode Checker & WhatsApp Direct Link */}
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs pt-0.5">
-              <div className="sm:col-span-7 bg-white p-1.5 rounded-xl border border-stone-200/90 shadow-2xs">
-                <form onSubmit={handleCheckPincode} className="flex items-center gap-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs pt-0.5">
+              <div className="sm:col-span-7 bg-white p-2 rounded-xl border border-stone-200/90 shadow-2xs">
+                <form onSubmit={handleCheckPincode} className="flex items-center gap-2">
                   <span className="text-stone-400 text-xs">🚚</span>
                   <input
                     type="text"
@@ -498,18 +498,18 @@ export default function MakhanaPromoSpotlight() {
                     value={pincode}
                     onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
                     placeholder="Pincode (e.g. 110001)"
-                    className="flex-1 py-0.5 px-2 rounded border border-stone-200 text-[11px] focus:outline-none focus:border-[#17233B]"
+                    className="flex-1 py-1 px-2.5 rounded-lg border border-stone-200 text-xs focus:outline-none focus:border-[#17233B] focus:ring-1 focus:ring-[#17233B]"
                   />
                   <button
                     type="submit"
-                    className="px-2 py-0.5 rounded bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-[10px] transition cursor-pointer"
+                    className="px-3 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold text-xs transition-colors cursor-pointer"
                   >
                     Check
                   </button>
                 </form>
                 {pincodeStatus && (
                   <p
-                    className={`text-[9.5px] font-medium mt-0.5 ${
+                    className={`text-[10px] font-medium mt-1 ${
                       pincodeStatus.startsWith('✓') ? 'text-emerald-700' : 'text-amber-800'
                     }`}
                   >
@@ -522,21 +522,21 @@ export default function MakhanaPromoSpotlight() {
                 href={`https://wa.me/${whatsappPhone}?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="sm:col-span-5 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 p-1.5 rounded-xl border border-emerald-200 shadow-2xs flex items-center justify-center gap-1 font-bold text-[10px] sm:text-[11px] transition text-center"
+                className="sm:col-span-5 bg-emerald-50/80 hover:bg-emerald-100/90 text-emerald-900 p-2 rounded-xl border border-emerald-200 shadow-2xs flex items-center justify-center gap-1.5 font-bold text-xs transition-all text-center"
               >
                 <span>💬 Order on WhatsApp →</span>
               </a>
             </div>
 
             {/* Micro Trust Strip */}
-            <div className="flex flex-wrap items-center justify-between gap-1 pt-1 text-[9.5px] text-stone-500 font-medium border-t border-stone-200/60">
-              <span className="flex items-center gap-1">
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-3 text-xs text-stone-500 font-medium border-t border-stone-200/60">
+              <span className="flex items-center gap-1.5">
                 <span className="text-emerald-600 font-bold">✓</span> 100% Natural · Zero Preservatives
               </span>
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1.5">
                 <span className="text-emerald-600 font-bold">✓</span> Cash on Delivery Available
               </span>
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1.5">
                 <span className="text-emerald-600 font-bold">✓</span> Free Shipping over ₹999
               </span>
             </div>

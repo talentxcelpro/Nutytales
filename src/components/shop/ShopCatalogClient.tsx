@@ -16,6 +16,7 @@ interface ShopCatalogClientProps {
   initialCategory?: string
   initialOrigin?: string
   initialSort?: string
+  embedded?: boolean
 }
 
 const ORIGINS = [
@@ -44,6 +45,7 @@ export default function ShopCatalogClient({
   initialCategory,
   initialOrigin,
   initialSort = 'featured',
+  embedded = false,
 }: ShopCatalogClientProps) {
   const searchParams = useSearchParams()
   const paramCategory = searchParams?.get('category') || initialCategory || 'all'
@@ -181,7 +183,7 @@ export default function ShopCatalogClient({
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#17233B] pt-24 sm:pt-28 pb-24">
+    <div className={`min-h-screen bg-[#FDFBF7] text-[#17233B] ${embedded ? 'pt-8 sm:pt-12' : 'pt-24 sm:pt-28'} pb-24`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
         {/* ── 1. Global Luxury Minimalist Header (Single Row: Title + Inline Controls) ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAE3D5]">

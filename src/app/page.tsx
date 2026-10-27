@@ -130,7 +130,7 @@ export default function HomePage() {
 
       {/* ── Main Catalog Experience directly on Index Page ── */}
       <Suspense>
-        <ShopCatalogClient products={PRODUCTS} />
+        <ShopCatalogClient products={PRODUCTS} embedded />
       </Suspense>
     </>
   )
