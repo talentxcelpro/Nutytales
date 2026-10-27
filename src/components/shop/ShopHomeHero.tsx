@@ -109,7 +109,7 @@ export default function ShopHomeHero() {
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-stone-200/90 group bg-stone-100">
               <Image
-                src="/images/saffron-jar-5g.jpg"
+                src="/images/saffron-jar-5g.webp"
                 alt="Pure Kashmir Mongra Saffron GI-535 - Nuty Tales Shop"
                 fill
                 priority

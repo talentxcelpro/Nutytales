@@ -56,7 +56,7 @@ export default function HeritageHomePage() {
 
             <div className="lg:col-span-4 relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-[#FAF6EE] shadow-sm">
               <Image
-                src="/images/dark-wood-gourmet-tray.jpg"
+                src="/images/dark-wood-gourmet-tray.webp"
                 alt="Kashmiri Walnut Wood & Heritage Keepsakes"
                 fill
                 className="object-cover"

@@ -6,37 +6,37 @@ const CATEGORIES = [
     name: 'Almonds',
     slug: 'almonds',
     origin: 'California & Kashmir',
-    image: '/images/almonds-pouch-250g.jpg',
+    image: '/images/almonds-pouch-250g.webp',
   },
   {
     name: 'Cashews',
     slug: 'cashews',
     origin: 'W180, W240, W320',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
   },
   {
     name: 'Walnuts',
     slug: 'walnuts',
     origin: 'Kashmiri Snow Kernels',
-    image: '/images/walnuts-pouch-250g.jpg',
+    image: '/images/walnuts-pouch-250g.webp',
   },
   {
     name: 'Makhana',
     slug: 'makhana',
     origin: 'Mithila Grade A & Jumbo',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
   },
   {
     name: 'Pistachios',
     slug: 'pistachios',
     origin: 'Iranian Akbari & Afghan',
-    image: '/images/pistachios-pouch-250g.jpg',
+    image: '/images/pistachios-pouch-250g.webp',
   },
   {
     name: 'Gift Boxes',
     slug: 'gift-packs',
     origin: 'Festive & Corporate',
-    image: '/images/royal-tradition-box.jpg',
+    image: '/images/royal-tradition-box.webp',
   },
 ]
 
@@ -69,9 +69,8 @@ export default function CategoryTiles() {
                   alt={cat.name}
                   fill
                   sizes="(max-width: 768px) 50vw, 16vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="object-contain p-3 group-hover:scale-108 transition-transform duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,0.06)]"
                 />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
               </div>
 
               <div className="p-4 bg-white border-t border-[#17233B]/5">

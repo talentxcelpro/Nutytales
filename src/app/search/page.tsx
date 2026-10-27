@@ -274,13 +274,17 @@ function SearchContent() {
                   className="bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col group"
                 >
                   {/* Card Image */}
-                  <div className="relative aspect-[4/3] bg-stone-100 overflow-hidden">
+                  <div className="relative aspect-[4/3] bg-[#FAF5ED] overflow-hidden flex items-center justify-center">
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className={`transition-transform duration-300 ${
+                        item.image.includes('pouch') || item.image.includes('jar') || item.image.includes('box') || item.image.includes('hamper') || item.image.includes('akhrot') || item.image.includes('badam')
+                          ? 'object-contain p-3 group-hover:scale-105 drop-shadow-[0_8px_16px_rgba(0,0,0,0.06)]'
+                          : 'object-cover group-hover:scale-105'
+                      }`}
                     />
                     <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1">
                       <span className="px-2 py-0.5 rounded-md bg-[#17233B]/90 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm">

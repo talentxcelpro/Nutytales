@@ -191,7 +191,7 @@ export default function GiftingCartPage() {
                     <div className="flex items-center gap-4 min-w-0">
                       <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#FAF7F2] border border-stone-200 flex-shrink-0">
                         {item.image ? (
-                          <Image src={item.image} alt={item.name} fill className="object-cover" />
+                          <Image src={item.image} alt={item.name} fill className="object-contain p-2 drop-shadow-xs" />
                         ) : (
                           <span className="text-2xl flex items-center justify-center h-full">🎁</span>
                         )}

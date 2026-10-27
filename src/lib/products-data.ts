@@ -114,10 +114,10 @@ export const PRODUCTS: Product[] = [
       { minQtyKg: 100, maxQtyKg: null, pricePerKg: 0, savingsPercent: 0 },
     ],
     stockStatus: 'IN_STOCK',
-    image: '/images/promo-makhana-899.png',
+    image: '/images/promo-makhana-899.webp',
     images: [
-      '/images/promo-makhana-899.png',
-      '/images/makhana-pouch-250g.jpg',
+      '/images/promo-makhana-899.webp',
+      '/images/makhana-pouch-250g.webp',
       '/images/hero-lifestyle-bowl.png',
     ],
     video: '/videos/makhana-showcase.mp4',
@@ -127,7 +127,7 @@ export const PRODUCTS: Product[] = [
       harvestSeason: 'Fresh Harvest 2025/2026',
       oilIndex: 'Zero Trans Fat · Naturally Low Calorie',
       crunchScore: 5,
-      secondaryImage: '/images/makhana-pouch-250g.jpg',
+      secondaryImage: '/images/makhana-pouch-250g.webp',
     },
     isFeatured: true,
     shelfLifeMonths: 12,
@@ -154,7 +154,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1250),
     b2bTiers: buildTiers(1120),
     stockStatus: 'IN_STOCK',
-    image: '/images/almonds-pouch-250g.jpg',
+    image: '/images/almonds-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Crisp Snap', 'Toasted Sweetness', 'Mild Almond Cream'],
       altitude: 'San Joaquin Valley, California',
@@ -186,7 +186,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(4200),
     b2bTiers: buildTiers(3600),
     stockStatus: 'IN_STOCK',
-    image: '/images/mamra-almonds-pouch-250g.jpg',
+    image: '/images/mamra-almonds-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Rich Cold-Pressed Butter', 'Subtle Pine Honey', 'Dense Crunch'],
       altitude: '1,650m (Pulwama Valley)',
@@ -218,7 +218,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1380),
     b2bTiers: buildTiers(1220),
     stockStatus: 'IN_STOCK',
-    image: '/images/almonds-pouch-250g.jpg',
+    image: '/images/almonds-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Once opened, consume within 30 days.',
@@ -242,7 +242,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1150),
     b2bTiers: buildTiers(980),
     stockStatus: 'IN_STOCK',
-    image: '/images/kashmir-kagzi-badam-250g.jpg',
+    image: '/images/kashmir-kagzi-badam-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 18,
     storage: 'Store in a cool, dry place. Crack open fresh for best flavor.',
@@ -266,7 +266,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1850),
     b2bTiers: buildTiers(1620),
     stockStatus: 'IN_STOCK',
-    image: '/images/gurbandi-almonds-pouch-250g.jpg',
+    image: '/images/gurbandi-almonds-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Deep Cold-Pressed Oil', 'Subtle Herbal Bittersweet', 'Dense Firm Snap'],
       altitude: 'Gurband Highlands (2,100m)',
@@ -301,7 +301,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1450),
     b2bTiers: buildTiers(1280),
     stockStatus: 'IN_STOCK',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Velvety Sweet Cream', 'Silky Melt', 'Subtle Cashew Fruit'],
       altitude: 'Coastal Karnataka & Goa',
@@ -333,7 +333,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1350),
     b2bTiers: buildTiers(1180),
     stockStatus: 'IN_STOCK',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 12,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -357,7 +357,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1580),
     b2bTiers: buildTiers(1380),
     stockStatus: 'LOW_STOCK',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Store in an airtight container. Consume within 45 days of opening.',
@@ -381,7 +381,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1850),
     b2bTiers: buildTiers(1620),
     stockStatus: 'IN_STOCK',
-    image: '/images/cashews-w180-pouch-250g.jpg',
+    image: '/images/cashews-w180-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Velvety Clotted Cream', 'Natural Raw Sweetness', 'Buttery Soft Snap'],
       altitude: 'Goan Coastal Plateau',
@@ -416,7 +416,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(980),
     b2bTiers: buildTiers(850),
     stockStatus: 'IN_STOCK',
-    image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+    image: '/images/kashmir-kagzi-akhrot-250g.webp',
     sensory: {
       tastingNotes: ['Snow-White Flesh', 'Zero Bitterness', 'Buttery Walnut Finish'],
       altitude: '1,800m (Anantnag & Shopian)',
@@ -448,7 +448,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1950),
     b2bTiers: buildTiers(1720),
     stockStatus: 'IN_STOCK',
-    image: '/images/walnuts-pouch-250g.jpg',
+    image: '/images/walnuts-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Refrigerate after opening. Best consumed within 3 months.',
@@ -474,7 +474,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1650),
     b2bTiers: buildTiers(1450),
     stockStatus: 'IN_STOCK',
-    image: '/images/pistachios-pouch-250g.jpg',
+    image: '/images/pistachios-pouch-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 12,
     storage: 'Store in a cool, dry place. Refrigerate for extended freshness.',
@@ -498,7 +498,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2400),
     b2bTiers: buildTiers(2100),
     stockStatus: 'IN_STOCK',
-    image: '/images/pistachios-pouch-250g.jpg',
+    image: '/images/pistachios-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 12,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -522,7 +522,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(3850),
     b2bTiers: buildTiers(3350),
     stockStatus: 'IN_STOCK',
-    image: '/images/pista-slivers-pouch-250g.jpg',
+    image: '/images/pista-slivers-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Fresh Pine Nut Meadow', 'Delicate Sweet Cream', 'Silky Crisp Shavings'],
       altitude: 'Northwest Mountain Valleys',
@@ -557,7 +557,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(580),
     b2bTiers: buildTiers(490),
     stockStatus: 'IN_STOCK',
-    image: '/images/raisins-pouch-250g.jpg',
+    image: '/images/raisins-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 12,
     storage: 'Store in an airtight container. Refrigerate in summer.',
@@ -581,7 +581,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(650),
     b2bTiers: buildTiers(550),
     stockStatus: 'IN_STOCK',
-    image: '/images/black-raisins-pouch-250g.jpg',
+    image: '/images/black-raisins-pouch-250g.webp',
     sensory: {
       secondaryImage: '/images/black-munakka-macro.jpg',
     },
@@ -608,7 +608,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(950),
     b2bTiers: buildTiers(820),
     stockStatus: 'IN_STOCK',
-    image: '/images/black-raisins-pouch-250g.jpg',
+    image: '/images/black-raisins-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Dark Berry Molasses', 'Mellow Wine Fruit', 'Soft Succulent Chew'],
       altitude: 'Sun-Drenched Deccan & Afghan Hills',
@@ -643,7 +643,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1200),
     b2bTiers: buildTiers(1050),
     stockStatus: 'IN_STOCK',
-    image: '/images/dates-box-250g.jpg',
+    image: '/images/dates-box-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 18,
     storage: 'Refrigerate for longer shelf life. Can be kept at room temperature for up to 3 months.',
@@ -667,7 +667,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(950),
     b2bTiers: buildTiers(820),
     stockStatus: 'IN_STOCK',
-    image: '/images/dates-box-250g.jpg',
+    image: '/images/dates-box-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 24,
     storage: 'Store in a cool, dry place. Refrigerate after opening.',
@@ -691,7 +691,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2450),
     b2bTiers: buildTiers(2150),
     stockStatus: 'IN_STOCK',
-    image: '/images/ajwa-dates-pouch-250g.jpg',
+    image: '/images/ajwa-dates-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Silky Black Caramel', 'Mellow Brown Sugar', 'Soft Melting Pulp'],
       altitude: 'Madinah Date Oases',
@@ -726,7 +726,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1650),
     b2bTiers: buildTiers(1450),
     stockStatus: 'IN_STOCK',
-    image: '/images/anjeer-pouch-250g.jpg',
+    image: '/images/anjeer-pouch-250g.webp',
     sensory: {
       secondaryImage: '/images/anjeer-macro.jpg',
     },
@@ -753,7 +753,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1950),
     b2bTiers: buildTiers(1720),
     stockStatus: 'LOW_STOCK',
-    image: '/images/anjeer-pouch-250g.jpg',
+    image: '/images/anjeer-pouch-250g.webp',
     sensory: {
       secondaryImage: '/images/anjeer-macro.jpg',
     },
@@ -780,7 +780,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2450),
     b2bTiers: buildTiers(2150),
     stockStatus: 'IN_STOCK',
-    image: '/images/anjeer-mala-pouch-250g.jpg',
+    image: '/images/anjeer-mala-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Caramelized Wild Honey', 'Nutty Seed Crunch', 'Rich Molasses Fig'],
       altitude: 'Kandahar Foothills (1,800m)',
@@ -813,7 +813,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1250),
     b2bTiers: buildTiers(1080),
     stockStatus: 'IN_STOCK',
-    image: '/images/apricots-pouch-250g.jpg',
+    image: '/images/apricots-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Floral Honey Glaze', 'Velvety Sun-Dried Stonefruit', 'Sweet Edible Nut Interior'],
       altitude: 'Ladakh High Valleys (3,100m)',
@@ -848,7 +848,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1750),
     b2bTiers: buildTiers(1520),
     stockStatus: 'IN_STOCK',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 12,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -872,7 +872,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2400),
     b2bTiers: buildTiers(2100),
     stockStatus: 'IN_STOCK',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Consume within 30 days of opening.',
@@ -898,7 +898,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(399),
     b2bTiers: buildTiers(350),
     stockStatus: 'IN_STOCK',
-    image: '/images/chia-seeds-pouch-250g.jpg',
+    image: '/images/chia-seeds-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 24,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -922,7 +922,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(550),
     b2bTiers: buildTiers(480),
     stockStatus: 'IN_STOCK',
-    image: '/images/pumpkin-seeds-pouch-250g.jpg',
+    image: '/images/pumpkin-seeds-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 12,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -948,7 +948,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1950),
     b2bTiers: buildTiers(1700),
     stockStatus: 'IN_STOCK',
-    image: '/images/nut-mix-pouch-250g.jpg',
+    image: '/images/nut-mix-pouch-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Refrigerate after opening.',
@@ -972,7 +972,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1450),
     b2bTiers: buildTiers(1280),
     stockStatus: 'IN_STOCK',
-    image: '/images/nut-mix-pouch-250g.jpg',
+    image: '/images/nut-mix-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Keep away from moisture.',
@@ -998,7 +998,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(980),
     b2bTiers: buildTiers(850),
     stockStatus: 'IN_STOCK',
-    image: '/images/nut-mix-pouch-250g.jpg',
+    image: '/images/nut-mix-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Consume within 30 days of opening.',
@@ -1022,7 +1022,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(450),
     b2bTiers: buildTiers(390),
     stockStatus: 'IN_STOCK',
-    image: '/images/seeds-mix-pouch-250g.jpg',
+    image: '/images/seeds-mix-pouch-250g.webp',
     isFeatured: false,
     shelfLifeMonths: 9,
     storage: 'Store in an airtight container in a cool, dry place.',
@@ -1051,7 +1051,7 @@ export const PRODUCTS: Product[] = [
     ],
     b2bTiers: buildTiers(2600),
     stockStatus: 'IN_STOCK',
-    image: '/images/luxury-teal-gift-box.jpg',
+    image: '/images/luxury-teal-gift-box.webp',
     isFeatured: true,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Individual contents have varying storage requirements.',
@@ -1078,7 +1078,7 @@ export const PRODUCTS: Product[] = [
     ],
     b2bTiers: buildTiers(1150),
     stockStatus: 'IN_STOCK',
-    image: '/images/royal-tradition-box.jpg',
+    image: '/images/royal-tradition-box.webp',
     isFeatured: false,
     shelfLifeMonths: 6,
     storage: 'Store in a cool, dry place. Each individual pouch is resealable.',
@@ -1111,7 +1111,7 @@ export const PRODUCTS: Product[] = [
       { minQtyKg: 0.1, maxQtyKg: null, pricePerKg: 150000, savingsPercent: 10 },
     ],
     stockStatus: 'IN_STOCK',
-    image: '/images/saffron-jar-5g.jpg',
+    image: '/images/saffron-jar-5g.webp',
     sensory: {
       tastingNotes: ['Honeyed Hay & Warm Earth', 'Intense Crimson Bloom', 'Mild Bittersweet Spice'],
       altitude: '1,600m (Karewa Plateau, Pampore)',
@@ -1150,7 +1150,7 @@ export const PRODUCTS: Product[] = [
       { minQtyKg: 0.1, maxQtyKg: null, pricePerKg: 125000, savingsPercent: 10 },
     ],
     stockStatus: 'IN_STOCK',
-    image: '/images/iran-saffron-jar-5g.jpg',
+    image: '/images/iran-saffron-jar-5g.webp',
     isFeatured: true,
     shelfLifeMonths: 24,
     storage: 'Store in a cool, dark place away from light and humidity.',
@@ -1180,7 +1180,7 @@ export const PRODUCTS: Product[] = [
     ],
     b2bTiers: buildTiers(580),
     stockStatus: 'IN_STOCK',
-    image: '/images/kashmir-honey-jar-500g.jpg',
+    image: '/images/kashmir-honey-jar-500g.webp',
     isFeatured: true,
     shelfLifeMonths: 36,
     storage: 'Store at room temperature. Do not refrigerate.',
@@ -1208,7 +1208,7 @@ export const PRODUCTS: Product[] = [
     ],
     b2bTiers: buildTiers(720),
     stockStatus: 'IN_STOCK',
-    image: '/images/kashmir-honey-jar-500g.jpg',
+    image: '/images/kashmir-honey-jar-500g.webp',
     isFeatured: false,
     shelfLifeMonths: 36,
     storage: 'Store at room temperature in a dry location.',
@@ -1234,7 +1234,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2650),
     b2bTiers: buildTiers(2320),
     stockStatus: 'IN_STOCK',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
     isFeatured: true,
     shelfLifeMonths: 6,
     storage: 'Store in an airtight container once unsealed to preserve crunch.',
@@ -1259,7 +1259,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(5800),
     b2bTiers: buildTiers(5100),
     stockStatus: 'IN_STOCK',
-    image: '/images/chilgoza-pouch-250g.jpg',
+    image: '/images/chilgoza-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Sweet cedar aroma', 'Melting buttery texture', 'Subtle resinous undertone'],
       altitude: '2,600m - Hindu Kush High Altitudes',
@@ -1291,7 +1291,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(950),
     b2bTiers: buildTiers(820),
     stockStatus: 'IN_STOCK',
-    image: '/images/abjosh-raisins-pouch-250g.jpg',
+    image: '/images/abjosh-raisins-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Sun-ripened grape nectar', 'Wild floral honey', 'Silky tender chew'],
       altitude: '1,050m - Arid Kandahar Basins',
@@ -1324,7 +1324,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1650),
     b2bTiers: buildTiers(1420),
     stockStatus: 'IN_STOCK',
-    image: '/images/mabroom-dates-pouch-250g.jpg',
+    image: '/images/mabroom-dates-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Burnt caramel toffee', 'Firm resilient chew', 'Subtle malt aroma'],
       altitude: '600m - Volcanic Madinah Oasis',
@@ -1356,7 +1356,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1450),
     b2bTiers: buildTiers(1250),
     stockStatus: 'IN_STOCK',
-    image: '/images/barberries-pouch-250g.jpg',
+    image: '/images/barberries-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Electric crimson tartness', 'Citrus berry aroma', 'Puffed tender texture'],
       altitude: '1,800m - South Khorasan Terraces',
@@ -1389,7 +1389,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1150),
     b2bTiers: buildTiers(980),
     stockStatus: 'IN_STOCK',
-    image: '/images/cranberries-pouch-250g.jpg',
+    image: '/images/cranberries-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Zesty tart berry', 'Caramelized cane sweetness', 'Juicy succulent chew'],
       altitude: '250m - Glacial Peat Bogs',
@@ -1421,7 +1421,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1850),
     b2bTiers: buildTiers(1580),
     stockStatus: 'IN_STOCK',
-    image: '/images/blueberries-pouch-250g.jpg',
+    image: '/images/blueberries-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Intense wild blueberry', 'Subtle floral tang', 'Soft tender skin'],
       altitude: '300m - Glacial Barrens',
@@ -1453,7 +1453,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1100),
     b2bTiers: buildTiers(920),
     stockStatus: 'IN_STOCK',
-    image: '/images/prunes-pouch-250g.jpg',
+    image: '/images/prunes-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Deep spiced plum', 'Malted honey notes', 'Velvety moist texture'],
       altitude: '150m - Sacramento River Valley',
@@ -1485,7 +1485,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(2400),
     b2bTiers: buildTiers(2050),
     stockStatus: 'IN_STOCK',
-    image: '/images/pecans-pouch-250g.jpg',
+    image: '/images/pecans-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Creamy maple undertone', 'Rich buttery sweetness', 'Tender crisp break'],
       altitude: '200m - Central Valley Orchards',
@@ -1518,7 +1518,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1650),
     b2bTiers: buildTiers(1420),
     stockStatus: 'IN_STOCK',
-    image: '/images/pepper-cashews-pouch-250g.jpg',
+    image: '/images/pepper-cashews-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Zesty pungent Tellicherry kick', 'Creamy sweet nut heart', 'Subtle toasted coconut'],
       altitude: 'Coastal Foothills - Western Ghats',
@@ -1550,7 +1550,7 @@ export const PRODUCTS: Product[] = [
     variants: buildVariants(1750),
     b2bTiers: buildTiers(1500),
     stockStatus: 'IN_STOCK',
-    image: '/images/himachal-walnuts-pouch-250g.jpg',
+    image: '/images/himachal-walnuts-pouch-250g.webp',
     sensory: {
       tastingNotes: ['Earthy alpine forest', 'Intense buttery walnut oil', 'Pleasant mild astringency'],
       altitude: '2,400m - Kinnaur Himalayan Terraces',
@@ -1656,7 +1656,7 @@ export function getProductDynamicGallery(product: Product): string[] {
   } else if (slug.includes('black') || slug.includes('munakka')) {
     list.push('/images/black-munakka-macro.jpg')
   } else if (cat.includes('raisin') || slug.includes('kishmish') || slug.includes('abjosh')) {
-    list.push('/images/raisins-pouch-250g.jpg')
+    list.push('/images/raisins-pouch-250g.webp')
   } else if (cat.includes('apricot') || slug.includes('apricot') || slug.includes('khubani')) {
     list.push('/images/apricot-halman-macro.jpg')
   } else if (slug.includes('ajwa') || cat.includes('date') || slug.includes('date')) {
@@ -1664,11 +1664,11 @@ export function getProductDynamicGallery(product: Product): string[] {
   } else if (cat.includes('saffron') || slug.includes('saffron')) {
     list.push('/images/saffron-threads-macro.jpg')
   } else if (cat.includes('honey') || slug.includes('honey')) {
-    list.push('/images/kashmir-honey-jar-500g.jpg')
+    list.push('/images/kashmir-honey-jar-500g.webp')
   } else if (cat.includes('makhana') || slug.includes('makhana')) {
-    list.push('/images/makhana-pouch-250g.jpg')
+    list.push('/images/makhana-pouch-250g.webp')
   } else {
-    list.push('/images/seeds-mix-pouch-250g.jpg')
+    list.push('/images/seeds-mix-pouch-250g.webp')
   }
 
   // 3. Culinary lifestyle presentation in artisan ceramic bowl
@@ -1676,9 +1676,9 @@ export function getProductDynamicGallery(product: Product): string[] {
 
   // 4. Fine dining luxury table display
   if (cat === 'saffron' || cat === 'honey') {
-    list.push('/images/crystal-gold-nut-bowls.jpg')
+    list.push('/images/crystal-gold-nut-bowls.webp')
   } else {
-    list.push('/images/dark-wood-gourmet-tray.jpg')
+    list.push('/images/dark-wood-gourmet-tray.webp')
   }
 
   // 5. Nutytales Certified Purity & FSSAI Seal (Official Brand Badge)
@@ -1692,10 +1692,10 @@ export function getProductDynamicGallery(product: Product): string[] {
 
   // 8. Luxury Festive Hamper Presentation Context
   if (cat === 'gifting' || slug.includes('box') || slug.includes('hamper')) {
-    list.push('/images/luxury-hamper-jars.png')
-    list.push('/images/long-festive-gift-box.jpg')
+    list.push('/images/luxury-hamper-jars.webp')
+    list.push('/images/long-festive-gift-box.webp')
   } else {
-    list.push('/images/luxury-teal-gift-box.jpg')
+    list.push('/images/luxury-teal-gift-box.webp')
   }
 
   return Array.from(new Set(list))

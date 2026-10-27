@@ -9,7 +9,7 @@ const FOUR_DOORS = [
     desc: 'California almonds, W240 cashews, Kashmiri Kagzi walnuts, Mongra saffron, raw honey, and Mithila makhana.',
     link: '/shop',
     linkText: 'Shop Collection →',
-    image: '/images/crystal-gold-nut-bowls.jpg',
+    image: '/images/crystal-gold-nut-bowls.webp',
   },
   {
     tag: 'Gift',
@@ -18,7 +18,7 @@ const FOUR_DOORS = [
     desc: 'Bespoke hampers pairing gourmet dry fruits with handcrafted papier-mâché, custom logo engraving, and pan-India delivery.',
     link: '/corporate-gifting',
     linkText: 'Explore Gifting →',
-    image: '/images/crafts-gifting-box.jpg',
+    image: '/images/crafts-gifting-box.webp',
   },
   {
     tag: 'Stay',

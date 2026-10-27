@@ -88,7 +88,7 @@ export default function RegionalLandingClient({
               <div className="relative rounded-3xl bg-gradient-to-b from-white/15 to-white/5 p-6 border border-white/20 shadow-2xl backdrop-blur-md">
                 <div className="aspect-square rounded-2xl overflow-hidden relative bg-stone-900 border border-white/10">
                   <Image
-                    src={featuredProducts[0]?.baseProduct.image || '/images/luxury-hamper-jars.png'}
+                    src={featuredProducts[0]?.baseProduct.image || '/images/luxury-hamper-jars.webp'}
                     alt={config.brandName}
                     fill
                     priority
@@ -194,7 +194,7 @@ export default function RegionalLandingClient({
               <div className="space-y-3">
                 <div className="aspect-square rounded-2xl overflow-hidden relative bg-stone-900 border border-white/10">
                   <Image
-                    src={item.baseProduct.image || '/images/luxury-hamper-jars.png'}
+                    src={item.baseProduct.image || '/images/luxury-hamper-jars.webp'}
                     alt={item.regionalName}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

@@ -982,7 +982,7 @@ export const STAY_PROPERTIES: StayProperty[] = [
         bedConfig: '1 Royal Teak King Bed',
         sizeSqFt: 480,
         amenities: ['Courtyard View', 'Antique Teak Furnishings', 'Private Veranda', 'Organic Makhana Bar'],
-        images: ['/images/crystal-gold-nut-bowls.jpg'],
+        images: ['/images/crystal-gold-nut-bowls.webp'],
         description: 'Immaculately restored heritage suite honoring ancient Mithila culture with original high ceilings and brass detailing.',
       },
     ],

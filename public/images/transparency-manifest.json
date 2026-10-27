@@ -1,0 +1,1259 @@
+{
+  "created_at": "2026-10-27 16:25:04",
+  "total_audited": 50,
+  "successfully_converted": 50,
+  "already_transparent": 0,
+  "failed": 0,
+  "items": [
+    {
+      "source": "public/images/abjosh-raisins-pouch-250g.jpg",
+      "webp": "/images/abjosh-raisins-pouch-250g.webp",
+      "png": "/images/abjosh-raisins-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.8%",
+        "transparent_pixels": 553219,
+        "opaque_pixels": 481601,
+        "edge_pixels": 13756,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/ajwa-dates-pouch-250g.jpg",
+      "webp": "/images/ajwa-dates-pouch-250g.webp",
+      "png": "/images/ajwa-dates-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552242,
+        "opaque_pixels": 482311,
+        "edge_pixels": 14023,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/almonds-pouch-250g.jpg",
+      "webp": "/images/almonds-pouch-250g.webp",
+      "png": "/images/almonds-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551879,
+        "opaque_pixels": 482602,
+        "edge_pixels": 14095,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/anjeer-mala-pouch-250g.jpg",
+      "webp": "/images/anjeer-mala-pouch-250g.webp",
+      "png": "/images/anjeer-mala-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552099,
+        "opaque_pixels": 482358,
+        "edge_pixels": 14119,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/anjeer-pouch-250g.jpg",
+      "webp": "/images/anjeer-pouch-250g.webp",
+      "png": "/images/anjeer-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552411,
+        "opaque_pixels": 482076,
+        "edge_pixels": 14089,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/apricots-pouch-250g.jpg",
+      "webp": "/images/apricots-pouch-250g.webp",
+      "png": "/images/apricots-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552386,
+        "opaque_pixels": 482043,
+        "edge_pixels": 14147,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/barberries-pouch-250g.jpg",
+      "webp": "/images/barberries-pouch-250g.webp",
+      "png": "/images/barberries-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552426,
+        "opaque_pixels": 481990,
+        "edge_pixels": 14160,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/black-raisins-pouch-250g.jpg",
+      "webp": "/images/black-raisins-pouch-250g.webp",
+      "png": "/images/black-raisins-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552803,
+        "opaque_pixels": 481916,
+        "edge_pixels": 13857,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/blueberries-pouch-250g.jpg",
+      "webp": "/images/blueberries-pouch-250g.webp",
+      "png": "/images/blueberries-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551488,
+        "opaque_pixels": 483006,
+        "edge_pixels": 14082,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/cashews-pouch-250g.jpg",
+      "webp": "/images/cashews-pouch-250g.webp",
+      "png": "/images/cashews-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 552018,
+        "opaque_pixels": 482482,
+        "edge_pixels": 14076,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/cashews-w180-pouch-250g.jpg",
+      "webp": "/images/cashews-w180-pouch-250g.webp",
+      "png": "/images/cashews-w180-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552816,
+        "opaque_pixels": 481868,
+        "edge_pixels": 13892,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/chia-seeds-pouch-250g.jpg",
+      "webp": "/images/chia-seeds-pouch-250g.webp",
+      "png": "/images/chia-seeds-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.8%",
+        "transparent_pixels": 532837,
+        "opaque_pixels": 499204,
+        "edge_pixels": 16535,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/chilgoza-pouch-250g.jpg",
+      "webp": "/images/chilgoza-pouch-250g.webp",
+      "png": "/images/chilgoza-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551274,
+        "opaque_pixels": 482977,
+        "edge_pixels": 14325,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/cranberries-pouch-250g.jpg",
+      "webp": "/images/cranberries-pouch-250g.webp",
+      "png": "/images/cranberries-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552125,
+        "opaque_pixels": 482247,
+        "edge_pixels": 14204,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gurbandi-almonds-pouch-250g.jpg",
+      "webp": "/images/gurbandi-almonds-pouch-250g.webp",
+      "png": "/images/gurbandi-almonds-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 553070,
+        "opaque_pixels": 481658,
+        "edge_pixels": 13848,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/himachal-walnuts-pouch-250g.jpg",
+      "webp": "/images/himachal-walnuts-pouch-250g.webp",
+      "png": "/images/himachal-walnuts-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551789,
+        "opaque_pixels": 482690,
+        "edge_pixels": 14097,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/kashmir-kagzi-akhrot-250g.jpg",
+      "webp": "/images/kashmir-kagzi-akhrot-250g.webp",
+      "png": "/images/kashmir-kagzi-akhrot-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "49.9%",
+        "transparent_pixels": 523009,
+        "opaque_pixels": 512476,
+        "edge_pixels": 13091,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/kashmir-kagzi-badam-250g.jpg",
+      "webp": "/images/kashmir-kagzi-badam-250g.webp",
+      "png": "/images/kashmir-kagzi-badam-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551041,
+        "opaque_pixels": 484834,
+        "edge_pixels": 12701,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/mabroom-dates-pouch-250g.jpg",
+      "webp": "/images/mabroom-dates-pouch-250g.webp",
+      "png": "/images/mabroom-dates-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552759,
+        "opaque_pixels": 481736,
+        "edge_pixels": 14081,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/makhana-pouch-250g.jpg",
+      "webp": "/images/makhana-pouch-250g.webp",
+      "png": "/images/makhana-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.9%",
+        "transparent_pixels": 533569,
+        "opaque_pixels": 504994,
+        "edge_pixels": 10013,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/mamra-almonds-pouch-250g.jpg",
+      "webp": "/images/mamra-almonds-pouch-250g.webp",
+      "png": "/images/mamra-almonds-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551774,
+        "opaque_pixels": 482741,
+        "edge_pixels": 14061,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/nut-mix-pouch-250g.jpg",
+      "webp": "/images/nut-mix-pouch-250g.webp",
+      "png": "/images/nut-mix-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.8%",
+        "transparent_pixels": 532981,
+        "opaque_pixels": 498929,
+        "edge_pixels": 16666,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/pecans-pouch-250g.jpg",
+      "webp": "/images/pecans-pouch-250g.webp",
+      "png": "/images/pecans-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552968,
+        "opaque_pixels": 481505,
+        "edge_pixels": 14103,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/pepper-cashews-pouch-250g.jpg",
+      "webp": "/images/pepper-cashews-pouch-250g.webp",
+      "png": "/images/pepper-cashews-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.7%",
+        "transparent_pixels": 552136,
+        "opaque_pixels": 482472,
+        "edge_pixels": 13968,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/pista-slivers-pouch-250g.jpg",
+      "webp": "/images/pista-slivers-pouch-250g.webp",
+      "png": "/images/pista-slivers-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.6%",
+        "transparent_pixels": 551389,
+        "opaque_pixels": 483105,
+        "edge_pixels": 14082,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/pistachios-pouch-250g.jpg",
+      "webp": "/images/pistachios-pouch-250g.webp",
+      "png": "/images/pistachios-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "54.1%",
+        "transparent_pixels": 567462,
+        "opaque_pixels": 469033,
+        "edge_pixels": 12081,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/prunes-pouch-250g.jpg",
+      "webp": "/images/prunes-pouch-250g.webp",
+      "png": "/images/prunes-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "52.8%",
+        "transparent_pixels": 553774,
+        "opaque_pixels": 480943,
+        "edge_pixels": 13859,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/pumpkin-seeds-pouch-250g.jpg",
+      "webp": "/images/pumpkin-seeds-pouch-250g.webp",
+      "png": "/images/pumpkin-seeds-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.9%",
+        "transparent_pixels": 533532,
+        "opaque_pixels": 498443,
+        "edge_pixels": 16601,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/raisins-pouch-250g.jpg",
+      "webp": "/images/raisins-pouch-250g.webp",
+      "png": "/images/raisins-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "46.6%",
+        "transparent_pixels": 488832,
+        "opaque_pixels": 547713,
+        "edge_pixels": 12031,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/seeds-mix-pouch-250g.jpg",
+      "webp": "/images/seeds-mix-pouch-250g.webp",
+      "png": "/images/seeds-mix-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.8%",
+        "transparent_pixels": 532822,
+        "opaque_pixels": 499306,
+        "edge_pixels": 16448,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/walnuts-pouch-250g.jpg",
+      "webp": "/images/walnuts-pouch-250g.webp",
+      "png": "/images/walnuts-pouch-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "49.8%",
+        "transparent_pixels": 521867,
+        "opaque_pixels": 513576,
+        "edge_pixels": 13133,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/iran-saffron-jar-5g.jpg",
+      "webp": "/images/iran-saffron-jar-5g.webp",
+      "png": "/images/iran-saffron-jar-5g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "57.0%",
+        "transparent_pixels": 597562,
+        "opaque_pixels": 439750,
+        "edge_pixels": 11264,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/kashmir-honey-jar-500g.jpg",
+      "webp": "/images/kashmir-honey-jar-500g.webp",
+      "png": "/images/kashmir-honey-jar-500g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "51.4%",
+        "transparent_pixels": 539160,
+        "opaque_pixels": 456788,
+        "edge_pixels": 52628,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/saffron-jar-5g.jpg",
+      "webp": "/images/saffron-jar-5g.webp",
+      "png": "/images/saffron-jar-5g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "56.4%",
+        "transparent_pixels": 591260,
+        "opaque_pixels": 444926,
+        "edge_pixels": 12390,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/crystal-gold-nut-bowls.jpg",
+      "webp": "/images/crystal-gold-nut-bowls.webp",
+      "png": "/images/crystal-gold-nut-bowls.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "63.1%",
+        "transparent_pixels": 661477,
+        "opaque_pixels": 369443,
+        "edge_pixels": 17656,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/dark-wood-gourmet-tray.jpg",
+      "webp": "/images/dark-wood-gourmet-tray.webp",
+      "png": "/images/dark-wood-gourmet-tray.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "70.1%",
+        "transparent_pixels": 734830,
+        "opaque_pixels": 268603,
+        "edge_pixels": 45143,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/dates-box-250g.jpg",
+      "webp": "/images/dates-box-250g.webp",
+      "png": "/images/dates-box-250g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "46.6%",
+        "transparent_pixels": 488402,
+        "opaque_pixels": 543051,
+        "edge_pixels": 17123,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/long-festive-gift-box.jpg",
+      "webp": "/images/long-festive-gift-box.webp",
+      "png": "/images/long-festive-gift-box.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "50.9%",
+        "transparent_pixels": 534239,
+        "opaque_pixels": 497260,
+        "edge_pixels": 17077,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/luxury-hamper-jars.png",
+      "webp": "/images/luxury-hamper-jars.webp",
+      "png": "/images/luxury-hamper-jars.png",
+      "stats": {
+        "dimensions": [
+          656,
+          656
+        ],
+        "transparent_percent": "49.3%",
+        "transparent_pixels": 212042,
+        "opaque_pixels": 116557,
+        "edge_pixels": 101737,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/luxury-teal-gift-box.jpg",
+      "webp": "/images/luxury-teal-gift-box.webp",
+      "png": "/images/luxury-teal-gift-box.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "63.7%",
+        "transparent_pixels": 668003,
+        "opaque_pixels": 361732,
+        "edge_pixels": 18841,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/royal-tradition-box.jpg",
+      "webp": "/images/royal-tradition-box.webp",
+      "png": "/images/royal-tradition-box.png",
+      "stats": {
+        "dimensions": [
+          1000,
+          1000
+        ],
+        "transparent_percent": "69.6%",
+        "transparent_pixels": 695676,
+        "opaque_pixels": 139436,
+        "edge_pixels": 164888,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/promo-makhana-899.png",
+      "webp": "/images/promo-makhana-899.webp",
+      "png": "/images/promo-makhana-899.png",
+      "stats": {
+        "dimensions": [
+          512,
+          512
+        ],
+        "transparent_percent": "76.0%",
+        "transparent_pixels": 199279,
+        "opaque_pixels": 58116,
+        "edge_pixels": 4749,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/crafts-gifting-box.jpg",
+      "webp": "/images/crafts-gifting-box.webp",
+      "png": "/images/crafts-gifting-box.png",
+      "stats": {
+        "dimensions": [
+          678,
+          300
+        ],
+        "transparent_percent": "72.7%",
+        "transparent_pixels": 147908,
+        "opaque_pixels": 53221,
+        "edge_pixels": 2271,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/nri/gifting-hamper.jpg",
+      "webp": "/images/nri/gifting-hamper.webp",
+      "png": "/images/nri/gifting-hamper.png",
+      "stats": {
+        "dimensions": [
+          1200,
+          800
+        ],
+        "transparent_percent": "61.4%",
+        "transparent_pixels": 588972,
+        "opaque_pixels": 269322,
+        "edge_pixels": 101706,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "verified_transparent": false
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-chocolate-box.jpg",
+      "webp": "/images/gifting/prod-chocolate-box.webp",
+      "png": "/images/gifting/prod-chocolate-box.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "51.7%",
+        "transparent_pixels": 542373,
+        "opaque_pixels": 495825,
+        "edge_pixels": 10378,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-festive-mega-hamper.jpg",
+      "webp": "/images/gifting/prod-festive-mega-hamper.webp",
+      "png": "/images/gifting/prod-festive-mega-hamper.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "51.9%",
+        "transparent_pixels": 544395,
+        "opaque_pixels": 488786,
+        "edge_pixels": 15395,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-kashmiri-hamper.jpg",
+      "webp": "/images/gifting/prod-kashmiri-hamper.webp",
+      "png": "/images/gifting/prod-kashmiri-hamper.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "59.5%",
+        "transparent_pixels": 624096,
+        "opaque_pixels": 408207,
+        "edge_pixels": 16273,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-personalized-mug.jpg",
+      "webp": "/images/gifting/prod-personalized-mug.webp",
+      "png": "/images/gifting/prod-personalized-mug.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "76.6%",
+        "transparent_pixels": 803151,
+        "opaque_pixels": 235832,
+        "edge_pixels": 9593,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-saffron-1g.jpg",
+      "webp": "/images/gifting/prod-saffron-1g.webp",
+      "png": "/images/gifting/prod-saffron-1g.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "67.4%",
+        "transparent_pixels": 706309,
+        "opaque_pixels": 331078,
+        "edge_pixels": 11189,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    },
+    {
+      "source": "public/images/gifting/prod-wooden-memory-box.jpg",
+      "webp": "/images/gifting/prod-wooden-memory-box.webp",
+      "png": "/images/gifting/prod-wooden-memory-box.png",
+      "stats": {
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "transparent_percent": "58.1%",
+        "transparent_pixels": 609316,
+        "opaque_pixels": 429699,
+        "edge_pixels": 9561,
+        "min_alpha": 0,
+        "max_alpha": 255,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "verified_transparent": true
+      },
+      "status": "CONVERTED_AND_VERIFIED"
+    }
+  ]
+}

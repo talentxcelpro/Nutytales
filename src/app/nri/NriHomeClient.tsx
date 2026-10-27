@@ -275,7 +275,7 @@ export default function NriHomePage() {
       badge: 'Gifting',
       price: 'From $35 / hamper',
       sla: 'Insured pan-India',
-      image: '/images/nri/gifting-hamper.jpg',
+      image: '/images/nri/gifting-hamper.webp',
       href: '/services/gifting',
       cta: 'Explore Gifting',
     },

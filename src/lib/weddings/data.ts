@@ -23,7 +23,7 @@ export const INITIAL_VENUES: WeddingVenue[] = [
     images: [
       '/images/jaipur-heritage.jpg',
       '/images/wedding-celebration.jpg',
-      '/images/luxury-hamper-jars.png',
+      '/images/luxury-hamper-jars.webp',
     ],
     amenities: [
       '18 Acres of Mughal Gardens',
@@ -160,7 +160,7 @@ export const INITIAL_VENUES: WeddingVenue[] = [
     images: [
       '/images/stays/modern-apartment-interior.jpg',
       '/images/wedding-celebration.jpg',
-      '/images/luxury-teal-gift-box.jpg',
+      '/images/luxury-teal-gift-box.webp',
     ],
     amenities: [
       'Private Golden Dune Amphitheater',
@@ -193,7 +193,7 @@ export const INITIAL_VENUES: WeddingVenue[] = [
     images: [
       '/images/stays/gulmarg-ski-chalet.jpg',
       '/images/wedding-celebration.jpg',
-      '/images/dark-wood-gourmet-tray.jpg',
+      '/images/dark-wood-gourmet-tray.webp',
     ],
     amenities: [
       'Direct Waterfront Riva Boat Dock',
@@ -262,7 +262,7 @@ export const INITIAL_VENDORS: WeddingVendor[] = [
     rating: 4.99,
     reviewsCount: 62,
     verified: true,
-    portfolio: ['/images/dark-wood-gourmet-tray.jpg', '/images/luxury-hamper-jars.png'],
+    portfolio: ['/images/dark-wood-gourmet-tray.webp', '/images/luxury-hamper-jars.webp'],
     packages: [
       {
         name: 'The 36-Course Imperial Traami Feast',
@@ -332,7 +332,7 @@ export const INITIAL_VENDORS: WeddingVendor[] = [
     rating: 4.94,
     reviewsCount: 31,
     verified: true,
-    portfolio: ['/images/wedding-celebration.jpg', '/images/luxury-teal-gift-box.jpg'],
+    portfolio: ['/images/wedding-celebration.jpg', '/images/luxury-teal-gift-box.webp'],
     packages: [
       {
         name: 'Grand Royal Mandap & Multi-Event Scenography',
@@ -363,9 +363,9 @@ export const INITIAL_VENDORS: WeddingVendor[] = [
     reviewsCount: 94,
     verified: true,
     portfolio: [
-      '/images/long-festive-gift-box.jpg',
-      '/images/luxury-teal-gift-box.jpg',
-      '/images/dark-wood-gourmet-tray.jpg',
+      '/images/long-festive-gift-box.webp',
+      '/images/luxury-teal-gift-box.webp',
+      '/images/dark-wood-gourmet-tray.webp',
     ],
     packages: [
       {

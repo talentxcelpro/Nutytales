@@ -96,7 +96,7 @@ const STORY_SCENES: StoryScene[] = [
     subtitle: 'The edible treasures cultivated on the same glacial terraces.',
     description:
       'Where craft blooms, gastronomy thrives. The same mineral-rich glacial soil yields paper-shelled Kagzi Walnuts—crackable with gentle palm pressure—and deep crimson Pampore Mongra Saffron stigmas with unmatched crocin coloring strength and intoxicating aroma.',
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: '/images/dark-wood-gourmet-tray.webp',
     provenanceStat: 'Grade A1',
     statLabel: 'GI Lab Certified',
     artisanQuote: 'Two stigmas in morning tea warm the spirit through the harshest winter freeze.',
@@ -110,7 +110,7 @@ const STORY_SCENES: StoryScene[] = [
     subtitle: 'Taste the nuts. Wear the heritage. Stay in the orchards. Explore the craft.',
     description:
       'Nuty Tales brings these sacred crafts directly from verified Kashmiri artisan cooperatives to your doorstep, backed by official GI certification, virtual drape previews, and complete provenance dossiers.',
-    image: '/images/crafts-gifting-box.jpg',
+    image: '/images/crafts-gifting-box.webp',
     provenanceStat: 'PAN-India',
     statLabel: 'Bespoke Fulfilment',
     artisanQuote: 'Every purchase sustains an artisan family and preserves an ancient art form.',

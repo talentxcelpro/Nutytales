@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: config.brandName,
       images: [
         {
-          url: item.baseProduct.image || '/images/luxury-hamper-jars.png',
+          url: item.baseProduct.image || '/images/luxury-hamper-jars.webp',
           width: 800,
           height: 800,
           alt: item.regionalEditionTitle,

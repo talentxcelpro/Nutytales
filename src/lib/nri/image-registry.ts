@@ -196,7 +196,7 @@ export const PAN_INDIA_IMAGE_REGISTRY: PanIndiaImage[] = [
   },
   {
     id: 'img-gifting-hamper',
-    url: '/images/nri/gifting-hamper.jpg',
+    url: '/images/nri/gifting-hamper.webp',
     title: 'Bespoke Indian Gifting & Milestone Deliveries',
     alt: 'Artisanal gift hamper and festive delivery boxes in India',
     region: 'Pan-India',

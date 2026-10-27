@@ -65,7 +65,7 @@ export default function RegionalProductClient({
         price: activeVariant.price,
         formattedPrice: activeVariant.formattedPrice,
         currency: activeCurrency,
-        image: product.image || '/images/luxury-hamper-jars.png',
+        image: product.image || '/images/luxury-hamper-jars.webp',
         quantity: quantity,
         variant: `${activeVariant.label} (${activeVariant.sizeG}g)`,
         region: config.key,
@@ -127,7 +127,7 @@ export default function RegionalProductClient({
         <div className="lg:col-span-6 space-y-6">
           <div className="aspect-square rounded-3xl overflow-hidden relative bg-stone-900 border border-white/15 shadow-2xl">
             <Image
-              src={product.image || '/images/luxury-hamper-jars.png'}
+              src={product.image || '/images/luxury-hamper-jars.webp'}
               alt={productItem.regionalName}
               fill
               priority

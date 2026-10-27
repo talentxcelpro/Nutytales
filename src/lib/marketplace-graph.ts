@@ -127,7 +127,7 @@ export function getCrossVerticalRecommendations(
       href: '/gifting',
       priceINR: 4950,
       currency: 'INR',
-      image: '/images/luxury-hamper-jars.png',
+      image: '/images/luxury-hamper-jars.webp',
       badges: ['Custom Couple Monogram', 'GI Saffron'],
       crossSellReason: 'Handover prestigious dry fruit favors to all wedding guests',
     })
@@ -223,7 +223,7 @@ export function getCrossVerticalRecommendations(
       href: '/gifting',
       priceINR: 1850,
       currency: 'INR',
-      image: '/images/luxury-teal-gift-box.jpg',
+      image: '/images/luxury-teal-gift-box.webp',
       badges: ['Travel Pack', 'Kehwa Blends'],
       crossSellReason: 'Wholesome nutrition for high-altitude hikes and scenic drives',
     })
@@ -340,7 +340,7 @@ export function getCrossVerticalRecommendations(
         href: '/b2b',
         priceINR: commodity.tierPrices.tier2.pricePerKg,
         currency: 'INR',
-        image: '/images/almonds-pouch-250g.jpg',
+        image: '/images/almonds-pouch-250g.webp',
         badges: ['Factory Direct', 'Tiered Rates'],
         crossSellReason: 'Buying in massive scale? Save significantly with container B2B pricing',
       })
@@ -377,7 +377,7 @@ export function getCrossVerticalRecommendations(
       href: '/weddings',
       priceINR: 1200,
       currency: 'INR',
-      image: '/images/luxury-hamper-jars.png',
+      image: '/images/luxury-hamper-jars.webp',
       badges: ['Custom Tagging', 'Doorstep Drop'],
       crossSellReason: 'Coordinating a family wedding? Explore royal trousseau favors',
     })
@@ -642,7 +642,7 @@ export function getAllMarketplaceItems(): MarketplaceItem[] {
       href: '/weddings',
       priceINR: 3500,
       currency: 'INR',
-      image: '/images/luxury-hamper-jars.png',
+      image: '/images/luxury-hamper-jars.webp',
       location: 'PAN-India & Destination Delivery',
       badges: ['Monogram Sleeve', 'Turnkey Logistics'],
       crossSellReason: 'Royal destination wedding return favors and trousseau gifts',

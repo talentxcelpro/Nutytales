@@ -90,7 +90,7 @@ export default function MakhanaPromoSpotlight() {
         unitPrice: selectedPack.price,
         quantity,
         totalPrice,
-        image: '/images/promo-makhana-899.png',
+        image: '/images/promo-makhana-899.webp',
       }
       existing.push(cartItem)
       localStorage.setItem('nt_cart', JSON.stringify(existing))
@@ -119,7 +119,7 @@ export default function MakhanaPromoSpotlight() {
         unitPrice: selectedPack.price,
         quantity,
         totalPrice,
-        image: '/images/promo-makhana-899.png',
+        image: '/images/promo-makhana-899.webp',
       }
       existing.push(cartItem)
       localStorage.setItem('nt_cart', JSON.stringify(existing))
@@ -229,7 +229,7 @@ export default function MakhanaPromoSpotlight() {
                   <video
                     ref={videoRef}
                     src="/videos/makhana-showcase.mp4"
-                    poster="/images/promo-makhana-899.png"
+                    poster="/images/promo-makhana-899.webp"
                     autoPlay
                     playsInline
                     loop
@@ -261,7 +261,7 @@ export default function MakhanaPromoSpotlight() {
               {activeMedia === 'pouch' && (
                 <div className="relative w-full h-full bg-[#FAF7F2] flex items-center justify-center p-3">
                   <Image
-                    src="/images/makhana-pouch-250g.jpg"
+                    src="/images/makhana-pouch-250g.webp"
                     alt="NutyTales Premium Makhana Nitrogen Sealed Fresh Pouch"
                     fill
                     className="object-contain p-2"
@@ -280,7 +280,7 @@ export default function MakhanaPromoSpotlight() {
               {activeMedia === 'poster' && (
                 <div className="relative w-full h-full bg-[#0A1628] flex items-center justify-center">
                   <Image
-                    src="/images/promo-makhana-899.png"
+                    src="/images/promo-makhana-899.webp"
                     alt="NutyTales Premium Makhana Jumbo 6 Suta - ₹899 per kg only"
                     fill
                     priority
@@ -566,7 +566,7 @@ export default function MakhanaPromoSpotlight() {
             </div>
             <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-stone-100">
               <Image
-                src="/images/promo-makhana-899.png"
+                src="/images/promo-makhana-899.webp"
                 alt="NutyTales Premium Makhana Flyer"
                 fill
                 className="object-contain"

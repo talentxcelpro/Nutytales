@@ -23,7 +23,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'California, USA',
     retailPrice: 1250,
     wholesalePrice: 1120,
-    image: '/images/almonds-pouch-250g.jpg',
+    image: '/images/almonds-pouch-250g.webp',
   },
   {
     id: 'csw-001',
@@ -33,7 +33,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Kerala & Goa',
     retailPrice: 1450,
     wholesalePrice: 1280,
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
   },
   {
     id: 'wln-001',
@@ -43,7 +43,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Srinagar, Kashmir',
     retailPrice: 1950,
     wholesalePrice: 1720,
-    image: '/images/walnuts-pouch-250g.jpg',
+    image: '/images/walnuts-pouch-250g.webp',
   },
   {
     id: 'mkh-001',
@@ -53,7 +53,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Mithila, Bihar',
     retailPrice: 2100,
     wholesalePrice: 1850,
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
   },
   {
     id: 'pst-001',
@@ -63,7 +63,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Rafsanjan, Iran',
     retailPrice: 1650,
     wholesalePrice: 1450,
-    image: '/images/pistachios-pouch-250g.jpg',
+    image: '/images/pistachios-pouch-250g.webp',
   },
   {
     id: 'rsn-001',
@@ -73,7 +73,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Kandahar, Afghanistan',
     retailPrice: 580,
     wholesalePrice: 490,
-    image: '/images/raisins-pouch-250g.jpg',
+    image: '/images/raisins-pouch-250g.webp',
   },
   {
     id: 'dat-001',
@@ -83,7 +83,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Jordan Valley',
     retailPrice: 1350,
     wholesalePrice: 1180,
-    image: '/images/dates-box-250g.jpg',
+    image: '/images/dates-box-250g.webp',
   },
   {
     id: 'saf-001',
@@ -93,7 +93,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Pampore, Kashmir',
     retailPrice: 1950,
     wholesalePrice: 1700,
-    image: '/images/saffron-jar-5g.jpg',
+    image: '/images/saffron-jar-5g.webp',
   },
   {
     id: 'mxn-001',
@@ -103,7 +103,7 @@ const COLLECTION: ProductSummary[] = [
     origin: 'Multi-Origin',
     retailPrice: 1950,
     wholesalePrice: 1700,
-    image: '/images/nut-mix-pouch-250g.jpg',
+    image: '/images/nut-mix-pouch-250g.webp',
   },
 ]
 
@@ -138,7 +138,7 @@ export default function PopularProducts() {
                     fill
                     quality={95}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_10px_20px_rgba(0,0,0,0.06)]"
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center text-stone-300">

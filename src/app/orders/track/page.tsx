@@ -89,7 +89,7 @@ function OrderTrackContent() {
               sizeLabel: '1 kg Best Value Pack',
               quantity: 1,
               totalPrice: 899,
-              image: '/images/promo-makhana-899.png',
+              image: '/images/promo-makhana-899.webp',
             },
           ],
           subtotal: 899,
@@ -302,7 +302,7 @@ function OrderTrackContent() {
                     <div className="flex items-center gap-3">
                       <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-stone-200 bg-stone-50 shrink-0">
                         <Image
-                          src={item.image || '/images/promo-makhana-899.png'}
+                          src={item.image || '/images/promo-makhana-899.webp'}
                           alt={item.name}
                           fill
                           className="object-cover"

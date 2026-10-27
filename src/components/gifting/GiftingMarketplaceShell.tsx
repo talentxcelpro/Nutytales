@@ -184,7 +184,7 @@ export default function GiftingMarketplaceShell({
                           className="p-3 hover:bg-[#FAF7F2] flex items-center gap-3 transition-colors"
                         >
                           <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
-                            <Image src={item.primaryImage} alt={item.name} fill className="object-cover" />
+                            <Image src={item.primaryImage} alt={item.name} fill className="object-contain p-0.5" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <strong className="block text-[#17233B] truncate">{item.name}</strong>

@@ -599,7 +599,7 @@ export default function RegionalCheckoutClient({
                 >
                   <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-stone-900 border border-white/10 flex-shrink-0">
                     <Image
-                      src={item.image || '/images/luxury-hamper-jars.png'}
+                      src={item.image || '/images/luxury-hamper-jars.webp'}
                       alt={item.name}
                       fill
                       className="object-cover"

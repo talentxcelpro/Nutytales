@@ -75,7 +75,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1785613231239-d8ea073de8a1?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Free Size (200 cm × 100 cm)'],
     colorOptions: [
@@ -123,7 +123,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1625432800813-5cad3897cf22?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Free Size (200 cm × 100 cm)'],
     colorOptions: [
@@ -173,7 +173,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1785613229921-7b5862b6204e?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Stole Size (200 cm × 70 cm)'],
     colorOptions: [
@@ -221,7 +221,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1791598638960-7931c1f83290?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1773650782990-334debec6f17?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Stole Size (200 cm × 70 cm)'],
     colorOptions: [
@@ -269,7 +269,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://plus.unsplash.com/premium_photo-1678233035808-65a0ca67471c?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1712852733710-28067fa73e48?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['M (Chest 42")', 'L (Chest 46")', 'XL (Chest 50")', 'Free Silhouette (Chest 48")'],
     colorOptions: [
@@ -316,7 +316,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1763400126795-d83e07d3449e?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://plus.unsplash.com/premium_photo-1769127518346-db9ff1a13998?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['S (Chest 38")', 'M (Chest 42")', 'L (Chest 46")', 'XL (Chest 50")'],
     colorOptions: [
@@ -367,7 +367,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1758278212585-c050f6ee5742?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1762709314232-8e6ddc3dd81f?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['XS (34")', 'S (36")', 'M (38")', 'L (40")', 'XL (42")'],
     colorOptions: [
@@ -414,7 +414,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1791598639448-63b8f8db91bc?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://plus.unsplash.com/premium_photo-1682090768709-b00ac36f72de?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['38 (S)', '40 (M)', '42 (L)', '44 (XL)', '46 (XXL)'],
     colorOptions: [
@@ -462,7 +462,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://plus.unsplash.com/premium_photo-1778846414348-ebb8845c90ec?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1787220272461-2c53528c9349?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Free Size (Fits XS - XXL)'],
     colorOptions: [
@@ -510,7 +510,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1789541759782-aab84821a495?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1593619777827-de43bca16687?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Standard Adult Stretch (Free Size)'],
     colorOptions: [
@@ -558,7 +558,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1791752141882-dfaaccb61928?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://plus.unsplash.com/premium_photo-1673757112844-0bfbfa7f0e75?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['10" × 8" × 3.5" (4 Compartments)'],
     colorOptions: [
@@ -604,7 +604,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://images.unsplash.com/photo-1763400234383-8b9ecbb9c043?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1773650782990-334debec6f17?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['6" × 4" × 2.5"'],
     colorOptions: [
@@ -653,7 +653,7 @@ export const CRAFT_PRODUCTS: CraftProduct[] = [
       'https://plus.unsplash.com/premium_photo-1672940950617-ca7c8afb2ce5?w=1200&auto=format&fit=crop&q=85',
       '/images/crafts-artisan-hands.jpg',
       'https://images.unsplash.com/photo-1750075993686-57f1b8eefa42?w=1200&auto=format&fit=crop&q=85',
-      '/images/crafts-gifting-box.jpg'
+      '/images/crafts-gifting-box.webp'
     ],
     sizes: ['Executive Presentation Box (16" × 12" × 5")'],
     colorOptions: [
@@ -707,6 +707,6 @@ export const CRAFT_CATEGORIES = [
   { slug: 'jackets-coats', label: 'Jackets & Coats', sub: 'Embroidered Velvet · Nehru · Wool', image: '/images/crafts-jackets.jpg' },
   { slug: 'winter-wear', label: 'Winter Wear', sub: 'Capes · Ponchos · Co-ords', image: '/images/crafts-winterwear.jpg' },
   { slug: 'accessories', label: 'Accessories', sub: 'Beanies · Gloves · Mufflers', image: '/images/crafts-accessories.jpg' },
-  { slug: 'home-heritage', label: 'Home & Heritage', sub: 'Walnut Wood · Papier-Mâché · Carpets', image: '/images/dark-wood-gourmet-tray.jpg' },
-  { slug: 'heritage-gifting', label: 'Heritage Gifting', sub: 'Curated Keepsake Hampers', image: '/images/crafts-gifting-box.jpg' },
+  { slug: 'home-heritage', label: 'Home & Heritage', sub: 'Walnut Wood · Papier-Mâché · Carpets', image: '/images/dark-wood-gourmet-tray.webp' },
+  { slug: 'heritage-gifting', label: 'Heritage Gifting', sub: 'Curated Keepsake Hampers', image: '/images/crafts-gifting-box.webp' },
 ] as const

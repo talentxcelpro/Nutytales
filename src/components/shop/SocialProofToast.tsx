@@ -18,7 +18,7 @@ const RECENT_ORDERS: RecentOrder[] = [
     city: 'Bengaluru',
     product: 'Kashmiri Mamra Almonds',
     weight: '500g',
-    image: '/images/mamra-almonds-pouch-250g.jpg',
+    image: '/images/mamra-almonds-pouch-250g.webp',
     timeAgo: '3 minutes ago',
   },
   {
@@ -26,7 +26,7 @@ const RECENT_ORDERS: RecentOrder[] = [
     city: 'Mumbai',
     product: 'Pure Kashmiri Mongra Saffron',
     weight: '5g Jar',
-    image: '/images/saffron-jar-5g.jpg',
+    image: '/images/saffron-jar-5g.webp',
     timeAgo: '7 minutes ago',
   },
   {
@@ -34,7 +34,7 @@ const RECENT_ORDERS: RecentOrder[] = [
     city: 'New Delhi',
     product: 'W240 Jumbo Cashews',
     weight: '1 kg',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
     timeAgo: '12 minutes ago',
   },
   {
@@ -42,7 +42,7 @@ const RECENT_ORDERS: RecentOrder[] = [
     city: 'Pune',
     product: 'Dried Anjeer (Turkish Figs)',
     weight: '500g',
-    image: '/images/anjeer-pouch-250g.jpg',
+    image: '/images/anjeer-pouch-250g.webp',
     timeAgo: '18 minutes ago',
   },
   {
@@ -50,7 +50,7 @@ const RECENT_ORDERS: RecentOrder[] = [
     city: 'Hyderabad',
     product: 'Kashmiri Kagzi Akhrot',
     weight: '1 kg',
-    image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+    image: '/images/kashmir-kagzi-akhrot-250g.webp',
     timeAgo: '24 minutes ago',
   },
 ]

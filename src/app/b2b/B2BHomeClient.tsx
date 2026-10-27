@@ -74,12 +74,12 @@ export default function B2BHomeClient() {
   // ── 6. Real Commodity Image Resolver ───────────────────────────────────────
   const getCommodityImage = (id: string) => {
     if (id.includes('mamra')) return '/images/mamra-kernels-macro.jpg'
-    if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.jpg'
-    if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.jpg'
+    if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.webp'
+    if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.webp'
     if (id.includes('saffron') || id.includes('kesar')) return '/images/saffron-threads-macro.jpg'
-    if (id.includes('makhana')) return '/images/makhana-pouch-250g.jpg'
+    if (id.includes('makhana')) return '/images/makhana-pouch-250g.webp'
     if (id.includes('cashew')) return '/images/cashews-w180-macro.jpg'
-    return '/images/almonds-pouch-250g.jpg'
+    return '/images/almonds-pouch-250g.webp'
   }
 
   // ── 7. Natural Language Sourcing Search & Parser ───────────────────────────
@@ -153,7 +153,7 @@ export default function B2BHomeClient() {
       landedPerKg: calculateLandedRate(1080, selectedDestination),
       fssaiNumber: '11023002000812',
       lotNumber: 'LOT-KMR-2026-W04',
-      image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+      image: '/images/kashmir-kagzi-akhrot-250g.webp',
       avatarBg: 'bg-emerald-600 text-white',
       tags: ['Snow-White Halves 80%+', 'Cold-Chain Reefer', 'GI Registered'],
     },
@@ -170,7 +170,7 @@ export default function B2BHomeClient() {
       landedPerKg: calculateLandedRate(670, selectedDestination),
       fssaiNumber: '10021011000219',
       lotNumber: 'LOT-CAL-2026-A12',
-      image: '/images/almonds-pouch-250g.jpg',
+      image: '/images/almonds-pouch-250g.webp',
       avatarBg: 'bg-blue-600 text-white',
       tags: ['Sliced 1.0mm', 'Laser Sorted', 'NABL Certified'],
     },
@@ -204,7 +204,7 @@ export default function B2BHomeClient() {
       landedPerKg: calculateLandedRate(690, selectedDestination),
       fssaiNumber: '10423001000184',
       lotNumber: 'LOT-MKH-2026-J07',
-      image: '/images/makhana-pouch-250g.jpg',
+      image: '/images/makhana-pouch-250g.webp',
       avatarBg: 'bg-amber-600 text-white',
       tags: ['Hand-Graded Jumbo', 'Hard-Shell Free', 'Private Label Ready'],
     },

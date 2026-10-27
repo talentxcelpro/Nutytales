@@ -232,7 +232,7 @@ export default function HomepageHero3D() {
         productName="Nuty Tales Premium Almonds (250g)"
         modelType="pouch"
         price={425}
-        productImage="/images/almonds-pouch-250g.jpg"
+        productImage="/images/almonds-pouch-250g.webp"
         origin="California, USA"
       />
     </>

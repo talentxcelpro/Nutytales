@@ -9,63 +9,63 @@ const SHOP_CATEGORIES = [
     name: 'Kashmiri Kagzi Walnuts',
     slug: 'walnuts',
     description: 'Thin-shelled, unbleached, high-oil kernels from Harwan orchards.',
-    image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+    image: '/images/kashmir-kagzi-akhrot-250g.webp',
     itemCount: 'In Shell & Kernels',
   },
   {
     name: 'Pampore Mongra Saffron',
     slug: 'saffron',
     description: 'GI-535 certified crocin potency >240, autumn harvest.',
-    image: '/images/saffron-jar-5g.jpg',
+    image: '/images/saffron-jar-5g.webp',
     itemCount: '1g · 2g · 5g · 10g',
   },
   {
     name: 'Mamra & California Almonds',
     slug: 'almonds',
     description: 'Crisp Nonpareil almonds & traditional high-oil Mamra Badam.',
-    image: '/images/mamra-almonds-pouch-250g.jpg',
+    image: '/images/mamra-almonds-pouch-250g.webp',
     itemCount: 'Raw & Roasted Salted',
   },
   {
     name: 'Jumbo Mithila Makhana',
     slug: 'makhana',
     description: 'Optically-sorted giant popped lotus seeds from Bihar wetlands.',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
     itemCount: 'Jumbo Grade 6-Soot',
   },
   {
     name: 'Raw Himalayan Honey',
     slug: 'honey',
     description: 'Wild single-flower Acacia and Sidr unheated forest honey.',
-    image: '/images/kashmir-honey-jar-500g.jpg',
+    image: '/images/kashmir-honey-jar-500g.webp',
     itemCount: 'Pure Unpasteurized',
   },
   {
     name: 'Jumbo Cashews & Pistachios',
     slug: 'cashews',
     description: 'W180 & W240 whole king cashews & Iranian green pistachios.',
-    image: '/images/cashews-pouch-250g.jpg',
+    image: '/images/cashews-pouch-250g.webp',
     itemCount: 'Grade-A Selects',
   },
   {
     name: 'Afghan Chilgoza & Exotic Nuts',
     slug: 'exotic-nuts',
     description: 'Hindu Kush pine nuts (Chilgoza) & mammoth California pecan halves.',
-    image: '/images/chilgoza-pouch-250g.jpg',
+    image: '/images/chilgoza-pouch-250g.webp',
     itemCount: 'Wild Harvest Reserves',
   },
   {
     name: 'Super Berries & Cranberries',
     slug: 'berries',
     description: 'USA whole cranberries, wild blueberries & Persian ruby barberries.',
-    image: '/images/cranberries-pouch-250g.jpg',
+    image: '/images/cranberries-pouch-250g.webp',
     itemCount: 'Antioxidant Superfoods',
   },
   {
     name: 'Royal Dates & Sun-Dried Figs',
     slug: 'dates',
     description: 'Madinah Ajwa & Mabroom dates, plus Turkish & Kandahar mala anjeer.',
-    image: '/images/mabroom-dates-pouch-250g.jpg',
+    image: '/images/mabroom-dates-pouch-250g.webp',
     itemCount: 'Sacred & Honeyed Fruits',
   },
 ]
@@ -102,13 +102,13 @@ export default function ShopCategoriesGrid() {
             href={`/shop?category=${cat.slug}`}
             className="group bg-white rounded-3xl border border-stone-200/90 overflow-hidden shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
           >
-            <div className="relative aspect-[16/10] bg-stone-100 overflow-hidden">
+            <div className="relative aspect-[16/10] bg-[#FAF5ED] p-4 flex items-center justify-center overflow-hidden">
               <Image
                 src={cat.image}
                 alt={cat.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-contain p-2 group-hover:scale-108 transition-transform duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,0.06)]"
               />
               <div className="absolute top-3 left-3 bg-[#17233B]/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">
                 {cat.itemCount}

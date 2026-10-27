@@ -140,7 +140,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1682090778813-3938ba76ee57?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -221,7 +221,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1641699862936-be9f49b1c38d?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -302,7 +302,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1667665970118-f55705003914?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -383,7 +383,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1739429944341-db4eefcd230a?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1739429944341-db4eefcd230a?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791598638960-7931c1f83290?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1739429944341-db4eefcd230a?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1739429944341-db4eefcd230a?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -464,7 +464,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1691030254390-aa56b22e6a45?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1691030254390-aa56b22e6a45?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1678233035808-65a0ca67471c?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1691030254390-aa56b22e6a45?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1691030254390-aa56b22e6a45?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -545,7 +545,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763400126795-d83e07d3449e?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1667665970124-2273c6ef3489?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -626,7 +626,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1727835523550-18478cacefa2?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1727835523550-18478cacefa2?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1758278212585-c050f6ee5742?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1727835523550-18478cacefa2?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1727835523550-18478cacefa2?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -707,7 +707,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1711044871601-301f9b0ecf91?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1711044871601-301f9b0ecf91?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791598639448-63b8f8db91bc?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1711044871601-301f9b0ecf91?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1711044871601-301f9b0ecf91?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -787,7 +787,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1691030255948-0276ee6f711e?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1691030255948-0276ee6f711e?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1778846414348-ebb8845c90ec?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1691030255948-0276ee6f711e?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1691030255948-0276ee6f711e?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -868,7 +868,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1739429942851-9083ee185d3d?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1739429942851-9083ee185d3d?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1789541759782-aab84821a495?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1739429942851-9083ee185d3d?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1739429942851-9083ee185d3d?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -949,7 +949,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1774438028955-657a8aaea934?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1774438028955-657a8aaea934?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791752141882-dfaaccb61928?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1774438028955-657a8aaea934?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1774438028955-657a8aaea934?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1030,7 +1030,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1645817954300-96df195432fc?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1645817954300-96df195432fc?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763400234383-8b9ecbb9c043?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1645817954300-96df195432fc?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1645817954300-96df195432fc?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1111,7 +1111,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1736568763905-49d82575d936?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1736568763905-49d82575d936?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1672940950617-ca7c8afb2ce5?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1736568763905-49d82575d936?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1736568763905-49d82575d936?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1192,7 +1192,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1761571260010-8aa90a08c934?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1761571260010-8aa90a08c934?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1787554497632-1727c23e58cb?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1761571260010-8aa90a08c934?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1761571260010-8aa90a08c934?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1273,7 +1273,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1691030256088-91089c9e66e9?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1691030256088-91089c9e66e9?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763368161039-12a2879b55e3?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1691030256088-91089c9e66e9?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1691030256088-91089c9e66e9?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1354,7 +1354,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1661963385126-11fa577925d3?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1661963385126-11fa577925d3?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1768885560958-e4d8d0ba9ae6?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1661963385126-11fa577925d3?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1661963385126-11fa577925d3?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1435,7 +1435,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1774438027294-3399070a2dbe?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1774438027294-3399070a2dbe?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1695792938662-8a28bda660ff?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1774438027294-3399070a2dbe?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1774438027294-3399070a2dbe?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1516,7 +1516,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1789882293195-d29f92e9730f?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1732381916738-29ed5884c183?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1597,7 +1597,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1774437563122-d31cda575cfe?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1774437563122-d31cda575cfe?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1781106699994-9e9246b20aa7?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1774437563122-d31cda575cfe?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1774437563122-d31cda575cfe?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1678,7 +1678,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1724762182780-000d248f9301?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1724762182780-000d248f9301?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1773394175834-2c407177ddcf?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1724762182780-000d248f9301?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1724762182780-000d248f9301?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1759,7 +1759,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1774437791807-362e58f09a2c?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1774437791807-362e58f09a2c?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1774437791807-362e58f09a2c?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1774437791807-362e58f09a2c?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1840,7 +1840,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1651132164857-b61aa4cf7472?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1651132164857-b61aa4cf7472?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1651132164857-b61aa4cf7472?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1651132164857-b61aa4cf7472?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -1921,7 +1921,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1736713044945-b4b95b7d70b0?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1736713044945-b4b95b7d70b0?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1736713044945-b4b95b7d70b0?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1736713044945-b4b95b7d70b0?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2002,7 +2002,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1682090786689-741d60a11384?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1682090786689-741d60a11384?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791598638960-7931c1f83290?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1682090786689-741d60a11384?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1682090786689-741d60a11384?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2085,7 +2085,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1678233035808-65a0ca67471c?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1652722426884-647880c63bf1?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2166,7 +2166,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763400126795-d83e07d3449e?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1663835452039-19168bc4098d?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2237,7 +2237,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1762344356541-881ac04145e4?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1762344356541-881ac04145e4?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1758278212585-c050f6ee5742?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1762344356541-881ac04145e4?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1762344356541-881ac04145e4?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2308,7 +2308,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1694036317158-7a9b7cd5079b?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1694036317158-7a9b7cd5079b?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791598639448-63b8f8db91bc?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1694036317158-7a9b7cd5079b?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1694036317158-7a9b7cd5079b?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2380,7 +2380,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1645944692361-721984d57b6c?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1645944692361-721984d57b6c?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1778846414348-ebb8845c90ec?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1645944692361-721984d57b6c?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1645944692361-721984d57b6c?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2451,7 +2451,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1772736243289-872f9ac73cf8?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1772736243289-872f9ac73cf8?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1789541759782-aab84821a495?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1772736243289-872f9ac73cf8?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1772736243289-872f9ac73cf8?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2521,7 +2521,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1785613590014-23875bff09f2?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1785613590014-23875bff09f2?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791752141882-dfaaccb61928?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1785613590014-23875bff09f2?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1785613590014-23875bff09f2?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2591,7 +2591,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763400234383-8b9ecbb9c043?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2661,7 +2661,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://plus.unsplash.com/premium_photo-1696949623886-59baabb54abe?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://plus.unsplash.com/premium_photo-1696949623886-59baabb54abe?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1672940950617-ca7c8afb2ce5?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://plus.unsplash.com/premium_photo-1696949623886-59baabb54abe?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://plus.unsplash.com/premium_photo-1696949623886-59baabb54abe?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2730,7 +2730,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1735052711950-c31c729c2a4e?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1735052711950-c31c729c2a4e?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1787554497632-1727c23e58cb?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1735052711950-c31c729c2a4e?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1735052711950-c31c729c2a4e?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2800,7 +2800,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1735052713120-2323c8ac72e9?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1735052713120-2323c8ac72e9?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763368161039-12a2879b55e3?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1735052713120-2323c8ac72e9?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1735052713120-2323c8ac72e9?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2870,7 +2870,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1785651523544-b8ecbbfecebe?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1785651523544-b8ecbbfecebe?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1768885560958-e4d8d0ba9ae6?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1785651523544-b8ecbbfecebe?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1785651523544-b8ecbbfecebe?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -2940,7 +2940,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1705921269202-197ceb4c17ba?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1705921269202-197ceb4c17ba?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1695792938662-8a28bda660ff?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1705921269202-197ceb4c17ba?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1705921269202-197ceb4c17ba?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3009,7 +3009,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1560080146-ba5bc1880522?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1560080146-ba5bc1880522?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1789882293195-d29f92e9730f?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1560080146-ba5bc1880522?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1560080146-ba5bc1880522?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3078,7 +3078,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1681717055630-c62333c22fec?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1681717055630-c62333c22fec?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1781106699994-9e9246b20aa7?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1681717055630-c62333c22fec?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1681717055630-c62333c22fec?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3148,7 +3148,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1773394175834-2c407177ddcf?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1791598639058-ec16e4eb34a9?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3217,7 +3217,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1665960212714-0dfa0702c177?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1665960212714-0dfa0702c177?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1723708804489-0d97d029f9d9?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1665960212714-0dfa0702c177?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1665960212714-0dfa0702c177?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3286,7 +3286,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1735052713180-2dd81cbe3281?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1735052713180-2dd81cbe3281?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1707569590646-2a51751bb9ef?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1735052713180-2dd81cbe3281?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1735052713180-2dd81cbe3281?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3356,7 +3356,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1517496267011-39d56c54984d?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1517496267011-39d56c54984d?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1779167327071-963220d85043?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1517496267011-39d56c54984d?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1517496267011-39d56c54984d?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3424,7 +3424,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1724856605022-106d6dd6e842?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1724856605022-106d6dd6e842?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1791598638960-7931c1f83290?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1724856605022-106d6dd6e842?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1724856605022-106d6dd6e842?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3497,7 +3497,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://plus.unsplash.com/premium_photo-1678233035808-65a0ca67471c?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1662314082222-6320993148b5?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',
@@ -3567,7 +3567,7 @@ export const CLOTHING_PRODUCTS: ClothingProduct[] = [
     secondaryImage: 'https://images.unsplash.com/photo-1717585679395-bbe39b5fb6bc?w=1200&h=1600&auto=format&fit=crop&crop=top&q=85',
     detailImage: 'https://images.unsplash.com/photo-1717585679395-bbe39b5fb6bc?w=1200&h=1600&auto=format&fit=crop&crop=center&q=85',
     textureImage: 'https://images.unsplash.com/photo-1763400126795-d83e07d3449e?w=1200&auto=format&fit=crop&q=85',
-    packagingImage: '/images/crafts-gifting-box.jpg',
+    packagingImage: '/images/crafts-gifting-box.webp',
     additionalImages: [
       'https://images.unsplash.com/photo-1717585679395-bbe39b5fb6bc?w=1200&h=1600&auto=format&fit=crop&crop=bottom&q=85',
       'https://images.unsplash.com/photo-1717585679395-bbe39b5fb6bc?w=1200&h=1200&auto=format&fit=crop&crop=faces&q=85',

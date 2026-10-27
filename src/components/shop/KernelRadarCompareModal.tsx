@@ -91,7 +91,7 @@ export default function KernelRadarCompareModal({
         unitPrice: variant.retailPrice,
         quantity: 1,
         totalPrice: variant.retailPrice,
-        image: product.image || '/images/almonds-pouch-250g.jpg',
+        image: product.image || '/images/almonds-pouch-250g.webp',
       }
       existing.push(item)
       localStorage.setItem('nt_cart', JSON.stringify(existing))
@@ -225,7 +225,7 @@ export default function KernelRadarCompareModal({
                   <div className="flex flex-col sm:flex-row items-center gap-3">
                     <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-xl overflow-hidden flex-shrink-0">
                       <Image
-                        src={prod.image || '/images/almonds-pouch-250g.jpg'}
+                        src={prod.image || '/images/almonds-pouch-250g.webp'}
                         alt={prod.name}
                         fill
                         className="object-contain p-1"

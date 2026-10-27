@@ -91,7 +91,7 @@ export default function GastronomyJournalPage() {
         headline: 'Mithila Popped Nectar: 7-Suta Makhana as an Ancient Low-GI Ayurvedic Fasting Superfood',
         description:
           'The underwater harvesting of Euryale ferox, 7-Suta sieve precision, and resistant starch cellular architecture.',
-        image: 'https://nutytales.com/images/makhana-pouch-250g.jpg',
+        image: 'https://nutytales.com/images/makhana-pouch-250g.webp',
         author: {
           '@type': 'Organization',
           name: 'Nuty Tales Gastronomy Guild',

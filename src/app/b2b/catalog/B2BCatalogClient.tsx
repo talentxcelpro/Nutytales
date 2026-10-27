@@ -9,13 +9,13 @@ import CommercialSampleDesk from '@/components/b2b/CommercialSampleDesk'
 import QualityPassportModal from '@/components/b2b/QualityPassportModal'
 
 const getCommodityImage = (id: string) => {
-  if (id.includes('mamra')) return '/images/mamra-almonds-pouch-250g.jpg'
-  if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.jpg'
-  if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.jpg'
+  if (id.includes('mamra')) return '/images/mamra-almonds-pouch-250g.webp'
+  if (id.includes('california') || id.includes('almond')) return '/images/almonds-pouch-250g.webp'
+  if (id.includes('walnut') || id.includes('akhrot')) return '/images/kashmir-kagzi-akhrot-250g.webp'
   if (id.includes('saffron') || id.includes('kesar')) return '/images/saffron-threads-macro.jpg'
-  if (id.includes('makhana')) return '/images/makhana-pouch-250g.jpg'
+  if (id.includes('makhana')) return '/images/makhana-pouch-250g.webp'
   if (id.includes('cashew')) return '/images/cashews-w180-macro.jpg'
-  return '/images/almonds-pouch-250g.jpg'
+  return '/images/almonds-pouch-250g.webp'
 }
 
 export default function B2BCatalogPage() {

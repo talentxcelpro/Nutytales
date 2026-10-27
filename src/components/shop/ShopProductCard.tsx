@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products-data'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
+import TransparentProductImage, { getTransparentImageUrl } from '@/components/products/TransparentProductImage'
 
 interface ShopProductCardProps {
   product: Product
@@ -32,7 +33,7 @@ export default function ShopProductCard({
   const mrp = currentVariant.mrp || Math.round(unitPrice * 1.15)
   const savings = mrp > unitPrice ? mrp - unitPrice : 0
 
-  const primaryImage = product.image || '/images/almonds-pouch-250g.jpg'
+  const primaryImage = getTransparentImageUrl(product.image || '/images/almonds-pouch-250g.webp').webp
   const secondaryImage = product.sensory?.secondaryImage
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -65,11 +66,12 @@ export default function ShopProductCard({
   }
 
   return (
-    <article className="group bg-white rounded-3xl border border-[#EAE3D5] hover:border-[#B8934A]/80 shadow-2xs hover:shadow-xl transition-all duration-500 flex flex-col justify-between overflow-hidden relative">
-      <div>
-        {/* ── 1. Luxury Visual Canvas: Packaging with Smooth Harvest Reveal ── */}
+    <article className="group bg-white rounded-3xl border border-[#EAE3D5] hover:border-[#B8934A]/80 shadow-2xs hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
+      {/* ── Top Section (Flex Grow): Image & Editorial Product Details ── */}
+      <div className="flex flex-col flex-grow">
+        {/* 1. Luxury Visual Canvas: Packaging with Smooth Harvest Reveal */}
         <div
-          className="relative aspect-[4/5] sm:aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden cursor-pointer"
+          className="relative aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden cursor-pointer"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -77,21 +79,22 @@ export default function ShopProductCard({
             href={`/shop/${product.slug}`}
             className="relative w-full h-full flex items-center justify-center block"
           >
-            {/* Primary Packshot (Studio Standing Pouch) */}
+            {/* Primary Packshot (Genuine Transparent Background with Natural Shadow) */}
             <div
               className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
                 isHovered && secondaryImage ? 'opacity-0 scale-98' : 'opacity-100 scale-100'
               }`}
             >
-              <Image
+              <TransparentProductImage
                 src={primaryImage}
                 alt={product.name}
-                fill
+                cardBg="bg-transparent"
+                hoverZoom={true}
                 priority={priority}
-                loading={priority ? undefined : 'lazy'}
-                quality={75}
+                quality={85}
+                padding="p-3"
+                showNaturalShadow={true}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-contain p-3 transition-transform duration-700 group-hover:scale-103 drop-shadow-2xs"
               />
             </div>
 
@@ -148,8 +151,8 @@ export default function ShopProductCard({
           )}
         </div>
 
-        {/* ── 2. Sensory Storytelling & Specifications ── */}
-        <div className="p-5 space-y-3">
+        {/* Content Details: Name, Benefits, Description */}
+        <div className="p-5 pb-2 flex flex-col flex-grow space-y-2.5">
           {/* Category & Harvest Season */}
           <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-[#8C7E70] font-medium">
             <span>{product.category}</span>
@@ -158,67 +161,82 @@ export default function ShopProductCard({
             </span>
           </div>
 
-          {/* Product Title */}
+          {/* 2. Product Name */}
           <Link
             href={`/shop/${product.slug}`}
-            className="font-serif text-lg sm:text-xl font-normal text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-1 block"
+            className="font-serif text-lg sm:text-xl font-normal text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-2 min-h-[3rem] sm:min-h-[3.25rem] flex items-center"
           >
             {product.name}
           </Link>
 
-          {/* Sommelier Tasting Notes Pill Matrix */}
-          {product.sensory?.tastingNotes && product.sensory.tastingNotes.length > 0 && (
+          {/* 3. Product Benefit Tags (Sommelier Tasting Notes or Harvest Grade Badge) */}
+          {product.sensory?.tastingNotes && product.sensory.tastingNotes.length > 0 ? (
             <div className="flex flex-wrap gap-1.5 pt-0.5">
               {product.sensory.tastingNotes.map((note) => (
                 <span
                   key={note}
-                  className="px-2 py-0.5 rounded-md bg-[#FAF5ED] text-[#704B32] text-[10px] font-medium tracking-wide border border-[#EAE3D5]"
+                  className="px-2 py-0.5 rounded-md bg-[#FAF5ED] text-[#704B32] text-[10px] font-medium tracking-wide border border-[#EAE3D5] whitespace-nowrap"
                 >
                   {note}
                 </span>
               ))}
             </div>
-          )}
-
-          {/* Short Narrative */}
-          <p className="text-xs text-[#7A6D5E] font-light line-clamp-2 leading-relaxed">
-            {product.shortDesc}
-          </p>
-
-          {/* ── 3. Tactile Fluid Segmented Weight Selector ── */}
-          {product.variants.length > 0 && (
-            <div className="pt-2">
-              <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-[#8C7E70] mb-1.5 font-medium">
-                <span>Select Pack:</span>
-                <span className="text-emerald-800 font-semibold">
-                  {product.stockStatus === 'IN_STOCK' ? '✓ Ready to Dispatch' : 'Limited'}
-                </span>
-              </div>
-              <div className="flex rounded-full bg-[#FAF5ED] p-1 border border-[#EAE3D5]">
-                {product.variants.map((v, idx) => (
-                  <button
-                    key={`${v.label}-${idx}`}
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      setSelectedVariantIdx(idx)
-                    }}
-                    className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all text-center ${
-                      selectedVariantIdx === idx
-                        ? 'bg-[#17233B] text-white shadow-xs'
-                        : 'text-[#6B6055] hover:text-[#17233B]'
-                    }`}
-                  >
-                    {v.label}
-                  </button>
-                ))}
-              </div>
+          ) : (
+            <div className="flex items-center gap-1.5 pt-0.5 text-[10px] text-[#8C7E70]">
+              <span className="px-2 py-0.5 rounded-md bg-[#FAF5ED]/60 text-[#704B32] font-medium border border-[#EAE3D5]/60 whitespace-nowrap">
+                ✦ {product.grade || '100% Single-Origin'}
+              </span>
+              <span className="text-[#8C7E70] font-light">· Certified Harvest</span>
             </div>
           )}
 
-          {/* Pricing & Value Index */}
-          <div className="pt-3 border-t border-[#F0EBE1] flex items-baseline justify-between">
+          {/* 4. Short Product Description (Deliberate flexible content container) */}
+          <div className="flex-1 flex flex-col justify-start pt-0.5">
+            <p className="text-xs text-[#7A6D5E] font-light line-clamp-2 sm:line-clamp-3 leading-relaxed">
+              {product.shortDesc}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bottom Commercial & Purchase Section: Pinned to bottom with margin-top: auto ── */}
+      <div className="mt-auto px-5 pb-5 pt-2 flex flex-col">
+        {/* 5. Pack-Size Selector and Availability */}
+        {product.variants.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-[#8C7E70] mb-1.5 font-medium">
+              <span>Select Pack:</span>
+              <span className="text-emerald-800 font-semibold">
+                {product.stockStatus === 'IN_STOCK' ? '✓ Ready to Dispatch' : 'Limited'}
+              </span>
+            </div>
+            <div className="flex rounded-full bg-[#FAF5ED] p-1 border border-[#EAE3D5]">
+              {product.variants.map((v, idx) => (
+                <button
+                  key={`${v.label}-${idx}`}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setSelectedVariantIdx(idx)
+                  }}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all text-center truncate px-1 ${
+                    selectedVariantIdx === idx
+                      ? 'bg-[#17233B] text-white shadow-xs'
+                      : 'text-[#6B6055] hover:text-[#17233B]'
+                  }`}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Small, consistent gap (approx 16–20 px) followed by Divider & Price */}
+        <div className="border-t border-[#F0EBE1] mt-4 sm:mt-[18px] pt-3">
+          {/* 7. Price, MRP and Savings */}
+          <div className="flex items-baseline justify-between gap-2 min-h-[1.75rem]">
             <div className="flex items-baseline gap-2">
               <span className="font-serif text-xl sm:text-2xl font-semibold text-[#17233B]">
                 {formatPrice(unitPrice)}
@@ -230,77 +248,78 @@ export default function ShopProductCard({
               )}
             </div>
             {savings > 0 && (
-              <span className="text-[11px] text-emerald-800 font-medium">
+              <span className="text-[11px] text-emerald-800 font-medium whitespace-nowrap">
                 Save {formatPrice(savings)}
               </span>
             )}
           </div>
-        </div>
-      </div>
 
-      {/* ── 4. Add to Basket Engine ── */}
-      <div className="p-5 pt-0 space-y-2">
-        <div className="flex items-center gap-2">
-          {/* Stepper */}
-          <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
+          {/* 8. Quantity Selector and Add to Basket Button (Small gap: 12–16 px) */}
+          <div className="mt-3 sm:mt-3.5 flex items-center gap-2">
+            {/* Stepper */}
+            <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setQuantity((q) => Math.max(1, q - 1))
+                }}
+                className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="w-6 text-center text-xs font-medium text-[#17233B]">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setQuantity((q) => q + 1)
+                }}
+                className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+
+            {/* Add Button */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                setQuantity((q) => Math.max(1, q - 1))
-              }}
-              className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
-              aria-label="Decrease quantity"
+              onClick={handleAddToCart}
+              className={`flex-1 py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
+                isAdded
+                  ? 'bg-emerald-700 text-white'
+                  : 'bg-[#17233B] hover:bg-[#1E5E58] text-white'
+              }`}
             >
-              −
-            </button>
-            <span className="w-6 text-center text-xs font-medium text-[#17233B]">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                setQuantity((q) => q + 1)
-              }}
-              className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
-              aria-label="Increase quantity"
-            >
-              +
+              <span>{isAdded ? '✓ Added to Basket' : 'Add to Basket'}</span>
             </button>
           </div>
 
-          {/* Add Button */}
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={`flex-1 py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
-              isAdded
-                ? 'bg-emerald-700 text-white'
-                : 'bg-[#17233B] hover:bg-[#1E5E58] text-white'
-            }`}
-          >
-            <span>{isAdded ? '✓ Added to Basket' : 'Add to Basket'}</span>
-          </button>
-        </div>
-
-        <div className="flex items-center justify-between text-[11px] text-[#8C7E70] pt-1">
-          <Link
-            href={`/shop/${product.slug}`}
-            className="hover:text-[#17233B] underline underline-offset-2"
-          >
-            Full Terroir &amp; Specs →
-          </Link>
-          {product.b2bPricePerKg && (
+          {/* 9. Product Details and Bulk Pricing Links */}
+          <div className="flex items-center justify-between text-[11px] text-[#8C7E70] mt-3 min-h-[1rem]">
             <Link
-              href="/business-supply"
-              className="hover:text-[#17233B]"
+              href={`/shop/${product.slug}`}
+              className="hover:text-[#17233B] underline underline-offset-2 transition-colors"
             >
-              Bulk from ₹{product.b2bPricePerKg}/kg
+              Full Terroir &amp; Specs →
             </Link>
-          )}
+            {product.b2bPricePerKg ? (
+              <Link
+                href="/business-supply"
+                className="hover:text-[#17233B] transition-colors"
+              >
+                Bulk from ₹{product.b2bPricePerKg}/kg
+              </Link>
+            ) : (
+              <span className="text-[10px] text-stone-400">100% Direct Provenance</span>
+            )}
+          </div>
         </div>
       </div>
     </article>

@@ -317,7 +317,7 @@ export default function GiftingHomeClient() {
                         fill
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
                         quality={90}
-                        className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_8px_16px_rgba(0,0,0,0.06)]"
                       />
                     </Link>
 

@@ -25,7 +25,7 @@ const COLLECTIONS = [
     title: 'Mithila Giant Lotus Seed Lot',
     tagline: 'Pristine freshwater pond harvested Makhana, slow-roasted and optically graded for maximum puff volume.',
     badge: 'Grade-A 6-Soot Jumbo',
-    image: '/images/makhana-pouch-250g.jpg',
+    image: '/images/makhana-pouch-250g.webp',
     href: '/shop?category=makhana',
     accent: 'from-[#14532D]/90 to-transparent',
   },

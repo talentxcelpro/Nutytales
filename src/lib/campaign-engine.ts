@@ -111,7 +111,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Eidi Gifting', 'Sheer Khurma', 'Community Banquets', 'Fine Apparel'],
     suggestedGifts: ['Arabian Medjool Dates', 'GI Mongra Saffron', 'Kashmiri Walnut Kernel Halves', 'Handmade Pashmina Shawl'],
     relatedVerticals: ['gifting', 'crafts', 'business', 'stays'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'christmas',
@@ -124,7 +124,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Holiday Hamper Exchange', 'Artisan Bakery Baking', 'Winter Fireside Feasts'],
     suggestedGifts: ['Gourmet Spiced Nut Collection', 'Walnut Wood Keepsake Chest', 'Forest Raw Honey', 'Cashmere Wool Wrap'],
     relatedVerticals: ['gifting', 'business', 'stays', 'travel', 'crafts'],
-    heroImage: '/images/luxury-teal-gift-box.jpg',
+    heroImage: '/images/luxury-teal-gift-box.webp',
   },
   {
     id: 'hanukkah',
@@ -137,7 +137,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Menorah Lighting', 'Traditional Treats', 'Gifting Delicacies'],
     suggestedGifts: ['Assorted Tree Nuts Gift Pack', 'High-Elevation Walnuts', 'Cold-Pressed Almond Oil'],
     relatedVerticals: ['gifting', 'business'],
-    heroImage: '/images/long-festive-gift-box.jpg',
+    heroImage: '/images/long-festive-gift-box.webp',
   },
   {
     id: 'lunar-new-year',
@@ -163,7 +163,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Thandai Saffron Concoctions', 'Organic Colors', 'Festive Snacking'],
     suggestedGifts: ['Thandai Saffron & Nut Kit', 'Roasted Peri Peri Makhana', 'Pistachios & Almonds'],
     relatedVerticals: ['gifting', 'business'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'navratri',
@@ -176,7 +176,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Fasting & Sattvic Nutrition', 'Spiritual Feasts', 'Pure Harvest Sourcing'],
     suggestedGifts: ['Jumbo Phool Makhana 6+ Sutra', 'Californian Almonds', 'Organic Dates'],
     relatedVerticals: ['gifting', 'business'],
-    heroImage: '/images/makhana-pouch-250g.jpg',
+    heroImage: '/images/makhana-pouch-250g.webp',
   },
   {
     id: 'raksha-bandhan',
@@ -189,7 +189,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Rakhi Thread Binding', 'Gift Exchange', 'Sweet & Nut Tokens'],
     suggestedGifts: ['Sibling Gourmet Nut Trunk', 'Velvet Embroidered Pouch with Saffron', 'Roasted Nut Trio'],
     relatedVerticals: ['gifting', 'crafts'],
-    heroImage: '/images/luxury-teal-gift-box.jpg',
+    heroImage: '/images/luxury-teal-gift-box.webp',
   },
   {
     id: 'thanksgiving',
@@ -202,7 +202,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Harvest Tables', 'Baking Pies', 'Client Gratitude Notes'],
     suggestedGifts: ['Walnut Halves for Baking', 'Smoked Almonds & Cashews', 'Raw Chinar Honey'],
     relatedVerticals: ['gifting', 'business'],
-    heroImage: '/images/long-festive-gift-box.jpg',
+    heroImage: '/images/long-festive-gift-box.webp',
   },
   {
     id: 'mothers-day',
@@ -215,7 +215,7 @@ export const FESTIVALS: FestivalEntity[] = [
     traditions: ['Wellness Care Packs', 'Pashmina Wrap Gifting', 'Breakfast in Bed Hampers'],
     suggestedGifts: ['Pure Handloom Pashmina Stole', 'Kashmir Saffron & Green Tea Tin', 'Mamra Badam Wellness Jar'],
     relatedVerticals: ['gifting', 'crafts', 'stays'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'fathers-day',
@@ -284,7 +284,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Water-Resistant Wool Capes', 'Handwoven Throws & Blankets', 'Heritage Rugs'],
     culinaryHighlights: ['Spiced Masala Roasted Nuts', 'Immunity Seed Mixes', 'Raw Forest Honey'],
     travelHighlights: ['Yusmarg Rain-Soaked Pine Meadows', 'Aru Valley Waterfall Hikes'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'harvest-season',
@@ -297,7 +297,7 @@ export const SEASONS: SeasonEntity[] = [
     craftHighlights: ['Harvest Celebration Keepsakes', 'Artisan Walnut Wood Trays'],
     culinaryHighlights: ['New-Crop Wet In-Shell Walnuts', 'Fresh GI Saffron Stigmas', 'Jumbo Grade 6 Makhana'],
     travelHighlights: ['Pampore Purple Saffron Field Walking', 'Walnut Orchard Harvest Trails'],
-    heroImage: '/images/makhana-pouch-250g.jpg',
+    heroImage: '/images/makhana-pouch-250g.webp',
   },
 ]
 
@@ -323,7 +323,7 @@ export const OCCASIONS: OccasionEntity[] = [
       'Customized wedding favors, royal silver-plated and walnut wood trousseau gift boxes with customized couple crests and GI-certified ingredients.',
     idealFor: ['Destination Wedding Guest Welcomes', 'Mehendi Favors', 'Roka Announcements', 'Royal Return Gifts'],
     suggestedHampers: ['Royal Trousseau Keepsake Chest', 'Silver Bowl Dry Fruit Set', 'Bespoke Saffron & Honey Favors'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'employee-recognition',
@@ -334,7 +334,7 @@ export const OCCASIONS: OccasionEntity[] = [
       'Day-1 welcome kits and milestone anniversary recognition packages shipped automatically via HRMS integrations or bulk CSV roster uploads.',
     idealFor: ['Day-1 Onboarding', 'Work Anniversary', 'Quarterly Excellence Awards', 'Retirement Honors'],
     suggestedHampers: ['The Gulmarg Celebration Casket', 'Nuty Nutrition Work Desk Pack', 'Custom Branded Sleeve Box'],
-    heroImage: '/images/luxury-teal-gift-box.jpg',
+    heroImage: '/images/luxury-teal-gift-box.webp',
   },
   {
     id: 'client-appreciation',
@@ -345,7 +345,7 @@ export const OCCASIONS: OccasionEntity[] = [
       'High-impact CXO-tier gifts designed to strengthen multi-million enterprise relationships with personalized wax-sealed handwritten notes.',
     idealFor: ['Key Account Milestones', 'Contract Renewal Celebration', 'Holiday Gratitude', 'C-Suite Networking'],
     suggestedHampers: ['Hand-Carved Walnut Keepsake Casket with GI Mongra Saffron & Mamra Almonds'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'birthday-anniversary',
@@ -356,7 +356,7 @@ export const OCCASIONS: OccasionEntity[] = [
       'Curated luxury gift presentations with personalized ribbon greetings, dry fruit heart packs, and doorstep express delivery.',
     idealFor: ['Milestone Birthdays', 'Silver & Golden Anniversaries', 'Family Celebrations'],
     suggestedHampers: ['Bespoke Velvet Ribbon Gift Box', 'Premium Nut & Dried Berry Collection'],
-    heroImage: '/images/long-festive-gift-box.jpg',
+    heroImage: '/images/long-festive-gift-box.webp',
   },
   {
     id: 'welcome-gift',
@@ -381,7 +381,7 @@ export const LIFE_EVENTS: LifeEventEntity[] = [
       'End-to-end destination wedding orchestration: luxury heritage venues in Kashmir & Rajasthan, guest concierge, authentic Wazwan banqueting, and heirloom favor hampers.',
     milestones: ['Roka Ceremony', 'Mehendi & Sangeet', 'Main Nuptials', 'Wazwan Reception', 'Honeymoon Transition'],
     connectedVerticals: ['weddings', 'gifting', 'stays', 'travel', 'crafts'],
-    heroImage: '/images/luxury-hamper-jars.png',
+    heroImage: '/images/luxury-hamper-jars.webp',
   },
   {
     id: 'corporate-retreats',
@@ -445,7 +445,7 @@ export const TRAVEL_SEASONS: TravelSeasonEntity[] = [
     bestMonths: 'September – November',
     experiences: ['Chinar Foliage Walking Trails', 'Pampore Saffron Harvesting', 'Walnut Harvest Orchards', 'Heritage Artisan Guilds'],
     destinations: ['Srinagar', 'Pampore', 'Harwan', 'Dachigam'],
-    heroImage: '/images/makhana-pouch-250g.jpg',
+    heroImage: '/images/makhana-pouch-250g.webp',
   },
 ]
 

@@ -11,7 +11,7 @@ import { COMMERCIAL_HUBS, getHubBySlug } from '@/lib/seo/commercial-hubs'
 import { schemaToJsonLd } from '@/lib/seo/metadata'
 
 interface PageProps {
-  params: Promise<{ product: string; city: string }>
+  params: Promise<{ slug: string; city: string }>
 }
 
 // Top product-city combinations pre-rendered at build time; all others generated on-demand (ISR)
@@ -43,17 +43,17 @@ export async function generateStaticParams() {
     'dubai-deira-spice-souk',
   ]
 
-  const paramsList: Array<{ product: string; city: string }> = []
+  const paramsList: Array<{ slug: string; city: string }> = []
   for (const p of topProducts) {
     for (const h of topHubs) {
-      paramsList.push({ product: p, city: h })
+      paramsList.push({ slug: p, city: h })
     }
   }
   return paramsList
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { product: productSlug, city: citySlug } = await params
+  const { slug: productSlug, city: citySlug } = await params
   const product = PRODUCTS.find((p) => p.slug === productSlug)
   const hub = getHubBySlug(citySlug)
 
@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProductCityWholesalePage({ params }: PageProps) {
-  const { product: productSlug, city: citySlug } = await params
+  const { slug: productSlug, city: citySlug } = await params
   const product = PRODUCTS.find((p) => p.slug === productSlug)
   const hub = getHubBySlug(citySlug)
 

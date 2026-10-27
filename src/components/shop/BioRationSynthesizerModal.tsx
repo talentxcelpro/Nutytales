@@ -196,7 +196,7 @@ export default function BioRationSynthesizerModal({
         unitPrice: stats.boxCost,
         quantity: 1,
         totalPrice: stats.boxCost,
-        image: '/images/almonds-pouch-250g.jpg',
+        image: '/images/almonds-pouch-250g.webp',
         meta: {
           portions,
           totalGrams: stats.totalGrams,

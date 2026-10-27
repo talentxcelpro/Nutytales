@@ -24,14 +24,14 @@ const WORLD_REGIONS = [
     tradition: 'Fez Glazed Ceramics & Berber Kilims',
     desc: 'Zellij mosaic techniques and hand-knotted wool rugs woven by indigenous women in the High Atlas Mountains.',
     status: 'Phase 3 Exploration',
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: '/images/dark-wood-gourmet-tray.webp',
   },
   {
     country: 'Turkey',
     tradition: 'Iznik Hand-Painted Pottery & Silk Carpets',
     desc: 'Cobalt and turquoise fritware ceramics from Iznik, and centuries-old double-knot silk weaving from Hereke.',
     status: 'Phase 3 Exploration',
-    image: '/images/crystal-gold-nut-bowls.jpg',
+    image: '/images/crystal-gold-nut-bowls.webp',
   },
   {
     country: 'Afghanistan',

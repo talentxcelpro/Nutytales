@@ -141,7 +141,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 quality={92}
-                className="object-cover"
+                className="object-contain p-4 drop-shadow-[0_12px_24px_rgba(0,0,0,0.06)]"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   }`}
                 >
                   <div className="relative w-full h-full rounded-xl overflow-hidden">
-                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill sizes="80px" quality={85} className="object-cover" />
+                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill sizes="80px" quality={85} className="object-contain p-1 drop-shadow-xs" />
                   </div>
                 </button>
               ))}
@@ -544,7 +544,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 className="bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group p-3 space-y-2"
               >
                 <Link href={`/gifting/product/${rel.slug}`} className="block relative aspect-square rounded-xl overflow-hidden bg-stone-50">
-                  <Image src={rel.primaryImage} alt={rel.name} fill className="object-cover group-hover:scale-105 transition-transform" />
+                  <Image src={rel.primaryImage} alt={rel.name} fill className="object-contain p-2 group-hover:scale-105 transition-transform drop-shadow-xs" />
                 </Link>
                 <div>
                   <Link href={`/gifting/product/${rel.slug}`} className="font-serif text-xs font-bold text-[#17233B] line-clamp-1 hover:text-[#C9A45C]">

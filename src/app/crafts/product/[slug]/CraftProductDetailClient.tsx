@@ -45,7 +45,7 @@ export default function CraftProductDetailClient() {
           secondaryImage: legacyItem.additionalImages?.[1] || legacyItem.image,
           detailImage: legacyItem.additionalImages?.[2] || legacyItem.image,
           textureImage: legacyItem.image,
-          packagingImage: '/images/crafts-gifting-box.jpg',
+          packagingImage: '/images/crafts-gifting-box.webp',
           additionalImages: legacyItem.additionalImages || [],
           sizes: legacyItem.sizes,
           colorOptions: legacyItem.colorOptions,

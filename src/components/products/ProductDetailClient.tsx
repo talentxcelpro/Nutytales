@@ -230,7 +230,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   isZoomed ? 'scale-125' : 'scale-100'
                 } ${
                   activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box') || activeImage.includes('promo')
-                    ? 'object-contain p-4'
+                    ? 'object-contain p-4 drop-shadow-[0_16px_32px_rgba(0,0,0,0.07)]'
                     : 'object-cover'
                 }`}
                 style={
@@ -314,7 +314,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   sizes="90px"
                   className={
                     img.includes('pouch') || img.includes('jar') || img.includes('box') || img.includes('promo')
-                      ? 'object-contain p-1'
+                      ? 'object-contain p-1 drop-shadow-xs'
                       : 'object-cover'
                   }
                 />

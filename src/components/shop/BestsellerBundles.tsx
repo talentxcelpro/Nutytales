@@ -40,9 +40,9 @@ const BUNDLES: Bundle[] = [
     bundlePrice: 2899,
     savings: 575,
     items: [
-      { name: 'Kashmiri Mamra Almonds', weight: '500g', image: '/images/mamra-almonds-pouch-250g.jpg' },
-      { name: 'Kashmir Kagzi Akhrot', weight: '500g', image: '/images/kashmir-kagzi-akhrot-250g.jpg' },
-      { name: 'Pure Acacia Honey', weight: '500g', image: '/images/kashmir-honey-jar-500g.jpg' },
+      { name: 'Kashmiri Mamra Almonds', weight: '500g', image: '/images/mamra-almonds-pouch-250g.webp' },
+      { name: 'Kashmir Kagzi Akhrot', weight: '500g', image: '/images/kashmir-kagzi-akhrot-250g.webp' },
+      { name: 'Pure Acacia Honey', weight: '500g', image: '/images/kashmir-honey-jar-500g.webp' },
     ],
     cartPayload: [
       {
@@ -53,7 +53,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 2184,
         quantity: 1,
         totalPrice: 2184,
-        image: '/images/mamra-almonds-pouch-250g.jpg',
+        image: '/images/mamra-almonds-pouch-250g.webp',
       },
       {
         productId: 'wln-001',
@@ -63,7 +63,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 510,
         quantity: 1,
         totalPrice: 510,
-        image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+        image: '/images/kashmir-kagzi-akhrot-250g.webp',
       },
       {
         productId: 'hny-001',
@@ -73,7 +73,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 780,
         quantity: 1,
         totalPrice: 780,
-        image: '/images/kashmir-honey-jar-500g.jpg',
+        image: '/images/kashmir-honey-jar-500g.webp',
       },
     ],
   },
@@ -86,10 +86,10 @@ const BUNDLES: Bundle[] = [
     bundlePrice: 1899,
     savings: 358,
     items: [
-      { name: 'California Almonds', weight: '500g', image: '/images/almonds-pouch-250g.jpg' },
-      { name: 'W240 Jumbo Cashews', weight: '500g', image: '/images/cashews-pouch-250g.jpg' },
-      { name: 'Bihar Jumbo Makhana', weight: '250g', image: '/images/makhana-pouch-250g.jpg' },
-      { name: 'Afghan Green Kishmish', weight: '500g', image: '/images/raisins-pouch-250g.jpg' },
+      { name: 'California Almonds', weight: '500g', image: '/images/almonds-pouch-250g.webp' },
+      { name: 'W240 Jumbo Cashews', weight: '500g', image: '/images/cashews-pouch-250g.webp' },
+      { name: 'Bihar Jumbo Makhana', weight: '250g', image: '/images/makhana-pouch-250g.webp' },
+      { name: 'Afghan Green Kishmish', weight: '500g', image: '/images/raisins-pouch-250g.webp' },
     ],
     cartPayload: [
       {
@@ -100,7 +100,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 650,
         quantity: 1,
         totalPrice: 650,
-        image: '/images/almonds-pouch-250g.jpg',
+        image: '/images/almonds-pouch-250g.webp',
       },
       {
         productId: 'csw-001',
@@ -110,7 +110,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 754,
         quantity: 1,
         totalPrice: 754,
-        image: '/images/cashews-pouch-250g.jpg',
+        image: '/images/cashews-pouch-250g.webp',
       },
       {
         productId: 'mkh-001',
@@ -120,7 +120,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 551,
         quantity: 1,
         totalPrice: 551,
-        image: '/images/makhana-pouch-250g.jpg',
+        image: '/images/makhana-pouch-250g.webp',
       },
       {
         productId: 'rsn-001',
@@ -130,7 +130,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 302,
         quantity: 1,
         totalPrice: 302,
-        image: '/images/raisins-pouch-250g.jpg',
+        image: '/images/raisins-pouch-250g.webp',
       },
     ],
   },
@@ -143,9 +143,9 @@ const BUNDLES: Bundle[] = [
     bundlePrice: 2999,
     savings: 564,
     items: [
-      { name: 'Pure Mongra Saffron', weight: '5g Jar', image: '/images/saffron-jar-5g.jpg' },
-      { name: 'Kashmir Kagzi Akhrot', weight: '500g', image: '/images/kashmir-kagzi-akhrot-250g.jpg' },
-      { name: 'Mamra Almonds', weight: '250g', image: '/images/mamra-almonds-pouch-250g.jpg' },
+      { name: 'Pure Mongra Saffron', weight: '5g Jar', image: '/images/saffron-jar-5g.webp' },
+      { name: 'Kashmir Kagzi Akhrot', weight: '500g', image: '/images/kashmir-kagzi-akhrot-250g.webp' },
+      { name: 'Mamra Almonds', weight: '250g', image: '/images/mamra-almonds-pouch-250g.webp' },
     ],
     cartPayload: [
       {
@@ -156,7 +156,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 1950,
         quantity: 1,
         totalPrice: 1950,
-        image: '/images/saffron-jar-5g.jpg',
+        image: '/images/saffron-jar-5g.webp',
       },
       {
         productId: 'wln-001',
@@ -166,7 +166,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 510,
         quantity: 1,
         totalPrice: 510,
-        image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+        image: '/images/kashmir-kagzi-akhrot-250g.webp',
       },
       {
         productId: 'alm-002',
@@ -176,7 +176,7 @@ const BUNDLES: Bundle[] = [
         unitPrice: 1103,
         quantity: 1,
         totalPrice: 1103,
-        image: '/images/mamra-almonds-pouch-250g.jpg',
+        image: '/images/mamra-almonds-pouch-250g.webp',
       },
     ],
   },

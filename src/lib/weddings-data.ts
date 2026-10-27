@@ -66,31 +66,31 @@ export const PACKAGING_STYLES = [
     id: 'rigid-box',
     name: 'Luxury Rigid Gift Box',
     desc: 'Heavy 1200 GSM Kappa board with gold hot foil stamping, magnetic clasp, and custom couple monogram.',
-    image: '/images/luxury-teal-gift-box.jpg',
+    image: '/images/luxury-teal-gift-box.webp',
   },
   {
     id: 'walnut-chest',
     name: 'Kashmiri Hand-Carved Walnut Chest',
     desc: 'Solid root-wood carved by Srinagar master artisans with brass hardware. An heirloom that lives in homes forever.',
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: '/images/dark-wood-gourmet-tray.webp',
   },
   {
     id: 'craft-box',
     name: 'Kashmir Papier-Mâché Keepsake Box',
     desc: 'Handmade paper pulp with genuine gold leaf floral motifs. Exquisite, sustainable, and uniquely Kashmiri.',
-    image: '/images/long-festive-gift-box.jpg',
+    image: '/images/long-festive-gift-box.webp',
   },
   {
     id: 'brass-tray',
     name: 'Embossed Brass / Copper Serving Platter',
     desc: 'Traditional hammered metal craftsmanship from artisan guilds with velvet ribbon wrapping.',
-    image: '/images/crystal-gold-nut-bowls.jpg',
+    image: '/images/crystal-gold-nut-bowls.webp',
   },
   {
     id: 'custom-sleeve',
     name: 'Custom Pantone-Matched Designer Sleeve',
     desc: 'Tailored to match your wedding invitation color palette, typography, wax seals, and laser cuts.',
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: '/images/dark-wood-gourmet-tray.webp',
   },
 ]
 
@@ -102,7 +102,7 @@ export const WEDDING_CURATIONS = [
     price: 3800,
     contents: ['200g Kashmiri Kagzi Akhrot', '200g W240 Cashews', '200g California Almonds', '1g Pure Pampore Mongra Saffron', '250g Raw Acacia Honey'],
     packaging: 'Emerald Velvet Rigid Chest with Gold Foil Seal',
-    image: '/images/long-festive-gift-box.jpg',
+    image: '/images/long-festive-gift-box.webp',
     minQty: 25,
   },
   {
@@ -112,7 +112,7 @@ export const WEDDING_CURATIONS = [
     price: 1250,
     contents: ['150g California Almonds', '150g Roasted Salted Cashews', '100g Desi Ghee Pink Salt Makhana', 'Personalized Wedding Note'],
     packaging: 'Custom Monogram Rigid Box with Satin Ribbon',
-    image: '/images/luxury-teal-gift-box.jpg',
+    image: '/images/luxury-teal-gift-box.webp',
     minQty: 50,
   },
   {
@@ -122,7 +122,7 @@ export const WEDDING_CURATIONS = [
     price: 1850,
     contents: ['150g California Almonds', '150g W240 Cashews', '150g Iranian Pistachios', '150g Royal Medjool Dates'],
     packaging: 'Gold Foil 4-Jar Octagonal Presentation Box',
-    image: '/images/luxury-hamper-jars.png',
+    image: '/images/luxury-hamper-jars.webp',
     minQty: 50,
   },
   {
@@ -132,7 +132,7 @@ export const WEDDING_CURATIONS = [
     price: 8500,
     contents: ['Pure Cashmere Pashmina Stole', '1g Pampore Saffron', '250g Snow White Walnuts', '250g Mamra Almonds', 'Hand-Carved Walnut Wood Box'],
     packaging: 'Heirloom Carved Kashmiri Walnut Wood Box',
-    image: '/images/dark-wood-gourmet-tray.jpg',
+    image: '/images/dark-wood-gourmet-tray.webp',
     minQty: 10,
   },
 ]

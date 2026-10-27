@@ -104,7 +104,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'alm-002',
         slug: 'mamra-almonds-kashmiri-badam',
         name: 'Mamra Almonds (Kashmiri Badam)',
-        image: '/images/mamra-almonds-pouch-250g.jpg',
+        image: '/images/mamra-almonds-pouch-250g.webp',
         tag: 'Glacial Sourced · 52.8% Oil',
         variants: [
           { label: '250g', retailPrice: 1103, mrp: 1301 },
@@ -116,7 +116,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'hny-001',
         slug: 'pure-kashmiri-acacia-honey',
         name: 'Pure Kashmiri Acacia Honey',
-        image: '/images/kashmir-honey-jar-500g.jpg',
+        image: '/images/kashmir-honey-jar-500g.webp',
         tag: 'Single-Bloom · Non-Crystallizing',
         variants: [
           { label: '250g Jar', retailPrice: 420, mrp: 499 },
@@ -191,7 +191,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'saf-001',
         slug: 'kashmiri-mongra-saffron',
         name: 'Pure Kashmiri Mongra Saffron',
-        image: '/images/saffron-jar-5g.jpg',
+        image: '/images/saffron-jar-5g.webp',
         tag: 'Pampore Karewas · Grade-1 Stigmas',
         variants: [
           { label: '1g Jar', retailPrice: 420, mrp: 499 },
@@ -203,7 +203,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'pst-003',
         slug: 'green-peeled-pista-slivers',
         name: 'Green Peeled Pista Slivers',
-        image: '/images/pista-slivers-pouch-250g.jpg',
+        image: '/images/pista-slivers-pouch-250g.webp',
         tag: 'Vibrant Emerald · Wazwan Garnish',
         variants: [
           { label: '250g', retailPrice: 1011, mrp: 1193 },
@@ -273,7 +273,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'wln-001',
         slug: 'kashmiri-walnuts-in-shell',
         name: 'Kashmiri Kagzi Akhrot (Paper Shell)',
-        image: '/images/kashmir-kagzi-akhrot-250g.jpg',
+        image: '/images/kashmir-kagzi-akhrot-250g.webp',
         tag: 'Paper-Thin Shell · Hand-Cracked',
         variants: [
           { label: '250g', retailPrice: 257, mrp: 304 },
@@ -292,7 +292,7 @@ const ARTICLES: JournalArticle[] = [
     categorySlug: 'ancient',
     readTime: '6 min read',
     labCertification: 'Glycemic Index: 35 · Zero Trans-Fat',
-    heroImage: '/images/makhana-pouch-250g.jpg',
+    heroImage: '/images/makhana-pouch-250g.webp',
     summary:
       'The breathtaking mud-diving harvest of fox nuts in the oxbow lakes of Mithila, and why slow roasting in A2 Desi Ghee preserves delicate flavonoid antioxidants while delivering pure crunch.',
     leadQuote:
@@ -343,7 +343,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'mkh-001',
         slug: 'makhana-grade-a-fox-nuts',
         name: 'Makhana Grade A (Fox Nuts)',
-        image: '/images/makhana-pouch-250g.jpg',
+        image: '/images/makhana-pouch-250g.webp',
         tag: '7-Suta Jumbo · North Bihar Oxbow Lakes',
         variants: [
           { label: '250g', retailPrice: 551, mrp: 650 },
@@ -408,7 +408,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'pst-003',
         slug: 'green-peeled-pista-slivers',
         name: 'Green Peeled Pista Slivers',
-        image: '/images/pista-slivers-pouch-250g.jpg',
+        image: '/images/pista-slivers-pouch-250g.webp',
         tag: 'Peshawari Green · Emerald Grade',
         variants: [
           { label: '250g', retailPrice: 1011, mrp: 1193 },
@@ -420,7 +420,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'ber-001',
         slug: 'iranian-ruby-barberries-zereshk',
         name: 'Iranian Ruby Wild Barberries (Zereshk)',
-        image: '/images/barberries-pouch-250g.jpg',
+        image: '/images/barberries-pouch-250g.webp',
         tag: 'Tart Ruby Jewels · Silk Route',
         variants: [
           { label: '250g', retailPrice: 381, mrp: 449 },
@@ -432,7 +432,7 @@ const ARTICLES: JournalArticle[] = [
         id: 'anj-003',
         slug: 'afghan-kandahari-mala-anjeer',
         name: 'Afghan Kandahari Mala Anjeer',
-        image: '/images/anjeer-mala-pouch-250g.jpg',
+        image: '/images/anjeer-mala-pouch-250g.webp',
         tag: 'Cotton-Wreath String Figs',
         variants: [
           { label: '250g', retailPrice: 643, mrp: 759 },

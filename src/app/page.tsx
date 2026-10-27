@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { PRODUCTS } from '@/lib/products-data'
 import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
-import MakhanaPromoSpotlight from '@/components/shop/MakhanaPromoSpotlight'
+import HeroBannerSuite from '@/components/home/HeroBannerSuite'
 import { FSSAI_NUMBER } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -125,8 +125,8 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* ── Featured Campaign Hero: NutyTales Premium Makhana ₹899/kg Only ── */}
-      <MakhanaPromoSpotlight />
+      {/* ── Interactive Gourmet Hero Experience ── */}
+      <HeroBannerSuite />
 
       {/* ── Main Catalog Experience directly on Index Page ── */}
       <Suspense>

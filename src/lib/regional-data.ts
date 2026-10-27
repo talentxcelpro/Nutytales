@@ -438,12 +438,12 @@ export function sanitizeProductForRegionalMarket(product: Product): Product {
 
   // Replace promotional graphics that display domestic INR prices like "₹899 per kg only"
   if (image && (image.includes('899') || image.includes('promo-makhana'))) {
-    image = '/images/makhana-pouch-250g.jpg'
+    image = '/images/makhana-pouch-250g.webp'
   }
 
   images = images.map((img) => {
     if (img.includes('899') || img.includes('promo-makhana')) {
-      return '/images/makhana-pouch-250g.jpg'
+      return '/images/makhana-pouch-250g.webp'
     }
     return img
   })

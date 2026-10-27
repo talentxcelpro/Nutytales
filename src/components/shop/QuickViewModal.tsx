@@ -26,7 +26,7 @@ export default function QuickViewModal({
   if (!isOpen || !product) return null
 
   const gallery = getProductDynamicGallery(product)
-  const activeImage = gallery[selectedImageIdx] || product.image || '/images/almonds-pouch-250g.jpg'
+  const activeImage = gallery[selectedImageIdx] || product.image || '/images/almonds-pouch-250g.webp'
 
   const currentVariant =
     product.variants[selectedVariantIdx] || product.variants[0]
@@ -35,7 +35,7 @@ export default function QuickViewModal({
   const mrp = currentVariant.mrp || Math.round(unitPrice * 1.15)
   const savings = mrp > unitPrice ? mrp - unitPrice : 0
 
-  const primaryImage = product.image || '/images/almonds-pouch-250g.jpg'
+  const primaryImage = product.image || '/images/almonds-pouch-250g.webp'
 
   const handleAddToCart = () => {
     try {
@@ -122,10 +122,10 @@ export default function QuickViewModal({
                 quality={95}
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className={`transition-all duration-300 drop-shadow-xs ${
-                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box')
-                    ? 'object-contain p-3'
-                    : 'object-cover rounded-2xl'
+                className={`transition-all duration-300 ${
+                  activeImage.includes('pouch') || activeImage.includes('jar') || activeImage.includes('box') || activeImage.includes('promo')
+                    ? 'object-contain p-3 drop-shadow-[0_12px_24px_rgba(0,0,0,0.06)]'
+                    : 'object-cover rounded-2xl drop-shadow-xs'
                 }`}
               />
             </div>

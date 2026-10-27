@@ -154,7 +154,7 @@ export default function SIGiftDesigner({
       let title = 'The Royal Kashmir Gourmet & Heritage Collection'
       let subtitle = 'High-altitude GI Saffron · Mamra Badam · Carved Walnut Casket'
       let tierName = 'Executive Luxury Program'
-      let image = '/images/luxury-hamper-jars.png'
+      let image = '/images/luxury-hamper-jars.webp'
       let badge = 'SI TAILORED ARCHITECTURE'
       let packaging = 'Hand-carved Solid Walnut Wood Casket with Brass Insignia'
       let personalization = 'Laser-etched recipient name & hot-foil custom company crest wax seal'
@@ -173,7 +173,7 @@ export default function SIGiftDesigner({
         title = 'The Valley Of Chinar Destination Wedding Favor'
         subtitle = 'Kashmiri Saffron Kahwa · Papier-Mâché Bauble · Walnut Keepsake'
         tierName = 'Wedding Favors & Guest Suite Program'
-        image = '/images/luxury-teal-gift-box.jpg'
+        image = '/images/luxury-teal-gift-box.webp'
         packaging = 'Teal Chinar Gold-Embossed Rigid Box with Silk Drawstring Pouches'
         personalization = 'Couple monogram in gold foil + individualized guest room delivery tags'
         contents = [
@@ -202,7 +202,7 @@ export default function SIGiftDesigner({
         title = 'The Catalyst Day-1 Wellness & Onboarding Kit'
         subtitle = 'Clean Energy Makhana · California Almonds · Sustainable Desk Accents'
         tierName = 'Enterprise Onboarding OS'
-        image = '/images/long-festive-gift-box.jpg'
+        image = '/images/long-festive-gift-box.webp'
         packaging = 'FSC-Certified Minimalist Magnetic Matte Box with Custom Sleeve'
         personalization = 'Welcome note signed by Department Head + QR video welcome from CEO'
         contents = [
@@ -253,7 +253,7 @@ export default function SIGiftDesigner({
         title = 'The Chinar Essence Celebration Box'
         subtitle = 'Optimized Value · Zero Quality Compromise · Multi-City Ready'
         tierName = 'Scale Workforce & Community Program'
-        image = '/images/long-festive-gift-box.jpg'
+        image = '/images/long-festive-gift-box.webp'
         packaging = 'Rigid 3-Tier Gold-Foil Gift Box with Ribbon Pull'
         personalization = 'Custom company foil logo sleeve & festive greeting'
         contents = [

@@ -66,7 +66,7 @@ export default function CorporateEditorialSection() {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
               <div className="relative aspect-[4/3] w-full">
                 <Image
-                  src="/images/luxury-hamper-jars.png"
+                  src="/images/luxury-hamper-jars.webp"
                   alt="Nuty Tales Luxury Corporate Gift Hamper with Glass Jars"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"

@@ -79,7 +79,7 @@ export default function RegionalCatalogClient({
         price: item.regionalPrice,
         formattedPrice: item.formattedPrice,
         currency: activeCurrency,
-        image: item.baseProduct.image || '/images/luxury-hamper-jars.png',
+        image: item.baseProduct.image || '/images/luxury-hamper-jars.webp',
         quantity: 1,
         variant: '1kg / Standard Pack',
         region: config.key,
@@ -248,7 +248,7 @@ export default function RegionalCatalogClient({
               <Link href={`${storeHref}/${item.regionalSlug}`} className="space-y-3 block">
                 <div className="aspect-square rounded-2xl overflow-hidden relative bg-stone-900 border border-white/10">
                   <Image
-                    src={item.baseProduct.image || '/images/luxury-hamper-jars.png'}
+                    src={item.baseProduct.image || '/images/luxury-hamper-jars.webp'}
                     alt={item.regionalName}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

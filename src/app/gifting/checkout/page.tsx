@@ -463,7 +463,7 @@ export default function GiftingCheckoutPage() {
                 <div key={idx} className="flex gap-3 items-center justify-between py-1 border-b border-stone-50">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
-                      {item.image && <Image src={item.image} alt={item.name} fill className="object-cover" />}
+                      {item.image && <Image src={item.image} alt={item.name} fill className="object-contain p-0.5" />}
                     </div>
                     <div className="truncate">
                       <strong className="block text-stone-800 truncate">{item.name}</strong>
