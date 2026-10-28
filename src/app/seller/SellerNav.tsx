@@ -94,7 +94,7 @@ export default function SellerNav() {
           </button>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] uppercase tracking-wider text-[#C5A869] font-bold">Nuty Tales</span>
+              <span className="text-[9px] uppercase tracking-wider text-[#C5A869] font-bold">Nutytales</span>
               <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
                 0% Fee
               </span>
@@ -110,12 +110,12 @@ export default function SellerNav() {
             onChange={(e) => setReportingCurrency(e.target.value as any)}
             className="text-[11px] bg-[#1F4A38] text-stone-100 rounded px-1.5 py-1 border border-[#2B5D48] font-mono font-bold"
           >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="AED">AED</option>
-            <option value="INR">INR</option>
-            <option value="CAD">CAD</option>
+            <option value="INR">INR (₹)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="AED">AED (د.إ)</option>
+            <option value="CAD">CAD (C$)</option>
           </select>
           <Link
             href="/seller/register"
@@ -141,7 +141,7 @@ export default function SellerNav() {
               </div>
               <div>
                 <span className="font-serif text-base tracking-tight font-bold text-white block leading-tight">
-                  Nuty Tales
+                  Nutytales
                 </span>
                 <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-bold block">
                   Seller Central
@@ -269,11 +269,11 @@ export default function SellerNav() {
               onChange={(e) => setReportingCurrency(e.target.value as any)}
               className="text-xs bg-[#1C4332] text-stone-100 rounded px-2 py-0.5 border border-[#2B5D48] font-mono font-semibold"
             >
+              <option value="INR">INR (₹)</option>
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="GBP">GBP (£)</option>
               <option value="AED">AED (د.إ)</option>
-              <option value="INR">INR (₹)</option>
               <option value="CAD">CAD (C$)</option>
             </select>
           </div>

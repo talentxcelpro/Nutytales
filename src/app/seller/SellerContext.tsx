@@ -31,13 +31,13 @@ const SellerContext = createContext<SellerContextType>({
   availableSellers: [],
   switchSeller: async () => {},
   refreshSeller: async () => {},
-  reportingCurrency: 'USD',
+  reportingCurrency: 'INR',
   setReportingCurrency: () => {},
   regionFilter: 'all',
   setRegionFilter: () => {},
   dateRange: '30d',
   setDateRange: () => {},
-  formatCurrencyAmount: (val) => `$${val}`,
+  formatCurrencyAmount: (val) => `₹${val}`,
 })
 
 export function SellerProvider({ children }: { children: React.ReactNode }) {
@@ -45,9 +45,22 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
   const [seller, setSeller] = useState<SellerProfile | null>(null)
   const [availableSellers, setAvailableSellers] = useState<SellerProfile[]>([])
   const [loading, setLoading] = useState(true)
-  const [reportingCurrency, setReportingCurrency] = useState<SupportedCurrency>('USD')
+  const [reportingCurrency, setReportingCurrencyState] = useState<SupportedCurrency>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('seller_portal_reporting_currency') as SupportedCurrency
+      if (saved) return saved
+    }
+    return 'INR'
+  })
   const [regionFilter, setRegionFilter] = useState('all')
   const [dateRange, setDateRange] = useState('30d')
+
+  const setReportingCurrency = (curr: SupportedCurrency) => {
+    setReportingCurrencyState(curr)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('seller_portal_reporting_currency', curr)
+    }
+  }
 
   const loadCurrentSeller = useCallback(async () => {
     try {
@@ -61,9 +74,6 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
         const meData = await meRes.json()
         if (meData.seller) {
           setSeller(meData.seller)
-          if (meData.seller.preferredCurrency) {
-            setReportingCurrency(meData.seller.preferredCurrency)
-          }
         } else {
           setSeller(null)
         }
@@ -103,9 +113,6 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json()
         if (data.seller) {
           setSeller(data.seller)
-          if (data.seller.preferredCurrency) {
-            setReportingCurrency(data.seller.preferredCurrency)
-          }
         }
       }
     } catch (err) {
@@ -122,8 +129,9 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
   const formatCurrencyAmount = (amount: number, sourceCurrency?: SupportedCurrency): string => {
     const from = sourceCurrency || reportingCurrency
     const converted = convertCurrencyLive(amount, from, reportingCurrency)
-    const symbol = CURRENCY_SYMBOLS[reportingCurrency] || '$'
-    return `${symbol}${Math.round(converted).toLocaleString('en-US')}`
+    const symbol = CURRENCY_SYMBOLS[reportingCurrency] || '₹'
+    const locale = reportingCurrency === 'INR' ? 'en-IN' : 'en-US'
+    return `${symbol}${Math.round(converted).toLocaleString(locale)}`
   }
 
   return (

@@ -200,14 +200,17 @@ export default function GlobalSellerOverviewPage() {
     }
   }, [seller?.id, sellerLoading, reportingCurrency])
 
-  const symbol = CURRENCY_SYMBOLS[reportingCurrency] || '$'
-  const formatMoney = (val: number) => `${symbol}${Math.round(val).toLocaleString('en-US')}`
+  const symbol = CURRENCY_SYMBOLS[reportingCurrency] || '₹'
+  const formatMoney = (val: number) => {
+    const locale = reportingCurrency === 'INR' ? 'en-IN' : 'en-US'
+    return `${symbol}${Math.round(val).toLocaleString(locale)}`
+  }
 
   if (sellerLoading || (loading && seller)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="w-10 h-10 border-4 border-[#163326] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-stone-600 text-sm font-medium">Connecting to Nuty Tales Global Seller Central...</p>
+        <p className="text-stone-600 text-sm font-medium">Connecting to Nutytales Global Seller Central...</p>
       </div>
     )
   }
@@ -220,7 +223,7 @@ export default function GlobalSellerOverviewPage() {
         </div>
         <div className="space-y-2">
           <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-black">
-            Nuty Tales Global Marketplace
+            Nutytales
           </span>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#163326]">
             Welcome to Seller Central
@@ -328,7 +331,7 @@ export default function GlobalSellerOverviewPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-black">
-                Nuty Tales Seller Central
+                Nutytales
               </span>
               <span className="text-xs px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 font-mono">
                 {seller?.countryCode} · ID: {seller?.id}
@@ -402,11 +405,11 @@ export default function GlobalSellerOverviewPage() {
               onChange={(e) => setReportingCurrency(e.target.value as any)}
               className="bg-[#163326] text-[#C5A869] font-mono font-bold rounded-lg px-3 py-1 text-xs border border-[#24523F] focus:outline-none shadow-xs"
             >
+              <option value="INR">INR (₹)</option>
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="GBP">GBP (£)</option>
               <option value="AED">AED (د.إ)</option>
-              <option value="INR">INR (₹)</option>
               <option value="CAD">CAD (C$)</option>
             </select>
             <span className="text-[10px] text-stone-400 italic">
