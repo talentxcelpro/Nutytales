@@ -8,6 +8,8 @@ import { SellerDashboardOverview, CURRENCY_SYMBOLS, convertCurrency } from '@/li
 export default function GlobalSellerOverviewPage() {
   const {
     seller,
+    availableSellers,
+    switchSeller,
     loading: sellerLoading,
     reportingCurrency,
     setReportingCurrency,
@@ -193,17 +195,78 @@ export default function GlobalSellerOverviewPage() {
   useEffect(() => {
     if (seller?.id) {
       fetchDashboardData(seller.id)
+    } else if (!sellerLoading) {
+      setLoading(false)
     }
-  }, [seller?.id, reportingCurrency])
+  }, [seller?.id, sellerLoading, reportingCurrency])
 
   const symbol = CURRENCY_SYMBOLS[reportingCurrency] || '$'
   const formatMoney = (val: number) => `${symbol}${Math.round(val).toLocaleString('en-US')}`
 
-  if (sellerLoading || loading) {
+  if (sellerLoading || (loading && seller)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="w-10 h-10 border-4 border-[#163326] border-t-transparent rounded-full animate-spin"></div>
         <p className="text-stone-600 text-sm font-medium">Connecting to Nuty Tales Global Seller Central...</p>
+      </div>
+    )
+  }
+
+  if (!seller && !sellerLoading) {
+    return (
+      <div className="max-w-2xl mx-auto my-12 bg-white rounded-3xl border border-stone-200 p-8 text-center space-y-6 shadow-xs">
+        <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-[#163326] to-[#2B5D48] text-[#C5A869] flex items-center justify-center text-3xl font-serif font-black shadow-md">
+          NT
+        </div>
+        <div className="space-y-2">
+          <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-black">
+            Nuty Tales Global Marketplace
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#163326]">
+            Welcome to Seller Central
+          </h2>
+          <p className="text-stone-600 text-sm max-w-lg mx-auto">
+            Sell Anywhere. Grow Everywhere. Register your business to start listing products across our global storefronts with <strong className="text-emerald-800">0% platform commission</strong> and 100% net earnings.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <Link
+            href="/seller/register"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#163326] hover:bg-[#11291E] text-white text-xs sm:text-sm font-bold shadow-md transition"
+          >
+            + Register New Merchant (Free)
+          </Link>
+          <Link
+            href="/login?redirect=/seller"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs sm:text-sm font-semibold border border-stone-300 transition"
+          >
+            Sign In with Existing Account
+          </Link>
+        </div>
+
+        {availableSellers && availableSellers.length > 0 && (
+          <div className="pt-6 border-t border-stone-100 text-left">
+            <h4 className="text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+              Available Merchant Stores:
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {availableSellers.slice(0, 4).map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => switchSeller(s.id)}
+                  className="p-3 text-left border border-stone-200 rounded-xl hover:border-[#163326] hover:bg-stone-50 transition flex items-center justify-between text-xs"
+                >
+                  <div className="truncate mr-2">
+                    <span className="font-semibold text-stone-900 block truncate">{s.storeName}</span>
+                    <span className="text-[11px] text-stone-500">{s.city}, {s.country}</span>
+                  </div>
+                  <span className="text-[#163326] font-bold text-xs shrink-0">Open →</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     )
   }

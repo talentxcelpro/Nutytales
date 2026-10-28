@@ -80,8 +80,22 @@ export async function getVerifiedSellerSession(
     }
   }
 
-  // If unauthenticated, reject
+  // If unauthenticated, reject (allow developer fallback strictly in development mode)
   if (!verifiedUid) {
+    if (process.env.NODE_ENV === 'development') {
+      const devSellerId =
+        req.nextUrl.searchParams.get('sellerId') ||
+        req.cookies.get('seller_portal_active_merchant')?.value ||
+        'SLR-GLOBAL-101'
+      return {
+        userId: 'dev-merchant-admin',
+        email: 'admin@nutytales.com',
+        name: 'Local Merchant Desk (Dev)',
+        sellerId: devSellerId,
+        role: 'SUPER_ADMIN',
+        isSuperAdmin: true,
+      }
+    }
     return null
   }
 

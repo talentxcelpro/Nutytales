@@ -5,7 +5,7 @@ import { useSeller } from '../SellerContext'
 import { SellerLedgerEntry, SellerPayoutBatch } from '@/lib/seller-portal/types'
 
 export default function SellerFinancePage() {
-  const { seller, reportingCurrency, formatCurrencyAmount } = useSeller()
+  const { seller, loading: sellerLoading, reportingCurrency, formatCurrencyAmount } = useSeller()
   const [ledger, setLedger] = useState<SellerLedgerEntry[]>([])
   const [payouts, setPayouts] = useState<SellerPayoutBatch[]>([])
   const [availableBalance, setAvailableBalance] = useState(0)
@@ -36,8 +36,10 @@ export default function SellerFinancePage() {
   useEffect(() => {
     if (seller?.id) {
       fetchFinance(seller.id)
+    } else if (!sellerLoading) {
+      setLoading(false)
     }
-  }, [seller?.id])
+  }, [seller?.id, sellerLoading])
 
   const handleRequestPayout = async () => {
     if (!seller?.id) return

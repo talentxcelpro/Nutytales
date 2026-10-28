@@ -5,7 +5,7 @@ import { useSeller } from '../SellerContext'
 import { SellerOrder, OrderFulfilmentStatus, CURRENCY_SYMBOLS, SupportedCurrency } from '@/lib/seller-portal/types'
 
 export default function SellerOrdersPage() {
-  const { seller, reportingCurrency, formatCurrencyAmount } = useSeller()
+  const { seller, loading: sellerLoading, reportingCurrency, formatCurrencyAmount } = useSeller()
   const [orders, setOrders] = useState<SellerOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('all')
@@ -34,8 +34,10 @@ export default function SellerOrdersPage() {
   useEffect(() => {
     if (seller?.id) {
       fetchOrders(seller.id, statusFilter)
+    } else if (!sellerLoading) {
+      setLoading(false)
     }
-  }, [seller?.id, statusFilter])
+  }, [seller?.id, sellerLoading, statusFilter])
 
   const handleStatusTransition = async (orderId: string, nextStatus: OrderFulfilmentStatus) => {
     setActionLoading(true)

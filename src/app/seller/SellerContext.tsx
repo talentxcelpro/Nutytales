@@ -68,8 +68,9 @@ export function SellerProvider({ children }: { children: React.ReactNode }) {
           setSeller(null)
         }
 
-        // Only super administrators can query all sellers for context switching
-        if (meData.session?.isSuperAdmin) {
+        if (meData.availableSellers && Array.isArray(meData.availableSellers) && meData.availableSellers.length > 0) {
+          setAvailableSellers(meData.availableSellers)
+        } else if (meData.session?.isSuperAdmin) {
           const allRes = await fetch('/api/seller/admin', { headers })
           if (allRes.ok) {
             const allData = await allRes.json()

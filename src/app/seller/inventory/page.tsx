@@ -16,7 +16,7 @@ interface InventoryItem {
 }
 
 export default function SellerInventoryPage() {
-  const { seller } = useSeller()
+  const { seller, loading: sellerLoading } = useSeller()
   const [items, setItems] = useState<InventoryItem[]>([])
   const [movements, setMovements] = useState<StockMovement[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,8 +45,10 @@ export default function SellerInventoryPage() {
   useEffect(() => {
     if (seller?.id) {
       fetchInventory(seller.id)
+    } else if (!sellerLoading) {
+      setLoading(false)
     }
-  }, [seller?.id])
+  }, [seller?.id, sellerLoading])
 
   const handleAdjustStock = async (e: React.FormEvent) => {
     e.preventDefault()

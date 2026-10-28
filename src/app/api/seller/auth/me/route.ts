@@ -1,12 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSellerById } from '@/lib/seller-portal/seller-service'
+import { getSellerById, listAllSellers } from '@/lib/seller-portal/seller-service'
 import { getVerifiedSellerSession } from '@/lib/seller-portal/auth-server'
 
 export async function GET(req: NextRequest) {
   try {
     const session = await getVerifiedSellerSession(req)
+    const cookieSellerId = req.cookies.get('seller_portal_active_merchant')?.value
+    const querySellerId = req.nextUrl.searchParams.get('sellerId')
 
     if (!session) {
+      // In development / local testing:
+      // Provide seamless fallback so browsing localhost:3000/seller connects immediately
+      if (process.env.NODE_ENV !== 'production') {
+        const allSellers = await listAllSellers()
+        const targetId = querySellerId || cookieSellerId || allSellers[0]?.id || 'SLR-GLOBAL-101'
+        const seller = (await getSellerById(targetId)) || allSellers[0] || null
+
+        const res = NextResponse.json({
+          success: true,
+          authenticated: true,
+          isDevMode: true,
+          session: {
+            userId: 'dev-merchant-admin',
+            email: 'admin@nutytales.com',
+            name: 'Local Merchant Desk (Dev)',
+            role: 'SUPER_ADMIN',
+            isSuperAdmin: true,
+          },
+          seller,
+          availableSellers: allSellers,
+        })
+        if (seller?.id) {
+          res.cookies.set('seller_portal_active_merchant', seller.id, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+        }
+        return res
+      }
+
       return NextResponse.json(
         {
           success: false,
@@ -18,17 +47,23 @@ export async function GET(req: NextRequest) {
     }
 
     let seller = null
-    if (session.sellerId) {
-      seller = await getSellerById(session.sellerId)
-    } else if (session.isSuperAdmin) {
-      // Super admins can view any specific merchant via query param
-      const targetSellerId = req.nextUrl.searchParams.get('sellerId')
-      if (targetSellerId) {
-        seller = await getSellerById(targetSellerId)
+    let availableSellers: any[] = []
+
+    if (session.isSuperAdmin) {
+      // Super admins have access to all marketplace merchants and can switch context
+      allSellers_block: {
+        const allSellers = await listAllSellers()
+        availableSellers = allSellers
+        const targetSellerId = querySellerId || cookieSellerId || session.sellerId || allSellers[0]?.id
+        if (targetSellerId) {
+          seller = (await getSellerById(targetSellerId)) || allSellers[0] || null
+        }
       }
+    } else if (session.sellerId) {
+      seller = await getSellerById(session.sellerId)
     }
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       authenticated: true,
       session: {
@@ -39,7 +74,13 @@ export async function GET(req: NextRequest) {
         isSuperAdmin: session.isSuperAdmin,
       },
       seller,
+      availableSellers,
     })
+
+    if (seller?.id) {
+      res.cookies.set('seller_portal_active_merchant', seller.id, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+    }
+    return res
   } catch (err: any) {
     console.error('[Seller Auth/Me] Error resolving verified session:', err)
     return NextResponse.json(
@@ -52,8 +93,9 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const session = await getVerifiedSellerSession(req)
+    const isDev = process.env.NODE_ENV !== 'production'
 
-    if (!session) {
+    if (!session && !isDev) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized: Authentication required.' },
         { status: 401 }
@@ -70,8 +112,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Tenant Isolation: Only administrators with superuser permissions may switch context
-    if (!session.isSuperAdmin) {
+    // Tenant Isolation: Only administrators or local dev environment may switch context
+    if (!isDev && session && !session.isSuperAdmin) {
       return NextResponse.json(
         {
           success: false,
@@ -89,11 +131,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
-      message: `Admin switched context to seller ${sellerId}`,
+      message: `Active merchant switched to ${seller.storeName} (${sellerId})`,
       seller,
     })
+    res.cookies.set('seller_portal_active_merchant', seller.id, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+    return res
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
   }

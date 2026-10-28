@@ -6,7 +6,7 @@ import { useSeller } from '../SellerContext'
 import { SellerProduct, CURRENCY_SYMBOLS } from '@/lib/seller-portal/types'
 
 export default function SellerProductsPage() {
-  const { seller } = useSeller()
+  const { seller, loading: sellerLoading } = useSeller()
   const [products, setProducts] = useState<SellerProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('all')
@@ -33,8 +33,10 @@ export default function SellerProductsPage() {
   useEffect(() => {
     if (seller?.id) {
       fetchProducts(seller.id)
+    } else if (!sellerLoading) {
+      setLoading(false)
     }
-  }, [seller?.id])
+  }, [seller?.id, sellerLoading])
 
   const handleUpdateStock = async () => {
     if (!quickStockProduct || !seller?.id) return
