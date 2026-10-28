@@ -19,6 +19,7 @@ function getActiveVertical(request: NextRequest): string | null {
   const headerVertical = request.headers.get('x-nutytales-vertical')
   if (headerVertical) return headerVertical.toLowerCase()
 
+  if (host.startsWith('seller.nutytales.com') || host.startsWith('seller.localhost') || queryParam === 'seller') return 'seller'
   if (host.startsWith('nri.nutytales.com') || host.startsWith('nri.localhost')) return 'nri'
   if (host.startsWith('business.nutytales.com') || host.startsWith('business.localhost')) return 'business'
   if (host.startsWith('gifting.nutytales.com') || host.startsWith('gifting.localhost')) return 'gifting'
@@ -68,11 +69,19 @@ export function middleware(request: NextRequest) {
       ? `https://${vertical}.nutytales.com`
       : 'https://nutytales.com'
 
-    const robotsTxt = `# Nuty Tales — Search Engine and AI Crawler Policy
+    const isSeller = vertical === 'seller'
+    const robotsTxt = isSeller
+      ? `# Nuty Tales Seller Portal — Private Operations Platform
+User-agent: *
+Disallow: /
+`
+      : `# Nuty Tales — Search Engine and AI Crawler Policy
 # Public pages may be crawled; private and transactional paths are restricted.
 
 User-agent: *
 Allow: /
+Disallow: /seller
+Disallow: /seller/
 Disallow: /admin
 Disallow: /admin/
 Disallow: /account
@@ -207,6 +216,7 @@ Host: ${hostUrl}
       { prefix: '/stays', verticalKey: 'stays', subdomain: 'stays.nutytales.com' },
       { prefix: '/travel', verticalKey: 'travel', subdomain: 'travel.nutytales.com' },
       { prefix: '/nri', verticalKey: 'nri', subdomain: 'nri.nutytales.com' },
+      { prefix: '/seller', verticalKey: 'seller', subdomain: 'seller.nutytales.com' },
     ]
 
     for (const portal of CROSS_PORTALS) {
@@ -293,6 +303,11 @@ Host: ${hostUrl}
       pathname.startsWith('/bulk-quote/')
     ) {
       return nextVertical()
+    }
+
+    if (vertical === 'seller') {
+      if (pathname.startsWith('/seller')) return nextVertical()
+      return rewriteVertical(`/seller${pathname === '/' ? '' : pathname}`)
     }
 
     if (vertical === 'nri') {

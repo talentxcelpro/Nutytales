@@ -43,3 +43,6 @@ next-env.d.ts
 
 # machine learning models
 *.onnx
+
+# local runtime database stores
+/.data/

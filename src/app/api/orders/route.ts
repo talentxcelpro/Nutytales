@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
+import { syncConsumerOrderToSellers } from '@/lib/seller-portal/order-sync'
 
 export async function POST(request: Request) {
   try {
@@ -19,6 +20,22 @@ export async function POST(request: Request) {
       referenceId ||
       `NT-ORD-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`
 
+    // Synchronize multi-vendor order items to seller fulfilment orders
+    let sellerOrders: any[] = []
+    try {
+      sellerOrders = await syncConsumerOrderToSellers({
+        orderId,
+        orderNumber: orderId,
+        customer: customer || {},
+        items: items || [],
+        total: Number(total || 0),
+        currency: 'INR',
+        paymentMethod,
+      })
+    } catch (syncErr) {
+      console.error('[Storefront Checkout] Failed to split seller orders:', syncErr)
+    }
+
     const customerName = customer?.fullName || customer?.name || 'Customer'
     const phone = customer?.phone || ''
     const email = customer?.email || ''
@@ -27,15 +44,19 @@ export async function POST(request: Request) {
 
     const supabaseAdmin = getSupabaseAdmin()
     if (supabaseAdmin) {
-      await supabaseAdmin.from('leads').insert({
-        name: customerName,
-        phone,
-        email,
-        business_name: company ? `[${vertical.toUpperCase()}] ${company}` : `[${vertical.toUpperCase()}]`,
-        city,
-        message: `[ORDER: ${orderId}] Total: ₹${total} | Payment: ${paymentMethod} | Type: ${type} | Items: ${JSON.stringify(items || [])} | Notes: ${notes || ''}`,
-        source: `nutytales.com/${vertical}`,
-      })
+      try {
+        await supabaseAdmin.from('leads').insert({
+          name: customerName,
+          phone,
+          email,
+          business_name: company ? `[${vertical.toUpperCase()}] ${company}` : `[${vertical.toUpperCase()}]`,
+          city,
+          message: `[ORDER: ${orderId}] Total: ₹${total} | Payment: ${paymentMethod} | Type: ${type} | Items: ${JSON.stringify(items || [])} | SellerOrders: ${sellerOrders.map((so) => so.id).join(', ')} | Notes: ${notes || ''}`,
+          source: `nutytales.com/${vertical}`,
+        })
+      } catch (err) {
+        console.warn('[Orders API] Supabase lead insertion error:', err)
+      }
     }
 
     return NextResponse.json({
@@ -43,7 +64,8 @@ export async function POST(request: Request) {
       orderId,
       amount: total,
       paymentMethod,
-      message: 'Order recorded successfully.',
+      sellerOrdersCount: sellerOrders.length,
+      message: 'Order recorded and synchronized with seller fulfillment desks.',
     })
   } catch (error: any) {
     return NextResponse.json(
