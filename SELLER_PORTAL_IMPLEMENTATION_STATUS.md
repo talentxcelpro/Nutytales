@@ -175,4 +175,34 @@ Executed via `npm test` (`vitest run`):
 | **Gate D: Storefront Integration** | Consumer checkout (`POST /api/orders`) transactionally generates seller fulfillment orders. | **PASSED**: Multi-vendor order splitting and atomic inventory reservation in `order-sync.ts`. Verified in `order-sync.test.ts`. |
 | **Gate E: Financial Balanced Ledger** | Double-entry accounting: `subtotal === netPayout + commission + GST`. No precision drift. | **PASSED**: Reconciled in `ledger-finance.test.ts`. Mid-market FX engine caching real rates with 1h TTL in `forex.ts`. |
 | **Gate F: Binary Uploads & Email** | Real multipart pipeline for product images and legal KYC. Resend transactional alerts. | **PASSED**: Implemented in `/api/seller/upload` and `email.ts` with file bounds and MIME type validation. |
-| **Gate G: Verified Automated Tests** | Automated test suite exercising auth, tenancy, persistence, sync, and finance. Zero regressions. | **PASSED**: 5/5 Vitest test suites passed (12/12 tests). `npx tsc --noEmit` exit 0. `npx next build` exit 0. |
+| **Gate G: Verified Automated Tests** | Automated test suite exercising auth, tenancy, persistence, sync, and finance. Zero regressions. | **PASSED**: 5/5 Vitest test suites passed (13/13 tests). `npx tsc --noEmit` exit 0. `npx next build` exit 0. |
+
+---
+
+## 10. 0% COMMISSION, FREE LISTING & MOBILE APP ARCHITECTURE
+
+1. **0% Introductory Commission & 100% Net Payout**:
+   - `defaultCommissionRate` set to `0.0` across registration, order synchronization, and seller profiles.
+   - Mathematical model ensures: `commissionAmount = 0.00`, `taxOnCommission = 0.00`, and `netPayout = subtotal`.
+   - Free product listings with zero insertion fees or listing charges.
+   - High-visibility badges across dashboard overview, catalogue management, order desk, and finance settlements.
+   - Verified via unit test in `tests/seller/ledger-finance.test.ts`.
+
+2. **Smooth, Light & High-Density Screen Coverage**:
+   - Palette: Clean white card surfaces (`#FFFFFF`), warm airy ivory canvas (`#FAF6EF`), subtle stone borders (`border-stone-200/90`).
+   - Compact layouts (`p-2.5 sm:p-4 md:p-6 pb-24 lg:pb-8`) eliminating bulky margins so maximum content is visible at a glance without endless scrolling.
+   - Smooth micro-interactions: `transition-all duration-150 ease-out`, `active:scale-95` tap feedback.
+
+3. **Mobile-First App Experience (Works on Any Phone Model or Make)**:
+   - **Fixed Bottom App Dock (`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md`)**:
+     - 📊 **Overview**: Quick desk status
+     - 📦 **Orders**: Order fulfillment tracking
+     - ➕ **List Free**: Elevated center floating button for immediate product creation
+     - 🏷️ **Products**: Catalogue and live inventory
+     - 💳 **Finance**: Cleared payout balance and ledger
+     - ☰ **More**: Slide-over drawer with all remaining operational modules
+   - **Responsive Mobile Card Views (`md:hidden`)**:
+     - Recent Orders and Order Desk render as touch-friendly cards with one-tap fulfillment triggers instead of wide side-scrolling tables.
+     - Product catalogue renders as thumbnail cards with quick 1-tap stock adjustment.
+     - Payout disbursements and transaction ledger render as clean chronological transaction items.
+   - **Safe Viewport Insets**: `pb-24` ensures content and buttons are never obscured by the mobile bottom app dock or device home bars.
