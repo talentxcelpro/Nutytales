@@ -403,7 +403,7 @@ export const SEED_SELLERS: SellerProfile[] = [
     status: 'approved',
     approvedCategories: ['fashion-apparel', 'jewellery-accessories'],
     approvedStorefronts: ['europe.nutytales.com', 'america.nutytales.com', 'nutytales.com'],
-    defaultCommissionRate: 10.0,
+    defaultCommissionRate: 0.0, // 0% Promotional Founder Tier
     settlementHoldDays: 14,
     createdAt: '2026-07-15T09:00:00Z',
     updatedAt: '2026-10-25T11:00:00Z',
@@ -455,7 +455,7 @@ export const SEED_SELLERS: SellerProfile[] = [
     status: 'approved',
     approvedCategories: ['beauty-personal-care', 'gifts-hampers'],
     approvedStorefronts: ['middleeast.nutytales.com', 'europe.nutytales.com', 'nutytales.com'],
-    defaultCommissionRate: 12.0,
+    defaultCommissionRate: 0.0, // 0% Promotional Founder Tier
     settlementHoldDays: 7,
     createdAt: '2026-08-01T10:00:00Z',
     updatedAt: '2026-10-26T12:00:00Z',
@@ -506,7 +506,7 @@ export const SEED_SELLERS: SellerProfile[] = [
     status: 'approved',
     approvedCategories: ['sports-outdoors', 'travel-experiences-stays'],
     approvedStorefronts: ['america.nutytales.com', 'europe.nutytales.com', 'nutytales.com'],
-    defaultCommissionRate: 8.5,
+    defaultCommissionRate: 0.0, // 0% Promotional Founder Tier
     settlementHoldDays: 14,
     createdAt: '2026-08-20T12:00:00Z',
     updatedAt: '2026-10-27T08:00:00Z',
@@ -558,7 +558,7 @@ export const SEED_SELLERS: SellerProfile[] = [
     status: 'approved',
     approvedCategories: ['furniture-home-decor', 'home-living', 'art-collectibles'],
     approvedStorefronts: ['europe.nutytales.com', 'nutytales.com'],
-    defaultCommissionRate: 9.0,
+    defaultCommissionRate: 0.0, // 0% Promotional Founder Tier
     settlementHoldDays: 14,
     createdAt: '2026-09-01T14:00:00Z',
     updatedAt: '2026-10-27T16:00:00Z',
@@ -610,7 +610,7 @@ export const SEED_SELLERS: SellerProfile[] = [
     status: 'approved',
     approvedCategories: ['food-dry-fruits-pantry', 'nuts-seeds-healthy-snacks', 'gifts-hampers'],
     approvedStorefronts: ['nutytales.com', 'gifting.nutytales.com', 'europe.nutytales.com', 'middleeast.nutytales.com'],
-    defaultCommissionRate: 5.0,
+    defaultCommissionRate: 0.0, // 0% Promotional Founder Tier
     settlementHoldDays: 7,
     createdAt: '2026-08-10T09:00:00Z',
     updatedAt: '2026-10-28T09:00:00Z',

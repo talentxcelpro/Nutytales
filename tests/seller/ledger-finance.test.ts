@@ -42,4 +42,17 @@ describe('Phase 9 & 11: Financial Ledger & Currency Mathematics', () => {
     // Total balances balance: netPayout + commissionAmount + gstOnCommission === subtotal
     expect(netPayout + commissionAmount + gstOnCommission).toBe(subtotal)
   })
+
+  it('correctly calculates 0% commission tier with 100% net merchant payout and zero platform fees', () => {
+    const subtotal = 2500.00
+    const commissionRate = 0.0 // 0% Promotional Founder Tier
+    const commissionAmount = Number(((subtotal * commissionRate) / 100).toFixed(2))
+    expect(commissionAmount).toBe(0.00)
+
+    const gstOnCommission = Number((commissionAmount * 0.18).toFixed(2))
+    expect(gstOnCommission).toBe(0.00)
+
+    const netPayout = Number((subtotal - (commissionAmount + gstOnCommission)).toFixed(2))
+    expect(netPayout).toBe(subtotal) // Merchant keeps 100% of order earnings
+  })
 })

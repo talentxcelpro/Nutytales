@@ -106,7 +106,7 @@ export async function syncConsumerOrderToSellers(
 
   for (const [sellerId, sellerItems] of Object.entries(itemsBySeller)) {
     const seller = allSellers.find((s) => s.id === sellerId) || defaultSeller
-    const commissionRate = seller?.defaultCommissionRate || 8.0
+    const commissionRate = seller?.defaultCommissionRate ?? 0.0
 
     const subtotal = sellerItems.reduce((acc, it) => acc + it.totalPrice, 0)
     const commissionAmount = Number(((subtotal * commissionRate) / 100).toFixed(2))

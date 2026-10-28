@@ -12,7 +12,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'brand',
     title: 'Independent Brand & Designer Label',
     desc: 'Direct-to-consumer apparel, beauty, leatherware, jewelry, home decor & contemporary design',
-    commission: '8.0%',
+    commission: '0% Free Listing',
     icon: '✨',
     defaultCategory: 'fashion-apparel',
   },
@@ -20,7 +20,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'manufacturer',
     title: 'Manufacturer & Industrial Producer',
     desc: 'Scaled production lines, precision electronics, furniture, textiles & consumer hardware',
-    commission: '7.0%',
+    commission: '0% Free Listing',
     icon: '🏭',
     defaultCategory: 'furniture-decor',
   },
@@ -28,7 +28,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'wholesaler',
     title: 'B2B Sourcing & Wholesaler',
     desc: 'Institutional procurement, bulk cartons, cold storage commodities & catering wholesale',
-    commission: '4.5%',
+    commission: '0% Free Listing',
     icon: '📦',
     defaultCategory: 'business-wholesale',
   },
@@ -36,7 +36,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'artisan',
     title: 'Heritage Artisan & Master Guild',
     desc: 'Authentic handcrafted pashmina, walnut wood carving, fine jewellery, ceramics & heritage art',
-    commission: '12.0%',
+    commission: '0% Free Listing',
     icon: '🪡',
     defaultCategory: 'crafts-handicrafts',
   },
@@ -44,7 +44,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'farmer',
     title: 'Agricultural Producer & Orchardist',
     desc: 'Direct-source saffron, walnuts, almonds, organic valley crops, apiary honey & natural pantry',
-    commission: '5.0%',
+    commission: '0% Free Listing',
     icon: '🌱',
     defaultCategory: 'food-dry-fruits',
   },
@@ -52,7 +52,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'retailer',
     title: 'Specialty Retailer & Curated Atelier',
     desc: 'Multi-brand boutique merchandise, luxury gifts, gourmet snacks & seasonal hampers',
-    commission: '8.5%',
+    commission: '0% Free Listing',
     icon: '🏬',
     defaultCategory: 'gifts-hampers',
   },
@@ -60,7 +60,7 @@ const GLOBAL_BUSINESS_TYPES = [
     type: 'services_hospitality',
     title: 'Hospitality, Stays & Curated Travel',
     desc: 'Heritage houseboats, boutique orchard villas, mountain retreats & experiential travel',
-    commission: '14.0%',
+    commission: '0% Free Listing',
     icon: '🏡',
     defaultCategory: 'travel-stays',
   },
@@ -266,21 +266,26 @@ export default function SellerRegistrationPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto my-4 space-y-6">
+    <div className="max-w-4xl mx-auto my-2 sm:my-4 space-y-4 sm:space-y-6 px-1 sm:px-0">
       {/* Global Header */}
-      <div className="bg-[#163326] text-white p-8 rounded-3xl border border-[#24523F] shadow-md relative overflow-hidden">
+      <div className="bg-[#163326] text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#24523F] shadow-md relative overflow-hidden">
         <div className="relative z-10">
-          <Link href="/seller" className="text-xs text-[#C5A869] hover:underline flex items-center gap-1 mb-2 font-medium">
-            ← Return to Console
-          </Link>
-          <span className="text-[11px] font-bold uppercase tracking-widest text-[#C5A869] block">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <Link href="/seller" className="text-xs text-[#C5A869] hover:underline flex items-center gap-1 font-medium">
+              ← Return to Console
+            </Link>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#FAF6EF] text-[#163326] border border-[#C5A869]">
+              ✨ 0% Commission & Free Unlimited Listings
+            </span>
+          </div>
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#C5A869] block">
             Nuty Tales Seller Central · Global Onboarding
           </span>
-          <h1 className="text-3xl font-serif font-bold text-stone-50 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-stone-50 mt-1">
             Sell Anywhere. Grow Everywhere.
           </h1>
           <p className="text-xs text-stone-300 mt-2 max-w-2xl leading-relaxed">
-            Register your business on our unified international commerce infrastructure. Distribute to buyers across North America, Europe, the Middle East, Asia-Pacific, and domestic markets through a single seller account.
+            Register your business with zero upfront costs. As an early partner, enjoy 0% platform commission on all orders and unlimited free product listings. You retain 100% of your customer earnings.
           </p>
         </div>
 

@@ -172,24 +172,34 @@ export default function SellerFinancePage() {
         </div>
 
         {/* Contract & Deductions */}
-        <div className="bg-[#FAF6EF] p-6 rounded-2xl border border-[#C5A869]/40 space-y-3 text-xs">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#163326]">
-            Contract Deductions
-          </span>
+        <div className="bg-[#FAF6EF] p-5 sm:p-6 rounded-2xl border border-[#C5A869]/40 space-y-3 text-xs">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#163326]">
+              Contract Deductions
+            </span>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+              0% Fee Tier
+            </span>
+          </div>
           <div className="space-y-1.5 pt-1 text-stone-700">
             <div className="flex justify-between">
               <span>Platform Take-Rate:</span>
-              <span className="font-bold text-[#163326]">{seller?.defaultCommissionRate || 8.0}%</span>
+              <span className="font-bold text-emerald-800 font-mono">
+                {seller?.defaultCommissionRate ?? 0}% (Free Listing)
+              </span>
             </div>
             <div className="flex justify-between">
-              <span>Local Taxes on Fee:</span>
-              <span className="font-bold">Applicable Local VAT/GST</span>
+              <span>Platform Deductions:</span>
+              <span className="font-bold text-stone-900">₹0.00 / $0.00</span>
             </div>
             <div className="flex justify-between">
               <span>Settlement Cycle:</span>
               <span className="font-bold">T+{seller?.settlementHoldDays || 7} Days</span>
             </div>
           </div>
+          <p className="text-[10px] text-stone-500 pt-1 border-t border-stone-200/60 leading-relaxed">
+            ✨ Founder Promotion: Enjoy 0% commission on all product sales and zero catalogue listing fees.
+          </p>
         </div>
       </div>
 
@@ -202,7 +212,8 @@ export default function SellerFinancePage() {
             <span className="text-xs text-stone-500">{payouts.length} Batches Completed</span>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
                 <tr>
@@ -256,11 +267,43 @@ export default function SellerFinancePage() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Cards View */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {payouts.length === 0 ? (
+              <div className="text-center py-6 text-xs text-stone-400">
+                No payout batches processed yet.
+              </div>
+            ) : (
+              payouts.map((p) => (
+                <div key={p.id} className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-stone-900">{p.id}</span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                        p.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {p.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-stone-500">Disbursement</span>
+                    <span className="text-sm font-bold text-emerald-800">{formatAmount(p.amount)}</span>
+                  </div>
+                  <div className="text-[11px] text-stone-500 flex justify-between">
+                    <span>Period: {p.periodStart} - {p.periodEnd}</span>
+                    <span>{p.processedAt ? new Date(p.processedAt).toLocaleDateString() : 'Clearing'}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* Transaction Ledger Table */}
         <div className="bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden">
-          <div className="p-5 border-b border-stone-100 flex items-center justify-between">
+          <div className="p-4 sm:p-5 border-b border-stone-100 flex items-center justify-between">
             <div>
               <h3 className="font-serif font-bold text-stone-900 text-base">Transaction Ledger</h3>
               <p className="text-xs text-stone-500">Complete auditable record of credits and debits</p>
@@ -268,7 +311,8 @@ export default function SellerFinancePage() {
             <span className="text-xs font-mono text-stone-500">{ledger.length} Entries</span>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
                 <tr>
@@ -322,6 +366,37 @@ export default function SellerFinancePage() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Ledger Cards */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {ledger.length === 0 ? (
+              <div className="text-center py-6 text-xs text-stone-400">
+                No ledger transactions yet.
+              </div>
+            ) : (
+              ledger.map((entry) => (
+                <div key={entry.id} className="p-3.5 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="capitalize font-semibold text-stone-800">
+                      {entry.entryType.replace(/_/g, ' ')}
+                    </span>
+                    <span
+                      className={`font-bold font-mono text-xs ${
+                        entry.amount > 0 ? 'text-emerald-700' : 'text-rose-700'
+                      }`}
+                    >
+                      {entry.amount > 0 ? `+${formatAmount(entry.amount)}` : formatAmount(entry.amount)}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-stone-600 leading-tight">{entry.description}</p>
+                  <div className="flex items-center justify-between text-[10px] text-stone-400 font-mono">
+                    <span>Ref: {entry.referenceCode || entry.id.slice(0, 12)}</span>
+                    <span>Bal: {formatAmount(entry.balanceAfter)}</span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

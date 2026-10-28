@@ -97,9 +97,8 @@ export async function POST(req: NextRequest) {
       },
       approvedCategories: approvedCategories || ['food-pantry'],
       approvedStorefronts: approvedStorefronts || ['nutytales.com'],
-      defaultCommissionRate:
-        businessType === 'farmer' ? 5.0 : businessType === 'artisan' ? 12.0 : businessType === 'wholesaler' ? 4.5 : 8.0,
-      settlementHoldDays: businessType === 'artisan' ? 14 : 7,
+      defaultCommissionRate: 0.0, // 0% Introductory Founder Tier — Keep 100% of sales
+      settlementHoldDays: 7,
     })
 
     // Dispatch acknowledgment email

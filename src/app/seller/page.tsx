@@ -70,6 +70,73 @@ export default function GlobalSellerOverviewPage() {
         reportingCurrency
       )
 
+      const returnCount = orders.filter((o: any) => o.status === 'returned').length
+      const returnRate = orders.length > 0 ? Number(((returnCount / orders.length) * 100).toFixed(1)) : 0.0
+
+      const cancelCount = orders.filter((o: any) => o.status === 'cancelled').length
+      const cancelRate = orders.length > 0 ? Number(((cancelCount / orders.length) * 100).toFixed(1)) : 0.0
+
+      // Compute units sold per product from real order items
+      const unitsSoldMap: Record<string, number> = {}
+      orders.forEach((o: any) => {
+        if (o.status !== 'cancelled' && Array.isArray(o.items)) {
+          o.items.forEach((it: any) => {
+            const pId = it.productId || it.id
+            if (pId) {
+              unitsSoldMap[pId] = (unitsSoldMap[pId] || 0) + Number(it.quantity || it.qty || 1)
+            }
+          })
+        }
+      })
+
+      const topProductsList = products.slice(0, 4).map((p: any) => {
+        const units = unitsSoldMap[p.id] || 0
+        return {
+          productId: p.id,
+          title: p.title,
+          sku: p.sku,
+          category: p.categoryName || 'General',
+          unitsSold: units,
+          revenue: convertCurrency(p.sellingPrice * units, p.currency || 'USD', reportingCurrency),
+          stock: p.stockAvailable,
+        }
+      })
+
+      // Aggregate sales by region from real order destination records
+      const regionCounts: Record<string, { revenue: number; orderCount: number }> = {}
+      orders.forEach((o: any) => {
+        const country = o.customerCountry || o.customerCountryCode || 'Domestic'
+        const region =
+          country === 'US' || country === 'CA' || country === 'United States' || country === 'Canada'
+            ? 'North America (US & CA)'
+            : country === 'GB' || country === 'DE' || country === 'FR' || country === 'United Kingdom' || country === 'Germany'
+            ? 'Europe & UK'
+            : country === 'AE' || country === 'SA' || country === 'United Arab Emirates'
+            ? 'Middle East & GCC'
+            : 'Asia-Pacific & Domestic'
+
+        if (!regionCounts[region]) {
+          regionCounts[region] = { revenue: 0, orderCount: 0 }
+        }
+        regionCounts[region].revenue += convertCurrency(o.subtotal || 0, o.currency || 'USD', reportingCurrency)
+        regionCounts[region].orderCount += 1
+      })
+
+      const salesByRegion =
+        Object.keys(regionCounts).length > 0
+          ? Object.entries(regionCounts).map(([region, stat]) => ({
+              region,
+              revenue: Math.round(stat.revenue),
+              orderCount: stat.orderCount,
+              percent: gmv > 0 ? Math.round((stat.revenue / gmv) * 100) : 0,
+            }))
+          : [
+              { region: 'North America (US & CA)', revenue: 0, orderCount: 0, percent: 0 },
+              { region: 'Europe & UK', revenue: 0, orderCount: 0, percent: 0 },
+              { region: 'Middle East & GCC', revenue: 0, orderCount: 0, percent: 0 },
+              { region: 'Asia-Pacific & Domestic', revenue: 0, orderCount: 0, percent: 0 },
+            ]
+
       setData({
         reportingCurrency,
         grossMerchandiseValue: gmv,
@@ -84,24 +151,11 @@ export default function GlobalSellerOverviewPage() {
         pendingSettlementAmount: pendingSettlement,
         availablePayoutBalance: availableBal,
         settlementHoldDays: seller?.settlementHoldDays || 7,
-        returnRatePercent: 0.9,
-        cancellationRatePercent: 1.1,
-        salesByRegion: [
-          { region: 'North America (US & CA)', revenue: Math.round(gmv * 0.44), orderCount: 14, percent: 44 },
-          { region: 'Europe & UK', revenue: Math.round(gmv * 0.32), orderCount: 11, percent: 32 },
-          { region: 'Middle East & GCC', revenue: Math.round(gmv * 0.16), orderCount: 5, percent: 16 },
-          { region: 'Asia-Pacific & Domestic', revenue: Math.round(gmv * 0.08), orderCount: 3, percent: 8 },
-        ],
+        returnRatePercent: returnRate,
+        cancellationRatePercent: cancelRate,
+        salesByRegion,
         recentOrders: orders.slice(0, 5),
-        topProducts: products.slice(0, 4).map((p: any) => ({
-          productId: p.id,
-          title: p.title,
-          sku: p.sku,
-          category: p.categoryName || 'General',
-          unitsSold: 38,
-          revenue: convertCurrency(p.sellingPrice * 38, p.currency || 'USD', reportingCurrency),
-          stock: p.stockAvailable,
-        })),
+        topProducts: topProductsList,
         actionAlerts: [
           ...(awaitingAction.length > 0
             ? [
@@ -177,9 +231,37 @@ export default function GlobalSellerOverviewPage() {
         </div>
       )}
 
+      {/* 0% Commission & Free Listing Banner */}
+      <div className="bg-gradient-to-r from-emerald-50 via-[#FAF6EF] to-amber-50/60 border border-emerald-300/80 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm shrink-0">
+            ✨
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h4 className="font-semibold text-emerald-950 text-xs sm:text-sm">
+                0% Platform Commission · Free Product Listings Active
+              </h4>
+              <span className="text-[10px] font-bold px-2 py-0.2 rounded-full bg-emerald-700 text-white">
+                100% Payout
+              </span>
+            </div>
+            <p className="text-emerald-800/90 text-[11px] sm:text-xs mt-0.5">
+              Keep 100% of your earnings on every order. Zero platform deductions, free unlimited catalogue listings, and no recurring fees.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/seller/products/new"
+          className="text-xs font-bold bg-[#163326] hover:bg-[#11291E] text-white px-3.5 py-1.5 rounded-xl shadow-xs transition whitespace-nowrap self-stretch sm:self-auto text-center active:scale-95 shrink-0"
+        >
+          + List Product Free
+        </Link>
+      </div>
+
       {/* Global Dashboard Header with Unified Controls */}
-      <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3 sm:space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-black">
@@ -189,12 +271,12 @@ export default function GlobalSellerOverviewPage() {
                 {seller?.countryCode} · ID: {seller?.id}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#163326] mt-1">
+            <h1 className="text-xl sm:text-3xl font-serif font-bold text-[#163326] mt-1">
               Welcome, {seller?.storeName}
             </h1>
-            <p className="text-xs text-stone-500 mt-0.5 flex items-center gap-2">
+            <p className="text-xs text-stone-500 mt-0.5 flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="font-semibold text-[#163326]">Your business, connected to the world.</span>
-              <span>·</span>
+              <span className="hidden sm:inline">·</span>
               <span className="text-stone-400">Sell Anywhere. Grow Everywhere.</span>
             </p>
           </div>
@@ -396,7 +478,8 @@ export default function GlobalSellerOverviewPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
                 <tr>
@@ -486,6 +569,67 @@ export default function GlobalSellerOverviewPage() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Orders Card View */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {data?.recentOrders && data.recentOrders.length > 0 ? (
+              data.recentOrders.map((order) => {
+                const convertedPayout = convertCurrency(order.netPayout, order.currency, reportingCurrency)
+                return (
+                  <div key={order.id} className="p-3.5 space-y-2 bg-white hover:bg-stone-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono text-xs font-bold text-stone-900">{order.id}</span>
+                        <span className="text-[10px] text-stone-400">
+                          {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </div>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                          order.status === 'delivered'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : order.status === 'packed' || order.status === 'ready_for_pickup'
+                            ? 'bg-blue-100 text-blue-800'
+                            : order.status === 'shipped'
+                            ? 'bg-purple-100 text-purple-800'
+                            : 'bg-amber-100 text-amber-800'
+                        }`}
+                      >
+                        {order.status.replace(/_/g, ' ')}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs">
+                        <div className="font-semibold text-stone-900">{order.customerName}</div>
+                        <div className="text-[11px] text-stone-500">
+                          {order.customerCity}, {order.customerCountry || 'Domestic'}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-bold text-emerald-800">{formatMoney(convertedPayout)}</div>
+                        <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                          100% Payout
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1 border-t border-stone-100 text-xs">
+                      <span className="text-[11px] text-stone-500">{order.itemsCount || 1} Item(s)</span>
+                      <Link
+                        href={`/seller/orders?id=${order.id}`}
+                        className="text-xs font-semibold text-[#163326] bg-stone-100 hover:bg-[#163326] hover:text-white px-3 py-1 rounded-lg transition active:scale-95"
+                      >
+                        Fulfill →
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })
+            ) : (
+              <div className="p-6 text-center text-xs text-stone-400">No customer orders recorded yet.</div>
+            )}
           </div>
         </div>
 

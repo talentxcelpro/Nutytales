@@ -155,20 +155,25 @@ export default function AddProductPage() {
   const currSymbol = CURRENCY_SYMBOLS[form.currency] || '$'
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-12">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-12 px-1 sm:px-0">
       {/* Page Header */}
-      <div className="bg-[#163326] text-white p-7 rounded-3xl border border-[#24523F] shadow-sm">
-        <Link href="/seller/products" className="text-xs text-[#C5A869] hover:underline flex items-center gap-1 mb-2 font-medium">
-          ← Back to Catalogue
-        </Link>
+      <div className="bg-[#163326] text-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#24523F] shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <Link href="/seller/products" className="text-xs text-[#C5A869] hover:underline flex items-center gap-1 font-medium">
+            ← Back to Catalogue
+          </Link>
+          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-[#FAF6EF] text-[#163326] border border-[#C5A869]">
+            ✨ 100% Free Listing · 0% Insertion Fee · 0% Commission
+          </span>
+        </div>
         <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A869] block">
           Nuty Tales Global Marketplace Studio
         </span>
-        <h1 className="text-2xl font-serif font-bold text-stone-50 mt-1">
+        <h1 className="text-xl sm:text-2xl font-serif font-bold text-stone-50 mt-1">
           Create Universal Product Listing
         </h1>
         <p className="text-xs text-stone-300 mt-1 max-w-2xl leading-relaxed">
-          List your products across any of the 20 global marketplace taxonomy categories with dynamic attribute validation, international shipping classes, and cross-border customs declarations.
+          List your products across any of the 20 global marketplace taxonomy categories with dynamic attribute validation, international shipping classes, and cross-border customs declarations. Zero listing fees charged.
         </p>
       </div>
 
@@ -645,19 +650,19 @@ export default function AddProductPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between p-4 bg-stone-100 rounded-2xl">
+        <div className="sticky bottom-16 lg:static z-30 p-3 sm:p-4 bg-white/95 backdrop-blur-md lg:bg-stone-100 rounded-2xl border border-stone-200/90 shadow-lg lg:shadow-none flex items-center justify-between gap-3">
           <Link
             href="/seller/products"
-            className="px-5 py-2.5 border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold rounded-xl transition"
+            className="px-4 sm:px-5 py-2.5 border border-stone-300 hover:bg-stone-50 text-stone-700 text-xs font-semibold rounded-xl transition"
           >
             Cancel
           </Link>
           <button
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 bg-[#163326] hover:bg-[#11291E] disabled:bg-stone-400 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-2"
+            className="px-5 sm:px-8 py-2.5 sm:py-3 bg-[#163326] hover:bg-[#11291E] disabled:bg-stone-400 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-2 active:scale-95"
           >
-            {submitting ? 'Publishing to Marketplace...' : 'Submit Listing for Moderation →'}
+            {submitting ? 'Publishing Free Listing...' : 'Publish Listing (Free) →'}
           </button>
         </div>
       </form>

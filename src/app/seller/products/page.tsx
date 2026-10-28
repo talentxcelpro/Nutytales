@@ -86,18 +86,23 @@ export default function SellerProductsPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-stone-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 shadow-xs">
         <div>
-          <span className="text-xs uppercase tracking-wider text-[#C5A869] font-bold">Catalogue</span>
-          <h1 className="text-2xl font-serif font-bold text-[#1A3E2F] mt-1">Product Management</h1>
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider text-[#C5A869] font-bold">Catalogue</span>
+            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.2 rounded-full border border-emerald-300">
+              ✨ 0% Commission & Free Unlimited Listings
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#1A3E2F] mt-1">Product Management</h1>
           <p className="text-xs text-stone-500 mt-0.5">
-            Manage your listings, pack sizes, wholesale pricing, FSSAI compliance and stock availability.
+            Manage your listings, pack sizes, pricing, and stock availability. All catalogue listings are 100% free with 0% insertion fee.
           </p>
         </div>
 
         <Link
           href="/seller/products/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1A3E2F] hover:bg-[#143226] text-white text-xs font-semibold rounded-lg shadow-xs transition"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1A3E2F] hover:bg-[#143226] text-white text-xs font-semibold rounded-xl shadow-xs transition active:scale-95 shrink-0"
         >
           <span>+</span> Create New Listing
         </Link>
@@ -172,7 +177,9 @@ export default function SellerProductsPage() {
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
                 <tr>
@@ -306,6 +313,98 @@ export default function SellerProductsPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Products Card View */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {filtered.map((product) => {
+              const isLow =
+                product.stockAvailable > 0 &&
+                product.stockAvailable <= product.lowStockThreshold
+              const isOut = product.stockAvailable <= 0
+              const curr = CURRENCY_SYMBOLS[product.currency] || '$'
+              const catLabel = product.categoryName || product.categorySlug || (product as any).category || 'General'
+
+              return (
+                <div key={product.id} className="p-3.5 space-y-2.5 bg-white">
+                  <div className="flex items-start gap-3">
+                    <div className="w-14 h-14 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-xl overflow-hidden shrink-0">
+                      {product.images && product.images[0]?.url && !product.images[0].url.includes('placeholder') ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={product.images[0].url} alt={product.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <span>📦</span>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-1">
+                        <h4 className="font-semibold text-stone-900 text-xs truncate">{product.title}</h4>
+                        <span
+                          className={`px-2 py-0.2 rounded-full text-[9px] font-bold uppercase shrink-0 ${
+                            product.status === 'approved'
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : product.status === 'pending_review'
+                              ? 'bg-amber-100 text-amber-800'
+                              : 'bg-stone-100 text-stone-600'
+                          }`}
+                        >
+                          {product.status.replace('_', ' ')}
+                        </span>
+                      </div>
+
+                      <div className="text-[10px] text-stone-500 font-mono mt-0.5">
+                        {product.sku} · {catLabel}
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="font-bold text-stone-900 text-sm">
+                          {curr}{Number(product.sellingPrice).toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-stone-400 line-through">
+                          MRP {curr}{Number(product.mrp).toLocaleString()}
+                        </span>
+                        <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded border border-emerald-200">
+                          0% Fee
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1 border-t border-stone-100 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-stone-500 text-[11px]">Stock:</span>
+                      <span
+                        className={`font-bold font-mono text-xs ${
+                          isOut ? 'text-rose-600' : isLow ? 'text-amber-600' : 'text-stone-900'
+                        }`}
+                      >
+                        {product.stockAvailable} units
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => {
+                          setQuickStockProduct(product)
+                          setNewStockVal(product.stockAvailable)
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold active:scale-95 transition"
+                      >
+                        Adjust Stock ✏️
+                      </button>
+                      <Link
+                        href={`/seller/products/new?duplicate=${product.id}`}
+                        className="px-2.5 py-1 rounded-lg bg-[#FAF6EF] text-[#163326] border border-[#C5A869]/60 text-xs font-semibold active:scale-95 transition"
+                      >
+                        Duplicate
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          </>
         )}
       </div>
 

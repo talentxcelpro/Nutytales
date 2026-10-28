@@ -103,12 +103,17 @@ export default function SellerOrdersPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-stone-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 shadow-xs">
         <div>
-          <span className="text-xs uppercase tracking-wider text-[#C5A869] font-bold">Fulfilment Operations</span>
-          <h1 className="text-2xl font-serif font-bold text-[#1A3E2F] mt-1">Orders & Dispatch</h1>
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider text-[#C5A869] font-bold">Fulfilment Operations</span>
+            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.2 rounded-full border border-emerald-300">
+              0% Fee Tier Active
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#1A3E2F] mt-1">Orders & Dispatch</h1>
           <p className="text-xs text-stone-500 mt-0.5">
-            Isolated vendor fulfillment sub-orders with packing slips, carrier scheduling and delivery reconciliation.
+            Isolated vendor fulfillment sub-orders. You retain 100% of customer subtotal on all orders.
           </p>
         </div>
 
@@ -157,80 +162,138 @@ export default function SellerOrdersPage() {
               <p className="text-xs text-stone-500">There are no sub-orders matching the selected filter.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
-                  <tr>
-                    <th className="py-3 px-4">Sub-Order #</th>
-                    <th className="py-3 px-4">Parent Order</th>
-                    <th className="py-3 px-4">Customer & City</th>
-                    <th className="py-3 px-4">Items</th>
-                    <th className="py-3 px-4">Net Payout</th>
-                    <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4 text-right">Action</th>
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#FAF6EF] text-stone-600 text-[10px] uppercase tracking-wider border-b border-stone-200">
+                <tr>
+                  <th className="py-3 px-4">Sub-Order #</th>
+                  <th className="py-3 px-4">Parent Order</th>
+                  <th className="py-3 px-4">Customer & City</th>
+                  <th className="py-3 px-4">Items</th>
+                  <th className="py-3 px-4">Net Payout</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {orders.map((order) => (
+                  <tr
+                    key={order.id}
+                    onClick={() => setSelectedOrder(order)}
+                    className={`cursor-pointer transition hover:bg-stone-50 ${
+                      selectedOrder?.id === order.id ? 'bg-[#FAF6EF]' : ''
+                    }`}
+                  >
+                    <td className="py-3.5 px-4 font-mono font-medium text-stone-900">
+                      {order.id}
+                      <div className="text-[10px] text-stone-400 font-sans">
+                        {new Date(order.createdAt).toLocaleDateString('en-IN', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </div>
+                    </td>
+
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-stone-500">
+                      {order.parentOrderNumber}
+                    </td>
+
+                    <td className="py-3.5 px-4">
+                      <div className="font-semibold text-stone-800">{order.customerName}</div>
+                      <div className="text-[10px] text-stone-500">
+                        {order.customerCity}, {order.customerState}
+                      </div>
+                    </td>
+
+                    <td className="py-3.5 px-4 text-stone-700">
+                      <span className="font-medium">{order.itemsCount} Unit(s)</span>
+                      <div className="text-[10px] text-stone-400 truncate max-w-[140px]">
+                        {order.items[0]?.title}
+                      </div>
+                    </td>
+
+                    <td className="py-3.5 px-4 font-bold text-emerald-800">
+                      {formatOrderCurrency(order.netPayout, order.currency)}
+                    </td>
+
+                    <td className="py-3.5 px-4">{getStatusBadge(order.status)}</td>
+
+                    <td className="py-3.5 px-4 text-right">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedOrder(order)
+                        }}
+                        className="px-2.5 py-1 rounded bg-stone-100 hover:bg-[#1A3E2F] hover:text-white transition font-medium text-[11px]"
+                      >
+                        Fulfill →
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-100">
-                  {orders.map((order) => (
-                    <tr
-                      key={order.id}
-                      onClick={() => setSelectedOrder(order)}
-                      className={`cursor-pointer transition hover:bg-stone-50 ${
-                        selectedOrder?.id === order.id ? 'bg-[#FAF6EF]' : ''
-                      }`}
-                    >
-                      <td className="py-3.5 px-4 font-mono font-medium text-stone-900">
-                        {order.id}
-                        <div className="text-[10px] text-stone-400 font-sans">
-                          {new Date(order.createdAt).toLocaleDateString('en-IN', {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </div>
-                      </td>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-stone-500">
-                        {order.parentOrderNumber}
-                      </td>
+          {/* Mobile Orders Card View */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {orders.map((order) => (
+              <div
+                key={order.id}
+                onClick={() => setSelectedOrder(order)}
+                className={`p-3.5 space-y-2 cursor-pointer transition ${
+                  selectedOrder?.id === order.id ? 'bg-[#FAF6EF]' : 'bg-white hover:bg-stone-50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-stone-900">{order.id}</span>
+                    <span className="text-[10px] text-stone-400">
+                      {new Date(order.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
+                    </span>
+                  </div>
+                  {getStatusBadge(order.status)}
+                </div>
 
-                      <td className="py-3.5 px-4">
-                        <div className="font-semibold text-stone-800">{order.customerName}</div>
-                        <div className="text-[10px] text-stone-500">
-                          {order.customerCity}, {order.customerState}
-                        </div>
-                      </td>
+                <div className="flex items-center justify-between">
+                  <div className="text-xs">
+                    <div className="font-semibold text-stone-900">{order.customerName}</div>
+                    <div className="text-[11px] text-stone-500">
+                      {order.customerCity}, {order.customerState}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-emerald-800">
+                      {formatOrderCurrency(order.netPayout, order.currency)}
+                    </div>
+                    <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                      100% Payout
+                    </span>
+                  </div>
+                </div>
 
-                      <td className="py-3.5 px-4 text-stone-700">
-                        <span className="font-medium">{order.itemsCount} Unit(s)</span>
-                        <div className="text-[10px] text-stone-400 truncate max-w-[140px]">
-                          {order.items[0]?.title}
-                        </div>
-                      </td>
-
-                      <td className="py-3.5 px-4 font-bold text-emerald-800">
-                        {formatOrderCurrency(order.netPayout, order.currency)}
-                      </td>
-
-                      <td className="py-3.5 px-4">{getStatusBadge(order.status)}</td>
-
-                      <td className="py-3.5 px-4 text-right">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setSelectedOrder(order)
-                          }}
-                          className="px-2.5 py-1 rounded bg-stone-100 hover:bg-[#1A3E2F] hover:text-white transition font-medium text-[11px]"
-                        >
-                          Fulfill →
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                <div className="flex items-center justify-between pt-1 border-t border-stone-100 text-xs">
+                  <span className="text-[11px] text-stone-500 truncate max-w-[190px]">
+                    {order.itemsCount} Unit(s) · {order.items[0]?.title}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedOrder(order)
+                    }}
+                    className="text-xs font-semibold text-[#1A3E2F] bg-stone-100 hover:bg-[#1A3E2F] hover:text-white px-3 py-1 rounded-lg transition active:scale-95"
+                  >
+                    Fulfill →
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          </>
           )}
         </div>
 

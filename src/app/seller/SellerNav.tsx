@@ -81,38 +81,45 @@ export default function SellerNav() {
   return (
     <>
       {/* Top Mobile Bar */}
-      <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-[#163326] text-white px-4 py-3 shadow-md border-b border-[#24523F]">
-        <div className="flex items-center gap-3">
+      <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-[#163326] text-white px-3 py-2.5 shadow-md border-b border-[#24523F]">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 rounded-md hover:bg-[#204E3B] text-stone-200 focus:outline-none"
+            className="p-1.5 rounded-lg hover:bg-[#204E3B] text-stone-200 focus:outline-none active:scale-95 transition"
             aria-label="Toggle Navigation"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
             </svg>
           </button>
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-[#C5A869] font-bold">Nuty Tales Seller Central</div>
-            <div className="text-xs font-semibold truncate max-w-[170px]">{seller?.storeName || 'Global Marketplace'}</div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] uppercase tracking-wider text-[#C5A869] font-bold">Nuty Tales</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
+                0% Fee
+              </span>
+            </div>
+            <div className="text-xs font-semibold truncate max-w-[150px] sm:max-w-[200px]">
+              {seller?.storeName || 'Global Marketplace'}
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <select
             value={reportingCurrency}
             onChange={(e) => setReportingCurrency(e.target.value as any)}
-            className="text-xs bg-[#1F4A38] text-stone-100 rounded px-1.5 py-1 border border-[#2B5D48]"
+            className="text-[11px] bg-[#1F4A38] text-stone-100 rounded px-1.5 py-1 border border-[#2B5D48] font-mono font-bold"
           >
-            <option value="USD">USD ($)</option>
-            <option value="EUR">EUR (€)</option>
-            <option value="GBP">GBP (£)</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
             <option value="AED">AED</option>
-            <option value="INR">INR (₹)</option>
+            <option value="INR">INR</option>
             <option value="CAD">CAD</option>
           </select>
           <Link
             href="/seller/register"
-            className="text-xs bg-[#C5A869] text-[#163326] px-2.5 py-1 rounded font-bold hover:bg-[#D4AF37] transition"
+            className="text-[11px] bg-[#C5A869] text-[#163326] px-2 py-1 rounded font-bold hover:bg-[#D4AF37] transition shrink-0 active:scale-95"
           >
             Onboard
           </Link>
@@ -272,7 +279,7 @@ export default function SellerNav() {
           </div>
           <div className="flex items-center justify-between text-[10px] text-stone-400 pt-1 border-t border-[#24523F]/60">
             <span>Market: {seller?.country || 'Global'}</span>
-            <span>Rate: {seller?.defaultCommissionRate || 8}%</span>
+            <span className="text-[#C5A869] font-semibold">Rate: {seller?.defaultCommissionRate ?? 0}% (Free Listing)</span>
           </div>
         </div>
       </aside>
@@ -284,6 +291,70 @@ export default function SellerNav() {
           className="fixed inset-0 z-40 bg-black/60 lg:hidden backdrop-blur-xs"
         />
       )}
+
+      {/* Mobile App Bottom Navigation Dock */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/90 shadow-[0_-4px_25px_rgba(0,0,0,0.06)] px-2 py-1 flex items-center justify-around safe-bottom">
+        <Link
+          href="/seller"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition ${
+            pathname === '/seller' ? 'text-[#163326] font-bold' : 'text-stone-500 hover:text-stone-800'
+          }`}
+        >
+          <span className="text-lg leading-none">📊</span>
+          <span className="text-[10px] tracking-tight mt-1">Overview</span>
+        </Link>
+
+        <Link
+          href="/seller/orders"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition relative ${
+            pathname.startsWith('/seller/orders') ? 'text-[#163326] font-bold' : 'text-stone-500 hover:text-stone-800'
+          }`}
+        >
+          <span className="text-lg leading-none">📦</span>
+          <span className="text-[10px] tracking-tight mt-1">Orders</span>
+        </Link>
+
+        {/* Center Elevated Quick Add Button */}
+        <Link
+          href="/seller/products/new"
+          className="flex flex-col items-center justify-center -mt-5 transition active:scale-90"
+          aria-label="Add Product Free"
+        >
+          <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#163326] to-[#25523F] text-white flex items-center justify-center shadow-lg border-2 border-white">
+            <span className="text-2xl leading-none font-light">+</span>
+          </div>
+          <span className="text-[9px] font-bold text-[#163326] mt-0.5">List Free</span>
+        </Link>
+
+        <Link
+          href="/seller/products"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition ${
+            pathname === '/seller/products' ? 'text-[#163326] font-bold' : 'text-stone-500 hover:text-stone-800'
+          }`}
+        >
+          <span className="text-lg leading-none">🏷️</span>
+          <span className="text-[10px] tracking-tight mt-1">Products</span>
+        </Link>
+
+        <Link
+          href="/seller/finance"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition ${
+            pathname.startsWith('/seller/finance') ? 'text-[#163326] font-bold' : 'text-stone-500 hover:text-stone-800'
+          }`}
+        >
+          <span className="text-lg leading-none">💳</span>
+          <span className="text-[10px] tracking-tight mt-1">Finance</span>
+        </Link>
+
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-stone-500 hover:text-stone-800 transition active:scale-95"
+          aria-label="More Menu"
+        >
+          <span className="text-lg leading-none">☰</span>
+          <span className="text-[10px] tracking-tight mt-1">More</span>
+        </button>
+      </nav>
     </>
   )
 }
