@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSeller } from './SellerContext'
 import { SellerDashboardOverview, CURRENCY_SYMBOLS, convertCurrency } from '@/lib/seller-portal/types'
 
@@ -209,7 +210,16 @@ export default function GlobalSellerOverviewPage() {
   if (sellerLoading || (loading && seller)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="w-10 h-10 border-4 border-[#163326] border-t-transparent rounded-full animate-spin"></div>
+        <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white border border-stone-200/90 p-1.5 shadow-sm flex items-center justify-center animate-pulse">
+          <Image
+            src="/images/logo.png"
+            alt="Nutytales"
+            width={60}
+            height={60}
+            className="object-contain w-full h-full"
+          />
+        </div>
+        <div className="w-6 h-6 border-2 border-[#163326] border-t-transparent rounded-full animate-spin"></div>
         <p className="text-stone-600 text-sm font-medium">Connecting to Nutytales Global Seller Central...</p>
       </div>
     )
@@ -218,8 +228,15 @@ export default function GlobalSellerOverviewPage() {
   if (!seller && !sellerLoading) {
     return (
       <div className="max-w-2xl mx-auto my-12 bg-white rounded-3xl border border-stone-200 p-8 text-center space-y-6 shadow-xs">
-        <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-[#163326] to-[#2B5D48] text-[#C5A869] flex items-center justify-center text-3xl font-serif font-black shadow-md">
-          NT
+        <div className="relative w-20 h-20 mx-auto rounded-3xl overflow-hidden bg-white border-2 border-[#C5A869]/40 p-2 shadow-lg flex items-center justify-center">
+          <Image
+            src="/images/logo.png"
+            alt="Nutytales Logo"
+            width={80}
+            height={80}
+            priority
+            className="object-contain w-full h-full"
+          />
         </div>
         <div className="space-y-2">
           <span className="text-[10px] uppercase tracking-widest text-[#C5A869] font-black">

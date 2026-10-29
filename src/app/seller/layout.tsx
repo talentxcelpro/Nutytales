@@ -4,7 +4,7 @@ import SellerNav from './SellerNav'
 import { SellerProvider } from './SellerContext'
 
 export const metadata: Metadata = {
-  title: 'Nutytales | Central Vendor Portal',
+  title: 'Nutytales | Seller Central',
   description:
     'Central operations and multi-vendor portal for independent farmers, producers, artisans and gifting suppliers.',
   robots: {

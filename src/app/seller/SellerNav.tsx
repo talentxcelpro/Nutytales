@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSeller } from './SellerContext'
 
@@ -92,17 +93,29 @@ export default function SellerNav() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
             </svg>
           </button>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[9px] uppercase tracking-wider text-[#C5A869] font-bold">Nutytales</span>
-              <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
-                0% Fee
-              </span>
+          <Link href="/seller" className="flex items-center gap-2">
+            <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white border border-stone-200/90 p-0.5 shadow-xs flex items-center justify-center shrink-0">
+              <Image
+                src="/images/logo.png"
+                alt="Nutytales"
+                width={32}
+                height={32}
+                priority
+                className="object-contain w-full h-full"
+              />
             </div>
-            <div className="text-xs font-semibold truncate max-w-[150px] sm:max-w-[200px]">
-              {seller?.storeName || 'Global Marketplace'}
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[9px] uppercase tracking-wider text-[#C5A869] font-bold">Nutytales</span>
+                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
+                  0% Fee
+                </span>
+              </div>
+              <div className="text-xs font-semibold truncate max-w-[130px] sm:max-w-[200px]">
+                {seller?.storeName || 'Global Marketplace'}
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           <select
@@ -136,8 +149,15 @@ export default function SellerNav() {
         <div className="p-5 border-b border-[#24523F] bg-[#11291E]">
           <div className="flex items-center justify-between mb-2">
             <Link href="/seller" className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#997F29] flex items-center justify-center font-serif font-black text-[#163326] text-lg shadow-md">
-                NT
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white border border-stone-200/90 p-1 shadow-sm flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <Image
+                  src="/images/logo.png"
+                  alt="Nutytales Logo"
+                  width={40}
+                  height={40}
+                  priority
+                  className="object-contain w-full h-full"
+                />
               </div>
               <div>
                 <span className="font-serif text-base tracking-tight font-bold text-white block leading-tight">

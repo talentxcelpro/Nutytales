@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSeller } from '../SellerContext'
 import { GLOBAL_PRODUCT_CATEGORIES } from '@/lib/seller-portal/mock-data'
 import { SupportedCurrency, CURRENCY_SYMBOLS } from '@/lib/seller-portal/types'
@@ -259,7 +260,7 @@ export default function SellerRegistrationPage() {
         </div>
         <h2 className="text-2xl font-serif font-bold text-[#163326]">Global Account Initialized</h2>
         <p className="text-sm text-stone-600 leading-relaxed">
-          Welcome to Nuty Tales Seller Central. Your application has been logged for international merchant verification. Redirecting you to your global command console...
+          Welcome to Nutytales Seller Central. Your application has been logged for international merchant verification. Redirecting you to your global command console...
         </p>
       </div>
     )
@@ -269,8 +270,9 @@ export default function SellerRegistrationPage() {
     <div className="max-w-4xl mx-auto my-2 sm:my-4 space-y-4 sm:space-y-6 px-1 sm:px-0">
       {/* Global Header */}
       <div className="bg-[#163326] text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#24523F] shadow-md relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-2">
             <Link href="/seller" className="text-xs text-[#C5A869] hover:underline flex items-center gap-1 font-medium">
               ← Return to Console
             </Link>
@@ -279,14 +281,24 @@ export default function SellerRegistrationPage() {
             </span>
           </div>
           <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#C5A869] block">
-            Nuty Tales Seller Central · Global Onboarding
+            Nutytales Seller Central · Global Onboarding
           </span>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-stone-50 mt-1">
             Sell Anywhere. Grow Everywhere.
           </h1>
           <p className="text-xs text-stone-300 mt-2 max-w-2xl leading-relaxed">
-            Register your business with zero upfront costs. As an early partner, enjoy 0% platform commission on all orders and unlimited free product listings. You retain 100% of your customer earnings.
-          </p>
+              Register your business with zero upfront costs. As an early partner, enjoy 0% platform commission on all orders and unlimited free product listings. You retain 100% of your customer earnings.
+            </p>
+          </div>
+          <div className="hidden sm:flex w-16 h-16 rounded-2xl bg-white border border-stone-200/90 p-1.5 shadow-md items-center justify-center shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="Nutytales Logo"
+              width={56}
+              height={56}
+              className="object-contain w-full h-full"
+            />
+          </div>
         </div>
 
         {/* Step Indicator */}
@@ -909,7 +921,7 @@ export default function SellerRegistrationPage() {
                 className="mt-1 h-4 w-4 rounded text-[#163326] focus:ring-[#163326]"
               />
               <label htmlFor="agreedToTerms" className="text-xs text-stone-700 leading-relaxed cursor-pointer">
-                I hereby declare that the corporate, tax, and product information provided is genuine and accurate. I agree to adhere to the Nuty Tales Seller Central Global Merchant Agreement, product quality standards, fair trading policies, and applicable international customs compliance regulations.
+                I hereby declare that the corporate, tax, and product information provided is genuine and accurate. I agree to adhere to the Nutytales Seller Central Global Merchant Agreement, product quality standards, fair trading policies, and applicable international customs compliance regulations.
               </label>
             </div>
 
