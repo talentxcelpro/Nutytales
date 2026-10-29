@@ -79,11 +79,22 @@ export default function GlobalHeader() {
     }
   }, [])
 
+  // Suppress global gateway header completely on seller portal (route /seller or subdomain seller.nutytales.com)
+  const isSellerPortal =
+    pathname === '/seller' ||
+    pathname?.startsWith('/seller/') ||
+    (typeof window !== 'undefined' && /^seller\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=seller/i.test(document.cookie))
+
+  if (isSellerPortal) {
+    return null
+  }
+
   // Suppress global gateway header when rendering dedicated standalone company shells or subdomains,
   // but preserve it on shared commerce & utility pages (e.g. /checkout, /cart, /orders, /login)
   const isSubdomain =
-    (typeof window !== 'undefined' && /^(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
+    (typeof window !== 'undefined' && /^(seller|business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=(seller|business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
 
   const isSharedPage =
     pathname === '/checkout' ||

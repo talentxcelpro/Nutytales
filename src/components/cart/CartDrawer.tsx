@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants'
 import { calculateDiscount, DYNAMIC_COUPONS } from '@/lib/coupons'
 import { useMarketCurrency } from '@/hooks/useMarketCurrency'
@@ -25,6 +26,19 @@ export interface CartItem {
 }
 
 export default function CartDrawer() {
+  const pathname = usePathname()
+
+  // Suppress completely on seller portal
+  const isSellerPortal =
+    pathname === '/seller' ||
+    pathname?.startsWith('/seller/') ||
+    (typeof window !== 'undefined' && /^seller\./i.test(window.location.hostname)) ||
+    (typeof document !== 'undefined' && /nt_active_vertical=seller/i.test(document.cookie))
+
+  if (isSellerPortal) {
+    return null
+  }
+
   const { formatPrice, formatCraftPrice, isWesternMarket } = useMarketCurrency()
   const [isOpen, setIsOpen] = useState(false)
   const [cart, setCart] = useState<CartItem[]>([])

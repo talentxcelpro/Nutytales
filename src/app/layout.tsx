@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -120,13 +121,19 @@ export const metadata: Metadata = {
 };
 
 // ── Root Layout ───────────────────────────────────────────────────────────────
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
   const gaId  = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") || headerList.get("host") || "";
+  const vertical = headerList.get("x-nutytales-vertical") || "";
+  const pathname = headerList.get("x-pathname") || "";
+  const isSeller = host.startsWith("seller.") || vertical === "seller" || pathname.startsWith("/seller");
 
   return (
     <html
@@ -194,15 +201,15 @@ export default function RootLayout({
 
         {/* ── Page content with Firebase + Supabase Auth ── */}
         <AuthProvider>
-          <GlobalHeader />
+          {!isSeller && <GlobalHeader />}
           <div className="flex-1">
             {children}
           </div>
-          <GlobalFooter />
-          <CartDrawer />
-          <SIFloatingAssistant />
+          {!isSeller && <GlobalFooter />}
+          {!isSeller && <CartDrawer />}
+          {!isSeller && <SIFloatingAssistant />}
           <AuthModal />
-          <GoogleOneTap />
+          {!isSeller && <GoogleOneTap />}
         </AuthProvider>
       </body>
     </html>

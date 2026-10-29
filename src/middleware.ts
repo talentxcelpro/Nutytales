@@ -19,7 +19,7 @@ function getActiveVertical(request: NextRequest): string | null {
   const headerVertical = request.headers.get('x-nutytales-vertical')
   if (headerVertical) return headerVertical.toLowerCase()
 
-  if (host.startsWith('seller.nutytales.com') || host.startsWith('seller.localhost') || queryParam === 'seller') return 'seller'
+  if (host.startsWith('seller.nutytales.com') || host.startsWith('seller.localhost') || host.startsWith('seller.') || queryParam === 'seller') return 'seller'
   if (host.startsWith('nri.nutytales.com') || host.startsWith('nri.localhost')) return 'nri'
   if (host.startsWith('business.nutytales.com') || host.startsWith('business.localhost')) return 'business'
   if (host.startsWith('gifting.nutytales.com') || host.startsWith('gifting.localhost')) return 'gifting'
@@ -146,7 +146,13 @@ Host: ${hostUrl}
         return NextResponse.json({ error: 'Unauthorized', message: 'Authentication required.' }, { status: 401 })
       }
     }
-    return NextResponse.next()
+    const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
   }
 
   // 4. Subdomain-aware routing & rewrites
@@ -232,17 +238,53 @@ Host: ${hostUrl}
     }
 
     const rewriteVertical = (targetPath: string) => {
-      const res = NextResponse.rewrite(new URL(targetPath, request.url))
+      const requestHeaders = new Headers(request.headers)
+      requestHeaders.set('x-nutytales-vertical', vertical)
+      requestHeaders.set('x-pathname', targetPath)
+      const res = NextResponse.rewrite(new URL(targetPath, request.url), {
+        request: {
+          headers: requestHeaders,
+        },
+      })
       res.cookies.set('nt_active_vertical', vertical, { path: '/' })
       res.headers.set('x-nutytales-vertical', vertical)
       return res
     }
 
     const nextVertical = () => {
-      const res = NextResponse.next()
+      const requestHeaders = new Headers(request.headers)
+      requestHeaders.set('x-nutytales-vertical', vertical)
+      requestHeaders.set('x-pathname', pathname)
+      const res = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      })
       res.cookies.set('nt_active_vertical', vertical, { path: '/' })
       res.headers.set('x-nutytales-vertical', vertical)
       return res
+    }
+
+    // ─── 4A-1. Dedicated Seller Portal Subdomain (seller.nutytales.com) ───
+    if (vertical === 'seller') {
+      // Static assets, next internals, and API routes pass through directly
+      if (
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/api') ||
+        pathname.startsWith('/static') ||
+        pathname.includes('.')
+      ) {
+        return nextVertical()
+      }
+
+      // If already prefixed with /seller, pass through directly
+      if (pathname === '/seller' || pathname.startsWith('/seller/')) {
+        return nextVertical()
+      }
+
+      // Rewrite root and all subpaths directly into the /seller portal
+      const targetPath = `/seller${pathname === '/' ? '' : pathname}`
+      return rewriteVertical(targetPath)
     }
 
     // ─── 4B. Shared Global Commerce & Utility Routes ───
@@ -303,11 +345,6 @@ Host: ${hostUrl}
       pathname.startsWith('/bulk-quote/')
     ) {
       return nextVertical()
-    }
-
-    if (vertical === 'seller') {
-      if (pathname.startsWith('/seller')) return nextVertical()
-      return rewriteVertical(`/seller${pathname === '/' ? '' : pathname}`)
     }
 
     if (vertical === 'nri') {
@@ -467,7 +504,13 @@ Host: ${hostUrl}
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
     }
-    return NextResponse.next()
+    const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
   }
 
   if (ACCOUNT_ROUTE.test(pathname)) {
@@ -476,10 +519,22 @@ Host: ${hostUrl}
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
     }
-    return NextResponse.next()
+    const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
   }
 
-  return NextResponse.next()
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
 }
 
 export const config = {
