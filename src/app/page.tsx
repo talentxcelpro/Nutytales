@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { PRODUCTS } from '@/lib/products-data'
 import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
 import HeroBannerSuite from '@/components/home/HeroBannerSuite'
@@ -128,10 +127,8 @@ export default function HomePage() {
       {/* ── Interactive Gourmet Hero Experience ── */}
       <HeroBannerSuite />
 
-      {/* ── Main Catalog Experience directly on Index Page ── */}
-      <Suspense>
-        <ShopCatalogClient products={PRODUCTS} embedded />
-      </Suspense>
+      {/* ── Main Catalog Experience directly on Index Page (Fully SSR prerendered) ── */}
+      <ShopCatalogClient products={PRODUCTS} embedded />
     </>
   )
 }
