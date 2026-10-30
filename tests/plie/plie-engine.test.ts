@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import {
-  PlieOrchestrationEngine,
-} from '@/lib/plie/engine'
+import { PlieOrchestrationEngine } from '@/lib/plie/engine'
 import {
   calculateHealthScore,
   generateExecutionId,
+  validateEnvironmentSafety,
+  sanitizeEvidenceArtifact,
   PlieFinding,
 } from '@/lib/plie/types'
 import { PlaywrightPlieAdapter } from '@/lib/plie/adapters/playwright.adapter'
@@ -18,10 +18,8 @@ describe('Pre-Launch Intelligence Engine (PLIE) Architecture & Engine Tests', ()
   })
 
   it('calculates System Health Score accurately according to severity weighting formula', () => {
-    // 0 findings -> 100
     expect(calculateHealthScore([])).toBe(100)
 
-    // 1 Critical finding -> 100 - 30 = 70
     const findings: PlieFinding[] = [
       {
         id: 'F-1',
@@ -38,7 +36,6 @@ describe('Pre-Launch Intelligence Engine (PLIE) Architecture & Engine Tests', ()
     ]
     expect(calculateHealthScore(findings)).toBe(70)
 
-    // 1 Critical + 1 High -> 100 - (30 + 15) = 55
     findings.push({
       id: 'F-2',
       executionId: 'TEST-EXEC',
@@ -53,26 +50,88 @@ describe('Pre-Launch Intelligence Engine (PLIE) Architecture & Engine Tests', ()
     })
     expect(calculateHealthScore(findings)).toBe(55)
 
-    // Resolved findings do not count against score
     findings[0].status = 'VERIFIED_FIXED'
     expect(calculateHealthScore(findings)).toBe(85)
   })
 
-  it('enforces environment safety by throwing an error if targeted against production', async () => {
-    const engine = new PlieOrchestrationEngine()
-    const prodEnv = {
+  it('Phase E: Rejects production URL independent of caller-controlled flags', () => {
+    // Even if isProduction is false, hostname nutytales.com must be blocked
+    const res1 = validateEnvironmentSafety({
       targetBaseUrl: 'https://nutytales.com',
-      isProduction: true,
-      razorpayTestModeOnly: false,
+      isProduction: false,
+      razorpayTestModeOnly: true,
+    })
+    expect(res1.safe).toBe(false)
+    expect(res1.reason).toContain('Production hostname rejected')
+
+    const res2 = validateEnvironmentSafety({
+      targetBaseUrl: 'https://www.nutytales.com/checkout',
+      isProduction: false,
+      razorpayTestModeOnly: true,
+    })
+    expect(res2.safe).toBe(false)
+    expect(res2.reason).toContain('Production hostname rejected')
+
+    // Allowed preview Vercel branch
+    const res3 = validateEnvironmentSafety({
+      targetBaseUrl: 'https://nutytales-git-preview-arshidwani.vercel.app',
+      isProduction: false,
+      razorpayTestModeOnly: true,
+    })
+    expect(res3.safe).toBe(true)
+  })
+
+  it('Phase E: Sanitizes evidence artifacts to prevent credential leakage', () => {
+    const dirtyArtifact = {
+      user: 'test-user',
+      password: 'super_secret_password',
+      token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.dummy',
+      headers: {
+        authorization: 'Bearer secret_token_xyz_123',
+      },
+      bankDetails: {
+        rawAccount: '50200088910412',
+      },
     }
 
-    await expect(
-      engine.runBattery({
-        environment: prodEnv,
-        personas: [],
-        scenarios: [],
-      })
-    ).rejects.toThrow(/PLIE SAFETY VIOLATION/i)
+    const cleaned = sanitizeEvidenceArtifact(dirtyArtifact)
+    expect(cleaned.password).toBe('[REDACTED_BY_PLIE_SANITIZER]')
+    expect(cleaned.token).toBe('[REDACTED_BY_PLIE_SANITIZER]')
+    expect(cleaned.headers.authorization).toBe('[REDACTED_BY_PLIE_SANITIZER]')
+    expect(cleaned.bankDetails.rawAccount).toBe('[REDACTED_ACCOUNT]')
+  })
+
+  it('Phase E: Handles execution cancellation gracefully via AbortController', async () => {
+    const engine = new PlieOrchestrationEngine()
+    const controller = new AbortController()
+    controller.abort() // Pre-cancelled
+
+    const stagingEnv = {
+      targetBaseUrl: 'https://nutytales-git-preview-arshidwani.vercel.app',
+      isProduction: false,
+      razorpayTestModeOnly: true,
+    }
+
+    const record = await engine.runBattery({
+      environment: stagingEnv,
+      personas: [],
+      scenarios: [
+        {
+          id: 'SCN-CANCEL',
+          category: 'COMMERCE',
+          title: 'Cancelled Test',
+          description: 'Test',
+          personaId: 'P1',
+          preConditions: [],
+          steps: [],
+          riskFocus: 'Cancellation',
+        },
+      ],
+      abortSignal: controller.signal,
+    })
+
+    expect(record.status).toBe('FAILED')
+    expect(record.cancellationReason).toContain('cancelled')
   })
 
   it('executes a scenario battery across adapters in an isolated staging preview context', async () => {

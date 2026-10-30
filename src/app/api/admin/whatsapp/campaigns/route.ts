@@ -1,9 +1,16 @@
 // ─── Nuty Tales — Admin WhatsApp Campaigns Route ─────────────────────────────
+// Enforces cryptographic administrative authentication independently of layout.
 import { NextResponse } from 'next/server'
 import { WhatsAppDbService } from '@/lib/whatsapp/db'
 import { WhatsAppCampaignManager } from '@/lib/whatsapp/campaigns'
+import { verifyAdminApiAuthorization } from '@/lib/auth/jwt-verifier'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const auth = await verifyAdminApiAuthorization(request)
+  if (!auth.authorized) {
+    return auth.errorResponse
+  }
+
   try {
     const campaigns = await WhatsAppDbService.getCampaigns()
     return NextResponse.json({ success: true, campaigns })
@@ -14,6 +21,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const auth = await verifyAdminApiAuthorization(request)
+  if (!auth.authorized) {
+    return auth.errorResponse
+  }
+
   try {
     const body = await request.json()
     const { action, name, category, targetSegment, templateName, scheduledFor, notes, campaignId } = body

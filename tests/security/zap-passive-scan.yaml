@@ -1,0 +1,35 @@
+# ─── Nuty Tales PLIE — OWASP ZAP Passive Scan Baseline Configuration ───────────
+# Standard passive security analysis rules for Nuty Tales e-commerce platform.
+# Non-destructive: analyzes HTTP response headers, cookies, and DOM leakage.
+
+env:
+  contexts:
+    - name: "Nuty Tales Staging Context"
+      urls:
+        - "https://nutytales-git-staging-arshidwani.vercel.app.*"
+      includePaths:
+        - "https://nutytales-git-staging-arshidwani.vercel.app/.*"
+      excludePaths:
+        - "https://nutytales.com.*"
+        - "https://www.nutytales.com.*"
+
+rules:
+  # Passive scanner alert thresholds
+  - id: 10020 # Anti-clickjacking Header (X-Frame-Options / CSP frame-ancestors)
+    threshold: "medium"
+  - id: 10021 # X-Content-Type-Options Header Missing
+    threshold: "medium"
+  - id: 10038 # Content Security Policy (CSP) Header Not Set
+    threshold: "medium"
+  - id: 10054 # Cookie Without SameSite Attribute
+    threshold: "high"
+  - id: 10011 # Cookie Without Secure Flag
+    threshold: "high"
+  - id: 10010 # Cookie Without HttpOnly Flag
+    threshold: "high"
+  - id: 10035 # Strict-Transport-Security (HSTS) Header Not Set
+    threshold: "medium"
+  - id: 10096 # Timestamp Disclosure
+    threshold: "low"
+  - id: 10027 # Information Disclosure - Suspicious Comments
+    threshold: "low"

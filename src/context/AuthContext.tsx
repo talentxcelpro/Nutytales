@@ -58,6 +58,16 @@ const AuthContext = createContext<AuthContextType>({
   refreshIdToken: async () => null,
 })
 
+function syncTokenCookie(token?: string | null) {
+  if (typeof document === 'undefined') return
+  const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:'
+  if (token) {
+    document.cookie = `nt_uid=${encodeURIComponent(token)}; path=/; max-age=2592000; SameSite=Lax${isHttps ? '; Secure' : ''}`
+  } else {
+    document.cookie = `nt_uid=; path=/; max-age=0; SameSite=Lax${isHttps ? '; Secure' : ''}`
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
@@ -78,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const refreshed = await user.getIdToken(true)
       setIdToken(refreshed)
+      syncTokenCookie(refreshed)
       return refreshed
     } catch (err) {
       console.error('[AuthContext] Token refresh failed:', err)
@@ -89,6 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const token = await firebaseUser.getIdToken(true)
       setIdToken(token)
+      syncTokenCookie(token)
 
       const res = await fetch('/api/auth/sync-profile', {
         method: 'POST',
@@ -107,10 +119,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (data.profile) {
           setProfile(data.profile)
         }
-        // If server assigned role='authenticated' claim, force token refresh
+        // If server assigned role claim or fresh token needed, force token refresh
         if (data.claimsUpdated) {
           const freshToken = await firebaseUser.getIdToken(true)
           setIdToken(freshToken)
+          syncTokenCookie(freshToken)
         }
       }
     } catch (err) {
@@ -122,10 +135,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChange(async (currentUser) => {
       setUser(currentUser)
       if (currentUser) {
+        try {
+          const token = await currentUser.getIdToken()
+          setIdToken(token)
+          syncTokenCookie(token)
+        } catch {}
         await syncWithSupabase(currentUser)
       } else {
         setProfile(null)
         setIdToken(null)
+        syncTokenCookie(null)
       }
       setLoading(false)
     })
@@ -235,6 +254,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await signOutUser()
       await fetch('/api/auth/sync-profile', { method: 'DELETE' }).catch(() => {})
+      syncTokenCookie(null)
       setUser(null)
       setProfile(null)
       setIdToken(null)

@@ -2,20 +2,24 @@
 // POST /api/razorpay/webhook
 //
 // Receives asynchronous payment event notifications from Razorpay.
-// Verifies HMAC-SHA256 signature using RAZORPAY_WEBHOOK_SECRET.
-// Provides duplicate payment prevention and ensures orders are confirmed
-// even if the customer's browser closes before the client callback runs.
+// Verifies HMAC-SHA256 signature using RAZORPAY_WEBHOOK_SECRET against raw request body.
+// Enforces durable persistent idempotency across Vercel serverless function instances,
+// prevents duplicate order fulfillment, blocks concurrent webhook races,
+// and preserves retryability after temporary failures.
 
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { WhatsAppAutomationEngine } from '@/lib/whatsapp/automations'
+import {
+  acquireIdempotencyLock,
+  completeIdempotency,
+  failIdempotency,
+} from '@/lib/payments/idempotency'
 
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET ?? ''
 
-// Lightweight memory cache to track processed event IDs for replay/duplicate protection
-const processedEvents = new Set<string>()
-
 export async function POST(request: Request) {
+  let activeEventId: string | null = null
+
   try {
     if (!RAZORPAY_WEBHOOK_SECRET) {
       console.error('[Razorpay Webhook] RAZORPAY_WEBHOOK_SECRET is not configured.')
@@ -27,7 +31,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing x-razorpay-signature header' }, { status: 400 })
     }
 
-    // Read raw body for exact signature calculation
+    // Read raw body for exact byte-order HMAC signature verification
     const rawBody = await request.text()
 
     const expectedSignature = crypto
@@ -51,19 +55,28 @@ export async function POST(request: Request) {
     }
 
     const payload = JSON.parse(rawBody)
-    const eventId = payload.event_id || payload.id || `${payload.event}_${payload.created_at}`
+    const eventId =
+      payload.event_id ||
+      payload.id ||
+      `evt_${payload.event}_${payload.payload?.payment?.entity?.id || payload.created_at}`
+    activeEventId = eventId
 
-    // Duplicate event prevention (Idempotency)
-    if (processedEvents.has(eventId)) {
-      console.info(`[Razorpay Webhook] Duplicate event ignored: ${eventId}`)
-      return NextResponse.json({ status: 'already_processed', eventId })
-    }
+    // ── Durable Idempotency Enforcement ──────────────────────────────────────
+    const lock = await acquireIdempotencyLock(`webhook_${eventId}`, {
+      ttlSeconds: 60,
+      eventId,
+    })
 
-    processedEvents.add(eventId)
-    // Keep set bounded to last 10,000 entries
-    if (processedEvents.size > 10000) {
-      const firstEntry = processedEvents.values().next().value
-      if (firstEntry) processedEvents.delete(firstEntry)
+    if (!lock.acquired) {
+      if (lock.state === 'COMPLETED') {
+        console.info(`[Razorpay Webhook] Duplicate webhook ignored (already completed): ${eventId}`)
+        return NextResponse.json({ status: 'already_processed', eventId, duplicate: true })
+      }
+
+      if (lock.state === 'PROCESSING') {
+        console.warn(`[Razorpay Webhook] Concurrent webhook delivery in progress: ${eventId}`)
+        return NextResponse.json({ status: 'processing_concurrent', eventId }, { status: 409 })
+      }
     }
 
     const event = payload.event
@@ -76,13 +89,13 @@ export async function POST(request: Request) {
       const razorpayPaymentId = payment?.id
       const amountPaise = payment?.amount || 0
       const customerContact = payment?.contact || ''
-      const customerName = payment?.notes?.customer_name || 'Valued Customer'
+      const customerName = payment?.notes?.customer_name || 'Webhook Verified Buyer'
 
       try {
         const { getSupabaseAdmin } = await import('@/lib/supabase')
         const supabase = getSupabaseAdmin()
         if (supabase && razorpayOrderId) {
-          // Record or update order confirmation lead in Supabase
+          // Record confirmed order fulfillment in Supabase
           await supabase.from('leads').insert({
             name: customerName,
             phone: customerContact,
@@ -107,22 +120,33 @@ export async function POST(request: Request) {
 
       // Non-blocking WhatsApp Payment Confirmation
       if (customerContact) {
-        WhatsAppAutomationEngine.handlePaymentConfirmation({
-          orderId: razorpayOrderId,
-          paymentId: razorpayPaymentId,
-          gateway: 'razorpay',
-          amount: amountPaise / 100,
-          customerPhone: customerContact,
-          customerName,
-        }).catch((waErr) => {
-          console.warn('[Razorpay Webhook] WhatsApp confirmation error:', waErr?.message)
-        })
+        try {
+          const { WhatsAppAutomationEngine } = await import('@/lib/whatsapp/automations')
+          WhatsAppAutomationEngine.handlePaymentConfirmation({
+            orderId: razorpayOrderId,
+            paymentId: razorpayPaymentId,
+            gateway: 'razorpay',
+            amount: amountPaise / 100,
+            customerPhone: customerContact,
+            customerName,
+          }).catch((waErr) => {
+            console.warn('[Razorpay Webhook] WhatsApp confirmation error:', waErr?.message)
+          })
+        } catch (waErr: any) {
+          console.warn('[Razorpay Webhook] WhatsApp engine notice:', waErr?.message)
+        }
       }
     }
+
+    // ── Complete durable idempotency record ──────────────────────────────────
+    await completeIdempotency(`webhook_${eventId}`, { status: 'ok', eventId })
 
     return NextResponse.json({ status: 'ok', eventId })
   } catch (err: any) {
     console.error('[Razorpay Webhook] Error processing webhook:', err?.message || err)
+    if (activeEventId) {
+      await failIdempotency(`webhook_${activeEventId}`, err?.message || 'Webhook processing error')
+    }
     return NextResponse.json({ error: 'Internal server error processing webhook' }, { status: 500 })
   }
 }

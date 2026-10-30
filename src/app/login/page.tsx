@@ -45,16 +45,24 @@ function LoginForm() {
   // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
-      router.push(redirectPath)
+      user.getIdToken().then((token) => {
+        if (typeof document !== 'undefined') {
+          const isHttps = window.location.protocol === 'https:'
+          document.cookie = `nt_uid=${encodeURIComponent(token)}; path=/; max-age=2592000; SameSite=Lax${isHttps ? '; Secure' : ''}`
+        }
+        window.location.href = redirectPath
+      }).catch(() => {
+        window.location.href = redirectPath
+      })
     }
-  }, [user, loading, router, redirectPath])
+  }, [user, loading, redirectPath])
 
   const handleGoogleSignIn = async () => {
     setErrorMessage(null)
     setIsGoogleLoading(true)
     try {
       await signInWithGoogle()
-      router.push(redirectPath)
+      window.location.href = redirectPath
     } catch (err: any) {
       console.error('Google Sign In error:', err)
       setErrorMessage(getFirebaseErrorMessage(err))

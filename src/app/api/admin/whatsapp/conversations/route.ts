@@ -1,9 +1,16 @@
 // ─── Nuty Tales — Admin WhatsApp Conversations & Inbox Route ─────────────────
+// Enforces cryptographic administrative authentication independently of layout.
 import { NextResponse } from 'next/server'
 import { WhatsAppDbService } from '@/lib/whatsapp/db'
 import { getWhatsAppProvider } from '@/lib/whatsapp/provider'
+import { verifyAdminApiAuthorization } from '@/lib/auth/jwt-verifier'
 
 export async function GET(request: Request) {
+  const auth = await verifyAdminApiAuthorization(request)
+  if (!auth.authorized) {
+    return auth.errorResponse
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const conversationId = searchParams.get('conversationId')
@@ -24,6 +31,11 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const auth = await verifyAdminApiAuthorization(request)
+  if (!auth.authorized) {
+    return auth.errorResponse
+  }
+
   try {
     const body = await request.json()
     const { action, conversationId, contactId, text, status, assignedTo, internalNotes } = body
@@ -49,37 +61,36 @@ export async function POST(request: Request) {
         text,
       })
 
-      // Record message in ledger
-      const recorded = await WhatsAppDbService.recordMessage({
+      if (!sendRes.success) {
+        return NextResponse.json({ error: sendRes.error || 'Failed to dispatch WhatsApp message' }, { status: 502 })
+      }
+
+      // Save to conversation history
+      const saved = await WhatsAppDbService.saveMessage({
         conversationId,
         contactId,
         direction: 'OUTBOUND',
-        senderType: 'AGENT',
-        senderName: 'Nuty Tales Support Concierge',
-        messageType: 'text',
+        type: 'TEXT',
         body: text,
-        metaMessageId: sendRes.messageId,
+        providerMessageId: sendRes.messageId,
+        status: 'SENT',
       })
 
-      // If agent manually replied, set conversation to HUMAN_TAKEOVER
-      await WhatsAppDbService.updateConversationStatus(conversationId, 'HUMAN_TAKEOVER')
-
-      return NextResponse.json({ success: true, message: recorded, sendResult: sendRes })
+      return NextResponse.json({ success: true, message: saved, providerResponse: sendRes })
     }
 
-    if (action === 'update_status') {
-      if (!conversationId || !status) {
-        return NextResponse.json({ error: 'Missing conversationId or status' }, { status: 400 })
+    if (action === 'update_conversation') {
+      if (!conversationId) {
+        return NextResponse.json({ error: 'Missing conversationId' }, { status: 400 })
       }
 
-      await WhatsAppDbService.updateConversationStatus(
-        conversationId,
+      const updated = await WhatsAppDbService.updateConversation(conversationId, {
         status,
         assignedTo,
-        internalNotes
-      )
+        internalNotes,
+      })
 
-      return NextResponse.json({ success: true, conversationId, status })
+      return NextResponse.json({ success: true, conversation: updated })
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
