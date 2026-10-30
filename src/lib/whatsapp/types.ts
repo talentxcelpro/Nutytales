@@ -11,6 +11,9 @@ export type WhatsAppMessageType =
   | 'template'
   | 'image'
   | 'document'
+  | 'audio'
+  | 'video'
+  | 'location'
   | 'interactive'
 
 export type WhatsAppDeliveryStatus =
@@ -225,7 +228,12 @@ export interface MetaWebhookPayload {
             list_reply?: { id: string; title: string; description?: string }
           }
           button?: { text: string; payload?: string }
-          image?: { id: string; mime_type: string; sha256: string; caption?: string }
+          image?: { id: string; mime_type: string; sha256?: string; caption?: string }
+          document?: { id: string; mime_type: string; sha256?: string; filename?: string; caption?: string }
+          audio?: { id: string; mime_type: string }
+          video?: { id: string; mime_type: string; sha256?: string; caption?: string }
+          location?: { latitude: number; longitude: number; name?: string; address?: string }
+          [key: string]: any
         }>
         statuses?: Array<{
           id: string

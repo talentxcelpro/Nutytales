@@ -4,6 +4,7 @@ import {
   WhatsAppContact,
   WhatsAppConversation,
   WhatsAppMessage,
+  WhatsAppMessageType,
   WhatsAppConsentStatus,
   WhatsAppCustomerSegment,
   WhatsAppConversationStatus,
@@ -273,7 +274,7 @@ export class WhatsAppDbService {
     direction: 'INBOUND' | 'OUTBOUND'
     senderType: 'CUSTOMER' | 'AI' | 'AGENT' | 'SYSTEM'
     senderName?: string
-    messageType?: 'text' | 'template' | 'image' | 'document' | 'audio' | 'video' | 'location' | 'interactive' | string
+    messageType?: WhatsAppMessageType | string
     body: string
     templateName?: string
     templateParams?: Record<string, any>
@@ -342,7 +343,7 @@ export class WhatsAppDbService {
       direction: params.direction,
       senderType: params.senderType,
       senderName: params.senderName,
-      messageType: params.messageType || 'text',
+      messageType: (params.messageType || 'text') as WhatsAppMessageType,
       body: params.body,
       templateName: params.templateName,
       templateParams: params.templateParams,
