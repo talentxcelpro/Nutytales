@@ -157,7 +157,7 @@ export default function GlobalHeader() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo Left: Nuty Tales Shop */}
             <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
               <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-white border border-stone-200 p-0.5 shadow-2xs group-hover:scale-105 transition-transform">
@@ -218,7 +218,7 @@ export default function GlobalHeader() {
               <button
                 type="button"
                 onClick={() => setMarketModalOpen(true)}
-                className="px-2.5 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-800 transition shadow-2xs flex items-center gap-1.5 text-xs font-semibold"
+                className="hidden sm:flex px-2.5 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-800 transition shadow-2xs items-center gap-1.5 text-xs font-semibold"
                 title="Select Country & Currency"
               >
                 <span>{COUNTRY_FLAGS[activeCountry] || '🌐'}</span>
@@ -226,7 +226,7 @@ export default function GlobalHeader() {
               </button>
 
               {/* Google-style Ecosystem 9-Dots Launcher */}
-              <div className="relative">
+              <div className="relative hidden md:block">
                 <button
                   type="button"
                   onClick={() => setEcosystemMenuOpen(!ecosystemMenuOpen)}

@@ -66,12 +66,12 @@ export default function ShopProductCard({
   }
 
   return (
-    <article className="group bg-white rounded-3xl border border-[#EAE3D5] hover:border-[#B8934A]/80 shadow-2xs hover:shadow-xl transition-all duration-500 flex flex-col h-full overflow-hidden relative">
+    <article className="group bg-white rounded-2xl sm:rounded-3xl border border-[#EAE3D5] hover:border-[#B8934A]/80 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col h-full overflow-hidden relative">
       {/* ── Top Section (Flex Grow): Image & Editorial Product Details ── */}
       <div className="flex flex-col flex-grow">
-        {/* 1. Luxury Visual Canvas: Packaging with Smooth Harvest Reveal */}
+        {/* 1. Visual Canvas: Packaging with Natural Shadow */}
         <div
-          className="relative aspect-square w-full bg-[#FAF5ED] p-5 flex items-center justify-center overflow-hidden cursor-pointer"
+          className="relative aspect-square w-full bg-[#FAF5ED] p-2.5 sm:p-5 flex items-center justify-center overflow-hidden cursor-pointer"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -91,17 +91,17 @@ export default function ShopProductCard({
                 cardBg="bg-transparent"
                 hoverZoom={true}
                 priority={priority}
-                quality={85}
-                padding="p-3"
+                quality={80}
+                padding="p-1 sm:p-3"
                 showNaturalShadow={true}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 180px, (max-width: 1024px) 300px, 25vw"
               />
             </div>
 
-            {/* Secondary Macro Reveal (Raw Glistening Kernels / Threads) */}
+            {/* Secondary Macro Reveal (Desktop Hover) */}
             {secondaryImage && (
               <div
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out hidden sm:block ${
                   isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-102 pointer-events-none'
                 }`}
               >
@@ -111,7 +111,7 @@ export default function ShopProductCard({
                   fill
                   loading="lazy"
                   quality={75}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 180px, (max-width: 1024px) 300px, 25vw"
                   className="object-cover rounded-2xl"
                 />
                 <span className="absolute bottom-3 left-3 bg-[#17233B]/85 text-white backdrop-blur-xs text-[9px] uppercase tracking-widest font-semibold px-2.5 py-0.5 rounded-full">
@@ -122,12 +122,12 @@ export default function ShopProductCard({
           </Link>
 
           {/* Terroir & Origin Tag */}
-          <div className="absolute top-3.5 left-3.5 flex flex-col gap-1 z-10 pointer-events-none">
-            <span className="px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-xs text-[#5C4F41] text-[10px] font-medium tracking-wider uppercase border border-[#EAE3D5] shadow-2xs">
+          <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 flex flex-col gap-1 z-10 pointer-events-none">
+            <span className="px-1.5 sm:px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-xs text-[#5C4F41] text-[8.5px] sm:text-[10px] font-medium tracking-wider uppercase border border-[#EAE3D5] shadow-2xs">
               {product.origin.split(',')[0]}
             </span>
             {product.sensory?.altitude && (
-              <span className="px-2 py-0.5 rounded-full bg-[#17233B]/85 text-[#F5EFE6] text-[9px] font-mono tracking-wide">
+              <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-[#17233B]/85 text-[#F5EFE6] text-[8px] sm:text-[9px] font-mono tracking-wide hidden sm:inline">
                 🏔️ {product.sensory.altitude.split('(')[0].trim()}
               </span>
             )}
@@ -152,11 +152,11 @@ export default function ShopProductCard({
         </div>
 
         {/* Content Details: Name, Benefits, Description */}
-        <div className="p-5 pb-2 flex flex-col flex-grow space-y-2.5">
+        <div className="p-2.5 sm:p-5 pb-1 sm:pb-2 flex flex-col flex-grow space-y-1 sm:space-y-2.5">
           {/* Category & Harvest Season */}
-          <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-[#8C7E70] font-medium">
+          <div className="flex items-center justify-between text-[9px] sm:text-[11px] uppercase tracking-wider sm:tracking-widest text-[#8C7E70] font-medium">
             <span>{product.category}</span>
-            <span className="text-[#B8934A] text-[10px] font-semibold">
+            <span className="text-[#B8934A] text-[8.5px] sm:text-[10px] font-semibold">
               {product.sensory?.harvestSeason || product.grade}
             </span>
           </div>
@@ -164,14 +164,14 @@ export default function ShopProductCard({
           {/* 2. Product Name */}
           <Link
             href={`/shop/${product.slug}`}
-            className="font-serif text-lg sm:text-xl font-normal text-[#17233B] hover:text-[#176B68] transition-colors leading-snug line-clamp-2 min-h-[3rem] sm:min-h-[3.25rem] flex items-center"
+            className="font-serif text-xs sm:text-lg font-normal text-[#17233B] hover:text-[#176B68] transition-colors leading-tight sm:leading-snug line-clamp-2 min-h-[2.1rem] sm:min-h-[3rem] flex items-center"
           >
             {product.name}
           </Link>
 
-          {/* 3. Product Benefit Tags (Sommelier Tasting Notes or Harvest Grade Badge) */}
+          {/* 3. Product Benefit Tags (Desktop only to keep mobile cards clean) */}
           {product.sensory?.tastingNotes && product.sensory.tastingNotes.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5 pt-0.5">
+            <div className="hidden sm:flex flex-wrap gap-1.5 pt-0.5">
               {product.sensory.tastingNotes.map((note) => (
                 <span
                   key={note}
@@ -182,7 +182,7 @@ export default function ShopProductCard({
               ))}
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 pt-0.5 text-[10px] text-[#8C7E70]">
+            <div className="hidden sm:flex items-center gap-1.5 pt-0.5 text-[10px] text-[#8C7E70]">
               <span className="px-2 py-0.5 rounded-md bg-[#FAF5ED]/60 text-[#704B32] font-medium border border-[#EAE3D5]/60 whitespace-nowrap">
                 ✦ {product.grade || '100% Single-Origin'}
               </span>
@@ -190,8 +190,8 @@ export default function ShopProductCard({
             </div>
           )}
 
-          {/* 4. Short Product Description (Deliberate flexible content container) */}
-          <div className="flex-1 flex flex-col justify-start pt-0.5">
+          {/* 4. Short Product Description (Desktop only) */}
+          <div className="hidden sm:flex flex-1 flex-col justify-start pt-0.5">
             <p className="text-xs text-[#7A6D5E] font-light line-clamp-2 sm:line-clamp-3 leading-relaxed">
               {product.shortDesc}
             </p>
@@ -199,11 +199,11 @@ export default function ShopProductCard({
         </div>
       </div>
 
-      {/* ── Bottom Commercial & Purchase Section: Pinned to bottom with margin-top: auto ── */}
-      <div className="mt-auto px-5 pb-5 pt-2 flex flex-col">
-        {/* 5. Pack-Size Selector and Availability */}
+      {/* ── Bottom Commercial & Purchase Section ── */}
+      <div className="mt-auto px-2.5 sm:px-5 pb-2.5 sm:pb-5 pt-1 sm:pt-2 flex flex-col">
+        {/* 5. Pack-Size Selector (Desktop) */}
         {product.variants.length > 0 && (
-          <div>
+          <div className="hidden sm:block">
             <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-[#8C7E70] mb-1.5 font-medium">
               <span>Select Pack:</span>
               <span className="text-emerald-800 font-semibold">
@@ -233,76 +233,92 @@ export default function ShopProductCard({
           </div>
         )}
 
-        {/* Small, consistent gap (approx 16–20 px) followed by Divider & Price */}
-        <div className="border-t border-[#F0EBE1] mt-4 sm:mt-[18px] pt-3">
-          {/* 7. Price, MRP and Savings */}
-          <div className="flex items-baseline justify-between gap-2 min-h-[1.75rem]">
-            <div className="flex items-baseline gap-2">
-              <span className="font-serif text-xl sm:text-2xl font-semibold text-[#17233B]">
+        {/* Divider & Price */}
+        <div className="border-t border-[#F0EBE1] mt-2 sm:mt-[18px] pt-1.5 sm:pt-3">
+          {/* Price, MRP and Savings */}
+          <div className="flex items-baseline justify-between gap-1 min-h-[1.4rem] sm:min-h-[1.75rem]">
+            <div className="flex items-baseline gap-1 sm:gap-2">
+              <span className="font-serif text-sm sm:text-2xl font-bold text-[#17233B]">
                 {formatPrice(unitPrice)}
               </span>
               {mrp > unitPrice && (
-                <span className="text-xs text-stone-400 line-through">
+                <span className="text-[10px] sm:text-xs text-stone-400 line-through">
                   {formatPrice(mrp)}
                 </span>
               )}
             </div>
             {savings > 0 && (
-              <span className="text-[11px] text-emerald-800 font-medium whitespace-nowrap">
+              <span className="text-[9px] sm:text-[11px] text-emerald-800 font-medium whitespace-nowrap">
                 Save {formatPrice(savings)}
               </span>
             )}
           </div>
 
-          {/* 8. Quantity Selector and Add to Basket Button (Small gap: 12–16 px) */}
-          <div className="mt-3 sm:mt-3.5 flex items-center gap-2">
-            {/* Stepper */}
-            <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
+          {/* Action Row: Mobile 1-Tap Add vs Desktop Stepper */}
+          <div className="mt-1.5 sm:mt-3.5">
+            {/* Mobile View: 1-Tap Add Button */}
+            <div className="sm:hidden">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setQuantity((q) => Math.max(1, q - 1))
-                }}
-                className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
-                aria-label="Decrease quantity"
+                onClick={handleAddToCart}
+                className={`w-full py-2 px-3 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1 ${
+                  isAdded
+                    ? 'bg-emerald-700 text-white'
+                    : 'bg-[#17233B] active:bg-[#1E5E58] text-[#F3E5C8]'
+                }`}
               >
-                −
-              </button>
-              <span className="w-6 text-center text-xs font-medium text-[#17233B]">
-                {quantity}
-              </span>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setQuantity((q) => q + 1)
-                }}
-                className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
-                aria-label="Increase quantity"
-              >
-                +
+                <span>{isAdded ? '✓ Added' : '+ Add to Bag'}</span>
               </button>
             </div>
 
-            {/* Add Button */}
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className={`flex-1 py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
-                isAdded
-                  ? 'bg-emerald-700 text-white'
-                  : 'bg-[#17233B] hover:bg-[#1E5E58] text-white'
-              }`}
-            >
-              <span>{isAdded ? '✓ Added to Basket' : 'Add to Basket'}</span>
-            </button>
+            {/* Desktop View: Stepper + Add Button */}
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="flex items-center border border-[#EAE3D5] rounded-full bg-[#FAF5ED]/60 px-1">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setQuantity((q) => Math.max(1, q - 1))
+                  }}
+                  className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+                  aria-label="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className="w-6 text-center text-xs font-medium text-[#17233B]">
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setQuantity((q) => q + 1)
+                  }}
+                  className="w-7 h-9 flex items-center justify-center text-sm font-semibold text-[#5C4F41] hover:text-[#17233B]"
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className={`flex-1 py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider transition-all shadow-xs active:scale-95 flex items-center justify-center gap-1.5 ${
+                  isAdded
+                    ? 'bg-emerald-700 text-white'
+                    : 'bg-[#17233B] hover:bg-[#1E5E58] text-white'
+                }`}
+              >
+                <span>{isAdded ? '✓ Added to Basket' : 'Add to Basket'}</span>
+              </button>
+            </div>
           </div>
 
-          {/* 9. Product Details and Bulk Pricing Links */}
-          <div className="flex items-center justify-between text-[11px] text-[#8C7E70] mt-3 min-h-[1rem]">
+          {/* Desktop Product Details Links */}
+          <div className="hidden sm:flex items-center justify-between text-[11px] text-[#8C7E70] mt-3 min-h-[1rem]">
             <Link
               href={`/shop/${product.slug}`}
               className="hover:text-[#17233B] underline underline-offset-2 transition-colors"

@@ -134,6 +134,11 @@ const nextConfig: NextConfig = {
         destination: "/gastronomy-journal",
         permanent: true,
       },
+      {
+        source: "/shop/afghani-anjeer-dried-figs",
+        destination: "/shop/afghan-anjeer-wild-figs",
+        permanent: true,
+      },
     ];
   },
 

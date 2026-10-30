@@ -7,12 +7,14 @@ import GlobalFooter from "@/components/global/GlobalFooter";
 import { AuthProvider } from "@/context/AuthContext";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
 import ClientInteractiveOverlays from "@/components/global/ClientInteractiveOverlays";
+import MobileBottomNav from "@/components/global/MobileBottomNav";
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#F7F2E8",
+  themeColor: "#17233B",
+  viewportFit: "cover",
 };
 
 // ── Fonts: Prioritize primary UI sans font; de-prioritize mono ────────────────
@@ -134,6 +136,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {/* ── Native App Shell & PWA Meta Tags ── */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="mobile-web-app-capable" content="yes" />
+
         {/* ── Preconnect to Critical Asset CDN Origins ── */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -201,11 +208,12 @@ export default function RootLayout({
         {/* ── Page content with Firebase + Supabase Auth ── */}
         <AuthProvider>
           <GlobalHeader />
-          <div className="flex-1">
+          <div className="flex-1 pb-16 md:pb-0">
             {children}
           </div>
           <GlobalFooter />
           <ClientInteractiveOverlays />
+          <MobileBottomNav />
           <GoogleOneTap />
         </AuthProvider>
       </body>

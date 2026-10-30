@@ -28,10 +28,15 @@ export default function GoogleOneTap() {
   const [scriptLoaded, setScriptLoaded] = useState(false)
   const initializedRef = useRef(false)
 
-  // Skip entirely in automated audit tools (Lighthouse / PageSpeed / Headless) to prevent false CLS
+  // Skip entirely in automated audit tools (Lighthouse / PageSpeed / Headless)
   const isAudit =
     typeof navigator !== 'undefined' &&
     /Lighthouse|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent)
+
+  // Skip on mobile screens (< 768px or iOS/Android) to prevent FedCM rejection errors
+  const isMobile =
+    typeof window !== 'undefined' &&
+    (window.innerWidth < 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent))
 
   const handleCredentialResponse = useCallback(
     async (response: { credential?: string }) => {
@@ -47,7 +52,7 @@ export default function GoogleOneTap() {
 
   const initializeOneTap = useCallback(() => {
     if (typeof window === 'undefined' || !window.google?.accounts?.id) return
-    if (user || loading || isAudit) return
+    if (user || loading || isAudit || isMobile) return
 
     try {
       window.google.accounts.id.initialize({
@@ -76,11 +81,11 @@ export default function GoogleOneTap() {
     } catch (err) {
       console.error('[GoogleOneTap] Initialization failed:', err)
     }
-  }, [user, loading, isAudit, handleCredentialResponse])
+  }, [user, loading, isAudit, isMobile, handleCredentialResponse])
 
-  // Initialize lazily after main thread is completely idle to protect Core Web Vitals
+  // Initialize lazily on desktop after main thread is idle
   useEffect(() => {
-    if (isAudit) return
+    if (isAudit || isMobile) return
 
     if (scriptLoaded && !loading && !user && !initializedRef.current) {
       const timer = setTimeout(() => {
@@ -92,7 +97,7 @@ export default function GoogleOneTap() {
       }, 2500)
       return () => clearTimeout(timer)
     }
-  }, [scriptLoaded, loading, user, isAudit, initializeOneTap])
+  }, [scriptLoaded, loading, user, isAudit, isMobile, initializeOneTap])
 
   // When user logs in, dismiss/cancel prompt
   useEffect(() => {
@@ -106,8 +111,8 @@ export default function GoogleOneTap() {
     }
   }, [user])
 
-  // If already logged in or in automated audit environment, do not load or render
-  if (user || isAudit) {
+  // If already logged in, on mobile, or in automated audit environment, do not load or render
+  if (user || isAudit || isMobile) {
     return null
   }
 
