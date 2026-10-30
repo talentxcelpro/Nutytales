@@ -52,14 +52,27 @@ const nextConfig: NextConfig = {
         // Static images long-term caching
         source: "/images/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Cache-Control", value: "public, max-age=31536000, s-maxage=31536000, immutable" },
+          { key: "CDN-Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Cloudflare-CDN-Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
       },
       {
-        // Brand icons & favicon caching
-        source: "/:file(favicon\\.ico|favicon\\.png|apple-touch-icon\\.png|logo\\.jpg|icon\\.png|apple-icon\\.png)",
+        // Brand icons, manifests & PWA assets caching
+        source: "/:file(favicon\\.ico|favicon\\.png|apple-touch-icon\\.png|manifest\\.webmanifest|robots\\.txt|llms\\.txt|logo\\.jpg|icon\\.png|apple-icon\\.png)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Cache-Control", value: "public, max-age=31536000, s-maxage=31536000, immutable" },
+          { key: "CDN-Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Cloudflare-CDN-Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        // Prerendered homepage Cloudflare edge cache with background revalidation
+        source: "/",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400" },
+          { key: "CDN-Cache-Control", value: "public, s-maxage=86400, stale-while-revalidate=86400" },
+          { key: "Cloudflare-CDN-Cache-Control", value: "public, max-age=86400, stale-while-revalidate=86400" },
         ],
       },
       {

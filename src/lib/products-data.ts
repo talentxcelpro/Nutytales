@@ -1702,3 +1702,44 @@ export function getProductDynamicGallery(product: Product): string[] {
 }
 
 
+
+/**
+ * Produces a streamlined product object for catalog grid display,
+ * omitting heavy text bodies (longDesc, nutrition tables, b2b volume tiers, storage instructions)
+ * to keep initial HTML flight payloads minimal, lightning fast, and edge-cache optimal.
+ */
+export function getCatalogSummary(product: Product): Product {
+  return {
+    id: product.id,
+    name: product.name,
+    slug: product.slug,
+    category: product.category,
+    categorySlug: product.categorySlug,
+    origin: product.origin,
+    grade: product.grade,
+    shortDesc: product.shortDesc,
+    longDesc: '',
+    retailPrice: product.retailPrice,
+    b2bPricePerKg: product.b2bPricePerKg,
+    mrp: product.mrp,
+    variants: product.variants,
+    b2bTiers: [],
+    stockStatus: product.stockStatus,
+    image: product.image,
+    images: product.images,
+    sensory: product.sensory,
+    isFeatured: product.isFeatured,
+    shelfLifeMonths: product.shelfLifeMonths,
+    storage: '',
+    allergens: '',
+    nutrition: {
+      servingSize: '',
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      fiber: 0,
+    },
+    tags: [],
+  }
+}

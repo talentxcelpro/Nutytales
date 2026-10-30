@@ -166,7 +166,6 @@ export default function GlobalHeader() {
                   alt="Nuty Tales Shop"
                   width={36}
                   height={36}
-                  priority
                   className="object-contain w-full h-full"
                 />
               </div>
@@ -207,6 +206,7 @@ export default function GlobalHeader() {
                 href="/search"
                 className="p-2 rounded-xl text-stone-700 hover:text-[#17233B] hover:bg-stone-200/50 transition-colors flex items-center gap-1.5"
                 title="Search Nuty Tales"
+                aria-label="Search Nuty Tales"
               >
                 <span className="text-base">🔍</span>
                 <span className="hidden xl:inline text-xs font-semibold uppercase tracking-wider text-stone-600">
@@ -220,6 +220,7 @@ export default function GlobalHeader() {
                 onClick={() => setMarketModalOpen(true)}
                 className="hidden sm:flex px-2.5 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-800 transition shadow-2xs items-center gap-1.5 text-xs font-semibold"
                 title="Select Country & Currency"
+                aria-label="Select Country and Currency"
               >
                 <span>{COUNTRY_FLAGS[activeCountry] || '🌐'}</span>
                 <span className="font-mono">{activeCurrency}</span>
@@ -256,6 +257,7 @@ export default function GlobalHeader() {
                         <button
                           onClick={() => setEcosystemMenuOpen(false)}
                           className="text-stone-400 hover:text-stone-700 text-xs font-bold"
+                          aria-label="Close products menu"
                         >
                           ✕
                         </button>

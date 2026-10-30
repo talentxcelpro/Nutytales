@@ -222,12 +222,14 @@ export default function ShopCatalogClient({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search harvests..."
+                aria-label="Search harvests"
                 className="w-full pl-7 pr-3 py-1.5 text-xs rounded-full bg-white border border-[#EAE3D5] focus:outline-hidden focus:border-[#17233B] text-[#17233B] placeholder-[#9E9182]"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
                   className="absolute inset-y-0 right-2 text-[#9E9182] hover:text-[#17233B] text-xs"
                 >
                   ✕

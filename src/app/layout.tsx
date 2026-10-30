@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import GlobalHeader from "@/components/global/GlobalHeader";
@@ -17,19 +17,12 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// ── Fonts: Prioritize primary UI sans font; de-prioritize mono ────────────────
+// ── Font: High-performance primary UI sans font with instant fallback ──────────
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
   preload: true,
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
 });
 
 // ── Canonical URL ─────────────────────────────────────────────────────────────
@@ -133,7 +126,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} h-full antialiased`}
     >
       <head>
         {/* ── Native App Shell & PWA Meta Tags ── */}
@@ -144,8 +137,6 @@ export default function RootLayout({
         {/* ── Preconnect to Critical Asset CDN Origins ── */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://accounts.google.com" />
-        <link rel="dns-prefetch" href="https://accounts.google.com" />
 
         {/* ── Google Tag Manager (afterInteractive avoids render-blocking) ── */}
         {gtmId && (

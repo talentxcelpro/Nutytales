@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { PRODUCTS } from '@/lib/products-data'
+import { PRODUCTS, getCatalogSummary } from '@/lib/products-data'
 import ShopCatalogClient from '@/components/shop/ShopCatalogClient'
 import HeroBannerSuite from '@/components/home/HeroBannerSuite'
 import { FSSAI_NUMBER } from '@/lib/constants'
@@ -127,8 +127,8 @@ export default function HomePage() {
       {/* ── Interactive Gourmet Hero Experience ── */}
       <HeroBannerSuite />
 
-      {/* ── Main Catalog Experience directly on Index Page (Fully SSR prerendered) ── */}
-      <ShopCatalogClient products={PRODUCTS} embedded />
+      {/* ── Main Catalog Experience directly on Index Page (Fully SSR prerendered with compact flight payload) ── */}
+      <ShopCatalogClient products={PRODUCTS.map(getCatalogSummary)} embedded />
     </>
   )
 }

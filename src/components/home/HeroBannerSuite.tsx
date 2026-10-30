@@ -413,7 +413,7 @@ export default function HeroBannerSuite() {
                   className="object-contain p-1 sm:p-2 drop-shadow-md transition-transform duration-700 hover:scale-105"
                   priority={currentSlide === 0}
                   fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
-                  quality={85}
+                  quality={75}
                 />
               </div>
             </div>
@@ -509,7 +509,7 @@ export default function HeroBannerSuite() {
                   fill
                   sizes="(max-width: 640px) 60px, 80px"
                   loading="lazy"
-                  quality={80}
+                  quality={75}
                   className="object-contain p-0.5 group-hover:scale-108 transition-transform duration-500 drop-shadow-2xs"
                 />
               </div>
