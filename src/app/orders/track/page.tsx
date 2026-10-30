@@ -38,17 +38,21 @@ function OrderTrackContent() {
   const [orderIdInput, setOrderIdInput] = useState(paramId)
   const [order, setOrder] = useState<OrderRecord | null>(null)
   const [isSearching, setIsSearching] = useState(false)
+  const [searchedNotFoundId, setSearchedNotFoundId] = useState<string | null>(null)
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
   const loadOrder = (idToFind: string) => {
     setIsSearching(true)
+    setSearchedNotFoundId(null)
     try {
+      const cleanId = idToFind ? idToFind.toLowerCase().trim() : ''
+
       // 1. Check last order in localStorage
       const lastOrderStr = localStorage.getItem('nt_last_order')
       if (lastOrderStr) {
         const parsed: OrderRecord = JSON.parse(lastOrderStr)
-        if (!idToFind || parsed.orderId.toLowerCase() === idToFind.toLowerCase().trim()) {
+        if (!cleanId || parsed.orderId.toLowerCase() === cleanId) {
           setOrder(parsed)
           setIsSearching(false)
           return
@@ -60,7 +64,7 @@ function OrderTrackContent() {
       if (historyStr) {
         const history: OrderRecord[] = JSON.parse(historyStr)
         const match = history.find(
-          (o) => o.orderId.toLowerCase() === idToFind.toLowerCase().trim()
+          (o) => o.orderId.toLowerCase() === cleanId
         )
         if (match) {
           setOrder(match)
@@ -69,41 +73,17 @@ function OrderTrackContent() {
         }
       }
 
-      // 3. Fallback demo mock for any validly structured ID
-      if (idToFind) {
-        const fallbackDate = new Date()
-        const deliveryDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
-        setOrder({
-          orderId: idToFind.toUpperCase(),
-          customer: {
-            fullName: 'Valued Customer',
-            phone: '+91 98110XXXXX',
-            address: 'Primary Delivery Location',
-            city: 'Delhi NCR',
-            state: 'Uttar Pradesh',
-            pincode: '201304',
-          },
-          items: [
-            {
-              name: 'NutyTales Premium Makhana (Jumbo 6 Suta)',
-              sizeLabel: '1 kg Best Value Pack',
-              quantity: 1,
-              totalPrice: 899,
-              image: '/images/promo-makhana-899.webp',
-            },
-          ],
-          subtotal: 899,
-          shipping: 0,
-          total: 899,
-          paymentMethod: 'upi',
-          createdAt: fallbackDate.toISOString(),
-          estimatedDelivery: deliveryDate.toISOString(),
-        })
+      // 3. SEC-003 Remediation:
+      // Do NOT fabricate mock orders or mock logistics AWB. Return verified not-found state.
+      if (cleanId) {
+        setOrder(null)
+        setSearchedNotFoundId(idToFind.trim())
       } else {
         setOrder(null)
       }
     } catch {
       setOrder(null)
+      if (idToFind) setSearchedNotFoundId(idToFind.trim())
     } finally {
       setIsSearching(false)
     }
@@ -143,13 +123,13 @@ function OrderTrackContent() {
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold tracking-wider uppercase border border-emerald-200">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>NutyTales Live Dispatch &amp; Delivery Tracker</span>
+            <span>NutyTales Dispatch &amp; Delivery Tracker</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#17233B]">
             Track Your Delivery
           </h1>
           <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto">
-            Real-time status from our central packaging hub to your doorstep.
+            Live order status from central packing hub to your doorstep.
           </p>
         </div>
 
@@ -163,11 +143,13 @@ function OrderTrackContent() {
               onChange={(e) => setOrderIdInput(e.target.value)}
               placeholder="Enter Order ID (e.g. NT-ORD-2026-123456)"
               className="w-full py-2 px-2 text-xs sm:text-sm font-mono text-stone-800 uppercase focus:outline-none bg-transparent"
+              data-testid="order-search-input"
             />
             <button
               type="submit"
               disabled={isSearching}
               className="px-6 py-2.5 bg-[#17233B] hover:bg-[#203050] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition whitespace-nowrap shadow-xs cursor-pointer"
+              data-testid="order-search-button"
             >
               {isSearching ? 'Searching...' : 'Track'}
             </button>
@@ -176,7 +158,7 @@ function OrderTrackContent() {
 
         {/* Order Details Card */}
         {order ? (
-          <div className="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden space-y-6 p-6 sm:p-8">
+          <div className="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden space-y-6 p-6 sm:p-8" data-testid="order-details-card">
             {/* Top Bar: Order ID + Status Badge */}
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 pb-4">
               <div>
@@ -228,7 +210,7 @@ function OrderTrackContent() {
                     <span className="w-2 h-2 rounded-full bg-[#C9A45C] animate-pulse" />
                     <span>3. In Transit</span>
                   </div>
-                  <p className="text-[10px] text-stone-300">Blue Dart / Delhivery Express</p>
+                  <p className="text-[10px] text-stone-300">Carrier Express Delivery</p>
                 </div>
 
                 {/* Step 4 */}
@@ -249,17 +231,17 @@ function OrderTrackContent() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs bg-stone-50 p-4 rounded-2xl border border-stone-200">
               <div>
                 <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
-                  Carrier Partner
+                  Carrier Status
                 </span>
                 <span className="font-bold text-stone-900 text-xs mt-0.5 block">
-                  Blue Dart Express Air / Delhivery
+                  Express Surface / Air
                 </span>
-                <span className="text-[10px] text-stone-500">AWB: BD-AIR-88910412IN</span>
+                <span className="text-[10px] text-stone-500">AWB assigned on dispatch</span>
               </div>
 
               <div>
                 <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
-                  Dispatch Hub
+                  Dispatch Facility
                 </span>
                 <span className="font-bold text-stone-900 text-xs mt-0.5 block">
                   Noida Sector 63 Central Facility
@@ -343,17 +325,48 @@ function OrderTrackContent() {
               </Link>
             </div>
           </div>
+        ) : searchedNotFoundId ? (
+          <div className="bg-white rounded-3xl border border-rose-200 p-10 text-center space-y-4 max-w-lg mx-auto shadow-xs" data-testid="order-not-found-card">
+            <span className="text-4xl block">🔎</span>
+            <h3 className="font-serif text-lg font-bold text-stone-900">
+              Order Not Found
+            </h3>
+            <p className="text-xs text-stone-600 leading-relaxed">
+              We could not locate an active order matching <code className="px-2 py-0.5 bg-stone-100 font-mono text-stone-800 rounded">{searchedNotFoundId}</code> in our customer records.
+            </p>
+            <p className="text-[11px] text-stone-500">
+              Please check your Order Confirmation SMS or email, or connect with our support team with your payment reference.
+            </p>
+            <div className="pt-2 flex justify-center gap-3">
+              <a
+                href={`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                  `Hello NutyTales Support, I could not find tracking info for Order reference: ${searchedNotFoundId}. Please help me check.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 bg-[#176B68] hover:bg-[#125350] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-xs"
+              >
+                💬 Ask Support on WhatsApp
+              </a>
+              <Link
+                href="/shop"
+                className="px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition"
+              >
+                Return to Shop
+              </Link>
+            </div>
+          </div>
         ) : (
-          <div className="bg-white rounded-3xl border border-stone-200 p-10 text-center space-y-4 max-w-lg mx-auto shadow-xs">
+          <div className="bg-white rounded-3xl border border-stone-200 p-10 text-center space-y-4 max-w-lg mx-auto shadow-xs" data-testid="order-empty-state">
             <span className="text-4xl block">📦</span>
             <h3 className="font-serif text-lg font-bold text-stone-900">
-              No recent order found on this device
+              Track Your Nuty Tales Delivery
             </h3>
             <p className="text-xs text-stone-500">
-              Please enter your Order ID above or place an order from the shop to track delivery.
+              Please enter your Order ID above or place an order from the shop to track delivery in real time.
             </p>
             <Link
-              href="/"
+              href="/shop"
               className="inline-block px-6 py-2.5 bg-[#17233B] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
             >
               Shop Featured Makhana

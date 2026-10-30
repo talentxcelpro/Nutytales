@@ -16,7 +16,7 @@ export interface VerifiedSellerSession {
   isSuperAdmin: boolean
 }
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'nuttytales_admin_super_secret_2026'
+const ADMIN_SECRET = process.env.ADMIN_SECRET || (process.env.NODE_ENV !== 'production' ? 'nuttytales_admin_super_secret_2026' : '')
 
 /**
  * Resolves and cryptographically verifies the caller's identity.
@@ -31,8 +31,8 @@ export async function getVerifiedSellerSession(
 
   // 1. Direct Administrative Secret Verification (Server-to-Server or Admin Desk)
   if (
-    (adminSecretHeader && adminSecretHeader === ADMIN_SECRET) ||
-    (bearerToken && bearerToken === ADMIN_SECRET)
+    ADMIN_SECRET && ((adminSecretHeader && adminSecretHeader === ADMIN_SECRET) ||
+      (bearerToken && bearerToken === ADMIN_SECRET))
   ) {
     const requestedSellerId = req.nextUrl.searchParams.get('sellerId') || null
     return {

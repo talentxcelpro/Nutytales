@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { syncConsumerOrderToSellers } from '@/lib/seller-portal/order-sync'
+import { WhatsAppAutomationEngine } from '@/lib/whatsapp/automations'
 
 export async function POST(request: Request) {
   try {
@@ -56,6 +57,26 @@ export async function POST(request: Request) {
         })
       } catch (err) {
         console.warn('[Orders API] Supabase lead insertion error:', err)
+      }
+    }
+
+    // Trigger WhatsApp Commerce OS Order Confirmation (non-blocking)
+    if (phone) {
+      try {
+        WhatsAppAutomationEngine.handleOrderConfirmation({
+          orderId,
+          orderNumber: orderId,
+          customerName,
+          customerPhone: phone,
+          customerEmail: email,
+          totalAmount: Number(total || 0),
+          itemCount: Array.isArray(items) ? items.length : 1,
+          shippingAddressCity: city,
+        }).catch((waErr) => {
+          console.warn('[Orders API] Non-blocking WhatsApp confirmation error:', waErr?.message)
+        })
+      } catch (waErr) {
+        console.warn('[Orders API] WhatsApp confirmation dispatch failed:', waErr)
       }
     }
 

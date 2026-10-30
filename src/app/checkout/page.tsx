@@ -263,15 +263,13 @@ export default function CheckoutPage() {
             {paymentMethod === 'neft' && (
               <div className="bg-[#F7F2E8] p-4 rounded-2xl text-left border border-[#17233B]/10 text-xs space-y-2">
                 <p className="font-bold text-[#17233B] uppercase tracking-wider text-[10px]">
-                  B2B Bank Transfer Details (NEFT / RTGS / IMPS):
+                  B2B Bank Transfer / Corporate NEFT / RTGS:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-700 text-[11px]">
-                  <div><strong>Account Name:</strong> Nuty Tales Foods &amp; Crafts</div>
-                  <div><strong>Parent Entity:</strong> Nexgenn Services</div>
-                  <div><strong>Bank:</strong> HDFC Bank / ICICI Bank</div>
-                  <div><strong>Account No:</strong> 50200088910412</div>
-                  <div><strong>IFSC Code:</strong> HDFC0001234</div>
-                  <div><strong>GSTIN:</strong> 09AAECN1234F1Z5</div>
+                <p className="text-stone-700 text-[11px] leading-relaxed">
+                  Official bank remittance instructions and your Proforma Invoice will be transmitted directly to your verified business email ({email || 'provided at checkout'}) upon order verification by our corporate accounts desk.
+                </p>
+                <div className="text-[10px] text-stone-500 pt-1 border-t border-stone-200/60">
+                  Beneficiary: <strong>Nuty Tales Commercial Accounts</strong> · Remittance verification within 2 business hours.
                 </div>
               </div>
             )}

@@ -60,11 +60,17 @@ export function getAuthenticatedSupabaseClient(idToken: string): SupabaseClient 
 
 /**
  * Returns the privileged server-side Supabase client for API routes.
+ * SEC-006 Remediation: Fails closed when privileged service role credentials are missing.
+ * Prevents silent fallback to public anon permissions for administrative operations.
  */
 export function getSupabaseAdmin(): SupabaseClient | null {
-  const key = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY
-  if (!key) return null
-  return createClient(SUPABASE_URL, key, {
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    if (process.env.NODE_ENV === 'production') {
+      console.error('[Supabase Admin] CRITICAL: SUPABASE_SERVICE_ROLE_KEY is missing. Failing closed.')
+    }
+    return null
+  }
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,

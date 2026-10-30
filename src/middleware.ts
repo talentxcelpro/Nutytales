@@ -5,6 +5,48 @@ const ADMIN_ROUTE = /^\/admin(\/.*)?$/
 const ACCOUNT_ROUTE = /^\/account(\/.*)?$/
 const API_ADMIN_ROUTE = /^\/api\/admin(\/.*)?$/
 
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'nutty-tales-1c667'
+const FIREBASE_ISSUER = `https://securetoken.google.com/${FIREBASE_PROJECT_ID}`
+
+function isValidAdminTokenClaims(token?: string | null): boolean {
+  if (!token || typeof token !== 'string') return false
+  const parts = token.split('.')
+  if (parts.length !== 3) return false
+  try {
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    const decoded = atob(base64)
+    const payload = JSON.parse(decoded)
+    const now = Math.floor(Date.now() / 1000)
+
+    if (payload.iss !== FIREBASE_ISSUER) return false
+    if (payload.aud !== FIREBASE_PROJECT_ID) return false
+    if (!payload.exp || typeof payload.exp !== 'number' || payload.exp < now) return false
+    if (!payload.sub || typeof payload.sub !== 'string') return false
+
+    const hasAdminRole = payload.role === 'admin' || payload.role === 'SUPER_ADMIN' || payload.isSuperAdmin === true
+    return Boolean(hasAdminRole)
+  } catch {
+    return false
+  }
+}
+
+function isValidJwtStructure(token?: string | null): boolean {
+  if (!token || typeof token !== 'string') return false
+  const parts = token.split('.')
+  if (parts.length !== 3) return false
+  try {
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    const decoded = atob(base64)
+    const payload = JSON.parse(decoded)
+    if (payload.exp && typeof payload.exp === 'number') {
+      if (payload.exp * 1000 < Date.now()) return false
+    }
+    return Boolean(payload.sub || payload.user_id || payload.uid)
+  } catch {
+    return false
+  }
+}
+
 function getActiveVertical(request: NextRequest): string | null {
   const host =
     request.headers.get('x-forwarded-host') ||
@@ -140,7 +182,8 @@ Sitemap: ${sitemapUrl}
     if (API_ADMIN_ROUTE.test(pathname)) {
       const authHeader = request.headers.get('authorization')
       const token = request.cookies.get('nt_uid')?.value
-      if (!authHeader && !token) {
+      const bearer = authHeader?.replace(/^Bearer\s+/i, '').trim()
+      if (!isValidJwtStructure(bearer) && !isValidJwtStructure(token)) {
         return NextResponse.json({ error: 'Unauthorized', message: 'Authentication required.' }, { status: 401 })
       }
     }
@@ -495,7 +538,8 @@ Sitemap: ${sitemapUrl}
   const token = request.cookies.get('nt_uid')?.value
 
   if (ADMIN_ROUTE.test(pathname)) {
-    if (!token) {
+    // SEC-005: Never trust cookie presence alone. Must be a valid unexpired JWT.
+    if (!isValidJwtStructure(token)) {
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('redirect', 'admin')
       loginUrl.searchParams.set('callbackUrl', pathname)
@@ -511,7 +555,8 @@ Sitemap: ${sitemapUrl}
   }
 
   if (ACCOUNT_ROUTE.test(pathname)) {
-    if (!token) {
+    // SEC-005: Never trust cookie presence alone. Must be a valid unexpired JWT.
+    if (!isValidJwtStructure(token)) {
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
