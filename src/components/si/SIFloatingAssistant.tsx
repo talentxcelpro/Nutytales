@@ -36,12 +36,8 @@ const HEALTH_TARGETS: { key: HealthTargetKey; label: string; icon: string; tag: 
 export default function SIFloatingAssistant() {
   const pathname = usePathname()
 
-  // Suppress completely on seller portal
-  const isSellerPortal =
-    pathname === '/seller' ||
-    pathname?.startsWith('/seller/') ||
-    (typeof window !== 'undefined' && /^seller\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=seller/i.test(document.cookie))
+  // Suppress completely on seller portal (path-based, matches identically on SSR and client)
+  const isSellerPortal = pathname === '/seller' || pathname?.startsWith('/seller/')
 
   if (isSellerPortal) {
     return null

@@ -99,6 +99,19 @@ export const metadata: Metadata = {
     },
   },
 
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Nuty Tales",
+  },
+
+  alternates: {
+    canonical: APP_URL,
+    types: {
+      "text/markdown": "/llms.txt",
+    },
+  },
+
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -127,18 +140,44 @@ export default function RootLayout({
     <html
       lang="en-IN"
       className={`${geistSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
-        {/* ── Native App Shell & PWA Meta Tags ── */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="mobile-web-app-capable" content="yes" />
-
         {/* ── Preconnect to Critical Asset CDN Origins ── */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+      </head>
 
-        {/* ── Google Tag Manager (afterInteractive avoids render-blocking) ── */}
+      <body
+        className="min-h-screen bg-nt-cream text-nt-brown flex flex-col"
+        suppressHydrationWarning
+      >
+        {/* ── GTM noscript fallback ── */}
+        {gtmId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        )}
+
+        {/* ── Page content with Firebase + Supabase Auth ── */}
+        <AuthProvider>
+          <GlobalHeader />
+          <div className="flex-1 pb-16 md:pb-0">
+            {children}
+          </div>
+          <GlobalFooter />
+          <ClientInteractiveOverlays />
+          <MobileBottomNav />
+          <GoogleOneTap />
+        </AuthProvider>
+
+        {/* ── Google Tag Manager (placed inside body to prevent head hydration mismatches) ── */}
         {gtmId && (
           <Script
             id="gtm-script"
@@ -177,36 +216,6 @@ export default function RootLayout({
             />
           </>
         )}
-        {/* ── LLM / AI Answer Engine Discovery (llms.txt standard) ── */}
-        <link rel="help" type="text/markdown" href="/llms.txt" />
-        <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt" />
-      </head>
-
-      <body className="min-h-screen bg-nt-cream text-nt-brown flex flex-col">
-        {/* ── GTM noscript fallback ── */}
-        {gtmId && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-              title="Google Tag Manager"
-            />
-          </noscript>
-        )}
-
-        {/* ── Page content with Firebase + Supabase Auth ── */}
-        <AuthProvider>
-          <GlobalHeader />
-          <div className="flex-1 pb-16 md:pb-0">
-            {children}
-          </div>
-          <GlobalFooter />
-          <ClientInteractiveOverlays />
-          <MobileBottomNav />
-          <GoogleOneTap />
-        </AuthProvider>
       </body>
     </html>
   );

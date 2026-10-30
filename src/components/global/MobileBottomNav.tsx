@@ -8,11 +8,12 @@ export default function MobileBottomNav() {
   const pathname = usePathname()
   const [cartCount, setCartCount] = useState(0)
 
-  // Suppress completely on seller portal
-  const isSellerPortal =
-    pathname === '/seller' ||
-    pathname?.startsWith('/seller/') ||
-    (typeof window !== 'undefined' && /^seller\./i.test(window.location.hostname))
+  // Suppress completely on seller portal (path-based, matches identically on SSR and client)
+  const isSellerPortal = pathname === '/seller' || pathname?.startsWith('/seller/')
+
+  if (isSellerPortal) {
+    return null
+  }
 
   // Sync cart count with localStorage
   useEffect(() => {

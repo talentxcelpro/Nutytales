@@ -79,24 +79,27 @@ export default function GlobalHeader() {
     }
   }, [])
 
-  // Suppress global gateway header completely on seller portal (route /seller or subdomain seller.nutytales.com)
-  const isSellerPortal =
-    pathname === '/seller' ||
-    pathname?.startsWith('/seller/') ||
-    (typeof window !== 'undefined' && /^seller\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=seller/i.test(document.cookie))
+  // Suppress global gateway header completely on seller portal (route /seller)
+  const isSellerPortal = pathname === '/seller' || pathname?.startsWith('/seller/')
 
-  if (isSellerPortal) {
-    return null
-  }
+  // Dedicated vertical standalone shells (path-based, matches identically on SSR and client)
+  const isVerticalShell =
+    pathname?.startsWith('/b2b') ||
+    pathname?.startsWith('/gifting') ||
+    pathname?.startsWith('/weddings') ||
+    pathname?.startsWith('/crafts') ||
+    pathname?.startsWith('/stays') ||
+    pathname?.startsWith('/travel') ||
+    pathname?.startsWith('/nri') ||
+    pathname?.startsWith('/me') ||
+    pathname?.startsWith('/eu') ||
+    pathname?.startsWith('/us')
 
-  // Suppress global gateway header when rendering dedicated standalone company shells or subdomains,
-  // but preserve it on shared commerce & utility pages (e.g. /checkout, /cart, /orders, /login)
-  const isSubdomain =
-    (typeof window !== 'undefined' && /^(seller|business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)\./i.test(window.location.hostname)) ||
-    (typeof document !== 'undefined' && /nt_active_vertical=(seller|business|gifting|weddings|crafts|stays|travel|nri|middleeast|europe|america)/i.test(document.cookie))
-
+  // Shared commerce and core discovery pages that ALWAYS render the global header
   const isSharedPage =
+    pathname === '/' ||
+    pathname === '/shop' ||
+    pathname?.startsWith('/shop/') ||
     pathname === '/checkout' ||
     pathname?.startsWith('/checkout/') ||
     pathname === '/cart' ||
@@ -107,24 +110,9 @@ export default function GlobalHeader() {
     pathname === '/contact' ||
     pathname === '/privacy' ||
     pathname === '/terms' ||
-    pathname === '/shipping' ||
-    pathname === '/shop' ||
-    pathname?.startsWith('/shop/')
+    pathname === '/shipping'
 
-  if (
-    !isSharedPage &&
-    (isSubdomain ||
-      pathname?.startsWith('/b2b') ||
-      pathname?.startsWith('/gifting') ||
-      pathname?.startsWith('/weddings') ||
-      pathname?.startsWith('/crafts') ||
-      pathname?.startsWith('/stays') ||
-      pathname?.startsWith('/travel') ||
-      pathname?.startsWith('/nri') ||
-      pathname?.startsWith('/me') ||
-      pathname?.startsWith('/eu') ||
-      pathname?.startsWith('/us'))
-  ) {
+  if (isSellerPortal || (!isSharedPage && isVerticalShell)) {
     return null
   }
 
