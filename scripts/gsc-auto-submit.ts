@@ -94,6 +94,18 @@ async function getAccessToken(email: string, key: string): Promise<string> {
 
 const SITEMAPS_TO_SUBMIT = [
   'https://nutytales.com/sitemap.xml',
+  'https://nutytales.com/sitemaps/b2b-matrix-1.xml',
+  'https://nutytales.com/sitemaps/b2b-matrix-2.xml',
+  'https://nutytales.com/sitemaps/pincodes-north.xml',
+  'https://nutytales.com/sitemaps/pincodes-west.xml',
+  'https://nutytales.com/sitemaps/pincodes-south.xml',
+  'https://nutytales.com/sitemaps/pincodes-east.xml',
+  'https://nutytales.com/sitemaps/crafts-geo.xml',
+  'https://nutytales.com/sitemaps/stays-geo.xml',
+  'https://nutytales.com/sitemaps/gifting-geo.xml',
+  'https://nutytales.com/sitemaps/diaspora-me.xml',
+  'https://nutytales.com/sitemaps/diaspora-us.xml',
+  'https://nutytales.com/sitemaps/diaspora-eu.xml',
   'https://weddings.nutytales.com/sitemap.xml',
   'https://gifting.nutytales.com/sitemap.xml',
   'https://business.nutytales.com/sitemap.xml',

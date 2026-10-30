@@ -46,4 +46,3 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://nutytales.com/sitemap.xml
-Host: https://nutytales.com

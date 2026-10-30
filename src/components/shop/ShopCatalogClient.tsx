@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { Product } from '@/lib/products-data'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import ShopProductCard from './ShopProductCard'
@@ -47,24 +47,36 @@ export default function ShopCatalogClient({
   initialSort = 'featured',
   embedded = false,
 }: ShopCatalogClientProps) {
-  const searchParams = useSearchParams()
-  const paramCategory = searchParams?.get('category') || initialCategory || 'all'
-  const paramOrigin = searchParams?.get('origin') || initialOrigin || 'All Origins'
-  const paramSort = searchParams?.get('sort') || initialSort || 'featured'
-  const paramQuery = searchParams?.get('q') || ''
-
-  // Filter States
-  const [selectedCategory, setSelectedCategory] = useState<string>(paramCategory)
-  const [selectedOrigin, setSelectedOrigin] = useState<string>(paramOrigin)
+  // Static-first filter state (No useSearchParams during initial render to prevent SSR bailout and layout shifts)
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all')
+  const [selectedOrigin, setSelectedOrigin] = useState<string>(initialOrigin || 'All Origins')
   const [selectedPriceTier, setSelectedPriceTier] = useState<number>(0)
-  const [searchQuery, setSearchQuery] = useState<string>(paramQuery)
-  const [sortBy, setSortBy] = useState<string>(paramSort)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [sortBy, setSortBy] = useState<string>(initialSort || 'featured')
   const [inStockOnly, setInStockOnly] = useState<boolean>(false)
   const [selectedGrade, setSelectedGrade] = useState<string>('all')
+
+  // Initial pagination limit to optimize DOM size & prevent CPU blocking on mobile devices
+  const [visibleCount, setVisibleCount] = useState<number>(embedded ? 12 : 24)
 
   // UI States
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false)
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
+
+  // Client-only URL parameter sync after mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const cat = params.get('category')
+    const org = params.get('origin')
+    const srt = params.get('sort')
+    const q = params.get('q')
+
+    if (cat) setSelectedCategory(cat)
+    if (org) setSelectedOrigin(org)
+    if (srt) setSortBy(srt)
+    if (q) setSearchQuery(q)
+  }, [])
 
   // Filter Logic
   const filteredProducts = useMemo(() => {
@@ -181,6 +193,8 @@ export default function ShopCatalogClient({
     setSelectedGrade('all')
     setSortBy('featured')
   }
+
+  const displayedProducts = sortedProducts.slice(0, visibleCount)
 
   return (
     <div className={`min-h-screen bg-[#FDFBF7] text-[#17233B] ${embedded ? 'pt-8 sm:pt-12' : 'pt-24 sm:pt-28'} pb-24`}>
@@ -366,16 +380,40 @@ export default function ShopCatalogClient({
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {sortedProducts.map((prod, idx) => (
-                <ShopProductCard
-                  key={prod.id}
-                  product={prod}
-                  priority={idx < 4}
-                  onQuickView={(p) => setQuickViewProduct(p)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {displayedProducts.map((prod) => (
+                  <ShopProductCard
+                    key={prod.id}
+                    product={prod}
+                    priority={false}
+                    onQuickView={(p) => setQuickViewProduct(p)}
+                  />
+                ))}
+              </div>
+
+              {/* Progressive Load More to protect DOM size and Mobile CPU */}
+              {sortedProducts.length > visibleCount && (
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-10">
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount((prev) => prev + 12)}
+                    className="px-8 py-3.5 rounded-full bg-[#17233B] hover:bg-[#203050] text-[#F3E5C8] font-bold text-xs uppercase tracking-wider transition-all shadow-xs hover:shadow-md cursor-pointer border border-[#C9A45C]/40 flex items-center gap-2"
+                  >
+                    <span>Load More Harvests ({sortedProducts.length - visibleCount} remaining)</span>
+                    <span>↓</span>
+                  </button>
+                  {embedded && (
+                    <Link
+                      href="/shop"
+                      className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 text-stone-800 font-bold text-xs uppercase tracking-wider border border-stone-300 shadow-2xs transition-all flex items-center justify-center"
+                    >
+                      <span>View Entire Catalog →</span>
+                    </Link>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
 

@@ -126,6 +126,9 @@ const GSC_PROPERTIES = [
   'sc-domain:business.nutytales.com',
   'sc-domain:stays.nutytales.com',
   'sc-domain:travel.nutytales.com',
+  'sc-domain:middleeast.nutytales.com',
+  'sc-domain:america.nutytales.com',
+  'sc-domain:europe.nutytales.com',
 ];
 
 async function fetchGscRows(token: string, property: string): Promise<GscRow[]> {

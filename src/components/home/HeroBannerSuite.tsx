@@ -267,8 +267,8 @@ export default function HeroBannerSuite() {
 
   return (
     <div className="w-full pt-20 bg-white overflow-hidden select-none">
-      {/* ─── 1. Luxury Midnight Navy & Champagne Gold Announcement Bar ─── */}
-      <div className="bg-[#0F1828] text-[#EAE5D9] py-1.5 border-b border-[#C9A45C]/30 text-[11px] sm:text-xs tracking-wide overflow-hidden shadow-xs">
+      {/* ─── 1. Luxury Midnight Navy & Champagne Gold Announcement Bar (Fixed Height to Prevent CLS) ─── */}
+      <div className="bg-[#0F1828] text-[#EAE5D9] h-8 min-h-[32px] flex items-center border-b border-[#C9A45C]/30 text-[11px] sm:text-xs tracking-wide overflow-hidden shadow-xs">
         <div className="animate-marquee items-center gap-6">
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -321,10 +321,10 @@ export default function HeroBannerSuite() {
           {/* Subtle Ambient Glow */}
           <div className="absolute top-0 right-1/4 w-80 h-80 bg-amber-200/15 blur-3xl rounded-full pointer-events-none -z-10" />
 
-          {/* Active Slide Body with Silky Smooth Entrance */}
+          {/* Active Slide Body with Smooth Stable Transition (No vertical reflow shift) */}
           <div
             key={slide.id}
-            className="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center p-4 sm:p-6 lg:p-7 relative z-10 animate-[fadeIn_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+            className="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center p-4 sm:p-6 lg:p-7 relative z-10 transition-opacity duration-300"
           >
             {/* Left Column: Text & Conversion Cluster */}
             <div className="lg:col-span-7 space-y-2.5 sm:space-y-3">
@@ -400,7 +400,7 @@ export default function HeroBannerSuite() {
               </div>
             </div>
 
-            {/* Right Column: Floating Product Standing Pouch (Zero Awkward Double-Box) */}
+            {/* Right Column: Floating Product Standing Pouch with Precise Responsive Sizing */}
             <div className="lg:col-span-5 flex items-center justify-center">
               <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-square max-h-[240px] sm:max-h-[260px] flex items-center justify-center">
                 {/* Soft ambient back glow behind pouch */}
@@ -409,8 +409,11 @@ export default function HeroBannerSuite() {
                   src={slide.image}
                   alt={slide.alt}
                   fill
+                  sizes="(max-width: 640px) 260px, (max-width: 1024px) 300px, 360px"
                   className="object-contain p-2 drop-shadow-md transition-transform duration-700 hover:scale-105"
-                  priority
+                  priority={currentSlide === 0}
+                  fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
+                  quality={85}
                 />
               </div>
             </div>
@@ -462,7 +465,7 @@ export default function HeroBannerSuite() {
         </div>
       </section>
 
-      {/* ─── 3. Compact 6-Column Category Tiles ("Explore By Harvest") ─── */}
+      {/* ─── 3. Compact 6-Column Category Tiles ("Explore By Harvest" - Definite Dimensions) ─── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
         <div className="flex items-center justify-between pb-2">
           <div className="flex items-center gap-2">
@@ -498,11 +501,14 @@ export default function HeroBannerSuite() {
                 </span>
               </div>
 
-              <div className="relative w-full aspect-square max-h-20 sm:max-h-22 my-1 flex items-center justify-center">
+              <div className="relative w-20 h-20 sm:w-22 sm:h-22 mx-auto my-1 flex items-center justify-center">
                 <Image
                   src={tile.image}
                   alt={tile.title}
                   fill
+                  sizes="(max-width: 640px) 80px, 90px"
+                  loading="lazy"
+                  quality={80}
                   className="object-contain p-0.5 group-hover:scale-108 transition-transform duration-500 drop-shadow-2xs"
                 />
               </div>

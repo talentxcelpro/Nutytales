@@ -1,15 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import GlobalHeader from "@/components/global/GlobalHeader";
 import GlobalFooter from "@/components/global/GlobalFooter";
-import SIFloatingAssistant from "@/components/si/SIFloatingAssistant";
 import { AuthProvider } from "@/context/AuthContext";
-import AuthModal from "@/components/auth/AuthModal";
 import GoogleOneTap from "@/components/auth/GoogleOneTap";
-import CartDrawer from "@/components/cart/CartDrawer";
+import ClientInteractiveOverlays from "@/components/global/ClientInteractiveOverlays";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -18,17 +15,19 @@ export const viewport: Viewport = {
   themeColor: "#F7F2E8",
 };
 
-// ── Fonts ─────────────────────────────────────────────────────────────────────
+// ── Fonts: Prioritize primary UI sans font; de-prioritize mono ────────────────
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
 });
 
 // ── Canonical URL ─────────────────────────────────────────────────────────────
@@ -120,8 +119,8 @@ export const metadata: Metadata = {
   },
 };
 
-// ── Root Layout ───────────────────────────────────────────────────────────────
-export default async function RootLayout({
+// ── Root Layout (100% Static & Edge-Cache Friendly) ───────────────────────────
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -129,23 +128,23 @@ export default async function RootLayout({
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
   const gaId  = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-  const headerList = await headers();
-  const host = headerList.get("x-forwarded-host") || headerList.get("host") || "";
-  const vertical = headerList.get("x-nutytales-vertical") || "";
-  const pathname = headerList.get("x-pathname") || "";
-  const isSeller = host.startsWith("seller.") || vertical === "seller" || pathname.startsWith("/seller");
-
   return (
     <html
       lang="en-IN"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        {/* ── Google Tag Manager ── */}
+        {/* ── Preconnect to Critical Asset CDN Origins ── */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://accounts.google.com" />
+        <link rel="dns-prefetch" href="https://accounts.google.com" />
+
+        {/* ── Google Tag Manager (afterInteractive avoids render-blocking) ── */}
         {gtmId && (
           <Script
             id="gtm-script"
-            strategy="beforeInteractive"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -201,15 +200,13 @@ export default async function RootLayout({
 
         {/* ── Page content with Firebase + Supabase Auth ── */}
         <AuthProvider>
-          {!isSeller && <GlobalHeader />}
+          <GlobalHeader />
           <div className="flex-1">
             {children}
           </div>
-          {!isSeller && <GlobalFooter />}
-          {!isSeller && <CartDrawer />}
-          {!isSeller && <SIFloatingAssistant />}
-          <AuthModal />
-          {!isSeller && <GoogleOneTap />}
+          <GlobalFooter />
+          <ClientInteractiveOverlays />
+          <GoogleOneTap />
         </AuthProvider>
       </body>
     </html>

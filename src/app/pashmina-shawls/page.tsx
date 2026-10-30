@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CRAFT_PRODUCTS, type CraftProduct } from '@/lib/crafts-data';
-import { generatePageMetadata, buildBreadcrumbSchema, schemaToJsonLd } from '@/lib/seo/metadata';
+import { generatePageMetadata, buildBreadcrumbSchema, buildFaqSchema, schemaToJsonLd } from '@/lib/seo/metadata';
 
 export const metadata: Metadata = generatePageMetadata({
   business: 'crafts',
@@ -25,11 +25,62 @@ export default function PashminaShawlsPage() {
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
 
+  const faqSchema = buildFaqSchema([
+    {
+      question: 'How do I verify if a Pashmina shawl is 100% authentic?',
+      answer: 'Authentic Kashmir Pashmina is woven from Changthangi goat fibers measuring under 15 microns. Genuine shawls carry the official Geographical Indication (GI) micro-optical tag and pass both the ring test and fiber burn test.',
+    },
+    {
+      question: 'Are Nutytales Pashmina shawls GI Tag certified?',
+      answer: 'Yes, every pure Pashmina shawl and stole from Nutytales is certified by the Craft Development Institute (CDI) Srinagar with verifiable GI registry QR codes.',
+    },
+    {
+      question: 'What is the difference between Pashmina and Cashmere?',
+      answer: 'Pashmina is the finest grade of Cashmere, spun specifically from the underbelly fleece of high-altitude Himalayan Changthangi goats living at 14,000+ feet in Ladakh.',
+    },
+    {
+      question: 'Do you ship authentic Pashmina shawls internationally to the US, UK, and UAE?',
+      answer: 'Yes, we provide insured international express courier delivery with export certification to the United States, United Kingdom, UAE, and Europe in 4–7 business days.',
+    },
+  ]);
+
+  const pashminaProductSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'GI-Certified Authentic Kashmir Pashmina Shawls',
+    description: '100% pure handwoven Changthangi Cashmere Pashmina shawls from the Kashmir Valley with sozni embroidery and GI registry tags.',
+    image: 'https://nutytales.com/images/logo.jpg',
+    brand: { '@type': 'Brand', name: 'Nuty Tales Crafts' },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'INR',
+      lowPrice: '7500',
+      highPrice: '45000',
+      offerCount: '12',
+      availability: 'https://schema.org/InStock',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.95',
+      reviewCount: '48',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] pt-24 pb-20 md:pt-32 text-[#17233B]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: schemaToJsonLd(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: schemaToJsonLd(faqSchema) }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pashminaProductSchema) }}
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

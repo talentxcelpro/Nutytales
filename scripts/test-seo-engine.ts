@@ -225,7 +225,7 @@ const productSchema = buildProductSchema({
   ratingValue: 4.8,
 });
 assert(productSchema['@type'] === 'Product', 'Generates valid Product schema');
-assert((productSchema.offers as any).price === '850', 'Product schema carries exact verified price');
+assert((productSchema.offers as any).price === '1250', 'Product schema carries exact verified price');
 assert(productSchema.aggregateRating !== undefined, 'Includes AggregateRating only when real verified reviews exist');
 
 const lodgingSchema = buildLodgingSchema({

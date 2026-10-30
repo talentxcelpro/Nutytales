@@ -34,7 +34,12 @@ const nextConfig: NextConfig = {
   compress: true,
 
   experimental: {
-    optimizePackageImports: ["@/lib/products-data", "@/lib/constants"],
+    optimizePackageImports: [
+      "@/lib/products-data",
+      "@/lib/constants",
+      "clsx",
+      "tailwind-merge",
+    ],
   },
 
   // ── Server-side external packages ──────────────────────────────────────────
@@ -46,6 +51,13 @@ const nextConfig: NextConfig = {
       {
         // Static images long-term caching
         source: "/images/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        // Brand icons & favicon caching
+        source: "/:file(favicon\\.ico|favicon\\.png|apple-touch-icon\\.png|logo\\.jpg|icon\\.png|apple-icon\\.png)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],

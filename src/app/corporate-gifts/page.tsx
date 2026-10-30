@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { generatePageMetadata, buildBreadcrumbSchema, schemaToJsonLd } from '@/lib/seo/metadata';
+import { generatePageMetadata, buildBreadcrumbSchema, buildFaqSchema, schemaToJsonLd } from '@/lib/seo/metadata';
 import { WHATSAPP_NUMBERS, DEFAULT_CONTACT_PHONE } from '@/lib/constants';
 
 export const metadata: Metadata = generatePageMetadata({
@@ -54,11 +54,62 @@ export default function CorporateGiftsPage() {
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
 
+  const faqSchema = buildFaqSchema([
+    {
+      question: 'What is the Minimum Order Quantity (MOQ) for corporate gifting hampers?',
+      answer: 'Our MOQ starts at 10 units for employee welcome kits and 25 units for custom festive hampers (Diwali, New Year) and executive client gift boxes.',
+    },
+    {
+      question: 'Do you offer custom company logo engraving and personalized packaging?',
+      answer: 'Yes, we provide custom gold/silver foil stamping, laser-engraved walnut wood chests, branded sleeve packaging, and personalized CEO message cards.',
+    },
+    {
+      question: 'Can you deliver hampers directly to employee home addresses across India & Dubai?',
+      answer: 'Yes, our multi-city doorstep fulfillment handles individual dispatches to 500+ employee home addresses across India and Dubai with real-time delivery tracking.',
+    },
+    {
+      question: 'Do you provide compliant corporate GST tax invoices?',
+      answer: 'Yes, all corporate orders come with compliant B2B tax invoices with GST input tax credit details and corporate credit payment terms.',
+    },
+  ]);
+
+  const corporateProductSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Nuty Tales Luxury Corporate Gifting Hampers',
+    description: 'Bespoke corporate dry fruit hampers with single-origin Kashmiri Mamra badam, GI saffron, and personalized branding.',
+    image: 'https://nutytales.com/images/logo.jpg',
+    brand: { '@type': 'Brand', name: 'Nuty Tales Gifting' },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'INR',
+      lowPrice: '550',
+      highPrice: '12000',
+      offerCount: '4',
+      availability: 'https://schema.org/InStock',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '86',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] pt-24 pb-20 md:pt-32 text-[#17233B]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: schemaToJsonLd(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: schemaToJsonLd(faqSchema) }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(corporateProductSchema) }}
       />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

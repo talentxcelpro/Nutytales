@@ -125,8 +125,6 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: ${sitemapUrl}
-Sitemap: https://nutytales.com/sitemap_index.xml
-Host: ${hostUrl}
 `
     return new NextResponse(robotsTxt, {
       status: 200,
@@ -326,7 +324,6 @@ Host: ${hostUrl}
 
     // Shared universal pages (auth, policies, search, shop catalog, gastronomy journal, sitemap index, verification txt)
     if (
-      pathname === '/sitemap_index.xml' ||
       pathname.startsWith('/sitemaps/') ||
       pathname.endsWith('.txt') ||
       pathname === '/login' ||
@@ -539,7 +536,6 @@ Host: ${hostUrl}
 
 export const config = {
   matcher: [
-    // Exclude static assets and the static sitemap_index.xml (served from /public).
     // Does NOT exclude sitemap.xml so that vertical subdomain rewrites still work
     // (e.g. nri.nutytales.com/sitemap.xml → /nri/sitemap.xml via middleware).
     '/((?!_next/static|_next/image|favicon.ico|sitemap_index\\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt)$).*)',
