@@ -28,7 +28,12 @@ export interface ParsedInboundMessage {
   buttonPayload?: string
   interactiveReply?: { id: string; title: string }
   mediaUrl?: string
+  mediaId?: string
+  mimeType?: string
+  filename?: string
   contactName?: string
+  phoneNumberId?: string
+  businessAccountId?: string
 }
 
 export interface ParsedStatusCallback {
@@ -38,6 +43,8 @@ export interface ParsedStatusCallback {
   recipientId: string
   errorCode?: string
   errorMessage?: string
+  phoneNumberId?: string
+  businessAccountId?: string
 }
 
 export interface WhatsAppProviderAdapter {

@@ -202,8 +202,9 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
     rawBody: string,
     signatureHeader?: string | null
   ): boolean {
-    if (!signatureHeader || !this.config.appSecret) {
-      // In development or when app secret is not configured, warn and reject
+    const secret = this.config.appSecret || process.env.META_APP_SECRET
+    if (!signatureHeader || !secret) {
+      // Reject if signature or secret is missing
       return false
     }
 
@@ -215,7 +216,7 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
       const signatureHex = parts[1]
 
       const expectedSignature = crypto
-        .createHmac('sha256', this.config.appSecret)
+        .createHmac('sha256', secret)
         .update(rawBody)
         .digest('hex')
 
@@ -240,33 +241,107 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
     const inboundMessages: ParsedInboundMessage[] = []
     const statusCallbacks: ParsedStatusCallback[] = []
 
-    if (!payload?.entry) return { inboundMessages, statusCallbacks }
+    if (!payload?.entry || !Array.isArray(payload.entry)) {
+      return { inboundMessages, statusCallbacks }
+    }
+
+    const configuredWabaId =
+      this.config.businessAccountId ||
+      process.env.META_WHATSAPP_BUSINESS_ACCOUNT_ID
+    const configuredPhoneId =
+      this.config.phoneNumberId ||
+      process.env.META_WHATSAPP_PHONE_NUMBER_ID
 
     for (const entry of payload.entry) {
+      const entryWabaId = entry.id
+      if (configuredWabaId && entryWabaId && entryWabaId !== configuredWabaId) {
+        console.warn(
+          `[MetaCloudApiAdapter] Skipping entry with non-matching WABA ID: ${entryWabaId}`
+        )
+        continue
+      }
+
       for (const change of entry.changes || []) {
         if (change.field !== 'messages') continue
         const value = change.value
         if (!value) continue
 
+        const metadataPhoneId = value.metadata?.phone_number_id
+        if (
+          configuredPhoneId &&
+          metadataPhoneId &&
+          metadataPhoneId !== configuredPhoneId
+        ) {
+          console.warn(
+            `[MetaCloudApiAdapter] Skipping change with non-matching Phone Number ID: ${metadataPhoneId}`
+          )
+          continue
+        }
+
         // Extract Inbound Messages
         for (const msg of value.messages || []) {
           const contact = value.contacts?.find((c) => c.wa_id === msg.from)
-          let bodyText = msg.text?.body || ''
-          let buttonPayload = msg.button?.payload || ''
-          let interactiveReply = undefined
+          let bodyText = ''
+          let buttonPayload = ''
+          let interactiveReply: { id: string; title: string } | undefined = undefined
+          let mediaId: string | undefined = undefined
+          let mimeType: string | undefined = undefined
+          let filename: string | undefined = undefined
 
-          if (msg.interactive?.button_reply) {
-            interactiveReply = {
-              id: msg.interactive.button_reply.id,
-              title: msg.interactive.button_reply.title,
+          switch (msg.type) {
+            case 'text':
+              bodyText = msg.text?.body || ''
+              break
+            case 'image':
+              mediaId = msg.image?.id
+              mimeType = msg.image?.mime_type
+              bodyText = msg.image?.caption || '[Image]'
+              break
+            case 'document':
+              mediaId = msg.document?.id
+              mimeType = msg.document?.mime_type
+              filename = msg.document?.filename
+              bodyText = msg.document?.caption || filename || '[Document]'
+              break
+            case 'audio':
+              mediaId = msg.audio?.id
+              mimeType = msg.audio?.mime_type
+              bodyText = '[Audio Message]'
+              break
+            case 'video':
+              mediaId = msg.video?.id
+              mimeType = msg.video?.mime_type
+              bodyText = msg.video?.caption || '[Video]'
+              break
+            case 'location': {
+              const loc = msg.location
+              bodyText = `[Location: ${loc?.name || ''} ${loc?.address || ''} (${loc?.latitude}, ${loc?.longitude})]`.trim()
+              break
             }
-            bodyText = msg.interactive.button_reply.title
-          } else if (msg.interactive?.list_reply) {
-            interactiveReply = {
-              id: msg.interactive.list_reply.id,
-              title: msg.interactive.list_reply.title,
-            }
-            bodyText = msg.interactive.list_reply.title
+            case 'button':
+              buttonPayload = msg.button?.payload || ''
+              bodyText = msg.button?.text || buttonPayload || '[Button Click]'
+              break
+            case 'interactive':
+              if (msg.interactive?.button_reply) {
+                interactiveReply = {
+                  id: msg.interactive.button_reply.id,
+                  title: msg.interactive.button_reply.title,
+                }
+                bodyText = msg.interactive.button_reply.title
+              } else if (msg.interactive?.list_reply) {
+                interactiveReply = {
+                  id: msg.interactive.list_reply.id,
+                  title: msg.interactive.list_reply.title,
+                }
+                bodyText = msg.interactive.list_reply.title
+              } else {
+                bodyText = '[Interactive Reply]'
+              }
+              break
+            default:
+              bodyText = msg.text?.body || `[Unsupported Message Type: ${msg.type}]`
+              break
           }
 
           inboundMessages.push({
@@ -277,7 +352,12 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
             text: bodyText,
             buttonPayload,
             interactiveReply,
+            mediaId,
+            mimeType,
+            filename,
             contactName: contact?.profile?.name,
+            phoneNumberId: metadataPhoneId,
+            businessAccountId: entryWabaId,
           })
         }
 
@@ -287,7 +367,7 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
           let errMsg: string | undefined = undefined
           if (status.errors && status.errors.length > 0) {
             errCode = String(status.errors[0].code)
-            errMsg = `${status.errors[0].title}: ${status.errors[0].message}`
+            errMsg = `${status.errors[0].title || 'Error'}: ${status.errors[0].message || 'Unknown'}`
           }
 
           statusCallbacks.push({
@@ -297,6 +377,8 @@ export class MetaCloudApiAdapter implements WhatsAppProviderAdapter {
             recipientId: status.recipient_id,
             errorCode: errCode,
             errorMessage: errMsg,
+            phoneNumberId: metadataPhoneId,
+            businessAccountId: entryWabaId,
           })
         }
       }

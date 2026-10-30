@@ -8,6 +8,7 @@ import {
 import { GET as getOverview } from '@/app/api/admin/whatsapp/overview/route'
 import { GET as getCampaigns, POST as postCampaigns } from '@/app/api/admin/whatsapp/campaigns/route'
 import { GET as getConversations } from '@/app/api/admin/whatsapp/conversations/route'
+import { GET as getExport } from '@/app/api/admin/whatsapp/export/route'
 
 // Generate RSA key pair for testing
 const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
@@ -144,5 +145,13 @@ describe('Task 004 / Phase 1: Direct Privileged Admin API Independent Authorizat
     const json = await res.json()
     expect(json.success).toBe(true)
     expect(json.conversations).toBeDefined()
+  })
+
+  it('6. Blocks direct CSV export route without administrative token', async () => {
+    const unauthReq = new Request('http://localhost:3000/api/admin/whatsapp/export', {
+      method: 'GET',
+    })
+    const res = await getExport(unauthReq)
+    expect(res.status).toBe(401)
   })
 })

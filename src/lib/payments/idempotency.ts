@@ -200,6 +200,14 @@ export async function acquireIdempotencyLock(
             },
             storageBackend: 'database',
           }
+        } else {
+          // If insert failed due to unique key conflict, another concurrent request won the race
+          return {
+            acquired: false,
+            state: 'PROCESSING',
+            message: 'Concurrent duplicate request currently in progress in distributed cluster (DB Unique Conflict).',
+            storageBackend: 'database',
+          }
         }
       }
     } catch (dbErr) {

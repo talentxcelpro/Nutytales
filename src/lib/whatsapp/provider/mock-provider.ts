@@ -153,7 +153,26 @@ export class MockWhatsAppProvider implements WhatsAppProviderAdapter {
     signatureHeader?: string | null
   ): boolean {
     if (!signatureHeader) return false
-    // In mock mode, recognize either valid SHA256 test string or standard header
+    const secret = process.env.META_APP_SECRET
+    if (secret) {
+      try {
+        const parts = signatureHeader.split('=')
+        if (parts.length !== 2 || parts[0] !== 'sha256') return false
+        const signatureHex = parts[1]
+        const crypto = require('crypto')
+        const expected = crypto
+          .createHmac('sha256', secret)
+          .update(rawBody)
+          .digest('hex')
+        const sigBuffer = Buffer.from(signatureHex, 'hex')
+        const expBuffer = Buffer.from(expected, 'hex')
+        if (sigBuffer.length !== expBuffer.length) return false
+        return crypto.timingSafeEqual(sigBuffer, expBuffer)
+      } catch {
+        return false
+      }
+    }
+    // In mock mode without secret configured, recognize valid sha256 prefix
     return signatureHeader.startsWith('sha256=')
   }
 
@@ -164,22 +183,109 @@ export class MockWhatsAppProvider implements WhatsAppProviderAdapter {
     const inboundMessages: ParsedInboundMessage[] = []
     const statusCallbacks: ParsedStatusCallback[] = []
 
-    if (!payload?.entry) return { inboundMessages, statusCallbacks }
+    if (!payload?.entry || !Array.isArray(payload.entry)) {
+      return { inboundMessages, statusCallbacks }
+    }
+
+    const configuredWabaId = process.env.META_WHATSAPP_BUSINESS_ACCOUNT_ID
+    const configuredPhoneId = process.env.META_WHATSAPP_PHONE_NUMBER_ID
 
     for (const entry of payload.entry) {
+      const entryWabaId = entry.id
+      if (configuredWabaId && entryWabaId && entryWabaId !== configuredWabaId) {
+        continue
+      }
+
       for (const change of entry.changes || []) {
         const value = change.value
         if (!value) continue
 
+        const metadataPhoneId = value.metadata?.phone_number_id
+        if (
+          configuredPhoneId &&
+          metadataPhoneId &&
+          metadataPhoneId !== configuredPhoneId
+        ) {
+          continue
+        }
+
         for (const msg of value.messages || []) {
+          let bodyText = ''
+          let buttonPayload = msg.button?.payload || msg.interactive?.button_reply?.id || ''
+          let interactiveReply: { id: string; title: string } | undefined = undefined
+          let mediaId: string | undefined = undefined
+          let mimeType: string | undefined = undefined
+          let filename: string | undefined = undefined
+
+          switch (msg.type) {
+            case 'text':
+              bodyText = msg.text?.body || ''
+              break
+            case 'image':
+              mediaId = msg.image?.id
+              mimeType = msg.image?.mime_type
+              bodyText = msg.image?.caption || '[Image]'
+              break
+            case 'document':
+              mediaId = msg.document?.id
+              mimeType = msg.document?.mime_type
+              filename = msg.document?.filename
+              bodyText = msg.document?.caption || filename || '[Document]'
+              break
+            case 'audio':
+              mediaId = msg.audio?.id
+              mimeType = msg.audio?.mime_type
+              bodyText = '[Audio Message]'
+              break
+            case 'video':
+              mediaId = msg.video?.id
+              mimeType = msg.video?.mime_type
+              bodyText = msg.video?.caption || '[Video]'
+              break
+            case 'location': {
+              const loc = msg.location
+              bodyText = `[Location: ${loc?.name || ''} ${loc?.address || ''} (${loc?.latitude}, ${loc?.longitude})]`.trim()
+              break
+            }
+            case 'button':
+              bodyText = msg.button?.text || buttonPayload || '[Button Click]'
+              break
+            case 'interactive':
+              if (msg.interactive?.button_reply) {
+                interactiveReply = {
+                  id: msg.interactive.button_reply.id,
+                  title: msg.interactive.button_reply.title,
+                }
+                bodyText = msg.interactive.button_reply.title
+              } else if (msg.interactive?.list_reply) {
+                interactiveReply = {
+                  id: msg.interactive.list_reply.id,
+                  title: msg.interactive.list_reply.title,
+                }
+                bodyText = msg.interactive.list_reply.title
+              } else {
+                bodyText = '[Interactive Reply]'
+              }
+              break
+            default:
+              bodyText = msg.text?.body || `[Unsupported Message Type: ${msg.type}]`
+              break
+          }
+
           inboundMessages.push({
             from: msg.from,
             messageId: msg.id,
             timestamp: msg.timestamp,
             type: msg.type,
-            text: msg.text?.body || msg.interactive?.button_reply?.title || '',
-            buttonPayload: msg.button?.payload || msg.interactive?.button_reply?.id,
+            text: bodyText,
+            buttonPayload,
+            interactiveReply,
+            mediaId,
+            mimeType,
+            filename,
             contactName: value.contacts?.[0]?.profile?.name || 'Customer',
+            phoneNumberId: metadataPhoneId,
+            businessAccountId: entryWabaId,
           })
         }
 
@@ -189,6 +295,10 @@ export class MockWhatsAppProvider implements WhatsAppProviderAdapter {
             status: status.status,
             timestamp: status.timestamp,
             recipientId: status.recipient_id,
+            errorCode: status.errors?.[0]?.code ? String(status.errors[0].code) : undefined,
+            errorMessage: status.errors?.[0]?.message,
+            phoneNumberId: metadataPhoneId,
+            businessAccountId: entryWabaId,
           })
         }
       }

@@ -1,8 +1,13 @@
 // ─── Nuty Tales PLIE — MiroFish Sidecar Adapter ──────────────────────────────
 // Communicates with MiroFish LLM simulation agent strictly via HTTP REST.
 // Preserves AGPL-3.0 clean isolation boundary (Zero embedded MiroFish code).
-// Connects to isolated Python sidecar on localhost:8000.
-// Notice: Synthetic market opinions are simulated algorithmic models, NOT real customer research.
+// Connects to isolated Python sidecar on localhost:8000 or external MIROFISH_SIDECAR_URL.
+//
+// TASK 005 DEPLOYMENT NOTICE:
+// 1. In local development: Runs on http://127.0.0.1:8000 via scripts/mirofish/server.py.
+// 2. In hosted Vercel preview: Unless a dedicated hosted service URL (MIROFISH_SIDECAR_URL)
+//    is provisioned, status is accurately classified as STANDBY_LOCAL_ONLY.
+// 3. Truth-in-Testing: All outputs are algorithmic synthetic simulation, NOT empirical customer research.
 
 import { PlieAgentAdapter, PlieScenarioExecutionResult } from './types'
 import {
@@ -10,6 +15,8 @@ import {
   PlieScenarioDefinition,
   PlieSyntheticPersona,
 } from '../types'
+
+export type MiroFishDeploymentMode = 'LOCAL_DEVELOPMENT_ONLY' | 'HOSTED_STAGING_SERVICE' | 'STANDBY_LOCAL_ONLY'
 
 export interface MiroFishSimulationResponse {
   simulationId: string
@@ -53,6 +60,14 @@ export class MiroFishSidecarAdapter implements PlieAgentAdapter {
     this.sidecarUrl = sidecarUrl || process.env.MIROFISH_SIDECAR_URL || 'http://127.0.0.1:8000'
   }
 
+  getDeploymentMode(isOnline: boolean): MiroFishDeploymentMode {
+    const isLocal = this.sidecarUrl.includes('127.0.0.1') || this.sidecarUrl.includes('localhost')
+    if (isLocal) {
+      return isOnline ? 'LOCAL_DEVELOPMENT_ONLY' : 'STANDBY_LOCAL_ONLY'
+    }
+    return isOnline ? 'HOSTED_STAGING_SERVICE' : 'STANDBY_LOCAL_ONLY'
+  }
+
   async initialize(env: PlieEnvironmentConfig): Promise<{ ready: boolean; error?: string }> {
     if (env.isProduction) {
       return { ready: false, error: 'MiroFish synthetic agent refuses to run against production targets.' }
@@ -75,6 +90,26 @@ export class MiroFishSidecarAdapter implements PlieAgentAdapter {
       return false
     } catch {
       return false
+    }
+  }
+
+  async getDeploymentStatus(): Promise<{
+    deploymentMode: MiroFishDeploymentMode
+    sidecarUrl: string
+    isHosted: boolean
+    isOnline: boolean
+    legalNotice: string
+  }> {
+    const online = await this.healthCheck()
+    const mode = this.getDeploymentMode(online)
+    const isHosted = mode === 'HOSTED_STAGING_SERVICE'
+
+    return {
+      deploymentMode: mode,
+      sidecarUrl: this.sidecarUrl,
+      isHosted,
+      isOnline: online,
+      legalNotice: 'ALGORITHMIC_SYNTHETIC_SIMULATION (NOT EMPIRICAL CUSTOMER RESEARCH)',
     }
   }
 
@@ -126,6 +161,7 @@ export class MiroFishSidecarAdapter implements PlieAgentAdapter {
   ): Promise<PlieScenarioExecutionResult> {
     const startTime = Date.now()
     const isOnline = await this.healthCheck()
+    const mode = this.getDeploymentMode(isOnline)
 
     let simDetails: MiroFishSimulationResponse | null = null
     if (isOnline) {
@@ -138,11 +174,11 @@ export class MiroFishSidecarAdapter implements PlieAgentAdapter {
     }
 
     const steps = scenario.steps.map((st) => {
-      let outcome = `Simulated customer evaluation for persona ${persona.id} [${persona.intent}]: `
+      let outcome = `[${mode}] Synthetic customer evaluation for persona ${persona.id}: `
       if (simDetails) {
         outcome += `Price: ${simDetails.priceSensitivity.verdict} | Friction: ${simDetails.behavioralFriction.overallScore} | Abandonment Risk: ${simDetails.cartAbandonment.riskProbability}`
       } else {
-        outcome += `Standby mode (sidecar offline): intent validated within budget ₹${persona.budgetInr}`
+        outcome += `Standby mode (${mode}): purchase intent simulated within budget ₹${persona.budgetInr} (local sidecar offline on hosted runner)`
       }
 
       return {

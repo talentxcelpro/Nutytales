@@ -273,12 +273,13 @@ export class WhatsAppDbService {
     direction: 'INBOUND' | 'OUTBOUND'
     senderType: 'CUSTOMER' | 'AI' | 'AGENT' | 'SYSTEM'
     senderName?: string
-    messageType?: 'text' | 'template' | 'image' | 'interactive'
+    messageType?: 'text' | 'template' | 'image' | 'document' | 'audio' | 'video' | 'location' | 'interactive' | string
     body: string
     templateName?: string
     templateParams?: Record<string, any>
     metaMessageId?: string
     mediaUrl?: string
+    mediaType?: string
     deliveryStatus?: WhatsAppDeliveryStatus
     errorCode?: string
     errorMessage?: string
@@ -303,6 +304,7 @@ export class WhatsAppDbService {
             template_params: params.templateParams || {},
             meta_message_id: params.metaMessageId || null,
             media_url: params.mediaUrl || null,
+            media_type: params.mediaType || null,
             delivery_status: deliveryStatus,
             error_code: params.errorCode || null,
             error_message: params.errorMessage || null,

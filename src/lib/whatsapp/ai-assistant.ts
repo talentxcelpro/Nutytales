@@ -3,6 +3,7 @@
 // Safe, deterministic boundaries for transactions with instant human escalation
 
 import { PRODUCTS, Product } from '@/lib/products-data'
+import { getSupabaseAdmin } from '@/lib/supabase'
 import { WhatsAppDbService } from './db'
 import {
   AiShoppingAssistantResponse,
@@ -306,5 +307,109 @@ export class NutyTalesAiAssistant {
       return PRODUCTS.find((p) => p.slug.includes('pista') || p.slug.includes('pistachio')) || null
     }
     return null
+  }
+
+  /**
+   * Records incoming message into AI session context ledger and checks escalation triggers
+   * without sending an outbound reply (used when auto-reply is disabled).
+   */
+  static async recordInboundContext(params: {
+    contactId: string
+    conversationId: string
+    incomingText: string
+    customerPhone: string
+    customerName?: string
+  }): Promise<{
+    detectedIntent: string
+    requiresHumanHandover: boolean
+    language: 'en' | 'hi'
+  }> {
+    const raw = (params.incomingText || '').trim()
+    const lower = raw.toLowerCase()
+    const isEscalation = this.isHumanHandoverRequest(lower)
+    const language = this.detectHindi(lower) ? 'hi' : 'en'
+
+    let detectedIntent = 'general_enquiry'
+    if (isEscalation) {
+      detectedIntent = 'human_handover'
+    } else if (raw.match(/NT-ORD-[A-Za-z0-9\-]+/i) || lower.includes('order') || lower.includes('track')) {
+      detectedIntent = 'order_status'
+    } else if (lower.includes('wedding') || lower.includes('hamper') || lower.includes('gifting')) {
+      detectedIntent = 'wedding_hamper'
+    } else if (lower.includes('bulk') || lower.includes('wholesale') || lower.includes('b2b')) {
+      detectedIntent = 'bulk_rfq'
+    } else if (lower.includes('complaint') || lower.includes('damaged') || lower.includes('issue')) {
+      detectedIntent = 'complaint'
+    } else if (this.findMatchingProduct(lower)) {
+      detectedIntent = 'product_enquiry'
+    }
+
+    if (isEscalation) {
+      await WhatsAppDbService.updateConversationStatus(
+        params.conversationId,
+        'HUMAN_TAKEOVER',
+        undefined,
+        `Customer requested human support: "${raw}"`
+      )
+    }
+
+    const admin = getSupabaseAdmin()
+    if (admin) {
+      try {
+        const { data: existingSession } = await admin
+          .from('whatsapp_ai_sessions')
+          .select('*')
+          .eq('conversation_id', params.conversationId)
+          .maybeSingle()
+
+        const now = new Date().toISOString()
+        const newEntry = {
+          role: 'user',
+          content: raw,
+          timestamp: now,
+        }
+
+        if (existingSession) {
+          const currentWindow = Array.isArray(existingSession.context_window)
+            ? existingSession.context_window
+            : []
+          const updatedWindow = [...currentWindow.slice(-9), newEntry]
+
+          await admin
+            .from('whatsapp_ai_sessions')
+            .update({
+              context_window: updatedWindow,
+              detected_intent: detectedIntent,
+              language,
+              turn_count: (existingSession.turn_count || 0) + 1,
+              escalated_to_human: isEscalation || Boolean(existingSession.escalated_to_human),
+              last_interaction_at: now,
+              updated_at: now,
+            })
+            .eq('id', existingSession.id)
+        } else {
+          await admin.from('whatsapp_ai_sessions').insert({
+            conversation_id: params.conversationId,
+            contact_id: params.contactId,
+            context_window: [newEntry],
+            detected_intent: detectedIntent,
+            language,
+            turn_count: 1,
+            escalated_to_human: isEscalation,
+            last_interaction_at: now,
+            created_at: now,
+            updated_at: now,
+          })
+        }
+      } catch (err) {
+        console.warn('[NutyTalesAiAssistant] Session recording fallback:', err)
+      }
+    }
+
+    return {
+      detectedIntent,
+      requiresHumanHandover: isEscalation,
+      language,
+    }
   }
 }
