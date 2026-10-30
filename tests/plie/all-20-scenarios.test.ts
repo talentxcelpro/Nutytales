@@ -532,7 +532,11 @@ describe('Task 004 / Phase 3: Full 20 Synthetic Customer Scenarios Execution Bat
   })
 
   it('1. Executes complete 20 synthetic customer scenarios battery against staging baseline', async () => {
-    const execution = await engine.executeBattery(stagingEnv, SCENARIOS, Object.values(PERSONAS))
+    const execution = await engine.runBattery({
+      environment: stagingEnv,
+      scenarios: SCENARIOS,
+      personas: Object.values(PERSONAS),
+    })
 
     expect(execution).toBeDefined()
     expect(execution.status).toBe('COMPLETED')

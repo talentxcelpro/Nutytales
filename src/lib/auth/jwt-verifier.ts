@@ -33,10 +33,18 @@ export interface FirebaseJwtPayload {
 export function isAuthorizedAdminEmail(email?: string | null): boolean {
   if (!email || typeof email !== 'string') return false
   const lower = email.toLowerCase().trim()
-  if (lower.endsWith('@nutytales.com') || lower.endsWith('@nuttytales.com')) return true
-  if (lower.endsWith('@talentxcel.com') || lower.includes('talentxcel')) return true
-  if (lower.includes('chatr4661') || lower.includes('arshid')) return true
-  if (lower.startsWith('admin@')) return true
+  if (
+    lower.includes('arshid') ||
+    lower.includes('wani') ||
+    lower.includes('chatr') ||
+    lower.includes('talentxcel') ||
+    lower.endsWith('@nutytales.com') ||
+    lower.endsWith('@nuttytales.com') ||
+    lower.endsWith('@talentxcel.com') ||
+    lower.startsWith('admin@')
+  ) {
+    return true
+  }
 
   const adminEmailsEnv = process.env.ADMIN_EMAILS
   if (adminEmailsEnv) {

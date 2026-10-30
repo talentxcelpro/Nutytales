@@ -66,14 +66,13 @@ export async function POST(request: Request) {
       }
 
       // Save to conversation history
-      const saved = await WhatsAppDbService.saveMessage({
+      const saved = await WhatsAppDbService.recordMessage({
         conversationId,
         contactId,
         direction: 'OUTBOUND',
-        type: 'TEXT',
+        senderType: 'AGENT',
         body: text,
-        providerMessageId: sendRes.messageId,
-        status: 'SENT',
+        metaMessageId: sendRes.messageId,
       })
 
       return NextResponse.json({ success: true, message: saved, providerResponse: sendRes })
@@ -84,11 +83,12 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Missing conversationId' }, { status: 400 })
       }
 
-      const updated = await WhatsAppDbService.updateConversation(conversationId, {
+      const updated = await WhatsAppDbService.updateConversationStatus(
+        conversationId,
         status,
         assignedTo,
-        internalNotes,
-      })
+        internalNotes
+      )
 
       return NextResponse.json({ success: true, conversation: updated })
     }

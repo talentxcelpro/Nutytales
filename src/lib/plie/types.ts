@@ -238,7 +238,7 @@ export function sanitizeEvidenceArtifact<T = any>(obj: T): T {
   if (obj === null || obj === undefined) return obj
 
   if (typeof obj === 'string') {
-    let sanitized = obj
+    let sanitized: string = obj as unknown as string
 
     // 1. Bearer and Basic authentication headers
     sanitized = sanitized

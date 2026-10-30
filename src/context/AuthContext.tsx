@@ -140,13 +140,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setIdToken(token)
           syncTokenCookie(token)
         } catch {}
-        await syncWithSupabase(currentUser)
+        setLoading(false)
+        syncWithSupabase(currentUser)
       } else {
         setProfile(null)
         setIdToken(null)
         syncTokenCookie(null)
+        setLoading(false)
       }
-      setLoading(false)
     })
 
     return () => unsubscribe()

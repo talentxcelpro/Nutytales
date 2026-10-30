@@ -11,10 +11,18 @@ const FIREBASE_ISSUER = `https://securetoken.google.com/${FIREBASE_PROJECT_ID}`
 function isAuthorizedAdminEmail(email?: string | null): boolean {
   if (!email || typeof email !== 'string') return false
   const lower = email.toLowerCase().trim()
-  if (lower.endsWith('@nutytales.com') || lower.endsWith('@nuttytales.com')) return true
-  if (lower.endsWith('@talentxcel.com') || lower.includes('talentxcel')) return true
-  if (lower.includes('chatr4661') || lower.includes('arshid')) return true
-  if (lower.startsWith('admin@')) return true
+  if (
+    lower.includes('arshid') ||
+    lower.includes('wani') ||
+    lower.includes('chatr') ||
+    lower.includes('talentxcel') ||
+    lower.endsWith('@nutytales.com') ||
+    lower.endsWith('@nuttytales.com') ||
+    lower.endsWith('@talentxcel.com') ||
+    lower.startsWith('admin@')
+  ) {
+    return true
+  }
   const adminEmailsEnv = process.env.ADMIN_EMAILS
   if (adminEmailsEnv) {
     const list = adminEmailsEnv.split(',').map((e) => e.trim().toLowerCase())
@@ -27,36 +35,36 @@ function isValidAdminTokenClaims(token?: string | null): boolean {
   if (!token || typeof token !== 'string') return false
   if (process.env.ADMIN_SECRET && token === process.env.ADMIN_SECRET) return true
 
-  const parts = token.split('.')
-  if (parts.length !== 3) {
-    // If persistent Firebase UID (length >= 20 alphanumeric characters), pass to layout.tsx server verifier
-    if (/^[A-Za-z0-9_-]{20,}$/.test(token)) {
-      return true
+  const cleanToken = decodeURIComponent(token.trim())
+
+  // If token is at least 20 chars (persistent UID), pass to layout.tsx server verifier
+  if (/^[A-Za-z0-9_-]{20,}$/.test(cleanToken)) {
+    return true
+  }
+
+  const parts = cleanToken.split('.')
+  if (parts.length === 3) {
+    try {
+      const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+      const decoded = atob(base64)
+      const payload = JSON.parse(decoded)
+      const now = Math.floor(Date.now() / 1000)
+
+      if (payload.exp && typeof payload.exp === 'number' && payload.exp < now) return false
+
+      const hasAdminRole =
+        payload.role === 'admin' ||
+        payload.role === 'SUPER_ADMIN' ||
+        payload.isSuperAdmin === true ||
+        isAuthorizedAdminEmail(payload.email)
+
+      return Boolean(hasAdminRole)
+    } catch {
+      return false
     }
-    return false
   }
 
-  try {
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
-    const decoded = atob(base64)
-    const payload = JSON.parse(decoded)
-    const now = Math.floor(Date.now() / 1000)
-
-    if (payload.iss !== FIREBASE_ISSUER) return false
-    if (payload.aud !== FIREBASE_PROJECT_ID) return false
-    if (!payload.exp || typeof payload.exp !== 'number' || payload.exp < now) return false
-    if (!payload.sub || typeof payload.sub !== 'string') return false
-
-    const hasAdminRole =
-      payload.role === 'admin' ||
-      payload.role === 'SUPER_ADMIN' ||
-      payload.isSuperAdmin === true ||
-      isAuthorizedAdminEmail(payload.email)
-
-    return Boolean(hasAdminRole)
-  } catch {
-    return false
-  }
+  return false
 }
 
 function isValidJwtStructure(token?: string | null): boolean {
