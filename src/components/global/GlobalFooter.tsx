@@ -210,6 +210,8 @@ export default function GlobalFooter() {
               </p>
             </div>
             <div className="flex items-center gap-6">
+              <Link href="/shipping" className="hover:text-stone-300">Shipping</Link>
+              <Link href="/returns" className="hover:text-stone-300">Returns</Link>
               <Link href="/privacy" className="hover:text-stone-300">Privacy</Link>
               <Link href="/terms" className="hover:text-stone-300">Terms</Link>
               <Link href="/sitemap.xml" className="hover:text-stone-300">Sitemap</Link>

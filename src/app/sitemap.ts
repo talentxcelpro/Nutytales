@@ -191,19 +191,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // 12. Indian Postal Circle Priority PIN Codes
-  const priorityPincodes = [
-    '110001', '110006', '110020', '400001', '400003', '400703', '395001', '395003',
-    '380001', '380002', '560001', '560002', '500001', '500002', '600001', '700001',
-    '302001', '452001', '411001', '226001', '141001', '143001', '160001', '190001',
-  ];
-  const wholesalePincodePages: MetadataRoute.Sitemap = priorityPincodes.map((pin) => ({
-    url: `${APP_URL}/wholesale-dry-fruits/pincode/${pin}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.80,
-  }));
-
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
@@ -218,7 +205,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...wholesaleIndustryPages,
     ...wholesaleCityPages,
     ...wholesaleProductCityPages,
-    ...wholesalePincodePages,
   ];
 
   const seenUrls = new Set<string>();

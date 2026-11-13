@@ -206,6 +206,7 @@ export function buildRootCoreSitemap(): MetadataRoute.Sitemap {
     // Tier 2 — Trust & Legal
     entry('/founders',                       0.70, 'monthly'),
     entry('/shipping',                       0.70, 'weekly'),
+    entry('/returns',                        0.70, 'weekly'),
     entry('/privacy',                        0.50, 'monthly'),
     entry('/terms',                          0.50, 'monthly'),
     entry('/sitemap',                        0.60, 'weekly'),

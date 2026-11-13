@@ -71,6 +71,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `https://nutytales.com/wholesale-dry-fruits/pincode/${pincode}`,
     },
+    robots: {
+      index: false,
+      follow: true,
+    },
   }
 }
 

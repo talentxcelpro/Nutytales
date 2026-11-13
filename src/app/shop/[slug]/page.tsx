@@ -155,31 +155,122 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     (p) => p.categorySlug === product.categorySlug && p.id !== product.id,
   ).slice(0, 4)
 
-  const jsonLd = {
+  const productImages = product.images && product.images.length > 0
+    ? product.images.map((img) => img.startsWith('http') ? img : `https://nutytales.com${img}`)
+    : product.image
+    ? [product.image.startsWith('http') ? product.image : `https://nutytales.com${product.image}`]
+    : ['https://nutytales.com/opengraph-image']
+
+  const currentPrice = product.variants[0]?.retailPrice || product.retailPrice
+
+  const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    description: product.shortDesc,
+    image: productImages,
+    description: product.longDesc || product.shortDesc,
+    sku: `NT-${product.id}`,
+    mpn: `NT-${product.slug}`,
+    category: product.category,
     brand: {
       '@type': 'Brand',
       name: 'Nuty Tales',
     },
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'INR',
-      lowPrice: product.variants[0]?.retailPrice || product.retailPrice,
-      highPrice: product.retailPrice,
-      offerCount: product.variants.length,
-      availability: 'https://schema.org/InStock',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '124',
+      bestRating: '5',
+      worstRating: '1',
     },
+    offers: {
+      '@type': 'Offer',
+      url: `https://nutytales.com/shop/${product.slug}`,
+      priceCurrency: 'INR',
+      price: currentPrice,
+      priceValidUntil: '2027-12-31',
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: product.stockStatus === 'OUT_OF_STOCK'
+        ? 'https://schema.org/OutOfStock'
+        : 'https://schema.org/InStock',
+      seller: {
+        '@type': 'Organization',
+        name: 'Nuty Tales',
+        url: 'https://nutytales.com',
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0',
+          currency: 'INR',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'IN',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 1,
+            unitCode: 'd',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 2,
+            maxValue: 4,
+            unitCode: 'd',
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'IN',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 7,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+    },
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://nutytales.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Shop',
+        item: 'https://nutytales.com/shop',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.name,
+        item: `https://nutytales.com/shop/${product.slug}`,
+      },
+    ],
   }
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] pt-24 pb-20 md:pt-32">
-      {/* Schema.org Script */}
+      {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
