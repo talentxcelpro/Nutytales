@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { PRODUCTS } from '@/lib/products-data'
 import { CLOTHING_PRODUCTS } from '@/lib/clothing-data'
 import { CRAFT_PRODUCTS } from '@/lib/crafts-data'
+import { getAllGifts } from '@/lib/gifting-marketplace-data'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://nutytales.com'
 
@@ -18,7 +19,7 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-  // 1. Food & Gourmet Harvest Items
+  // 1. Food & Gourmet Harvest Items (50 SKUs)
   const foodItems = PRODUCTS.map((product) => {
     const rawImage = product.image || (product.images && product.images[0]) || '/opengraph-image'
     const fullImageUrl = rawImage.startsWith('http') ? rawImage : `${APP_URL}${rawImage}`
@@ -53,7 +54,7 @@ export async function GET() {
     </item>`
   })
 
-  // 2. Crafts & Indian Handcrafted Heritage Apparel Items
+  // 2. Crafts & Indian Handcrafted Heritage Apparel Items (56 SKUs)
   const seenCraftSlugs = new Set<string>()
   const craftList = []
 
@@ -102,14 +103,43 @@ export async function GET() {
     </item>`
   })
 
-  const allXmlItems = [...foodItems, ...craftItems].join('\n')
+  // 3. Corporate & Luxury Gifting Hampers (12 SKUs)
+  const giftList = getAllGifts()
+  const giftItems = giftList.map((gift) => {
+    const rawImage = gift.primaryImage || '/opengraph-image'
+    const fullImageUrl = rawImage.startsWith('http') ? rawImage : `${APP_URL}${rawImage}`
+    const productUrl = `${APP_URL}/gifting/product/${gift.slug}`
+    const price = `${gift.price.toFixed(2)} INR`
+
+    return `    <item>
+      <g:id>NT-GFT-${gift.id}</g:id>
+      <g:title>${escapeXml(gift.name)}</g:title>
+      <g:description>${escapeXml(gift.shortDesc || (gift as any).description || gift.name)}</g:description>
+      <g:link>${productUrl}</g:link>
+      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>${price}</g:price>
+      <g:brand>Nuty Tales Gifting</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:google_product_category>Gifts &amp; Flowers &gt; Gift Baskets</g:google_product_category>
+      <g:product_type>Gifting &gt; ${escapeXml(gift.categoryName || 'Luxury Gift Hampers')}</g:product_type>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Insured Express Delivery</g:service>
+        <g:price>0.00 INR</g:price>
+      </g:shipping>
+    </item>`
+  })
+
+  const allXmlItems = [...foodItems, ...craftItems, ...giftItems].join('\n')
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
   <channel>
-    <title>Nuty Tales — Single-Origin Himalayan Dry Fruits &amp; GI Certified Crafts</title>
+    <title>Nuty Tales — Single-Origin Himalayan Dry Fruits, GI Certified Crafts &amp; Luxury Gifting</title>
     <link>${APP_URL}</link>
-    <description>Google Merchant Center Official Product Feed for Nuty Tales &amp; Nuty Tales Crafts</description>
+    <description>Google Merchant Center Official Product Feed for Nuty Tales, Crafts &amp; Gifting</description>
 ${allXmlItems}
   </channel>
 </rss>`

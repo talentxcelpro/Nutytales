@@ -167,8 +167,75 @@ const CUSTOMIZATION_FEATURES = [
 export default function CorporateGiftingPage() {
   const whatsappNumber = (WHATSAPP_NUMBERS.CORPORATE || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the Minimum Order Quantity (MOQ) for corporate hampers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Our standard MOQ for corporate-branded hampers is 25 boxes. For orders exceeding 100 boxes, we provide volume-based discounts and complimentary custom branding.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can you deliver directly to individual employee addresses across India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! We provide complete end-to-end doorstep delivery to individual residential or office addresses across 19,000+ pincodes in India with live tracking updates.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How early should we place our Diwali order?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For custom-branded hampers, we recommend placing orders at least 15 to 20 days in advance of your preferred delivery date to ensure timely box production and dispatch.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can we customize the nut and dry fruit combinations inside the box?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Absolutely. You can choose any combination from California almonds, cashews (W240/W320), Kashmiri walnuts, Afghan anjeer, Iranian pistachios, Medjool dates, roasted seeds, and Kashmiri saffron.',
+        },
+      },
+    ],
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://nutytales.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Corporate Gifting',
+        item: 'https://nutytales.com/corporate-gifting',
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
+      {/* Schema.org Scripts */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Hero Section with Creative Image */}
       <section className="relative bg-gradient-to-br from-[#1C3A27] via-[#2D6A4F] to-[#1E4D38] text-white pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4870A_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
