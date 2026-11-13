@@ -5,6 +5,9 @@ import { CRAFT_PRODUCTS } from '@/lib/crafts-data'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://nutytales.com'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function escapeXml(unsafe: string): string {
   return (unsafe || '')
     .replace(/&/g, '&amp;')
@@ -115,7 +118,7 @@ ${allXmlItems}
     status: 200,
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400',
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
     },
   })
 }
