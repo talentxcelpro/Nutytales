@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Design your personalized Kashmir holiday in minutes. Select private stays, 4x4 vehicles, and curated experiences with live transparent pricing.',
   alternates: {
-    canonical: 'https://travel.nutytales.com/builder',
+    canonical: 'https://nutytales.com/travel/builder',
   },
   openGraph: {
     title: 'Dynamic Kashmir Trip Builder & Cost Estimator | Nuty Tales Travel',
     description:
       'Design your personalized Kashmir holiday in minutes. Select private stays, 4x4 vehicles, and curated experiences with live transparent pricing.',
-    url: 'https://travel.nutytales.com/builder',
+    url: 'https://nutytales.com/travel/builder',
     siteName: 'Nuty Tales Travel',
     locale: 'en_IN',
     type: 'website',

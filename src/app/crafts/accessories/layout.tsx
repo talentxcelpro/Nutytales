@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Artisan-crafted Cashmere scarves, hand-embroidered clutches, wool wraps, and heirloom accessories.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/accessories',
+    canonical: 'https://nutytales.com/crafts/accessories',
   },
 }
 

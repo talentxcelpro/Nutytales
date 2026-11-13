@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Discover verified wedding planners, authentic royal Wazwan caterers, candid cinematographers, and scenographers. Compare packages and request formal quotations.',
   alternates: {
-    canonical: 'https://weddings.nutytales.com/vendors',
+    canonical: 'https://nutytales.com/vendors',
   },
 }
 

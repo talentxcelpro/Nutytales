@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import TravelShell from '@/components/travel/TravelShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://travel.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales Travel — Travel India Beyond the Ordinary',
     template: '%s | Nuty Tales Travel',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Travel — Travel India Beyond the Ordinary',
     description:
       'Bespoke expeditions and curated journeys across Kashmir, Ladakh, and India. Dynamic day-by-day itinerary planner, private 4x4 convoys, and verified DMCs.',
-    url: 'https://travel.nutytales.com',
+    url: 'https://nutytales.com/travel',
     siteName: 'Nuty Tales Travel',
     locale: 'en_IN',
     type: 'website',

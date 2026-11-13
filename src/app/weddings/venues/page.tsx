@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Discover and compare luxury wedding venues across Jaipur, Udaipur, Kashmir, Goa, Dubai, and Lake Como Italy. Verified capacities, room counts, and catering policies.',
   alternates: {
-    canonical: 'https://weddings.nutytales.com/venues',
+    canonical: 'https://nutytales.com/venues',
   },
 }
 

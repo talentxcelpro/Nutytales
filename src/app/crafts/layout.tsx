@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import CraftsShell from '@/components/crafts/CraftsShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://crafts.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com/crafts'),
   title: {
     default: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
     template: '%s | Nuty Tales Crafts',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Crafts — Crafted by Tradition. Chosen for a Lifetime.',
     description:
       'Evidence-backed GI-certified Changthangi Pashmina, fine wool pherans, and bespoke Himalayan heritage crafts. Crafted by tradition, chosen for a lifetime.',
-    url: 'https://crafts.nutytales.com',
+    url: 'https://nutytales.com/crafts',
     siteName: 'Nuty Tales Crafts',
     locale: 'en_IN',
     type: 'website',

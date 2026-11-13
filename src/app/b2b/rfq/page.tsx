@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Instant bulk pricing calculator and commercial RFQ submission for bakeries, FMCG brands, and institutional dry fruit buyers.',
   alternates: {
-    canonical: 'https://business.nutytales.com/rfq',
+    canonical: 'https://nutytales.com/b2b/rfq',
   },
   openGraph: {
     title: 'Request for Quotation (RFQ) Terminal | Nuty Tales Business',
     description:
       'Instant bulk pricing calculator and commercial RFQ submission for commercial dry fruit buyers.',
-    url: 'https://business.nutytales.com/rfq',
+    url: 'https://nutytales.com/b2b/rfq',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',
     type: 'website',

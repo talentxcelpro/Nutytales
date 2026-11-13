@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Upload multi-address rosters or generate choice links for corporate gifting. Individual dispatch tracking, custom laser branding, and GST invoicing.',
   alternates: {
-    canonical: 'https://gifting.nutytales.com/recipients',
+    canonical: 'https://nutytales.com/gifting/recipients',
   },
   openGraph: {
     title: 'Enterprise Multi-Recipient Gifting Desk | Nuty Tales Gifting',
     description:
       'Upload multi-address rosters or generate choice links for corporate gifting.',
-    url: 'https://gifting.nutytales.com/recipients',
+    url: 'https://nutytales.com/gifting/recipients',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
     type: 'website',

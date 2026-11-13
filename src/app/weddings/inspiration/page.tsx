@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     'Explore real celebrations, multi-day cultural timelines, color palettes, and royal photography from Kashmir, Rajasthan, Goa, Dubai, and Italy.',
   alternates: {
-    canonical: 'https://weddings.nutytales.com/inspiration',
+    canonical: 'https://nutytales.com/weddings/inspiration',
   },
 }
 

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Authentic sub-zero thermal Pashmina, double-layer wool pherans, hand-knitted caps, and heirloom winter wraps.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/winter-wear',
+    canonical: 'https://nutytales.com/crafts/winter-wear',
   },
 }
 

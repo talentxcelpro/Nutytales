@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   description:
     'GI-certified pure Changthangi Cashmere shawls, Kani jacquard weaves, and Sozni needlework stoles crafted by master Kashmiri weavers.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/shawls-stoles',
+    canonical: 'https://nutytales.com/crafts/shawls-stoles',
   },
   openGraph: {
     title: 'Pashmina Shawls & Luxury Cashmere Stoles | Nuty Tales Crafts',
     description: 'GI-certified Changthangi Cashmere shawls and Kani weaves.',
-    url: 'https://crafts.nutytales.com/shawls-stoles',
+    url: 'https://nutytales.com/crafts/shawls-stoles',
     siteName: 'Nuty Tales Crafts',
   },
 }

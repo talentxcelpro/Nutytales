@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Dedicated corporate and family office operational support in India. Expat relocations, supplier audits, commercial property management, and Bar Council legal liaisons.',
   alternates: {
-    canonical: 'https://nri.nutytales.com/business',
+    canonical: 'https://nutytales.com/nri/business',
   },
   openGraph: {
     title: 'Enterprise & Corporate Desk | Nuty Tales NRI',
     description:
       'Dedicated corporate and family office operational support in India. Expat relocations, supplier audits, commercial property management, and Bar Council legal liaisons.',
-    url: 'https://nri.nutytales.com/business',
+    url: 'https://nutytales.com/nri/business',
     siteName: 'Nuty Tales NRI',
     locale: 'en_IN',
     type: 'website',

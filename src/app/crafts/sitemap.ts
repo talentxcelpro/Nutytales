@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { CRAFT_PRODUCTS } from "@/lib/crafts-data";
 
-const CRAFTS_URL = "https://crafts.nutytales.com";
+const CRAFTS_URL = "https://nutytales.com/crafts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

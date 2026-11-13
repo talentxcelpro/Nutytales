@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description:
     'Dedicated on-the-ground support in India for Non-Resident Indians and overseas families. Verified parent care visits, GPS-audited property inspections, legal documentation, and ancestral stays.',
   alternates: {
-    canonical: 'https://nri.nutytales.com',
+    canonical: 'https://nutytales.com/nri',
   },
   openGraph: {
     title: 'Nuty Tales NRI — India, handled. From anywhere in the world.',
     description:
       'Dedicated on-the-ground support in India for Non-Resident Indians and overseas families. Verified parent care visits, GPS-audited property inspections, legal documentation, and ancestral stays.',
-    url: 'https://nri.nutytales.com',
+    url: 'https://nutytales.com/nri',
     siteName: 'Nuty Tales NRI',
     locale: 'en_IN',
     type: 'website',
@@ -27,7 +27,7 @@ export default function NriHomePage() {
     '@type': 'ProfessionalService',
     name: 'Nuty Tales NRI',
     description: 'India-management platform and on-ground execution for global NRIs and diaspora families.',
-    url: 'https://nri.nutytales.com',
+    url: 'https://nutytales.com/nri',
     telephone: '+91-9717161809',
     address: {
       '@type': 'PostalAddress',

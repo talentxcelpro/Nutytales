@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Traceable digital lot records, NABL analytical assays, GI Tag certifications, and FSSAI Central audit records for bulk procurement.',
   alternates: {
-    canonical: 'https://business.nutytales.com/b2b/certificates',
+    canonical: 'https://nutytales.com/b2b/certificates',
   },
 }
 

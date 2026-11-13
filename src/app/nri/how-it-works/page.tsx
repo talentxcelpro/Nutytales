@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   description:
     'Understand how Nuty Tales handles your property, family assistance, and legal tasks in India: natural language scoping, verified ground coordinators, and milestone escrow.',
   alternates: {
-    canonical: 'https://nri.nutytales.com/how-it-works',
+    canonical: 'https://nutytales.com/nri/how-it-works',
   },
   openGraph: {
     title: 'How Nuty Tales Handles India for NRIs',
     description: 'Natural language scoping, verified ground coordinators, milestone escrow.',
-    url: 'https://nri.nutytales.com/how-it-works',
+    url: 'https://nutytales.com/nri/how-it-works',
   },
 }
 

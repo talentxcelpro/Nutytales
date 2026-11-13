@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { STAY_PROPERTIES } from "@/lib/stays-data";
 
-const STAYS_URL = "https://stays.nutytales.com";
+const STAYS_URL = "https://nutytales.com/stays";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

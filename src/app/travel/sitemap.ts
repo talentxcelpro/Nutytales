@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { KASHMIR_TRAVEL_PACKAGES } from "@/lib/travel-data";
 
-const TRAVEL_URL = "https://travel.nutytales.com";
+const TRAVEL_URL = "https://nutytales.com/travel";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

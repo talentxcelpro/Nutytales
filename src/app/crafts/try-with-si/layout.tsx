@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Experience virtual 3D draping and personalized sizing recommendations for authentic Kashmiri pherans, shawls, and couture.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/try-with-si',
+    canonical: 'https://nutytales.com/crafts/try-with-si',
   },
 }
 

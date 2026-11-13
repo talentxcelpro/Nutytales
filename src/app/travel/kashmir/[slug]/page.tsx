@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ? intent.customTagline
     : `${pkg.tagline}. Starting at ₹${pkg.basePricePerAdult.toLocaleString('en-IN')}/adult with boutique stay, private transport, and local guides.`;
 
-  return generatePageMetadata({
+  const meta = generatePageMetadata({
     business: 'travel',
     pageType: 'package',
     intentType: 'transactional',
@@ -76,6 +76,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     priceFrom: pkg.basePricePerAdult,
     currency: 'INR',
   });
+
+  return {
+    ...meta,
+    alternates: {
+      canonical: `https://nutytales.com/travel/kashmir/${slug}`,
+    },
+    openGraph: {
+      ...meta.openGraph,
+      url: `https://nutytales.com/travel/kashmir/${slug}`,
+    },
+  };
 }
 
 export default async function TravelPackageSlugPage({ params }: PageProps) {
@@ -113,7 +124,7 @@ export default async function TravelPackageSlugPage({ params }: PageProps) {
       price: pkg.basePricePerAdult.toString(),
       priceCurrency: 'INR',
       availability: 'https://schema.org/InStock',
-      url: `https://travel.nutytales.com/travel/kashmir/${slug}`,
+      url: `https://nutytales.com/travel/travel/kashmir/${slug}`,
     },
     itinerary: {
       '@type': 'ItemList',

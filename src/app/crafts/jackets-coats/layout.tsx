@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Tailored fine wool jackets, velvet waistcoats, and embroidered long coats handcrafted by master Kashmiri artisans.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/jackets-coats',
+    canonical: 'https://nutytales.com/crafts/jackets-coats',
   },
 }
 

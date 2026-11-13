@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Live wholesale rates across tree nuts, GI-tagged Kashmiri saffron, Mithila makhana, and dried fruits. Cleaned, machine-graded, and moisture-controlled for industrial production.',
   alternates: {
-    canonical: 'https://business.nutytales.com/catalog',
+    canonical: 'https://nutytales.com/b2b/catalog',
   },
   openGraph: {
     title: 'Wholesale Commodities & Bulk Ingredients Catalogue | Nuty Tales Business',
     description:
       'Live wholesale rates across bulk tree nuts, Kashmiri saffron, and Mithila makhana.',
-    url: 'https://business.nutytales.com/catalog',
+    url: 'https://nutytales.com/b2b/catalog',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',
     type: 'website',

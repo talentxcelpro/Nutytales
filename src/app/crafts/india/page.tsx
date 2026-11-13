@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     'Explore verified master artisan cooperatives across 15 Indian States: Kashmir, Gujarat, Rajasthan, Uttar Pradesh, Madhya Pradesh, West Bengal, Odisha, Assam, Nagaland, Telangana, Tamil Nadu, and Kerala.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/india',
+    canonical: 'https://nutytales.com/crafts/india',
   },
 }
 

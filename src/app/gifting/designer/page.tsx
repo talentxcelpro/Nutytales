@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Design custom corporate and luxury hampers. Configure premium dry fruits, branded packaging, multi-address shipping, and immediate quotation.',
   alternates: {
-    canonical: 'https://gifting.nutytales.com/designer',
+    canonical: 'https://nutytales.com/gifting/designer',
   },
   openGraph: {
     title: 'Outcome-Based Gift Designer | Nuty Tales Gifting',
     description:
       'Design custom corporate and luxury hampers with live configuration and immediate quotation.',
-    url: 'https://gifting.nutytales.com/designer',
+    url: 'https://nutytales.com/gifting/designer',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
     type: 'website',

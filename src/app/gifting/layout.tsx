@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import GiftingMarketplaceShell from '@/components/gifting/GiftingMarketplaceShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gifting.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales Gifting — Make Every Gift Mean More',
     template: '%s | Nuty Tales Gifting',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Gifting — Make Every Gift Mean More',
     description:
       'Curate luxury dry fruit gift boxes with enterprise multi-recipient delivery, laser branding, and scheduled dispatch. Make every gift mean more.',
-    url: 'https://gifting.nutytales.com',
+    url: 'https://nutytales.com/gifting',
     siteName: 'Nuty Tales Gifting',
     locale: 'en_IN',
     type: 'website',

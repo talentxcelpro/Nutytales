@@ -4,8 +4,7 @@ import Link from 'next/link'
 import LiveStaysDiscovery from '@/components/stays/LiveStaysDiscovery'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://stays.nutytales.com'),
-  title: 'Nuty Tales Stays — Stay somewhere extraordinary. Experience somewhere real.',
+  title: 'Luxury Stays & Alpine Chalets in Kashmir | Nuty Tales Stays',
   description:
     'Discover vetted luxury private residences, alpine chalets, walnut orchard estates, and lakefront cedar houseboats across Kashmir, Delhi-NCR, Patna, Bengaluru, Kerala, and global gateways. Transparent pricing, zero hidden fees, and end-to-end concierge care.',
   keywords: [
@@ -21,13 +20,13 @@ export const metadata: Metadata = {
     'Nuty Tales Stays',
   ],
   alternates: {
-    canonical: 'https://stays.nutytales.com',
+    canonical: 'https://nutytales.com/stays',
   },
   openGraph: {
-    title: 'Nuty Tales Stays — Find a stay that feels like yours.',
+    title: 'Luxury Stays & Alpine Chalets in Kashmir | Nuty Tales Stays',
     description:
       'Stay somewhere extraordinary. Experience somewhere real. Private walnut estates, alpine ski chalets, and royal houseboats with dedicated master chefs, 4x4 convoys, and high-speed fiber.',
-    url: 'https://stays.nutytales.com',
+    url: 'https://nutytales.com/stays',
     siteName: 'Nuty Tales Stays',
     locale: 'en_IN',
     type: 'website',

@@ -126,12 +126,12 @@ export async function generateMetadata({
     title: `${country.name} to India Management Platform | Nuty Tales NRI`,
     description: country.tagline,
     alternates: {
-      canonical: `https://nri.nutytales.com/country/${slug}`,
+      canonical: `https://nutytales.com/nri/country/${slug}`,
     },
     openGraph: {
       title: `${country.name} to India Management Platform | Nuty Tales NRI`,
       description: country.tagline,
-      url: `https://nri.nutytales.com/country/${slug}`,
+      url: `https://nutytales.com/nri/country/${slug}`,
     },
   }
 }

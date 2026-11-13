@@ -20,8 +20,8 @@ export default function PashminaShawlsPage() {
   );
 
   const breadcrumbs = [
-    { name: 'Home', url: 'https://crafts.nutytales.com' },
-    { name: 'Pashmina Shawls', url: 'https://crafts.nutytales.com/pashmina-shawls' },
+    { name: 'Home', url: 'https://nutytales.com/crafts' },
+    { name: 'Pashmina Shawls', url: 'https://nutytales.com/pashmina-shawls' },
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
 

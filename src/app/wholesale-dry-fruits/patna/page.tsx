@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Wholesale dry fruits and direct Mithila Makhana supplier in Patna and Bihar. Serving retailers, sweet shops, bakeries, namkeen manufacturers, and caterers across Patna, Gaya, Muzaffarpur, and Bhagalpur.',
   alternates: {
-    canonical: 'https://business.nutytales.com/wholesale-dry-fruits/patna',
+    canonical: 'https://nutytales.com/wholesale-dry-fruits/patna',
   },
   openGraph: {
     title: 'Dry Fruit & Makhana Wholesale Supplier in Patna & Bihar | Nuty Tales Business',
     description:
       'Wholesale dry fruits and direct Mithila Makhana supplier in Patna and Bihar.',
-    url: 'https://business.nutytales.com/wholesale-dry-fruits/patna',
+    url: 'https://nutytales.com/wholesale-dry-fruits/patna',
     type: 'website',
   },
   keywords: [

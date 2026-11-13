@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import B2BRoutingShell from '@/components/b2b/B2BRoutingShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://business.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales Business — Wholesale Procurement, Without the Guesswork',
     template: '%s | Nuty Tales Business',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Business — Source Better. Supply Smarter. Grow Together.',
     description:
       'Direct farm-to-enterprise procurement portal for commercial food production, bakery chains, and institutional dry fruit buyers. Source better, supply smarter, grow together.',
-    url: 'https://business.nutytales.com',
+    url: 'https://nutytales.com/b2b',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',
     type: 'website',

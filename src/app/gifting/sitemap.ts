@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const GIFTING_URL = "https://gifting.nutytales.com";
+const GIFTING_URL = "https://nutytales.com/gifting";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

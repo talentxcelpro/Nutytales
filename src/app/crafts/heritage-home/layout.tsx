@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Exquisite single-origin walnut wood carved bowls, trays, papier-mâché artifacts, and crewel chain-stitch cushions for refined living.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/heritage-home',
+    canonical: 'https://nutytales.com/crafts/heritage-home',
   },
 }
 

@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description:
     "The world's first fastest crafts e-commerce platform. Evidence-backed GI-certified handlooms from 15 Indian state clusters: Kashmir Pashmina, Kutch Ajrakh, Banarasi Silk, Lucknowi Chikankari, Assam Eri Peace Silk, and Pochampally Ikat.",
   alternates: {
-    canonical: 'https://crafts.nutytales.com',
+    canonical: 'https://nutytales.com/crafts',
   },
   openGraph: {
     title: "Nuty Tales Crafts — India's Handcrafted Wardrobe. Verified at the Loom.",
     description:
       'The world’s first fastest crafts e-commerce platform. Evidence-backed GI handlooms, single-origin natural fibers, and fair weaver trade across India.',
-    url: 'https://crafts.nutytales.com',
+    url: 'https://nutytales.com/crafts',
     siteName: 'Nuty Tales Crafts',
     locale: 'en_IN',
     type: 'website',
@@ -26,7 +26,7 @@ export default function CraftsPage() {
     '@context': 'https://schema.org',
     '@type': 'Store',
     name: 'Nuty Tales Crafts',
-    url: 'https://crafts.nutytales.com',
+    url: 'https://nutytales.com/crafts',
     description:
       'All-India GI-certified handlooms, artisan couture, Pashmina shawls, pherans, kurtas, and master weaver heritage.',
     telephone: '+91-9717161809',

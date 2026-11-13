@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description:
     'Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence. Direct farm-to-enterprise procurement for commercial bakeries, FMCG brands, HORECA, and institutional buyers.',
   alternates: {
-    canonical: 'https://business.nutytales.com',
+    canonical: 'https://nutytales.com/b2b',
   },
   openGraph: {
     title: 'Nuty Tales Business — Wholesale Procurement, Without the Guesswork',
     description:
       'Discover products. Compare supplier quotes. Understand your landed cost. Source with confidence.',
-    url: 'https://business.nutytales.com',
+    url: 'https://nutytales.com/b2b',
     siteName: 'Nuty Tales Business',
     locale: 'en_IN',
     type: 'website',
@@ -26,7 +26,7 @@ export default function B2BHomePage() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Nuty Tales Business',
-    url: 'https://business.nutytales.com',
+    url: 'https://nutytales.com/b2b',
     description: 'Wholesale B2B dry fruits, nuts, makhana, and bulk food ingredients supply engine.',
     parentOrganization: {
       '@type': 'Organization',

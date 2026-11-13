@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Pure wool men’s pherans, Pashmina stoles, raw silk kurtas, and handcrafted royal sherwanis.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/men',
+    canonical: 'https://nutytales.com/crafts/men',
   },
 }
 

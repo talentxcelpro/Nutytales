@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import StaysShell from '@/components/stays/StaysShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://stays.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     template: '%s | Nuty Tales Stays',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Stays — Find Your Place to Stay. Make It Part of the Journey.',
     description:
       'Find vetted luxury private residences, alpine chalets, walnut orchard estates, and executive corporate suites across Kashmir, Delhi-NCR, and Patna.',
-    url: 'https://stays.nutytales.com',
+    url: 'https://nutytales.com/stays',
     siteName: 'Nuty Tales Stays',
     locale: 'en_IN',
     type: 'website',

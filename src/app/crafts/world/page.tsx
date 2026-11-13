@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Discover world artisan heritage: Fez glazed ceramics, Iznik hand-painted pottery, Herat glassware, and Margilan Ikat weaves directly from indigenous artisans.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/world',
+    canonical: 'https://nutytales.com/crafts/world',
   },
   openGraph: {
     title: 'World Crafts Atlas | Nuty Tales Crafts',
     description:
       'Indigenous artisan traditions across Morocco, Turkey, Afghanistan, and Central Asia.',
-    url: 'https://crafts.nutytales.com/world',
+    url: 'https://nutytales.com/crafts/world',
     siteName: 'Nuty Tales Crafts',
   },
 }

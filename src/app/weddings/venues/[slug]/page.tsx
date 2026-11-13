@@ -33,16 +33,16 @@ export async function generateMetadata({ params }: VenuePageProps): Promise<Meta
     title,
     description,
     alternates: {
-      canonical: `https://weddings.nutytales.com/venues/${venue.slug}`,
+      canonical: `https://nutytales.com/venues/${venue.slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://weddings.nutytales.com/venues/${venue.slug}`,
+      url: `https://nutytales.com/venues/${venue.slug}`,
       siteName: 'Nuty Tales Weddings',
       images: [
         {
-          url: venue.images[0] || 'https://weddings.nutytales.com/images/weddings/hero-palace.jpg',
+          url: venue.images[0] || 'https://nutytales.com/images/weddings/hero-palace.jpg',
           width: 1200,
           height: 630,
           alt: venue.name,
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: VenuePageProps): Promise<Meta
       card: 'summary_large_image',
       title,
       description,
-      images: [venue.images[0] || 'https://weddings.nutytales.com/images/weddings/hero-palace.jpg'],
+      images: [venue.images[0] || 'https://nutytales.com/images/weddings/hero-palace.jpg'],
     },
   }
 }
@@ -74,7 +74,7 @@ export default async function VenuePage({ params }: VenuePageProps) {
     name: venue.name,
     description: venue.description,
     image: venue.images.map((img) =>
-      img.startsWith('http') ? img : `https://weddings.nutytales.com${img}`
+      img.startsWith('http') ? img : `https://nutytales.com${img}`
     ),
     address: {
       '@type': 'PostalAddress',

@@ -14,11 +14,11 @@ export async function generateMetadata({
     title: `${label} — Kashmir Heritage Crafts | Nuty Tales Crafts`,
     description: `Browse authentic Kashmiri ${label.toLowerCase()} handcrafted by traditional master artisan guilds.`,
     alternates: {
-      canonical: `https://crafts.nutytales.com/kashmir/${category}`,
+      canonical: `https://nutytales.com/crafts/kashmir/${category}`,
     },
     openGraph: {
       title: `${label} — Kashmir Heritage Crafts`,
-      url: `https://crafts.nutytales.com/kashmir/${category}`,
+      url: `https://nutytales.com/crafts/kashmir/${category}`,
       siteName: 'Nuty Tales Crafts',
     },
   }

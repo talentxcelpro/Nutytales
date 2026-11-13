@@ -3,7 +3,7 @@ import NriNavbar from '@/components/nri/NriNavbar'
 import NriFooter from '@/components/nri/NriFooter'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nri.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales NRI — India, handled. From anywhere in the world.',
     template: '%s | Nuty Tales NRI',
@@ -30,20 +30,20 @@ export const metadata: Metadata = {
     'NRI property inspection report',
     'elder care companion India',
   ],
-  authors: [{ name: 'Nuty Tales NRI', url: 'https://nri.nutytales.com' }],
+  authors: [{ name: 'Nuty Tales NRI', url: 'https://nutytales.com/nri' }],
   creator: 'Nuty Tales',
   publisher: 'Nuty Tales',
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://nri.nutytales.com',
+    url: 'https://nutytales.com/nri',
     siteName: 'Nuty Tales NRI',
     title: 'Nuty Tales NRI — India, handled. From anywhere in the world.',
     description:
       'Dedicated on-the-ground support in India for Non-Resident Indians and overseas families. Real transactional execution for family, property, documents, and ancestral stays.',
     images: [
       {
-        url: 'https://nri.nutytales.com/opengraph-image',
+        url: 'https://nutytales.com/nri/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Nuty Tales NRI — India, handled. From anywhere in the world.',

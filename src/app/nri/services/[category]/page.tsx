@@ -47,12 +47,12 @@ export async function generateMetadata({
     title: `${cat.title} in India for NRIs | Nuty Tales NRI`,
     description: `${cat.description} Verified on-ground coordinators across ${cat.popularCities.join(', ')}.`,
     alternates: {
-      canonical: `https://nri.nutytales.com/services/${category}`,
+      canonical: `https://nutytales.com/nri/services/${category}`,
     },
     openGraph: {
       title: `${cat.title} in India for NRIs | Nuty Tales NRI`,
       description: cat.description,
-      url: `https://nri.nutytales.com/services/${category}`,
+      url: `https://nutytales.com/nri/services/${category}`,
     },
   }
 }

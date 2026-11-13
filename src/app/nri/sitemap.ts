@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { NRI_CATEGORIES } from '@/lib/nri/nri-data'
 
-const NRI_BASE_URL = 'https://nri.nutytales.com'
+const NRI_BASE_URL = 'https://nutytales.com/nri'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()

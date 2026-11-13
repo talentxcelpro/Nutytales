@@ -267,7 +267,7 @@ export default function GiftingRecipientsPage() {
               <div>
                 <strong className="text-xs text-[#17233B] block">Your Autonomous Choice Link is Active:</strong>
                 <span className="text-[11px] text-stone-600 font-mono">
-                  https://gifting.nutytales.com/choice/NT-2026-{choiceLinkBudget}?limit={choiceLinkQty}
+                  https://nutytales.com/gifting/choice/NT-2026-{choiceLinkBudget}?limit={choiceLinkQty}
                 </span>
               </div>
               <button

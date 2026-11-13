@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const dest = DESTINATION_MAPPINGS[slug];
 
   if (prop) {
-    return generatePageMetadata({
+    const meta = generatePageMetadata({
       business: 'stays',
       pageType: 'property',
       intentType: 'transactional',
@@ -52,10 +52,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       currency: 'INR',
       location: prop.city,
     });
+    return {
+      ...meta,
+      alternates: {
+        canonical: `https://nutytales.com/stays/${slug}`,
+      },
+      openGraph: {
+        ...meta.openGraph,
+        url: `https://nutytales.com/stays/${slug}`,
+      },
+    };
   }
 
   if (dest) {
-    return generatePageMetadata({
+    const meta = generatePageMetadata({
       business: 'stays',
       pageType: 'destination',
       intentType: 'commercial',
@@ -65,6 +75,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: dest.subtitle,
       location: slug.toUpperCase(),
     });
+    return {
+      ...meta,
+      alternates: {
+        canonical: `https://nutytales.com/stays/${slug}`,
+      },
+      openGraph: {
+        ...meta.openGraph,
+        url: `https://nutytales.com/stays/${slug}`,
+      },
+    };
   }
 
   return { title: 'Boutique Stays | Nuty Tales' };
@@ -91,7 +111,7 @@ export default async function StaySlugPage({ params }: PageProps) {
     const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
     const lodgingSchema = buildLodgingSchema({
       name: prop.name,
-      url: `https://stays.nutytales.com/stays/${prop.slug}`,
+      url: `https://nutytales.com/stays/${prop.slug}`,
       description: prop.tagline,
       image: prop.featuredImage,
       addressLocality: prop.city,

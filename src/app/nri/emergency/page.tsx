@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Urgent on-ground coordination in India for overseas families. Rapid response for elder distress, hospital emergency coordination, and immediate property crises.',
   alternates: {
-    canonical: 'https://nri.nutytales.com/emergency',
+    canonical: 'https://nutytales.com/nri/emergency',
   },
   openGraph: {
     title: 'India Emergency Assistance Desk | Nuty Tales NRI',
     description:
       'Urgent on-ground coordination in India for overseas families. Rapid response for elder distress and immediate property crises.',
-    url: 'https://nri.nutytales.com/emergency',
+    url: 'https://nutytales.com/nri/emergency',
     siteName: 'Nuty Tales NRI',
     locale: 'en_IN',
     type: 'website',

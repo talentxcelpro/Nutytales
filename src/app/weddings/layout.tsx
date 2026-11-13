@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import WeddingsShell from '@/components/weddings/WeddingsShell'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://weddings.nutytales.com'),
+  metadataBase: new URL('https://nutytales.com'),
   title: {
     default: 'Nuty Tales Weddings — Bring Every Wedding Detail Together Beautifully',
     template: '%s | Nuty Tales Weddings',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Nuty Tales Weddings — Bring Every Wedding Detail Together Beautifully',
     description:
       'Curated wedding favors, royal trousseau walnut gift hampers, and destination wedding execution. Bring every wedding detail together beautifully.',
-    url: 'https://weddings.nutytales.com',
+    url: 'https://nutytales.com/weddings',
     siteName: 'Nuty Tales Weddings',
     locale: 'en_IN',
     type: 'website',

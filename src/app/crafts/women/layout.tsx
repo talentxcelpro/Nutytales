@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Exquisite Kashmiri Tilla pherans, pure Pashmina wraps, Banarasi silk kurtas, and artisanal couture for women.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/women',
+    canonical: 'https://nutytales.com/crafts/women',
   },
 }
 

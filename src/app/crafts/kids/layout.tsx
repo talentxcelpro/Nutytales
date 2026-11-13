@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Ultra-soft natural wool pherans, organic cotton sets, and handcrafted heirlooms designed gently for children.',
   alternates: {
-    canonical: 'https://crafts.nutytales.com/kids',
+    canonical: 'https://nutytales.com/crafts/kids',
   },
 }
 
