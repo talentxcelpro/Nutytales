@@ -145,9 +145,7 @@ export function middleware(request: NextRequest) {
 
   // 2. Hostname-specific robots.txt generation
   if (pathname === '/robots.txt') {
-    const sitemapUrl = vertical
-      ? `https://${vertical}.nutytales.com/sitemap.xml`
-      : 'https://nutytales.com/sitemap.xml'
+    const sitemapUrl = 'https://nutytales.com/sitemap.xml'
     const hostUrl = vertical
       ? `https://${vertical}.nutytales.com`
       : 'https://nutytales.com'
@@ -213,7 +211,7 @@ Sitemap: ${sitemapUrl}
       status: 200,
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       },
     })
   }
