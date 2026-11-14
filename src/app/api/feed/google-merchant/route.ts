@@ -19,12 +19,13 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-  // 1. Food & Gourmet Harvest Items (50 SKUs)
-  const foodItems = PRODUCTS.map((product) => {
+  // 1. Food & Gourmet Harvest Items with Pack-Size Variants
+  const foodItems: string[] = []
+
+  for (const product of PRODUCTS) {
     const rawImage = product.image || (product.images && product.images[0]) || '/opengraph-image'
     const fullImageUrl = rawImage.startsWith('http') ? rawImage : `${APP_URL}${rawImage}`
     const productUrl = `${APP_URL}/shop/${product.slug}`
-    const price = `${product.retailPrice.toFixed(2)} INR`
     const availability = product.stockStatus === 'OUT_OF_STOCK' ? 'out_of_stock' : 'in_stock'
 
     const googleCategory = product.slug.includes('saffron') || product.slug.includes('mongra')
@@ -33,7 +34,39 @@ export async function GET() {
       ? 'Food, Beverages &amp; Tobacco &gt; Food Items &gt; Sweeteners &gt; Honey'
       : 'Food, Beverages &amp; Tobacco &gt; Food Items &gt; Nuts &amp; Seeds'
 
-    return `    <item>
+    if (product.variants && product.variants.length > 0) {
+      for (const v of product.variants) {
+        const variantId = `NT-${product.id}-${v.sizeG}g`
+        const variantUrl = `${productUrl}?variant=${encodeURIComponent(v.label)}`
+        const variantTitle = `${product.name} (${v.label})`
+        const variantPrice = `${v.retailPrice.toFixed(2)} INR`
+        const weightString = v.sizeG >= 1000 ? `${(v.sizeG / 1000).toFixed(1)} kg` : `${v.sizeG} g`
+
+        foodItems.push(`    <item>
+      <g:id>${variantId}</g:id>
+      <g:item_group_id>NT-${product.id}</g:item_group_id>
+      <g:title>${escapeXml(variantTitle)}</g:title>
+      <g:description>${escapeXml(product.shortDesc || product.longDesc || product.name)} Pack size: ${v.label}. Grade: ${escapeXml(product.grade || 'Premium Grade')}.</g:description>
+      <g:link>${variantUrl}</g:link>
+      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>${availability}</g:availability>
+      <g:price>${variantPrice}</g:price>
+      <g:brand>Nuty Tales</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:google_product_category>${googleCategory}</g:google_product_category>
+      <g:product_type>Dry Fruits &gt; ${escapeXml(product.category)}</g:product_type>
+      <g:shipping_weight>${weightString}</g:shipping_weight>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Express Surface / Air</g:service>
+        <g:price>0.00 INR</g:price>
+      </g:shipping>
+    </item>`)
+      }
+    } else {
+      const price = `${product.retailPrice.toFixed(2)} INR`
+      foodItems.push(`    <item>
       <g:id>NT-${product.id}</g:id>
       <g:title>${escapeXml(product.name)}</g:title>
       <g:description>${escapeXml(product.shortDesc || product.longDesc || product.name)}</g:description>
@@ -51,8 +84,9 @@ export async function GET() {
         <g:service>Express Surface / Air</g:service>
         <g:price>0.00 INR</g:price>
       </g:shipping>
-    </item>`
-  })
+    </item>`)
+    }
+  }
 
   // 2. Crafts & Indian Handcrafted Heritage Apparel Items (56 SKUs)
   const seenCraftSlugs = new Set<string>()

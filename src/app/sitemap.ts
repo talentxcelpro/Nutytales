@@ -10,6 +10,7 @@ import { INDUSTRIES } from "@/lib/business-supply-data";
 import { GEO_ENTITIES } from "@/lib/seo/geo";
 import { COMMERCIAL_HUBS } from "@/lib/seo/commercial-hubs";
 import { buildRootCoreSitemap } from "@/lib/seo/sitemap";
+import { JOURNAL_ARTICLES } from "@/lib/journal-data";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
@@ -191,6 +192,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+    // 12. Gastronomy Journal Botanical Monographs
+  const journalPages: MetadataRoute.Sitemap = JOURNAL_ARTICLES.map((article) => ({
+    url: `${APP_URL}/gastronomy-journal/${article.id}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
@@ -202,6 +211,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...venuePages,
     ...vendorPages,
     ...giftingPages,
+    ...journalPages,
     ...wholesaleIndustryPages,
     ...wholesaleCityPages,
     ...wholesaleProductCityPages,
