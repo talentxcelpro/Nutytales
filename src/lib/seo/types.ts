@@ -28,16 +28,16 @@ export type NutyBusiness =
 
 export const BUSINESS_DOMAINS: Record<NutyBusiness, string> = {
   root:       'https://nutytales.com',
-  nri:        'https://nri.nutytales.com',
-  business:   'https://business.nutytales.com',
-  gifting:    'https://gifting.nutytales.com',
-  weddings:   'https://weddings.nutytales.com',
-  crafts:     'https://crafts.nutytales.com',
-  stays:      'https://stays.nutytales.com',
-  travel:     'https://travel.nutytales.com',
-  middleeast: 'https://middleeast.nutytales.com',
-  europe:     'https://europe.nutytales.com',
-  america:    'https://america.nutytales.com',
+  nri:        'https://nutytales.com',
+  business:   'https://nutytales.com',
+  gifting:    'https://nutytales.com',
+  weddings:   'https://nutytales.com',
+  crafts:     'https://nutytales.com',
+  stays:      'https://nutytales.com',
+  travel:     'https://nutytales.com',
+  middleeast: 'https://nutytales.com',
+  europe:     'https://nutytales.com',
+  america:    'https://nutytales.com',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

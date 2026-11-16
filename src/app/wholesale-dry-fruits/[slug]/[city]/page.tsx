@@ -87,6 +87,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `https://nutytales.com/wholesale-dry-fruits/${productSlug}/${citySlug}`,
     },
+    robots: {
+      index: false,
+      follow: true,
+    },
   }
 }
 

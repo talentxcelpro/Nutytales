@@ -169,30 +169,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  // 11. Combinatorial Product + City High-Intent Matrix
-  const topWholesaleProducts = [
-    'mamra-almonds-kashmiri-badam',
-    'california-almonds-premium',
-    'kashmiri-walnuts-inshell-snow-white',
-    'w240-jumbo-cashews-goa-mangalore',
-    'pampore-mongra-saffron-grade-a1',
-    'makhana-grade-a-fox-nuts',
-    'afghan-green-raisins-kishmish',
-    'afghani-anjeer-dried-figs',
-  ];
-  const wholesaleProductCityPages: MetadataRoute.Sitemap = [];
-  for (const productSlug of topWholesaleProducts) {
-    for (const hub of COMMERCIAL_HUBS.slice(0, 15)) {
-      wholesaleProductCityPages.push({
-        url: `${APP_URL}/wholesale-dry-fruits/${productSlug}/${hub.slug}`,
-        lastModified: now,
-        changeFrequency: "weekly",
-        priority: 0.85,
-      });
-    }
-  }
-
-    // 12. Gastronomy Journal Botanical Monographs
+  // 11. Gastronomy Journal Botanical Monographs
   const journalPages: MetadataRoute.Sitemap = JOURNAL_ARTICLES.map((article) => ({
     url: `${APP_URL}/gastronomy-journal/${article.id}`,
     lastModified: now,
@@ -214,7 +191,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...journalPages,
     ...wholesaleIndustryPages,
     ...wholesaleCityPages,
-    ...wholesaleProductCityPages,
   ];
 
   const seenUrls = new Set<string>();
