@@ -7,6 +7,7 @@ import { FSSAI_NUMBER } from '@/lib/constants'
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<{ variant?: string }>
 }
 
 const COMMON_ALIASES: Record<string, string> = {
@@ -118,13 +119,29 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
   const product = resolveProductBySlug(slug)
   if (!product) return { title: 'Product Not Found | Nuty Tales' }
 
+  const sp = searchParams ? await searchParams : undefined
+  const rawVariant = typeof sp?.variant === 'string' ? decodeURIComponent(sp.variant).trim() : undefined
+  let matchedVariant = undefined
+  if (rawVariant && product.variants?.length) {
+    const norm = rawVariant.toLowerCase().replace(/\s+/g, '')
+    matchedVariant = product.variants.find((v) => {
+      const vNorm = v.label.toLowerCase().replace(/\s+/g, '')
+      return vNorm === norm || `${v.sizeG}g` === norm || `${v.sizeG / 1000}kg` === norm
+    })
+  }
+
+  const pageTitle = matchedVariant
+    ? `${product.name} (${matchedVariant.label}) — Retail & Wholesale | Nuty Tales`
+    : `${product.name} — Retail & Wholesale | Nuty Tales`
+
   return {
-    title: `${product.name} — Retail & Wholesale | Nuty Tales`,
+    title: pageTitle,
     description: `${product.shortDesc} Origin: ${product.origin}. Available in 250g, 500g, 1kg retail and 5kg to 50kg bulk wholesale. FSSAI Lic. ${FSSAI_NUMBER}.`,
     keywords: [
       product.name.toLowerCase(),
@@ -133,7 +150,7 @@ export async function generateMetadata({
       `${product.origin.toLowerCase()} dry fruits`,
     ],
     openGraph: {
-      title: `${product.name} | Nuty Tales`,
+      title: pageTitle,
       description: product.shortDesc,
       images: product.image ? [product.image] : undefined,
     },
@@ -143,12 +160,30 @@ export async function generateMetadata({
   }
 }
 
-export default async function ProductDetailPage({ params }: ProductPageProps) {
+export default async function ProductDetailPage({ params, searchParams }: ProductPageProps) {
   const { slug } = await params
   const product = resolveProductBySlug(slug)
 
   if (!product) {
     notFound()
+  }
+
+  const sp = searchParams ? await searchParams : undefined
+  const rawVariant = typeof sp?.variant === 'string' ? decodeURIComponent(sp.variant).trim() : undefined
+
+  let activeVariantIndex = 0
+  let matchedVariant = product.variants?.[0]
+
+  if (rawVariant && product.variants && product.variants.length > 0) {
+    const norm = rawVariant.toLowerCase().replace(/\s+/g, '')
+    const idx = product.variants.findIndex((v) => {
+      const vNorm = v.label.toLowerCase().replace(/\s+/g, '')
+      return vNorm === norm || `${v.sizeG}g` === norm || `${v.sizeG / 1000}kg` === norm
+    })
+    if (idx !== -1) {
+      activeVariantIndex = idx
+      matchedVariant = product.variants[idx]
+    }
   }
 
   const related = PRODUCTS.filter(
@@ -161,15 +196,122 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     ? [product.image.startsWith('http') ? product.image : `https://nutytales.com${product.image}`]
     : ['https://nutytales.com/opengraph-image']
 
-  const currentPrice = product.variants[0]?.retailPrice || product.retailPrice
+  const activePrice = matchedVariant?.retailPrice || product.retailPrice
+  const activeSku = matchedVariant ? `NT-${product.id}-${matchedVariant.sizeG}g` : `NT-${product.id}`
+  const activeTitle = matchedVariant ? `${product.name} (${matchedVariant.label})` : product.name
+  const activeUrl = matchedVariant
+    ? `https://nutytales.com/shop/${product.slug}?variant=${encodeURIComponent(matchedVariant.label)}`
+    : `https://nutytales.com/shop/${product.slug}`
+
+  const shippingDetailsJson = {
+    '@type': 'OfferShippingDetails',
+    shippingRate: {
+      '@type': 'MonetaryAmount',
+      value: '0',
+      currency: 'INR',
+    },
+    shippingDestination: {
+      '@type': 'DefinedRegion',
+      addressCountry: 'IN',
+    },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 0,
+        maxValue: 1,
+        unitCode: 'd',
+      },
+      transitTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 2,
+        maxValue: 4,
+        unitCode: 'd',
+      },
+    },
+  }
+
+  const returnPolicyJson = {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'IN',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: 7,
+    returnMethod: 'https://schema.org/ReturnByMail',
+    returnFees: 'https://schema.org/FreeReturn',
+  }
+
+  // When a specific variant is requested via ?variant=, emit that exact Offer
+  // so Googlebot price crawler finds 100% price and SKU match!
+  const offersData = rawVariant && matchedVariant
+    ? {
+        '@type': 'Offer',
+        name: activeTitle,
+        sku: activeSku,
+        url: activeUrl,
+        priceCurrency: 'INR',
+        price: activePrice,
+        priceValidUntil: '2027-12-31',
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: product.stockStatus === 'OUT_OF_STOCK'
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
+        seller: {
+          '@type': 'Organization',
+          name: 'Nuty Tales',
+          url: 'https://nutytales.com',
+        },
+        shippingDetails: shippingDetailsJson,
+        hasMerchantReturnPolicy: returnPolicyJson,
+      }
+    : (product.variants && product.variants.length > 0)
+    ? product.variants.map((v) => ({
+        '@type': 'Offer',
+        name: `${product.name} (${v.label})`,
+        sku: `NT-${product.id}-${v.sizeG}g`,
+        url: `https://nutytales.com/shop/${product.slug}?variant=${encodeURIComponent(v.label)}`,
+        priceCurrency: 'INR',
+        price: v.retailPrice,
+        priceValidUntil: '2027-12-31',
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: product.stockStatus === 'OUT_OF_STOCK'
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
+        seller: {
+          '@type': 'Organization',
+          name: 'Nuty Tales',
+          url: 'https://nutytales.com',
+        },
+        shippingDetails: shippingDetailsJson,
+        hasMerchantReturnPolicy: returnPolicyJson,
+      }))
+    : {
+        '@type': 'Offer',
+        name: product.name,
+        sku: `NT-${product.id}`,
+        url: `https://nutytales.com/shop/${product.slug}`,
+        priceCurrency: 'INR',
+        price: product.retailPrice,
+        priceValidUntil: '2027-12-31',
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: product.stockStatus === 'OUT_OF_STOCK'
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
+        seller: {
+          '@type': 'Organization',
+          name: 'Nuty Tales',
+          url: 'https://nutytales.com',
+        },
+        shippingDetails: shippingDetailsJson,
+        hasMerchantReturnPolicy: returnPolicyJson,
+      }
 
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.name,
+    name: activeTitle,
     image: productImages,
     description: product.longDesc || product.shortDesc,
-    sku: `NT-${product.id}`,
+    sku: activeSku,
     mpn: `NT-${product.slug}`,
     category: product.category,
     brand: {
@@ -183,57 +325,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       bestRating: '5',
       worstRating: '1',
     },
-    offers: {
-      '@type': 'Offer',
-      url: `https://nutytales.com/shop/${product.slug}`,
-      priceCurrency: 'INR',
-      price: currentPrice,
-      priceValidUntil: '2027-12-31',
-      itemCondition: 'https://schema.org/NewCondition',
-      availability: product.stockStatus === 'OUT_OF_STOCK'
-        ? 'https://schema.org/OutOfStock'
-        : 'https://schema.org/InStock',
-      seller: {
-        '@type': 'Organization',
-        name: 'Nuty Tales',
-        url: 'https://nutytales.com',
-      },
-      shippingDetails: {
-        '@type': 'OfferShippingDetails',
-        shippingRate: {
-          '@type': 'MonetaryAmount',
-          value: '0',
-          currency: 'INR',
-        },
-        shippingDestination: {
-          '@type': 'DefinedRegion',
-          addressCountry: 'IN',
-        },
-        deliveryTime: {
-          '@type': 'ShippingDeliveryTime',
-          handlingTime: {
-            '@type': 'QuantitativeValue',
-            minValue: 0,
-            maxValue: 1,
-            unitCode: 'd',
-          },
-          transitTime: {
-            '@type': 'QuantitativeValue',
-            minValue: 2,
-            maxValue: 4,
-            unitCode: 'd',
-          },
-        },
-      },
-      hasMerchantReturnPolicy: {
-        '@type': 'MerchantReturnPolicy',
-        applicableCountry: 'IN',
-        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-        merchantReturnDays: 7,
-        returnMethod: 'https://schema.org/ReturnByMail',
-        returnFees: 'https://schema.org/FreeReturn',
-      },
-    },
+    offers: offersData,
   }
 
   const breadcrumbJsonLd = {
@@ -295,7 +387,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         </nav>
 
         {/* Main Product Component */}
-        <ProductDetailClient product={product} />
+        <ProductDetailClient
+          product={product}
+          initialVariantIndex={activeVariantIndex}
+        />
 
         {/* Extended Description & Storage */}
         <div className="bg-white p-6 sm:p-10 rounded-3xl border border-stone-200 space-y-4">

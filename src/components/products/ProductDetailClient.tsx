@@ -11,15 +11,51 @@ import { useMarketCurrency } from '@/hooks/useMarketCurrency'
 
 interface ProductDetailClientProps {
   product: Product
+  initialVariantIndex?: number
 }
 
-export default function ProductDetailClient({ product }: ProductDetailClientProps) {
+export default function ProductDetailClient({
+  product,
+  initialVariantIndex = 0,
+}: ProductDetailClientProps) {
   const router = useRouter()
   const { formatPrice, country, countryConfig } = useMarketCurrency()
   const [mode, setMode] = useState<'retail' | 'wholesale'>('retail')
   const [purchaseType, setPurchaseType] = useState<'onetime' | 'subscribe'>('onetime')
   const [subscribeInterval, setSubscribeInterval] = useState<number>(30)
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(2) // 1kg default
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(() => {
+    if (typeof initialVariantIndex === 'number' && initialVariantIndex >= 0 && initialVariantIndex < (product.variants?.length || 0)) {
+      return initialVariantIndex
+    }
+    return 0
+  })
+
+  // Synchronize client-side URL variant query parameter
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search)
+      const vParam = sp.get('variant')
+      if (vParam && product.variants?.length) {
+        const norm = vParam.toLowerCase().replace(/\s+/g, '')
+        const idx = product.variants.findIndex((v) => {
+          const vNorm = v.label.toLowerCase().replace(/\s+/g, '')
+          return vNorm === norm || `${v.sizeG}g` === norm || `${v.sizeG / 1000}kg` === norm
+        })
+        if (idx !== -1 && idx !== selectedVariantIndex) {
+          setSelectedVariantIndex(idx)
+        }
+      }
+    }
+  }, [product.variants, selectedVariantIndex])
+
+  const handleVariantSelect = (idx: number) => {
+    setSelectedVariantIndex(idx)
+    if (typeof window !== 'undefined' && product.variants?.[idx]) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('variant', product.variants[idx].label)
+      window.history.replaceState({}, '', url.toString())
+    }
+  }
   const [selectedTierIndex, setSelectedTierIndex] = useState(0) // 5kg default
   const [quantity, setQuantity] = useState(1)
   const [addedMessage, setAddedMessage] = useState('')
@@ -485,7 +521,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       <button
                         key={v.sizeG}
                         type="button"
-                        onClick={() => setSelectedVariantIndex(idx)}
+                        onClick={() => handleVariantSelect(idx)}
                         className={`p-4 rounded-2xl border text-center transition-all relative ${
                           isSelected
                             ? 'border-[#17233B] bg-[#17233B]/[0.03] ring-1 ring-[#17233B] shadow-xs'
@@ -607,7 +643,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 </div>
               </div>
 
-              <div className="text-right">
+              <div className="text-right" itemScope itemType="https://schema.org/Offer">
+                <meta itemProp="priceCurrency" content="INR" />
+                <meta itemProp="price" content={String(unitPrice)} />
                 <span className="text-[10px] uppercase text-stone-400 font-bold block tracking-wider">
                   Total Payable
                 </span>
