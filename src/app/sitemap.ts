@@ -29,6 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 2. High-Intent Vertical Landing Hubs
   const verticalHubs: MetadataRoute.Sitemap = [
+    // Health & Interactive Nutrition Tools
+    { url: `${APP_URL}/calculator`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     // Stays
     { url: `${APP_URL}/stays`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${APP_URL}/stays/hosts`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
