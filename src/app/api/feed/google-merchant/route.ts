@@ -10,7 +10,15 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 function escapeXml(unsafe: string): string {
-  return (unsafe || '')
+  if (!unsafe) return ''
+  return unsafe
+    // Normalize pre-escaped entities to prevent double-escaping
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    // Cleanly escape all XML special characters
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -47,8 +55,8 @@ export async function GET() {
       <g:item_group_id>NT-${product.id}</g:item_group_id>
       <g:title>${escapeXml(variantTitle)}</g:title>
       <g:description>${escapeXml(product.shortDesc || product.longDesc || product.name)} Pack size: ${v.label}. Grade: ${escapeXml(product.grade || 'Premium Grade')}.</g:description>
-      <g:link>${variantUrl}</g:link>
-      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:link>${escapeXml(variantUrl)}</g:link>
+      <g:image_link>${escapeXml(fullImageUrl)}</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>${availability}</g:availability>
       <g:price>${variantPrice}</g:price>
@@ -70,8 +78,8 @@ export async function GET() {
       <g:id>NT-${product.id}</g:id>
       <g:title>${escapeXml(product.name)}</g:title>
       <g:description>${escapeXml(product.shortDesc || product.longDesc || product.name)}</g:description>
-      <g:link>${productUrl}</g:link>
-      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:link>${escapeXml(productUrl)}</g:link>
+      <g:image_link>${escapeXml(fullImageUrl)}</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>${availability}</g:availability>
       <g:price>${price}</g:price>
@@ -118,8 +126,8 @@ export async function GET() {
       <g:id>NT-CRF-${item.id}</g:id>
       <g:title>${escapeXml(item.name)}</g:title>
       <g:description>${escapeXml(item.shortDesc || (item as any).longDesc || item.name)}</g:description>
-      <g:link>${productUrl}</g:link>
-      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:link>${escapeXml(productUrl)}</g:link>
+      <g:image_link>${escapeXml(fullImageUrl)}</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>${availability}</g:availability>
       <g:price>${price}</g:price>
@@ -149,8 +157,8 @@ export async function GET() {
       <g:id>NT-GFT-${gift.id}</g:id>
       <g:title>${escapeXml(gift.name)}</g:title>
       <g:description>${escapeXml(gift.shortDesc || (gift as any).description || gift.name)}</g:description>
-      <g:link>${productUrl}</g:link>
-      <g:image_link>${fullImageUrl}</g:image_link>
+      <g:link>${escapeXml(productUrl)}</g:link>
+      <g:image_link>${escapeXml(fullImageUrl)}</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in_stock</g:availability>
       <g:price>${price}</g:price>
