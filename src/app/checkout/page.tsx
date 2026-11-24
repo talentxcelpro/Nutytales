@@ -298,7 +298,6 @@ export default function CheckoutPage() {
             amountInr: estimatedTotal,
             currency: 'INR',
             receipt: generatedId.slice(0, 40),
-            idempotencyKey: `idemp_${generatedId}_${Date.now()}`,
             notes: {
               customerName: fullName,
               customerPhone: phone,
