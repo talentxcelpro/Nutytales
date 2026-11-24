@@ -19,7 +19,11 @@ const KEY_LOCATION = `https://${HOST}/${INDEXNOW_KEY}.txt`;
 const URLS_TO_INDEX: string[] = [
   `https://${HOST}/`,
   `https://${HOST}/shop`,
+  `https://${HOST}/calculator`,
+  `https://${HOST}/mandi-rates`,
+  `https://${HOST}/saffron-purity-guide`,
   `https://${HOST}/wholesale-dry-fruits`,
+  `https://${HOST}/gastronomy-journal`,
   `https://${HOST}/corporate-gifts`,
   `https://${HOST}/destination-weddings`,
   `https://${HOST}/pashmina-shawls`,
