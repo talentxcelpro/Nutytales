@@ -54,6 +54,36 @@ export default function CheckoutPage() {
   // 1. Initial Load & Auto-Populate from localStorage / past orders
   useEffect(() => {
     try {
+      // Check if returning from Razorpay Payment Link redirect
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get('payment') === 'success') {
+          const retOrderId = urlParams.get('orderId') || urlParams.get('razorpay_payment_link_id') || 'NT-ORD-CONFIRMED'
+          const retPayId = urlParams.get('razorpay_payment_id') || urlParams.get('razorpay_payment_link_id') || undefined
+
+          const rawPending = localStorage.getItem('nt_pending_order')
+          if (rawPending) {
+            try {
+              const pending = JSON.parse(rawPending)
+              const completedRecord = { ...pending, paymentId: retPayId }
+              localStorage.setItem('nt_last_order', JSON.stringify(completedRecord))
+              const history = JSON.parse(localStorage.getItem('nt_order_history') || '[]')
+              history.unshift(completedRecord)
+              localStorage.setItem('nt_order_history', JSON.stringify(history.slice(0, 20)))
+              localStorage.removeItem('nt_pending_order')
+            } catch {}
+          }
+
+          localStorage.removeItem('nt_cart')
+          window.dispatchEvent(new Event('nt_cart_updated'))
+          setPlacedOrderId(retOrderId)
+          if (retPayId) setPaymentId(retPayId)
+          setSubmitted(true)
+          setIsLoaded(true)
+          return
+        }
+      }
+
       const stored = localStorage.getItem('nt_cart')
       if (stored) {
         setCart(JSON.parse(stored))
@@ -283,6 +313,50 @@ export default function CheckoutPage() {
 
     // ── Razorpay Gateway Handler (UPI / Cards / Net Banking) ──
     if (paymentMethod === 'upi') {
+      // 1. First Priority: Razorpay Hosted Payment Link (Bypasses Domain Registration / Origin Blocks)
+      try {
+        const linkRes = await fetch('/api/razorpay/payment-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amountInr: estimatedTotal,
+            orderId: confirmedOrderId,
+            customer: { fullName, phone, email, address, city, state, pincode },
+            notes: { referenceId: generatedId },
+          }),
+        })
+
+        let linkData: any = null
+        try {
+          linkData = await linkRes.json()
+        } catch {
+          linkData = null
+        }
+
+        if (linkRes.ok && linkData?.success && linkData?.paymentLink) {
+          // Store pending order in localStorage so it can be restored upon return
+          const pendingOrderRecord = {
+            orderId: confirmedOrderId,
+            paymentId: linkData.id,
+            customer: orderPayload.customer,
+            items: cart,
+            subtotal,
+            shipping,
+            total: estimatedTotal,
+            paymentMethod: 'razorpay_online',
+            createdAt: new Date().toISOString(),
+          }
+          localStorage.setItem('nt_pending_order', JSON.stringify(pendingOrderRecord))
+
+          // Redirect seamlessly to official Razorpay payment page
+          window.location.href = linkData.paymentLink
+          return
+        }
+      } catch (linkErr) {
+        console.warn('[PaymentLink Warning]', linkErr)
+      }
+
+      // 2. Second Priority: Razorpay Standard Modal (If payment link unavailable)
       const isScriptReady = await loadRazorpayScript()
       if (!isScriptReady) {
         setPaymentError('Could not load secure Razorpay gateway. Please check your internet connection and try again.')
