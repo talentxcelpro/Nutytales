@@ -13,6 +13,8 @@ import { buildRootCoreSitemap } from "@/lib/seo/sitemap";
 import { JOURNAL_ARTICLES } from "@/lib/journal-data";
 import { HEALTH_CONDITIONS } from "@/lib/health-data";
 import { MANDI_CITIES } from "@/lib/mandi-cities-data";
+import { CULINARY_RECIPES } from "@/lib/recipes-data";
+import { VRAT_FESTIVALS } from "@/lib/vrat-fasting-data";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
@@ -35,8 +37,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${APP_URL}/calculator`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/health`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/mandi-rates`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
+    { url: `${APP_URL}/recipes`, lastModified: now, changeFrequency: "daily", priority: 0.97 },
     { url: `${APP_URL}/saffron-purity-guide`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/verify`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${APP_URL}/vrat-fasting`, lastModified: now, changeFrequency: "weekly", priority: 0.97 },
     // Stays
     { url: `${APP_URL}/stays`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${APP_URL}/stays/hosts`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
@@ -201,12 +205,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.96,
   }));
 
+  // 14. Superfood & Festive Culinary Recipes
+  const recipePages: MetadataRoute.Sitemap = Object.values(CULINARY_RECIPES).map((recipe) => ({
+    url: `${APP_URL}/recipes/${recipe.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.95,
+  }));
+
+  // 15. Sacred Indian Vrat & Fasting Guides
+  const vratPages: MetadataRoute.Sitemap = Object.values(VRAT_FESTIVALS).map((fest) => ({
+    url: `${APP_URL}/vrat-fasting/${fest.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.95,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
     ...verticalHubs,
     ...healthConditionPages,
     ...cityMandiPages,
+    ...recipePages,
+    ...vratPages,
     ...productPages,
     ...stayPages,
     ...travelPages,
