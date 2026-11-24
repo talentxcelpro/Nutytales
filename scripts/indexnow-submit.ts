@@ -14,6 +14,8 @@ import { HEALTH_CONDITIONS } from '../src/lib/health-data';
 import { MANDI_CITIES } from '../src/lib/mandi-cities-data';
 import { CULINARY_RECIPES } from '../src/lib/recipes-data';
 import { VRAT_FESTIVALS } from '../src/lib/vrat-fasting-data';
+import { COMMODITY_COMPARISONS } from '../src/lib/comparisons-data';
+import { DELIVERY_CITIES } from '../src/lib/delivery-cities-data';
 
 const HOST = 'nutytales.com';
 const INDEXNOW_KEY = '9872e90f23b145a6c8e310d54fa1128c';
@@ -30,10 +32,14 @@ const URLS_TO_INDEX: string[] = [
   `https://${HOST}/saffron-purity-guide`,
   `https://${HOST}/verify`,
   `https://${HOST}/vrat-fasting`,
+  `https://${HOST}/compare`,
+  `https://${HOST}/express-delivery`,
   ...Object.keys(HEALTH_CONDITIONS).map((cond) => `https://${HOST}/health/${cond}`),
   ...Object.keys(MANDI_CITIES).map((city) => `https://${HOST}/mandi-rates/${city}`),
   ...Object.keys(CULINARY_RECIPES).map((rec) => `https://${HOST}/recipes/${rec}`),
   ...Object.keys(VRAT_FESTIVALS).map((fest) => `https://${HOST}/vrat-fasting/${fest}`),
+  ...Object.keys(COMMODITY_COMPARISONS).map((slug) => `https://${HOST}/compare/${slug}`),
+  ...Object.keys(DELIVERY_CITIES).map((city) => `https://${HOST}/express-delivery/${city}`),
   `https://${HOST}/wholesale-dry-fruits`,
   `https://${HOST}/gastronomy-journal`,
   `https://${HOST}/corporate-gifts`,

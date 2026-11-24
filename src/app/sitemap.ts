@@ -15,6 +15,8 @@ import { HEALTH_CONDITIONS } from "@/lib/health-data";
 import { MANDI_CITIES } from "@/lib/mandi-cities-data";
 import { CULINARY_RECIPES } from "@/lib/recipes-data";
 import { VRAT_FESTIVALS } from "@/lib/vrat-fasting-data";
+import { COMMODITY_COMPARISONS } from "@/lib/comparisons-data";
+import { DELIVERY_CITIES } from "@/lib/delivery-cities-data";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
@@ -35,6 +37,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const verticalHubs: MetadataRoute.Sitemap = [
     // Health & Interactive Nutrition Tools
     { url: `${APP_URL}/calculator`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
+    { url: `${APP_URL}/compare`, lastModified: now, changeFrequency: "weekly", priority: 0.96 },
+    { url: `${APP_URL}/express-delivery`, lastModified: now, changeFrequency: "weekly", priority: 0.96 },
     { url: `${APP_URL}/health`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/mandi-rates`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/recipes`, lastModified: now, changeFrequency: "daily", priority: 0.97 },
@@ -221,6 +225,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.95,
   }));
 
+  // 16. Superfood & Botanical Comparison Guides
+  const comparisonPages: MetadataRoute.Sitemap = Object.values(COMMODITY_COMPARISONS).map((comp) => ({
+    url: `${APP_URL}/compare/${comp.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.95,
+  }));
+
+  // 17. Programmatic Metro Express Delivery Hubs
+  const expressDeliveryPages: MetadataRoute.Sitemap = Object.values(DELIVERY_CITIES).map((city) => ({
+    url: `${APP_URL}/express-delivery/${city.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.95,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
@@ -229,6 +249,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...cityMandiPages,
     ...recipePages,
     ...vratPages,
+    ...comparisonPages,
+    ...expressDeliveryPages,
     ...productPages,
     ...stayPages,
     ...travelPages,
