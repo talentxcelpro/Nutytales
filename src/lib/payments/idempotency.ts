@@ -9,6 +9,7 @@
 
 import fs from 'fs'
 import path from 'path'
+import os from 'os'
 import crypto from 'crypto'
 import { getSupabaseAdmin } from '../supabase'
 
@@ -41,11 +42,24 @@ export interface AcquireLockResult {
   storageBackend: 'database' | 'filesystem'
 }
 
-const IDEMPOTENCY_DIR = path.resolve(process.cwd(), '.data', 'payment-idempotency')
+const isServerless = Boolean(
+  process.env.VERCEL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT ||
+  process.env.NODE_ENV === 'production'
+)
+
+const IDEMPOTENCY_DIR = isServerless
+  ? path.join(os.tmpdir(), 'nt_payment_idempotency')
+  : path.resolve(process.cwd(), '.data', 'payment-idempotency')
 
 function ensureDir() {
-  if (!fs.existsSync(IDEMPOTENCY_DIR)) {
-    fs.mkdirSync(IDEMPOTENCY_DIR, { recursive: true })
+  try {
+    if (!fs.existsSync(IDEMPOTENCY_DIR)) {
+      fs.mkdirSync(IDEMPOTENCY_DIR, { recursive: true })
+    }
+  } catch (err) {
+    console.warn('[Idempotency ensureDir warning]', err)
   }
 }
 

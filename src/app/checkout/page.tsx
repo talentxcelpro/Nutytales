@@ -49,7 +49,9 @@ export default function CheckoutPage() {
   const [gstin, setGstin] = useState('')
   const [paymentMethod, setPaymentMethod] = useState<'upi' | 'neft' | 'cod' | 'whatsapp'>('upi')
   const [notes, setNotes] = useState('')
+  const [hasAutoPopulated, setHasAutoPopulated] = useState(false)
 
+  // 1. Initial Load & Auto-Populate from localStorage / past orders
   useEffect(() => {
     try {
       const stored = localStorage.getItem('nt_cart')
@@ -61,17 +63,37 @@ export default function CheckoutPage() {
         setAppliedCoupon(storedCoupon)
       }
 
-      // Check saved address from past orders
-      const savedAddr = localStorage.getItem('nt_saved_address')
-      if (savedAddr) {
-        const parsed = JSON.parse(savedAddr)
-        if (parsed.fullName) setFullName((prev) => prev || parsed.fullName)
-        if (parsed.phone) setPhone((prev) => prev || parsed.phone)
-        if (parsed.email) setEmail((prev) => prev || parsed.email)
-        if (parsed.address) setAddress((prev) => prev || parsed.address)
-        if (parsed.city) setCity((prev) => prev || parsed.city)
-        if (parsed.state) setState((prev) => prev || parsed.state)
-        if (parsed.pincode) setPincode((prev) => prev || parsed.pincode)
+      // Restore saved address or fallback to last completed order
+      let saved: any = null
+      const rawSaved = localStorage.getItem('nt_saved_address')
+      if (rawSaved) {
+        try {
+          saved = JSON.parse(rawSaved)
+        } catch {}
+      }
+
+      if (!saved) {
+        const rawLast = localStorage.getItem('nt_last_order')
+        if (rawLast) {
+          try {
+            const parsedLast = JSON.parse(rawLast)
+            if (parsedLast.customer) saved = parsedLast.customer
+          } catch {}
+        }
+      }
+
+      if (saved) {
+        if (saved.fullName) setFullName(saved.fullName)
+        if (saved.phone) setPhone(saved.phone)
+        if (saved.email) setEmail(saved.email)
+        if (saved.address) setAddress(saved.address)
+        if (saved.city) setCity(saved.city)
+        if (saved.state) setState(saved.state)
+        if (saved.pincode) setPincode(saved.pincode)
+        if (saved.isB2B !== undefined) setIsB2B(Boolean(saved.isB2B))
+        if (saved.companyName) setCompanyName(saved.companyName)
+        if (saved.gstin) setGstin(saved.gstin)
+        setHasAutoPopulated(true)
       }
     } catch {
       // fallback
@@ -79,7 +101,35 @@ export default function CheckoutPage() {
     setIsLoaded(true)
   }, [])
 
-  // Auto-fill details from Google / Firebase User
+  // 2. Real-Time Auto-Saving: Saves on every field change so details are NEVER lost
+  useEffect(() => {
+    if (!isLoaded) return
+    const timer = setTimeout(() => {
+      try {
+        const addressData = {
+          fullName,
+          phone,
+          email,
+          address,
+          city,
+          state,
+          pincode,
+          isB2B,
+          companyName,
+          gstin,
+        }
+        localStorage.setItem('nt_saved_address', JSON.stringify(addressData))
+        if (fullName || phone || address) {
+          setHasAutoPopulated(true)
+        }
+      } catch {
+        // ignore
+      }
+    }, 250)
+    return () => clearTimeout(timer)
+  }, [fullName, phone, email, address, city, state, pincode, isB2B, companyName, gstin, isLoaded])
+
+  // 3. Auto-fill details from Google / Firebase User profile
   useEffect(() => {
     if (user) {
       const name = user.displayName || profile?.name
@@ -90,6 +140,12 @@ export default function CheckoutPage() {
 
       const userPhone = user.phoneNumber || profile?.phone
       if (userPhone) setPhone((prev) => prev || userPhone.replace('+91', ''))
+
+      if (profile?.address) setAddress((prev) => prev || profile.address)
+      if (profile?.city) setCity((prev) => prev || profile.city)
+      if (profile?.state) setState((prev) => prev || profile.state)
+      if (profile?.pincode) setPincode((prev) => prev || profile.pincode)
+      setHasAutoPopulated(true)
     }
   }, [user, profile])
 
@@ -241,7 +297,7 @@ export default function CheckoutPage() {
             amountInr: estimatedTotal,
             currency: 'INR',
             receipt: generatedId.slice(0, 40),
-            idempotencyKey: `idemp_${generatedId}`,
+            idempotencyKey: `idemp_${generatedId}_${Date.now()}`,
             notes: {
               customerName: fullName,
               customerPhone: phone,
@@ -250,10 +306,18 @@ export default function CheckoutPage() {
           }),
         })
 
-        const orderData = await createRes.json()
+        let orderData: any = null
+        try {
+          orderData = await createRes.json()
+        } catch {
+          orderData = null
+        }
 
-        if (!orderData.success || !orderData.orderId) {
-          setPaymentError(orderData.error || 'Failed to initialize payment gateway. Please try again or select another payment option.')
+        if (!createRes.ok || !orderData?.success || !orderData?.orderId) {
+          const errMsg =
+            orderData?.error ||
+            `Gateway responded with status ${createRes.status}. Please try again or select Cash on Delivery.`
+          setPaymentError(errMsg)
           setIsSubmitting(false)
           return
         }
@@ -329,7 +393,8 @@ export default function CheckoutPage() {
         rzp.open()
         return
       } catch (err: any) {
-        setPaymentError('Could not connect to payment gateway. Please try again.')
+        console.error('[Razorpay Checkout Error]', err)
+        setPaymentError(err?.message || 'Could not connect to payment gateway. Please try again.')
         setIsSubmitting(false)
         return
       }
@@ -493,9 +558,16 @@ export default function CheckoutPage() {
                   <h2 className="font-serif text-xl font-bold text-[#17233B]">
                     1. Delivery Information
                   </h2>
-                  <span className="text-[11px] font-semibold text-stone-500">
-                    {user ? '✓ Member Identified' : 'Guest or Member'}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {hasAutoPopulated && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        <span>✓</span> Auto-Saved
+                      </span>
+                    )}
+                    <span className="text-[11px] font-semibold text-stone-500">
+                      {user ? 'Member' : 'Guest'}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Logged in vs Guest fast-track */}

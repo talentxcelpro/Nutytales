@@ -93,23 +93,27 @@ export async function POST(request: Request) {
 
     // ── Durable Idempotency check ────────────────────────────────────────────
     if (idempotencyKey && typeof idempotencyKey === 'string') {
-      activeIdempotencyKey = idempotencyKey
-      const lock = await acquireIdempotencyLock(idempotencyKey, { ttlSeconds: 60 })
+      try {
+        activeIdempotencyKey = idempotencyKey
+        const lock = await acquireIdempotencyLock(idempotencyKey, { ttlSeconds: 60 })
 
-      if (!lock.acquired) {
-        if (lock.state === 'COMPLETED' && lock.cachedResponse) {
-          return NextResponse.json({
-            ...lock.cachedResponse,
-            idempotent: true,
-          })
-        }
+        if (!lock.acquired) {
+          if (lock.state === 'COMPLETED' && lock.cachedResponse) {
+            return NextResponse.json({
+              ...lock.cachedResponse,
+              idempotent: true,
+            })
+          }
 
-        if (lock.state === 'PROCESSING') {
-          return NextResponse.json(
-            { success: false, error: 'Order creation in progress. Please do not submit duplicate requests.' },
-            { status: 409 }
-          )
+          if (lock.state === 'PROCESSING') {
+            return NextResponse.json(
+              { success: false, error: 'Order creation in progress. Please do not submit duplicate requests.' },
+              { status: 409 }
+            )
+          }
         }
+      } catch (lockErr) {
+        console.warn('[IdempotencyLock] Non-fatal check error:', lockErr)
       }
     }
 
@@ -133,14 +137,22 @@ export async function POST(request: Request) {
 
     // ── Complete durable idempotency record ──────────────────────────────────
     if (activeIdempotencyKey) {
-      await completeIdempotency(activeIdempotencyKey, responsePayload)
+      try {
+        await completeIdempotency(activeIdempotencyKey, responsePayload)
+      } catch (e) {
+        // non-fatal
+      }
     }
 
     return NextResponse.json(responsePayload)
   } catch (err: any) {
     console.error('[Razorpay CreateOrder]', err?.message ?? err)
     if (activeIdempotencyKey) {
-      await failIdempotency(activeIdempotencyKey, err?.message || 'Server error')
+      try {
+        await failIdempotency(activeIdempotencyKey, err?.message || 'Server error')
+      } catch (e) {
+        // non-fatal
+      }
     }
 
     const isConfigError = err?.message?.includes('keys are not configured')
