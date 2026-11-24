@@ -657,4 +657,128 @@ export const CULINARY_RECIPES: Record<string, RecipeData> = {
       },
     ],
   },
+
+  'badam-milk-recipe': {
+    slug: 'badam-milk-recipe',
+    title: 'Royal Kashmiri Badam Milk Recipe (Kesar Badam Doodh)',
+    hindiTitle: 'शाही केसर बादाम दूध रेसिपी',
+    shortDescription:
+      'Traditional Ayurvedic restorative beverage made with soaked and peeled Kashmiri Mamra almonds, saffron strands, green cardamom, and rich pistachio slivers.',
+    metaTitle: 'Royal Kashmiri Badam Milk Recipe (Kesar Badam Doodh) | Nuty Tales',
+    metaDescription:
+      'Learn how to make authentic Royal Kashmiri Kesar Badam Milk at home. Rich in Vitamin E, memory-enhancing saffron, and high-oil Mamra almonds for memory, immunity, and stamina.',
+    heroImage: '/images/hero-lifestyle-bowl.png',
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 15,
+    totalTimeMinutes: 30,
+    isoTotalTime: 'PT30M',
+    servings: 4,
+    difficulty: 'Easy',
+    caloriesPerServing: 185,
+    proteinGrams: 7.2,
+    fiberGrams: 2.1,
+    isVratFriendly: true,
+    dietaryTags: ['Vegetarian', 'Gluten-Free', 'Ayurvedic', 'Vrat Friendly', 'High Protein', 'Kid Friendly'],
+    ingredients: [
+      {
+        name: 'Kashmiri Mamra Almonds (Soaked & Peeled)',
+        quantity: '25 kernels (approx. 50g)',
+        productSlug: 'mamra-almonds-kashmiri-badam',
+        productName: 'Kashmiri Mamra Almonds',
+        priceInr: 1650,
+        isNutyTalesProduct: true,
+      },
+      {
+        name: 'Pure Kashmiri Mogra Saffron (Kesar)',
+        quantity: '10 to 12 strands',
+        productSlug: 'kashmiri-saffron-mongra',
+        productName: 'Kashmiri Mogra Saffron',
+        priceInr: 650,
+        isNutyTalesProduct: true,
+      },
+      {
+        name: 'Whole Milk (Full Cream Cow or Buffalo Milk)',
+        quantity: '1 liter (4 cups)',
+      },
+      {
+        name: 'Green Cardamom (Elaichi) Pods',
+        quantity: '4 pods (freshly crushed)',
+      },
+      {
+        name: 'Unrefined Mishri (Rock Sugar) or Honey',
+        quantity: '2 to 3 tablespoons',
+      },
+      {
+        name: 'Roasted Pistachios (Finely Slivered for Garnish)',
+        quantity: '10 pistachios',
+        productSlug: 'iranian-roasted-salted-pistachios',
+        productName: 'Jumbo Pistachios',
+        priceInr: 1150,
+        isNutyTalesProduct: true,
+      },
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: 'Soak & Peel Mamra Almonds',
+        instruction:
+          'Soak 25 Kashmiri Mamra almonds in warm water for 4 hours (or overnight). Pinch off the brown skins; the kernels will be creamy white and swollen with natural oil.',
+        chefTip: 'Never discard the soaked almond water outside; use it to water plants as it holds natural minerals.',
+      },
+      {
+        stepNumber: 2,
+        title: 'Grind Almond Paste',
+        instruction:
+          'Transfer the peeled almonds to a blender with 4 tablespoons of warm milk. Blend on high speed until you achieve a silky, lump-free almond paste.',
+      },
+      {
+        stepNumber: 3,
+        title: 'Steep Saffron Strands',
+        instruction:
+          'Place 10-12 Kashmiri Mogra saffron threads into 2 tablespoons of warm milk. Let steep for 15 minutes until it blooms into a vibrant royal golden-orange hue.',
+      },
+      {
+        stepNumber: 4,
+        title: 'Simmer Milk with Almond Paste',
+        instruction:
+          'In a heavy-bottomed brass or stainless steel pan, bring 1 liter of whole milk to a gentle boil. Lower the flame and stir in the smooth almond paste thoroughly.',
+      },
+      {
+        stepNumber: 5,
+        title: 'Infuse Saffron, Cardamom & Sweetener',
+        instruction:
+          'Add the golden saffron infusion, crushed green cardamom powder, and unrefined mishri. Simmer on low heat for 8 to 10 minutes, stirring continuously so the milk does not stick.',
+      },
+      {
+        stepNumber: 6,
+        title: 'Garnish & Serve',
+        instruction:
+          'Pour into traditional earthen kulhads or glasses. Garnish lavishly with slivered pistachios and extra saffron strands. Serve piping hot in winter or chilled during summer.',
+      },
+    ],
+    nutritionalHighlights: [
+      'Delivers bio-available Vitamin E from 50% natural oil Kashmiri Mamra almonds',
+      'Neuro-protective mood enhancement from lab-certified Mogra saffron crocin',
+      'Rich in complete dairy and nut proteins supporting growing children and athlete stamina',
+    ],
+    bundleCart: {
+      bundleTitle: 'Royal Kesar Badam Milk Ingredient Bundle',
+      bundlePrice: 1899,
+      bundleMrp: 2500,
+      discountPercent: 24,
+      description: 'Includes 500g Kashmiri Mamra Almonds, 1g Mogra Saffron, and 250g Pista slivers.',
+    },
+    faq: [
+      {
+        question: 'Can badam milk be given to young children every day?',
+        answer:
+          'Yes, homemade Kesar Badam milk is one of the most celebrated pediatric tonics in India. It delivers riboflavin, calcium, and L-carnitine, supporting cognitive learning, memory retention, and bone density.',
+      },
+      {
+        question: 'Should badam milk be consumed hot or cold?',
+        answer:
+          'Both are delicious! In autumn and winter, hot badam milk warms the chest and induces restful sleep. In summer, chilling it in the refrigerator turns it into a luxurious, refreshing traditional kulfi-style beverage.',
+      },
+    ],
+  },
 }

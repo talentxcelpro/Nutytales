@@ -206,4 +206,114 @@ export const DELIVERY_CITIES: Record<string, CityDeliveryData> = {
       },
     ],
   },
+
+  hyderabad: {
+    slug: 'hyderabad',
+    cityName: 'Hyderabad & Cyberabad',
+    state: 'Telangana',
+    deliveryTimeline: '48 Hours Express Direct Air Dispatch',
+    fulfillmentHub: 'RGIA Shamshabad Air Cargo Express Hub',
+    popularLocalities: [
+      'HITEC City & Madhapur (Cyber Towers, Mindspace, Knowledge City)',
+      'Gachibowli & Financial District (Nanakramguda, Kokapet)',
+      'Banjara Hills & Jubilee Hills (Roads 1-45, Film Nagar)',
+      'Secunderabad (Marredpally, Bowenpally, Begumpet)',
+      'Kondapur, Manikonda & Miyapur',
+    ],
+    metaTitle: 'Fast Dry Fruits Home Delivery in Hyderabad | Nuty Tales',
+    metaDescription:
+      'Order fresh Kashmiri Mamra almonds, royal saffron, and jumbo makhana in Hyderabad. Express delivery to HITEC City, Gachibowli, Banjara Hills & Jubilee Hills.',
+    heroBadge: 'Cyberabad 48-Hr Express Delivery',
+    overview:
+      'From authentic Hyderabadi biryani and shahi tukda chefs to IT wellness households in HITEC City and Gachibowli, Nuty Tales delivers direct farm-gate Kashmiri saffron, Mamra badam, and jumbo phool makhana at genuine wholesale benchmarks.',
+    expressHighlights: [
+      'Fast 48-hour tracked doorstep delivery across all Hyderabad and Secunderabad pincodes',
+      'Original Pampore saffron tested Cat-I with Crocin > 240 for royal culinary preparations',
+      'Direct GST tax invoices and custom festive corporate gift boxes for tech enterprises',
+    ],
+    coldChainProtection:
+      'Hermetically nitrogen-flushed packaging ensures zero moisture spoilage during Deccan transit.',
+    bestsellers: [
+      {
+        name: 'Kashmiri Mogra Saffron (Grade A1 Cat-I)',
+        slug: 'kashmiri-saffron-mongra',
+        weight: '1g Jar',
+        price: 650,
+        mrp: 850,
+        offer: 'Crocin 258.4 Certified',
+        image: '/images/hero-lifestyle-bowl.png',
+      },
+      {
+        name: 'NutyTales Jumbo Phool Makhana (6 Suta Whole)',
+        slug: 'makhana-grade-a-fox-nuts',
+        weight: '1 kg Saver Pack',
+        price: 899,
+        mrp: 1499,
+        offer: 'Special ₹899 Offer',
+        image: '/images/promo-makhana-899.webp',
+      },
+    ],
+    faq: [
+      {
+        question: 'Do you supply genuine Kashmiri saffron for Hyderabadi restaurants and caterers?',
+        answer:
+          'Yes, our Grade-A1 Mogra saffron is lab-certified with Crocin > 240, delivering the deep natural saffron aroma and radiant golden hue essential for authentic Dum Biryani and Shahi Tukda.',
+      },
+    ],
+  },
+
+  pune: {
+    slug: 'pune',
+    cityName: 'Pune & Pimpri-Chinchwad',
+    state: 'Maharashtra',
+    deliveryTimeline: '24 to 48 Hours Express Transit',
+    fulfillmentHub: 'Pune Cargo & Western Logistics Corridor',
+    popularLocalities: [
+      'Koregaon Park & Kalyani Nagar',
+      'Hinjawadi Phase 1, 2, 3 (Rajiv Gandhi Infotech Park)',
+      'Baner, Balewadi & Aundh',
+      'Viman Nagar, Kharadi & Magarpatta City',
+      'Kothrud, Erandwane & Deccan Gymkhana',
+    ],
+    metaTitle: 'Fresh Dry Fruits Home Delivery in Pune | Nuty Tales',
+    metaDescription:
+      'Express dry fruit delivery in Pune. Buy authentic Kashmiri Mamra almonds, walnut kernels, and lotus seeds online. Same/Next-day delivery across Hinjawadi, Baner & KP.',
+    heroBadge: 'Oxford of the East Express Delivery',
+    overview:
+      'Dispatched directly to Pune’s thriving student, fitness, and IT community, Nuty Tales provides unpasteurized, high-oil dry fruits without retail middleman margins. Guaranteed authentic Himalayan and Mithila terroir.',
+    expressHighlights: [
+      'Rapid 24-48 hour delivery to Hinjawadi, Baner, Koregaon Park, and Viman Nagar',
+      'Free shipping on all nutrition boxes above ₹999',
+      '100% lab-tested for chemical pesticide zero-residue and natural oil retention',
+    ],
+    coldChainProtection:
+      'Multi-layer barrier pouches retain natural crunch and enzyme integrity.',
+    bestsellers: [
+      {
+        name: 'Kashmiri Mamra Almonds (High Oil Seedling)',
+        slug: 'mamra-almonds-kashmiri-badam',
+        weight: '500g Pouch',
+        price: 1650,
+        mrp: 2199,
+        offer: '100% Sweet Kernels',
+        image: '/images/hero-lifestyle-bowl.png',
+      },
+      {
+        name: 'Kashmiri Snow White Walnut Kernels',
+        slug: 'kashmiri-snow-white-walnut-kernels',
+        weight: '500g Pack',
+        price: 1250,
+        mrp: 1699,
+        offer: 'Brain DHA Halves',
+        image: '/images/hero-lifestyle-bowl.png',
+      },
+    ],
+    faq: [
+      {
+        question: 'How fast can I get delivery in Hinjawadi IT Park?',
+        answer:
+          'Orders placed are dispatched via priority express cargo and delivered directly to your tech park reception or residential society within 24 to 48 hours.',
+      },
+    ],
+  },
 }

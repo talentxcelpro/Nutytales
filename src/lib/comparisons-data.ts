@@ -303,4 +303,172 @@ export const COMMODITY_COMPARISONS: Record<string, ComparisonData> = {
       },
     ],
   },
+
+  'walnuts-vs-almonds': {
+    slug: 'walnuts-vs-almonds',
+    title: 'Walnuts vs Almonds: Brain Power, Heart Health & Nutrition Breakdown',
+    optionA: {
+      name: 'Kashmiri Snow White Walnuts',
+      shortLabel: 'Kashmiri Walnuts',
+      badge: 'King of Plant Omega-3 (ALA)',
+      productSlug: 'kashmiri-snow-white-walnut-kernels',
+      priceInr: 1250,
+      image: '/images/hero-lifestyle-bowl.png',
+    },
+    optionB: {
+      name: 'Kashmiri Mamra Almonds',
+      shortLabel: 'Mamra Almonds',
+      badge: 'King of Natural Vitamin E & Protein',
+      productSlug: 'mamra-almonds-kashmiri-badam',
+      priceInr: 1650,
+      image: '/images/hero-lifestyle-bowl.png',
+    },
+    metaTitle: 'Walnuts vs Almonds: Which is Better for Brain, Weight Loss & Cholesterol? | Nuty Tales',
+    metaDescription:
+      'Walnuts vs almonds health comparison: compare Omega-3 ALA, Vitamin E, protein, calories, and cholesterol benefits. Discover which nut suits your personal biological goals.',
+    heroHeadline: 'Walnuts vs Almonds: The Ultimate Nutritional Showdown',
+    heroSubheadline:
+      'Should you eat walnuts for neuro-cognitive brain protection or almonds for lean muscle protein and youthful skin? Here is the clinical, laboratory-verified head-to-head comparison.',
+    executiveSummary:
+      'Both walnuts and almonds are nutritional powerhouses, but they excel in fundamentally distinct biological pathways. Walnuts are the undisputed champion of plant-based Omega-3 fatty acids (Alpha-Linolenic Acid / ALA) and polyphenol antioxidants, making them superior for cardiovascular arterial elasticity, memory retention, and restorative sleep. Almonds, especially Kashmiri Mamra, dominate in natural alpha-tocopherol Vitamin E, dietary fiber, and plant protein, making them ideal for glycemic control, skin radiance, and post-workout satiety. For optimal health, clinical dieticians recommend consuming both: soaked Mamra in the morning and raw walnuts with evening tea.',
+    verdict:
+      'Verdict: Walnuts win for Brain DHA & Arterial Heart Protection; Almonds win for Skin Glow, Protein, & Weight Loss Satiety.',
+    metrics: [
+      {
+        parameter: 'Omega-3 ALA per 100g',
+        optionAValue: '9.08g (160% daily requirement in 1 handful)',
+        optionBValue: '0.01g (Virtually Zero ALA)',
+        winner: 'Option A',
+        clinicalExplanation: 'Walnuts contain over 900x more plant omega-3 fatty acids than almonds, protecting brain neuron membranes.',
+      },
+      {
+        parameter: 'Natural Vitamin E per 100g',
+        optionAValue: '0.7 mg',
+        optionBValue: '25.6 mg (Over 170% RDA)',
+        winner: 'Option B',
+        clinicalExplanation: 'Almonds deliver unmatched antioxidant alpha-tocopherol that halts skin lipid peroxidation and strengthens hair roots.',
+      },
+      {
+        parameter: 'Dietary Protein per 100g',
+        optionAValue: '15.2 g',
+        optionBValue: '21.2 g',
+        winner: 'Option B',
+        clinicalExplanation: 'Almonds provide nearly 40% more protein per serving, aiding muscle recovery in athletes.',
+      },
+      {
+        parameter: 'Dietary Fiber per 100g',
+        optionAValue: '6.7 g',
+        optionBValue: '12.5 g',
+        winner: 'Option B',
+        clinicalExplanation: 'Almonds deliver double the dietary fiber, which slows carbohydrate digestion and flattens glucose spikes.',
+      },
+      {
+        parameter: 'Dietary Melatonin & Sleep Aid',
+        optionAValue: '3.5 ng/g (Directly bio-available melatonin)',
+        optionBValue: 'Negligible trace amounts',
+        winner: 'Option A',
+        clinicalExplanation: 'Walnuts contain natural sleep hormone melatonin, making them a natural dietary antidote for insomnia.',
+      },
+    ],
+    bestFor: {
+      optionABestFor: [
+        'Cognitive executive memory, exam revision, and dementia prevention',
+        'Lowering high LDL cholesterol and reducing vascular inflammation',
+        'Restful REM sleep induction without synthetic pills',
+        'Men seeking to improve sperm vitality and morphology',
+      ],
+      optionBBestFor: [
+        'Daily morning breakfast energy on an empty stomach',
+        'Type 2 diabetics controlling post-meal blood sugar levels',
+        'Youthful skin collagen protection and reducing hair thinning',
+        'Gym-goers building lean muscle mass on plant-based diets',
+      ],
+    },
+    faq: [
+      {
+        question: 'Can you eat walnuts and almonds together?',
+        answer:
+          'Yes, consuming 4 soaked Mamra almonds and 2 walnut halves together provides a complementary spectrum of Vitamin E and Omega-3 fatty acids, maximizing neuro-vascular protection.',
+      },
+    ],
+  },
+
+  'cashews-vs-peanuts': {
+    slug: 'cashews-vs-peanuts',
+    title: 'Cashews vs Peanuts: Cholesterol, Fats, Protein & Health Comparison',
+    optionA: {
+      name: 'Single-Origin King Cashews (W180)',
+      shortLabel: 'W180 Cashews',
+      badge: 'Zero Aflatoxin & Heart-Healthy Oleic Acid',
+      productSlug: 'w180-king-cashews',
+      priceInr: 950,
+      image: '/images/hero-lifestyle-bowl.png',
+    },
+    optionB: {
+      name: 'Commercial Peanuts (Moongphali)',
+      shortLabel: 'Peanuts',
+      badge: 'High Protein Legume Seed',
+      productSlug: 'roasted-salted-cashews',
+      priceInr: 250,
+      image: '/images/hero-lifestyle-bowl.png',
+    },
+    metaTitle: 'Cashews vs Peanuts: Which is Healthier? Cholesterol, Fats & Protein Comparison | Nuty Tales',
+    metaDescription:
+      'Compare cashews vs peanuts: find out the truth about cholesterol, uric acid, aflatoxins, and calories. Discover why W180 king cashews are safer for heart health.',
+    heroHeadline: 'Cashews vs Peanuts: Debunking the Cholesterol & Fat Myth',
+    heroSubheadline:
+      'Is the humble peanut a budget superfood or an inflammatory legume? Discover the scientific nutritional differences between single-origin tree cashews and ground-harvested peanuts.',
+    executiveSummary:
+      'While peanuts are botanically underground legumes and cashews are tree seeds, both compete as popular snack staples. Peanuts have a slight edge in raw protein content (25g vs 18g per 100g), but cashews are vastly superior in fat quality, containing predominantly monounsaturated oleic acid (the identical heart-protective fat found in extra virgin olive oil). Furthermore, cashews carry zero risk of Aspergillus flavus aflatoxin contamination, which frequently affects ground peanuts during monsoon storage.',
+    verdict:
+      'Verdict: Cashews win for Cardiovascular Safety, Mineral Bio-Availability, & Digestibility; Peanuts win for Low-Cost Raw Protein.',
+    metrics: [
+      {
+        parameter: 'Botanical Classification',
+        optionAValue: 'True Tree Seed (Anacardiaceae)',
+        optionBValue: 'Underground Legume / Groundnut (Fabaceae)',
+        winner: 'Tie / Context Dependent',
+        clinicalExplanation: 'Tree nuts have different enzyme and lectin profiles compared to underground legumes.',
+      },
+      {
+        parameter: 'Aflatoxin Contamination Risk',
+        optionAValue: 'Zero risk (Harvested high on trees)',
+        optionBValue: 'High risk (Grows in humid soil prone to fungal mold)',
+        winner: 'Option A',
+        clinicalExplanation: 'Peanuts are susceptible to toxic Aspergillus mold toxins that stress liver detoxification pathways.',
+      },
+      {
+        parameter: 'Monounsaturated Healthy Fats (Oleic Acid)',
+        optionAValue: '62% of total fat content',
+        optionBValue: '48% of total fat content',
+        winner: 'Option A',
+        clinicalExplanation: 'Cashews have a lipid profile closer to olive oil, proven in clinical trials to improve HDL good cholesterol.',
+      },
+      {
+        parameter: 'Plant Protein per 100g',
+        optionAValue: '18.2 g',
+        optionBValue: '25.8 g',
+        winner: 'Option B',
+        clinicalExplanation: 'Peanuts provide higher total crude protein, but with higher potential allergenicity.',
+      },
+    ],
+    bestFor: {
+      optionABestFor: [
+        'Individuals with sensitive digestive tracts and legume intolerances',
+        'Culinary luxury gravies, festive sweets, and artisanal vegan milks',
+        'Cardiovascular heart wellness without fungal aflatoxin risks',
+      ],
+      optionBBestFor: [
+        'Budget-conscious bodybuilders seeking maximum grams of protein per rupee',
+        'Quick energy during high-intensity endurance labor',
+      ],
+    },
+    faq: [
+      {
+        question: 'Do cashews increase bad cholesterol?',
+        answer:
+          'No! Contrary to old myths, cashews contain zero dietary cholesterol (which only exists in animal products). A 2017 study published in the American Journal of Clinical Nutrition proved that incorporating cashews into daily diets reduced LDL cholesterol without raising triglycerides.',
+      },
+    ],
+  },
 }

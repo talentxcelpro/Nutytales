@@ -17,6 +17,7 @@ import { CULINARY_RECIPES } from "@/lib/recipes-data";
 import { VRAT_FESTIVALS } from "@/lib/vrat-fasting-data";
 import { COMMODITY_COMPARISONS } from "@/lib/comparisons-data";
 import { DELIVERY_CITIES } from "@/lib/delivery-cities-data";
+import { DAILY_INTAKE_DATA } from "@/lib/daily-intake-data";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
@@ -38,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Health & Interactive Nutrition Tools
     { url: `${APP_URL}/calculator`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/compare`, lastModified: now, changeFrequency: "weekly", priority: 0.96 },
+    { url: `${APP_URL}/daily-intake`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/express-delivery`, lastModified: now, changeFrequency: "weekly", priority: 0.96 },
     { url: `${APP_URL}/health`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/mandi-rates`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
@@ -241,6 +243,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.95,
   }));
 
+  // 18. Programmatic Daily Intake, Timing & Soaking Protocols
+  const dailyIntakePages: MetadataRoute.Sitemap = Object.values(DAILY_INTAKE_DATA).map((item) => ({
+    url: `${APP_URL}/daily-intake/${item.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.96,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
@@ -251,6 +261,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...vratPages,
     ...comparisonPages,
     ...expressDeliveryPages,
+    ...dailyIntakePages,
     ...productPages,
     ...stayPages,
     ...travelPages,
