@@ -11,6 +11,8 @@ import { GEO_ENTITIES } from "@/lib/seo/geo";
 import { COMMERCIAL_HUBS } from "@/lib/seo/commercial-hubs";
 import { buildRootCoreSitemap } from "@/lib/seo/sitemap";
 import { JOURNAL_ARTICLES } from "@/lib/journal-data";
+import { HEALTH_CONDITIONS } from "@/lib/health-data";
+import { MANDI_CITIES } from "@/lib/mandi-cities-data";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://nutytales.com";
 
@@ -31,8 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const verticalHubs: MetadataRoute.Sitemap = [
     // Health & Interactive Nutrition Tools
     { url: `${APP_URL}/calculator`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
+    { url: `${APP_URL}/health`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/mandi-rates`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
     { url: `${APP_URL}/saffron-purity-guide`, lastModified: now, changeFrequency: "daily", priority: 0.98 },
+    { url: `${APP_URL}/verify`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Stays
     { url: `${APP_URL}/stays`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${APP_URL}/stays/hosts`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
@@ -181,10 +185,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
+  // 12. Programmatic Health Condition Protocols
+  const healthConditionPages: MetadataRoute.Sitemap = Object.values(HEALTH_CONDITIONS).map((condition) => ({
+    url: `${APP_URL}/health/${condition.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.96,
+  }));
+
+  // 13. Regional Mandi Rates Hubs
+  const cityMandiPages: MetadataRoute.Sitemap = Object.values(MANDI_CITIES).map((city) => ({
+    url: `${APP_URL}/mandi-rates/${city.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.96,
+  }));
+
   // Deduplicate and assemble master sitemap
   const allEntries = [
     ...corePages,
     ...verticalHubs,
+    ...healthConditionPages,
+    ...cityMandiPages,
     ...productPages,
     ...stayPages,
     ...travelPages,

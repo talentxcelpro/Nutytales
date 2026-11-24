@@ -172,9 +172,119 @@ export default function MandiRatesPage() {
         </div>
 
         {/* Interactive Client Component */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-12">
           <MandiRatesClient />
         </div>
+
+        {/* Major Terminal Mandis Directory */}
+        <section className="bg-stone-50 border-t border-stone-200 py-12 px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-8">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">
+                Regional Terminal Mandis Directory
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-2">
+                City-Specific Dry Fruit Mandi Rates & APMC Guides
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-600 mt-1">
+                Access local market yards, APMC cess details, freight transit times, and direct farm-gate savings.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <Link
+                href="/mandi-rates/delhi-khari-baoli"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Delhi NCR Mandi Rates
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Khari Baoli & Katra Ishwar Bhawan</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/mumbai-apmc-vashi"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Mumbai APMC Mandi Rates
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Vashi APMC Market I & II (Turbhe)</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/kashmir-srinagar"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Srinagar & Pampore Mandi
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Parimpora & Farm Gate Origin Hub</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/bihar-gulabbagh"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Gulabbagh Mandi Purnea
+                </div>
+                <div className="text-xs text-stone-500 mt-1">National Phool Makhana Capital</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/ahmedabad-kalupur"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Ahmedabad Kalupur Mandi
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Chokha Bazar & Madhupura Market</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/bangalore-yeshwanthpur"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Bengaluru APMC Mandi
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Yeshwanthpur Yard & Corporate Gifting</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+
+              <Link
+                href="/mandi-rates/kolkata-posta"
+                className="p-5 bg-white rounded-2xl border border-stone-200 hover:border-emerald-600 hover:shadow-md transition-all group"
+              >
+                <div className="font-bold text-stone-900 group-hover:text-emerald-900 text-sm">
+                  Kolkata Posta Mandi
+                </div>
+                <div className="text-xs text-stone-500 mt-1">Barabazar & Eastern India Gateway</div>
+                <div className="text-[11px] font-bold text-emerald-700 mt-3 inline-flex items-center gap-1">
+                  View Rates →
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Commercial FAQ Section */}
         <section className="bg-white border-t border-stone-200 py-16 px-4 sm:px-6">

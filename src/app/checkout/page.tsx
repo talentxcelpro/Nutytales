@@ -33,6 +33,8 @@ export default function CheckoutPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
   const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false)
   const [placedOrderId, setPlacedOrderId] = useState<string>('')
+  const [paymentId, setPaymentId] = useState<string | null>(null)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
 
   // Form state
   const [fullName, setFullName] = useState('')

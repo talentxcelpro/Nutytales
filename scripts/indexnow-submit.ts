@@ -10,6 +10,8 @@ import { CRAFT_PRODUCTS } from '../src/lib/crafts-data';
 import { STAY_PROPERTIES } from '../src/lib/stays-data';
 import { KASHMIR_TRAVEL_PACKAGES } from '../src/lib/travel-data';
 import { INDUSTRIES } from '../src/lib/business-supply-data';
+import { HEALTH_CONDITIONS } from '../src/lib/health-data';
+import { MANDI_CITIES } from '../src/lib/mandi-cities-data';
 
 const HOST = 'nutytales.com';
 const INDEXNOW_KEY = '9872e90f23b145a6c8e310d54fa1128c';
@@ -20,8 +22,12 @@ const URLS_TO_INDEX: string[] = [
   `https://${HOST}/`,
   `https://${HOST}/shop`,
   `https://${HOST}/calculator`,
+  `https://${HOST}/health`,
   `https://${HOST}/mandi-rates`,
   `https://${HOST}/saffron-purity-guide`,
+  `https://${HOST}/verify`,
+  ...Object.keys(HEALTH_CONDITIONS).map((cond) => `https://${HOST}/health/${cond}`),
+  ...Object.keys(MANDI_CITIES).map((city) => `https://${HOST}/mandi-rates/${city}`),
   `https://${HOST}/wholesale-dry-fruits`,
   `https://${HOST}/gastronomy-journal`,
   `https://${HOST}/corporate-gifts`,
