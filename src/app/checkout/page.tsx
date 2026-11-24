@@ -141,10 +141,11 @@ export default function CheckoutPage() {
       const userPhone = user.phoneNumber || profile?.phone
       if (userPhone) setPhone((prev) => prev || userPhone.replace('+91', ''))
 
-      if (profile?.address) setAddress((prev) => prev || profile.address)
-      if (profile?.city) setCity((prev) => prev || profile.city)
-      if (profile?.state) setState((prev) => prev || profile.state)
-      if (profile?.pincode) setPincode((prev) => prev || profile.pincode)
+      const p = profile as any
+      if (p?.address) setAddress((prev) => prev || p.address)
+      if (p?.city) setCity((prev) => prev || p.city)
+      if (p?.state) setState((prev) => prev || p.state)
+      if (p?.pincode) setPincode((prev) => prev || p.pincode)
       setHasAutoPopulated(true)
     }
   }, [user, profile])
