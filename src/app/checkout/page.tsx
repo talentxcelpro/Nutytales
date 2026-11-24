@@ -114,9 +114,74 @@ export default function CheckoutPage() {
 
   const whatsappPhone = (WHATSAPP_NUMBERS.SUPPORT || DEFAULT_CONTACT_PHONE).replace(/\D/g, '')
 
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window !== 'undefined' && (window as any).Razorpay) {
+        resolve(true)
+        return
+      }
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.async = true
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
+
+  const finalizeOrder = (confirmedOrderId: string, payId?: string) => {
+    setPlacedOrderId(confirmedOrderId)
+    if (payId) setPaymentId(payId)
+
+    const fullOrderRecord = {
+      orderId: confirmedOrderId,
+      paymentId: payId,
+      customer: {
+        fullName,
+        phone,
+        email,
+        address,
+        city,
+        state,
+        pincode,
+        isB2B,
+        companyName: isB2B ? companyName : undefined,
+        gstin: isB2B ? gstin : undefined,
+      },
+      items: cart,
+      subtotal,
+      shipping,
+      total: estimatedTotal,
+      paymentMethod: payId ? 'razorpay_online' : paymentMethod,
+      createdAt: new Date().toISOString(),
+      estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    }
+
+    try {
+      localStorage.setItem('nt_last_order', JSON.stringify(fullOrderRecord))
+      const history = JSON.parse(localStorage.getItem('nt_order_history') || '[]')
+      history.unshift(fullOrderRecord)
+      localStorage.setItem('nt_order_history', JSON.stringify(history.slice(0, 20)))
+      localStorage.setItem(
+        'nt_saved_address',
+        JSON.stringify({ fullName, phone, email, address, city, state, pincode })
+      )
+    } catch {
+      // ignore
+    }
+
+    // Clear cart
+    localStorage.removeItem('nt_cart')
+    window.dispatchEvent(new Event('nt_cart_updated'))
+    setIsSubmitting(false)
+    setSubmitted(true)
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setPaymentError(null)
+
     const generatedId = `NT-ORD-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`
     let confirmedOrderId = generatedId
 
@@ -144,7 +209,7 @@ export default function CheckoutPage() {
       createdAt: new Date().toISOString(),
     }
 
-    // Try posting to local order endpoint or save locally
+    // Attempt saving order in backend DB first
     try {
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -156,38 +221,122 @@ export default function CheckoutPage() {
         confirmedOrderId = data.orderId
       }
     } catch {
-      // In case api route is mock or pending DB auth
+      // fallback to generated ID
     }
 
-    setPlacedOrderId(confirmedOrderId)
+    // ── Razorpay Gateway Handler (UPI / Cards / Net Banking) ──
+    if (paymentMethod === 'upi') {
+      const isScriptReady = await loadRazorpayScript()
+      if (!isScriptReady) {
+        setPaymentError('Could not load secure Razorpay gateway. Please check your internet connection and try again.')
+        setIsSubmitting(false)
+        return
+      }
 
-    // Save full order record to localStorage
-    const fullOrderRecord = {
-      orderId: confirmedOrderId,
-      customer: orderPayload.customer,
-      items: cart,
-      subtotal,
-      shipping,
-      total: estimatedTotal,
-      paymentMethod,
-      createdAt: new Date().toISOString(),
-      estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      try {
+        const createRes = await fetch('/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amountInr: estimatedTotal,
+            currency: 'INR',
+            receipt: generatedId.slice(0, 40),
+            idempotencyKey: `idemp_${generatedId}`,
+            notes: {
+              customerName: fullName,
+              customerPhone: phone,
+              customerEmail: email,
+            },
+          }),
+        })
+
+        const orderData = await createRes.json()
+
+        if (!orderData.success || !orderData.orderId) {
+          setPaymentError(orderData.error || 'Failed to initialize payment gateway. Please try again or select another payment option.')
+          setIsSubmitting(false)
+          return
+        }
+
+        const razorpayKey = orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+
+        const options = {
+          key: razorpayKey,
+          amount: orderData.amount,
+          currency: orderData.currency || 'INR',
+          name: 'Nuty Tales',
+          description: 'Premium Kashmiri Gourmet & Dry Fruits',
+          image: '/favicon.ico',
+          order_id: orderData.orderId,
+          prefill: {
+            name: fullName,
+            email: email,
+            contact: phone,
+          },
+          notes: {
+            referenceId: generatedId,
+            address: `${address}, ${city}, ${state} - ${pincode}`,
+          },
+          theme: {
+            color: '#176B68',
+          },
+          modal: {
+            ondismiss: () => {
+              setIsSubmitting(false)
+            },
+          },
+          handler: async (response: any) => {
+            try {
+              setIsSubmitting(true)
+              const verifyRes = await fetch('/api/razorpay/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  orderData: {
+                    ...orderPayload,
+                    paymentId: response.razorpay_payment_id,
+                    razorpayOrderId: response.razorpay_order_id,
+                    status: 'PAID',
+                  },
+                }),
+              })
+
+              const verifyData = await verifyRes.json()
+              if (verifyData.success) {
+                finalizeOrder(confirmedOrderId, response.razorpay_payment_id)
+              } else {
+                setPaymentError(
+                  `Payment verification issue. If your account was debited, reference ID: ${response.razorpay_payment_id}`
+                )
+                setIsSubmitting(false)
+              }
+            } catch {
+              setPaymentError('Could not verify payment status. Please contact support.')
+              setIsSubmitting(false)
+            }
+          },
+        }
+
+        const rzp = new (window as any).Razorpay(options)
+        rzp.on('payment.failed', (resp: any) => {
+          console.error('[Razorpay Payment Failed]', resp?.error)
+          setPaymentError(resp?.error?.description || 'Payment was declined or cancelled. Please try again.')
+          setIsSubmitting(false)
+        })
+        rzp.open()
+        return
+      } catch (err: any) {
+        setPaymentError('Could not connect to payment gateway. Please try again.')
+        setIsSubmitting(false)
+        return
+      }
     }
 
-    try {
-      localStorage.setItem('nt_last_order', JSON.stringify(fullOrderRecord))
-      const history = JSON.parse(localStorage.getItem('nt_order_history') || '[]')
-      history.unshift(fullOrderRecord)
-      localStorage.setItem('nt_order_history', JSON.stringify(history.slice(0, 20)))
-    } catch {
-      // ignore
-    }
-
-    // Clear cart
-    localStorage.removeItem('nt_cart')
-    window.dispatchEvent(new Event('nt_cart_updated'))
-    setIsSubmitting(false)
-    setSubmitted(true)
+    // For NEFT, COD, or WhatsApp:
+    finalizeOrder(confirmedOrderId)
   }
 
   const buildWhatsAppRedirect = () => {
@@ -246,6 +395,12 @@ export default function CheckoutPage() {
                 <span className="text-stone-500 uppercase font-bold text-[10px]">Order ID</span>
                 <span className="font-mono font-bold text-[#17233B] text-sm">{placedOrderId}</span>
               </div>
+              {paymentId && (
+                <div className="flex items-center justify-between border-b border-stone-200 pb-2">
+                  <span className="text-emerald-700 uppercase font-bold text-[10px]">Payment Reference</span>
+                  <span className="font-mono font-bold text-emerald-800 text-xs">{paymentId}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-stone-500">Estimated Delivery</span>
                 <span className="font-bold text-emerald-800">{estDeliveryStr} (2-3 Days)</span>
@@ -768,12 +923,23 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {paymentError && (
+                  <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2.5">
+                    <span className="text-sm shrink-0">⚠️</span>
+                    <span className="leading-relaxed">{paymentError}</span>
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#176B68] hover:bg-[#125350] disabled:bg-stone-300 text-white font-bold rounded-2xl text-xs uppercase tracking-widest shadow-md transition-colors"
+                  className="w-full py-4 bg-[#176B68] hover:bg-[#125350] disabled:bg-stone-300 text-white font-bold rounded-2xl text-xs uppercase tracking-widest shadow-md transition-colors cursor-pointer"
                 >
-                  {isSubmitting ? 'Processing Order...' : `Confirm Order — ₹${estimatedTotal.toLocaleString('en-IN')}`}
+                  {isSubmitting
+                    ? (paymentMethod === 'upi' ? 'Connecting to Razorpay...' : 'Processing Order...')
+                    : paymentMethod === 'upi'
+                    ? `Pay via Razorpay (UPI / Cards) — ₹${estimatedTotal.toLocaleString('en-IN')}`
+                    : `Confirm Order — ₹${estimatedTotal.toLocaleString('en-IN')}`}
                 </button>
 
                 <p className="text-[11px] text-center text-stone-500">
