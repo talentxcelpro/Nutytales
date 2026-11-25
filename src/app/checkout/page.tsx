@@ -180,6 +180,44 @@ export default function CheckoutPage() {
     }
   }, [user, profile])
 
+  // 4. Google Customer Reviews Official Opt-In Integration (Merchant ID: 5903563107)
+  useEffect(() => {
+    if (submitted && placedOrderId) {
+      try {
+        const estDeliveryDate = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        const customerEmail = email || user?.email || 'care@nutytales.com'
+
+        ;(window as any).renderOptIn = function () {
+          if ((window as any).gapi) {
+            ;(window as any).gapi.load('surveyoptin', function () {
+              ;(window as any).gapi.surveyoptin.render({
+                merchant_id: 5903563107,
+                order_id: placedOrderId,
+                email: customerEmail,
+                delivery_country: 'IN',
+                estimated_delivery_date: estDeliveryDate,
+              })
+            })
+          }
+        }
+
+        const scriptId = 'google-customer-reviews-script'
+        if (!document.getElementById(scriptId)) {
+          const script = document.createElement('script')
+          script.id = scriptId
+          script.src = 'https://apis.google.com/js/platform.js?onload=renderOptIn'
+          script.async = true
+          script.defer = true
+          document.body.appendChild(script)
+        } else if ((window as any).renderOptIn) {
+          ;(window as any).renderOptIn()
+        }
+      } catch (err) {
+        console.warn('Google Customer Reviews opt-in error:', err)
+      }
+    }
+  }, [submitted, placedOrderId, email, user])
+
   const handleGoogleQuickAuth = async () => {
     setIsGoogleSigningIn(true)
     try {
