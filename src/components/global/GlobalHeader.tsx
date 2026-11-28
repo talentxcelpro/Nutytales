@@ -119,7 +119,6 @@ export default function GlobalHeader() {
   // Pure Nuty Tales Shop Navigation (The user came to shop)
   const navLinks = [
     { label: 'Shop', href: '/shop' },
-    { label: 'Journal', href: '/gastronomy-journal' },
     { label: 'New', href: '/shop?filter=new' },
     { label: 'Collections', href: '/shop#collections' },
     { label: 'Categories', href: '/shop#categories' },
@@ -200,6 +199,18 @@ export default function GlobalHeader() {
                 <span className="hidden xl:inline text-xs font-semibold uppercase tracking-wider text-stone-600">
                   Search
                 </span>
+              </Link>
+
+              {/* Journal Link */}
+              <Link
+                href="/gastronomy-journal"
+                className={`hidden lg:inline-flex px-2 py-1.5 rounded-xl text-[11px] xl:text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-colors ${
+                  isLinkActive('/gastronomy-journal')
+                    ? 'text-[#17233B] bg-stone-200/60'
+                    : 'text-stone-600 hover:text-[#17233B] hover:bg-stone-200/50'
+                }`}
+              >
+                Journal
               </Link>
 
               {/* Country & Currency Trigger */}
