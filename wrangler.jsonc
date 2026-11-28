@@ -11,6 +11,9 @@
   "observability": {
     "enabled": true
   },
+  "triggers": {
+    "crons": ["0 2 * * *"]
+  },
   "routes": [
     { "pattern": "nutytales.com", "custom_domain": true },
     { "pattern": "www.nutytales.com", "custom_domain": true },
