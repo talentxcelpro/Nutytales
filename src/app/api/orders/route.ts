@@ -4,14 +4,34 @@ import { getSupabaseAdmin } from '@/lib/supabase'
 import { syncConsumerOrderToSellers } from '@/lib/seller-portal/order-sync'
 import { WhatsAppAutomationEngine } from '@/lib/whatsapp/automations'
 import { recordOrderNotification } from '@/lib/orders/notifications'
-import { verifyAdminToken } from '@/lib/auth/jwt-verifier'
+import { getGooglePublicCerts, validateJwtClaims, verifyRs256Signature } from '@/lib/auth/jwt-verifier'
 
-export async function GET() {
+async function verifyCustomerJwt(token?: string): Promise<string | null> {
+  if (!token) return null
+  const parts = token.split('.')
+  if (parts.length !== 3) return null
+  try {
+    const header = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'))
+    const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'))
+    const now = Math.floor(Date.now() / 1000)
+    if (!payload?.sub || typeof payload.exp !== 'number' || payload.exp <= now) return null
+    const certs = await getGooglePublicCerts()
+    const cert = header?.kid ? certs[header.kid] : undefined
+    if (!cert || !verifyRs256Signature(parts[0], parts[1], parts[2], cert)) return null
+    return payload.sub
+  } catch {
+    return null
+  }
+}
+
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : undefined
   const cookieStore = await cookies()
-  const token = cookieStore.get('nt_uid')?.value
-  const authResult = await verifyAdminToken(token)
+  const token = bearerToken || cookieStore.get('nt_uid')?.value
+  const uid = await verifyCustomerJwt(token)
 
-  if (!authResult.payload?.uid) {
+  if (!uid) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -25,7 +45,7 @@ export async function GET() {
     .select(
       'id, order_number, total_amount, currency, payment_method, payment_status, order_status, fulfillment_status, created_at, delivered_at'
     )
-    .eq('user_id', authResult.payload.uid)
+    .eq('user_id', uid)
     .order('created_at', { ascending: false })
     .limit(50)
 
@@ -81,8 +101,7 @@ export async function POST(request: Request) {
       // Persist canonical order record in store_orders + store_order_items + tracking event
       try {
         const cookieStore = await cookies()
-        const authResult = await verifyAdminToken(cookieStore.get('nt_uid')?.value)
-        const userId = authResult.payload?.uid || null
+        const userId = await verifyCustomerJwt(cookieStore.get('nt_uid')?.value)
         const isPaid = Boolean(body?.razorpayPaymentId)
 
         const { data: insertedOrder } = await supabaseAdmin

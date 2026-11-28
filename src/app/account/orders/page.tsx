@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/context/AuthContext'
 
 interface AccountOrder {
   id: string
@@ -18,13 +19,27 @@ interface AccountOrder {
 const FILTERS = ['all', 'processing', 'shipped', 'delivered', 'cancelled'] as const
 
 export default function AccountOrdersPage() {
+  const { user, loading: authLoading } = useAuth()
   const [orders, setOrders] = useState<AccountOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [unauthorized, setUnauthorized] = useState(false)
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('all')
 
   useEffect(() => {
-    fetch('/api/orders')
+    if (authLoading) return
+    if (!user) {
+      setUnauthorized(true)
+      setLoading(false)
+      return
+    }
+    setUnauthorized(false)
+    user
+      .getIdToken()
+      .then((token) =>
+        fetch('/api/orders', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      )
       .then(async (res) => {
         if (res.status === 401) {
           setUnauthorized(true)
@@ -34,7 +49,7 @@ export default function AccountOrdersPage() {
         if (data.success) setOrders(data.orders || [])
       })
       .finally(() => setLoading(false))
-  }, [])
+  }, [user, authLoading])
 
   const filtered =
     filter === 'all' ? orders : orders.filter((o) => o.order_status === filter)

@@ -424,7 +424,11 @@ export default function GlobalHeader() {
                           </span>
                         </div>
                       </div>
-                      <Link href="/b2b/orders" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium text-stone-700 transition">
+                      <Link href="/account/profile" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium text-stone-700 transition">
+                        <span>📍</span>
+                        <span>My Profile &amp; Addresses</span>
+                      </Link>
+                      <Link href="/account/orders" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-stone-50 font-medium text-stone-700 transition">
                         <span>📦</span>
                         <span>My Orders &amp; Bookings</span>
                       </Link>

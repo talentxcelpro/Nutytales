@@ -56,7 +56,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const authResult = await verifyAdminToken(token)
 
   if (!authResult.payload?.uid) {
-    redirect('/login?redirect=/b2b')
+    redirect('/login')
   }
 
   // Admins always have access; otherwise require an approved/verified B2B profile
