@@ -42,7 +42,7 @@ export default function AccountProfilePage() {
       // ignore
     }
     if (profile || user) {
-      setFullName((prev) => prev || profile?.full_name || user?.displayName || '')
+      setFullName((prev) => prev || profile?.name || user?.displayName || '')
       setEmail((prev) => prev || profile?.email || user?.email || '')
       setPhone((prev) => prev || profile?.phone || '')
     }

@@ -17,7 +17,7 @@ async function verifyCustomerJwt(token?: string): Promise<string | null> {
     if (!payload?.sub || typeof payload.exp !== 'number' || payload.exp <= now) return null
     const certs = await getGooglePublicCerts()
     const cert = header?.kid ? certs[header.kid] : undefined
-    if (!cert || !verifyRs256Signature(parts[0], parts[1], parts[2], cert)) return null
+    if (!cert || !verifyRs256Signature(`${parts[0]}.${parts[1]}.${parts[2]}`, cert)) return null
     return payload.sub
   } catch {
     return null
