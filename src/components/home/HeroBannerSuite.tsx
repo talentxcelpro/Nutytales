@@ -268,42 +268,43 @@ export default function HeroBannerSuite() {
   return (
     <div className="w-full pt-16 lg:pt-20 bg-white overflow-hidden select-none">
       {/* ─── 1. Luxury Announcement Bar (Compact on mobile) ─── */}
-      <div className="bg-[#0F1828] text-[#EAE5D9] h-7 sm:h-8 min-h-[28px] sm:min-h-[32px] flex items-center border-b border-[#C9A45C]/30 text-[10px] sm:text-xs tracking-wide overflow-hidden shadow-xs">
-        <div className="animate-marquee items-center gap-6">
-          <span className="flex items-center gap-1.5">
+      <div className="bg-[#0F1828] text-[#EAE5D9] h-8 sm:h-9 min-h-[32px] sm:min-h-[36px] flex items-center border-b border-[#C9A45C]/30 text-[11px] sm:text-xs tracking-wide overflow-hidden shadow-xs">
+        <div className="animate-marquee flex items-center gap-8 sm:gap-10 whitespace-nowrap shrink-0">
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-semibold text-white">Free Pan-India Express Air Shipping</span> on Orders Over ₹999
           </span>
-          <span className="text-[#C9A45C]">✦</span>
-          <span className="flex items-center gap-1.5">
+          <span className="text-[#C9A45C] shrink-0">✦</span>
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="text-amber-400">✨</span>
             <span>Harvest Special: Mithila Jumbo Makhana</span>
             <span className="text-[#C9A45C] font-bold">₹899 / kg ONLY</span>
             <span className="text-stone-400 line-through">₹1,499</span>
           </span>
-          <span className="text-[#C9A45C]">✦</span>
-          <span className="flex items-center gap-1.5">
-            <span>🏷️</span> Use Code: <span className="font-mono font-bold bg-[#C9A45C] text-[#0F1828] px-1.5 py-0.2 rounded text-[10px]">NUTY10</span> for 10% Extra Off
+          <span className="text-[#C9A45C] shrink-0">✦</span>
+          <span className="flex items-center gap-1.5 shrink-0">
+            <span>🏷️</span> Use Code: <span className="font-mono font-bold bg-[#C9A45C] text-[#0F1828] px-1.5 py-0.5 rounded text-[10px]">NUTY10</span> for 10% Extra Off
           </span>
-          <span className="text-[#C9A45C]">✦</span>
-          <span className="flex items-center gap-1.5">
+          <span className="text-[#C9A45C] shrink-0">✦</span>
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="text-emerald-400">✓</span> 100% Certified Single-Origin Kashmir &amp; Mithila Harvest · FSSAI Certified
           </span>
-          <span className="text-[#C9A45C]">✦</span>
+          <span className="text-[#C9A45C] shrink-0">✦</span>
           {/* Marquee loop repetition */}
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-semibold text-white">Free Pan-India Express Air Shipping</span> on Orders Over ₹999
           </span>
-          <span className="text-[#C9A45C]">✦</span>
-          <span className="flex items-center gap-1.5">
+          <span className="text-[#C9A45C] shrink-0">✦</span>
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="text-amber-400">✨</span>
             <span>Harvest Special: Mithila Jumbo Makhana</span>
             <span className="text-[#C9A45C] font-bold">₹899 / kg ONLY</span>
+            <span className="text-stone-400 line-through">₹1,499</span>
           </span>
-          <span className="text-[#C9A45C]">✦</span>
-          <span className="flex items-center gap-1.5">
-            <span>🏷️</span> Use Code: <span className="font-mono font-bold bg-[#C9A45C] text-[#0F1828] px-1.5 py-0.2 rounded text-[10px]">NUTY10</span> for 10% Extra Off
+          <span className="text-[#C9A45C] shrink-0">✦</span>
+          <span className="flex items-center gap-1.5 shrink-0">
+            <span>🏷️</span> Use Code: <span className="font-mono font-bold bg-[#C9A45C] text-[#0F1828] px-1.5 py-0.5 rounded text-[10px]">NUTY10</span> for 10% Extra Off
           </span>
         </div>
       </div>
