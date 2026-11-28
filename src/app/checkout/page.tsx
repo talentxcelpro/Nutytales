@@ -860,52 +860,6 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
-
-                {/* B2B / GST Checkbox */}
-                <div className="pt-4 border-t border-[#17233B]/10 space-y-4">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={isB2B}
-                      onChange={(e) => setIsB2B(e.target.checked)}
-                      className="w-4 h-4 rounded text-[#176B68] focus:ring-[#176B68]"
-                    />
-                    <span className="text-xs font-semibold text-[#17233B]">
-                      Request Business GST Invoice (B2B Procurement)
-                    </span>
-                  </label>
-
-                  {isB2B && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-[#F7F2E8] border border-[#17233B]/10">
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B]/70 mb-1">
-                          Company / Business Name *
-                        </label>
-                        <input
-                          type="text"
-                          required={isB2B}
-                          value={companyName}
-                          onChange={(e) => setCompanyName(e.target.value)}
-                          placeholder="e.g. Apex Hospitality LLP"
-                          className="w-full px-3 py-2.5 rounded-lg border border-[#17233B]/20 text-xs bg-white focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#17233B]/70 mb-1">
-                          GSTIN Number *
-                        </label>
-                        <input
-                          type="text"
-                          required={isB2B}
-                          value={gstin}
-                          onChange={(e) => setGstin(e.target.value)}
-                          placeholder="e.g. 09AAECN1234F1Z5"
-                          className="w-full px-3 py-2.5 rounded-lg border border-[#17233B]/20 text-xs bg-white focus:outline-none uppercase"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
               </div>
 
               {/* Payment Methods */}
