@@ -168,14 +168,14 @@ export default function GlobalHeader() {
             </Link>
 
             {/* Navigation Center */}
-            <nav className="hidden lg:flex items-center space-x-7">
+            <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 mx-4 xl:mx-6">
               {navLinks.map((link) => {
                 const active = isLinkActive(link.href)
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-xs uppercase tracking-widest font-semibold transition-colors py-1 relative ${
+                    className={`text-[11px] xl:text-xs uppercase tracking-wider xl:tracking-widest font-semibold whitespace-nowrap transition-colors py-1 relative ${
                       active
                         ? 'text-[#17233B] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#17233B]'
                         : 'text-stone-600 hover:text-[#17233B]'
@@ -188,7 +188,7 @@ export default function GlobalHeader() {
             </nav>
 
             {/* Actions Right */}
-            <div className="flex items-center space-x-3 text-xs">
+            <div className="flex items-center space-x-2 xl:space-x-3 text-xs flex-shrink-0">
               {/* Universal Search Link */}
               <Link
                 href="/search"
