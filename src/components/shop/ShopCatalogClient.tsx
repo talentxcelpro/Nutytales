@@ -197,19 +197,10 @@ export default function ShopCatalogClient({
   const displayedProducts = sortedProducts.slice(0, visibleCount)
 
   return (
-    <div className={`min-h-screen bg-[#FDFBF7] text-[#17233B] ${embedded ? 'pt-8 sm:pt-12' : 'pt-24 sm:pt-28'} pb-24`}>
+    <div className={`min-h-screen bg-[#FDFBF7] text-[#17233B] ${embedded ? 'pt-6 sm:pt-8' : 'pt-20 lg:pt-24'} pb-24`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
-        {/* ── 1. Global Luxury Minimalist Header (Single Row: Title + Inline Controls) ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAE3D5]">
-          <div className="flex items-baseline gap-3">
-            <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#17233B] tracking-tight">
-              The Harvest Collection
-            </h1>
-            <span className="text-xs text-stone-400 font-normal">
-              {sortedProducts.length} items
-            </span>
-          </div>
-
+        {/* ── 1. Global Luxury Minimalist Header (Inline Controls) ── */}
+        <div className="flex items-center justify-end gap-4 pb-4 border-b border-[#EAE3D5]">
           {/* Inline Controls: Search + Filter Trigger + Sort */}
           <div className="flex items-center gap-2.5 text-xs">
             {/* Search Input */}

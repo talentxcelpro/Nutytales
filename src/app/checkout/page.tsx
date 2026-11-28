@@ -989,31 +989,6 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                   </label>
-
-                  {/* COD */}
-                  <label
-                    className={`flex items-start gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
-                      paymentMethod === 'cod'
-                        ? 'border-[#176B68] bg-[#176B68]/5 ring-1 ring-[#176B68]'
-                        : 'border-[#17233B]/10 hover:border-[#17233B]/20'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === 'cod'}
-                      onChange={() => setPaymentMethod('cod')}
-                      className="mt-1 text-[#176B68]"
-                    />
-                    <div>
-                      <span className="font-semibold text-sm text-[#17233B] block">
-                        Cash on Delivery (Retail Orders)
-                      </span>
-                      <span className="text-xs text-stone-600 block mt-0.5">
-                        Pay upon doorstep delivery in Delhi NCR and select serviceable pin codes.
-                      </span>
-                    </div>
-                  </label>
                 </div>
 
                 <div className="pt-2">

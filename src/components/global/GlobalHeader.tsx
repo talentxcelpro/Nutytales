@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import CountryCurrencyModal from '@/components/global/CountryCurrencyModal'
 import { CurrencyCode, SUPPORTED_CURRENCIES } from '@/lib/global-config'
+import { PRODUCTS } from '@/lib/products-data'
 
 const COUNTRY_FLAGS: Record<string, string> = {
   IN: '🇮🇳',
@@ -28,6 +29,19 @@ export default function GlobalHeader() {
   const [activeCountry, setActiveCountry] = useState('IN')
   const [activeCurrency, setActiveCurrency] = useState<CurrencyCode>('INR')
   const [cartCount, setCartCount] = useState(0)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const searchResults = searchQuery.trim().length > 0
+    ? PRODUCTS.filter((p) => {
+        const q = searchQuery.toLowerCase()
+        return (
+          p.name.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.origin.toLowerCase().includes(q)
+        )
+      }).slice(0, 6)
+    : []
   const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
 
   // Listen for scroll
@@ -144,7 +158,7 @@ export default function GlobalHeader() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          <div className="flex items-center justify-between h-14 lg:h-16">
             {/* Logo Left: Nuty Tales Shop */}
             <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
               <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-white border border-stone-200 p-0.5 shadow-2xs group-hover:scale-105 transition-transform">
@@ -188,18 +202,86 @@ export default function GlobalHeader() {
 
             {/* Actions Right */}
             <div className="flex items-center space-x-2 xl:space-x-3 text-xs flex-shrink-0">
-              {/* Universal Search Link */}
-              <Link
-                href="/search"
-                className="p-2 rounded-xl text-stone-700 hover:text-[#17233B] hover:bg-stone-200/50 transition-colors flex items-center gap-1.5"
-                title="Search Nuty Tales"
-                aria-label="Search Nuty Tales"
-              >
-                <span className="text-base">🔍</span>
-                <span className="hidden xl:inline text-xs font-semibold uppercase tracking-wider text-stone-600">
-                  Search
-                </span>
-              </Link>
+              {/* Instant Search Autocomplete (hidden on /shop where collection search is shown) */}
+              {pathname !== '/shop' && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(!searchOpen)}
+                  className="p-2 rounded-full text-stone-700 hover:text-[#17233B] hover:bg-stone-200/60 transition-colors flex items-center justify-center"
+                  title="Search Nuty Tales"
+                  aria-label="Search Nuty Tales"
+                >
+                  <span className="text-sm">🔍</span>
+                </button>
+
+                {searchOpen && (
+                  <div className="fixed sm:absolute left-4 right-4 sm:left-auto sm:right-0 top-16 sm:top-full sm:mt-2 sm:w-96 bg-white rounded-2xl shadow-2xl border border-stone-200 p-3 z-50">
+                    <div className="flex items-center gap-2 border border-stone-200 rounded-xl px-3 py-2 bg-stone-50">
+                      <span className="text-sm">🔍</span>
+                      <input
+                        type="text"
+                        autoFocus
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search almonds, saffron, makhana..."
+                        className="w-full bg-transparent text-xs text-[#17233B] placeholder:text-stone-400 focus:outline-none"
+                      />
+                      {searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery('')}
+                          className="text-stone-400 hover:text-stone-700 text-xs font-bold"
+                          aria-label="Clear search"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+
+                    {searchQuery.trim().length > 0 && (
+                      <div className="mt-2 max-h-80 overflow-y-auto divide-y divide-stone-100">
+                        {searchResults.length > 0 ? (
+                          searchResults.map((p) => (
+                            <Link
+                              key={p.id}
+                              href={`/shop/${p.slug}`}
+                              onClick={() => {
+                                setSearchOpen(false)
+                                setSearchQuery('')
+                              }}
+                              className="flex items-center gap-3 p-2 rounded-xl hover:bg-stone-50 transition-colors"
+                            >
+                              <div className="relative w-10 h-10 rounded-lg bg-[#FAF6EE] overflow-hidden flex-shrink-0 border border-stone-100">
+                                {p.image && (
+                                  <Image src={p.image} alt={p.name} fill sizes="40px" className="object-contain p-0.5" />
+                                )}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-semibold text-[#17233B] truncate">{p.name}</p>
+                                <p className="text-[10px] text-stone-500 truncate">{p.category} · {p.origin}</p>
+                              </div>
+                              <span className="text-xs font-bold text-[#176B68] whitespace-nowrap">
+                                ₹{p.retailPrice.toLocaleString('en-IN')}
+                              </span>
+                            </Link>
+                          ))
+                        ) : (
+                          <p className="text-xs text-stone-500 py-4 text-center">No matching harvests found.</p>
+                        )}
+                        <Link
+                          href={`/search?q=${encodeURIComponent(searchQuery.trim())}`}
+                          onClick={() => setSearchOpen(false)}
+                          className="block text-center text-[11px] font-bold uppercase tracking-wider text-[#176B68] hover:text-[#17233B] py-2.5"
+                        >
+                          View all results →
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+              )}
 
               {/* Journal Link */}
               <Link

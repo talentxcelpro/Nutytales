@@ -678,6 +678,23 @@ export default function ProductDetailClient({
               </button>
             </div>
 
+            {/* Pincode Delivery Estimate */}
+            <div className="rounded-2xl border border-stone-200/80 bg-[#FAF7F2] px-4 py-3 flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2 text-[#17233B]">
+                <span>🚚</span>
+                <span>
+                  <span className="font-semibold text-[#176B68]">
+                    Get it by {new Date(Date.now() + 2 * 86400000).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
+                  </span>
+                  {' · '}
+                  <span className="text-stone-600">Free Express Air Delivery</span>
+                </span>
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full whitespace-nowrap">
+                In Stock
+              </span>
+            </div>
+
             {/* WhatsApp Direct */}
             <a
               href={whatsappUrl}
