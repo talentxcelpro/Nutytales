@@ -10,5 +10,20 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    { "pattern": "nutytales.com", "custom_domain": true },
+    { "pattern": "www.nutytales.com", "custom_domain": true },
+    { "pattern": "seller.nutytales.com", "custom_domain": true },
+    { "pattern": "america.nutytales.com", "custom_domain": true },
+    { "pattern": "europe.nutytales.com", "custom_domain": true },
+    { "pattern": "middleeast.nutytales.com", "custom_domain": true },
+    { "pattern": "nri.nutytales.com", "custom_domain": true },
+    { "pattern": "travel.nutytales.com", "custom_domain": true },
+    { "pattern": "stays.nutytales.com", "custom_domain": true },
+    { "pattern": "crafts.nutytales.com", "custom_domain": true },
+    { "pattern": "weddings.nutytales.com", "custom_domain": true },
+    { "pattern": "gifting.nutytales.com", "custom_domain": true },
+    { "pattern": "business.nutytales.com", "custom_domain": true }
+  ]
 }
